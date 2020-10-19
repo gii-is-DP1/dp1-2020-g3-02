@@ -26,32 +26,33 @@ public class WelcomeController {
 		  person.setFirstName("Diego Manuel");
 		  person.setLastName("Gil Losa");
 		  persons.add(person);
-		  model.put("persons", person);
 		  
-		  person.setFirstName("Gonzalo");
-		  person.setLastName("Lallena Alva");
-		  persons.add(person);
-		  model.put("persons", person);
+		  Person person1 = new Person();
+		  person1.setFirstName("Gonzalo");
+		  person1.setLastName("Lallena Alva");
+		  persons.add(person1);
+		 
+		  Person person2 = new Person();
+		  person2.setFirstName("Laura");
+		  person2.setLastName("Castillo Ortiz");
+		  persons.add(person2);
 		  
-		  person.setFirstName("Laura");
-		  person.setLastName("Castillo Ortiz");
-		  persons.add(person);
-		  model.put("persons", person);
+		  Person person3 = new Person();
+		  person3.setFirstName("Blanca del Rosario");
+		  person3.setLastName("Mauri Robles");
+		  persons.add(person3);
 		  
-		  person.setFirstName("Blanca del Rosario");
-		  person.setLastName("Mauri Robles");
-		  persons.add(person);
-		  model.put("persons", person);
+		  Person person4 = new Person();
+		  person4.setFirstName("Javier");
+		  person4.setLastName("Gutierrez Falcon");
+		  persons.add(person4);
 		  
-		  person.setFirstName("Javier");
-		  person.setLastName("Gutierrez Falcon");
-		  persons.add(person);
-		  model.put("persons", person);
+		  Person person5 = new Person();
+		  person5.setFirstName("Benjamín");
+		  person5.setLastName("Crespo Alcaide");
+		  persons.add(person5);
 		  
-		  person.setFirstName("Benjamín");
-		  person.setLastName("Crespo Alcaide");
-		  persons.add(person);
-		  model.put("persons", person);
+		  model.put("persons", persons);
 		  
 		  model.put("title", "Volleyball");
 		  model.put("group","G3-02");
