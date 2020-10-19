@@ -31,25 +31,42 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
+    
     <developers>
-		<developer>
+		 <developer>
+		 <id>Javi</id>
+		 <name>Javier</name>
+		 <email>superjaviergf@gmail.com</email>
+		 <url>http://www.tmht.com/javgutfal</url>
+		 <roles>
+		 <role>leader</role>
+		 </roles>
+		 <properties>
+			 <picUrl>
+				https://pbs.twimg.com/media/Eh4n9GhUMAAdO8x?format=jpg&#38;name=large
+			</picUrl>
+		 </properties>
+		 </developer>
+  
+     <developer>
 			<id>bencrealc</id>
 			<name>Benjamin</name>
 			<email>bencrealc@alum.us.es</email>
 		</developer>
- <developer>
- <id>DiegoHill</id>
- <name>Diego</name>
- <email>diegillos@alum.us.es</email>
- <url>https://github.com/DiegoHill</url>
- <roles>
- <role>developer</role>
- </roles>
- <properties>
- <picUrl>
+ 
+    <developer>
+     <id>DiegoHill</id>
+     <name>Diego</name>
+     <email>diegillos@alum.us.es</email>
+     <url>https://github.com/DiegoHill</url>
+     <roles>
+     <role>developer</role>
+     </roles>
+     <properties>
+     <picUrl>
 
-</picUrl>
- </properties>
+    </picUrl>
+     </properties>
  </developer>
   
 		<developer>
