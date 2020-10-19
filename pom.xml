@@ -53,9 +53,22 @@
 			<name>Benjamin</name>
 			<email>bencrealc@alum.us.es</email>
 		</developer>
-	</developers>
+ 
+    <developer>
+     <id>DiegoHill</id>
+     <name>Diego</name>
+     <email>diegillos@alum.us.es</email>
+     <url>https://github.com/DiegoHill</url>
+     <roles>
+     <role>developer</role>
+     </roles>
+     <properties>
+     <picUrl>
 
-	<developers>
+    </picUrl>
+     </properties>
+ </developer>
+  
 		<developer>
 			<id>laucasort</id>
 			<name>Laura</name>
@@ -64,9 +77,6 @@
 				<role>leader</role>
 			</roles>
 		</developer>
-	</developers>
-
-	<developers>
 	
 		<developer>
 			<id>gonlalalv</id>
