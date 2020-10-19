@@ -12,7 +12,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
     </parent>
-    <name>dp1-2020-g3-02</name>
+    <name>G3-02</name>
 
     <properties>
 
@@ -31,8 +31,12 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-
-<developers>
+    <developers>
+		<developer>
+			<id>bencrealc</id>
+			<name>Benjamin</name>
+			<email>bencrealc@alum.us.es</email>
+		</developer>
  <developer>
  <id>DiegoHill</id>
  <name>Diego</name>
@@ -56,8 +60,24 @@
 				<role>leader</role>
 			</roles>
 		</developer>
+	
+		<developer>
+			<id>gonlalalv</id>
+			<name>Gonzalo</name>
+			<email>geronimolallena@gmail.com</email>
+			<url></url>
+			<roles>
+				<role>leader</role>
+			</roles>
+			<properties>
+				<picUrl>
+					https://pbs.twimg.com/media/Eh4n9GhUMAAdO8x?format=jpg&#38;name=large
+				</picUrl>
+			</properties>
+		</developer>
+		<!-- More developers ... -->
 	</developers>
-
+	
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
