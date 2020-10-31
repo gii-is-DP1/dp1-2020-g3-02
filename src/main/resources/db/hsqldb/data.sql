@@ -8,8 +8,8 @@ INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 INSERT INTO users(username,password,enabled) VALUES ('laucasort','owner',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (13,'laucasort','owner');
 -- One vet user, named vet1 with passwor v3t
-INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
+INSERT INTO users(username,password,enabled) VALUES ('vet2','v3t',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (3,'vet2','veterinarian');
 
 INSERT INTO users(username,password,enabled) VALUES ('diegillos','ete sech',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (14,'diegillos','owner');
