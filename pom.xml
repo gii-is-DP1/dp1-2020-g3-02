@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springframework.samples</groupId>
-    <artifactId>spring-petclinic</artifactId>
+    <artifactId>G3-02</artifactId>
     <version>2.2.0.BUILD-SNAPSHOT</version>
 
     <parent>
@@ -12,7 +12,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
     </parent>
-    <name>petclinic</name>
+    <name>VolleyBall</name>
 
     <properties>
 
@@ -31,8 +31,62 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
+	
+	    <developers>
+		 <developer>
+		 <id>Javi</id>
+		 <name>Javier</name>
+		 <email>superjaviergf@gmail.com</email>
+		 <url>http://www.tmht.com/javgutfal</url>
+		 <roles>
+		 <role>leader</role>
+		 </roles>
+		 <properties>
+			 <picUrl>
+				https://pbs.twimg.com/media/Eh4n9GhUMAAdO8x?format=jpg&#38;name=large
+			</picUrl>
+		 </properties>
+		 </developer>
+  
+      <developer>
+			<id>blamaurob</id>
+			<name>Blanca</name>
+			<email>blankamauri@hotmail.com</email>
+			<url></url>
+			<roles>
+				<role>leader</role>
+			</roles>
+		</developer>
+      
+     <developer>
+			<id>bencrealc</id>
+			<name>Benjamin</name>
+			<email>bencrealc@alum.us.es</email>
+		</developer>
+ 
+    <developer>
+     <id>DiegoHill</id>
+     <name>Diego</name>
+     <email>diegillos@alum.us.es</email>
+     <url>https://github.com/DiegoHill</url>
+     <roles>
+     <role>developer</role>
+     </roles>
+     <properties>
+     <picUrl>
 
-	<developers>
+    </picUrl>
+     </properties>
+ </developer>
+  
+		<developer>
+			<id>laucasort</id>
+			<name>Laura</name>
+			<email>laucasort@gmail.com</email>
+			<roles>
+				<role>leader</role>
+			</roles>
+		</developer>
 	
 		<developer>
 			<id>gonlalalv</id>
