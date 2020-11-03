@@ -2,77 +2,28 @@ package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-import org.springframework.samples.petclinic.enumerate.Estado;
-import org.springframework.samples.petclinic.enumerate.Posicion;
+import org.springframework.samples.petclinic.enumerate.Sistema;
 
 @Entity
-@Table(name="jugador", uniqueConstraints = @UniqueConstraint(columnNames = { "dni","email" }))
-public class Jugador extends Person{
+@Table(name = "partido")
+public class Partido extends BaseEntity{
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "username", referencedColumnName = "username")
-	private User user;
+	@Column(name = "fecha", nullable = false)
+	private LocalDate fecha;
 	
-	@Column(name = "dni", nullable = false, length = 9)
-	private String dni;
+	@Column(name = "hora", nullable = false, length = 5)
+	private String hora;
 	
-	@Column(name = "direccion", nullable = false)
-	private String direccion;
-	
-	@Column(name = "email", nullable = false)
-	@Email
-	private String email;
-	
-	@Column(name = "localidad", nullable = false)
-	private String localidad;
-	
-	@Column(name = "fecha_nacimiento", nullable = false)
-	private LocalDate fecha_nacimiento;
-	
-	@Column(name = "altura", nullable = false)
-	@Max(350)
-	@Min(0)
-	private int altura;
-	
-	@Column(name = "peso", nullable = false)
-	@Min(0)
-	private int peso;
-	
-	@Column(name = "peso_ideal", nullable = false)
-	private int peso_ideal;
-	
-	@Column(name = "imc", nullable = false)
-	private double imc;
-	
-	@Column(name = "numero_camiseta")
-	@Max(99)
-	@Min(1)
-	private int numero_camiseta;
-	
-	@Column(name = "posicion_principal", columnDefinition = "varchar(255) default 'PUNTA' check('PUNTA','OPUESTO','COLOCADOR','CENTRAL','LIBERO')")
+	@Column(name = "sistema_juego", columnDefinition = "varchar(255) default 'CINCO_UNO' NOT NULL check ('COLOCADOR_GENERAL','CUATRO_DOS', 'CINCO_UNO', 'SEIS_DOS')")
 	@Enumerated(value = EnumType.STRING)
-	private Posicion posicion_principal;
-	
-	@Column(name = "posicion_secundaria", columnDefinition = "varchar(255) default 'PUNTA' check('PUNTA','OPUESTO','COLOCADOR','CENTRAL','LIBERO')")
-	@Enumerated(value = EnumType.STRING)
-	private Posicion posicion_secundaria;
-	
-	@Column(name = "estado_actual", columnDefinition = "varchar(255) default 'EN_FORMA' check('EN_FORMA','LESIONADO')")
-	@Enumerated(value = EnumType.STRING)
-	private Estado estado_actual;
+	private Sistema sistema_juego;
 	
 	@Column(name = "saques_acertados", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
@@ -174,125 +125,113 @@ public class Jugador extends Person{
 	@Min(0)
 	private int num_rojas;
 	
-	public Jugador() {
+	@Column(name = "num_puntos_set1", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int num_puntos_set1;
+	
+	@Column(name = "num_puntos_set2", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int num_puntos_set2;
+	
+	@Column(name = "num_puntos_set3", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int num_puntos_set3;
+	
+	@Column(name = "num_puntos_set4", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int num_puntos_set4;
+	
+	@Column(name = "num_puntos_set5", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int num_puntos_set5;
+	
+	@Column(name = "num_puntos_totales", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int num_puntos_totales;
+	
+	@Column(name = "num_tiempos_muertos_totales", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int num_tiempos_muertos_totales;
+	
+	@Column(name = "tiempo_total_partido", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int tiempo_total_partido;
+	
+	@Column(name = "num_sustituciones", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int num_sustituciones;
+	
+	@Column(name = "tiempo_colocador_general", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int tiempo_colocador_general;
+	
+	@Column(name = "tiempo_5_1", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int tiempo_5_1;
+	
+	@Column(name = "tiempo_4_2", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int tiempo_4_2;
+	
+	@Column(name = "tiempo_6_2", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int tiempo_6_2;
+	
+	@Column(name = "tiempo_calentamiento", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int tiempo_calentamiento;
+	
+	public Partido() {
 	}
 	
-	public Jugador(String dni, String direccion, String email, String localidad, LocalDate fecha_nacimiento, int altura,
-			int peso, Posicion posicion_principal, Posicion posicion_secundaria) {
+	public Partido(LocalDate fecha, String hora, Sistema sistema_juego) {
 		super();
-		this.dni = dni;
-		this.direccion = direccion;
-		this.email = email;
-		this.localidad = localidad;
-		this.fecha_nacimiento = fecha_nacimiento;
-		this.altura = altura;
-		this.peso = peso;
-		this.posicion_principal = posicion_principal;
-		this.posicion_secundaria = posicion_secundaria;
+		this.fecha = fecha;
+		this.hora = hora;
+		this.sistema_juego = sistema_juego;
 	}
 
-	public String getDni() {
-		return dni;
+	public Partido(LocalDate fecha, String hora, Sistema sistema_juego, int num_puntos_set1, int num_puntos_set2,
+			int num_puntos_set3, int num_puntos_set4, int num_puntos_set5, int tiempo_colocador_general, int tiempo_5_1,
+			int tiempo_4_2, int tiempo_6_2, int tiempo_calentamiento) {
+		super();
+		this.fecha = fecha;
+		this.hora = hora;
+		this.sistema_juego = sistema_juego;
+		this.num_puntos_set1 = num_puntos_set1;
+		this.num_puntos_set2 = num_puntos_set2;
+		this.num_puntos_set3 = num_puntos_set3;
+		this.num_puntos_set4 = num_puntos_set4;
+		this.num_puntos_set5 = num_puntos_set5;
+		this.tiempo_colocador_general = tiempo_colocador_general;
+		this.tiempo_5_1 = tiempo_5_1;
+		this.tiempo_4_2 = tiempo_4_2;
+		this.tiempo_6_2 = tiempo_6_2;
+		this.tiempo_calentamiento = tiempo_calentamiento;
 	}
 
-	public void setDni(String dni) {
-		this.dni = dni;
+	public LocalDate getFecha() {
+		return fecha;
 	}
 
-	public String getDireccion() {
-		return direccion;
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
 	}
 
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+	public String getHora() {
+		return hora;
 	}
 
-	public String getEmail() {
-		return email;
+	public void setHora(String hora) {
+		this.hora = hora;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public Sistema getSistema_juego() {
+		return sistema_juego;
 	}
 
-	public String getLocalidad() {
-		return localidad;
-	}
-
-	public void setLocalidad(String localidad) {
-		this.localidad = localidad;
-	}
-
-	public LocalDate getFecha_nacimiento() {
-		return fecha_nacimiento;
-	}
-
-	public void setFecha_nacimiento(LocalDate fecha_nacimiento) {
-		this.fecha_nacimiento = fecha_nacimiento;
-	}
-
-	public int getAltura() {
-		return altura;
-	}
-
-	public void setAltura(int altura) {
-		this.altura = altura;
-	}
-
-	public int getPeso() {
-		return peso;
-	}
-
-	public void setPeso(int peso) {
-		this.peso = peso;
-	}
-
-	public int getPeso_ideal() {
-		return peso_ideal;
-	}
-
-	public void setPeso_ideal(int peso_ideal) {
-		this.peso_ideal = peso_ideal;
-	}
-
-	public double getImc() {
-		return imc;
-	}
-
-	public void setImc(double imc) {
-		this.imc = imc;
-	}
-
-	public int getNumero_camiseta() {
-		return numero_camiseta;
-	}
-
-	public void setNumero_camiseta(int numero_camiseta) {
-		this.numero_camiseta = numero_camiseta;
-	}
-
-	public Posicion getPosicion_principal() {
-		return posicion_principal;
-	}
-
-	public void setPosicion_principal(Posicion posicion_principal) {
-		this.posicion_principal = posicion_principal;
-	}
-
-	public Posicion getPosicion_secundaria() {
-		return posicion_secundaria;
-	}
-
-	public void setPosicion_secundaria(Posicion posicion_secundaria) {
-		this.posicion_secundaria = posicion_secundaria;
-	}
-
-	public Estado getEstado_actual() {
-		return estado_actual;
-	}
-
-	public void setEstado_actual(Estado estado_actual) {
-		this.estado_actual = estado_actual;
+	public void setSistema_juego(Sistema sistema_juego) {
+		this.sistema_juego = sistema_juego;
 	}
 
 	public int getSaques_acertados() {
@@ -509,6 +448,118 @@ public class Jugador extends Person{
 
 	public void setNum_rojas(int num_rojas) {
 		this.num_rojas = num_rojas;
+	}
+
+	public int getNum_puntos_set1() {
+		return num_puntos_set1;
+	}
+
+	public void setNum_puntos_set1(int num_puntos_set1) {
+		this.num_puntos_set1 = num_puntos_set1;
+	}
+
+	public int getNum_puntos_set2() {
+		return num_puntos_set2;
+	}
+
+	public void setNum_puntos_set2(int num_puntos_set2) {
+		this.num_puntos_set2 = num_puntos_set2;
+	}
+
+	public int getNum_puntos_set3() {
+		return num_puntos_set3;
+	}
+
+	public void setNum_puntos_set3(int num_puntos_set3) {
+		this.num_puntos_set3 = num_puntos_set3;
+	}
+
+	public int getNum_puntos_set4() {
+		return num_puntos_set4;
+	}
+
+	public void setNum_puntos_set4(int num_puntos_set4) {
+		this.num_puntos_set4 = num_puntos_set4;
+	}
+
+	public int getNum_puntos_set5() {
+		return num_puntos_set5;
+	}
+
+	public void setNum_puntos_set5(int num_puntos_set5) {
+		this.num_puntos_set5 = num_puntos_set5;
+	}
+
+	public int getNum_puntos_totales() {
+		return num_puntos_totales;
+	}
+
+	public void setNum_puntos_totales(int num_puntos_totales) {
+		this.num_puntos_totales = num_puntos_totales;
+	}
+
+	public int getNum_tiempos_muertos_totales() {
+		return num_tiempos_muertos_totales;
+	}
+
+	public void setNum_tiempos_muertos_totales(int num_tiempos_muertos_totales) {
+		this.num_tiempos_muertos_totales = num_tiempos_muertos_totales;
+	}
+
+	public int getTiempo_total_partido() {
+		return tiempo_total_partido;
+	}
+
+	public void setTiempo_total_partido(int tiempo_total_partido) {
+		this.tiempo_total_partido = tiempo_total_partido;
+	}
+
+	public int getNum_sustituciones() {
+		return num_sustituciones;
+	}
+
+	public void setNum_sustituciones(int num_sustituciones) {
+		this.num_sustituciones = num_sustituciones;
+	}
+
+	public int getTiempo_colocador_general() {
+		return tiempo_colocador_general;
+	}
+
+	public void setTiempo_colocador_general(int tiempo_colocador_general) {
+		this.tiempo_colocador_general = tiempo_colocador_general;
+	}
+
+	public int getTiempo_5_1() {
+		return tiempo_5_1;
+	}
+
+	public void setTiempo_5_1(int tiempo_5_1) {
+		this.tiempo_5_1 = tiempo_5_1;
+	}
+
+	public int getTiempo_4_2() {
+		return tiempo_4_2;
+	}
+
+	public void setTiempo_4_2(int tiempo_4_2) {
+		this.tiempo_4_2 = tiempo_4_2;
+	}
+
+	public int getTiempo_6_2() {
+		return tiempo_6_2;
+	}
+
+	public void setTiempo_6_2(int tiempo_6_2) {
+		this.tiempo_6_2 = tiempo_6_2;
+	}
+
+	public int getTiempo_calentamiento() {
+		return tiempo_calentamiento;
+	}
+
+	public void setTiempo_calentamiento(int tiempo_calentamiento) {
+		this.tiempo_calentamiento = tiempo_calentamiento;
 	}
 	
 	
