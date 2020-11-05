@@ -1,9 +1,13 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
@@ -12,6 +16,9 @@ import org.springframework.samples.petclinic.enumerate.Actitud;
 @Entity
 @Table(name = "capitan")
 public class Capitan extends Jugador {
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "capitan")
+	private Set<Equipo> equipos;
 
 	@Column(name = "ntiemposmuertos", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
