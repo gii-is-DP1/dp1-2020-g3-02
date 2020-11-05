@@ -26,9 +26,9 @@ public class Entrenamiento extends BaseEntity{
 	
 	@ManyToMany
 	@JoinTable(
-	  name = "realiza", 
+	  name = "realizaEntrenamiento", 
 	  joinColumns = @JoinColumn(name = "entrenamiento_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "jugadores_id"))
+	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	Set<Jugador> jugadores;
 		
 	@ManyToOne
