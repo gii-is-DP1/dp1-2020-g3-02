@@ -23,163 +23,163 @@ public class Partido extends BaseEntity{
 	
 	@Column(name = "sistema_juego", columnDefinition = "varchar(255) default 'CINCO_UNO' NOT NULL check ('COLOCADOR_GENERAL','CUATRO_DOS', 'CINCO_UNO', 'SEIS_DOS')")
 	@Enumerated(value = EnumType.STRING)
-	private Sistema sistema_juego;
+	private Sistema sistemaJuego;
 	
 	@Column(name = "saques_acertados", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int saques_acertados;
+	private int saquesAcertados;
 	
 	@Column(name = "saques_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int saques_totales;
+	private int saquesTotales;
 	
 	@Column(name = "porcentaje_saques", scale = 2)
-	private double porcentaje_saques;
+	private double porcentajeSaques;
 	
 	@Column(name = "recepciones_acertadas", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int recepciones_acertadas;
+	private int recepcionesAcertadas;
 	
 	@Column(name = "recepciones_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int recepciones_totales;
+	private int recepcionesTotales;
 	
 	@Column(name = "porcentaje_recepciones", scale = 2)
-	private double porcentaje_recepciones;
+	private double porcentajeRecepciones;
 	
 	@Column(name = "colocaciones_acertadas", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int colocaciones_acertadas;
+	private int colocacionesAcertadas;
 	
 	@Column(name = "colocaciones_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int colocaciones_totales;
+	private int colocacionesTotales;
 	
 	@Column(name = "porcentaje_colocaciones", scale = 2)
-	private double porcentaje_colocaciones;
+	private double porcentajeColocaciones;
 	
 	@Column(name = "defensas_acertadas", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int defensas_acertadas;
+	private int defensasAcertadas;
 	
 	@Column(name = "defensas_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int defensas_totales;
+	private int defensasTotales;
 	
 	@Column(name = "porcentaje_defensas", scale = 2)
-	private double porcentaje_defensas;
+	private double porcentajeDefensas;
 	
 	@Column(name = "bloqueos_acertados", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int bloqueos_acertados;
+	private int bloqueosAcertados;
 	
 	@Column(name = "bloqueos_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int bloqueos_totales;
+	private int bloqueosTotales;
 	
 	@Column(name = "porcentaje_bloqueos", scale = 2)
-	private double porcentaje_bloqueos;
+	private double porcentajeBloqueos;
 	
 	@Column(name = "remates_acertados", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int remates_acertados;
+	private int rematesAcertados;
 	
 	@Column(name = "remates_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int remates_totales;
+	private int rematesTotales;
 	
 	@Column(name = "porcentaje_remates", scale = 2)
-	private double porcentaje_remates;
+	private double porcentajeRemates;
 	
 	@Column(name = "fintas_acertadas", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int fintas_acertadas;
+	private int fintasAcertadas;
 	
 	@Column(name = "fintas_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int fintas_totales;
+	private int fintasTotales;
 	
 	@Column(name = "porcentaje_fintas", scale = 2)
-	private double porcentaje_fintas;
+	private double porcentajeFintas;
 	
 	@Column(name = "num_ataques_rapidos_acertados", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_ataques_rapidos_acertados;
+	private int numAtaquesRapidosAcertados;
 	
 	@Column(name = "num_ataques_rapidos_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_ataques_rapidos_totales;
+	private int numAtaquesRapidosTotales;
 	
 	@Column(name = "porcentaje_ataques_rapidos", scale = 2)
-	private double porcentaje_ataques_rapidos;
+	private double porcentajeAtaquesRapidos;
 	
 	@Column(name = "num_faltas_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_faltas_totales;
+	private int numFaltasTotales;
 	
 	@Column(name = "num_amarillas", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_amarillas;
+	private int numAmarillas;
 	
 	@Column(name = "num_rojas", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_rojas;
+	private int numRojas;
 	
 	@Column(name = "num_puntos_set1", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_puntos_set1;
+	private int numPuntosSet1;
 	
 	@Column(name = "num_puntos_set2", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_puntos_set2;
+	private int numPuntosSet2;
 	
 	@Column(name = "num_puntos_set3", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_puntos_set3;
+	private int numPuntosSet3;
 	
 	@Column(name = "num_puntos_set4", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_puntos_set4;
+	private int numPuntosSet4;
 	
 	@Column(name = "num_puntos_set5", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_puntos_set5;
+	private int numPuntosSet5;
 	
 	@Column(name = "num_puntos_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_puntos_totales;
+	private int numPuntosTotales;
 	
 	@Column(name = "num_tiempos_muertos_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_tiempos_muertos_totales;
+	private int numTiemposMuertosTotales;
 	
 	@Column(name = "tiempo_total_partido", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int tiempo_total_partido;
+	private int tiempoTotalPartido;
 	
 	@Column(name = "num_sustituciones", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int num_sustituciones;
+	private int numSustituciones;
 	
 	@Column(name = "tiempo_colocador_general", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int tiempo_colocador_general;
+	private int tiempoColocadorGeneral;
 	
 	@Column(name = "tiempo_5_1", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int tiempo_5_1;
+	private int tiempo51;
 	
 	@Column(name = "tiempo_4_2", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int tiempo_4_2;
+	private int tiempo42;
 	
 	@Column(name = "tiempo_6_2", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int tiempo_6_2;
+	private int tiempo62;
 	
 	@Column(name = "tiempo_calentamiento", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int tiempo_calentamiento;
+	private int tiempoCalentamiento;
 	
 	public Partido() {
 	}
@@ -188,7 +188,7 @@ public class Partido extends BaseEntity{
 		super();
 		this.fecha = fecha;
 		this.hora = hora;
-		this.sistema_juego = sistema_juego;
+		this.sistemaJuego = sistema_juego;
 	}
 
 	public Partido(LocalDate fecha, String hora, Sistema sistema_juego, int num_puntos_set1, int num_puntos_set2,
@@ -197,17 +197,17 @@ public class Partido extends BaseEntity{
 		super();
 		this.fecha = fecha;
 		this.hora = hora;
-		this.sistema_juego = sistema_juego;
-		this.num_puntos_set1 = num_puntos_set1;
-		this.num_puntos_set2 = num_puntos_set2;
-		this.num_puntos_set3 = num_puntos_set3;
-		this.num_puntos_set4 = num_puntos_set4;
-		this.num_puntos_set5 = num_puntos_set5;
-		this.tiempo_colocador_general = tiempo_colocador_general;
-		this.tiempo_5_1 = tiempo_5_1;
-		this.tiempo_4_2 = tiempo_4_2;
-		this.tiempo_6_2 = tiempo_6_2;
-		this.tiempo_calentamiento = tiempo_calentamiento;
+		this.sistemaJuego = sistema_juego;
+		this.numPuntosSet1 = num_puntos_set1;
+		this.numPuntosSet2 = num_puntos_set2;
+		this.numPuntosSet3 = num_puntos_set3;
+		this.numPuntosSet4 = num_puntos_set4;
+		this.numPuntosSet5 = num_puntos_set5;
+		this.tiempoColocadorGeneral = tiempo_colocador_general;
+		this.tiempo51 = tiempo_5_1;
+		this.tiempo42 = tiempo_4_2;
+		this.tiempo62 = tiempo_6_2;
+		this.tiempoCalentamiento = tiempo_calentamiento;
 	}
 
 	public LocalDate getFecha() {
@@ -226,342 +226,340 @@ public class Partido extends BaseEntity{
 		this.hora = hora;
 	}
 
-	public Sistema getSistema_juego() {
-		return sistema_juego;
+	public Sistema getSistemaJuego() {
+		return sistemaJuego;
 	}
 
-	public void setSistema_juego(Sistema sistema_juego) {
-		this.sistema_juego = sistema_juego;
+	public void setSistemaJuego(Sistema sistemaJuego) {
+		this.sistemaJuego = sistemaJuego;
 	}
 
-	public int getSaques_acertados() {
-		return saques_acertados;
+	public int getSaquesAcertados() {
+		return saquesAcertados;
 	}
 
-	public void setSaques_acertados(int saques_acertados) {
-		this.saques_acertados = saques_acertados;
+	public void setSaquesAcertados(int saquesAcertados) {
+		this.saquesAcertados = saquesAcertados;
 	}
 
-	public int getSaques_totales() {
-		return saques_totales;
+	public int getSaquesTotales() {
+		return saquesTotales;
 	}
 
-	public void setSaques_totales(int saques_totales) {
-		this.saques_totales = saques_totales;
+	public void setSaquesTotales(int saquesTotales) {
+		this.saquesTotales = saquesTotales;
 	}
 
-	public double getPorcentaje_saques() {
-		return porcentaje_saques;
+	public double getPorcentajeSaques() {
+		return porcentajeSaques;
 	}
 
-	public void setPorcentaje_saques(double porcentaje_saques) {
-		this.porcentaje_saques = porcentaje_saques;
+	public void setPorcentajeSaques(double porcentajeSaques) {
+		this.porcentajeSaques = porcentajeSaques;
 	}
 
-	public int getRecepciones_acertadas() {
-		return recepciones_acertadas;
+	public int getRecepcionesAcertadas() {
+		return recepcionesAcertadas;
 	}
 
-	public void setRecepciones_acertadas(int recepciones_acertadas) {
-		this.recepciones_acertadas = recepciones_acertadas;
+	public void setRecepcionesAcertadas(int recepcionesAcertadas) {
+		this.recepcionesAcertadas = recepcionesAcertadas;
 	}
 
-	public int getRecepciones_totales() {
-		return recepciones_totales;
+	public int getRecepcionesTotales() {
+		return recepcionesTotales;
 	}
 
-	public void setRecepciones_totales(int recepciones_totales) {
-		this.recepciones_totales = recepciones_totales;
+	public void setRecepcionesTotales(int recepcionesTotales) {
+		this.recepcionesTotales = recepcionesTotales;
 	}
 
-	public double getPorcentaje_recepciones() {
-		return porcentaje_recepciones;
+	public double getPorcentajeRecepciones() {
+		return porcentajeRecepciones;
 	}
 
-	public void setPorcentaje_recepciones(double porcentaje_recepciones) {
-		this.porcentaje_recepciones = porcentaje_recepciones;
+	public void setPorcentajeRecepciones(double porcentajeRecepciones) {
+		this.porcentajeRecepciones = porcentajeRecepciones;
 	}
 
-	public int getColocaciones_acertadas() {
-		return colocaciones_acertadas;
+	public int getColocacionesAcertadas() {
+		return colocacionesAcertadas;
 	}
 
-	public void setColocaciones_acertadas(int colocaciones_acertadas) {
-		this.colocaciones_acertadas = colocaciones_acertadas;
+	public void setColocacionesAcertadas(int colocacionesAcertadas) {
+		this.colocacionesAcertadas = colocacionesAcertadas;
 	}
 
-	public int getColocaciones_totales() {
-		return colocaciones_totales;
+	public int getColocacionesTotales() {
+		return colocacionesTotales;
 	}
 
-	public void setColocaciones_totales(int colocaciones_totales) {
-		this.colocaciones_totales = colocaciones_totales;
+	public void setColocacionesTotales(int colocacionesTotales) {
+		this.colocacionesTotales = colocacionesTotales;
 	}
 
-	public double getPorcentaje_colocaciones() {
-		return porcentaje_colocaciones;
+	public double getPorcentajeColocaciones() {
+		return porcentajeColocaciones;
 	}
 
-	public void setPorcentaje_colocaciones(double porcentaje_colocaciones) {
-		this.porcentaje_colocaciones = porcentaje_colocaciones;
+	public void setPorcentajeColocaciones(double porcentajeColocaciones) {
+		this.porcentajeColocaciones = porcentajeColocaciones;
 	}
 
-	public int getDefensas_acertadas() {
-		return defensas_acertadas;
+	public int getDefensasAcertadas() {
+		return defensasAcertadas;
 	}
 
-	public void setDefensas_acertadas(int defensas_acertadas) {
-		this.defensas_acertadas = defensas_acertadas;
+	public void setDefensasAcertadas(int defensasAcertadas) {
+		this.defensasAcertadas = defensasAcertadas;
 	}
 
-	public int getDefensas_totales() {
-		return defensas_totales;
+	public int getDefensasTotales() {
+		return defensasTotales;
 	}
 
-	public void setDefensas_totales(int defensas_totales) {
-		this.defensas_totales = defensas_totales;
+	public void setDefensasTotales(int defensasTotales) {
+		this.defensasTotales = defensasTotales;
 	}
 
-	public double getPorcentaje_defensas() {
-		return porcentaje_defensas;
+	public double getPorcentajeDefensas() {
+		return porcentajeDefensas;
 	}
 
-	public void setPorcentaje_defensas(double porcentaje_defensas) {
-		this.porcentaje_defensas = porcentaje_defensas;
+	public void setPorcentajeDefensas(double porcentajeDefensas) {
+		this.porcentajeDefensas = porcentajeDefensas;
 	}
 
-	public int getBloqueos_acertados() {
-		return bloqueos_acertados;
+	public int getBloqueosAcertados() {
+		return bloqueosAcertados;
 	}
 
-	public void setBloqueos_acertados(int bloqueos_acertados) {
-		this.bloqueos_acertados = bloqueos_acertados;
+	public void setBloqueosAcertados(int bloqueosAcertados) {
+		this.bloqueosAcertados = bloqueosAcertados;
 	}
 
-	public int getBloqueos_totales() {
-		return bloqueos_totales;
+	public int getBloqueosTotales() {
+		return bloqueosTotales;
 	}
 
-	public void setBloqueos_totales(int bloqueos_totales) {
-		this.bloqueos_totales = bloqueos_totales;
+	public void setBloqueosTotales(int bloqueosTotales) {
+		this.bloqueosTotales = bloqueosTotales;
 	}
 
-	public double getPorcentaje_bloqueos() {
-		return porcentaje_bloqueos;
+	public double getPorcentajeBloqueos() {
+		return porcentajeBloqueos;
 	}
 
-	public void setPorcentaje_bloqueos(double porcentaje_bloqueos) {
-		this.porcentaje_bloqueos = porcentaje_bloqueos;
+	public void setPorcentajeBloqueos(double porcentajeBloqueos) {
+		this.porcentajeBloqueos = porcentajeBloqueos;
 	}
 
-	public int getRemates_acertados() {
-		return remates_acertados;
+	public int getRematesAcertados() {
+		return rematesAcertados;
 	}
 
-	public void setRemates_acertados(int remates_acertados) {
-		this.remates_acertados = remates_acertados;
+	public void setRematesAcertados(int rematesAcertados) {
+		this.rematesAcertados = rematesAcertados;
 	}
 
-	public int getRemates_totales() {
-		return remates_totales;
+	public int getRematesTotales() {
+		return rematesTotales;
 	}
 
-	public void setRemates_totales(int remates_totales) {
-		this.remates_totales = remates_totales;
+	public void setRematesTotales(int rematesTotales) {
+		this.rematesTotales = rematesTotales;
 	}
 
-	public double getPorcentaje_remates() {
-		return porcentaje_remates;
+	public double getPorcentajeRemates() {
+		return porcentajeRemates;
 	}
 
-	public void setPorcentaje_remates(double porcentaje_remates) {
-		this.porcentaje_remates = porcentaje_remates;
+	public void setPorcentajeRemates(double porcentajeRemates) {
+		this.porcentajeRemates = porcentajeRemates;
 	}
 
-	public int getFintas_acertadas() {
-		return fintas_acertadas;
+	public int getFintasAcertadas() {
+		return fintasAcertadas;
 	}
 
-	public void setFintas_acertadas(int fintas_acertadas) {
-		this.fintas_acertadas = fintas_acertadas;
+	public void setFintasAcertadas(int fintasAcertadas) {
+		this.fintasAcertadas = fintasAcertadas;
 	}
 
-	public int getFintas_totales() {
-		return fintas_totales;
+	public int getFintasTotales() {
+		return fintasTotales;
 	}
 
-	public void setFintas_totales(int fintas_totales) {
-		this.fintas_totales = fintas_totales;
+	public void setFintasTotales(int fintasTotales) {
+		this.fintasTotales = fintasTotales;
 	}
 
-	public double getPorcentaje_fintas() {
-		return porcentaje_fintas;
+	public double getPorcentajeFintas() {
+		return porcentajeFintas;
 	}
 
-	public void setPorcentaje_fintas(double porcentaje_fintas) {
-		this.porcentaje_fintas = porcentaje_fintas;
+	public void setPorcentajeFintas(double porcentajeFintas) {
+		this.porcentajeFintas = porcentajeFintas;
 	}
 
-	public int getNum_ataques_rapidos_acertados() {
-		return num_ataques_rapidos_acertados;
+	public int getNumAtaquesRapidosAcertados() {
+		return numAtaquesRapidosAcertados;
 	}
 
-	public void setNum_ataques_rapidos_acertados(int num_ataques_rapidos_acertados) {
-		this.num_ataques_rapidos_acertados = num_ataques_rapidos_acertados;
+	public void setNumAtaquesRapidosAcertados(int numAtaquesRapidosAcertados) {
+		this.numAtaquesRapidosAcertados = numAtaquesRapidosAcertados;
 	}
 
-	public int getNum_ataques_rapidos_totales() {
-		return num_ataques_rapidos_totales;
+	public int getNumAtaquesRapidosTotales() {
+		return numAtaquesRapidosTotales;
 	}
 
-	public void setNum_ataques_rapidos_totales(int num_ataques_rapidos_totales) {
-		this.num_ataques_rapidos_totales = num_ataques_rapidos_totales;
+	public void setNumAtaquesRapidosTotales(int numAtaquesRapidosTotales) {
+		this.numAtaquesRapidosTotales = numAtaquesRapidosTotales;
 	}
 
-	public double getPorcentaje_ataques_rapidos() {
-		return porcentaje_ataques_rapidos;
+	public double getPorcentajeAtaquesRapidos() {
+		return porcentajeAtaquesRapidos;
 	}
 
-	public void setPorcentaje_ataques_rapidos(double porcentaje_ataques_rapidos) {
-		this.porcentaje_ataques_rapidos = porcentaje_ataques_rapidos;
+	public void setPorcentajeAtaquesRapidos(double porcentajeAtaquesRapidos) {
+		this.porcentajeAtaquesRapidos = porcentajeAtaquesRapidos;
 	}
 
-	public int getNum_faltas_totales() {
-		return num_faltas_totales;
+	public int getNumFaltasTotales() {
+		return numFaltasTotales;
 	}
 
-	public void setNum_faltas_totales(int num_faltas_totales) {
-		this.num_faltas_totales = num_faltas_totales;
+	public void setNumFaltasTotales(int numFaltasTotales) {
+		this.numFaltasTotales = numFaltasTotales;
 	}
 
-	public int getNum_amarillas() {
-		return num_amarillas;
+	public int getNumAmarillas() {
+		return numAmarillas;
 	}
 
-	public void setNum_amarillas(int num_amarillas) {
-		this.num_amarillas = num_amarillas;
+	public void setNumAmarillas(int numAmarillas) {
+		this.numAmarillas = numAmarillas;
 	}
 
-	public int getNum_rojas() {
-		return num_rojas;
+	public int getNumRojas() {
+		return numRojas;
 	}
 
-	public void setNum_rojas(int num_rojas) {
-		this.num_rojas = num_rojas;
+	public void setNumRojas(int numRojas) {
+		this.numRojas = numRojas;
 	}
 
-	public int getNum_puntos_set1() {
-		return num_puntos_set1;
+	public int getNumPuntosSet1() {
+		return numPuntosSet1;
 	}
 
-	public void setNum_puntos_set1(int num_puntos_set1) {
-		this.num_puntos_set1 = num_puntos_set1;
+	public void setNumPuntosSet1(int numPuntosSet1) {
+		this.numPuntosSet1 = numPuntosSet1;
 	}
 
-	public int getNum_puntos_set2() {
-		return num_puntos_set2;
+	public int getNumPuntosSet2() {
+		return numPuntosSet2;
 	}
 
-	public void setNum_puntos_set2(int num_puntos_set2) {
-		this.num_puntos_set2 = num_puntos_set2;
+	public void setNumPuntosSet2(int numPuntosSet2) {
+		this.numPuntosSet2 = numPuntosSet2;
 	}
 
-	public int getNum_puntos_set3() {
-		return num_puntos_set3;
+	public int getNumPuntosSet3() {
+		return numPuntosSet3;
 	}
 
-	public void setNum_puntos_set3(int num_puntos_set3) {
-		this.num_puntos_set3 = num_puntos_set3;
+	public void setNumPuntosSet3(int numPuntosSet3) {
+		this.numPuntosSet3 = numPuntosSet3;
 	}
 
-	public int getNum_puntos_set4() {
-		return num_puntos_set4;
+	public int getNumPuntosSet4() {
+		return numPuntosSet4;
 	}
 
-	public void setNum_puntos_set4(int num_puntos_set4) {
-		this.num_puntos_set4 = num_puntos_set4;
+	public void setNumPuntosSet4(int numPuntosSet4) {
+		this.numPuntosSet4 = numPuntosSet4;
 	}
 
-	public int getNum_puntos_set5() {
-		return num_puntos_set5;
+	public int getNumPuntosSet5() {
+		return numPuntosSet5;
 	}
 
-	public void setNum_puntos_set5(int num_puntos_set5) {
-		this.num_puntos_set5 = num_puntos_set5;
+	public void setNumPuntosSet5(int numPuntosSet5) {
+		this.numPuntosSet5 = numPuntosSet5;
 	}
 
-	public int getNum_puntos_totales() {
-		return num_puntos_totales;
+	public int getNumPuntosTotales() {
+		return numPuntosTotales;
 	}
 
-	public void setNum_puntos_totales(int num_puntos_totales) {
-		this.num_puntos_totales = num_puntos_totales;
+	public void setNumPuntosTotales(int numPuntosTotales) {
+		this.numPuntosTotales = numPuntosTotales;
 	}
 
-	public int getNum_tiempos_muertos_totales() {
-		return num_tiempos_muertos_totales;
+	public int getNumTiemposMuertosTotales() {
+		return numTiemposMuertosTotales;
 	}
 
-	public void setNum_tiempos_muertos_totales(int num_tiempos_muertos_totales) {
-		this.num_tiempos_muertos_totales = num_tiempos_muertos_totales;
+	public void setNumTiemposMuertosTotales(int numTiemposMuertosTotales) {
+		this.numTiemposMuertosTotales = numTiemposMuertosTotales;
 	}
 
-	public int getTiempo_total_partido() {
-		return tiempo_total_partido;
+	public int getTiempoTotalPartido() {
+		return tiempoTotalPartido;
 	}
 
-	public void setTiempo_total_partido(int tiempo_total_partido) {
-		this.tiempo_total_partido = tiempo_total_partido;
+	public void setTiempoTotalPartido(int tiempoTotalPartido) {
+		this.tiempoTotalPartido = tiempoTotalPartido;
 	}
 
-	public int getNum_sustituciones() {
-		return num_sustituciones;
+	public int getNumSustituciones() {
+		return numSustituciones;
 	}
 
-	public void setNum_sustituciones(int num_sustituciones) {
-		this.num_sustituciones = num_sustituciones;
+	public void setNumSustituciones(int numSustituciones) {
+		this.numSustituciones = numSustituciones;
 	}
 
-	public int getTiempo_colocador_general() {
-		return tiempo_colocador_general;
+	public int getTiempoColocadorGeneral() {
+		return tiempoColocadorGeneral;
 	}
 
-	public void setTiempo_colocador_general(int tiempo_colocador_general) {
-		this.tiempo_colocador_general = tiempo_colocador_general;
+	public void setTiempoColocadorGeneral(int tiempoColocadorGeneral) {
+		this.tiempoColocadorGeneral = tiempoColocadorGeneral;
 	}
 
-	public int getTiempo_5_1() {
-		return tiempo_5_1;
+	public int getTiempo51() {
+		return tiempo51;
 	}
 
-	public void setTiempo_5_1(int tiempo_5_1) {
-		this.tiempo_5_1 = tiempo_5_1;
+	public void setTiempo51(int tiempo51) {
+		this.tiempo51 = tiempo51;
 	}
 
-	public int getTiempo_4_2() {
-		return tiempo_4_2;
+	public int getTiempo42() {
+		return tiempo42;
 	}
 
-	public void setTiempo_4_2(int tiempo_4_2) {
-		this.tiempo_4_2 = tiempo_4_2;
+	public void setTiempo42(int tiempo42) {
+		this.tiempo42 = tiempo42;
 	}
 
-	public int getTiempo_6_2() {
-		return tiempo_6_2;
+	public int getTiempo62() {
+		return tiempo62;
 	}
 
-	public void setTiempo_6_2(int tiempo_6_2) {
-		this.tiempo_6_2 = tiempo_6_2;
+	public void setTiempo62(int tiempo62) {
+		this.tiempo62 = tiempo62;
 	}
 
-	public int getTiempo_calentamiento() {
-		return tiempo_calentamiento;
+	public int getTiempoCalentamiento() {
+		return tiempoCalentamiento;
 	}
 
-	public void setTiempo_calentamiento(int tiempo_calentamiento) {
-		this.tiempo_calentamiento = tiempo_calentamiento;
+	public void setTiempoCalentamiento(int tiempoCalentamiento) {
+		this.tiempoCalentamiento = tiempoCalentamiento;
 	}
-	
-	
 
 }
