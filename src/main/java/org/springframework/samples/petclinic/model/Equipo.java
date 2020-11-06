@@ -169,14 +169,6 @@ public class Equipo extends BaseEntity{
 		this.entrenamientos = entrenamientos;
 	}
 
-	public Capitan getCapitan() {
-		return capitan;
-	}
-
-	public void setCapitan(Capitan capitan) {
-		this.capitan = capitan;
-	}
-
 	public Set<Jugador> getJugadores() {
 		return jugadores;
 	}

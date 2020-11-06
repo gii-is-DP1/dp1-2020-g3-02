@@ -14,5 +14,5 @@ public class Personales extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "jugador_id")
-	private Jugador jugadores;
+	private Jugador jugador;
 }
