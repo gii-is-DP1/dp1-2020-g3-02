@@ -24,7 +24,7 @@ public class Capitan extends Jugador {
 	@Min(0)
 	private int ntiemposmuertos;
 
-	@Column(name = "actitud", columnDefinition = "varchar(255) check('POSITIVA,NEGATIVA')")
+	@Column(name = "actitud", columnDefinition = "varchar(255) check(actitud in ('POSITIVA,NEGATIVA'))")
 	@Enumerated(value = EnumType.STRING)
 	private Actitud actitud;
 
