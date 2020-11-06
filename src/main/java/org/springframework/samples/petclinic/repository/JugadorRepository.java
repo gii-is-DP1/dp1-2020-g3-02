@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.io.Serializable;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,5 +30,5 @@ public interface JugadorRepository extends JpaRepository<Jugador, Serializable>{
 	public List<Jugador> findByPorcentajeFintasLessThanEqual(double percent);
 	public List<Jugador> findByPorcentajeAtaquesRapidosLessThanEqual(double percent);
 	public List<Jugador> findByNumFaltasTotalesGreaterThanEqual(int faults);
-
+	
 }

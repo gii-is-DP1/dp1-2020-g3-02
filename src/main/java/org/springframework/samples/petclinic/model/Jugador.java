@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.model;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -17,6 +19,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.Posicion;
 
@@ -48,7 +51,7 @@ public class Jugador extends Person{
 	@Column(name = "localidad", nullable = false)
 	private String localidad;
 	
-	@Column(name = "fecha_nacimiento", nullable = false)
+	@Column(name = "fecha_nacimiento", nullable = false, columnDefinition = "date default SYSDATE")
 	private LocalDate fechaNacimiento;
 	
 	@Column(name = "altura", nullable = false)
@@ -71,15 +74,15 @@ public class Jugador extends Person{
 	@Min(1)
 	private int numeroCamiseta;
 	
-	@Column(name = "posicion_principal", columnDefinition = "varchar(255) default 'PUNTA' check('PUNTA','OPUESTO','COLOCADOR','CENTRAL','LIBERO')")
+	@Column(name = "posicion_principal", columnDefinition = "varchar(255) default 'PUNTA' check(posicion_principal in ('PUNTA','OPUESTO','COLOCADOR','CENTRAL','LIBERO'))")
 	@Enumerated(value = EnumType.STRING)
 	private Posicion posicionPrincipal;
 	
-	@Column(name = "posicion_secundaria", columnDefinition = "varchar(255) default 'PUNTA' check('PUNTA','OPUESTO','COLOCADOR','CENTRAL','LIBERO')")
+	@Column(name = "posicion_secundaria", columnDefinition = "varchar(255) default 'PUNTA' check(posicion_secundaria in ('PUNTA','OPUESTO','COLOCADOR','CENTRAL','LIBERO'))")
 	@Enumerated(value = EnumType.STRING)
 	private Posicion posicionSecundaria;
 	
-	@Column(name = "estado_actual", columnDefinition = "varchar(255) default 'EN_FORMA' check('EN_FORMA','LESIONADO')")
+	@Column(name = "estado_actual", columnDefinition = "varchar(255) default 'EN_FORMA'check (estado_actual in ('EN_FORMA', 'LESIONADO'))")
 	@Enumerated(value = EnumType.STRING)
 	private Estado estadoActual;
 	
