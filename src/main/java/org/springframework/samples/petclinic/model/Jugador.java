@@ -1,8 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -19,12 +17,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.Posicion;
 
 @Entity
-@Table(name="jugador", uniqueConstraints = @UniqueConstraint(columnNames = { "dni","email" }))
+@Table(name="jugadores", uniqueConstraints = @UniqueConstraint(columnNames = { "dni","email" }))
 public class Jugador extends Person{
 	
 	@OneToOne(cascade = CascadeType.ALL)

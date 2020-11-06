@@ -13,7 +13,7 @@ import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 
 
 @Entity
-@Table(name = "material")
+@Table(name = "materiales")
 public class Material extends BaseEntity{
 
 

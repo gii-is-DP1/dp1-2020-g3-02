@@ -12,7 +12,7 @@ import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoResponsable;
 
 @Entity
-@Table(name = "autorizacion")
+@Table(name = "autorizaciones")
 public class Autorizacion extends BaseEntity{
 
 	@Column(name = "fecha", nullable = false)

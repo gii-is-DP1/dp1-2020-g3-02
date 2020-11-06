@@ -12,13 +12,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 
 import org.springframework.samples.petclinic.enumerate.Sistema;
 
 @Entity
-@Table(name = "entrenamiento", uniqueConstraints = @UniqueConstraint(columnNames = { "fecha","hora" }))
+@Table(name = "entrenamientos")
 public class Entrenamiento extends BaseEntity{
 	
 	@ManyToMany
@@ -38,7 +37,7 @@ public class Entrenamiento extends BaseEntity{
 	@Column(name = "hora", nullable = false, length = 5)
 	private String hora;
 	
-	@Column(name = "sistema_juego", columnDefinition = "varchar(255) default 'CINCO_UNO' NOT NULL check ('COLOCADOR_GENERAL','CUATRO_DOS', 'CINCO_UNO', 'SEIS_DOS')")
+	@Column(name = "sistema_juego", columnDefinition = "varchar(255) default 'CINCO_UNO' NOT NULL check (sistema_juego in ('COLOCADOR_GENERAL','CUATRO_DOS', 'CINCO_UNO', 'SEIS_DOS'))")
 	@Enumerated(value = EnumType.STRING)
 	private Sistema sistemaJuego;
 	

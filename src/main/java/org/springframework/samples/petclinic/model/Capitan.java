@@ -14,7 +14,7 @@ import javax.validation.constraints.Min;
 import org.springframework.samples.petclinic.enumerate.Actitud;
 
 @Entity
-@Table(name = "capitan")
+@Table(name = "capitanes")
 public class Capitan extends Jugador {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "capitan")

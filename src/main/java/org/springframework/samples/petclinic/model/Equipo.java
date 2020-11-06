@@ -18,7 +18,7 @@ import javax.validation.constraints.Min;
 import org.springframework.samples.petclinic.enumerate.Sistema;
 
 @Entity
-@Table(name = "equipo")
+@Table(name = "equipos")
 public class Equipo extends BaseEntity{
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
@@ -36,7 +36,7 @@ public class Equipo extends BaseEntity{
 	@Column(name="categoria", nullable = false)
 	private String categoria;
 	
-	@Column(name = "sistema_juego", columnDefinition = "varchar(255) default 'CINCO_UNO' NOT NULL check ('COLOCADOR_GENERAL','CUATRO_DOS', 'CINCO_UNO', 'SEIS_DOS')")
+	@Column(name = "sistema_juego", columnDefinition = "varchar(255) default 'CINCO_UNO' NOT NULL check (sistema_juego in ('COLOCADOR_GENERAL','CUATRO_DOS', 'CINCO_UNO', 'SEIS_DOS'))")
 	@Enumerated(value = EnumType.STRING)
 	private Sistema sistemaJuego;
 	

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 
 @Entity
-@Table(name = "prueba_condicion_fisica")
+@Table(name = "pruebas_condicion_fisica")
 public class PruebaCondicionFisica extends BaseEntity {
 	
 	@ManyToOne
