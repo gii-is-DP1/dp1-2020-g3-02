@@ -135,6 +135,12 @@ public class JugadorServiceImpl implements JugadorService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
+	public List<Jugador> findByEquipo(int equipo_id) {
+		return jugadorRepository.findByEquipo(equipo_id);
+	}
+
+	@Override
 	@Transactional
 	public void saveJugador(Jugador player) throws DataAccessException {
 		
