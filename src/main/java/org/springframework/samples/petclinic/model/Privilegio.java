@@ -16,11 +16,11 @@ public class Privilegio extends BaseEntity{
 	
 	@ManyToOne
 	@JoinColumn(name = "jugador_id")
-	private Jugador jugadores;
+	private Jugador jugador;
 	
 	@Column(name= "tipo_privilegio", columnDefinition = "varchar(30) default 'partidos' check (tipo_privilegio in ('partidos', 'entrenamientos'))")
 	@Enumerated(value = EnumType.STRING)
-	private TipoPrivilegio tipo_privilegio;
+	private TipoPrivilegio tipoPrivilegio;
 	
 	@Column(name = "descripcion", nullable = false)
 	private String descripcion;
@@ -31,16 +31,16 @@ public class Privilegio extends BaseEntity{
 	
 	public Privilegio(TipoPrivilegio tipo_privilegio, String descripcion) {
 		super();
-		this.tipo_privilegio = tipo_privilegio;
+		this.tipoPrivilegio = tipo_privilegio;
 		this.descripcion = descripcion;
 	}
 	
 	public TipoPrivilegio getTipo_Privilegio() {
-		return tipo_privilegio;
+		return tipoPrivilegio;
 	}
 	
 	public void setTipo_Privilegio(TipoPrivilegio tipo_privilegio) {
-		this.tipo_privilegio = tipo_privilegio;
+		this.tipoPrivilegio = tipo_privilegio;
 	}
 	
 	public String getDescripcion() {

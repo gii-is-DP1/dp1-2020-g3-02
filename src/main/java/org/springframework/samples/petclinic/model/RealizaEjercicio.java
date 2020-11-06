@@ -14,7 +14,7 @@ public class RealizaEjercicio extends BaseEntity{
 
 	@ManyToOne
 	@JoinColumn(name = "jugador_id")
-	private Jugador jugadores;
+	private Jugador jugador;
 	
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;

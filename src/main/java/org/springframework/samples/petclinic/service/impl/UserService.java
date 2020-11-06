@@ -13,16 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.service;
+package org.springframework.samples.petclinic.service.impl;
 
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.User;
-import org.springframework.samples.petclinic.repository.AuthoritiesRepository;
+import org.springframework.samples.petclinic.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,34 +32,22 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
-public class AuthoritiesService {
+public class UserService {
 
-	private AuthoritiesRepository authoritiesRepository;
-	private UserService userService;
+	private UserRepository userRepository;
 
 	@Autowired
-	public AuthoritiesService(AuthoritiesRepository authoritiesRepository,UserService userService) {
-		this.authoritiesRepository = authoritiesRepository;
-		this.userService = userService;
+	public UserService(UserRepository userRepository) {
+		this.userRepository = userRepository;
 	}
 
 	@Transactional
-	public void saveAuthorities(Authorities authorities) throws DataAccessException {
-		authoritiesRepository.save(authorities);
+	public void saveUser(User user) throws DataAccessException {
+		user.setEnabled(true);
+		userRepository.save(user);
 	}
 	
-	@Transactional
-	public void saveAuthorities(String username, String role) throws DataAccessException {
-		Authorities authority = new Authorities();
-		Optional<User> user = userService.findUser(username);
-		if(user.isPresent()) {
-			authority.setUser(user.get());
-			authority.setAuthority(role);
-			//user.get().getAuthorities().add(authority);
-			authoritiesRepository.save(authority);
-		}else
-			throw new DataAccessException("User '"+username+"' not found!") {};
+	public Optional<User> findUser(String username) {
+		return userRepository.findById(username);
 	}
-
-
 }
