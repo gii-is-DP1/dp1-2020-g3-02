@@ -61,7 +61,7 @@ public class Jugador extends Person{
 	private int peso;
 	
 	@Column(name = "pesoIdeal", nullable = false)
-	private int peso_ideal;
+	private int pesoIdeal;
 	
 	@Column(name = "imc", nullable = false)
 	private double imc;
@@ -281,11 +281,11 @@ public class Jugador extends Person{
 	}
 
 	public int getPeso_ideal() {
-		return peso_ideal;
+		return pesoIdeal;
 	}
 
 	public void setPeso_ideal(int peso_ideal) {
-		this.peso_ideal = peso_ideal;
+		this.pesoIdeal = peso_ideal;
 	}
 
 	public double getImc() {
