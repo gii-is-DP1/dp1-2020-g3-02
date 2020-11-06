@@ -19,7 +19,6 @@ public class EquipoServiceImpl implements EquipoService {
 	private EquipoRepository equipoRepository;
 
 	@Override
-	@Transactional(readOnly = true)
 	public Equipo findByCategoria(String category) {
 		return equipoRepository.findByCategoria(category);
 	}
