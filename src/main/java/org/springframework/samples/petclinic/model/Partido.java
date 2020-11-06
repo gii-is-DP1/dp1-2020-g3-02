@@ -1,11 +1,15 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
@@ -14,6 +18,11 @@ import org.springframework.samples.petclinic.enumerate.Sistema;
 @Entity
 @Table(name = "partidos")
 public class Partido extends BaseEntity{
+	
+	@ManyToMany
+	@JoinTable(name = "juegaPartido", joinColumns = @JoinColumn(name = "partido_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
+	Set<Jugador> jugadores;
 	
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
@@ -208,6 +217,14 @@ public class Partido extends BaseEntity{
 		this.tiempo42 = tiempo_4_2;
 		this.tiempo62 = tiempo_6_2;
 		this.tiempoCalentamiento = tiempo_calentamiento;
+	}
+
+	public Set<Jugador> getJugadores() {
+		return jugadores;
+	}
+
+	public void setJugadores(Set<Jugador> jugadores) {
+		this.jugadores = jugadores;
 	}
 
 	public LocalDate getFecha() {
