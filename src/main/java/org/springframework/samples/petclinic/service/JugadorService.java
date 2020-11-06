@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.enumerate.Posicion;
 import org.springframework.samples.petclinic.model.Jugador;
 
@@ -26,6 +27,7 @@ public interface JugadorService {
 	public abstract List<Jugador> findByPorcentajeFintasLessThanEqual(double percent);
 	public abstract List<Jugador> findByPorcentajeAtaquesRapidosLessThanEqual(double percent);
 	public abstract List<Jugador> findByNumFaltasTotalesGreaterThanEqual(int faults);
+	public abstract List<Jugador> findByEquipo(int equipo_id);
 	public abstract void saveJugador(Jugador player);
 	public abstract List<Jugador> saveEstadisticasJugadores(List<Jugador> players);
 }
