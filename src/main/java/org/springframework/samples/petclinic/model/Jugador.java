@@ -28,11 +28,14 @@ public class Jugador extends Person{
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugadores")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
 	private Set<PruebaCondicionFisica> pruebas_condicion_fisica;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugadores")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
 	private Set<Personales> personales;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	private Set<Capitan> capitan;
 
 	
 	@Column(name = "dni", nullable = false, length = 9)

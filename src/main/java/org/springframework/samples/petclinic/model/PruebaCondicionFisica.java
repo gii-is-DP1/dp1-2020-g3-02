@@ -17,7 +17,7 @@ public class PruebaCondicionFisica extends BaseEntity {
 	
 	@ManyToOne
 	@JoinColumn(name = "jugador_id")
-	private Jugador jugadores;
+	private Jugador jugador;
 	
 	@Column(name = "dato", nullable = false)
 	private String dato;
