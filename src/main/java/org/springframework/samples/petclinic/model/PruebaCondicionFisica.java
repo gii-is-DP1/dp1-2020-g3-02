@@ -31,6 +31,7 @@ public class PruebaCondicionFisica extends BaseEntity {
 	private TipoPrueba tipoPrueba;
 	
 	public PruebaCondicionFisica() {
+		
 	}
 
 	public PruebaCondicionFisica(Double dato, LocalDate fecha, TipoPrueba tipo_prueba) {

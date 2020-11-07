@@ -17,5 +17,4 @@ public interface PruebaCondicionFisicaRepository extends JpaRepository<PruebaCon
 	public List<PruebaCondicionFisica> findByDatoLessThanEqual(double dato);
 	public List<PruebaCondicionFisica> findByDatoAndTipoPrueba(double dato, TipoPrueba tipo_prueba);
 	public List<PruebaCondicionFisica> findByTipoPruebaAndDatoLessThanEqual(double dato, TipoPrueba tipo_prueba);
-
 }
