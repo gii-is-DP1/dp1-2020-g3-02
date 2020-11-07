@@ -25,8 +25,8 @@ public class PruebaCondicionFisica extends BaseEntity {
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
 	
-	@Column(name = "tipo_prueba", columnDefinition = "varchar(30) default 'saltoVertical' check (tipo_prueba in ('abdominal', 'flexibilidad','velocidad',"
-			+ "'saltoVertical','agilidad','resistencia','pulsacionesMinimas'))")
+	@Column(name = "tipo_prueba", columnDefinition = "varchar(30) default 'SALTOVERTICAL' check (tipo_prueba in ('ABDOMINAL', 'FLEXIBILIDAD','VELOCIDAD',"
+			+ "'SALTOVERTICAL','AGILIDAD','RESISTENCIA','PULSACIONESMINIMAS'))")
 	@Enumerated(value = EnumType.STRING)
 	private TipoPrueba tipoPrueba;
 	
