@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,6 +26,12 @@ public class JugadorServiceImpl implements JugadorService {
 	
 	@Autowired
 	private AuthoritiesService authoritiesService;
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<Jugador> findById(int id) {
+		return jugadorRepository.findById(id);
+	}
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -142,13 +149,15 @@ public class JugadorServiceImpl implements JugadorService {
 
 	@Override
 	@Transactional
-	public void saveJugador(Jugador player) throws DataAccessException {
+	public Jugador saveJugador(Jugador player) throws DataAccessException {
 		
-		jugadorRepository.save(player);
+		Jugador jugador = jugadorRepository.save(player);
 		
 		userService.saveUser(player.getUser());
 		
 		authoritiesService.saveAuthorities(player.getUser().getUsername(), "player");
+		
+		return jugador;
 		
 	}
 
@@ -159,6 +168,11 @@ public class JugadorServiceImpl implements JugadorService {
 		List<Jugador> result = (List<Jugador>) jugadorRepository.saveAll(players);
 		
 		return result;
+	}
+
+	@Override
+	public int playerCount() {
+		return (int) jugadorRepository.count();
 	}
 
 }
