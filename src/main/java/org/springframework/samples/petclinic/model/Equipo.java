@@ -28,6 +28,10 @@ public class Equipo extends BaseEntity{
 	@JoinColumn(name = "capitan_id")
 	private Capitan capitan;
 	
+	@ManyToOne
+	@JoinColumn(name = "entrenador_id")
+	private Entrenador entrenador;
+	
 	@ManyToMany
 	@JoinTable(name = "perteneceA", joinColumns = @JoinColumn(name = "equipo_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))

@@ -16,7 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="entrenadores",uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
-public class Entrenador extends BaseEntity{
+public class Entrenador extends Person{
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
@@ -24,12 +24,6 @@ public class Entrenador extends BaseEntity{
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "entrenador")
 	private Set<Equipo> equipos;
-	
-	@Column(name="nombre", nullable = false)
-	private String nombre;
-	
-	@Column(name="apellidos", nullable = false)
-	private String apellidos;
 	
 	@Column(name="email", nullable = false)
 	private String email;
@@ -42,11 +36,10 @@ public class Entrenador extends BaseEntity{
 		
 	}
 
-	public Entrenador(User user, String nombre, String apellidos, String email, String usuario, String contraseña,
+	public Entrenador(String email,
 			LocalDate fechaNacimiento) {
 		super();
-		this.nombre = nombre;
-		this.apellidos = apellidos;
+
 		this.email = email;
 		this.fechaNacimiento = fechaNacimiento;
 	}
@@ -57,22 +50,6 @@ public class Entrenador extends BaseEntity{
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getApellidos() {
-		return apellidos;
-	}
-
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
 	}
 
 	public String getEmail() {
@@ -93,7 +70,7 @@ public class Entrenador extends BaseEntity{
 
 	@Override
 	public String toString() {
-		return "Entrenador [user=" + user + ", nombre=" + nombre + ", apellidos=" + apellidos + ", email=" + email
+		return "Entrenador [user=" + user + ", email=" + email
 				+ ", fechaNacimiento=" + fechaNacimiento + "]";
 	}
 	
