@@ -96,3 +96,7 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
+
+INSERT INTO jugadores(id,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (1,'11111111A','Pepe','Clemente','1998-11-06','Calle Arrastre','arribaespaña@gmail.com','Villaviciosa',178,78,75,22.2);
+INSERT INTO jugadores(id,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (2,'11111112A','Paco','Tuerca','2004-11-06','Calle Demacracion','cataluñaindependiente@gmail.com','Guarroman',175,78,75,23.2);
+

@@ -48,7 +48,7 @@ public class Equipo extends BaseEntity{
 	@Min(0)
 	private int saquesTotales;
 	
-	@Column(name = "porcentaje_saques", scale = 2)
+	@Column(name = "porcentaje_saques", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeSaques;
 	
 	@Column(name = "recepciones_acertadas", nullable = false, columnDefinition = "integer default 0")
@@ -59,7 +59,7 @@ public class Equipo extends BaseEntity{
 	@Min(0)
 	private int recepcionesTotales;
 	
-	@Column(name = "porcentaje_recepciones", scale = 2)
+	@Column(name = "porcentaje_recepciones", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeRecepciones;
 	
 	@Column(name = "colocaciones_acertadas", nullable = false, columnDefinition = "integer default 0")
@@ -70,7 +70,7 @@ public class Equipo extends BaseEntity{
 	@Min(0)
 	private int colocacionesTotales;
 	
-	@Column(name = "porcentaje_colocaciones", scale = 2)
+	@Column(name = "porcentaje_colocaciones", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeColocaciones;
 	
 	@Column(name = "defensas_acertadas", nullable = false, columnDefinition = "integer default 0")
@@ -81,7 +81,7 @@ public class Equipo extends BaseEntity{
 	@Min(0)
 	private int defensasTotales;
 	
-	@Column(name = "porcentaje_defensas", scale = 2)
+	@Column(name = "porcentaje_defensas", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeDefensas;
 	
 	@Column(name = "bloqueos_acertados", nullable = false, columnDefinition = "integer default 0")
@@ -92,7 +92,7 @@ public class Equipo extends BaseEntity{
 	@Min(0)
 	private int bloqueosTotales;
 	
-	@Column(name = "porcentaje_bloqueos", scale = 2)
+	@Column(name = "porcentaje_bloqueos", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeBloqueos;
 	
 	@Column(name = "remates_acertados", nullable = false, columnDefinition = "integer default 0")
@@ -103,7 +103,7 @@ public class Equipo extends BaseEntity{
 	@Min(0)
 	private int rematesTotales;
 	
-	@Column(name = "porcentaje_remates", scale = 2)
+	@Column(name = "porcentaje_remates", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeRemates;
 	
 	@Column(name = "fintas_acertadas", nullable = false, columnDefinition = "integer default 0")
@@ -114,7 +114,7 @@ public class Equipo extends BaseEntity{
 	@Min(0)
 	private int fintasTotales;
 	
-	@Column(name = "porcentaje_fintas", scale = 2)
+	@Column(name = "porcentaje_fintas", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeFintas;
 	
 	@Column(name = "num_ataques_rapidos_acertados", nullable = false, columnDefinition = "integer default 0")
@@ -125,7 +125,7 @@ public class Equipo extends BaseEntity{
 	@Min(0)
 	private int numAtaquesRapidosTotales;
 	
-	@Column(name = "porcentaje_ataques_rapidos", scale = 2)
+	@Column(name = "porcentaje_ataques_rapidos", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeAtaquesRapidos;
 	
 	@Column(name = "num_faltas_totales", nullable = false, columnDefinition = "integer default 0")

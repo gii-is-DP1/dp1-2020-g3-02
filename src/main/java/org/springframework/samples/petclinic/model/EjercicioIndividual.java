@@ -18,7 +18,7 @@ public class EjercicioIndividual extends BaseEntity {
 	private String descripcion;
 	
 	@Column(name = "tipo_ejercicio", columnDefinition = "varchar(30) not null check (tipo_ejercicio in ('ataque','recepción','colocación','saque','bloqueo','defensa','ataqueRápido'))")
-	private TipoEjercicio tipo_ejercicio;
+	private TipoEjercicio tipoEjercicio;
 	
 	public EjercicioIndividual() {
 	}
@@ -27,7 +27,7 @@ public class EjercicioIndividual extends BaseEntity {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.tipo_ejercicio = tipo_ejercicio;
+		this.tipoEjercicio = tipo_ejercicio;
 	}
 
 	public String getNombre() {
@@ -47,11 +47,11 @@ public class EjercicioIndividual extends BaseEntity {
 	}
 
 	public TipoEjercicio getTipo_ejercicio() {
-		return tipo_ejercicio;
+		return tipoEjercicio;
 	}
 
 	public void setTipo_ejercicio(TipoEjercicio tipo_ejercicio) {
-		this.tipo_ejercicio = tipo_ejercicio;
+		this.tipoEjercicio = tipo_ejercicio;
 	}
 
 

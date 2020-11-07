@@ -1,11 +1,15 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
@@ -14,6 +18,11 @@ import org.springframework.samples.petclinic.enumerate.Sistema;
 @Entity
 @Table(name = "partidos")
 public class Partido extends BaseEntity{
+	
+	@ManyToMany
+	@JoinTable(name = "juegaPartido", joinColumns = @JoinColumn(name = "partido_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
+	Set<Jugador> jugadores;
 	
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
@@ -33,7 +42,7 @@ public class Partido extends BaseEntity{
 	@Min(0)
 	private int saquesTotales;
 	
-	@Column(name = "porcentaje_saques", scale = 2)
+	@Column(name = "porcentaje_saques", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeSaques;
 	
 	@Column(name = "recepciones_acertadas", nullable = false, columnDefinition = "integer default 0")
@@ -44,7 +53,7 @@ public class Partido extends BaseEntity{
 	@Min(0)
 	private int recepcionesTotales;
 	
-	@Column(name = "porcentaje_recepciones", scale = 2)
+	@Column(name = "porcentaje_recepciones", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeRecepciones;
 	
 	@Column(name = "colocaciones_acertadas", nullable = false, columnDefinition = "integer default 0")
@@ -55,7 +64,7 @@ public class Partido extends BaseEntity{
 	@Min(0)
 	private int colocacionesTotales;
 	
-	@Column(name = "porcentaje_colocaciones", scale = 2)
+	@Column(name = "porcentaje_colocaciones", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeColocaciones;
 	
 	@Column(name = "defensas_acertadas", nullable = false, columnDefinition = "integer default 0")
@@ -66,7 +75,7 @@ public class Partido extends BaseEntity{
 	@Min(0)
 	private int defensasTotales;
 	
-	@Column(name = "porcentaje_defensas", scale = 2)
+	@Column(name = "porcentaje_defensas", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeDefensas;
 	
 	@Column(name = "bloqueos_acertados", nullable = false, columnDefinition = "integer default 0")
@@ -77,7 +86,7 @@ public class Partido extends BaseEntity{
 	@Min(0)
 	private int bloqueosTotales;
 	
-	@Column(name = "porcentaje_bloqueos", scale = 2)
+	@Column(name = "porcentaje_bloqueos", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeBloqueos;
 	
 	@Column(name = "remates_acertados", nullable = false, columnDefinition = "integer default 0")
@@ -88,7 +97,7 @@ public class Partido extends BaseEntity{
 	@Min(0)
 	private int rematesTotales;
 	
-	@Column(name = "porcentaje_remates", scale = 2)
+	@Column(name = "porcentaje_remates", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeRemates;
 	
 	@Column(name = "fintas_acertadas", nullable = false, columnDefinition = "integer default 0")
@@ -99,7 +108,7 @@ public class Partido extends BaseEntity{
 	@Min(0)
 	private int fintasTotales;
 	
-	@Column(name = "porcentaje_fintas", scale = 2)
+	@Column(name = "porcentaje_fintas", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeFintas;
 	
 	@Column(name = "num_ataques_rapidos_acertados", nullable = false, columnDefinition = "integer default 0")
@@ -110,7 +119,7 @@ public class Partido extends BaseEntity{
 	@Min(0)
 	private int numAtaquesRapidosTotales;
 	
-	@Column(name = "porcentaje_ataques_rapidos", scale = 2)
+	@Column(name = "porcentaje_ataques_rapidos", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeAtaquesRapidos;
 	
 	@Column(name = "num_faltas_totales", nullable = false, columnDefinition = "integer default 0")
@@ -208,6 +217,14 @@ public class Partido extends BaseEntity{
 		this.tiempo42 = tiempo_4_2;
 		this.tiempo62 = tiempo_6_2;
 		this.tiempoCalentamiento = tiempo_calentamiento;
+	}
+
+	public Set<Jugador> getJugadores() {
+		return jugadores;
+	}
+
+	public void setJugadores(Set<Jugador> jugadores) {
+		this.jugadores = jugadores;
 	}
 
 	public LocalDate getFecha() {

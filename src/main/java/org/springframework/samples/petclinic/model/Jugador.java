@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -17,6 +19,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.Posicion;
 
@@ -28,6 +31,11 @@ public class Jugador extends Person{
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
+	@ManyToMany
+	@JoinTable(name = "juegaPartido", joinColumns = @JoinColumn(name = "jugador_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "partido_id"))
+	Set<Partido> partidos;
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
 	private Set<PruebaCondicionFisica> pruebas_condicion_fisica;
 	
@@ -36,6 +44,12 @@ public class Jugador extends Person{
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
 	private Set<Capitan> capitan;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	private Set<RealizaEjercicio> realiza_ejercicios;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	private Set<Privilegio> privilegios;
 
 	
 	@Column(name = "dni", nullable = false, length = 9)
@@ -52,6 +66,7 @@ public class Jugador extends Person{
 	private String localidad;
 	
 	@Column(name = "fecha_nacimiento", nullable = false, columnDefinition = "date default SYSDATE")
+	@DateTimeFormat(pattern = "yyyy/mm/dd")
 	private LocalDate fechaNacimiento;
 	
 	@Column(name = "altura", nullable = false)
@@ -63,7 +78,7 @@ public class Jugador extends Person{
 	@Min(0)
 	private int peso;
 	
-	@Column(name = "pesoIdeal", nullable = false)
+	@Column(name = "peso_ideal", nullable = false)
 	private int pesoIdeal;
 	
 	@Column(name = "imc", nullable = false)
@@ -72,7 +87,7 @@ public class Jugador extends Person{
 	@Column(name = "numero_camiseta")
 	@Max(99)
 	@Min(1)
-	private int numeroCamiseta;
+	private Integer numeroCamiseta;
 	
 	@Column(name = "posicion_principal", columnDefinition = "varchar(255) default 'PUNTA' check(posicion_principal in ('PUNTA','OPUESTO','COLOCADOR','CENTRAL','LIBERO'))")
 	@Enumerated(value = EnumType.STRING)
@@ -94,7 +109,7 @@ public class Jugador extends Person{
 	@Min(0)
 	private int saquesTotales;
 	
-	@Column(name = "porcentaje_saques", scale = 2)
+	@Column(name = "porcentaje_saques", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeSaques;
 	
 	@Column(name = "recepciones_acertadas", nullable = false, columnDefinition = "integer default 0")
@@ -105,7 +120,7 @@ public class Jugador extends Person{
 	@Min(0)
 	private int recepcionesTotales;
 	
-	@Column(name = "porcentaje_recepciones", scale = 2)
+	@Column(name = "porcentaje_recepciones", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeRecepciones;
 	
 	@Column(name = "colocaciones_acertadas", nullable = false, columnDefinition = "integer default 0")
@@ -116,7 +131,7 @@ public class Jugador extends Person{
 	@Min(0)
 	private int colocacionesTotales;
 	
-	@Column(name = "porcentaje_colocaciones", scale = 2)
+	@Column(name = "porcentaje_colocaciones", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeColocaciones;
 	
 	@Column(name = "defensas_acertadas", nullable = false, columnDefinition = "integer default 0")
@@ -127,7 +142,7 @@ public class Jugador extends Person{
 	@Min(0)
 	private int defensasTotales;
 	
-	@Column(name = "porcentaje_defensas", scale = 2)
+	@Column(name = "porcentaje_defensas", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeDefensas;
 	
 	@Column(name = "bloqueos_acertados", nullable = false, columnDefinition = "integer default 0")
@@ -138,7 +153,7 @@ public class Jugador extends Person{
 	@Min(0)
 	private int bloqueosTotales;
 	
-	@Column(name = "porcentaje_bloqueos", scale = 2)
+	@Column(name = "porcentaje_bloqueos", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeBloqueos;
 	
 	@Column(name = "remates_acertados", nullable = false, columnDefinition = "integer default 0")
@@ -149,7 +164,7 @@ public class Jugador extends Person{
 	@Min(0)
 	private int rematesTotales;
 	
-	@Column(name = "porcentaje_remates", scale = 2)
+	@Column(name = "porcentaje_remates", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeRemates;
 	
 	@Column(name = "fintas_acertadas", nullable = false, columnDefinition = "integer default 0")
@@ -160,7 +175,7 @@ public class Jugador extends Person{
 	@Min(0)
 	private int fintasTotales;
 	
-	@Column(name = "porcentaje_fintas", scale = 2)
+	@Column(name = "porcentaje_fintas", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeFintas;
 	
 	@Column(name = "num_ataques_rapidos_acertados", nullable = false, columnDefinition = "integer default 0")
@@ -171,7 +186,7 @@ public class Jugador extends Person{
 	@Min(0)
 	private int numAtaquesRapidosTotales;
 	
-	@Column(name = "porcentaje_ataques_rapidos", scale = 2)
+	@Column(name = "porcentaje_ataques_rapidos", scale = 2, columnDefinition = "double default 0")
 	private double porcentajeAtaquesRapidos;
 	
 	@Column(name = "num_faltas_totales", nullable = false, columnDefinition = "integer default 0")
@@ -545,6 +560,31 @@ public class Jugador extends Person{
 
 	public void setNumRojas(int numRojas) {
 		this.numRojas = numRojas;
+	}
+
+	@Override
+	public String toString() {
+		return "Jugador [user=" + user + ", partidos=" + partidos + ", pruebas_condicion_fisica="
+				+ pruebas_condicion_fisica + ", personales=" + personales + ", capitan=" + capitan
+				+ ", realiza_ejercicios=" + realiza_ejercicios + ", privilegios=" + privilegios + ", dni=" + dni
+				+ ", direccion=" + direccion + ", email=" + email + ", localidad=" + localidad + ", fechaNacimiento="
+				+ fechaNacimiento + ", altura=" + altura + ", peso=" + peso + ", pesoIdeal=" + pesoIdeal + ", imc="
+				+ imc + ", numeroCamiseta=" + numeroCamiseta + ", posicionPrincipal=" + posicionPrincipal
+				+ ", posicionSecundaria=" + posicionSecundaria + ", estadoActual=" + estadoActual + ", saquesAcertados="
+				+ saquesAcertados + ", saquesTotales=" + saquesTotales + ", porcentajeSaques=" + porcentajeSaques
+				+ ", recepcionesAcertadas=" + recepcionesAcertadas + ", recepcionesTotales=" + recepcionesTotales
+				+ ", porcentajeRecepciones=" + porcentajeRecepciones + ", colocacionesAcertadas="
+				+ colocacionesAcertadas + ", colocacionesTotales=" + colocacionesTotales + ", porcentajeColocaciones="
+				+ porcentajeColocaciones + ", defensasAcertadas=" + defensasAcertadas + ", defensasTotales="
+				+ defensasTotales + ", porcentajeDefensas=" + porcentajeDefensas + ", bloqueosAcertados="
+				+ bloqueosAcertados + ", bloqueosTotales=" + bloqueosTotales + ", porcentajeBloqueos="
+				+ porcentajeBloqueos + ", rematesAcertados=" + rematesAcertados + ", rematesTotales=" + rematesTotales
+				+ ", porcentajeRemates=" + porcentajeRemates + ", fintasAcertadas=" + fintasAcertadas
+				+ ", fintasTotales=" + fintasTotales + ", porcentajeFintas=" + porcentajeFintas
+				+ ", numAtaquesRapidosAcertados=" + numAtaquesRapidosAcertados + ", numAtaquesRapidosTotales="
+				+ numAtaquesRapidosTotales + ", porcentajeAtaquesRapidos=" + porcentajeAtaquesRapidos
+				+ ", numFaltasTotales=" + numFaltasTotales + ", numAmarillas=" + numAmarillas + ", numRojas=" + numRojas
+				+ "]";
 	}
 	
 }
