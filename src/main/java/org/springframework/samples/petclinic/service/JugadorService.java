@@ -2,14 +2,15 @@ package org.springframework.samples.petclinic.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.enumerate.Posicion;
 import org.springframework.samples.petclinic.model.Jugador;
 
 public interface JugadorService {
 	
 	public abstract List<Jugador> findAll();
+	public abstract Optional<Jugador> findById(int id);
 	public abstract List<Jugador> findByFirstName(String name);
 	public abstract List<Jugador> findByPosicionPrincipal(Posicion position);
 	public abstract List<Jugador> findByFechaNacimientoBetweenOrderByFechaNacimiento(LocalDate firstDate, LocalDate secondDate);
@@ -28,6 +29,7 @@ public interface JugadorService {
 	public abstract List<Jugador> findByPorcentajeAtaquesRapidosLessThanEqual(double percent);
 	public abstract List<Jugador> findByNumFaltasTotalesGreaterThanEqual(int faults);
 	public abstract List<Jugador> findByEquipo(int equipo_id);
-	public abstract void saveJugador(Jugador player);
+	public abstract Jugador saveJugador(Jugador player);
 	public abstract List<Jugador> saveEstadisticasJugadores(List<Jugador> players);
+	public abstract int playerCount();
 }
