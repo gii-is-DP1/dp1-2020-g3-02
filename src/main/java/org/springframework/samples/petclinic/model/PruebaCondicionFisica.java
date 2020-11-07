@@ -20,7 +20,7 @@ public class PruebaCondicionFisica extends BaseEntity {
 	private Jugador jugador;
 	
 	@Column(name = "dato", nullable = false)
-	private String dato;
+	private Double dato;
 	
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
@@ -28,24 +28,24 @@ public class PruebaCondicionFisica extends BaseEntity {
 	@Column(name = "tipo_prueba", columnDefinition = "varchar(30) default 'saltoVertical' check (tipo_prueba in ('abdominal', 'flexibilidad','velocidad',"
 			+ "'saltoVertical','agilidad','resistencia','pulsacionesMinimas'))")
 	@Enumerated(value = EnumType.STRING)
-	private TipoPrueba tipo_prueba;
+	private TipoPrueba tipoPrueba;
 	
 	public PruebaCondicionFisica() {
 		
 	}
 
-	public PruebaCondicionFisica(String dato, LocalDate fecha, TipoPrueba tipo_prueba) {
+	public PruebaCondicionFisica(Double dato, LocalDate fecha, TipoPrueba tipo_prueba) {
 		super();
 		this.dato = dato;
 		this.fecha = fecha;
-		this.tipo_prueba = tipo_prueba;
+		this.tipoPrueba = tipo_prueba;
 	}
 
-	public String getDato() {
+	public Double getDato() {
 		return dato;
 	}
 
-	public void setDato(String dato) {
+	public void setDato(Double dato) {
 		this.dato = dato;
 	}
 
@@ -58,11 +58,11 @@ public class PruebaCondicionFisica extends BaseEntity {
 	}
 
 	public TipoPrueba getTipo_prueba() {
-		return tipo_prueba;
+		return tipoPrueba;
 	}
 
 	public void setTipo_prueba(TipoPrueba tipo_prueba) {
-		this.tipo_prueba = tipo_prueba;
+		this.tipoPrueba = tipo_prueba;
 	}
 
 	
