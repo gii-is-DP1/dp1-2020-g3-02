@@ -6,6 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,8 +26,8 @@ public class JugadorController {
 		
 	private static final Log LOG = LogFactory.getLog(JugadorController.class);
 	
-	private static final String VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM = "jugadorform";
-	private static final String VIEW_JUGADOR = "listadojugadores";
+	private static final String VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM = "JugadorForm";
+	private static final String VIEW_JUGADOR = "listadoJugadores";
 	
 	@Autowired
 	private JugadorService jugadorService;

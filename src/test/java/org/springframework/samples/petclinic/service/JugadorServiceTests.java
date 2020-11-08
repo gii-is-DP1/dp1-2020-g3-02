@@ -28,7 +28,7 @@ public class JugadorServiceTests {
 	@Test
 	public void testFindAllInitialData() {
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findAll());
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -48,12 +48,12 @@ public class JugadorServiceTests {
 	@Test
 	public void testCountWithInitialData() {
 		int count=jugadorService.playerCount();
-		assertEquals(count, 2);
+		assertEquals(count, 11);
 	}
 	
 	@Test
 	public void testFindByFirstNameInitialDataFinding() {
-		String name="Paco";
+		String name="Pepe";
 		List<Jugador> jugadores = new ArrayList<Jugador>(jugadorService.findByFirstName(name));
 		assertEquals(jugadores.size(), 1);
 	}
@@ -69,7 +69,7 @@ public class JugadorServiceTests {
 	public void testFindByPosicionPrincipalInitialDataFinding() {
 		Posicion position=Posicion.PUNTA;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPosicionPrincipal(position));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -84,7 +84,7 @@ public class JugadorServiceTests {
 		LocalDate firstDate = LocalDate.of(1998, 11, 5);
 		LocalDate secondDate = LocalDate.of(2004, 11, 7);
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByFechaNacimientoBetweenOrderByFechaNacimiento(firstDate, secondDate));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -99,7 +99,7 @@ public class JugadorServiceTests {
 	public void testFindByFechaNacimientoAfterOrderByFechaNacimientoInitialDataFinding() {
 		LocalDate date = LocalDate.of(2004, 11, 5);
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByFechaNacimientoAfterOrderByFechaNacimiento(date));
-		assertEquals(jugadores.size(), 1);
+		assertEquals(jugadores.size(), 10);
 	}
 	
 	@Test
@@ -113,7 +113,7 @@ public class JugadorServiceTests {
 	public void testFindByAlturaGreaterThanEqualInitialDataFinding() {
 		int height=160;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByAlturaGreaterThanEqual(height));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -127,7 +127,7 @@ public class JugadorServiceTests {
 	public void testFindByAlturaLessThanEqualInitialDataFinding() {
 		int height=176;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByAlturaLessThanEqual(height));
-		assertEquals(jugadores.size(), 1);
+		assertEquals(jugadores.size(), 10);
 	}
 	
 	@Test
@@ -141,7 +141,7 @@ public class JugadorServiceTests {
 	public void testFindByPesoGreaterThanEqualInitialDataFinding() {
 		int weight=75;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPesoGreaterThanEqual(weight));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -155,7 +155,7 @@ public class JugadorServiceTests {
 	public void testFindByPesoLessThanEqualInitialDataFinding() {
 		int weight=80;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPesoLessThanEqual(weight));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -170,7 +170,7 @@ public class JugadorServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeRecepcionesLessThanEqual(percent));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -186,7 +186,7 @@ public class JugadorServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeColocacionesLessThanEqual(percent));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -202,7 +202,7 @@ public class JugadorServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeDefensasLessThanEqual(percent));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -218,7 +218,7 @@ public class JugadorServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeBloqueosLessThanEqual(percent));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -234,7 +234,7 @@ public class JugadorServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeRematesLessThanEqual(percent));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -250,7 +250,7 @@ public class JugadorServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeFintasLessThanEqual(percent));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -266,7 +266,7 @@ public class JugadorServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeAtaquesRapidosLessThanEqual(percent));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test
@@ -281,7 +281,7 @@ public class JugadorServiceTests {
 	public void testFindByNumFaltasTotalesGreaterThanEqualInitialDataFinding() {
 		int faults=0;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByNumFaltasTotalesGreaterThanEqual(faults));
-		assertEquals(jugadores.size(), 2);
+		assertEquals(jugadores.size(), 11);
 	}
 	
 	@Test

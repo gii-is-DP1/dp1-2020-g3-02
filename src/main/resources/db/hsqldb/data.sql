@@ -97,8 +97,19 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
 
-INSERT INTO jugadores(id,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (1,'11111111A','Pepe','Clemente','1998-11-06','Calle Arrastre','arribaespaña@gmail.com','Villaviciosa',178,78,75,22.2);
-INSERT INTO jugadores(id,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (2,'11111112A','Paco','Tuerca','2004-11-06','Calle Demacracion','cataluñaindependiente@gmail.com','Guarroman',175,78,75,23.2);
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (1,'javgutfal','11111111A','Pepe','Clemente','1998-11-06','Calle Arrastre','arribaespaña@gmail.com','Villaviciosa',178,78,75,22.2);
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (2,'gonlalle','11111112A','Paco','Tuerca','2004-11-06','Calle Demacracion','cataluñaindependiente@gmail.com','Guarroman',175,78,75,23.2);
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (3,'javgutfal','11111113A','Paco','Tuerca','2004-11-06','Calle Demacracion','covidgod19@gmail.com','Guarroman',175,78,75,23.2);
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (4,'javgutfal','11111114A','Paco','Tuerca','2004-11-06','Calle Demacracion','arsatratra@gmail.com','Guarroman',175,78,75,23.2);
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (5,'javgutfal','11111115A','Paco','Tuerca','2004-11-06','Calle Demacracion','ojitoconeldato@gmail.com','Guarroman',175,78,75,23.2);
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (6,'javgutfal','11111116A','Paco','Tuerca','2004-11-06','Calle Demacracion','otakumuertoabonopamihuerto@gmail.com','Guarroman',175,78,75,23.2);
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (7,'javgutfal','11111117A','Paco','Tuerca','2004-11-06','Calle Demacracion','medijistequemecomprariasflores@gmail.com','Guarroman',175,78,75,23.2);
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (8,'javgutfal','11111118A','Paco','Tuerca','2004-11-06','Calle Demacracion','siespañafueraundonutmadridnoexistiria@gmail.com','Guarroman',175,78,75,23.2);
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (9,'javgutfal','11111119A','Paco','Tuerca','2004-11-06','Calle Demacracion','correoparacosasilegales52@gmail.com','Guarroman',175,78,75,23.2);
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (10,'javgutfal','11111110A','Paco','Tuerca','2004-11-06','Calle Demacracion','barpepepedidos@gmail.com','Guarroman',175,78,75,23.2);
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (11,'javgutfal','11111120A','Paco','Tuerca','2004-11-06','Calle Demacracion','sinomirasnoesta@gmail.com','Guarroman',175,78,75,23.2);
+
+
 
 INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (1,3,'2020-11-06','SALTOVERTICAL',1);
 INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (2,3,'2020-11-06','AGILIDAD',1);
