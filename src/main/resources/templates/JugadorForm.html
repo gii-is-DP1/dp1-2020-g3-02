@@ -26,55 +26,67 @@
 			</a>
 		</div>
 		<div class="py-3">
-			<form action="#" th:action="@{/jugador/jugadorform}" th:object="${jugador}" method="post">
+			<form action="#" th:action="@{/jugadores/addjugador}"
+				th:object="${jugador}" method="post">
 				<input type="hidden" th:field="*{id}"></input>
+				
 				<div class="row">
 					<div class="form-group col">
-						<input class="form-control" type="text" placeholder="Nombre" th:field="*{firstName}" th:value="${firstName}"></input>
+						<input class="form-control" type="text" placeholder="Nombre"
+							th:field="*{firstName}" th:value="${firstName}"></input>
 					</div>
 					<div class="form-group col">
-						<input class="form-control" type="text" placeholder="Apellidos" th:field="*{lastName}" th:value="${lastName}"></input>
+						<input class="form-control" type="text" placeholder="Apellidos"
+							th:field="*{lastName}" th:value="${lastName}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<input class="form-control" type="text" placeholder="DNI" th:field="*{dni}" th:value="${dni}"></input>
+					<input class="form-control" type="text" placeholder="DNI"
+						th:field="*{dni}" th:value="${dni}"></input>
 				</div>
 				<div class="form-group">
-					<input class="form-control" type="text" placeholder="Email" th:field="*{email}" th:value="${email}"></input>
+					<input class="form-control" type="text" placeholder="Email"
+						th:field="*{email}" th:value="${email}"></input>
 				</div>
 				<div class="row">
 					<div class="form-group col">
-						<input class="form-control" type="text" placeholder="Dirección" th:field="*{direccion}" th:value="${direccion}"></input>
+						<input class="form-control" type="text" placeholder="Dirección"
+							th:field="*{direccion}" th:value="${direccion}"></input>
 					</div>
 					<div class="form-group col">
-						<input class="form-control" type="text" placeholder="Localidad" th:field="*{localidad}" th:value="${localidad}"></input>
+						<input class="form-control" type="text" placeholder="Localidad"
+							th:field="*{localidad}" th:value="${localidad}"></input>
 					</div>
 				</div>
 				<div class="form-group">
-					<input class="form-control" type="date"
-						placeholder="Fecha de nacimiento" th:field="*{fechaNacimiento}" th:value="${fechaNacimiento}"></input>
+					<input class="form-control" type="text"
+						placeholder="Fecha de nacimiento" th:field="*{fechaNacimiento}"
+						th:value="${fechaNacimiento}"></input>
 				</div>
 				<div class="row">
 					<div class="form-group col">
-						<input class="form-control" type="number" placeholder="Altura(cm)" th:field="*{altura}" th:value="${altura}"></input>
+						<input class="form-control" type="number" placeholder="Altura(cm)"
+							th:field="*{altura}" th:value="${altura}"></input>
 					</div>
 					<div class="form-group col">
-						<input class="form-control" type="number" placeholder="Peso(Kg)" th:field="*{peso}" th:value="${peso}"></input>
+						<input class="form-control" type="number" placeholder="Peso(Kg)"
+							th:field="*{peso}" th:value="${peso}"></input>
 					</div>
 				</div>
-				<div class="row" th:if="${id == 0}">
+				<div class="row">
 					<div class="form-group col">
-						<input class="form-control" type="text"
-							placeholder="Nombre de Usuario" th:field="*{username}"></input>
+						<input class="form-control" type="text" placeholder="Nombre de Usuario" th:field="*{user.username}"></input>
 					</div>
 					<div class="form-group col">
-						<input class="form-control" type="text" placeholder="Contraseña" th:field="*{password}"></input>
+						<input class="form-control" type="text" placeholder="Contraseña"
+							th:field="*{user.password}"></input>
 					</div>
 				</div>
 				<div class="row">
 					<div class="form-group col">
 						<label>Mi posición principal es:</label> <select
-							class="form-control" th:field="*{posicionPrincipal}" th:selected="${posicionPrincipal}">
+							class="form-control" th:field="*{posicionPrincipal}"
+							th:selected="${posicionPrincipal}">
 							<option th:value="'PUNTA'" th:text="PUNTA"></option>
 							<option th:value="'OPUESTO'" th:text="OPUESTO"></option>
 							<option th:value="'COLOCADOR'" th:text="COLOCADOR"></option>
@@ -84,7 +96,8 @@
 					</div>
 					<div class="form-group col">
 						<label>Mi posición secundaria es:</label> <select
-							class="form-control" th:field="*{posicionSecundaria}" th:selected="${posicionSecundarial}">
+							class="form-control" th:field="*{posicionSecundaria}"
+							th:selected="${posicionSecundarial}">
 							<option th:value="'PUNTA'" th:text="PUNTA"></option>
 							<option th:value="'OPUESTO'" th:text="OPUESTO"></option>
 							<option th:value="'COLOCADOR'" th:text="COLOCADOR"></option>
@@ -100,8 +113,9 @@
 					class="btn btn-success btn-lg btn-block" type="submit"
 					value="Aceptar"></input>
 			</form>
-			<a href="#"> <input class="btn btn-outline-danger btn-lg btn-block"
-				type="button" value="Cancelar"></input>
+			<a href="#" th:href="@{/jugadores/showjugadores}"> <input
+				class="btn btn-outline-danger btn-lg btn-block" type="button"
+				value="Cancelar"></input>
 			</a>
 		</div>
 	</div>

@@ -66,7 +66,7 @@ public class Jugador extends Person{
 	private String localidad;
 	
 	@Column(name = "fecha_nacimiento", nullable = false, columnDefinition = "date default SYSDATE")
-	@DateTimeFormat(pattern = "yyyy/mm/dd")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaNacimiento;
 	
 	@Column(name = "altura", nullable = false)
@@ -564,9 +564,7 @@ public class Jugador extends Person{
 
 	@Override
 	public String toString() {
-		return "Jugador [user=" + user + ", partidos=" + partidos + ", pruebas_condicion_fisica="
-				+ pruebas_condicion_fisica + ", personales=" + personales + ", capitan=" + capitan
-				+ ", realiza_ejercicios=" + realiza_ejercicios + ", privilegios=" + privilegios + ", dni=" + dni
+		return "Jugador [user=" + user + ", dni=" + dni
 				+ ", direccion=" + direccion + ", email=" + email + ", localidad=" + localidad + ", fechaNacimiento="
 				+ fechaNacimiento + ", altura=" + altura + ", peso=" + peso + ", pesoIdeal=" + pesoIdeal + ", imc="
 				+ imc + ", numeroCamiseta=" + numeroCamiseta + ", posicionPrincipal=" + posicionPrincipal
