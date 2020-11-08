@@ -37,6 +37,9 @@ public class Equipo extends BaseEntity{
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	Set<Jugador> jugadores;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
+	private Set<Privilegio> privilegios;
+	
 	@Column(name="categoria", nullable = false)
 	private String categoria;
 	
