@@ -4,9 +4,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.controller.JugadorController;
 import org.springframework.samples.petclinic.enumerate.Posicion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.repository.JugadorRepository;
@@ -16,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("jugadorService")
 public class JugadorServiceImpl implements JugadorService {
+	
+	private static final Log LOG = LogFactory.getLog(JugadorController.class);
 	
 	@Autowired
 	@Qualifier("jugadorRepository")
@@ -152,6 +157,8 @@ public class JugadorServiceImpl implements JugadorService {
 	public Jugador saveJugador(Jugador player) throws DataAccessException {
 		
 		Jugador jugador = jugadorRepository.save(player);
+		
+		LOG.info(jugador.toString());
 		
 		userService.saveUser(player.getUser());
 		
