@@ -9,12 +9,17 @@ import javax.persistence.Table;
 import javax.persistence.ManyToOne;
 
 @Entity
-@Table(name = "realiza_ejercicio")
+@Table(name = "realiza_ejercicios")
 public class RealizaEjercicio extends BaseEntity{
 
 	@ManyToOne
 	@JoinColumn(name = "jugador_id")
 	private Jugador jugador;
+	
+	@ManyToOne
+	@JoinColumn(name = "ejercicio_individual_id")
+	private EjercicioIndividual ejercicio_individual;
+	
 	
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;

@@ -1,15 +1,22 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
 
 @Entity
-@Table(name = "ejercicio_individual")
+@Table(name = "ejercicios_individuales")
 public class EjercicioIndividual extends BaseEntity {
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ejercicio_individual")
+	private Set<RealizaEjercicio> realiza_ejercicios;
 	
 	@Column(name = "nombre", nullable = false)
 	private String nombre;
