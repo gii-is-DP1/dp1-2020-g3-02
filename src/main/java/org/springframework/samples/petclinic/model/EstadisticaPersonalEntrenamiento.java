@@ -111,13 +111,6 @@ public class EstadisticaPersonalEntrenamiento extends BaseEntity{
 	@Min(0)
 	private int numFaltasTotales;
 	
-	@Column(name = "num_amarillas", nullable = false, columnDefinition = "integer default 0")
-	@Min(0)
-	private int numAmarillas;
-	
-	@Column(name = "num_rojas", nullable = false, columnDefinition = "integer default 0")
-	@Min(0)
-	private int numRojas;
 	
 	@Column(name = "tiempo_calentamiento", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
@@ -134,8 +127,7 @@ public class EstadisticaPersonalEntrenamiento extends BaseEntity{
 			int rematesAcertados, int rematesTotales, double porcentajeRemates,
 			int fintasAcertadas, int fintasTotales, double porcentajeFintas,
 			int numAtaquesRapidosAcertados, int numAtaquesRapidosTotales,
-			double porcentajeAtaquesRapidos, int numFaltasTotales, int numAmarillas,
-			int numRojas, int tiempoCalentamiento) {
+			double porcentajeAtaquesRapidos, int numFaltasTotales, int tiempoCalentamiento) {
 		super();
 		this.saquesAcertados = saquesAcertados;
 		this.saquesTotales = saquesTotales;
@@ -162,8 +154,6 @@ public class EstadisticaPersonalEntrenamiento extends BaseEntity{
 		this.numAtaquesRapidosTotales = numAtaquesRapidosTotales;
 		this.porcentajeAtaquesRapidos = porcentajeAtaquesRapidos;
 		this.numFaltasTotales = numFaltasTotales;
-		this.numAmarillas = numAmarillas;
-		this.numRojas = numRojas;
 		this.tiempoCalentamiento = tiempoCalentamiento;
 	}
 
@@ -383,21 +373,7 @@ public class EstadisticaPersonalEntrenamiento extends BaseEntity{
 		this.numFaltasTotales = numFaltasTotales;
 	}
 
-	public int getNumAmarillas() {
-		return numAmarillas;
-	}
-
-	public void setNumAmarillas(int numAmarillas) {
-		this.numAmarillas = numAmarillas;
-	}
-
-	public int getNumRojas() {
-		return numRojas;
-	}
-
-	public void setNumRojas(int numRojas) {
-		this.numRojas = numRojas;
-	}
+	
 
 	public int getTiempoCalentamiento() {
 		return tiempoCalentamiento;
@@ -422,8 +398,8 @@ public class EstadisticaPersonalEntrenamiento extends BaseEntity{
 				+ ", fintasTotales=" + fintasTotales + ", porcentajeFintas=" + porcentajeFintas
 				+ ", numAtaquesRapidosAcertados=" + numAtaquesRapidosAcertados + ", numAtaquesRapidosTotales="
 				+ numAtaquesRapidosTotales + ", porcentajeAtaquesRapidos=" + porcentajeAtaquesRapidos
-				+ ", numFaltasTotales=" + numFaltasTotales + ", numAmarillas=" + numAmarillas + ", numRojas=" + numRojas
-				+ ", tiempoCalentamiento=" + tiempoCalentamiento + "]";
+				+ ", numFaltasTotales=" + numFaltasTotales +
+				", tiempoCalentamiento=" + tiempoCalentamiento + "]";
 	}
 	
 	
