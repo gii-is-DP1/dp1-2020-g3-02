@@ -1,0 +1,14 @@
+El nivel de acabado con respecto al primer sprint es en principio completo, está el documento con las descripciones del sistema, 
+historias de usuario,reglas de negocio, asignación aproximada de tareas por parejas...
+
+Por otro lado, ya hemos añadido a la aplicación todas las entidades del proyecto, así como la mayoría de relaciones, varios repositorios,
+3 services y test de los mismos y un controller (jugador controller) junto con sus dos vistas.
+
+Los requisitos del proyecto, historias de usuario, reglas de negocio etc, las hemos ido haciendo por parejas pero antes de ello nos hemos
+reunido un par de veces todos juntos, con una duración de unas 5 o 6 horas, para tomar decisiones y realizar todas estas tareas. 
+Además hemos ido usando la tabla de planificación de github para ir viendo que tareas quedaban por hacer e ir asignandonoslas. 
+
+En cuanto al tiempo dedicado, no sabiamos que había que controlarlo tan minuciosamente, pero además de esas 10 horas de trabajo conjunto
+cada uno ha ido trabajando en diferentes entidades y relaciones, y como viene indicado en la planificación de github algunos hemos empezado
+con repositorios y a realizar el controller y las vistas que se pedían en este primer sprint. Para el siguiente sprint usaremos Clockify.
+ 
