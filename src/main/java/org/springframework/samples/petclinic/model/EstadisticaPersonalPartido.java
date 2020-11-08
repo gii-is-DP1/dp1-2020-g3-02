@@ -17,8 +17,9 @@ import javax.validation.constraints.Min;
 @Table(name="estadisticasPersonalPartido",uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
 public class EstadisticaPersonalPartido extends BaseEntity{
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "estadisticaPersonalPartido")
-	private Set<Partido> partidos;
+	@ManyToOne
+	@JoinColumn(name= "partido_id")
+	private Partido partido;
 	
 	@ManyToOne
 	@JoinColumn(name = "jugador_id")
@@ -173,12 +174,14 @@ public class EstadisticaPersonalPartido extends BaseEntity{
 		this.tiempoCalentamiento = tiempoCalentamiento;
 	}
 
-	public Set<Partido> getPartidos() {
-		return partidos;
+	
+
+	public Partido getPartidos() {
+		return partido;
 	}
 
-	public void setPartidos(Set<Partido> partidos) {
-		this.partidos = partidos;
+	public void setPartidos(Partido partidos) {
+		this.partido = partidos;
 	}
 
 	public Jugador getJugador() {
@@ -415,7 +418,7 @@ public class EstadisticaPersonalPartido extends BaseEntity{
 
 	@Override
 	public String toString() {
-		return "EstadisticaPersonalPartido [partidos=" + partidos + ", jugador=" + jugador + ", saquesAcertados="
+		return "EstadisticaPersonalPartido [partido=" + partido + ", jugador=" + jugador + ", saquesAcertados="
 				+ saquesAcertados + ", saquesTotales=" + saquesTotales + ", porcentajeSaques=" + porcentajeSaques
 				+ ", recepcionesAcertadas=" + recepcionesAcertadas + ", recepcionesTotales=" + recepcionesTotales
 				+ ", porcentajeRecepciones=" + porcentajeRecepciones + ", colocacionesAcertadas="
