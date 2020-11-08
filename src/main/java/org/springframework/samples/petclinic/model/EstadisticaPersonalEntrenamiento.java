@@ -1,54 +1,24 @@
 package org.springframework.samples.petclinic.model;
 
-import java.time.LocalDate;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
-import org.springframework.samples.petclinic.enumerate.Sistema;
-
 @Entity
-@Table(name = "entrenamientos")
-public class Entrenamiento extends BaseEntity{
-	
-	@ManyToMany
-	@JoinTable(
-	  name = "realizaEntrenamiento", 
-	  joinColumns = @JoinColumn(name = "entrenamiento_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
-	Set<Jugador> jugadores;
-		
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
-	private Set<Personales> personales;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "entrenamiento")
-	private Set<EstadisticaPersonalEntrenamiento> estadisticas_personales_entrenamientos;
+@Table(name="estadisticasPersonalEntrenamiento")
+public class EstadisticaPersonalEntrenamiento extends BaseEntity{
 	
 	@ManyToOne
-	@JoinColumn(name="equipo_id", nullable = false)
-	private Equipo equipo;
+	@JoinColumn(name= "entrenamiento_id")
+	private Entrenamiento entrenamiento;
 	
-	@Column(name = "fecha", nullable = false)
-	private LocalDate fecha;
-	
-	@Column(name = "hora", nullable = false, length = 5)
-	private String hora;
-	
-	@Column(name = "sistema_juego", columnDefinition = "varchar(255) default 'CINCO_UNO' NOT NULL check (sistema_juego in ('COLOCADOR_GENERAL','CUATRO_DOS', 'CINCO_UNO', 'SEIS_DOS'))")
-	@Enumerated(value = EnumType.STRING)
-	private Sistema sistemaJuego;
-	
+	@ManyToOne
+	@JoinColumn(name = "jugador_id")
+	private Jugador jugador;
+
 	@Column(name = "saques_acertados", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
 	private int saquesAcertados;
@@ -141,72 +111,76 @@ public class Entrenamiento extends BaseEntity{
 	@Min(0)
 	private int numFaltasTotales;
 	
-
+	@Column(name = "num_amarillas", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int numAmarillas;
+	
+	@Column(name = "num_rojas", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int numRojas;
+	
 	@Column(name = "tiempo_calentamiento", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
 	private int tiempoCalentamiento;
-	
-	@Column(name = "tiempo_mejora_fisico", nullable = false, columnDefinition = "integer default 0")
-	@Min(0)
-	private int tiempoMejoraFisico;
-	
-	public Entrenamiento() {
+
+	public EstadisticaPersonalEntrenamiento() {
 	}
-	
-	public Entrenamiento(LocalDate fecha, String hora, Sistema sistema_juego) {
+
+	public EstadisticaPersonalEntrenamiento(int saquesAcertados,int saquesTotales, double porcentajeSaques,
+			int recepcionesAcertadas, int recepcionesTotales, double porcentajeRecepciones,
+			int colocacionesAcertadas,int colocacionesTotales, double porcentajeColocaciones,
+			int defensasAcertadas,int defensasTotales, double porcentajeDefensas,
+			int bloqueosAcertados, int bloqueosTotales, double porcentajeBloqueos,
+			int rematesAcertados, int rematesTotales, double porcentajeRemates,
+			int fintasAcertadas, int fintasTotales, double porcentajeFintas,
+			int numAtaquesRapidosAcertados, int numAtaquesRapidosTotales,
+			double porcentajeAtaquesRapidos, int numFaltasTotales, int numAmarillas,
+			int numRojas, int tiempoCalentamiento) {
 		super();
-		this.fecha = fecha;
-		this.hora = hora;
-		this.sistemaJuego = sistema_juego;
+		this.saquesAcertados = saquesAcertados;
+		this.saquesTotales = saquesTotales;
+		this.porcentajeSaques = porcentajeSaques;
+		this.recepcionesAcertadas = recepcionesAcertadas;
+		this.recepcionesTotales = recepcionesTotales;
+		this.porcentajeRecepciones = porcentajeRecepciones;
+		this.colocacionesAcertadas = colocacionesAcertadas;
+		this.colocacionesTotales = colocacionesTotales;
+		this.porcentajeColocaciones = porcentajeColocaciones;
+		this.defensasAcertadas = defensasAcertadas;
+		this.defensasTotales = defensasTotales;
+		this.porcentajeDefensas = porcentajeDefensas;
+		this.bloqueosAcertados = bloqueosAcertados;
+		this.bloqueosTotales = bloqueosTotales;
+		this.porcentajeBloqueos = porcentajeBloqueos;
+		this.rematesAcertados = rematesAcertados;
+		this.rematesTotales = rematesTotales;
+		this.porcentajeRemates = porcentajeRemates;
+		this.fintasAcertadas = fintasAcertadas;
+		this.fintasTotales = fintasTotales;
+		this.porcentajeFintas = porcentajeFintas;
+		this.numAtaquesRapidosAcertados = numAtaquesRapidosAcertados;
+		this.numAtaquesRapidosTotales = numAtaquesRapidosTotales;
+		this.porcentajeAtaquesRapidos = porcentajeAtaquesRapidos;
+		this.numFaltasTotales = numFaltasTotales;
+		this.numAmarillas = numAmarillas;
+		this.numRojas = numRojas;
+		this.tiempoCalentamiento = tiempoCalentamiento;
 	}
 
-	public Entrenamiento(LocalDate fecha, String hora, Sistema sistema_juego, int tiempo_calentamiento, int tiempo_mejora_fisico) {
-		super();
-		this.fecha = fecha;
-		this.hora = hora;
-		this.sistemaJuego = sistema_juego;
-		this.tiempoCalentamiento = tiempo_calentamiento;
-		this.tiempoMejoraFisico = tiempo_mejora_fisico;
+	public Entrenamiento getEntrenamiento() {
+		return entrenamiento;
 	}
 
-	public Set<Jugador> getJugadores() {
-		return jugadores;
+	public void setEntrenamiento(Entrenamiento entrenamiento) {
+		this.entrenamiento = entrenamiento;
 	}
 
-	public void setJugadores(Set<Jugador> jugadores) {
-		this.jugadores = jugadores;
+	public Jugador getJugador() {
+		return jugador;
 	}
 
-	public Equipo getEquipo() {
-		return equipo;
-	}
-
-	public void setEquipo(Equipo equipo) {
-		this.equipo = equipo;
-	}
-
-	public LocalDate getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
-	}
-
-	public String getHora() {
-		return hora;
-	}
-
-	public void setHora(String hora) {
-		this.hora = hora;
-	}
-
-	public Sistema getSistemaJuego() {
-		return sistemaJuego;
-	}
-
-	public void setSistemaJuego(Sistema sistemaJuego) {
-		this.sistemaJuego = sistemaJuego;
+	public void setJugador(Jugador jugador) {
+		this.jugador = jugador;
 	}
 
 	public int getSaquesAcertados() {
@@ -409,6 +383,22 @@ public class Entrenamiento extends BaseEntity{
 		this.numFaltasTotales = numFaltasTotales;
 	}
 
+	public int getNumAmarillas() {
+		return numAmarillas;
+	}
+
+	public void setNumAmarillas(int numAmarillas) {
+		this.numAmarillas = numAmarillas;
+	}
+
+	public int getNumRojas() {
+		return numRojas;
+	}
+
+	public void setNumRojas(int numRojas) {
+		this.numRojas = numRojas;
+	}
+
 	public int getTiempoCalentamiento() {
 		return tiempoCalentamiento;
 	}
@@ -417,22 +407,25 @@ public class Entrenamiento extends BaseEntity{
 		this.tiempoCalentamiento = tiempoCalentamiento;
 	}
 
-	public int getTiempoMejoraFisico() {
-		return tiempoMejoraFisico;
+	@Override
+	public String toString() {
+		return "EstadisticaPersonalEntrenamiento [entrenamiento=" + entrenamiento + ", jugador=" + jugador
+				+ ", saquesAcertados=" + saquesAcertados + ", saquesTotales=" + saquesTotales + ", porcentajeSaques="
+				+ porcentajeSaques + ", recepcionesAcertadas=" + recepcionesAcertadas + ", recepcionesTotales="
+				+ recepcionesTotales + ", porcentajeRecepciones=" + porcentajeRecepciones + ", colocacionesAcertadas="
+				+ colocacionesAcertadas + ", colocacionesTotales=" + colocacionesTotales + ", porcentajeColocaciones="
+				+ porcentajeColocaciones + ", defensasAcertadas=" + defensasAcertadas + ", defensasTotales="
+				+ defensasTotales + ", porcentajeDefensas=" + porcentajeDefensas + ", bloqueosAcertados="
+				+ bloqueosAcertados + ", bloqueosTotales=" + bloqueosTotales + ", porcentajeBloqueos="
+				+ porcentajeBloqueos + ", rematesAcertados=" + rematesAcertados + ", rematesTotales=" + rematesTotales
+				+ ", porcentajeRemates=" + porcentajeRemates + ", fintasAcertadas=" + fintasAcertadas
+				+ ", fintasTotales=" + fintasTotales + ", porcentajeFintas=" + porcentajeFintas
+				+ ", numAtaquesRapidosAcertados=" + numAtaquesRapidosAcertados + ", numAtaquesRapidosTotales="
+				+ numAtaquesRapidosTotales + ", porcentajeAtaquesRapidos=" + porcentajeAtaquesRapidos
+				+ ", numFaltasTotales=" + numFaltasTotales + ", numAmarillas=" + numAmarillas + ", numRojas=" + numRojas
+				+ ", tiempoCalentamiento=" + tiempoCalentamiento + "]";
 	}
-
-	public void setTiempoMejoraFisico(int tiempoMejoraFisico) {
-		this.tiempoMejoraFisico = tiempoMejoraFisico;
-	}
-
-	public Set<EstadisticaPersonalEntrenamiento> getEstadisticas_personales_entrenamientos() {
-		return estadisticas_personales_entrenamientos;
-	}
-
-	public void setEstadisticas_personales_entrenamientos(
-			Set<EstadisticaPersonalEntrenamiento> estadisticas_personales_entrenamientos) {
-		this.estadisticas_personales_entrenamientos = estadisticas_personales_entrenamientos;
-	}	
-
 	
+	
+
 }

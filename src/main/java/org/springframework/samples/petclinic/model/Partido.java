@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.model;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
@@ -23,6 +25,9 @@ public class Partido extends BaseEntity{
 	@JoinTable(name = "juegaPartido", joinColumns = @JoinColumn(name = "partido_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	Set<Jugador> jugadores;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "partido")
+	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
 	
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
@@ -578,5 +583,15 @@ public class Partido extends BaseEntity{
 	public void setTiempoCalentamiento(int tiempoCalentamiento) {
 		this.tiempoCalentamiento = tiempoCalentamiento;
 	}
+
+	public Set<EstadisticaPersonalPartido> getEstadisticas_personales_partidos() {
+		return estadisticas_personales_partidos;
+	}
+
+	public void setEstadisticas_personales_partidos(Set<EstadisticaPersonalPartido> estadisticas_personales_partidos) {
+		this.estadisticas_personales_partidos = estadisticas_personales_partidos;
+	}
+	
+	
 
 }

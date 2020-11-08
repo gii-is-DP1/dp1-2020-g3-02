@@ -40,6 +40,12 @@ public class Jugador extends Person{
 	private Set<PruebaCondicionFisica> pruebas_condicion_fisica;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	private Set<EstadisticaPersonalEntrenamiento> estadisticas_personales_entrenamientos;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
 	private Set<Personales> personales;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
@@ -560,6 +566,25 @@ public class Jugador extends Person{
 
 	public void setNumRojas(int numRojas) {
 		this.numRojas = numRojas;
+	}
+	
+	
+
+	public Set<EstadisticaPersonalEntrenamiento> getEstadisticas_personales_entrenamientos() {
+		return estadisticas_personales_entrenamientos;
+	}
+
+	public void setEstadisticas_personales_entrenamientos(
+			Set<EstadisticaPersonalEntrenamiento> estadisticas_personales_entrenamientos) {
+		this.estadisticas_personales_entrenamientos = estadisticas_personales_entrenamientos;
+	}
+
+	public Set<EstadisticaPersonalPartido> getEstadisticas_personales_partidos() {
+		return estadisticas_personales_partidos;
+	}
+
+	public void setEstadisticas_personales_partidos(Set<EstadisticaPersonalPartido> estadisticas_personales_partidos) {
+		this.estadisticas_personales_partidos = estadisticas_personales_partidos;
 	}
 
 	@Override
