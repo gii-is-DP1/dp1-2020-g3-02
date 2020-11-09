@@ -32,6 +32,12 @@ public class Jugador extends Person{
 	private User user;
 	
 	@ManyToMany
+	@JoinTable(name = "num_jugadores", joinColumns = @JoinColumn(name = "jugador_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "num_camiseta_id"))
+	Set<NumCamiseta> numCamisetas;
+
+	
+	@ManyToMany
 	@JoinTable(name = "juegaPartido", joinColumns = @JoinColumn(name = "jugador_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "partido_id"))
 	Set<Partido> partidos;
@@ -89,11 +95,6 @@ public class Jugador extends Person{
 	
 	@Column(name = "imc", nullable = false)
 	private double imc;
-	
-	@Column(name = "numero_camiseta")
-	@Max(99)
-	@Min(1)
-	private Integer numeroCamiseta;
 	
 	@Column(name = "posicion_principal", columnDefinition = "varchar(255) default 'PUNTA' check(posicion_principal in ('PUNTA','OPUESTO','COLOCADOR','CENTRAL','LIBERO'))")
 	@Enumerated(value = EnumType.STRING)
@@ -320,13 +321,6 @@ public class Jugador extends Person{
 		this.imc = imc;
 	}
 
-	public int getNumeroCamiseta() {
-		return numeroCamiseta;
-	}
-
-	public void setNumeroCamiseta(int numeroCamiseta) {
-		this.numeroCamiseta = numeroCamiseta;
-	}
 
 	public Posicion getPosicionPrincipal() {
 		return posicionPrincipal;
@@ -586,13 +580,23 @@ public class Jugador extends Person{
 	public void setEstadisticas_personales_partidos(Set<EstadisticaPersonalPartido> estadisticas_personales_partidos) {
 		this.estadisticas_personales_partidos = estadisticas_personales_partidos;
 	}
+	
+	
+
+	public Set<NumCamiseta> getNumCamisetas() {
+		return numCamisetas;
+	}
+
+	public void setNumCamisetas(Set<NumCamiseta> numCamisetas) {
+		this.numCamisetas = numCamisetas;
+	}
 
 	@Override
 	public String toString() {
 		return "Jugador [user=" + user + ", dni=" + dni
 				+ ", direccion=" + direccion + ", email=" + email + ", localidad=" + localidad + ", fechaNacimiento="
 				+ fechaNacimiento + ", altura=" + altura + ", peso=" + peso + ", pesoIdeal=" + pesoIdeal + ", imc="
-				+ imc + ", numeroCamiseta=" + numeroCamiseta + ", posicionPrincipal=" + posicionPrincipal
+				+ imc + ", posicionPrincipal=" + posicionPrincipal
 				+ ", posicionSecundaria=" + posicionSecundaria + ", estadoActual=" + estadoActual + ", saquesAcertados="
 				+ saquesAcertados + ", saquesTotales=" + saquesTotales + ", porcentajeSaques=" + porcentajeSaques
 				+ ", recepcionesAcertadas=" + recepcionesAcertadas + ", recepcionesTotales=" + recepcionesTotales
