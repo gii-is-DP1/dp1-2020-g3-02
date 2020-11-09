@@ -31,10 +31,10 @@ public class Jugador extends Person{
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	/*@ManyToMany
-	@JoinTable(name = "numCamisetas", joinColumns = @JoinColumn(name = "jugador_id"), 
+	@ManyToMany
+	@JoinTable(name = "num_jugadores", joinColumns = @JoinColumn(name = "jugador_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "num_camiseta_id"))
-	Set<NumCamiseta> numCamisetas;*/
+	Set<NumCamiseta> numCamisetas;
 
 	
 	@ManyToMany
@@ -583,13 +583,13 @@ public class Jugador extends Person{
 	
 	
 
-	/*public Set<NumCamiseta> getNumCamisetas() {
+	public Set<NumCamiseta> getNumCamisetas() {
 		return numCamisetas;
 	}
 
 	public void setNumCamisetas(Set<NumCamiseta> numCamisetas) {
 		this.numCamisetas = numCamisetas;
-	}*/
+	}
 
 	@Override
 	public String toString() {

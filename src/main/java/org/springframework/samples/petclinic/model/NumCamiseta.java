@@ -12,18 +12,18 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 @Entity
-@Table(name = "numCamisetas")
+@Table(name = "num_camisetas")
 public class NumCamiseta extends BaseEntity{
 
-	/*@ManyToMany
-	@JoinTable(name = "equipos", joinColumns = @JoinColumn(name = "num_camiseta_id"), 
+	@ManyToMany
+	@JoinTable(name = "numCamis", joinColumns = @JoinColumn(name = "num_camiseta_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "equipo_id"))
-	Set<Equipo> equipos;*/
+	Set<Equipo> equipos;
 	
-	/*@ManyToMany
-	@JoinTable(name = "jugador", joinColumns = @JoinColumn(name = "num_camiseta_id"), 
+	@ManyToMany
+	@JoinTable(name = "num_jugadores", joinColumns = @JoinColumn(name = "num_camiseta_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
-	Set<Jugador> jugadores;*/
+	Set<Jugador> jugadores;
 	
 	@Column(name = "numero")
 	@Max(99)
@@ -46,7 +46,7 @@ public class NumCamiseta extends BaseEntity{
 
 
 
-	/*public Set<Equipo> getEquipos() {
+	public Set<Equipo> getEquipos() {
 		return equipos;
 	}
 
@@ -54,11 +54,11 @@ public class NumCamiseta extends BaseEntity{
 
 	public void setEquipos(Set<Equipo> equipos) {
 		this.equipos = equipos;
-	}*/
+	}
 
 
 
-	/*public Set<Jugador> getJugadores() {
+	public Set<Jugador> getJugadores() {
 		return jugadores;
 	}
 
@@ -66,7 +66,7 @@ public class NumCamiseta extends BaseEntity{
 
 	public void setJugadores(Set<Jugador> jugadores) {
 		this.jugadores = jugadores;
-	}*/
+	}
 
 
 
@@ -84,8 +84,11 @@ public class NumCamiseta extends BaseEntity{
 
 	@Override
 	public String toString() {
-		return "NumCamiseta [ numero=" + numero + "]";
+		return "NumCamiseta [equipos=" + equipos + ", jugadores=" + jugadores + ", numero=" + numero + "]";
 	}
+
+
+
 	
 	
 }
