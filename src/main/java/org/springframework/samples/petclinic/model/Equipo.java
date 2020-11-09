@@ -32,6 +32,11 @@ public class Equipo extends BaseEntity{
 	@JoinColumn(name = "entrenador_id")
 	private Entrenador entrenador;
 	
+	/*@ManyToMany
+	@JoinTable(name = "numCamisetas", joinColumns = @JoinColumn(name = "equipo_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "num_camiseta_id"))
+	Set<NumCamiseta> numCamisetas;*/
+	
 	@ManyToMany
 	@JoinTable(name = "perteneceA", joinColumns = @JoinColumn(name = "equipo_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
