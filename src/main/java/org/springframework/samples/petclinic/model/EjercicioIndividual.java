@@ -61,6 +61,10 @@ public class EjercicioIndividual extends BaseEntity {
 		this.tipoEjercicio = tipo_ejercicio;
 	}
 
-
+	@Override
+	public String toString() {
+		return "EjercicioIndividual [realiza_ejercicios=" + realiza_ejercicios + ", nombre=" + nombre + ", descripcion="
+				+ descripcion + ", tipoEjercicio=" + tipoEjercicio + "]";
+	}
 
 }

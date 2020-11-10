@@ -21,6 +21,9 @@ public class EstadisticaPersonalPartido extends BaseEntity{
 	@JoinColumn(name = "jugador_id")
 	private Jugador jugador;
 	
+	@ManyToOne
+	@JoinColumn(name = "estadistico_id")
+	private Estadistico estadistico;
 
 	@Column(name = "saques_acertados", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
