@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,13 +24,11 @@ public class Estadistico extends Person{
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	//@OneToMany
-	//@JoinTable(name= "rellena", joinColumns = @JoinColumn(name = "estadistico_id"), inverseJoinColumns = @JoinColumn(name = "estadistica_personal_entrenamiento_id"))
-	//Set<EstadisticaPersonalEntrenamiento> estadisticas_personales_entrenamiento;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "estadistico")
+	Set<EstadisticaPersonalEntrenamiento> estadisticasPersonalEntrenamiento;
 	
-	//@OneToMany
-		//@JoinTable(name= "rellena", joinColumns = @JoinColumn(name = "estadistico_id"), inverseJoinColumns = @JoinColumn(name = "estadistica_personal_partido_id"))
-		//Set<EstadisticaPersonalPartido> estadisticas_personales_partido;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "estadistico")
+	Set<EstadisticaPersonalPartido> estadisticasPersonalPartido;
 
 	@Column(name= "email", nullable = false)
 	@Email
@@ -43,35 +42,42 @@ public class Estadistico extends Person{
 		
 	}
 	
-public Estadistico(String email, LocalDate fechaNacimiento) {
-	super();
+	public Estadistico(String email, LocalDate fechaNacimiento) {
+		super();
+	
+		this.email = email;
+		this.fechaNacimiento = fechaNacimiento;
+	}
 
-	this.email = email;
-	this.fechaNacimiento = fechaNacimiento;
-}
-
-public User getUser() {
-	return user;
-}
-
-public void setUser(User user) {
-	this.user = user;
-}
-
-public String getEmail() {
-	return email;
-}
-
-public void setEmail(String email) {
-	this.email = email;
-}
-
-public LocalDate getFechaNacimiento() {
-	return fechaNacimiento;
-}
-
-public void setFechaNacimiento(LocalDate fechaNacimiento) {
-	this.fechaNacimiento = fechaNacimiento;
-}
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public LocalDate getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+	
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+	
+	@Override
+	public String toString() {
+		return "Estadistico [user=" + user + ", estadisticas_personales_entrenamiento="
+				+ estadisticasPersonalEntrenamiento + ", estadisticas_personales_partido="
+				+ estadisticasPersonalPartido + ", email=" + email + ", fechaNacimiento=" + fechaNacimiento + "]";
+	}
 	
 }

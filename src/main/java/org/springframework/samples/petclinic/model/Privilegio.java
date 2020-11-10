@@ -58,5 +58,11 @@ public class Privilegio extends BaseEntity{
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+
+	@Override
+	public String toString() {
+		return "Privilegio [jugador=" + jugador + ", equipo=" + equipo + ", tipoPrivilegio=" + tipoPrivilegio
+				+ ", descripcion=" + descripcion + "]";
+	}
 	
 }
