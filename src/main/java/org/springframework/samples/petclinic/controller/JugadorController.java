@@ -6,7 +6,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Jugador;
-import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +41,7 @@ public class JugadorController {
 	
 	
 	@GetMapping("/jugadorform")
-	public String redirectJugadorForm(@RequestParam(name="id",required=false) int id, Model model) {
+	public String redirectJugadorForm(@RequestParam(name="id",required=false) Integer id, Model model) {
 		Optional<Jugador> jugador = Optional.of(new Jugador());
 		if(id != 0) {
 			jugador = jugadorService.findById(id);
