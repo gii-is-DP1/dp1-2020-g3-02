@@ -32,6 +32,9 @@ public class Partido extends BaseEntity{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "partido")
 	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "partido")
+	private Set<Sustituciones> sustituciones;
+	
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
 	
