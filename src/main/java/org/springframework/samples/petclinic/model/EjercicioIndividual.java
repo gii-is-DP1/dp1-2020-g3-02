@@ -27,7 +27,7 @@ public class EjercicioIndividual extends BaseEntity {
 	@Column(name = "descripcion", nullable = false)
 	private String descripcion;
 	
-	@Column(name = "tipo_ejercicio", columnDefinition = "varchar(30) not null check (tipo_ejercicio in ('ataque','recepción','colocación','saque','bloqueo','defensa','ataqueRápido'))")
+	@Column(name = "tipo_ejercicio", nullable = false)
 	private TipoEjercicio tipoEjercicio;
 	
 	public EjercicioIndividual() {

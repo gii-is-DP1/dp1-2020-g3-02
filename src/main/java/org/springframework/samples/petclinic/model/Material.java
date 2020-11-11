@@ -22,7 +22,7 @@ public class Material extends BaseEntity{
 	@Column(name = "descripcion", nullable = false, length = 280)
 	private String descripcion;
 
-	@Column(name = "tipo", columnDefinition = "varchar(255) check('BALONMEDICINAL','BALONDEJUEGO','RED','POSTE','CONOBAJO','CONOMEDIO','CONOALTO','CUERDA','CINTA')")
+	@Column(name = "tipo")
 	@Enumerated(value = EnumType.STRING)
 	private TipoMaterial tipo;
 

@@ -99,15 +99,15 @@ public class Jugador extends Person{
 	@Column(name = "imc", nullable = false)
 	private double imc;
 	
-	@Column(name = "posicion_principal", columnDefinition = "varchar(255) default 'PUNTA' check(posicion_principal in ('PUNTA','OPUESTO','COLOCADOR','CENTRAL','LIBERO'))")
+	@Column(name = "posicion_principal", columnDefinition = "varchar(255) default 'PUNTA'")
 	@Enumerated(value = EnumType.STRING)
 	private Posicion posicionPrincipal;
 	
-	@Column(name = "posicion_secundaria", columnDefinition = "varchar(255) default 'PUNTA' check(posicion_secundaria in ('PUNTA','OPUESTO','COLOCADOR','CENTRAL','LIBERO'))")
+	@Column(name = "posicion_secundaria", columnDefinition = "varchar(255) default 'PUNTA'")
 	@Enumerated(value = EnumType.STRING)
 	private Posicion posicionSecundaria;
 	
-	@Column(name = "estado_actual", columnDefinition = "varchar(255) default 'EN_FORMA'check (estado_actual in ('EN_FORMA', 'LESIONADO'))")
+	@Column(name = "estado_actual", columnDefinition = "varchar(255) default 'EN_FORMA'")
 	@Enumerated(value = EnumType.STRING)
 	private Estado estadoActual;
 	

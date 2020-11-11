@@ -52,7 +52,7 @@ public class Equipo extends BaseEntity{
 	@Column(name="categoria", nullable = false, columnDefinition = "varchar(255) unique")
 	private String categoria;
 	
-	@Column(name = "sistema_juego", columnDefinition = "varchar(255) default 'CINCO_UNO' NOT NULL check (sistema_juego in ('COLOCADOR_GENERAL','CUATRO_DOS', 'CINCO_UNO', 'SEIS_DOS'))")
+	@Column(name = "sistema_juego", columnDefinition = "varchar(255) default 'CINCO_UNO' NOT NULL")
 	@Enumerated(value = EnumType.STRING)
 	private Sistema sistemaJuego;
 	
@@ -163,8 +163,8 @@ public class Equipo extends BaseEntity{
 	@Column(name = "liga", nullable = false, columnDefinition = "varchar(250) default 'IMD'")
 	private String liga;
 	
-	@Column(name = "federacion", columnDefinition = "varchar(30) default 'Si' not null check (federacion in ('Si', 'No'))")
-	private String federacion;
+	@Column(name = "federacion")
+	private boolean federacion;
 	
 	public Equipo() {
 	}
