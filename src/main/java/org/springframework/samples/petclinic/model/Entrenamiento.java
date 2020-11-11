@@ -48,7 +48,7 @@ public class Entrenamiento extends BaseEntity{
 	@Column(name = "hora", nullable = false, length = 5)
 	private String hora;
 	
-	@Column(name = "sistema_juego", columnDefinition = "varchar(255) default 'CINCO_UNO' NOT NULL check (sistema_juego in ('COLOCADOR_GENERAL','CUATRO_DOS', 'CINCO_UNO', 'SEIS_DOS'))")
+	@Column(name = "sistema_juego", nullable = false, columnDefinition = "varchar(255) default 'CINCO_UNO'")
 	@Enumerated(value = EnumType.STRING)
 	private Sistema sistemaJuego;
 	

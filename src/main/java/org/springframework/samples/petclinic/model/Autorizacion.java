@@ -21,11 +21,11 @@ public class Autorizacion extends BaseEntity{
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
 
-	@Column(name = "tipo", columnDefinition = "varchar(255) check('TRANSPORTE', 'USOIMAGEN','RESPONSABILIDADLESION','EXCURSIONES')")
+	@Column(name = "tipo")
 	@Enumerated(value = EnumType.STRING)
 	private TipoAutorizacion tipo;
 
-	@Column(name = "responsable", columnDefinition = "varchar(255) check('MADRE','PADRE','TUTORLEGAL')")
+	@Column(name = "responsable")
 	@Enumerated(value = EnumType.STRING)
 	private TipoResponsable responsable;
 
