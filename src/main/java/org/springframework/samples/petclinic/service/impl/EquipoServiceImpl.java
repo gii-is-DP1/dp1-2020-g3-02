@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +18,17 @@ public class EquipoServiceImpl implements EquipoService {
 	@Autowired
 	@Qualifier("equipoRepository")
 	private EquipoRepository equipoRepository;
-
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<Equipo> findById(int id) {
+		return equipoRepository.findById(id);
+	}
+	
+	public List<Equipo> findAll(){
+		return equipoRepository.findAll();
+	}
+	
 	@Override
 	@Transactional(readOnly = true)
 	public Equipo findByCategoria(String category) {
@@ -92,9 +103,11 @@ public class EquipoServiceImpl implements EquipoService {
 
 	@Override
 	@Transactional
-	public void saveTeam(Equipo team) {
+	public Equipo saveTeam(Equipo team) {
 		
-		equipoRepository.save(team);
+		Equipo equipo = equipoRepository.save(team);
+		
+		return equipo;
 
 	}
 
