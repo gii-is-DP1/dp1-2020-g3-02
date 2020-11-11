@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -20,6 +22,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.converter.PosicionConverter;
 import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.Posicion;
 
@@ -100,7 +103,7 @@ public class Jugador extends Person{
 	private double imc;
 	
 	@Column(name = "posicion_principal", columnDefinition = "varchar(255) default 'PUNTA'")
-	@Enumerated(value = EnumType.STRING)
+	@Convert(converter = PosicionConverter.class)
 	private Posicion posicionPrincipal;
 	
 	@Column(name = "posicion_secundaria", columnDefinition = "varchar(255) default 'PUNTA'")
