@@ -296,7 +296,7 @@ public class JugadorServiceTests {
 		Jugador jugador = new Jugador("22222222B","Calle Alcafran 12","aquinohayquienduerma@gmail.com","Guarroman",LocalDate.of(1997, 8, 19),173,75,Posicion.COLOCADOR,Posicion.OPUESTO);
 		jugador.setFirstName("Javier");
 		jugador.setLastName("Gutierrez Falcon");
-		jugador.setPeso_ideal(70);
+		jugador.setPesoIdeal(70);
 		jugador.setImc(22.5);
 		jugador.setUser(new User());
 		jugador.getUser().setUsername("Superjavi");

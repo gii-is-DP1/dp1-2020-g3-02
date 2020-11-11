@@ -15,8 +15,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.samples.petclinic.enumerate.Sistema;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "equipos")
 public class Equipo extends BaseEntity{
@@ -40,7 +44,7 @@ public class Equipo extends BaseEntity{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
 	private Set<Privilegio> privilegios;
 	
-	@Column(name="categoria", nullable = false)
+	@Column(name="categoria", nullable = false, columnDefinition = "varchar(255) unique")
 	private String categoria;
 	
 	@Column(name = "sistema_juego", columnDefinition = "varchar(255) default 'CINCO_UNO' NOT NULL check (sistema_juego in ('COLOCADOR_GENERAL','CUATRO_DOS', 'CINCO_UNO', 'SEIS_DOS'))")
@@ -151,8 +155,7 @@ public class Equipo extends BaseEntity{
 	@Min(1)
 	private int posicionLiga;
 	
-	@Column(name = "liga", nullable = false, columnDefinition = "varchar(50) default 'IMD'")
-	@Min(1)
+	@Column(name = "liga", nullable = false, columnDefinition = "varchar(250) default 'IMD'")
 	private String liga;
 	
 	@Column(name = "federacion", columnDefinition = "varchar(30) default 'Si' not null check (federacion in ('Si', 'No'))")
@@ -168,277 +171,6 @@ public class Equipo extends BaseEntity{
 		this.sistemaJuego = sistema_juego;
 	}
 
-	public Set<Entrenamiento> getEntrenamientos() {
-		return entrenamientos;
-	}
-
-	public void setEntrenamientos(Set<Entrenamiento> entrenamientos) {
-		this.entrenamientos = entrenamientos;
-	}
-
-	public Set<Jugador> getJugadores() {
-		return jugadores;
-	}
-
-	public void setJugadores(Set<Jugador> jugadores) {
-		this.jugadores = jugadores;
-	}
-
-	public String getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
-
-	public Sistema getSistemaJuego() {
-		return sistemaJuego;
-	}
-
-	public void setSistemaJuego(Sistema sistemaJuego) {
-		this.sistemaJuego = sistemaJuego;
-	}
-
-	public int getSaquesAcertados() {
-		return saquesAcertados;
-	}
-
-	public void setSaquesAcertados(int saquesAcertados) {
-		this.saquesAcertados = saquesAcertados;
-	}
-
-	public int getSaquesTotales() {
-		return saquesTotales;
-	}
-
-	public void setSaquesTotales(int saquesTotales) {
-		this.saquesTotales = saquesTotales;
-	}
-
-	public double getPorcentajeSaques() {
-		return porcentajeSaques;
-	}
-
-	public void setPorcentajeSaques(double porcentajeSaques) {
-		this.porcentajeSaques = porcentajeSaques;
-	}
-
-	public int getRecepcionesAcertadas() {
-		return recepcionesAcertadas;
-	}
-
-	public void setRecepcionesAcertadas(int recepcionesAcertadas) {
-		this.recepcionesAcertadas = recepcionesAcertadas;
-	}
-
-	public int getRecepcionesTotales() {
-		return recepcionesTotales;
-	}
-
-	public void setRecepcionesTotales(int recepcionesTotales) {
-		this.recepcionesTotales = recepcionesTotales;
-	}
-
-	public double getPorcentajeRecepciones() {
-		return porcentajeRecepciones;
-	}
-
-	public void setPorcentajeRecepciones(double porcentajeRecepciones) {
-		this.porcentajeRecepciones = porcentajeRecepciones;
-	}
-
-	public int getColocacionesAcertadas() {
-		return colocacionesAcertadas;
-	}
-
-	public void setColocacionesAcertadas(int colocacionesAcertadas) {
-		this.colocacionesAcertadas = colocacionesAcertadas;
-	}
-
-	public int getColocacionesTotales() {
-		return colocacionesTotales;
-	}
-
-	public void setColocacionesTotales(int colocacionesTotales) {
-		this.colocacionesTotales = colocacionesTotales;
-	}
-
-	public double getPorcentajeColocaciones() {
-		return porcentajeColocaciones;
-	}
-
-	public void setPorcentajeColocaciones(double porcentajeColocaciones) {
-		this.porcentajeColocaciones = porcentajeColocaciones;
-	}
-
-	public int getDefensasAcertadas() {
-		return defensasAcertadas;
-	}
-
-	public void setDefensasAcertadas(int defensasAcertadas) {
-		this.defensasAcertadas = defensasAcertadas;
-	}
-
-	public int getDefensasTotales() {
-		return defensasTotales;
-	}
-
-	public void setDefensasTotales(int defensasTotales) {
-		this.defensasTotales = defensasTotales;
-	}
-
-	public double getPorcentajeDefensas() {
-		return porcentajeDefensas;
-	}
-
-	public void setPorcentajeDefensas(double porcentajeDefensas) {
-		this.porcentajeDefensas = porcentajeDefensas;
-	}
-
-	public int getBloqueosAcertados() {
-		return bloqueosAcertados;
-	}
-
-	public void setBloqueosAcertados(int bloqueosAcertados) {
-		this.bloqueosAcertados = bloqueosAcertados;
-	}
-
-	public int getBloqueosTotales() {
-		return bloqueosTotales;
-	}
-
-	public void setBloqueosTotales(int bloqueosTotales) {
-		this.bloqueosTotales = bloqueosTotales;
-	}
-
-	public double getPorcentajeBloqueos() {
-		return porcentajeBloqueos;
-	}
-
-	public void setPorcentajeBloqueos(double porcentajeBloqueos) {
-		this.porcentajeBloqueos = porcentajeBloqueos;
-	}
-
-	public int getRematesAcertados() {
-		return rematesAcertados;
-	}
-
-	public void setRematesAcertados(int rematesAcertados) {
-		this.rematesAcertados = rematesAcertados;
-	}
-
-	public int getRematesTotales() {
-		return rematesTotales;
-	}
-
-	public void setRematesTotales(int rematesTotales) {
-		this.rematesTotales = rematesTotales;
-	}
-
-	public double getPorcentajeRemates() {
-		return porcentajeRemates;
-	}
-
-	public void setPorcentajeRemates(double porcentajeRemates) {
-		this.porcentajeRemates = porcentajeRemates;
-	}
-
-	public int getFintasAcertadas() {
-		return fintasAcertadas;
-	}
-
-	public void setFintasAcertadas(int fintasAcertadas) {
-		this.fintasAcertadas = fintasAcertadas;
-	}
-
-	public int getFintasTotales() {
-		return fintasTotales;
-	}
-
-	public void setFintasTotales(int fintasTotales) {
-		this.fintasTotales = fintasTotales;
-	}
-
-	public double getPorcentajeFintas() {
-		return porcentajeFintas;
-	}
-
-	public void setPorcentajeFintas(double porcentajeFintas) {
-		this.porcentajeFintas = porcentajeFintas;
-	}
-
-	public int getNumAtaquesRapidosAcertados() {
-		return numAtaquesRapidosAcertados;
-	}
-
-	public void setNumAtaquesRapidosAcertados(int numAtaquesRapidosAcertados) {
-		this.numAtaquesRapidosAcertados = numAtaquesRapidosAcertados;
-	}
-
-	public int getNumAtaquesRapidosTotales() {
-		return numAtaquesRapidosTotales;
-	}
-
-	public void setNumAtaquesRapidosTotales(int numAtaquesRapidosTotales) {
-		this.numAtaquesRapidosTotales = numAtaquesRapidosTotales;
-	}
-
-	public double getPorcentajeAtaquesRapidos() {
-		return porcentajeAtaquesRapidos;
-	}
-
-	public void setPorcentajeAtaquesRapidos(double porcentajeAtaquesRapidos) {
-		this.porcentajeAtaquesRapidos = porcentajeAtaquesRapidos;
-	}
-
-	public int getNumFaltasTotales() {
-		return numFaltasTotales;
-	}
-
-	public void setNumFaltasTotales(int numFaltasTotales) {
-		this.numFaltasTotales = numFaltasTotales;
-	}
-
-	public int getNumAmarillas() {
-		return numAmarillas;
-	}
-
-	public void setNumAmarillas(int numAmarillas) {
-		this.numAmarillas = numAmarillas;
-	}
-
-	public int getNumRojas() {
-		return numRojas;
-	}
-
-	public void setNumRojas(int numRojas) {
-		this.numRojas = numRojas;
-	}
-
-	public int getPosicionLiga() {
-		return posicionLiga;
-	}
-
-	public void setPosicionLiga(int posicionLiga) {
-		this.posicionLiga = posicionLiga;
-	}
-
-	public String getLiga() {
-		return liga;
-	}
-
-	public void setLiga(String liga) {
-		this.liga = liga;
-	}
-
-	public String getFederacion() {
-		return federacion;
-	}
-
-	public void setFederacion(String federacion) {
-		this.federacion = federacion;
-	}
 
 	
 }

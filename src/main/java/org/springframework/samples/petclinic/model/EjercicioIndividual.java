@@ -11,6 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "ejercicios_individuales")
 public class EjercicioIndividual extends BaseEntity {
@@ -37,30 +40,5 @@ public class EjercicioIndividual extends BaseEntity {
 		this.tipoEjercicio = tipo_ejercicio;
 	}
 
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public TipoEjercicio getTipo_ejercicio() {
-		return tipoEjercicio;
-	}
-
-	public void setTipo_ejercicio(TipoEjercicio tipo_ejercicio) {
-		this.tipoEjercicio = tipo_ejercicio;
-	}
-
-
-
+	
 }

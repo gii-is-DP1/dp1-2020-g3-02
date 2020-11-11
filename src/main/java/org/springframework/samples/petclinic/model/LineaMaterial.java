@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "linea_material")
 public class LineaMaterial extends BaseEntity {
@@ -20,11 +23,4 @@ public class LineaMaterial extends BaseEntity {
 		this.cantidad = cantidad;
 	}
 
-	public int getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(int cantidad) {
-		this.cantidad = cantidad;
-	}
 }

@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "pruebas_condicion_fisica")
 public class PruebaCondicionFisica extends BaseEntity {
@@ -41,31 +44,5 @@ public class PruebaCondicionFisica extends BaseEntity {
 		this.tipoPrueba = tipo_prueba;
 	}
 
-	public Double getDato() {
-		return dato;
-	}
-
-	public void setDato(Double dato) {
-		this.dato = dato;
-	}
-
-	public LocalDate getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
-	}
-
-	public TipoPrueba getTipo_prueba() {
-		return tipoPrueba;
-	}
-
-	public void setTipo_prueba(TipoPrueba tipo_prueba) {
-		this.tipoPrueba = tipo_prueba;
-	}
-
 	
-
-
 }

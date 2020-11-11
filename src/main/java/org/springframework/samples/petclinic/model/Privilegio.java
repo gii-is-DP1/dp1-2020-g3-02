@@ -14,6 +14,9 @@ import javax.persistence.Table;
 
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name="privilegios")
 public class Privilegio extends BaseEntity{
@@ -43,20 +46,5 @@ public class Privilegio extends BaseEntity{
 		this.descripcion = descripcion;
 	}
 	
-	public TipoPrivilegio getTipo_Privilegio() {
-		return tipoPrivilegio;
-	}
-	
-	public void setTipo_Privilegio(TipoPrivilegio tipo_privilegio) {
-		this.tipoPrivilegio = tipo_privilegio;
-	}
-	
-	public String getDescripcion() {
-		return descripcion;
-	}
-	
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
 	
 }

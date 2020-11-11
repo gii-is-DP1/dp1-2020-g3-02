@@ -15,6 +15,9 @@ import javax.validation.constraints.Min;
 
 import org.springframework.samples.petclinic.enumerate.Actitud;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "capitanes")
 public class Capitan extends BaseEntity {
@@ -40,17 +43,5 @@ public class Capitan extends BaseEntity {
 		this.actitud = actitud;
 	}
 	public Capitan() {}
-	public int getNtiemposmuertos() {
-		return ntiemposmuertos;
-	}
-	public void setNtiemposmuertos(int ntiemposmuertos) {
-		this.ntiemposmuertos = ntiemposmuertos;
-	}
-	public Actitud getActitud() {
-		return actitud;
-	}
-	public void setActitud(Actitud actitud) {
-		this.actitud = actitud;
-	}
 
 }

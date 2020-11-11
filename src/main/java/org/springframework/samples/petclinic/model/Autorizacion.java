@@ -11,6 +11,9 @@ import javax.persistence.Table;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoResponsable;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "autorizaciones")
 public class Autorizacion extends BaseEntity{
@@ -33,23 +36,5 @@ public class Autorizacion extends BaseEntity{
 		this.responsable = responsable;
 	}
 	public Autorizacion() {}
-	public LocalDate getFecha() {
-		return fecha;
-	}
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
-	}
-	public TipoAutorizacion getTipo() {
-		return tipo;
-	}
-	public void setTipo(TipoAutorizacion tipo) {
-		this.tipo = tipo;
-	}
-	public TipoResponsable getResponsable() {
-		return responsable;
-	}
-	public void setResponsable(TipoResponsable responsable) {
-		this.responsable = responsable;
-	}
-
+	
 }
