@@ -33,7 +33,7 @@ public class Capitan extends BaseEntity {
 	@Min(0)
 	private int ntiemposmuertos;
 
-	@Column(name = "actitud", columnDefinition = "varchar(255) check(actitud in ('POSITIVA,NEGATIVA'))")
+	@Column(name = "actitud")
 	@Enumerated(value = EnumType.STRING)
 	private Actitud actitud;
 
