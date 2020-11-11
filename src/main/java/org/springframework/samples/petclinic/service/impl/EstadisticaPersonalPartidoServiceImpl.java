@@ -80,10 +80,10 @@ public class EstadisticaPersonalPartidoServiceImpl implements EstadisticaPersona
 		return estadisticaPersonalPartidoRepository.findByJugador(partido_id);
 	}
 	
-	/*@Override
+	@Override
 	public List<EstadisticaPersonalPartido> findByJugadorPartido(int jugador_id, int partido_id) {
 		return estadisticaPersonalPartidoRepository.findByJugadorPartido(jugador_id, partido_id);
-	}*/
+	}
 
 	@Override
 	public EstadisticaPersonalPartido saveEstadisticaPersonalPartido(EstadisticaPersonalPartido statistic) {

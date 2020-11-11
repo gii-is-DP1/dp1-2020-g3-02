@@ -98,7 +98,7 @@
 						<label>Mi posición principal es:</label> 
 					 	<input class="form-control" type="text" placeholder="posicion"
 							th:field="*{posicionPrincipal}" th:value="${posicionPrincipal}"></input> 
-			<!--  		<select
+			 <!--		<select
 							class="form-control" th:field="*{posicionPrincipal}"
 							th:selected="${posicionPrincipal}">
 							<option th:value="'PUNTA'" th:text="PUNTA"></option>
@@ -127,10 +127,9 @@
 					class="btn btn-outline-success btn-lg btn-block" type="submit"
 					value="Aceptar"></input>
 			</form>
-			<a href="#" th:href="@{/jugadores/showjugadores}"> <input
+			 <input onclick="location.href='/jugadores/showjugadores'"
 				class="btn btn-outline-danger btn-lg btn-block mt-2" type="button"
 				value="Cancelar"></input>
-			</a>
 		</div>
 	</div>
 
