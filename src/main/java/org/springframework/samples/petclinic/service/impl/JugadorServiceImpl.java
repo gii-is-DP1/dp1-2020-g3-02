@@ -155,8 +155,20 @@ public class JugadorServiceImpl implements JugadorService {
 	@Override
 	@Transactional
 	public Jugador saveJugador(Jugador player) throws DataAccessException {
+		LOG.info("ALTURA DEL JUGADOR INSERTADO: "+player.getAltura());
+		LOG.info("PESO DEL JUGADOR INSERTADO: "+player.getPeso());
 		
-		Jugador jugador = jugadorRepository.save(player);
+		player.setImc(10000.*player.getPeso()/(player.getAltura()*player.getAltura()));
+		LOG.info("IMC DEL JUGADOR INSERTADO: "+player.getImc());
+		
+		/** INSERCCION DE LOS VALORES DEL PESO IDEAL. SIEMPRE TE DA EL PESO QUE DEBES OBTENER MAS CERCANO DESDE TU PESO ACTUAL, EN CASO DE ESTAR EN NORMOPESO, EL PESO IDEAL ES EL PESO ACTUAL*/
+		if(player.getImc()>24.9) player.setPesoIdeal((int) Math.floor(24.9*player.getAltura()*player.getAltura()/10000.));
+		else if(player.getImc()<18.5) player.setPesoIdeal((int) Math.ceil(18.5*player.getAltura()*player.getAltura()/10000.));
+		else player.setPesoIdeal(player.getPeso());
+			
+		LOG.info("PESO IDEAL DEL JUGADOR INSERTADO: "+player.getPesoIdeal());
+		
+		Jugador jugador=jugadorRepository.save(player);
 		
 		LOG.info(jugador.toString());
 		
