@@ -16,6 +16,9 @@ import javax.validation.constraints.Email;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name="estadisticos", uniqueConstraints = @UniqueConstraint(columnNames = { "email", }))
 public class Estadistico extends Person{
@@ -42,37 +45,13 @@ public class Estadistico extends Person{
 		
 	}
 	
-	public Estadistico(String email, LocalDate fechaNacimiento) {
-		super();
-	
-		this.email = email;
-		this.fechaNacimiento = fechaNacimiento;
-	}
 
-	public User getUser() {
-		return user;
-	}
-	
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public LocalDate getFechaNacimiento() {
-		return fechaNacimiento;
-	}
-	
-	public void setFechaNacimiento(LocalDate fechaNacimiento) {
-		this.fechaNacimiento = fechaNacimiento;
-	}
-	
+public Estadistico(String email, LocalDate fechaNacimiento) {
+	super();
+
+	this.email = email;
+	this.fechaNacimiento = fechaNacimiento;
+}	
 	@Override
 	public String toString() {
 		return "Estadistico [user=" + user + ", estadisticas_personales_entrenamiento="

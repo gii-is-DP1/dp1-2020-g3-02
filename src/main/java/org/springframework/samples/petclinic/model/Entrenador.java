@@ -14,6 +14,9 @@ import javax.persistence.UniqueConstraint;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name="entrenadores",uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
 public class Entrenador extends Person{
@@ -41,30 +44,6 @@ public class Entrenador extends Person{
 		super();
 
 		this.email = email;
-		this.fechaNacimiento = fechaNacimiento;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public LocalDate getFechaNacimiento() {
-		return fechaNacimiento;
-	}
-
-	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 

@@ -11,7 +11,9 @@ import javax.validation.constraints.Min;
 
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "materiales")
 public class Material extends BaseEntity{
@@ -36,30 +38,5 @@ public class Material extends BaseEntity{
 	}
 
 	public Material() {}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-	public TipoMaterial getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoMaterial tipo) {
-		this.tipo = tipo;
-	}
-
-	public int getStock() {
-		return stock;
-	}
-
-	public void setStock(int stock) {
-		this.stock = stock;
-	}
-
 
 }

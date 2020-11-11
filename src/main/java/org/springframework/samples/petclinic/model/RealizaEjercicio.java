@@ -6,8 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+
+import lombok.Data;
+
 import javax.persistence.ManyToOne;
 
+@Data
 @Entity
 @Table(name = "realiza_ejercicios")
 public class RealizaEjercicio extends BaseEntity{
@@ -33,11 +37,5 @@ public class RealizaEjercicio extends BaseEntity{
 		this.fecha = fecha;
 	}
 	
-	public LocalDate getFecha() {
-		return fecha;
-	}
 	
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
-	}
 }

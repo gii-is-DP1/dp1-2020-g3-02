@@ -30,7 +30,7 @@ public class JugadorServiceImpl implements JugadorService {
 	private UserService userService;
 	
 	@Autowired
-	private AuthoritiesService authoritiesService;
+	private AuthoritiesService authoritiesService; 
 	
 	@Override
 	@Transactional(readOnly = true)

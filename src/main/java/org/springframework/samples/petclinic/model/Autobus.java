@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "autobus")
 public class Autobus extends BaseEntity {
@@ -25,25 +28,6 @@ public class Autobus extends BaseEntity {
 		this.hora_salida = hora_salida;
 		this.hora_llegada = hora_llegada;
 	}
-
-	public String getHora_salida() {
-		return hora_salida;
-	}
-
-	public void setHora_salida(String hora_salida) {
-		this.hora_salida = hora_salida;
-	}
-
-	public String getHora_llegada() {
-		return hora_llegada;
-	}
-
-	public void setHora_llegada(String hora_llegada) {
-		this.hora_llegada = hora_llegada;
-	}
-
-	
-
 
 
 }
