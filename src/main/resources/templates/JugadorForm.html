@@ -75,7 +75,7 @@
 							th:field="*{peso}" th:value="${peso}"></input>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row" th:if="${param.id[0]== '0'}">
 					<div class="form-group col" >
 						<input class="form-control" type="text" placeholder="Nombre de Usuario" th:field="*{user.username}" th:value="${username}"></input>
 					</div>
