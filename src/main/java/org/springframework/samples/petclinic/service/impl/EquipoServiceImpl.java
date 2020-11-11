@@ -38,55 +38,55 @@ public class EquipoServiceImpl implements EquipoService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeSaquesLessThanEqual(double percent) {
+	public List<Equipo> findByPorcentajeSaquesLessThanEqual(double percent) {
 		return equipoRepository.findByPorcentajeSaquesLessThanEqual(percent);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeRecepcionesLessThanEqual(double percent) {
+	public List<Equipo> findByPorcentajeRecepcionesLessThanEqual(double percent) {
 		return equipoRepository.findByPorcentajeRecepcionesLessThanEqual(percent);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeColocacionesLessThanEqual(double percent) {
+	public List<Equipo> findByPorcentajeColocacionesLessThanEqual(double percent) {
 		return equipoRepository.findByPorcentajeColocacionesLessThanEqual(percent);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeDefensasLessThanEqual(double percent) {
+	public List<Equipo> findByPorcentajeDefensasLessThanEqual(double percent) {
 		return equipoRepository.findByPorcentajeDefensasLessThanEqual(percent);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeBloqueosLessThanEqual(double percent) {
+	public List<Equipo> findByPorcentajeBloqueosLessThanEqual(double percent) {
 		return equipoRepository.findByPorcentajeBloqueosLessThanEqual(percent);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeRematesLessThanEqual(double percent) {
+	public List<Equipo> findByPorcentajeRematesLessThanEqual(double percent) {
 		return equipoRepository.findByPorcentajeRematesLessThanEqual(percent);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeFintasLessThanEqual(double percent) {
+	public List<Equipo> findByPorcentajeFintasLessThanEqual(double percent) {
 		return equipoRepository.findByPorcentajeFintasLessThanEqual(percent);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeAtaquesRapidosLessThanEqual(double percent) {
+	public List<Equipo> findByPorcentajeAtaquesRapidosLessThanEqual(double percent) {
 		return equipoRepository.findByPorcentajeAtaquesRapidosLessThanEqual(percent);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Jugador> findByNumFaltasTotalesGreaterThanEqual(int faults) {
+	public List<Equipo> findByNumFaltasTotalesGreaterThanEqual(int faults) {
 		return equipoRepository.findByNumFaltasTotalesGreaterThanEqual(faults);
 	}
 
