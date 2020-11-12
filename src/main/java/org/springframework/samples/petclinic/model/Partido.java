@@ -11,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
@@ -36,6 +37,10 @@ public class Partido extends BaseEntity{
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "partido")
 	private Set<Sustituciones> sustituciones;
+	
+	@ManyToOne
+	@JoinColumn(name = "equipo_id")
+	private Equipo equipo;
 	
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
