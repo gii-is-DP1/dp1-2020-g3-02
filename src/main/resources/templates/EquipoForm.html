@@ -37,10 +37,50 @@
 						th:field="*{sistemaJuego}" th:value="${sistemaJuego}"></input>
 				</div>
 				
+				
+				
 				<div class="form-group">
 					<input class="form-control" type="text" placeholder="Liga"
 						th:field="*{liga}" th:value="${liga}"></input>
 				</div>
+				
+				<input type="hidden" th:field="*{saquesAcertados}"></input>
+				<input type="hidden" th:field="*{saquesTotales}"></input>
+				<input type="hidden" th:field="*{porcentajeSaques}"></input>
+				<input type="hidden" th:field="*{recepcionesAcertadas}"></input>
+				<input type="hidden" th:field="*{recepcionesTotales}"></input>
+				<input type="hidden" th:field="*{porcentajeRecepciones}"></input>
+				<input type="hidden" th:field="*{colocacionesAcertadas}"></input>
+				<input type="hidden" th:field="*{colocacionesTotales}"></input>
+				<input type="hidden" th:field="*{porcentajeColocaciones}"></input>
+				<input type="hidden" th:field="*{defensasAcertadas}"></input>
+				<input type="hidden" th:field="*{defensasTotales}"></input>
+				<input type="hidden" th:field="*{porcentajeDefensas}"></input>
+				<input type="hidden" th:field="*{bloqueosAcertados}"></input>
+				<input type="hidden" th:field="*{bloqueosTotales}"></input>
+				<input type="hidden" th:field="*{bloqueosTotales}"></input>
+				<input type="hidden" th:field="*{porcentajeBloqueos}"></input>
+				<input type="hidden" th:field="*{rematesAcertados}"></input>
+				<input type="hidden" th:field="*{rematesTotales}"></input>
+				<input type="hidden" th:field="*{fintasAcertadas}"></input>
+				<input type="hidden" th:field="*{fintasTotales}"></input>
+				<input type="hidden" th:field="*{porcentajeFintas}"></input>
+				<input type="hidden" th:field="*{numAtaquesRapidosAcertados}"></input>
+				<input type="hidden" th:field="*{numAtaquesRapidosTotales}"></input>
+				<input type="hidden" th:field="*{numFaltasTotales}"></input>
+				<input type="hidden" th:field="*{numAmarillas}"></input>
+				<input type="hidden" th:field="*{numRojas}"></input>
+				
+				
+				<div class="form-group">
+					<input class="form-control" type="text" placeholder="Posición liga"
+						th:field="*{posicionLiga}" th:value="${posicionLiga}"></input>
+				</div>
+				
+				
+				<input type="hidden" th:field="*{federacion}"></input>
+				
+				
 				
 				 <input
 					class="btn btn-outline-success btn-lg btn-block" type="submit"
