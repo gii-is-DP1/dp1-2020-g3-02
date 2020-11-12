@@ -14,7 +14,7 @@ public interface PersonalesRepository extends JpaRepository<Personales,Serializa
 	public List<Personales> findByJugador(String jugador);
 	
 	@Query("SELECT a FROM Personales a, Partido p WHERE p.id=:partido_id")
-	public List<Personales> findByPartido(@Param("partido_id") int partido_id);
+	public List<Personales> findByPartido(@Param("partido_id") int partido_id); 
 
 
 }
