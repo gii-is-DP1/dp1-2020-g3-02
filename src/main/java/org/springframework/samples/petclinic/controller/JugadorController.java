@@ -13,7 +13,6 @@ import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,12 +37,9 @@ public class JugadorController {
 	
 	@GetMapping("/showjugadores")
 	public ModelAndView listadoJugadores() {
-		
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
-		mav.addObject("jugadores", jugadorService.findAll());
 		return mav;
 	}
-	
 	
 	@GetMapping("/jugadorform")
 	public String redirectJugadorForm(@RequestParam(name="id",required=false) Integer id, Model model) {
