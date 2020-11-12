@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("jugadorService")
 public class JugadorServiceImpl implements JugadorService {
 	
-	private static final Log LOG = LogFactory.getLog(JugadorController.class);
+	private static final Log LOG = LogFactory.getLog(JugadorServiceImpl.class);
 	
 	@Autowired
 	@Qualifier("jugadorRepository")
