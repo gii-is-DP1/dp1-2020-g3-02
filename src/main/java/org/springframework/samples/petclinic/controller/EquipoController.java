@@ -5,8 +5,10 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.service.EquipoService;
+import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,16 +24,16 @@ public class EquipoController {
 	
 	private static final Log LOG = LogFactory.getLog(EquipoController.class);
 	
-	private static final String VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM = "EquipoForm";
-	private static final String VIEW_EQUIPO = "listadoEquipos";
-	
 	@Autowired
 	private EquipoService equipoService;
+	
+	@Autowired
+	private JugadorService jugadorService;
 	
 	@GetMapping("/showequipos")
 	public ModelAndView listadoEquipos(Model model) {
 		
-		ModelAndView mav = new ModelAndView(VIEW_EQUIPO);
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_EQUIPO);
 		mav.addObject("equipos", equipoService.findAll());
 		return mav;
 	}
@@ -43,7 +45,7 @@ public class EquipoController {
 			equipo = equipoService.findById(id);
 		}
 		model.addAttribute("equipo", equipo);
-		return VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
+		return ViewConstant.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
 	}
 	
 	@PostMapping("/addequipo")

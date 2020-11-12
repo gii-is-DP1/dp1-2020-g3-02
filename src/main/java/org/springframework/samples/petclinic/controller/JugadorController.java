@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Controller;
@@ -25,16 +26,13 @@ public class JugadorController {
 		
 	private static final Log LOG = LogFactory.getLog(JugadorController.class);
 	
-	private static final String VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM = "JugadorForm";
-	private static final String VIEW_JUGADOR = "listadoJugadores";
-	
 	@Autowired
 	private JugadorService jugadorService;
 	
 	@GetMapping("/showjugadores")
 	public ModelAndView listadoJugadores(Model model) {
 		
-		ModelAndView mav = new ModelAndView(VIEW_JUGADOR);
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		mav.addObject("jugadores", jugadorService.findAll());
 		return mav;
 	}
@@ -47,7 +45,7 @@ public class JugadorController {
 			jugador = jugadorService.findById(id);
 		}
 		model.addAttribute("jugador", jugador);
-		return VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
+		return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 	}
 	
 	
