@@ -25,40 +25,34 @@ public class SustitucionesServiceImpl implements SustitucionesServices{
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Sustituciones> findById(int id) {
-		// TODO Auto-generated method stub
 		return sustitucionesRepository.findById(id);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Sustituciones> findByMinutoSustitucion(String minuto_sustitucion) {
-		// TODO Auto-generated method stub
 		return sustitucionesRepository.findByMinutoSustitucion(minuto_sustitucion);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Sustituciones> findByPartido(int partido_id) {
-		// TODO Auto-generated method stub
 		return sustitucionesRepository.findByPartido(partido_id);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Sustituciones> findByJugador(int jugador_id) {
-		// TODO Auto-generated method stub
 		return sustitucionesRepository.findByJugador(jugador_id);
 	}
 
 	@Override
 	public List<Sustituciones> findAll() {
-		// TODO Auto-generated method stub
 		return sustitucionesRepository.findAll();
 	}
 
 	@Override
 	public Sustituciones saveSustitucion(Sustituciones substitution) {
-		// TODO Auto-generated method stub
 		Sustituciones sust=sustitucionesRepository.save(substitution);
 		LOG.info(sust.toString());
 		
@@ -67,7 +61,6 @@ public class SustitucionesServiceImpl implements SustitucionesServices{
 
 	@Override
 	public int substitutionCount() {
-		// TODO Auto-generated method stub
 		return (int) sustitucionesRepository.count();
 	}
 }
