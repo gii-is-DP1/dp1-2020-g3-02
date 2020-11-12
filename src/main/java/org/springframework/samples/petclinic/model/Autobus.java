@@ -15,18 +15,18 @@ public class Autobus extends BaseEntity {
 	
 	
 	@Column(name = "hora_salida", nullable = false, length = 5)
-	private String hora_salida;
+	private String horaSalida;
 	
 	@Column(name = "hora_llegada", nullable = false, length = 5)
-	private String hora_llegada;
+	private String horaLlegada;
 	
 	public Autobus() {
 	}
 
 	public Autobus(String hora_salida, String hora_llegada) {
 		super();
-		this.hora_salida = hora_salida;
-		this.hora_llegada = hora_llegada;
+		this.horaSalida = hora_salida;
+		this.horaLlegada = hora_llegada;
 	}
 
 
