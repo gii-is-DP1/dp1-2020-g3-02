@@ -44,4 +44,5 @@ public class Capitan extends BaseEntity {
 	}
 	public Capitan() {}
 
+	
 }
