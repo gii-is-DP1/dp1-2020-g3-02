@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.samples.petclinic.model.Equipo;
-import org.springframework.samples.petclinic.model.Jugador;
 
 public interface EquipoService {
 	
@@ -23,5 +22,6 @@ public interface EquipoService {
 	public abstract List<Equipo> findByPorcentajeAtaquesRapidosLessThanEqual(double percent);
 	public abstract List<Equipo> findByNumFaltasTotalesGreaterThanEqual(int faults);
 	public abstract Equipo saveTeam(Equipo team);
+	public abstract void deleteTeam(int id);
 
 }
