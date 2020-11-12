@@ -18,6 +18,9 @@ import javax.validation.constraints.Min;
 
 import org.springframework.samples.petclinic.enumerate.Sistema;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "partidos")
 public class Partido extends BaseEntity{
