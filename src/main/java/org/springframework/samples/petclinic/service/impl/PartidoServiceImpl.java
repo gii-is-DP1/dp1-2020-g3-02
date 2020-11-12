@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Partido;
@@ -73,6 +74,17 @@ public class PartidoServiceImpl implements PartidoService {
 	@Override
 	public void deletePartido(Partido partido) {
 		partidoRepository.delete(partido);
+	}
+
+	@Override
+	public List<Partido> findAll() {
+		return partidoRepository.findAll();
+		
+	}
+
+	@Override
+	public Optional<Partido> findById(int partido_id) {
+		return partidoRepository.findById(partido_id);
 	}
 
 }
