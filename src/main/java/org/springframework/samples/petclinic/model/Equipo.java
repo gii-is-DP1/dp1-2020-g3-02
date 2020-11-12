@@ -49,6 +49,9 @@ public class Equipo extends BaseEntity{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
 	private Set<Privilegio> privilegios;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
+	private Set<Partido> partidos;
+	
 	@Column(name="categoria", nullable = false, columnDefinition = "varchar(255) unique")
 	private String categoria;
 	

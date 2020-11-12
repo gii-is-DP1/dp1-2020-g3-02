@@ -10,6 +10,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
@@ -21,6 +24,7 @@ import lombok.Data;
 @Entity
 @Table(name = "materiales")
 public class Material extends BaseEntity{
+
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "material")
 	private Set<LineaMaterial> lineasMaterial;
