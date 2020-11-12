@@ -28,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/jugadores")
 public class JugadorController {
 		
-	private static final Log LOG = LogFactory.getLog(JugadorController.class);
+	private static final Log LOG = LogFactory.getLog(JugadorController.class); 
 	
 	@Autowired
 	private JugadorValidator jugadorFormValidator;
