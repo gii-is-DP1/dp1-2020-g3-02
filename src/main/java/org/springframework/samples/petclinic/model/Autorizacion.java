@@ -23,10 +23,6 @@ public class Autorizacion extends BaseEntity{
 	@ManyToOne
 	@JoinColumn(name = "jugador_id")
 	private Jugador jugador;
-
-	@ManyToOne
-	@JoinColumn(name = "jugador_id")
-	private Jugador jugador;
 	
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
