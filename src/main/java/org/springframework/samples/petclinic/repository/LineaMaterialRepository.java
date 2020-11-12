@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.LineaMaterial;
+
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,5 @@ public interface LineaMaterialRepository extends JpaRepository<LineaMaterial, Se
 	
 	@Query("SELECT l FROM LineaMaterial l, Entrenamiento e WHERE e.id=:entrenamiento_id")
 	public List<LineaMaterial> findByEntrenamiento(@Param("entrenamiento_id") int entrenamiento_id);
+
 }
