@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
@@ -17,7 +19,9 @@ import lombok.Data;
 @Entity
 @Table(name = "materiales")
 public class Material extends BaseEntity{
-
+	@ManyToOne
+	@JoinColumn(name = "linea_material_id")
+	private LineaMaterial linea_material;
 
 	@Column(name = "descripcion", nullable = false, length = 280)
 	private String descripcion;
