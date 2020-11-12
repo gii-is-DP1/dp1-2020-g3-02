@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
@@ -17,6 +19,10 @@ import lombok.Data;
 @Entity
 @Table(name = "autorizaciones")
 public class Autorizacion extends BaseEntity{
+	
+	@ManyToOne
+	@JoinColumn(name = "jugador_id")
+	private Jugador jugador;
 
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
