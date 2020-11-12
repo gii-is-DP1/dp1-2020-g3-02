@@ -23,7 +23,7 @@ import lombok.Data;
 public class Material extends BaseEntity{
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "material")
-	private Set<LineaMaterial> lineas_material;
+	private Set<LineaMaterial> lineasMaterial;
 
 	@Column(name = "descripcion", nullable = false, length = 280)
 	private String descripcion;
