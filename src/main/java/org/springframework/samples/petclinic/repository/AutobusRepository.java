@@ -17,5 +17,8 @@ public interface AutobusRepository extends JpaRepository<Autobus, Serializable>{
 	
 	@Query("SELECT a FROM Autobus a, Partido p WHERE p.id=:partido_id")
 	public List<Autobus> findByPartido(@Param("partido_id") int partido_id);
+	
+	@Query("SELECT a FROM Autobus a, Jugador j WHERE j.id=:jugador_id")
+	public List<Autobus> findByJugador(@Param("jugador_id") int jugador_id);
 
 }

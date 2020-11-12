@@ -1,8 +1,13 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
 
@@ -12,7 +17,12 @@ import lombok.Data;
 @Entity
 @Table(name = "autobus")
 public class Autobus extends BaseEntity {
-	
+
+	@ManyToMany
+	@JoinTable(name = "jugadoresbus", joinColumns = @JoinColumn(name = "autobus_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
+	Set<Jugador> jugadoresBus;
+
 	
 	@Column(name = "hora_salida", nullable = false, length = 5)
 	private String horaSalida;

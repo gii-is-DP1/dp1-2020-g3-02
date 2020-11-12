@@ -38,6 +38,11 @@ public class Jugador extends Person{
 	private User user;
 	
 	@ManyToMany
+	@JoinTable(name = "jugadoresbus", joinColumns = @JoinColumn(name = "jugador_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "autobus_id"))
+	Set<Autobus> busesJugador;
+	
+	@ManyToMany
 	@JoinTable(name = "num_jugadores", joinColumns = @JoinColumn(name = "jugador_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "num_camiseta_id"))
 	Set<NumCamiseta> numCamisetas;
