@@ -38,11 +38,10 @@ public class JugadorController {
 	
 	@GetMapping("/showjugadores")
 	public ModelAndView listadoJugadores() {
-		
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
-		mav.addObject("jugadores", jugadorService.findAll());
 		return mav;
 	}
+	
 	
 	
 	@GetMapping("/jugadorform")
