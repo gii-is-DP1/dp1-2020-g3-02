@@ -13,7 +13,6 @@ import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/jugadores")
 public class JugadorController {
 		
-	private static final Log LOG = LogFactory.getLog(JugadorController.class); 
+	private static final Log LOG = LogFactory.getLog(JugadorController.class);
 	
 	@Autowired
 	private JugadorValidator jugadorFormValidator;
@@ -41,8 +40,6 @@ public class JugadorController {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		return mav;
 	}
-	
-	
 	
 	@GetMapping("/jugadorform")
 	public String redirectJugadorForm(@RequestParam(name="id",required=false) Integer id, Model model) {
