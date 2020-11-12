@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository("capitanRepository")
 public interface CapitanRepository extends JpaRepository<Capitan, Serializable>{
 	public List<Capitan> findByActitud(Actitud actitud);
-	public List<Capitan> findByNTiemposMuertos(Integer ntiempomuerto);
+	public List<Capitan> findByNtiemposmuertos(Integer ntiemposmuertos);
 	
 	@Query("SELECT j FROM Capitan j, Equipo e WHERE e.id=:equipo_id")
 	public List<Capitan> findByEquipo(@Param("equipo_id") int equipo_id);
