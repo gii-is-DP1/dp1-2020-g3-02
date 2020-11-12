@@ -29,6 +29,11 @@ public class Partido extends BaseEntity{
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	Set<Jugador> jugadores;
 	
+	@ManyToMany
+	@JoinTable(name = "partidosbus", joinColumns = @JoinColumn(name = "partido_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "autobus_id"))
+	Set<Autobus> buses;
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "partido")
 	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
 	
