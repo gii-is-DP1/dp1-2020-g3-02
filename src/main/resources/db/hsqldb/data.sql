@@ -109,5 +109,8 @@ INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,dire
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (10,'javgutfal','11111110A','Paco','Tuerca','2004-11-06','Calle Demacracion','barpepepedidos@gmail.com','Guarroman',175,78,75,23.2);
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (11,'javgutfal','11111120A','Paco','Tuerca','2004-11-06','Calle Demacracion','sinomirasnoesta@gmail.com','Guarroman',175,78,75,23.2);
 
+INSERT INTO equipos(id,categoria,federacion) VALUES (1,'Senior',true);
+INSERT INTO equipos(id,categoria,federacion) VALUES (2,'Cadete',false);
+
 INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (1,3,'2020-11-06','SALTOVERTICAL',1);
 INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (2,3,'2020-11-06','AGILIDAD',1);

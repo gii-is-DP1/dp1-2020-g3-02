@@ -156,7 +156,7 @@ public class Equipo extends BaseEntity{
 	@Min(0)
 	private int numRojas;
 	
-	@Column(name = "posicion_liga", nullable = false, columnDefinition = "integer default 3")
+	@Column(name = "posicion_liga", nullable = false, columnDefinition = "integer default 1")
 	@Min(1)
 	private int posicionLiga;
 	
