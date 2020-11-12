@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.PartidoRepository;
 import org.springframework.samples.petclinic.service.PartidoService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PartidoServiceImpl implements PartidoService {
 	
 	@Autowired
