@@ -3,8 +3,13 @@ package org.springframework.samples.petclinic.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.samples.petclinic.controller.EquipoController;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.repository.EquipoRepository;
@@ -110,5 +115,15 @@ public class EquipoServiceImpl implements EquipoService {
 		return equipo;
 
 	}
+	
+	@Override
+	@Transactional
+	public void deleteTeam(int id) {
+		Optional<Equipo> vacio = Optional.empty();
+		Optional<Equipo> equipo = findById(id);
+		if(equipo != vacio) {
+			equipoRepository.delete(equipo.get());
+		}
 
+	}
 }

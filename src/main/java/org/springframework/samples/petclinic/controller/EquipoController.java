@@ -2,6 +2,8 @@ package org.springframework.samples.petclinic.controller;
 
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +32,7 @@ public class EquipoController {
 	private EquipoService equipoService;
 	
 	@GetMapping("/showequipos")
-	public ModelAndView listadoEquipos(Model model) {
+	public ModelAndView listadoEquipos() {
 		
 		ModelAndView mav = new ModelAndView(VIEW_EQUIPO);
 		mav.addObject("equipos", equipoService.findAll());
@@ -47,17 +50,30 @@ public class EquipoController {
 	}
 	
 	@PostMapping("/addequipo")
-	public String addEquipo(@ModelAttribute(name="equipo") Equipo equipo, Model model) {
+	public String addEquipo(@Valid @ModelAttribute(name="equipo") Equipo equipo, BindingResult bindResult, Model model) {
 		
 		LOG.info("addequipo() -- PARAMETROS: "+ equipo.toString());
 		
-		if(null != equipoService.saveTeam(equipo)) {
+		Equipo equipoSave = equipoService.saveTeam(equipo);
+		
+		LOG.info(equipoSave.getPosicionLiga());
+		
+		if(null != equipoSave) {
 			model.addAttribute("result", 1);
 			
 		}else {
 			model.addAttribute("result", 0); 
 		}
 		return "redirect:/equipos/showequipos";
+		
+	}
+	
+	@GetMapping("/eliminarequipo")
+	public ModelAndView eliminarEquipo(@RequestParam(name="id",required=true) int id) {
+		
+		equipoService.deleteTeam(id);
+		
+		return listadoEquipos();
 		
 	}
 

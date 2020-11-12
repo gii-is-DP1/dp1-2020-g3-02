@@ -24,14 +24,57 @@
 				<h1 class="font-weight-bold font-italic">LISTA EQUIPOS</h1>
 			</div>
 		</div>
-		<div class="row">
-		<t th:each="equipo : ${equipos}">
-			<a href="#"
-			th:href="@{/equipos/equipoform?id=__${equipo.id}__}">
-				<button class="btn btn-outline-info" type="button"><t th:text="${equipo.categoria}"></t></button>
-			</a>
-		</t>
+			<div th:each="equipo : ${equipos}">
+				
+				<div class="row my-3">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-8">
+				<button class="btn btn-primary btn-block disabled" type="button"><t th:text="${equipo.categoria}"></t></button>
+				</div>
+				<div class="col-lg-2"></div>
+				</div>
+				
+				
+								
+								<div class="row my-3">
+								<div class="col-lg-5"></div>
+								
+								<div class="col-lg-2">
+								<a href="#"
+								th:href="@{/jugadores/showjugadores}">
+								<button class="btn btn-secondary btn-block" type="button">jugadores</button>
+								</a>
+								<a href="#"
+								th:href="@{/equipos/equipoform?id=__${equipo.id}__}">
+								<button class="btn btn-info btn-block" type="button">editar</button>
+								</a>
+								<a href="#"
+								th:href="@{/equipos/eliminarequipo?id=__${equipo.id}__}">
+								<button class="btn btn-danger btn-block" type="button">eliminar</button>
+								</a>
+								</div>
+								
+								
+								
+								<div class="col-lg-5"></div>
+								</div>
+								
+								<div class="row my-3"></div>
+				</div>
+				
+				
+			</div>
 		</div>
+		
+		<div class="row my-3">
+		<div class="col-lg-2"></div>
+			<div class="col-lg-8">
+				<button onclick="location.href='/equipos/equipoform?id=0'" class="btn btn-success btn-lg btn-block" type="submit">Añadir
+					equipo</button>
+			</div>
+		<div class="col-lg-2"></div>
+		</div>
+	</div>
 
 </body>
 </html>
