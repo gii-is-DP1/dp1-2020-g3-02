@@ -19,6 +19,10 @@ import lombok.Data;
 @Entity
 @Table(name = "autorizaciones")
 public class Autorizacion extends BaseEntity{
+	
+	@ManyToOne
+	@JoinColumn(name = "jugador_id")
+	private Jugador jugador;
 
 	@ManyToOne
 	@JoinColumn(name = "jugador_id")
