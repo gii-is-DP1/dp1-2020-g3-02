@@ -5,11 +5,15 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
+import org.springframework.samples.petclinic.controller.form.JugadorForm;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,10 +31,13 @@ public class JugadorController {
 	private static final Log LOG = LogFactory.getLog(JugadorController.class);
 	
 	@Autowired
+	private JugadorValidator jugadorFormValidator;
+	
+	@Autowired
 	private JugadorService jugadorService;
 	
 	@GetMapping("/showjugadores")
-	public ModelAndView listadoJugadores(Model model) {
+	public ModelAndView listadoJugadores() {
 		
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		mav.addObject("jugadores", jugadorService.findAll());
@@ -50,17 +57,27 @@ public class JugadorController {
 	
 	
 	@PostMapping("/addjugador")
-	public String addJugador(@ModelAttribute(name="jugador") Jugador jugador, Model model) {
+	public String addJugador(@ModelAttribute(name="formJugador") JugadorForm form, Model model, final BindingResult result) {
 		
-		LOG.info("addjugador() -- PARAMETROS: "+ jugador.toString());
+		LOG.info("addjugador() -- PARAMETROS: "+ form.getJugador().toString());
 		
-		if(null != jugadorService.saveJugador(jugador)) {
+//		ValidationUtils.invokeValidator(jugadorFormValidator, form, result);
+//		
+//		if (result.hasErrors()) {
+//			model.addAttribute("formJugador", form);
+//			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
+//		}else {
+//		
+		
+		if(null != jugadorService.saveJugador(form.getJugador())) {
 			model.addAttribute("result", 1);
 			
 		}else {
 			model.addAttribute("result", 0); 
 		}
 		return "redirect:/jugadores/showjugadores";
-	}
+	//}
+	
+}
 	
 }
