@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.EntrenamientoRepository;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.stereotype.Service;
@@ -81,7 +82,19 @@ public class EntrenamientoServiceImpl implements EntrenamientoService{
 	public void deleteEntrenamiento(Entrenamiento entrenamiento) {
 		entrenamientoRepository.delete(entrenamiento);
 	}
-	
-	
 
+	@Override
+	public List<Entrenamiento> findAll() {
+		return entrenamientoRepository.findAll();
+
+	}
+
+	@Override
+	public Optional<Entrenamiento> findById(int id) {
+		
+		return entrenamientoRepository.findById(id);
+	}
+	
+	
+ 
 }

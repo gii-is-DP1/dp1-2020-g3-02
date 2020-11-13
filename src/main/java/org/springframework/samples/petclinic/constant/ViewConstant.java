@@ -11,4 +11,7 @@ public class ViewConstant {
 	public static final String VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM = "/partidos/PartidoForm";
 	public static final String VIEW_PARTIDOS = "/partidos/listadoPartidos";
 	
+	public static final String VIEWS_ENTRENAMIENTO_CREATE_OR_UPDATE_FORM = "/entrenamientos/EntrenamientoForm";
+	public static final String VIEW_ENTRENAMIENTOS = "/entrenamientos/listadoEntrenamientos";
+	
 }
