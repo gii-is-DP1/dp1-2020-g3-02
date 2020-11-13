@@ -61,9 +61,9 @@ public class JugadorController {
 	
 	@GetMapping("/jugadorform")
 	public String redirectJugadorForm(@RequestParam(name="id",required=false) Integer id, Model model) {
-		Optional<Jugador> jugador = Optional.of(new Jugador());
+		Jugador jugador = new Jugador();
 		if(id != 0) {
-			jugador = jugadorService.findById(id);
+			jugador = jugadorService.findById(id).get();
 		}
 		model.addAttribute("jugador", jugador);
 		return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
@@ -71,9 +71,9 @@ public class JugadorController {
 	
 	
 	@PostMapping("/addjugador")
-	public String addJugador(@ModelAttribute(name="formJugador") JugadorForm form, Model model, final BindingResult result) {
+	public String addJugador(@ModelAttribute(name="formJugador") Jugador jugador, Model model, final BindingResult result) {
 		
-		LOG.info("addjugador() -- PARAMETROS: "+ form.getJugador().toString());
+		LOG.info("addjugador() -- PARAMETROS: "+ jugador);
 		
 //		ValidationUtils.invokeValidator(jugadorFormValidator, form, result);
 //		
@@ -83,7 +83,7 @@ public class JugadorController {
 //		}else {
 //		
 		
-		if(null != jugadorService.saveJugador(form.getJugador())) {
+		if(null != jugadorService.saveJugador(jugador)) {
 			model.addAttribute("result", 1);
 			
 		}else {
