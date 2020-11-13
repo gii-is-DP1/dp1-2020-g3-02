@@ -117,5 +117,9 @@ INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (1,'2020-11-06',
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (2,'2020-11-06','18:00',5);
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (3,'2020-11-06','19:00',5);
 
+INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (1,'2020-11-11','17:00',5,1);
+INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (2,'2020-11-05','18:00',5,1);
+INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (3,'2020-11-07','19:00',5,1);
+
 INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (1,3,'2020-11-06','SALTOVERTICAL',1);
 INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (2,3,'2020-11-06','AGILIDAD',1);
