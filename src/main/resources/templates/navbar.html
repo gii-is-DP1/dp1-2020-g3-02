@@ -1,13 +1,15 @@
 <meta charset="UTF-8" />
 
 <style type="text/css">
-		.dropPersonalizado{
-			transition-duration: 0.5s;
-		}
-		.dropPersonalizado:hover{
-			background-color: #17a2b8;
-		}
-	</style>
+	.dropPersonalizado{
+		text-align: center;
+		transition-duration: 0.6s;
+	}
+	.dropPersonalizado:hover{
+		background-color: #17a2b8;
+		border-radius: 40%;
+	}
+</style>
 	
 	<!-- th:if="${param.id[0]== '1' && param.id[0]== '0'}" -->
 	<!-- th:if="${param.id[0]== '1' || param.id[0]== '0'}" -->
@@ -42,9 +44,6 @@
 						<a th:if="${param.id[0] == 'listadoJugadores'}" class="dropdown-item dropPersonalizado text-white-50 disabled" role="button" href="/jugadores/showjugadores">Jugadores</a>
 						<a th:unless="${param.id[0] == 'listadoJugadores'}" class="dropdown-item dropPersonalizado" role="button" href="/jugadores/showjugadores">Jugadores</a>
 						
-						<a th:if="${param.id[0] == 'jugadorForm'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/jugadores/jugadorform?id=0">Nuevo Jugador</a> 
-						<a th:unless="${param.id[0] == 'jugadorForm'}" class="dropdown-item dropPersonalizado" href="/jugadores/jugadorform?id=0">Nuevo Jugador</a> 
-						
 						<a th:if="${param.id[0] == 'autorizaciones'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="#">Autorizaciones</a> 
 						<a th:unless="${param.id[0] == 'autorizaciones'}" class="dropdown-item dropPersonalizado" href="#">Autorizaciones</a> 
 						
@@ -62,9 +61,6 @@
 						
 						<a th:if="${param.id[0] == 'listadoJugadores'}" class="dropdown-item dropPersonalizado text-white-50 disabled" role="button" href="/jugadores/showjugadores">Jugadores</a>
 						<a th:unless="${param.id[0] == 'listadoJugadores'}" class="dropdown-item dropPersonalizado" role="button" href="/jugadores/showjugadores">Jugadores</a>
-						
-						<a th:if="${param.id[0] == 'jugadorForm'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/jugadores/jugadorform?id=0">Nuevo Jugador</a> 
-						<a th:unless="${param.id[0] == 'jugadorForm'}" class="dropdown-item dropPersonalizado" href="/jugadores/jugadorform?id=0">Nuevo Jugador</a> 
 						
 						<a th:if="${param.id[0] == 'autorizaciones'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="#">Autorizaciones</a> 
 						<a th:unless="${param.id[0] == 'autorizaciones'}" class="dropdown-item dropPersonalizado" href="#">Autorizaciones</a> 
