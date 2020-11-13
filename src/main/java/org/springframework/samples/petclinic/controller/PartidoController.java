@@ -36,7 +36,7 @@ public class PartidoController {
 	@Autowired
 	private PartidoService partidoService;
 	
-	@GetMapping("/showPartidos")
+	@GetMapping("/showpartidos")
 	public ModelAndView listadoJugadores() {
 		
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_PARTIDOS);
@@ -44,7 +44,7 @@ public class PartidoController {
 		return mav;
 	}
 	
-	@GetMapping("/showPartido")
+	@GetMapping("/showpartido")
 	public Partido partido(int id) {
 		Optional<Partido> partido = partidoService.findById(id);
 		return partido.get();

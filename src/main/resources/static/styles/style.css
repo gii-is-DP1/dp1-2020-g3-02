@@ -1,0 +1,8 @@
+<style type="text/css">
+	.dropPersonalizado{
+		transition-duration: 0.5s;
+	}
+	.dropPersonalizado:hover{
+		background-color: #17a2b8;
+	}
+</style>
