@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -115,6 +116,7 @@ public class EquipoServiceImpl implements EquipoService {
 	public void deleteTeam(int id) {
 		Optional<Equipo> vacio = Optional.empty();
 		Optional<Equipo> equipo = findById(id);
+
 		if(equipo != vacio) {
 			equipoRepository.delete(equipo.get());
 		}
