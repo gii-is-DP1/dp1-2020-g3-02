@@ -70,6 +70,11 @@ public class EquipoController {
 		
 	}
 	
+	@GetMapping("/navbar")
+	public String navbar() {
+		return ViewConstant.VIEW_NAVBAR;
+	}
+	
 	@GetMapping("/eliminarequipo")
 	public ModelAndView eliminarEquipo(@RequestParam(name="id",required=true) int id) {
 		

@@ -42,6 +42,11 @@ public class JugadorController {
 		return mav;
 	}
 	
+	@GetMapping("/navbar")
+	public String navbar() {
+		return ViewConstant.VIEW_NAVBAR;
+	}
+	
 	@GetMapping("/jugadorform")
 	public String redirectJugadorForm(@RequestParam(name="id",required=false) Integer id, Model model) {
 		Optional<Jugador> jugador = Optional.of(new Jugador());
