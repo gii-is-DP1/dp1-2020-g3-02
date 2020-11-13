@@ -50,6 +50,11 @@ public class PartidoController {
 		return partido.get();
 	}
 	
+	@GetMapping("/navbar")
+	public String navbar() {
+		return ViewConstant.VIEW_NAVBAR;
+	}
+	
 	
 	@GetMapping("/partidoform")
 	public String redirectPartidoForm(@RequestParam(name="id",required=false) Integer id, Model model) {
