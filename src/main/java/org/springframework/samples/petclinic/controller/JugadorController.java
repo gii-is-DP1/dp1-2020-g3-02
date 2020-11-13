@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.controller.form.JugadorForm;
+import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,10 +37,20 @@ public class JugadorController {
 	@Autowired
 	private JugadorService jugadorService;
 	
+	@Autowired
+	private EstadisticaPersonalPartidoService estadisService;
+	
 	@GetMapping("/showjugadores")
 	public ModelAndView listadoJugadores() {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		mav.addObject("jugadores", jugadorService.findAll());
+		return mav;
+	}
+	
+	@GetMapping("/showestadisiticasJugadores")
+	public ModelAndView vistaEstadísticas(int id) {
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_JUGADOR_POR_PARTIDO);
+		mav.addObject("estadisticas", estadisService.findByJugador(id));
 		return mav;
 	}
 	
