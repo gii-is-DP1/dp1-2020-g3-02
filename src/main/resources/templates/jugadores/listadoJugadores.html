@@ -52,7 +52,7 @@
 							<th>Fecha Nacimiento</th>
 							<th>Posición</th>
 							<th>Posicion Secundaria</th>
-							<th>Acción</th>
+							<th>Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -68,10 +68,34 @@
 							<td th:text="${jugador.fechaNacimiento}"></td>
 							<td th:text="${jugador.posicionPrincipal}"></td>
 							<td th:text="${jugador.posicionSecundaria}"></td>
-							<td><a href="#"
+							<td>
+								<a style="text-decoration: none" href="#"
+								th:href="@{/jugadores/estadisticasjugador?id=__${jugador.id}__}">
+									<button class="btn btn-outline-success mx-0" type="button"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+										</svg>
+										<title>Estadísticas</title>
+									</button>
+								</a>			
+								<a style="text-decoration: none" href="#"
 								th:href="@{/jugadores/jugadorform?id=__${jugador.id}__}">
-									<button class="btn btn-outline-info" type="button">editar</button>
-							</a></td>
+									<button class="btn btn-outline-info mx-0" type="button"><svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+										<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+										</svg>
+										<title>Editar</title>
+									</button>
+								</a>
+								<a style="text-decoration: none" href="#"
+								th:href="@{/jugadores/deletejugador?id=__${jugador.id}__}">
+									<button class="btn btn-outline-danger mx-0" type="button"><svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+										<path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+										</svg>
+										<title>Borrar</title>
+									</button>
+								</a>			
+							</td>
 					</tbody>
 
 				</table>
