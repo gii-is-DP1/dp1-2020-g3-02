@@ -25,7 +25,7 @@ import lombok.Data;
 @Table(name = "equipos")
 public class Equipo extends BaseEntity{
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
+	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "equipo")
 	private Set<Entrenamiento> entrenamientos;
 	
 	@ManyToOne
@@ -46,10 +46,10 @@ public class Equipo extends BaseEntity{
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	Set<Jugador> jugadores;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
+	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "equipo")
 	private Set<Privilegio> privilegios;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "equipo")
+	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "equipo")
 	private Set<Partido> partidos;
 	
 	@Column(name="categoria", nullable = false, columnDefinition = "varchar(255) unique")

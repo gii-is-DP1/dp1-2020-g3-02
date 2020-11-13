@@ -39,7 +39,7 @@ public class Entrenamiento extends BaseEntity{
 	private Set<EstadisticaPersonalEntrenamiento> estadisticas_personales_entrenamientos;
 	
 	@ManyToOne
-	@JoinColumn(name="equipo_id", nullable = false)
+	@JoinColumn(name="equipo_id", nullable = true)
 	private Equipo equipo;
 	
 	@Column(name = "fecha", nullable = false)
