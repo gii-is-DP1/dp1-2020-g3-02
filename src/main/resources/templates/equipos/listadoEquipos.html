@@ -103,53 +103,42 @@
 			<div th:each="equipo : ${equipos}">
 				
 				<div class="row my-3">
-				<div class="col-lg-2"></div>
-				<div class="col-lg-8">
-				<button class="btn btn-primary btn-block disabled" type="button"><t th:text="${equipo.categoria}"></t></button>
+				<div class="col-lg-0"></div>
+				<div class="col-lg-12">
+				<button class="btn btn-primary btn-block disabled btn-lg" type="button"><t th:text="${equipo.categoria}"></t></button>
 				</div>
-				<div class="col-lg-2"></div>
-				</div>
-				
-				
-								
-								<div class="row my-3">
-								<div class="col-lg-5"></div>
-								
-								<div class="col-lg-2">
-								<a href="#"
-								th:href="@{/jugadores/showjugadores}">
-								<button class="btn btn-secondary btn-block" type="button">jugadores</button>
-								</a>
-								<a href="#"
-								th:href="@{/equipos/equipoform?id=__${equipo.id}__}">
-								<button class="btn btn-info btn-block" type="button">editar</button>
-								</a>
-								<a href="#"
-								th:href="@{/equipos/eliminarequipo?id=__${equipo.id}__}">
-								<button class="btn btn-danger btn-block" type="button">eliminar</button>
-								</a>
-								</div>
-								
-								
-								
-								<div class="col-lg-5"></div>
-								</div>
-								
-								<div class="row my-3"></div>
+				<div class="col-lg-0"></div>
 				</div>
 				
+				<div class=" text-center col-lg-12">
+								
+				<a href="#"
+				th:href="@{/jugadores/showjugadores}">
+				<button class="btn btn-outline-info btn-sm" type="button">Jugadores</button>
+				</a>
+				<a href="#"
+				th:href="@{/equipos/equipoform?id=__${equipo.id}__}">
+				<button class="btn btn-outline-info btn-sm" type="button">Editar</button>
+				</a>
+				<a href="#"
+				th:href="@{/equipos/eliminarequipo?id=__${equipo.id}__}">
+				<button class="btn btn-outline-danger btn-sm" type="button">Eliminar</button>
+					</a>
+				</div>
+				</div>
+								
+				<div class="row my-3"></div>
 				
-			</div>
-		</div>
+			
 		
 		<div class="row my-3">
-		<div class="col-lg-2"></div>
-			<div class="col-lg-8">
-				<button onclick="location.href='/equipos/equipoform?id=0'" class="btn btn-success btn-lg btn-block" type="submit">Añadir
+		<div class="col-lg-4"></div>
+			<div class="col-lg-4">
+				<button onclick="location.href='/equipos/equipoform?id=0'" class="btn btn-primary btn-lg btn-block" type="submit">Añadir
 					equipo</button>
 			</div>
-		<div class="col-lg-2"></div>
-		</div>
+		<div class="col-lg-4"></div>
+		</div>	
 	</div>
 	
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
