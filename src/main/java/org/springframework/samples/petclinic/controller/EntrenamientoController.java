@@ -45,11 +45,16 @@ public class EntrenamientoController {
 		mav.addObject("entrenamientos", entrenamientoService.findAll());
 		return mav;
 	}
-	
+	 
 	@GetMapping("/showentrenamiento")
 	public Entrenamiento entrenamiento(int id) {
 		Optional<Entrenamiento> entrenamiento = entrenamientoService.findById(id);
 		return entrenamiento.get();
+	}
+	
+	@GetMapping("/navbar")
+	public String navbar() {
+		return ViewConstant.VIEW_NAVBAR;
 	}
 	
 	
