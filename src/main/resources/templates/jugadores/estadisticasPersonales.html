@@ -99,7 +99,7 @@
 	$(document).ready(function () {
 	    // Create DataTable
 	    var table = $('#estadisiticas').DataTable({
-	        dom: 'Pfrtip',
+	        dom: 'frtip',
 	        responsive: true
 	    });
 	 
@@ -133,7 +133,7 @@
 	        tooltip: {
 	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 	            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-	                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+	                '<td style="padding:0"><b>{point.y:f}</b></td></tr>',
 	            footerFormat: '</table>',
 	            shared: true,
 	            useHTML: true
@@ -153,8 +153,17 @@
 	            {
 	            	name: 'Saques Totales',
 	            	data: chartData2(table),
+	            }, 
+	            {
+	                type: 'spline',
+	                name: 'Porcentaje',
+	                data: chartData3(table),
+	                marker: {
+	                    lineWidth: 2,
+	                    lineColor: Highcharts.getOptions().colors[3],
+	                    fillColor: 'white'
+	                }
 	            }
-	
 	        ],
 	    });
 	    
@@ -163,6 +172,7 @@
 	    });
 	    
 	});
+		
 	    function chartData(table) {
 	        var counts = {};
 	     	var names = [];
@@ -183,7 +193,9 @@
             	dato.push( parseInt(val,10));
             });
 	        
-	        for (i = 0; i < 6; i++){
+	         
+	        
+	        for (i = 0; i < names.length; i++){
 	        	counts[names[i]] = dato[i];
 	        }
 	        
@@ -197,7 +209,7 @@
 	            };
 	        });
 	    }
-	    
+	    var max = 0;
 	    function chartData2(table) {
 	        var counts = {};
 	     	var names = [];
@@ -218,8 +230,45 @@
             	dato.push( parseInt(val,10));
             });
 	        
-	        for (i = 0; i < 6; i++){
+	        for (i = 0; i < names.length; i++){
 	        	counts[names[i]] = dato[i];
+	        }
+	        
+	        max = Math.max(...dato);
+	     
+	        // And map it to the format highcharts uses
+	        return $.map(counts, function (val, key) {
+	            return {
+	                name: key,
+	                y: val,
+	            };
+	        });
+	        
+	        
+	    }
+	     
+	    function chartData3(table) {
+	        var counts = {};
+	     	var names = [];
+	     	var dato = [];
+	        
+	        // Count the number of entries for each position
+	        table
+	            .column(0, { search: 'applied' })
+	            .data()
+	            .each(function (val) {
+	            	names.push( parseInt(val,10));
+	            });
+	        
+	        table
+            .column(3, { search: 'applied' })
+            .data()
+            .each(function (val) {
+            	dato.push( parseFloat(val));
+            });
+	        
+	        for (i = 0; i < names.length; i++){
+	        	counts[names[i]] = dato[i]*max;
 	        }
 	        
 	       
@@ -231,9 +280,9 @@
 	                y: val,
 	            };
 	        });
+	        
+	        
 	    }
-	     
-	
 	</script>
 	
 	<script type="text/javascript">
