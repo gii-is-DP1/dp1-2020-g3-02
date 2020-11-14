@@ -7,7 +7,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
-import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.EntrenamientoRepository;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.stereotype.Service;
