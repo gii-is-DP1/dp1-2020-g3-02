@@ -32,61 +32,73 @@ public class EstadisticaPersonalEntrenamientoServiceImpl implements EstadisticaP
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByPorcentajeSaquesLessThanEqual(double percent) {
 		return estadisticaPersonalEntrenamientoRepository.findByPorcentajeSaquesLessThanEqual(percent);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByPorcentajeRecepcionesLessThanEqual(double percent) {
 		return estadisticaPersonalEntrenamientoRepository.findByPorcentajeRecepcionesLessThanEqual(percent);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByPorcentajeColocacionesLessThanEqual(double percent) {
 		return estadisticaPersonalEntrenamientoRepository.findByPorcentajeColocacionesLessThanEqual(percent);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByPorcentajeDefensasLessThanEqual(double percent) {
 		return estadisticaPersonalEntrenamientoRepository.findByPorcentajeDefensasLessThanEqual(percent);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByPorcentajeBloqueosLessThanEqual(double percent) {
 		return estadisticaPersonalEntrenamientoRepository.findByPorcentajeBloqueosLessThanEqual(percent);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByPorcentajeRematesLessThanEqual(double percent) {
 		return estadisticaPersonalEntrenamientoRepository.findByPorcentajeRematesLessThanEqual(percent);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByPorcentajeFintasLessThanEqual(double percent) {
 		return estadisticaPersonalEntrenamientoRepository.findByPorcentajeFintasLessThanEqual(percent);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByPorcentajeAtaquesRapidosLessThanEqual(double percent) {
 		return estadisticaPersonalEntrenamientoRepository.findByPorcentajeAtaquesRapidosLessThanEqual(percent);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByJugador(int jugador_id) {
 		return estadisticaPersonalEntrenamientoRepository.findByJugador(jugador_id);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByEntrenamiento(int entrenamiento_id) {
 		return estadisticaPersonalEntrenamientoRepository.findByJugador(entrenamiento_id);
 	}
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByJugadorEntrenamiento(int jugador_id, int entrenamiento_id) {
 		return estadisticaPersonalEntrenamientoRepository.findByJugadorEntrenamiento(jugador_id, entrenamiento_id);
 	}
 
 	@Override
+	@Transactional
 	public EstadisticaPersonalEntrenamiento saveEstadisticaPersonalEntrenamiento(EstadisticaPersonalEntrenamiento statistic) {
 		EstadisticaPersonalEntrenamiento estadisticaPersonalPartido = estadisticaPersonalEntrenamientoRepository.save(statistic);
 		

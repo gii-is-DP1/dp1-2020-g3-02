@@ -22,7 +22,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.samples.petclinic.converter.PosicionConverter;
+import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
 import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.Posicion;
 

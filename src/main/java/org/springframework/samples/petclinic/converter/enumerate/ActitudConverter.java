@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.converter;
+package org.springframework.samples.petclinic.converter.enumerate;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
