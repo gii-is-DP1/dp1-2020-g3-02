@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.enumerate.Posicion;
 
 import lombok.Data;
 
+
 @Data
 @Entity
 @Table(name="jugadores", uniqueConstraints = @UniqueConstraint(columnNames = { "dni","email" }))
