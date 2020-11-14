@@ -44,19 +44,27 @@ public class JugadorController {
 	public ModelAndView listadoJugadores() {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		mav.addObject("jugadores", jugadorService.findAll());
+		mav.addObject("estadisticas", estadisService.findByJugador(1));
 		return mav;
 	}
+	
 	
 	@GetMapping("/showestadisiticasJugadores")
 	public ModelAndView vistaEstadísticas(int id) {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_JUGADOR_POR_PARTIDO);
 		mav.addObject("estadisticas", estadisService.findByJugador(id));
+		
 		return mav;
 	}
 	
 	@GetMapping("/navbar")
 	public String navbar() {
 		return ViewConstant.VIEW_NAVBAR;
+	}
+	
+	@GetMapping("/modal")
+	public String modal() {
+		return "/jugadores/modal";
 	}
 	
 	@GetMapping("/jugadorform")

@@ -123,9 +123,9 @@ INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (6,'2020-11-07',
 INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,jugador_id,partido_id) VALUES (1,10,20,0.5,1,1);
 INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,jugador_id,partido_id) VALUES (2,12,18,0.6,1,2); 
 INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,jugador_id,partido_id) VALUES (3,14,22,0.7,1,3);
-INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,jugador_id,partido_id) VALUES (4,10,25,0.5,1,4);
-INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,jugador_id,partido_id) VALUES (5,12,14,0.6,1,5); 
-INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,jugador_id,partido_id) VALUES (6,14,22,0.7,1,6); 
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,jugador_id,partido_id) VALUES (4,10,25,0.4,1,4);
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,jugador_id,partido_id) VALUES (5,12,14,0.7,1,5); 
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,jugador_id,partido_id) VALUES (6,14,22,0.63,1,6); 
 
 
 INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (1,3,'2020-11-06','SALTOVERTICAL',1);
