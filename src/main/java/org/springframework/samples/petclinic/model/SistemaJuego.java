@@ -10,17 +10,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
-import org.springframework.samples.petclinic.enumerate.TipoSistema;
+import org.springframework.samples.petclinic.enumerate.Sistema;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
-
-
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "sistema_juego")
-
 public class SistemaJuego extends BaseEntity{
 
 	@ManyToOne
@@ -29,19 +29,11 @@ public class SistemaJuego extends BaseEntity{
 
 	@Column(name = "tipo")
 	@Enumerated(value = EnumType.STRING)
-	private TipoSistema tipo;
+	private Sistema tipo;
 
 
 	@Column(name = "minutoAplicacion", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
 	private int minutoAplicacion;
-
-	public SistemaJuego(TipoSistema tipo,  int minutoAplicacion) {
-		super();
-		this.tipo = tipo;
-		this.minutoAplicacion = minutoAplicacion;
-	}
-
-	public SistemaJuego() {}
 
 }
