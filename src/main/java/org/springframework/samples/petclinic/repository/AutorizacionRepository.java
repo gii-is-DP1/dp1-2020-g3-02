@@ -13,10 +13,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository("autorizacionRepository")
 public interface AutorizacionRepository extends JpaRepository<Autorizacion,Serializable> {
-	
-	public List<Autorizacion> findByFecha(LocalDate date);
-	public List<Autorizacion> findByTipo(TipoAutorizacion tipo);
-	
-	@Query("SELECT a FROM Autorizacion a, Jugador j WHERE j.id=:jugador_id")
-	public List<Autorizacion> findByJugador(@Param("jugador_id") int jugador_id);
+
+    public List<Autorizacion> findByFecha(LocalDate date);
+    public List<Autorizacion> findByTipo(TipoAutorizacion tipo);
+
+    @Query("SELECT a FROM Autorizacion a, Jugador j WHERE j.id=:jugador_id")
+    public List<Autorizacion> findByJugador(@Param("jugador_id") int jugador_id);
 }

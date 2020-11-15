@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EntrenamientoServiceImpl implements EntrenamientoService{
-	
+
 	@Autowired
 	private EntrenamientoRepository entrenamientoRepository;
 
@@ -90,10 +90,10 @@ public class EntrenamientoServiceImpl implements EntrenamientoService{
 
 	@Override
 	public Optional<Entrenamiento> findById(int id) {
-		
+
 		return entrenamientoRepository.findById(id);
 	}
-	
-	
- 
+
+
+
 }
