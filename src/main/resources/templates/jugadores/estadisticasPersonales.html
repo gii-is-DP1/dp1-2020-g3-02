@@ -113,7 +113,7 @@
 	$(document).ready(function () {
 	    // Create DataTable
 	    var table = $('#estadisiticas').DataTable({
-	        dom: 'frtip',
+	        dom: '',
 	        responsive: true,
 	        
 	    });
@@ -140,12 +140,36 @@
 	            ],
 	            crosshair: true
 	        },
-	        yAxis: {
-	            min: 0,
+	        yAxis: [{ // Primary yAxis
+	            labels: {
+	                format: '{value}',
+	                style: {
+	                    color: Highcharts.getOptions().colors[1]
+	                }
+	            },
 	            title: {
-	                text: 'Estadísticas'
+	                text: 'Estadísticas',
+	                style: {
+	                    color: Highcharts.getOptions().colors[1]
+	                }
+	            },
+	            opposite: true
+	        }, { // Secondary yAxis
+	        	max: 100,
+	        	min: 0,
+	            title: {
+	                text: 'Porcentaje',
+	                style: {
+	                    color: Highcharts.getOptions().colors[0]
+	                }
+	            },
+	            labels: {
+	                format: '{value} %',
+	                style: {
+	                    color: Highcharts.getOptions().colors[0]
+	                }
 	            }
-	        },
+	        }],
 	        tooltip: {
 	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 	            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -164,16 +188,22 @@
 	            {	            	
 	            	name: name1(table),
 	            	data: chartData(table),
+	            	yAxis: 0
 	            	
 	            },
 	            {
 	            	name: name2(table),
 	            	data: chartData2(table),
+	            	yAxis: 0
 	            }, 
 	            {
 	                type: 'spline',
 	                name: 'Porcentaje',
 	                data: chartData3(table),
+	                yAxis: 1,
+	                tooltip: {
+	                    valueSuffix: ' %'
+	                },
 	                marker: {
 	                    lineWidth: 2,
 	                    lineColor: Highcharts.getOptions().colors[3],
@@ -316,7 +346,7 @@ function name2(table){
             });
 	        
 	        for (i = 0; i < names.length; i++){
-	        	counts[names[i]] = dato[i]*max;
+	        	counts[names[i]] = dato[i]*100;
 	        }
 	        
 	       
