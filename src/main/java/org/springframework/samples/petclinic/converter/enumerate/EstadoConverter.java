@@ -1,13 +1,11 @@
 package org.springframework.samples.petclinic.converter.enumerate;
 
 import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-
-import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.enumerate.Estado;
+import org.springframework.stereotype.Component;
 
 
-@Converter
+@Component
 public class EstadoConverter implements AttributeConverter<Estado, String>{
 
 	@Override

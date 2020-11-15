@@ -2,6 +2,8 @@ package org.springframework.samples.petclinic.controller;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
-import org.springframework.samples.petclinic.controller.form.JugadorForm;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
-import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
+import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
+import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
+import org.springframework.samples.petclinic.enumerate.Posicion;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
@@ -27,7 +31,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -49,6 +52,12 @@ public class JugadorController {
 	private EstadisticaPersonalPartidoService estadisService;
 	
 	@Autowired
+	private EstadoConverter estadoConverter;
+	
+	@Autowired
+	private PosicionConverter posicionConverter;
+	
+	@Autowired
 	private JugadorConverter jugadorConverter;
 	
 	@GetMapping("/showjugadores")
@@ -67,15 +76,27 @@ public class JugadorController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "findjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "findestadisticasjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<JugadorStats> graficoEstadisticasJugador(@PathVariable("id") int id) {
 		try {
 			Optional<Jugador> jugadorO = jugadorService.findById(id);
 			Jugador jugador = jugadorO.get();
-			JugadorStats stats = jugadorConverter.convertToEstadisticas(jugador);
+			JugadorStats stats = jugadorConverter.convertJugadorToJugadorStats(jugador);
 			return new ResponseEntity<JugadorStats>(stats, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<JugadorStats>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@RequestMapping(value = "findeditjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<JugadorEdit> editarJugador(@PathVariable("id") int id) {
+		try {
+			Optional<Jugador> jugadorO = jugadorService.findById(id);
+			Jugador jugador = jugadorO.get();
+			JugadorEdit edit = jugadorConverter.convertJugadorToJugadorEdit(jugador);
+			return new ResponseEntity<JugadorEdit>(edit, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<JugadorEdit>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
@@ -96,7 +117,7 @@ public class JugadorController {
 	
 	
 	@PostMapping("/addjugador")
-	public String addJugador(@ModelAttribute(name="formJugador") Jugador jugador, Model model, final BindingResult result) {
+	public String addJugador(@ModelAttribute(name="jugador") Jugador jugador, Model model, final BindingResult result) {
 		
 		LOG.info("addjugador() -- PARAMETROS: "+ jugador);
 		
@@ -117,6 +138,25 @@ public class JugadorController {
 		return "redirect:/jugadores/showjugadores";
 	//}
 	
-}
+	}
+	
+	@PostMapping("/updatejugador")
+	public String updateJugador(HttpServletRequest request) {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Optional<Jugador> jugadorO = jugadorService.findById(id);
+		Jugador jugador = jugadorO.get();
+		
+		jugador.setFirstName(request.getParameter("firstName").trim());
+		jugador.setLastName(request.getParameter("lastName").trim());
+		jugador.setAltura(Integer.parseInt(request.getParameter("altura")));
+		jugador.setPeso(Integer.parseInt(request.getParameter("peso")));
+		jugador.setEstadoActual(estadoConverter.convertToEntityAttribute(request.getParameter("estadoActual")));
+		jugador.setPosicionPrincipal(posicionConverter.convertToEntityAttribute(request.getParameter("posicionPrincipal")));
+		jugador.setPosicionSecundaria(posicionConverter.convertToEntityAttribute(request.getParameter("posicionSecundaria")));
+		
+		Jugador player = jugadorService.updateJugador(jugador);
+		
+		return "redirect:/jugadores/showjugadores";	
+	}
 	
 }

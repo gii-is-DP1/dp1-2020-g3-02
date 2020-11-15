@@ -9,10 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Component
 public class JugadorStats {
 	
 	private int id;
+	
+	private String firstName;
+	
+	private String lastName;
 	
 	private int saquesAcertados;
 	

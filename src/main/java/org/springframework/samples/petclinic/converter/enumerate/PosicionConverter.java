@@ -5,9 +5,10 @@ import javax.persistence.Converter;
 
 import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.enumerate.Posicion;
+import org.springframework.stereotype.Component;
 
 
-@Converter
+@Component
 public class PosicionConverter implements AttributeConverter<Posicion, String>{
 
 	@Override
