@@ -70,27 +70,15 @@
 							<td th:text="${jugador.posicionSecundaria}"></td>
 							<td>
 								<input type="hidden" id="id" th:value="${jugador.id}"></input>
-									<button class="btn btn-outline-success mx-0 estadisticas" type="button"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-										<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
-										</svg>
-										<title>Estadísticas</title>
-									</button>
-								<a style="text-decoration: none" href="#" th:href="@{/jugadores/jugadorform?id=__${jugador.id}__}">
-									<button class="btn btn-outline-info mx-0" type="button"><svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-										<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-										<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-										</svg>
-										<title>Editar</title>
-									</button>
-								</a>
-								<a style="text-decoration: none" href="#" th:href="@{/jugadores/deletejugador?id=__${jugador.id}__}">
-									<button class="btn btn-outline-danger mx-0" type="button"><svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-										<path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-										<path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-										</svg>
-										<title>Borrar</title>
-									</button>
-								</a>		
+								<button class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+									</svg>
+								</button>
+								<button class="btn btn-outline-info mx-0 editar" type="button" title="Editar"><svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+									<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+									</svg>
+								</button>
 							</td>
 					</tbody>
 
@@ -110,12 +98,12 @@
 		<div class="col-lg-2"></div>
 	</div>
 	
-	<!-- Modal -->
-	<div class="modal fade" id="estadisticasModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!-- Modal Estadisticas -->
+	<div class="modal fade" id="estadisticasModal" tabindex="-1" aria-labelledby="Estadísticas" aria-hidden="true">
 	  <div class="modal-dialog modal-xl modal-dialog-centered">
 	    <div class="modal-content">
 	      <div class="modal-header bg-success">
-	        <h5 class="modal-title" id="staticBackdropLabel">Estadísticas</h5>
+	        <h5 class="modal-title" id="staticBackdropLabel"></h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -123,9 +111,79 @@
 	      <div class="modal-body">
 	      <div id="contenedor-modal"></div>
 	      </div>
-	      <div class="modal-footer">
+	      <div class="modal-footer" style="background: rgb(40,167,69); background: linear-gradient(0deg, rgba(40,167,69,1) 0%, rgba(255,255,255,1) 100%);">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	<!-- Modal Edicion -->
+	<div class="modal fade" id="editarModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="Editar" aria-hidden="true">
+	  <div class="modal-dialog modal-xl modal-dialog-centered">
+	    <div class="modal-content">
+		    <form th:action="@{/jugadores/updatejugador}" method="post">
+		      <div class="modal-header bg-info">
+		        <h5 class="modal-title" id="staticBackdropLabel"></h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+			  	<div id="contenedor-modal">
+			  			<div class="row">
+							<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Nombre:</label><input class="form-control" type="text" placeholder="Nombre" th:id="firstName" name="firstName" required></input>
+							</div>
+							<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Apellidos:</label><input class="form-control" type="text" placeholder="Apellidos" th:id="lastName" name="lastName" required></input>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Altura(cm):</label><input class="form-control" type="number" placeholder="Altura" th:id="altura" name="altura" required></input>
+							</div>
+							<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Peso(kg):</label><input class="form-control" type="number" placeholder="Peso" th:id="peso" name="peso" min="1" max="300" required></input>
+							</div>
+							<div class="form-group col">
+								<label>Estado:</label> 
+								<select class="form-control" th:id="estadoActual" name="estadoActual">
+									<option th:id="EN_FORMA" th:value="EN_FORMA">EN FORMA</option>
+									<option th:id="LESIONADO" th:value="LESIONADO">LESIONADO</option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+						<div class="form-group col">
+							<label>Posición principal:</label> 
+							<select class="form-control" th:id="posicionPrincipal" name="posicionPrincipal">
+								<option th:id="'PUNTA'" th:value="PUNTA">PUNTA</option>
+								<option th:id="'OPUESTO'" th:value="OPUESTO">OPUESTO</option>
+								<option th:id="'COLOCADOR'" th:value="COLOCADOR">COLOCADOR</option>
+								<option th:id="'CENTRAL'" th:value="CENTRAL">CENTRAL</option>
+								<option th:id="'LIBERO'" th:value="LIBERO">LÍBERO</option>
+							</select>
+						</div>
+						<div class="form-group col">
+							<label>Posición secundaria:</label> 
+							<select class="form-control" th:id="posicionSecundaria" name="posicionSecundaria">
+								<option th:id="'PUNTA'" th:value="PUNTA">PUNTA</option>
+								<option th:id="'OPUESTO'" th:value="OPUESTO">OPUESTO</option>
+								<option th:id="'COLOCADOR'" th:value="COLOCADOR">COLOCADOR</option>
+								<option th:id="'CENTRAL'" th:value="CENTRAL">CENTRAL</option>
+								<option th:id="'LIBERO'" th:value="LIBERO">LÍBERO</option>
+							</select>
+						</div>
+					</div>
+			  	</div>
+			  </div>
+		      <div class="modal-footer" style="background: rgb(23,162,184); background: linear-gradient(0deg, rgba(23,162,184,0.75) 0%, rgba(255,255,255,1) 100%);">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+		        <input type="submit" class="btn btn-info" value="Aceptar"></input>
+		        <input type="hidden" th:id="id" name="id"></input>
+		      </div>
+	    	</form>
 	    </div>
 	  </div>
 	</div>
@@ -146,13 +204,10 @@
 	<!-- extension responsive -->
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+	<!-- Highcharts JS -->    
 	<script type="text/javascript"
         src="//code.highcharts.com/highcharts.js"></script>
 		
-	<!-- Highcharts JS               
-    <script src="pluggins/Highcharts_7.0.3/code/highcharts.js"></script>
-	<script src="pluggins/Highcharts_7.0.3/code/modules/exporting.js"></script>
-    <script src="pluggins/Highcharts_7.0.3/code/modules/export-data.js"></script>  -->
 	<script>
 		$(document)
 				.ready(
@@ -186,7 +241,7 @@
 																
 								$.ajax({
 									type: 'GET',
-									url: '/jugadores/findjugador/'+id,
+									url: '/jugadores/findestadisticasjugador/'+id,
 									success: function(stats){
 										var max = Math.max(stats.saquesTotales,stats.recepcionesTotales,stats.colocacionesTotales,stats.defensasTotales,stats.bloqueosTotales,stats.rematesTotales,stats.fintasTotales,stats.numAtaquesRapidosTotales);
 
@@ -245,11 +300,37 @@
 								                }
 								            ]
 										})
+										$('.modal-header').css("color","white");
+										$('.modal-title').text("Estadísticas de "+stats.firstName+" "+stats.lastName);
+										$('#estadisticasModal').modal("show");
 									}
 								});
 								
-								$('#estadisticasModal').modal("show");
-							})
+							});
+							
+							$('table .editar').on('click', function(){
+								var id = $(this).parent().find('#id').val();
+								
+								$.ajax({
+									type: 'GET',
+									url: '/jugadores/findeditjugador/'+id,
+									success: function(edit){
+										$('#editarModal #id').val(edit.id);
+										$('#editarModal #firstName').val(edit.firstName);
+										$('#editarModal #lastName').val(edit.lastName);
+										$('#editarModal #altura').val(edit.altura);
+										$('#editarModal #peso').val(edit.peso);
+										$('#editarModal #estadoActual').val(edit.estadoActual);
+										$('#editarModal #estadoActual').val(edit.estadoActual);
+										$('#editarModal #posicionPrincipal').val(edit.posicionPrincipal);
+										$('#editarModal #posicionSecundaria').val(edit.posicionSecundaria);
+										
+										$('.modal-header').css("color","white");
+										$('.modal-title').text("Editar a "+edit.firstName+" "+edit.lastName);
+										$('#editarModal').modal("show");
+									}
+								});
+							});
 
 						});
 	</script>

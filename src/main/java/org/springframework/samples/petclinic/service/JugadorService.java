@@ -30,6 +30,7 @@ public interface JugadorService {
 	public abstract List<Jugador> findByNumFaltasTotalesGreaterThanEqual(int faults);
 	public abstract List<Jugador> findByEquipo(int equipo_id);
 	public abstract Jugador saveJugador(Jugador player);
+	public abstract Jugador updateJugador(Jugador player);
 	public abstract List<Jugador> saveEstadisticasJugadores(List<Jugador> players);
 	public abstract int playerCount();
 }

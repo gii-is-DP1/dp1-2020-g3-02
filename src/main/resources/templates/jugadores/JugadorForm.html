@@ -78,12 +78,18 @@
 					<div class="form-group col">
 						<label>Altura(cm):</label> <input class="form-control"
 							type="number" placeholder="Altura(cm)" th:field="*{altura}"
-							th:value="${altura}" min=1 max=300 required></input>
+							th:value="${altura}" min="1" max="300" required></input>
 					</div>
 					<div class="form-group col">
 						<label>Peso(Kg):</label> <input class="form-control" type="number"
 							placeholder="Peso(Kg)" th:field="*{peso}" th:value="${peso}"
 							min=1 required></input>
+					</div>
+					<div class="form-group col">
+						<label>Estado Actual:</label> <select class="form-control" th:field="*{estadoActual}" th:selected="${estadoActual}">
+							<option th:value="'EN_FORMA'" th:text="'EN FORMA'"></option>
+							<option th:value="'LESIONADO'" th:text="'LESIONADO'"></option>
+						</select>
 					</div>
 				</div>
 				<div class="row" th:if="${param.id[0] == '0'}">
@@ -132,7 +138,7 @@
 						</select>
 					</div>
 				</div>
-				
+
 				<input class="btn btn-outline-success btn-lg btn-block"
 					type="submit" value="Aceptar"></input>
 			</form>
