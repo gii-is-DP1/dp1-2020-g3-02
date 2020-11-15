@@ -6,7 +6,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -34,6 +33,7 @@ import lombok.Data;
 @Table(name="jugadores", uniqueConstraints = @UniqueConstraint(columnNames = { "dni","email" }))
 public class Jugador extends Person{
 	
+
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
@@ -241,7 +241,7 @@ public class Jugador extends Person{
 
 	@Override
 	public String toString() {
-		return "Jugador [user=" + user + ", dni=" + dni
+		return "Jugador [user="+ user + ", dni=" + dni
 				+ ", direccion=" + direccion + ", email=" + email + ", localidad=" + localidad + ", fechaNacimiento="
 				+ fechaNacimiento + ", altura=" + altura + ", peso=" + peso + ", pesoIdeal=" + pesoIdeal + ", imc="
 				+ imc + ", posicionPrincipal=" + posicionPrincipal
