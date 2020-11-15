@@ -32,14 +32,18 @@
 				<h1 class="font-weight-bold font-italic">ESTADISITICAS JUGADOR</h1>
 			</div>
 		</div>
-
-				<a href="#" th:href="@{/jugadores/showestadisiticasJugadores?id=1&tipo=0}" data-column="0">
-				<button class="btn btn-outline-info btn-sm" type="button">SAQUES</button>
-				</a>
 				
-				<a href="#" th:href="@{/jugadores/showestadisiticasJugadores?id=1&tipo=1}"  data-column="1">
-				<button class="btn btn-outline-info btn-sm" type="button">RECEPCIONES</button>
-				</a>
+				<div class="row">
+				<div class="col">
+				<input type="hidden" id="id" th:value="saque" >
+				<button  class="btn btn-outline-info btn-sm stats" type="button">SAQUES</button>
+				</div>
+				
+				<div class="col">
+				<input type="hidden" id="id"  th:value="recepcion">
+				<button class="btn btn-outline-info btn-sm stats" type="button">RECEPCIONES</button>
+				</div>
+				</div>
 
 		<div class="row">
 			<div class="col-lg-12 responsive">
@@ -48,24 +52,30 @@
 					cellspacing="0" style="width: 100%;">
 					<thead>
 						<tr class="table-primary">
-							<th>ID</th>
-							<th th:if="${param.tipo[0] == '0'}">S_A</th>
-							<th th:if="${param.tipo[0] == '0'}">S_T</th>
-							<th th:if="${param.tipo[0] == '0'}">%_A</th>
-							<th th:if="${param.tipo[0] == '1'}">R_A</th>
-							<th th:if="${param.tipo[0] == '1'}">R_T</th>
-							<th th:if="${param.tipo[0] == '1'}">%_R</th>
+							
+							<th>FECHA</th>
+							<th>HORA</th>
+							<th>S_A</th>
+							<th>S_T</th>
+							<th>%_A</th>
+							<th>R_A</th>
+							<th>R_T</th>
+							<th>%_R</th>
+							
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="estadistica : ${estadisticas}">
-							<td th:text="${estadistica.id}"></td>
-							<td th:if="${param.tipo[0] == '0'}" th:text="${estadistica.saquesAcertados}"></td>
-							<td th:if="${param.tipo[0] == '0'}" th:text="${estadistica.saquesTotales}"></td>
-							<td th:if="${param.tipo[0] == '0'}" th:text="${estadistica.porcentajeSaques}"></td>
-							<td th:if="${param.tipo[0] == '1'}" th:text="${estadistica.recepcionesAcertadas}"></td>
-							<td th:if="${param.tipo[0] == '1'}" th:text="${estadistica.recepcionesTotales}"></td>
-							<td th:if="${param.tipo[0] == '1'}" th:text="${estadistica.PorcentajeRecepciones}"></td>
+							
+							<td  th:text="${estadistica.Partido.fecha}"></td>
+							<td  th:text="${estadistica.Partido.hora}"></td>
+							<td th:text="${estadistica.saquesAcertados}"></td>
+							<td th:text="${estadistica.saquesTotales}"></td>
+							<td th:text="${estadistica.porcentajeSaques}"></td>
+							<td th:text="${estadistica.recepcionesAcertadas}"></td>
+							<td th:text="${estadistica.recepcionesTotales}"></td>
+							<td th:text="${estadistica.PorcentajeRecepciones}"></td>
+		
 						</tr>
 					</tbody>
 
@@ -108,259 +118,329 @@
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 	
 	
-	
-	<script>
+	<script type="text/javascript">
+	/**
+	 * 
+	 */
+
 	$(document).ready(function () {
-	    // Create DataTable
-	    var table = $('#estadisiticas').DataTable({
-	        dom: '',
-	        responsive: true,
-	        
-	    });
-	        
-	 
-	    // Create the chart with initial data
-	    var container = $('<div/>').insertBefore(table.table().container());
-	 
-	    var chart = Highcharts.chart(container[0], {
-	        chart: {
-	            type: 'column',
-	        },
-	        title: {
-	            text: name(table),
-	        },
-	        xAxis: {
-	            categories: [
-	                '2020/07/01',
-	                '2020/07/02',
-	                '2020/07/05',
-	                '2020/07/01',
-	                '2020/07/02',
-	                '2020/07/05'
-	            ],
-	            crosshair: true
-	        },
-	        yAxis: [{ // Primary yAxis
-	            labels: {
-	                format: '{value}',
-	                style: {
-	                    color: Highcharts.getOptions().colors[1]
-	                }
-	            },
-	            title: {
-	                text: 'Estadísticas',
-	                style: {
-	                    color: Highcharts.getOptions().colors[1]
-	                }
-	            },
-	            opposite: true
-	        }, { // Secondary yAxis
-	        	max: 100,
-	        	min: 0,
-	            title: {
-	                text: 'Porcentaje',
-	                style: {
-	                    color: Highcharts.getOptions().colors[0]
-	                }
-	            },
-	            labels: {
-	                format: '{value} %',
-	                style: {
-	                    color: Highcharts.getOptions().colors[0]
-	                }
-	            }
-	        }],
-	        tooltip: {
-	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-	            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-	                '<td style="padding:0"><b>{point.y:f}</b></td></tr>',
-	            footerFormat: '</table>',
-	            shared: true,
-	            useHTML: true
-	        },
-	        plotOptions: {
-	            column: {
-	                pointPadding: 0.2,
-	                borderWidth: 0
-	            }
-	        },
-	        series: [
-	            {	            	
-	            	name: name1(table),
-	            	data: chartData(table),
-	            	yAxis: 0
-	            	
-	            },
-	            {
-	            	name: name2(table),
-	            	data: chartData2(table),
-	            	yAxis: 0
-	            }, 
-	            {
-	                type: 'spline',
-	                name: 'Porcentaje',
-	                data: chartData3(table),
-	                yAxis: 1,
-	                tooltip: {
-	                    valueSuffix: ' %'
-	                },
-	                marker: {
-	                    lineWidth: 2,
-	                    lineColor: Highcharts.getOptions().colors[3],
-	                    fillColor: 'white'
-	                }
-	            }
-	        ],
-	    });
-	    
-	    table.on('draw', function () {
-	        chart.series[0].setData(chartData(table));
-	    });
-	    
-	});
-		function name1(table){
-			
-			var coso =table.column(1).header();
-			
-			if($(coso).html() == 'S_A'){
-				return 'Saques Acertados';
-			}else{
-				return 'Recepciones Acertadas';
+		    // Create DataTable
+		    var table = $('#estadisiticas').DataTable({
+		        dom: '',
+		        responsive: true,
+		        
+		    });
+		    var chart = null;
+		    $('.stats').on('click', function(){
+				var tipo = $(this).parent().find('#id').val(); 
+				
+		 	if(chart != null){
+		 		chart.destroy();
+		 	}
+		    // Create the chart with initial data
+		    var container = $('<div/>').insertBefore(table.table().container());
+		 
+		     chart = Highcharts.chart(container[0], {
+		        chart: {
+		            type: 'column',
+		        },
+		        title: {
+		            text: name(table,tipo),
+		        },
+		        xAxis: {
+		            categories: fechas(table),
+		            crosshair: true
+		        },
+		        yAxis: [{ // Primary yAxis
+		            labels: {
+		                format: '{value}',
+		                style: {
+		                    color: Highcharts.getOptions().colors[1]
+		                }
+		            },
+		            title: {
+		                text: 'Estadísticas',
+		                style: {
+		                    color: Highcharts.getOptions().colors[1]
+		                }
+		            },
+		            opposite: true
+		        }, { // Secondary yAxis
+		        	max: 100,
+		        	min: 0,
+		            title: {
+		                text: 'Porcentaje',
+		                style: {
+		                    color: Highcharts.getOptions().colors[0]
+		                }
+		            },
+		            labels: {
+		                format: '{value} %',
+		                style: {
+		                    color: Highcharts.getOptions().colors[1]
+		                }
+		            }
+		        }],
+		        tooltip: {
+		            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+		            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+		                '<td style="padding:0"><b>{point.y:f}</b></td></tr>',
+		            footerFormat: '</table>',
+		            shared: true,
+		            useHTML: true
+		        },
+		        plotOptions: {
+		            column: {
+		                pointPadding: 0.2,
+		                borderWidth: 0
+		            }
+		        },
+		        series: [
+		            {	            	
+		            	name: name1(table,tipo),
+		            	data: chartData(table,tipo),
+		            	yAxis: 0
+		            	
+		            },
+		            {
+		            	name: name2(table,tipo),
+		            	data: chartData2(table,tipo),
+		            	yAxis: 0
+		            }, 
+		            {
+		                type: 'spline',
+		                name: 'Porcentaje',
+		                data: chartData3(table,tipo),
+		                yAxis: 1,
+		                tooltip: {
+		                    valueSuffix: ' %'
+		                },
+		                marker: {
+		                    lineWidth: 2,
+		                    lineColor: Highcharts.getOptions().colors[3],
+		                    fillColor: 'white'
+		                }
+		            }
+		        ],
+		    });
+		    
+		    table.on('draw', function () {
+		        chart.series[0].setData(chartData(table));
+		    });
+		    });
+		});
+	
+	
+	
+ // FUNCTIONS	
+	
+
+			function name1(table,tipo){
+				
+				if(tipo == 'saque'){
+					return 'Saques Acertados';
+				}else{
+					return 'Recepciones Acertadas';
+				}
 			}
-		}
-		
-function name2(table){
 			
-			var coso =table.column(1).header();
-			
-			if($(coso).html() == 'S_A'){
-				return 'Saques Totales';
-			}else{
-				return 'Recepciones Totales';
+			function name2(table,tipo){
+				
+				
+				if(tipo == 'saque'){
+					return 'Saques Totales';
+				}else{
+					return 'Recepciones Totales';
+				}
 			}
-		}
-		
-		function name(table){
 			
-			var coso =table.column(1).header();
-			
-			if($(coso).html() == 'S_A'){
-				return 'SAQUES';
-			}else{
-				return 'RECEPCIONES';
+			function name(table,tipo){
+				
+				
+				if(tipo == 'saque'){
+					return 'SAQUES';
+				}else{
+					return 'RECEPCIONES';
+				}
 			}
-		}
-		
-	    function chartData(table) {
-	        var counts = {};
-	     	var names = [];
-	     	var dato = [];
-	        
-	        // Count the number of entries for each position
-	        table
-	            .column(0, { search: 'applied' })
+			
+		    function chartData(table,tipo) {
+		        var counts = {};
+		     	var fechas = [];
+		     	var horas = [];
+		     	var dato = [];
+		        
+		     	var columna = 0;
+		     	
+		     	if (tipo == 'saque'){
+		     		columna = 2;
+		     	} else if(tipo == 'recepcion'){
+		     		columna = 5;
+		     	}
+		        // Count the number of entries for each position
+		        table
+		            .column(0, { search: 'applied' })
+		            .data()
+		            .each(function (val) {
+		            	fechas.push( val);
+		            });
+		        
+		        table
+	            .column(1, { search: 'applied' })
 	            .data()
 	            .each(function (val) {
-	            	names.push( parseInt(val,10));
+	            	horas.push( val);
 	            });
-	        
-	        table
-            .column(1, { search: 'applied' })
-            .data()
-            .each(function (val) {
-            	dato.push( parseInt(val,10));
-            });
-	        
-	         
-	        
-	        for (i = 0; i < names.length; i++){
-	        	counts[names[i]] = dato[i];
-	        }
-	        
-	       
-	     
-	        // And map it to the format highcharts uses
-	        return $.map(counts, function (val, key) {
-	            return {
-	                name: key,
-	                y: val,
-	            };
-	        });
-	    }
-	    var max = 0;
-	    function chartData2(table) {
-	        var counts = {};
-	     	var names = [];
-	     	var dato = [];
-	        
-	        // Count the number of entries for each position
-	        table
-	            .column(0, { search: 'applied' })
+		        
+		        table
+	            .column(columna, { search: 'applied' })
 	            .data()
 	            .each(function (val) {
-	            	names.push( parseInt(val,10));
+	            	dato.push( parseInt(val,10));
 	            });
-	        
-	        table
-            .column(2, { search: 'applied' })
-            .data()
-            .each(function (val) {
-            	dato.push( parseInt(val,10));
-            });
-	        
-	        for (i = 0; i < names.length; i++){
-	        	counts[names[i]] = dato[i];
-	        }
-	        
-	        max = Math.max(...dato);
-	     
-	        // And map it to the format highcharts uses
-	        return $.map(counts, function (val, key) {
-	            return {
-	                name: key,
-	                y: val,
-	            };
-	        });
-	        
-	        
-	    }
-	     
-	    function chartData3(table) {
-	        var counts = {};
-	     	var names = [];
-	     	var dato = [];
-	        
-	        // Count the number of entries for each position
-	        table
-	            .column(0, { search: 'applied' })
+		        
+		         
+		        
+		        for (i = 0; i < fechas.length; i++){
+		        	counts[fechas[i]+" "+horas[i]] = dato[i];
+		        }
+		        
+		     
+		        // And map it to the format highcharts uses
+		        return $.map(counts, function (val, key) {
+		            return {
+		                name: key,
+		                y: val,
+		            };
+		        });
+		    }
+		    
+		    function chartData2(table,tipo) {
+		        var counts = {};
+		     	var fechas = [];
+		     	var horas = [];
+		     	var dato = [];
+		        
+				var columna = 0;
+		     	
+		     	if (tipo == 'saque'){
+		     		columna = 3;
+		     	} else if(tipo == 'recepcion'){
+		     		columna = 6;
+		     	}
+		     	
+		        // Count the number of entries for each position
+		        table
+		            .column(0, { search: 'applied' })
+		            .data()
+		            .each(function (val) {
+		            	fechas.push(val);
+		            });
+		        
+		        table
+	            .column(1, { search: 'applied' })
 	            .data()
 	            .each(function (val) {
-	            	names.push( parseInt(val,10));
+	            	horas.push( val);
 	            });
-	        
-	        table
-            .column(3, { search: 'applied' })
-            .data()
-            .each(function (val) {
-            	dato.push( parseFloat(val));
-            });
-	        
-	        for (i = 0; i < names.length; i++){
-	        	counts[names[i]] = dato[i]*100;
-	        }
-	        
-	       
-	     
-	        // And map it to the format highcharts uses
-	        return $.map(counts, function (val, key) {
-	            return {
-	                name: key,
-	                y: val,
-	            };
-	        });
-	        
-	        
-	    }
+		        
+		        table
+	            .column(columna, { search: 'applied' })
+	            .data()
+	            .each(function (val) {
+	            	dato.push( parseInt(val,10));
+	            });
+		        
+		        for (i = 0; i < fechas.length; i++){
+		        	counts[fechas[i]+" "+horas[i]] = dato[i];
+		        }
+		        
+		     
+		        // And map it to the format highcharts uses
+		        return $.map(counts, function (val, key) {
+		            return {
+		                name: key,
+		                y: val,
+		            };
+		        });
+		        
+		        
+		    }
+		     
+		    function chartData3(table,tipo) {
+		        var counts = {};
+		     	var fechas = [];
+		     	var horas = [];
+		     	var dato = [];
+		     	
+				var columna = 0;
+		     	
+		     	if (tipo == 'saque'){
+		     		columna = 4;
+		     	} else if(tipo == 'recepcion'){
+		     		columna = 7;
+		     	}
+		        
+		        // Count the number of entries for each position
+		        table
+		            .column(0, { search: 'applied' })
+		            .data()
+		            .each(function (val) {
+		            	fechas.push( val);
+		            });
+		        
+		        table
+	            .column(1, { search: 'applied' })
+	            .data()
+	            .each(function (val) {
+	            	horas.push( val);
+	            });
+		        
+		        table
+	            .column(columna, { search: 'applied' })
+	            .data()
+	            .each(function (val) {
+	            	dato.push( parseFloat(val));
+	            });
+		        
+		        for (i = 0; i < fechas.length; i++){
+		        	counts[fechas[i]+" "+horas[i]] = dato[i]*100;
+		        }
+		        
+		       
+		     
+		        // And map it to the format highcharts uses
+		        return $.map(counts, function (val, key) {
+		            return {
+		                name: key,
+		                y: val,
+		            };
+		        });
+		        
+		        
+		    }
+			
+		    function fechas(table) {
+		        
+		     	var fecha = [];
+		        
+		        // Count the number of entries for each position
+		        table
+		            .column(0, { search: 'applied' })
+		            .data()
+		            .each(function (val) {
+		            	fecha.push( val);
+		            });
+		        
+		        // And map it to the format highcharts uses
+		        return fecha;
+		        
+		      
+		        
+		        
+		    }
+		    
+	
 	</script>
 	
 	<script type="text/javascript">

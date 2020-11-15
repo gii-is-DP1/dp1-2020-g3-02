@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,12 +13,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
+import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
 import org.springframework.samples.petclinic.enumerate.Posicion;
+import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
+import org.springframework.samples.petclinic.model.estadisticas.EstadisticasStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
@@ -60,6 +65,9 @@ public class JugadorController {
 	@Autowired
 	private JugadorConverter jugadorConverter;
 	
+	@Autowired
+	private EstadisticasConverter estadisticasConverter;
+	
 	@GetMapping("/showjugadores")
 	public ModelAndView listadoJugadores() {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
@@ -97,6 +105,22 @@ public class JugadorController {
 			return new ResponseEntity<JugadorEdit>(edit, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<JugadorEdit>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@RequestMapping(value = "findestadisticaspersonalesjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<EstadisticasStats>> graficoEstadisticasPersonalesJugador(@PathVariable("id") int id) {
+		try {
+			List<EstadisticaPersonalPartido> estadis = estadisService.findByJugador(id);
+			List<EstadisticasStats> sol = new ArrayList<EstadisticasStats>();
+			
+			for (int i = 0; i < estadis.size(); i++) {
+				EstadisticasStats stats = estadisticasConverter.convertEstadisticasToEstadisticasStats(estadis.get(i));
+				sol.add(stats);
+			}
+			return new ResponseEntity<List<EstadisticasStats>>(sol, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<EstadisticasStats>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
