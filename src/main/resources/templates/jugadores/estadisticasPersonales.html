@@ -162,12 +162,12 @@
 	        },
 	        series: [
 	            {	            	
-	            	name: 'Saques Acertados',
+	            	name: name1(table),
 	            	data: chartData(table),
 	            	
 	            },
 	            {
-	            	name: 'Saques Totales',
+	            	name: name2(table),
 	            	data: chartData2(table),
 	            }, 
 	            {
@@ -188,11 +188,32 @@
 	    });
 	    
 	});
+		function name1(table){
+			
+			var coso =table.column(1).header();
+			
+			if($(coso).html() == 'S_A'){
+				return 'Saques Acertados';
+			}else{
+				return 'Recepciones Acertadas';
+			}
+		}
+		
+function name2(table){
+			
+			var coso =table.column(1).header();
+			
+			if($(coso).html() == 'S_A'){
+				return 'Saques Totales';
+			}else{
+				return 'Recepciones Totales';
+			}
+		}
+		
 		function name(table){
 			
 			var coso =table.column(1).header();
 			
-		//	alert($(coso).html());
 			if($(coso).html() == 'S_A'){
 				return 'SAQUES';
 			}else{
