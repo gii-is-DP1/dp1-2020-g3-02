@@ -265,12 +265,36 @@
 								                ],
 								                crosshair: true
 								            },
-								            yAxis: {
-								                min: 0,
-								                title: {
-								                    text: 'Valores'
-								                }
-								            },
+								            yAxis: [{ // Primary yAxis
+									            labels: {
+									                format: '{value}',
+									                style: {
+									                    color: Highcharts.getOptions().colors[1]
+									                }
+									            },
+									            title: {
+									                text: 'Estadísticas',
+									                style: {
+									                    color: Highcharts.getOptions().colors[1]
+									                }
+									            },
+									            opposite: true
+									        }, { // Secondary yAxis
+									        	max: 100,
+									        	min: 0,
+									            title: {
+									                text: 'Porcentaje',
+									                style: {
+									                    color: Highcharts.getOptions().colors[0]
+									                }
+									            },
+									            labels: {
+									                format: '{value} %',
+									                style: {
+									                    color: Highcharts.getOptions().colors[1]
+									                }
+									            }
+									        }],
 								            tooltip: {
 								                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 								                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -296,7 +320,7 @@
 								                },
 								                {
 								                    name: 'Porcentajes',
-								                    data: [stats.porcentajeSaques*max,stats.porcentajeRecepciones*max,stats.porcentajeColocaciones*max,stats.porcentajeDefensas*max,stats.porcentajeBloqueos*max,stats.porcentajeRemates*max,stats.porcentajeFintas*max,stats.porcentajeAtaquesRapidos*max],
+								                    data: [stats.porcentajeSaques*100,stats.porcentajeRecepciones*100,stats.porcentajeColocaciones*100,stats.porcentajeDefensas*100,stats.porcentajeBloqueos*100,stats.porcentajeRemates*100,stats.porcentajeFintas*100,stats.porcentajeAtaquesRapidos*100],
 								                }
 								            ]
 										})
