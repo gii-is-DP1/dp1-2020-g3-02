@@ -112,6 +112,9 @@ INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,dire
 INSERT INTO equipos(id,categoria,federacion) VALUES (1,'Senior',false);
 INSERT INTO equipos(id,categoria,federacion) VALUES (2,'Cadete',false);
 
+INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (1,'bencrealc','Teodoro', 'Sánchez Bermejo', 'teodorocoach@gmail.com','1987-8-19');
+INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (2,'bencrealc','Mauricio', 'Colmenero Muñoz', 'mastodonquijote@gmail.com','1997-8-19');
+
 
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (1,'2020-11-06','17:00',5);
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (2,'2020-11-06','18:00',5);
