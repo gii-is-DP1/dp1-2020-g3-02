@@ -32,18 +32,28 @@
 				<h1 class="font-weight-bold font-italic">ESTADISITICAS JUGADOR</h1>
 			</div>
 		</div>
-				
-				<div class="row">
-				<div class="col">
-				<input type="hidden" id="id" th:value="saque" >
-				<button  class="btn btn-outline-info btn-sm stats" type="button">SAQUES</button>
-				</div>
-				
-				<div class="col">
-				<input type="hidden" id="id"  th:value="recepcion">
+
+		<div class="row">
+			<div class="col">
+				<input type="hidden" id="id" th:value="saque">
+				<button class="btn btn-outline-info btn-sm stats" type="button">SAQUES</button>
+			</div>
+
+			<div class="col">
+				<input type="hidden" id="id" th:value="recepcion">
 				<button class="btn btn-outline-info btn-sm stats" type="button">RECEPCIONES</button>
-				</div>
-				</div>
+			</div>
+
+			<div class="col">
+				<input type="hidden" id="id" th:value="colocacion">
+				<button class="btn btn-outline-info btn-sm stats" type="button">COLOCACIONES</button>
+			</div>
+			
+			<div class="col">
+				<input type="hidden" id="id" th:value="defensa">
+				<button class="btn btn-outline-info btn-sm stats" type="button">DEFENSAS</button>
+			</div>
+		</div>
 
 		<div class="row">
 			<div class="col-lg-12 responsive">
@@ -57,10 +67,16 @@
 							<th>HORA</th>
 							<th>S_A</th>
 							<th>S_T</th>
-							<th>%_A</th>
+							<th>%_S</th>
 							<th>R_A</th>
 							<th>R_T</th>
 							<th>%_R</th>
+							<th>C_A</th>
+							<th>C_T</th>
+							<th>%_C</th>
+							<th>D_A</th>
+							<th>D_T</th>
+							<th>%_D</th>
 							
 						</tr>
 					</thead>
@@ -75,6 +91,12 @@
 							<td th:text="${estadistica.recepcionesAcertadas}"></td>
 							<td th:text="${estadistica.recepcionesTotales}"></td>
 							<td th:text="${estadistica.PorcentajeRecepciones}"></td>
+							<td th:text="${estadistica.colocacionesAcertadas}"></td>
+							<td th:text="${estadistica.colocacionesTotales}"></td>
+							<td th:text="${estadistica.PorcentajeColocaciones}"></td>
+							<td th:text="${estadistica.defensasAcertadas}"></td>
+							<td th:text="${estadistica.defensasTotales}"></td>
+							<td th:text="${estadistica.PorcentajeDefensas}"></td>
 		
 						</tr>
 					</tbody>
@@ -239,8 +261,12 @@
 				
 				if(tipo == 'saque'){
 					return 'Saques Acertados';
-				}else{
+				}else if (tipo == 'recepcion'){
 					return 'Recepciones Acertadas';
+				}else if(tipo == 'colocacion'){
+					return 'Colocaciones Acertadas'
+				}else if (tipo == 'defensa'){
+					return 'Defensas Acertadas'
 				}
 			}
 			
@@ -249,8 +275,12 @@
 				
 				if(tipo == 'saque'){
 					return 'Saques Totales';
-				}else{
+				}else if (tipo == 'recepcion'){
 					return 'Recepciones Totales';
+				} else if(tipo == 'colocacion'){
+					return 'Colocaciones Totales'
+				}else if (tipo == 'defensa'){
+					return 'Defensas Totales'
 				}
 			}
 			
@@ -259,8 +289,12 @@
 				
 				if(tipo == 'saque'){
 					return 'SAQUES';
-				}else{
+				}else if (tipo == 'recepcion'){
 					return 'RECEPCIONES';
+				}else if(tipo == 'colocacion'){
+					return 'COLOCACIONES'
+				}else if (tipo == 'defensa'){
+					return 'DEFENSAS'
 				}
 			}
 			
@@ -276,7 +310,11 @@
 		     		columna = 2;
 		     	} else if(tipo == 'recepcion'){
 		     		columna = 5;
-		     	}
+		     	}else if (tipo == 'colocacion'){
+		     		columna = 8;
+		     	}else if (tipo == 'defensa'){
+					columna = 11;
+				}
 		        // Count the number of entries for each position
 		        table
 		            .column(0, { search: 'applied' })
@@ -327,8 +365,11 @@
 		     		columna = 3;
 		     	} else if(tipo == 'recepcion'){
 		     		columna = 6;
-		     	}
-		     	
+		     	} else if (tipo == 'colocacion'){
+		     		columna = 9;
+		     	}else if (tipo == 'defensa'){
+					columna = 12;
+		     	}					
 		        // Count the number of entries for each position
 		        table
 		            .column(0, { search: 'applied' })
@@ -379,6 +420,10 @@
 		     		columna = 4;
 		     	} else if(tipo == 'recepcion'){
 		     		columna = 7;
+		     	}else if(tipo == 'colocacion'){
+		     		columna = 10;
+		     	}else if (tipo == 'defensa'){
+					columna = 13;
 		     	}
 		        
 		        // Count the number of entries for each position
