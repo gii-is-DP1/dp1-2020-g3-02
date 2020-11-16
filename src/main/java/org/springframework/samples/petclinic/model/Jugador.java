@@ -60,7 +60,7 @@ public class Jugador extends Person{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
 	private Set<EstadisticaPersonalEntrenamiento> estadisticas_personales_entrenamientos;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	@OneToMany( mappedBy = "jugador")
 	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")

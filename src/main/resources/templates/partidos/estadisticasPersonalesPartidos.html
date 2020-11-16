@@ -35,6 +35,12 @@
 		</div>
 
 		<div class="row">
+			
+			<div class="col">
+				<input type="hidden" id="id" th:value="general">
+				<button class="btn btn-outline-info btn-sm stats" type="button">GENERAL</button>
+			</div>
+			
 			<div class="col">
 				<input type="hidden" id="id" th:value="saque">
 				<button class="btn btn-outline-info btn-sm stats" type="button">SAQUES</button>
@@ -63,6 +69,16 @@
 			<div class="col">
 				<input type="hidden" id="id" th:value="remate">
 				<button class="btn btn-outline-info btn-sm stats" type="button">REMATES</button>
+			</div>
+			
+			<div class="col">
+				<input type="hidden" id="id" th:value="finta">
+				<button class="btn btn-outline-info btn-sm stats" type="button">FINTAS</button>
+			</div>
+			
+			<div class="col">
+				<input type="hidden" id="id" th:value="ataque">
+				<button class="btn btn-outline-info btn-sm stats" type="button">ATAQUES R</button>
 			</div>
 		</div>
 
@@ -94,6 +110,12 @@
 							<th>Re_A</th>
 							<th>Re_T</th>
 							<th>%_Re</th>
+							<th>F_A</th>
+							<th>F_T</th>
+							<th>%_F</th>
+							<th>A_A</th>
+							<th>A_T</th>
+							<th>%_A</th>
 							
 						</tr>
 					</thead>
@@ -107,19 +129,25 @@
 							<td th:text="${estadistica.porcentajeSaques}"></td>
 							<td th:text="${estadistica.recepcionesAcertadas}"></td>
 							<td th:text="${estadistica.recepcionesTotales}"></td>
-							<td th:text="${estadistica.PorcentajeRecepciones}"></td>
+							<td th:text="${estadistica.porcentajeRecepciones}"></td>
 							<td th:text="${estadistica.colocacionesAcertadas}"></td>
 							<td th:text="${estadistica.colocacionesTotales}"></td>
-							<td th:text="${estadistica.PorcentajeColocaciones}"></td>
+							<td th:text="${estadistica.porcentajeColocaciones}"></td>
 							<td th:text="${estadistica.defensasAcertadas}"></td>
 							<td th:text="${estadistica.defensasTotales}"></td>
-							<td th:text="${estadistica.PorcentajeDefensas}"></td>
+							<td th:text="${estadistica.porcentajeDefensas}"></td>
 							<td th:text="${estadistica.bloqueosAcertados}"></td>
 							<td th:text="${estadistica.bloqueosTotales}"></td>
-							<td th:text="${estadistica.PorcentajeBloqueos}"></td>
+							<td th:text="${estadistica.porcentajeBloqueos}"></td>
 							<td th:text="${estadistica.rematesAcertados}"></td>
 							<td th:text="${estadistica.rematesTotales}"></td>
-							<td th:text="${estadistica.PorcentajeRemates}"></td>
+							<td th:text="${estadistica.porcentajeRemates}"></td>
+							<td th:text="${estadistica.fintasAcertadas}"></td>
+							<td th:text="${estadistica.fintasTotales}"></td>
+							<td th:text="${estadistica.porcentajeFintas}"></td>
+							<td th:text="${estadistica.numAtaquesRapidosAcertados}"></td>
+							<td th:text="${estadistica.numAtaquesRapidosTotales}"></td>
+							<td th:text="${estadistica.porcentajeAtaquesRapidos}"></td>
 						</tr>
 					</tbody>
 
@@ -183,11 +211,18 @@
 				tipo = $(this).parent().find('#id').val(); 
 				
 		 	if(chart != null){
+		 		
 		 		chart.destroy();
+		 		
 		 	}
-		 	
-		 	grafica(table,tipo);
-		 	
+		 	if (tipo != 'general'){
+		 		
+		 		graficaEspecifica(table,tipo);
+		 		
+		 	}else{
+		 		
+		 		graficaGeneral(table,tipo);
+		 	}
 		    });
 		    
 		    $('th').on('click', function(){
@@ -195,12 +230,12 @@
 			 		chart.destroy();
 			 	}
 			 	
-			 	grafica(table,tipo);
+			 	graficaEspecifica(table,tipo);
 		    });
 		 	
 		    // Create the chart with initial data
 		    
-		    function grafica (table, tipo){ 
+		    function graficaEspecifica (table, tipo){ 
 		    
 		    var container = $('<div/>').insertBefore(table.table().container());
 		 
@@ -292,11 +327,185 @@
 		        chart.series[0].setData(chartData(table));
 		    });
 		    }
-		});
+		
 	
+		
+	 function graficaGeneral (table, tipo){ 
+		    
+		    var container = $('<div/>').insertBefore(table.table().container());
+		 
+		     chart = Highcharts.chart(container[0], {
+		    	 chart: {
+			            type: 'spline',
+			        },
+		        title: {
+		            text: 'Estadística',
+		        }, 
+		        xAxis: {
+		            categories: fechas(table),
+		            crosshair: true
+		        },
+		        yAxis:  {
+		        	max: 100,
+		        	min: 0,
+		            title: {
+		                text: 'Porcentaje',
+		                style: {
+		                    color: Highcharts.getOptions().colors[0]
+		                }
+		            },
+		            labels: {
+		                format: '{value} %',
+		                style: {
+		                    color: Highcharts.getOptions().colors[1]
+		                }
+		            }
+		        },
+		        
+		        legend: {
+		            layout: 'vertical',
+		            align: 'right',
+		            verticalAlign: 'middle'
+		        },
+		        plotOptions: {
+		            series: {
+		                pointPadding: 0.2,
+		                borderWidth: 0
+		            }
+		        },
+		   
+		        series: [
+		            {	            	
+		            	name: 'Porcentaje Saques',
+		            	data: datos(table,'saque')
+		            	
+		            },
+		            {
+		            	name: 'Porcentaje Recepciones',
+		            	data: datos(table,'recepcion')
+		            },
+		            {	            	
+		            	name: 'Porcentaje Colocaciones',
+		            	data: datos(table,'colocacion')
+		            	
+		            },
+		            {
+		            	name: 'Porcentaje Defensas',
+		            	data: datos(table,'defensa')
+		            },  
+		            {	            	
+		            	name: 'Porcentaje Bloqueo',
+		            	data: datos(table,'bloqueo')
+		            	
+		            },
+		            {
+		            	name: 'Porcentaje Remate',
+		            	data: datos(table,'remate')
+		            }, 
+		            {	            	
+		            	name: 'Porcentaje Fintas',
+		            	data: datos(table,'finta')
+		            	
+		            },
+		            {
+		            	name: 'Porcentaje Ataques Rápidos',
+		            	data: datos(table,'ataque')
+		            }, 
+		        ],
+		        
+		        responsive: {
+		            rules: [{
+		                condition: {
+		                    maxWidth: 500
+		                },
+		                chartOptions: {
+		                    legend: {
+		                        layout: 'horizontal',
+		                        align: 'center',
+		                        verticalAlign: 'bottom'
+		                    }
+		                }
+		            }]
+		        }
+		    });
+		    
+		    table.on('draw', function () {
+		        chart.series[0].setData(chartData(table));
+		    });
+		    }
+		
 	
+	});
+		
 	
  // FUNCTIONS	
+ 
+ 			function datos (table,tipo){
+ 				
+	 			var sol = {};
+	 			var fecha = [];
+	 			var dato = [];
+	 			var horas = [];
+	 			
+				var columna = 0;
+		     	
+		     	if (tipo == 'saque'){
+		     		columna = 4;
+		     	} else if(tipo == 'recepcion'){
+		     		columna = 7;
+		     	}else if(tipo == 'colocacion'){
+		     		columna = 10;
+		     	}else if (tipo == 'defensa'){
+					columna = 13;
+		     	}else if (tipo == 'bloqueo'){
+					columna = 16;
+				}else if (tipo == 'remate'){
+					columna = 19;
+				}else if (tipo == 'finta'){
+					columna = 22;
+				}else if (tipo == 'ataque'){
+					columna = 25;
+				}
+		     	
+		     	table
+	            .column(0, { search: 'applied' })
+	            .data()
+	            .each(function (val) {
+	            	fecha.push( val);
+	            });
+		     	
+		     	 table
+		            .column(1, { search: 'applied' })
+		            .data()
+		            .each(function (val) {
+		            	horas.push( val);
+		            });
+	 			
+ 				 table
+		            .column(columna, { search: 'applied' })
+		            .data()
+		            .each(function (val) {
+		            	dato.push( parseFloat(val,10));
+		            });
+ 				 
+// 				for (i = 0; i < fechas.length; i++){
+//		        	sol[fecha[i]+" "+horas[i]] = dato[i]*100;
+//		        }
+ 				
+ 				for (i = 0; i < dato.length; i++){
+		        	dato[i] = dato[i]*100;
+		        }
+ 				 
+ 				//alert(sol);
+// 				return $.map(sol, function (val, key) {
+//		            return {
+//		                name: key,
+//		                y: val,
+//		            };
+//		        });
+
+				return dato;
+			}
 	
 
 			function name1(table,tipo){
@@ -313,6 +522,10 @@
 					return 'Bloqueos Acertados'
 				}else if (tipo == 'remate'){
 					return 'Remates Acertadas'
+				}else if (tipo == 'finta'){
+					return 'Fintas Acertadas'
+				}else if (tipo == 'ataque'){
+					return 'Ataques Rápidos Acertados'
 				}
 			}
 			
@@ -331,6 +544,10 @@
 					return 'Bloqueos Totales'
 				}else if (tipo == 'remate'){
 					return 'Remates Totales'
+				}else if (tipo == 'finta'){
+					return 'Fintas Totales'
+				}else if (tipo == 'ataque'){
+					return 'Ataques Rápidos Totales'
 				}
 			}
 			
@@ -349,6 +566,10 @@
 					return 'BLOQUEOS'
 				}else if (tipo == 'remate'){
 					return 'REMATES'
+				}else if (tipo == 'finta'){
+					return 'FINTAS'
+				}else if (tipo == 'ataque'){
+					return 'ATAQUES RÁPIDOS'
 				}
 			}
 			
@@ -372,6 +593,10 @@
 					columna = 14;
 				}else if (tipo == 'remate'){
 					columna = 17;
+				}else if (tipo == 'finta'){
+					columna = 20;
+				}else if (tipo == 'ataque'){
+					columna = 23;
 				}
 		        // Count the number of entries for each position
 		        table
@@ -431,6 +656,10 @@
 					columna = 15;
 				}else if (tipo == 'remate'){
 					columna = 18;
+				}else if (tipo == 'finta'){
+					columna = 21;
+				}else if (tipo == 'ataque'){
+					columna = 24;
 				}					
 		        // Count the number of entries for each position
 		        table
@@ -490,6 +719,10 @@
 					columna = 16;
 				}else if (tipo == 'remate'){
 					columna = 19;
+				}else if (tipo == 'finta'){
+					columna = 22;
+				}else if (tipo == 'ataque'){
+					columna = 25;
 				}
 		        
 		        // Count the number of entries for each position
