@@ -57,6 +57,6 @@ public class WelcomeController {
 		  model.put("title", "Volleyball");
 		  model.put("group","G3-02");
 		  
-	    return "redirect:/jugadores/showjugadores";
+	    return "start";
 	  }
 }
