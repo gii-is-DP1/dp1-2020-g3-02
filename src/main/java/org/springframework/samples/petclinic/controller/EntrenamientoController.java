@@ -13,6 +13,8 @@ import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
+import org.springframework.samples.petclinic.service.EstadisticaPersonalEntrenamientoService;
+import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,9 @@ public class EntrenamientoController {
 	private static final Log LOG = LogFactory.getLog(EntrenamientoController.class);
 	
 	@Autowired
+	private EstadisticaPersonalEntrenamientoService estadisService;
+	
+	@Autowired
 	private EntrenamientoService entrenamientoService;
 	
 	@GetMapping("/showentrenamientos")
@@ -50,6 +55,14 @@ public class EntrenamientoController {
 	public Entrenamiento entrenamiento(int id) {
 		Optional<Entrenamiento> entrenamiento = entrenamientoService.findById(id);
 		return entrenamiento.get();
+	}
+	
+	@GetMapping("/showestadisiticasJugadores")
+	public ModelAndView vistaEstadísticas(int id) {
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_JUGADOR_POR_ENTRENAMIENTO);
+		mav.addObject("estadisticas", estadisService.findByJugador(id));
+		
+		return mav;
 	}
 	
 	@GetMapping("/navbar")
