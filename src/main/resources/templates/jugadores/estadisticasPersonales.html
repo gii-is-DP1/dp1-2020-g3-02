@@ -54,6 +54,16 @@
 				<input type="hidden" id="id" th:value="defensa">
 				<button class="btn btn-outline-info btn-sm stats" type="button">DEFENSAS</button>
 			</div>
+			
+			<div class="col">
+				<input type="hidden" id="id" th:value="bloqueo">
+				<button class="btn btn-outline-info btn-sm stats" type="button">BLOQUEOS</button>
+			</div>
+			
+			<div class="col">
+				<input type="hidden" id="id" th:value="remate">
+				<button class="btn btn-outline-info btn-sm stats" type="button">REMATES</button>
+			</div>
 		</div>
 
 		<div class="row">
@@ -78,6 +88,12 @@
 							<th>D_A</th>
 							<th>D_T</th>
 							<th>%_D</th>
+							<th>B_A</th>
+							<th>B_T</th>
+							<th>%_B</th>
+							<th>Re_A</th>
+							<th>Re_T</th>
+							<th>%_Re</th>
 							
 						</tr>
 					</thead>
@@ -98,7 +114,12 @@
 							<td th:text="${estadistica.defensasAcertadas}"></td>
 							<td th:text="${estadistica.defensasTotales}"></td>
 							<td th:text="${estadistica.PorcentajeDefensas}"></td>
-		
+							<td th:text="${estadistica.bloqueosAcertados}"></td>
+							<td th:text="${estadistica.bloqueosTotales}"></td>
+							<td th:text="${estadistica.PorcentajeBloqueos}"></td>
+							<td th:text="${estadistica.rematesAcertados}"></td>
+							<td th:text="${estadistica.rematesTotales}"></td>
+							<td th:text="${estadistica.PorcentajeRemates}"></td>
 						</tr>
 					</tbody>
 
@@ -154,13 +175,33 @@
 		        
 		    });
 		    var chart = null;
+		    var tipo = null; //poner var general
+		    
+		    
+		    
 		    $('.stats').on('click', function(){
-				var tipo = $(this).parent().find('#id').val(); 
+				tipo = $(this).parent().find('#id').val(); 
 				
 		 	if(chart != null){
 		 		chart.destroy();
 		 	}
+		 	
+		 	grafica(table,tipo);
+		 	
+		    });
+		    
+		    $('th').on('click', function(){
+		    	if(chart != null){
+			 		chart.destroy();
+			 	}
+			 	
+			 	grafica(table,tipo);
+		    });
+		 	
 		    // Create the chart with initial data
+		    
+		    function grafica (table, tipo){ 
+		    
 		    var container = $('<div/>').insertBefore(table.table().container());
 		 
 		     chart = Highcharts.chart(container[0], {
@@ -250,7 +291,7 @@
 		    table.on('draw', function () {
 		        chart.series[0].setData(chartData(table));
 		    });
-		    });
+		    }
 		});
 	
 	
@@ -268,6 +309,10 @@
 					return 'Colocaciones Acertadas'
 				}else if (tipo == 'defensa'){
 					return 'Defensas Acertadas'
+				}else if (tipo == 'bloqueo'){
+					return 'Bloqueos Acertados'
+				}else if (tipo == 'remate'){
+					return 'Remates Acertadas'
 				}
 			}
 			
@@ -282,6 +327,10 @@
 					return 'Colocaciones Totales'
 				}else if (tipo == 'defensa'){
 					return 'Defensas Totales'
+				}else if (tipo == 'bloqueo'){
+					return 'Bloqueos Totales'
+				}else if (tipo == 'remate'){
+					return 'Remates Totales'
 				}
 			}
 			
@@ -296,6 +345,10 @@
 					return 'COLOCACIONES'
 				}else if (tipo == 'defensa'){
 					return 'DEFENSAS'
+				}else if (tipo == 'bloqueo'){
+					return 'BLOQUEOS'
+				}else if (tipo == 'remate'){
+					return 'REMATES'
 				}
 			}
 			
@@ -315,6 +368,10 @@
 		     		columna = 8;
 		     	}else if (tipo == 'defensa'){
 					columna = 11;
+				}else if (tipo == 'bloqueo'){
+					columna = 14;
+				}else if (tipo == 'remate'){
+					columna = 17;
 				}
 		        // Count the number of entries for each position
 		        table
@@ -370,7 +427,11 @@
 		     		columna = 9;
 		     	}else if (tipo == 'defensa'){
 					columna = 12;
-		     	}					
+		     	}else if (tipo == 'bloqueo'){
+					columna = 15;
+				}else if (tipo == 'remate'){
+					columna = 18;
+				}					
 		        // Count the number of entries for each position
 		        table
 		            .column(0, { search: 'applied' })
@@ -425,7 +486,11 @@
 		     		columna = 10;
 		     	}else if (tipo == 'defensa'){
 					columna = 13;
-		     	}
+		     	}else if (tipo == 'bloqueo'){
+					columna = 16;
+				}else if (tipo == 'remate'){
+					columna = 19;
+				}
 		        
 		        // Count the number of entries for each position
 		        table
