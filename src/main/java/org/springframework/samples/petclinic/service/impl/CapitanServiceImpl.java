@@ -3,6 +3,8 @@ package org.springframework.samples.petclinic.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.enumerate.Actitud;
@@ -14,11 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("capitanService")
 public class CapitanServiceImpl implements CapitanService {
+	
+	private static final Log LOG = LogFactory.getLog(CapitanServiceImpl.class);
 
 	@Autowired
 	@Qualifier("capitanRepository")
 	private CapitanRepository capitanRepository;
 
+	@Override
+	@Transactional(readOnly = true)
 	public List<Capitan> findAll(){
 		return capitanRepository.findAll();
 	}

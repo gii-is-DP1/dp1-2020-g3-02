@@ -3,6 +3,8 @@ package org.springframework.samples.petclinic.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.model.RealizaEjercicio;
@@ -13,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("realizaEjercicioService")
 public class RealizaEjercicioServiceImpl implements RealizaEjercicioService {
+	
+	private static final Log LOG = LogFactory.getLog(RealizaEjercicioServiceImpl.class);
 
 	@Autowired
 	@Qualifier("realizaEjercicioRepository")
@@ -30,6 +34,8 @@ public class RealizaEjercicioServiceImpl implements RealizaEjercicioService {
 		return realizaEjercicioRepository.findByJugador(id);
 	}
 	
+	@Override
+	@Transactional(readOnly = true)
 	public List<RealizaEjercicio> findAll(){
 		return realizaEjercicioRepository.findAll();
 	}
