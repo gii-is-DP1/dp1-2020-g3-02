@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository("sustitucionesRepository")
 public interface SustitucionesRepository extends JpaRepository<Sustituciones, Serializable>{
-	public List<Sustituciones> findByMinutoSustitucion(String minuto_sustitucion);
+	public List<Sustituciones> findByMinutoSustitucion(int minuto_sustitucion);
 	
 	@Query("SELECT s FROM Sustituciones s, Jugador j WHERE j.id=:jugador_id")
 	public List<Sustituciones> findByJugador(@Param("jugador_id") int jugador_id);

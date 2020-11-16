@@ -30,7 +30,7 @@ public class SustitucionesServiceImpl implements SustitucionesServices{
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Sustituciones> findByMinutoSustitucion(String minuto_sustitucion) {
+	public List<Sustituciones> findByMinutoSustitucion(int minuto_sustitucion) {
 		return sustitucionesRepository.findByMinutoSustitucion(minuto_sustitucion);
 	}
 

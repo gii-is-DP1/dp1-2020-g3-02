@@ -8,7 +8,7 @@ public interface SustitucionesServices {
 	
 	public abstract List<Sustituciones> findAll();
 	public abstract Optional<Sustituciones> findById(int id);
-	public abstract List<Sustituciones> findByMinutoSustitucion(String minuto_sustitucion);
+	public abstract List<Sustituciones> findByMinutoSustitucion(int minuto_sustitucion);
 	public abstract List<Sustituciones> findByPartido(int partido_id);
 	public abstract List<Sustituciones> findByJugador(int jugador_id);
 	public abstract Sustituciones saveSustitucion(Sustituciones substitution);

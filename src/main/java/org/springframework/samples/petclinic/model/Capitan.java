@@ -16,8 +16,10 @@ import javax.validation.constraints.Min;
 import org.springframework.samples.petclinic.enumerate.Actitud;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false,doNotUseGetters = true)
 @Entity
 @Table(name = "capitanes")
 public class Capitan extends BaseEntity {
