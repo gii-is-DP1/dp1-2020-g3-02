@@ -146,6 +146,7 @@
 							<td th:text="${estadistica.numAtaquesRapidosAcertados}"></td>
 							<td th:text="${estadistica.numAtaquesRapidosTotales}"></td>
 							<td th:text="${estadistica.porcentajeAtaquesRapidos}"></td>
+							
 						</tr>
 					</tbody>
 
@@ -203,7 +204,7 @@
 		    var chart = null;
 		    var tipo = null; //poner var general
 		    
-		    
+		    graficaGeneral(table,'general');
 		    
 		    $('.stats').on('click', function(){
 				tipo = $(this).parent().find('#id').val(); 
@@ -215,10 +216,13 @@
 		 	}
 		 	if (tipo != 'general'){
 		 		
+		 		columnas(table,tipo);
 		 		graficaEspecifica(table,tipo);
 		 		
 		 	}else{
 		 		
+	     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
+	     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
 		 		graficaGeneral(table,tipo);
 		 	}
 		    });
@@ -775,6 +779,46 @@
 		        
 		        // And map it to the format highcharts uses
 		        return fecha;
+		    }
+		    
+		    function columnas(table,tipo){
+		    	
+		    	var column = table.column(2);
+		    	column.visible(false);
+		    	
+		    	if (tipo == 'saque'){
+		     		table.columns( [2,3,4]).visible(true);
+		     		table.columns( [2,3,4]).visible(true);
+		     		table.columns( [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(false);
+		     	} else if(tipo == 'recepcion'){
+		     		table.columns( [5,6,7]).visible(true);
+		     		table.columns( [5,6,7]).visible(true);
+		     		table.columns( [2,3,4,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(false);
+		     	}else if(tipo == 'colocacion'){
+		     		table.columns( [8,9,10]).visible(true);
+		     		table.columns( [8,9,10]).visible(true);
+		     		table.columns( [5,6,7,2,3,4,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(false);
+		     	}else if (tipo == 'defensa'){
+		     		table.columns( [11,12,13]).visible(true);
+		     		table.columns( [11,12,13]).visible(true);
+		     		table.columns( [5,6,7,8,9,10,2,3,4,14,15,16,17,18,19,20,21,22,23,24,25]).visible(false);
+		     	}else if (tipo == 'bloqueo'){
+		     		table.columns( [14,15,16]).visible(true);
+		     		table.columns( [14,15,16]).visible(true);
+		     		table.columns( [5,6,7,8,9,10,11,12,13,2,3,4,17,18,19,20,21,22,23,24,25]).visible(false);
+				}else if (tipo == 'remate'){
+					table.columns( [17,18,19]).visible(true);
+					table.columns( [17,18,19]).visible(true);
+		     		table.columns( [5,6,7,8,9,10,11,12,13,14,15,16,2,3,4,20,21,22,23,24,25]).visible(false);
+				}else if (tipo == 'finta'){
+					table.columns( [20,21,22]).visible(true);
+					table.columns( [20,21,22]).visible(true);
+		     		table.columns( [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,2,3,4,23,24,25]).visible(false);
+				}else if (tipo == 'ataque'){
+					table.columns( [23,24,25]).visible(true);
+					table.columns( [23,24,25]).visible(true);
+		     		table.columns( [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,2,3,4]).visible(false);
+				}
 		    }
 	</script>
 	
