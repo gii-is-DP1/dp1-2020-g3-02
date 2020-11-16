@@ -65,22 +65,10 @@ public class JugadorController {
 	@Autowired
 	private JugadorConverter jugadorConverter;
 	
-	@Autowired
-	private EstadisticasConverter estadisticasConverter;
-	
 	@GetMapping("/showjugadores")
 	public ModelAndView listadoJugadores() {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		mav.addObject("jugadores", jugadorService.findAll());
-		return mav;
-	}
-	
-	
-	@GetMapping("/showestadisiticasJugadores")
-	public ModelAndView vistaEstadísticas(int id) {
-		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_JUGADOR_POR_PARTIDO);
-		mav.addObject("estadisticas", estadisService.findByJugador(id));
-		
 		return mav;
 	}
 	
@@ -107,23 +95,7 @@ public class JugadorController {
 			return new ResponseEntity<JugadorEdit>(HttpStatus.BAD_REQUEST);
 		}	
 	}
-	
-	@RequestMapping(value = "findestadisticaspersonalesjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<EstadisticasStats>> graficoEstadisticasPersonalesJugador(@PathVariable("id") int id) {
-		try {
-			List<EstadisticaPersonalPartido> estadis = estadisService.findByJugador(id);
-			List<EstadisticasStats> sol = new ArrayList<EstadisticasStats>();
-			
-			for (int i = 0; i < estadis.size(); i++) {
-				EstadisticasStats stats = estadisticasConverter.convertEstadisticasToEstadisticasStats(estadis.get(i));
-				sol.add(stats);
-			}
-			return new ResponseEntity<List<EstadisticasStats>>(sol, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<List<EstadisticasStats>>(HttpStatus.BAD_REQUEST);
-		}	
-	}
-	
+
 	@GetMapping("/navbar")
 	public String navbar() {
 		return ViewConstant.VIEW_NAVBAR;

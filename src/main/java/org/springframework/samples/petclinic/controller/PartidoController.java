@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.controller.form.JugadorForm;
+import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,9 @@ public class PartidoController {
 	@Autowired
 	private PartidoService partidoService;
 	
+	@Autowired
+	private EstadisticaPersonalPartidoService estadisService;
+	
 	@GetMapping("/showpartidos")
 	public ModelAndView listadoJugadores() {
 		
@@ -49,6 +54,33 @@ public class PartidoController {
 		Optional<Partido> partido = partidoService.findById(id);
 		return partido.get();
 	}
+	
+	@GetMapping("/showestadisiticasJugadores")
+	public ModelAndView vistaEstadísticas(int id) {
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_JUGADOR_POR_PARTIDO);
+		mav.addObject("estadisticas", estadisService.findByJugador(id));
+		
+		return mav;
+	}
+	
+	
+//	@RequestMapping(value = "findestadisticaspersonalesjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<List<EstadisticasStats>> graficoEstadisticasPersonalesJugador(@PathVariable("id") int id) {
+//		try {
+//			List<EstadisticaPersonalPartido> estadis = estadisService.findByJugador(id);
+//			List<EstadisticasStats> sol = new ArrayList<EstadisticasStats>();
+//			
+//			for (int i = 0; i < estadis.size(); i++) {
+//				EstadisticasStats stats = estadisticasConverter.convertEstadisticasToEstadisticasStats(estadis.get(i));
+//				sol.add(stats);
+//			}
+//			return new ResponseEntity<List<EstadisticasStats>>(sol, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return new ResponseEntity<List<EstadisticasStats>>(HttpStatus.BAD_REQUEST);
+//		}	
+//	}
+	
+	
 	
 	@GetMapping("/navbar")
 	public String navbar() {

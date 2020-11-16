@@ -141,8 +141,8 @@ INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,por
 	jugador_id,partido_id) VALUES (5,12,14,0.7,15,20,0.75,5,20,0.25,5,20,0.25,1,5); 
 	
 INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
-	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
-	jugador_id,partido_id) VALUES (6,14,22,0.63,5,20,0.25,5,20,0.25,5,20,0.25,1,6); 
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,fintas_acertadas,fintas_totales,porcentaje_fintas,
+	num_ataques_rapidos_acertados,num_ataques_rapidos_totales,porcentaje_ataques_rapidos,jugador_id,partido_id) VALUES (6,14,22,0.63,5,20,0.25,5,20,0.25,5,20,0.25,10,20,0.5,15,20,0.75,2,6); 
 
 
 INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (1,3,'2020-11-06','SALTOVERTICAL',1);
@@ -151,3 +151,7 @@ INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALU
 INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento) VALUES (1,'2020-11-11','17:00',5);
 INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento) VALUES (2,'2020-11-05','18:00',5);
 INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento) VALUES (3,'2020-11-07','19:00',5);
+
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (1,1);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (2,1);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (3,1);
