@@ -22,13 +22,13 @@
 	<script src="https://www.w3schools.com/lib/w3data.js"></script>
 	
 	<div class="">
-	<div w3-include-html="navbar?id=estadisticasPartido"></div>
+	<div w3-include-html="navbar?id=estadisticasEntrenamiento"></div>
 	</div>
 
 	<div class="container-fluid">
 		<div class="row">
 			<div class="py-3 text-center col-lg-12">
-				<h1 class="font-weight-bold font-italic">ESTADISITICAS PARTIDO</h1>
+				<h1 class="font-weight-bold font-italic">ESTADISTICAS ENTRENAMIENTOS</h1>
 			</div>
 		</div>
 
@@ -120,8 +120,8 @@
 					<tbody>
 						<tr th:each="estadistica : ${estadisticas}">
 							
-							<td  th:text="${estadistica.Partido.fecha}"></td>
-							<td  th:text="${estadistica.Partido.hora}"></td>
+							<td  th:text="${estadistica.Entrenamiento.fecha}"></td>
+							<td  th:text="${estadistica.Entrenamiento.hora}"></td>
 							<td th:text="${estadistica.saquesAcertados}"></td>
 							<td th:text="${estadistica.saquesTotales}"></td>
 							<td th:text="${estadistica.porcentajeSaques}"></td>
