@@ -18,9 +18,7 @@ public class CapitanServiceImpl implements CapitanService {
 	@Autowired
 	@Qualifier("capitanRepository")
 	private CapitanRepository capitanRepository;
-	
-	@Override
-	@Transactional(readOnly = true)
+
 	public List<Capitan> findAll(){
 		return capitanRepository.findAll();
 	}
