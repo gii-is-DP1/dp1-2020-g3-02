@@ -29,17 +29,17 @@ public class Autorizacion extends BaseEntity{
 
 	@Column(name = "tipo")
 	@Enumerated(value = EnumType.STRING)
-	private TipoAutorizacion tipo;
+	private TipoAutorizacion tipoAutorizacion;
 
 	@Column(name = "responsable")
 	@Enumerated(value = EnumType.STRING)
-	private TipoResponsable responsable;
+	private TipoResponsable tipoResponsable;
 
 	public Autorizacion(LocalDate fecha, TipoAutorizacion tipo, TipoResponsable responsable) {
 		super();
 		this.fecha = fecha;
-		this.tipo = tipo;
-		this.responsable = responsable;
+		this.tipoAutorizacion = tipo;
+		this.tipoResponsable = responsable;
 	}
 	public Autorizacion() {}
 	

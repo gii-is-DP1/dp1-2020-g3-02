@@ -14,9 +14,11 @@ import org.springframework.samples.petclinic.enumerate.Sistema;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper = false,doNotUseGetters = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -27,9 +29,9 @@ public class SistemaJuego extends BaseEntity{
 	@JoinColumn(name = "partido_id")
 	private Partido partido;
 
-	@Column(name = "tipo")
+	@Column(name = "sistema")
 	@Enumerated(value = EnumType.STRING)
-	private Sistema tipo;
+	private Sistema sistema;
 
 
 	@Column(name = "minutoAplicacion", nullable = false, columnDefinition = "integer default 0")
