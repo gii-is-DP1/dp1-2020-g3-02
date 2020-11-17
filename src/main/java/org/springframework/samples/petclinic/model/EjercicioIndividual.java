@@ -7,8 +7,8 @@ import javax.persistence.Column;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -26,8 +26,9 @@ public class EjercicioIndividual extends BaseEntity {
 	private Set<RealizaEjercicio> realiza_ejercicios;
 	
 	@ManyToMany
-	@JoinColumn(name = "jugador_id")
-	private Jugador jugador;
+	@JoinTable(name = "seleRecomiendan", joinColumns = @JoinColumn(name = "ejercicio_individual_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
+	Set<Jugador> jugadores;
 	
 	@Column(name = "nombre", nullable = false)
 	private String nombre;
@@ -41,18 +42,22 @@ public class EjercicioIndividual extends BaseEntity {
 	public EjercicioIndividual() {
 	}
 
-	public EjercicioIndividual(String nombre, String descripcion, TipoEjercicio tipo_ejercicio) {
+	public EjercicioIndividual(Set<RealizaEjercicio> realiza_ejercicios, Set<Jugador> jugadores, String nombre,
+			String descripcion, TipoEjercicio tipoEjercicio) {
 		super();
+		this.realiza_ejercicios = realiza_ejercicios;
+		this.jugadores = jugadores;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.tipoEjercicio = tipo_ejercicio;
+		this.tipoEjercicio = tipoEjercicio;
 	}
-
 
 	@Override
 	public String toString() {
-		return "EjercicioIndividual [realiza_ejercicios=" + realiza_ejercicios + ", nombre=" + nombre + ", descripcion="
-				+ descripcion + ", tipoEjercicio=" + tipoEjercicio + "]";
+		return "EjercicioIndividual [realiza_ejercicios=" + realiza_ejercicios + ", jugadores=" + jugadores
+				+ ", nombre=" + nombre + ", descripcion=" + descripcion + ", tipoEjercicio=" + tipoEjercicio + "]";
 	}
 
+
+	
 }
