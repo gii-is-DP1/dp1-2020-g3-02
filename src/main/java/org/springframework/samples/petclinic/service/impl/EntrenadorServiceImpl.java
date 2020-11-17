@@ -29,27 +29,23 @@ public class EntrenadorServiceImpl implements EntrenadorService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<Entrenador> findAll() {
-		// TODO Auto-generated method stub
 		return entrenadorRepository.findAll();
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<Entrenador> findById(int id) {
-		// TODO Auto-generated method stub
 		return entrenadorRepository.findById(id);
 	}
 
 	@Override
 	public List<Entrenador> findByFirstName(String name) throws DataAccessException {
-		// TODO Auto-generated method stub
 		return entrenadorRepository.findByFirstName(name);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Entrenador> findByEmail(String email) throws DataAccessException {
-		// TODO Auto-generated method stub
 		return entrenadorRepository.findByEmail(email);
 	}
 
@@ -57,21 +53,18 @@ public class EntrenadorServiceImpl implements EntrenadorService{
 	@Transactional(readOnly = true)
 	public List<Entrenador> findByFechaNacimientoBetweenOrderByFechaNacimiento(LocalDate firstDate,
 			LocalDate secondDate) {
-		// TODO Auto-generated method stub
 		return entrenadorRepository.findByFechaNacimientoBetweenOrderByFechaNacimiento(firstDate, secondDate);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Entrenador> findByFechaNacimientoAfterOrderByFechaNacimiento(LocalDate date) throws DataAccessException {
-		// TODO Auto-generated method stub
 		return entrenadorRepository.findByFechaNacimientoAfterOrderByFechaNacimiento(date);
 	}
 
 	@Override
 	@Transactional
 	public Entrenador saveEntrenador(Entrenador entrenador) throws DataAccessException {
-		// TODO Auto-generated method stub
 		Entrenador _entrenador = entrenadorRepository.save(entrenador);
 		//LOG.info(_entrenador.toString());
 		userService.saveUser(entrenador.getUser());
@@ -81,7 +74,6 @@ public class EntrenadorServiceImpl implements EntrenadorService{
 
 	@Override
 	public int entrenadorCount() {
-		// TODO Auto-generated method stub
 		return (int) entrenadorRepository.count();
 	}
 
