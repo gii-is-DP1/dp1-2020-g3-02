@@ -11,10 +11,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository("personalesRepository")
 public interface PersonalesRepository extends JpaRepository<Personales,Serializable>{
-	public List<Personales> findByJugador(String jugador);
+	
+	public List<Personales> findByPropietario(String propietario);
 	
 	@Query("SELECT a FROM Personales a, Partido p WHERE p.id=:partido_id")
 	public List<Personales> findByPartido(@Param("partido_id") int partido_id); 
-
+	
+	@Query("SELECT a FROM Personales a, Jugador j WHERE j.id=:jugador_id")
+	public List<Personales> findByJugador(@Param("jugador_id") int jugador_id);
 
 }
