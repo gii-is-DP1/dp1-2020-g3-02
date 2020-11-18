@@ -116,6 +116,11 @@ INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimie
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (2,'bencrealc','Mauricio', 'Colmenero Muñoz', 'mastodonquijote@gmail.com','1997-8-19');
 
 
+INSERT INTO personales(id,propietario) VALUES(1,'Pablo');
+INSERT INTO personales(id,propietario) VALUES(2,'Ana');
+INSERT INTO personales(id,propietario) VALUES(3,'Rosa');
+INSERT INTO personales(id,propietario) VALUES(4,'Pepa');
+
 -- INSERT  PARTIDOS
 
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (1,'2020-11-06','17:00',5);
@@ -197,3 +202,10 @@ INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALU
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (1,1);
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (2,1);
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (3,1);
+
+INSERT INTO linea_material(id,cantidad) VALUES (1,9);
+INSERT INTO linea_material(id,cantidad) VALUES (2,2);
+INSERT INTO linea_material(id,cantidad) VALUES (3,1);
+INSERT INTO linea_material(id,cantidad) VALUES (4,7);
+INSERT INTO linea_material(id,cantidad) VALUES (5,21);
+INSERT INTO linea_material(id,cantidad) VALUES (6,14);
