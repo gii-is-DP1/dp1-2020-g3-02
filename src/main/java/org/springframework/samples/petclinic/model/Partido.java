@@ -17,13 +17,20 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
 import org.springframework.samples.petclinic.enumerate.Sistema;
+import org.springframework.samples.petclinic.model.padres.EstadisticasEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "partidos")
-public class Partido extends BaseEntity{
+public class Partido extends EstadisticasEntity{
 	
 	@ManyToMany
 	@JoinTable(name = "juegaPartido", joinColumns = @JoinColumn(name = "partido_id"), 
@@ -210,34 +217,5 @@ public class Partido extends BaseEntity{
 	@Column(name = "tiempo_calentamiento", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
 	private int tiempoCalentamiento;
-	
-	public Partido() {
-	}
-	
-	public Partido(LocalDate fecha, String hora, Sistema sistema_juego) {
-		super();
-		this.fecha = fecha;
-		this.hora = hora;
-		this.sistemaJuego = sistema_juego;
-	}
-
-	public Partido(LocalDate fecha, String hora, Sistema sistema_juego, int num_puntos_set1, int num_puntos_set2,
-			int num_puntos_set3, int num_puntos_set4, int num_puntos_set5, int tiempo_colocador_general, int tiempo_5_1,
-			int tiempo_4_2, int tiempo_6_2, int tiempo_calentamiento) {
-		super();
-		this.fecha = fecha;
-		this.hora = hora;
-		this.sistemaJuego = sistema_juego;
-		this.numPuntosSet1 = num_puntos_set1;
-		this.numPuntosSet2 = num_puntos_set2;
-		this.numPuntosSet3 = num_puntos_set3;
-		this.numPuntosSet4 = num_puntos_set4;
-		this.numPuntosSet5 = num_puntos_set5;
-		this.tiempoColocadorGeneral = tiempo_colocador_general;
-		this.tiempo51 = tiempo_5_1;
-		this.tiempo42 = tiempo_4_2;
-		this.tiempo62 = tiempo_6_2;
-		this.tiempoCalentamiento = tiempo_calentamiento;
-	}
 
 }

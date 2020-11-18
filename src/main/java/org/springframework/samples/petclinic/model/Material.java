@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
+import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
 import lombok.Data;
 

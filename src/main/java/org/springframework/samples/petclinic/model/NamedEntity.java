@@ -19,6 +19,8 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Size;
 
+import org.springframework.samples.petclinic.model.padres.BaseEntity;
+
 /**
  * Simple JavaBean domain object adds a name property to <code>BaseEntity</code>. Used as
  * a base class for objects needing these properties.
