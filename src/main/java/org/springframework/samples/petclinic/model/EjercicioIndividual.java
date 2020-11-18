@@ -16,8 +16,10 @@ import javax.persistence.UniqueConstraint;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false, doNotUseGetters = true)
 @Entity
 @Table(name = "ejercicios_individuales", uniqueConstraints = @UniqueConstraint(columnNames = { "nombre" }))
 public class EjercicioIndividual extends BaseEntity {
@@ -26,9 +28,9 @@ public class EjercicioIndividual extends BaseEntity {
 	private Set<RealizaEjercicio> realiza_ejercicios;
 	
 	@ManyToMany
-	@JoinTable(name = "seleRecomiendan", joinColumns = @JoinColumn(name = "ejercicio_individual_id"), 
+	@JoinTable(name = "recomendacion", joinColumns = @JoinColumn(name = "ejercicio_individual_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
-	Set<Jugador> jugadores;
+	private Set<Jugador> jugadores;
 	
 	@Column(name = "nombre", nullable = false)
 	private String nombre;
