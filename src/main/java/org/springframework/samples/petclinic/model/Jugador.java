@@ -85,6 +85,12 @@ public class Jugador extends Person{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
 	private Set<Autorizacion> autorizacion;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	private Set<Sustitucion> sustituciones;
+//	
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+//	private Set<Sustitucion> sustitucion_sale;
+//	
 	@Column(name = "dni", nullable = false, length = 9)
 	private String dni;
 	

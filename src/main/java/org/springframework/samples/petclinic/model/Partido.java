@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
@@ -17,7 +18,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
 import org.springframework.samples.petclinic.enumerate.Sistema;
-import org.springframework.samples.petclinic.model.padres.EstadisticasEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,7 +46,7 @@ public class Partido extends EstadisticasEntity{
 	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "partido")
-	private Set<Sustituciones> sustituciones;
+	private Set<Sustitucion> sustituciones;
 	
 	@ManyToOne
 	@JoinColumn(name = "equipo_id")
@@ -217,5 +217,4 @@ public class Partido extends EstadisticasEntity{
 	@Column(name = "tiempo_calentamiento", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
 	private int tiempoCalentamiento;
-
 }
