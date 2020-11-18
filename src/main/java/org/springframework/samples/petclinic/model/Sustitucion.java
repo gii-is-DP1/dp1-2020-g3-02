@@ -14,7 +14,7 @@ import javax.validation.constraints.Min;
 
 @Entity
 @Table(name="sustituciones")
-public class Sustituciones extends BaseEntity{
+public class Sustitucion extends BaseEntity{
 	
 	/*@ManyToMany
 	@JoinTable(name = "jugadores", joinColumns = @JoinColumn(name = "sustitucion_id"), 
@@ -25,16 +25,24 @@ public class Sustituciones extends BaseEntity{
 	@JoinColumn(name = "partido_id")
 	private Partido partido;
 	
+	@ManyToOne
+	@JoinColumn(name = "jugador_id")
+	private Jugador jugador;
+	
+//	@ManyToOne
+//	@JoinColumn(name = "jugador_id")
+//	private Jugador jugador_sale;
+	
 	@Column(name = "minuto_sustitucion", nullable = false)
 	@Min(0)
 	private Integer minutoSustitucion;
 	
-	public Sustituciones() {
+	public Sustitucion() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Sustituciones(Integer minutoSustitucion) {
+	public Sustitucion(Integer minutoSustitucion) {
 		super();
 		this.minutoSustitucion = minutoSustitucion;
 	}

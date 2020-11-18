@@ -39,7 +39,7 @@ public class Partido extends BaseEntity{
 	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "partido")
-	private Set<Sustituciones> sustituciones;
+	private Set<Sustitucion> sustituciones;
 	
 	@ManyToOne
 	@JoinColumn(name = "equipo_id")
