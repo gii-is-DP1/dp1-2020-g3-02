@@ -20,6 +20,7 @@ import lombok.Data;
 @Entity
 @Table(name = "personales")
 public class Personales extends BaseEntity {
+	
 	@Column(name = "propietario", nullable = false, length = 5)
 	private String propietario;
 	
@@ -37,13 +38,17 @@ public class Personales extends BaseEntity {
 	public Personales(String propietario) {
 		super();
 		this.propietario = propietario;
+
 	}
-
-
+	public Personales() {
+	}
 	@Override
 	public String toString() {
 		return "Personales [propietario=" + propietario + "]";
 	}
+
+
+
 
 
 	
