@@ -4,8 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Min;
 
-import lombok.Data;
-
 @MappedSuperclass
 public class EstadisticasEntity extends BaseEntity{
 	
@@ -100,5 +98,205 @@ public class EstadisticasEntity extends BaseEntity{
 	@Column(name = "num_faltas_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
 	protected int numFaltasTotales;
+
+	public int getSaquesAcertados() {
+		return saquesAcertados;
+	}
+
+	public void setSaquesAcertados(int saquesAcertados) {
+		this.saquesAcertados = saquesAcertados;
+	}
+
+	public int getSaquesTotales() {
+		return saquesTotales;
+	}
+
+	public void setSaquesTotales(int saquesTotales) {
+		this.saquesTotales = saquesTotales;
+	}
+
+	public double getPorcentajeSaques() {
+		return porcentajeSaques;
+	}
+
+	public void setPorcentajeSaques(double porcentajeSaques) {
+		this.porcentajeSaques = porcentajeSaques;
+	}
+
+	public int getRecepcionesAcertadas() {
+		return recepcionesAcertadas;
+	}
+
+	public void setRecepcionesAcertadas(int recepcionesAcertadas) {
+		this.recepcionesAcertadas = recepcionesAcertadas;
+	}
+
+	public int getRecepcionesTotales() {
+		return recepcionesTotales;
+	}
+
+	public void setRecepcionesTotales(int recepcionesTotales) {
+		this.recepcionesTotales = recepcionesTotales;
+	}
+
+	public double getPorcentajeRecepciones() {
+		return porcentajeRecepciones;
+	}
+
+	public void setPorcentajeRecepciones(double porcentajeRecepciones) {
+		this.porcentajeRecepciones = porcentajeRecepciones;
+	}
+
+	public int getColocacionesAcertadas() {
+		return colocacionesAcertadas;
+	}
+
+	public void setColocacionesAcertadas(int colocacionesAcertadas) {
+		this.colocacionesAcertadas = colocacionesAcertadas;
+	}
+
+	public int getColocacionesTotales() {
+		return colocacionesTotales;
+	}
+
+	public void setColocacionesTotales(int colocacionesTotales) {
+		this.colocacionesTotales = colocacionesTotales;
+	}
+
+	public double getPorcentajeColocaciones() {
+		return porcentajeColocaciones;
+	}
+
+	public void setPorcentajeColocaciones(double porcentajeColocaciones) {
+		this.porcentajeColocaciones = porcentajeColocaciones;
+	}
+
+	public int getDefensasAcertadas() {
+		return defensasAcertadas;
+	}
+
+	public void setDefensasAcertadas(int defensasAcertadas) {
+		this.defensasAcertadas = defensasAcertadas;
+	}
+
+	public int getDefensasTotales() {
+		return defensasTotales;
+	}
+
+	public void setDefensasTotales(int defensasTotales) {
+		this.defensasTotales = defensasTotales;
+	}
+
+	public double getPorcentajeDefensas() {
+		return porcentajeDefensas;
+	}
+
+	public void setPorcentajeDefensas(double porcentajeDefensas) {
+		this.porcentajeDefensas = porcentajeDefensas;
+	}
+
+	public int getBloqueosAcertados() {
+		return bloqueosAcertados;
+	}
+
+	public void setBloqueosAcertados(int bloqueosAcertados) {
+		this.bloqueosAcertados = bloqueosAcertados;
+	}
+
+	public int getBloqueosTotales() {
+		return bloqueosTotales;
+	}
+
+	public void setBloqueosTotales(int bloqueosTotales) {
+		this.bloqueosTotales = bloqueosTotales;
+	}
+
+	public double getPorcentajeBloqueos() {
+		return porcentajeBloqueos;
+	}
+
+	public void setPorcentajeBloqueos(double porcentajeBloqueos) {
+		this.porcentajeBloqueos = porcentajeBloqueos;
+	}
+
+	public int getRematesAcertados() {
+		return rematesAcertados;
+	}
+
+	public void setRematesAcertados(int rematesAcertados) {
+		this.rematesAcertados = rematesAcertados;
+	}
+
+	public int getRematesTotales() {
+		return rematesTotales;
+	}
+
+	public void setRematesTotales(int rematesTotales) {
+		this.rematesTotales = rematesTotales;
+	}
+
+	public double getPorcentajeRemates() {
+		return porcentajeRemates;
+	}
+
+	public void setPorcentajeRemates(double porcentajeRemates) {
+		this.porcentajeRemates = porcentajeRemates;
+	}
+
+	public int getFintasAcertadas() {
+		return fintasAcertadas;
+	}
+
+	public void setFintasAcertadas(int fintasAcertadas) {
+		this.fintasAcertadas = fintasAcertadas;
+	}
+
+	public int getFintasTotales() {
+		return fintasTotales;
+	}
+
+	public void setFintasTotales(int fintasTotales) {
+		this.fintasTotales = fintasTotales;
+	}
+
+	public double getPorcentajeFintas() {
+		return porcentajeFintas;
+	}
+
+	public void setPorcentajeFintas(double porcentajeFintas) {
+		this.porcentajeFintas = porcentajeFintas;
+	}
+
+	public int getNumAtaquesRapidosAcertados() {
+		return numAtaquesRapidosAcertados;
+	}
+
+	public void setNumAtaquesRapidosAcertados(int numAtaquesRapidosAcertados) {
+		this.numAtaquesRapidosAcertados = numAtaquesRapidosAcertados;
+	}
+
+	public int getNumAtaquesRapidosTotales() {
+		return numAtaquesRapidosTotales;
+	}
+
+	public void setNumAtaquesRapidosTotales(int numAtaquesRapidosTotales) {
+		this.numAtaquesRapidosTotales = numAtaquesRapidosTotales;
+	}
+
+	public double getPorcentajeAtaquesRapidos() {
+		return porcentajeAtaquesRapidos;
+	}
+
+	public void setPorcentajeAtaquesRapidos(double porcentajeAtaquesRapidos) {
+		this.porcentajeAtaquesRapidos = porcentajeAtaquesRapidos;
+	}
+
+	public int getNumFaltasTotales() {
+		return numFaltasTotales;
+	}
+
+	public void setNumFaltasTotales(int numFaltasTotales) {
+		this.numFaltasTotales = numFaltasTotales;
+	}
 
 }
