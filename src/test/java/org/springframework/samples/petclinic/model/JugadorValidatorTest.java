@@ -8,9 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.enumerate.Posicion;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 
 public class JugadorValidatorTest {
 	

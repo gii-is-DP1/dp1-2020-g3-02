@@ -10,6 +10,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
+import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
 import lombok.Data;
 
