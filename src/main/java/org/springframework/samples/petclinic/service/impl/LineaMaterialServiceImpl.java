@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class LineaMaterialServiceImpl implements LineaMaterialService {
 	private static final Log LOG = LogFactory.getLog(SistemaJuegoServiceImpl.class);
+	
 	@Autowired
 	private LineaMaterialRepository lineaMaterialRepository;
 
@@ -37,20 +38,20 @@ public class LineaMaterialServiceImpl implements LineaMaterialService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<LineaMaterial> findByCantidad(LineaMaterial cantidad)  {
+	public List<LineaMaterial> findByCantidad(int cantidad)  {
 		return lineaMaterialRepository.findByCantidad(cantidad);
 	}
 
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<LineaMaterial> findByMaterial(int material_id) {
+	public Optional<LineaMaterial> findByMaterial(int material_id) {
 		return lineaMaterialRepository.findByMaterial(material_id);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<LineaMaterial> findByEntrenamiento(int entrenamiento_id) {
+	public Optional<LineaMaterial> findByEntrenamiento(int entrenamiento_id) {
 		return lineaMaterialRepository.findByEntrenamiento(entrenamiento_id);
 	}
 
