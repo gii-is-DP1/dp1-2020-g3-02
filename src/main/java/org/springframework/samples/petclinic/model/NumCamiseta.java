@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import org.springframework.samples.petclinic.model.padres.BaseEntity;
+
 @Entity
 @Table(name = "num_camisetas")
 public class NumCamiseta extends BaseEntity{

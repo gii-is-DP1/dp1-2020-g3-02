@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
+import org.springframework.samples.petclinic.model.padres.BaseEntity;
+
 
 @Entity
 @Table(name="sustituciones")

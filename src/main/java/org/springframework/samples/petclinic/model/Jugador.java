@@ -24,12 +24,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
 import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.Posicion;
+import org.springframework.samples.petclinic.model.padres.Person;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 
 @Data
+@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="jugadores", uniqueConstraints = @UniqueConstraint(columnNames = { "dni","email" }))
 public class Jugador extends Person{
 	
@@ -221,9 +228,6 @@ public class Jugador extends Person{
 	@Column(name = "num_rojas", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
 	private int numRojas;
-	
-	public Jugador() {
-	}
 	
 	public Jugador(String dni, String direccion, String email, String localidad, LocalDate fecha_nacimiento, int altura,
 			int peso, Posicion posicion_principal, Posicion posicion_secundaria) {

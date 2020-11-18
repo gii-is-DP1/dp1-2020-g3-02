@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.model.padres.Person;
 
 import lombok.Data;
 

@@ -15,6 +15,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.model.padres.Person;
 
 import lombok.Data;
 

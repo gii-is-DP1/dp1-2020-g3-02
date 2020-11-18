@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
 import org.springframework.samples.petclinic.enumerate.Sistema;
+import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

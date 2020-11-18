@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoResponsable;
+import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
 import lombok.Data;
 
