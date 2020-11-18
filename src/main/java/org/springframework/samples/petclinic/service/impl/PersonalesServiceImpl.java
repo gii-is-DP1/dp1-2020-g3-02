@@ -45,13 +45,13 @@ public class PersonalesServiceImpl  implements PersonalesService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Personales> findByJugador(int jugador_id) {
+	public Optional<Personales> findByJugador(int jugador_id) {
 		return personalesRepository.findByJugador(jugador_id);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Personales> findByPartido(int partido_id) {
+	public Optional<Personales> findByPartido(int partido_id) {
 		return personalesRepository.findByPartido(partido_id);
 	}
 

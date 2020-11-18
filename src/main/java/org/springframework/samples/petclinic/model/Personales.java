@@ -30,4 +30,20 @@ public class Personales extends BaseEntity {
 	@JoinTable(name = "sevaen", joinColumns = @JoinColumn(name = "personal_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "partido_id"))
 	Set<Partido> partidos;
+
+
+	public Personales(String propietario) {
+		super();
+		this.propietario = propietario;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Personales [propietario=" + propietario + "]";
+	}
+
+
+	
+
 }
