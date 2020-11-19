@@ -19,7 +19,7 @@ public interface EquipoRepository extends ExtendedJpaRepository<Equipo> {
 	public List<Equipo> findByCapitan(Capitan capitan);
 	
 	/** POR PROBAR */
-	@Query(value = "SELECT * FROM equipos WHERE equipo_id = (SELECT equipo_id FROM perteneceA WHERE jugador_id = ?0)", nativeQuery = true)
+	@Query(value = "SELECT * FROM equipos WHERE equipo_id IN (SELECT equipo_id FROM perteneceA WHERE jugador_id = ?0)", nativeQuery = true)
 	public List<Equipo> findByJugador(int idJugador);
 
 }
