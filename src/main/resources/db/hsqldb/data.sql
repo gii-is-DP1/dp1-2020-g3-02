@@ -136,12 +136,12 @@ INSERT INTO personales(id,propietario) VALUES(4,'Pepa');
 
 -- INSERT  PARTIDOS
 
-INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (1,'2020-11-06','17:00',5);
-INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (2,'2020-11-06','18:00',5);
-INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (3,'2020-11-06','19:00',5);
-INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (4,'2020-12-06','17:00',5);
-INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (5,'2020-10-06','18:00',5);
-INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento) VALUES (6,'2020-11-07','19:00',5);
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (1,'2020-11-06','17:00',5,1);
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (2,'2020-11-06','18:00',5,1);
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (3,'2020-11-06','19:00',5,1);
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (4,'2020-12-06','17:00',5,1);
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (5,'2020-10-06','18:00',5,2);
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (6,'2020-11-07','19:00',5,2);
 
 
 -- INSERT  ENTRENAMIENTOS
