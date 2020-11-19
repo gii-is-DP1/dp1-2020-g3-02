@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.controller.form.JugadorForm;
 import org.springframework.samples.petclinic.model.Entrenamiento;
