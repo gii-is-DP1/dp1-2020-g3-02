@@ -222,3 +222,8 @@ INSERT INTO linea_material(id,cantidad) VALUES (3,1);
 INSERT INTO linea_material(id,cantidad) VALUES (4,7);
 INSERT INTO linea_material(id,cantidad) VALUES (5,21);
 INSERT INTO linea_material(id,cantidad) VALUES (6,14);
+
+
+INSERT INTO autobus(id,hora_salida,hora_llegada) VALUES (1,'12:30','14:00');
+INSERT INTO autobus(id,hora_salida,hora_llegada) VALUES (2,'07:30','00:30');
+
