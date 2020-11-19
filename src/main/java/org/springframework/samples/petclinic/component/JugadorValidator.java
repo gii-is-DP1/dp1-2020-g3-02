@@ -15,28 +15,50 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+
+import antlr.StringUtils;
 
 @Component
 public class JugadorValidator implements Validator {
 
 	@Autowired
 	private JugadorService jugadorService;
-		
-	@Override
-	public boolean supports(Class<?> clazz) {
-		
-		return JugadorForm.class.equals(clazz);
-	}
-
+	
 	@Override
 	public void validate(Object target, Errors errors) {
-		final Jugador jugador = (Jugador) target;
-		if (jugador.getId() == null) {
+		Jugador jugador = (Jugador) target;
 		
-		ValidationUtils.rejectIfEmpty(errors, "jugador.dni", "El dni es obligatorio");
+		//Dni validation
+		if ( jugador.getDni() == null || jugador.getDni().length() != 9) {
+			errors.rejectValue("dni", "Debe tener 8 números y una letra","Debe tener 8 números y una letra");
+		}
 		
+		if ( jugador.getFirstName() == null || jugador.getFirstName().length() > 3) {
+			errors.rejectValue("firstName", "El nombre es requerido y debe tener más de tres letras","El nombre es requerido y debe tener más de tres letras");
+		}
+		
+		if ( jugador.getLastName() == null || jugador.getLastName().length() > 3) {
+			errors.rejectValue("lastName", "El nombre es requerido y debe tener más de tres letras","El nombre es requerido y debe tener más de tres letras");
+		}
+		
+		if ( jugador.getDni() == null || jugador.getDni().length() != 9) {
+			errors.rejectValue("dni", "Debe tener 8 números y una letra","Debe tener 8 números y una letra");
+		}
+		
+		if ( jugador.getDni() == null || jugador.getDni().length() != 9) {
+			errors.rejectValue("dni", "Debe tener 8 números y una letra","Debe tener 8 números y una letra");
+		}
+		
+		if ( jugador.getDni() == null || jugador.getDni().length() != 9) {
+			errors.rejectValue("dni", "Debe tener 8 números y una letra","Debe tener 8 números y una letra");
+		}
 	}
-		
+	
+	@Override
+	public boolean supports(Class<?> clazz) {
+		return Jugador.class.isAssignableFrom(clazz);
 	}
 }
 

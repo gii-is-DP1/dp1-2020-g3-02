@@ -1,10 +1,12 @@
 package org.springframework.samples.petclinic.controller;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,15 +15,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
-import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
-import org.springframework.samples.petclinic.enumerate.Posicion;
-import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
-import org.springframework.samples.petclinic.model.estadisticas.EstadisticasStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
@@ -29,7 +27,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,8 +48,6 @@ public class JugadorController {
 		
 	private static final Log LOG = LogFactory.getLog(JugadorController.class);
 	
-	@Autowired
-	private JugadorValidator jugadorFormValidator;
 	
 	@Autowired
 	private JugadorService jugadorService;
@@ -64,6 +63,15 @@ public class JugadorController {
 	
 	@Autowired
 	private JugadorConverter jugadorConverter;
+	
+	@Autowired
+	private JugadorValidator jugadorValidator;
+	
+	
+//	@InitBinder("jugador")
+//	public void initJugadorBinder(WebDataBinder dataBinder) {
+//	dataBinder.setValidator(new JugadorValidator());
+//	}
 	
 	@GetMapping("/showjugadores")
 	public ModelAndView listadoJugadores() {
@@ -113,17 +121,17 @@ public class JugadorController {
 	
 	
 	@PostMapping("/addjugador")
-	public String addJugador(@ModelAttribute(name="jugador") Jugador jugador, Model model, final BindingResult result) {
+	public String addJugador(@ModelAttribute(name="jugador") Jugador jugador, Model model, BindingResult result) {
 		
 		LOG.info("addjugador() -- PARAMETROS: "+ jugador);
 		
-//		ValidationUtils.invokeValidator(jugadorFormValidator, form, result);
-//		
-//		if (result.hasErrors()) {
-//			model.addAttribute("formJugador", form);
-//			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
-//		}else {
-//		
+		ValidationUtils.invokeValidator(jugadorValidator, jugador, result);
+	
+		if (result.hasErrors()) {
+			model.addAttribute("jugador", jugador);
+			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
+		}else {
+		
 		
 		if(null != jugadorService.saveJugador(jugador)) {
 			model.addAttribute("result", 1);
@@ -132,7 +140,7 @@ public class JugadorController {
 			model.addAttribute("result", 0); 
 		}
 		return "redirect:/jugadores/showjugadores";
-	//}
+	}
 	
 	}
 	
