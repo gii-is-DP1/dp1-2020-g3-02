@@ -1,7 +1,5 @@
 package org.springframework.samples.petclinic.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,15 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
-import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
-import org.springframework.samples.petclinic.enumerate.Posicion;
-import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
-import org.springframework.samples.petclinic.model.estadisticas.EstadisticasStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
@@ -38,14 +32,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-
-
-
 @Controller
 @RequestMapping("/jugadores")
 public class JugadorController {
 		
 	private static final Log LOG = LogFactory.getLog(JugadorController.class);
+	
+	public static final String TEMPLATE_MODAL_GESTION_JUGADOR = "/jugadores/modalGestionJugador";
 	
 	@Autowired
 	private JugadorValidator jugadorFormValidator;
