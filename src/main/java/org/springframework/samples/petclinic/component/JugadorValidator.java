@@ -1,5 +1,16 @@
 package org.springframework.samples.petclinic.component;
 
+<<<<<<< Upstream, based on branch 'master' of https://github.com/gii-is-DP1/dp1-2020-g3-02.git
+=======
+import java.time.LocalDate;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+
+import javax.validation.executable.ExecutableValidator;
+import javax.validation.metadata.BeanDescriptor;
+
+>>>>>>> 7553eb1 validaciones jugador
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.controller.form.JugadorForm;
 import org.springframework.samples.petclinic.model.Jugador;
@@ -25,25 +36,55 @@ public class JugadorValidator implements Validator {
 		
 		//Dni validation
 		if ( jugador.getDni() == null || jugador.getDni().length() != 9) {
-			errors.rejectValue("dni", "Debe tener 8 números y una letra","Debe tener 8 números y una letra");
+			errors.rejectValue("dni", "El DNI debe tener 8 números y una letra","El DNI debe tener 8 números y una letra");
 		}
 		
-		if ( jugador.getFirstName() == null || jugador.getFirstName().length() > 3) {
+		//Nombre Validation
+		if ( jugador.getFirstName() == null || jugador.getFirstName().length() < 3) {
 			errors.rejectValue("firstName", "El nombre es requerido y debe tener más de tres letras","El nombre es requerido y debe tener más de tres letras");
 		}
 		
-		if ( jugador.getLastName() == null || jugador.getLastName().length() > 3) {
-			errors.rejectValue("lastName", "El nombre es requerido y debe tener más de tres letras","El nombre es requerido y debe tener más de tres letras");
+		//Apellido validation
+		if ( jugador.getLastName() == null || jugador.getLastName().length() < 3) {
+			errors.rejectValue("lastName", "El apellido es requerido y debe tener más de tres letras","El apellido es requerido y debe tener más de tres letras");
 		}
 		
-		if ( jugador.getDni() == null || jugador.getDni().length() != 9) {
-			errors.rejectValue("dni", "Debe tener 8 números y una letra","Debe tener 8 números y una letra");
+		//email validation
+		if ( jugador.getEmail() == null || jugador.getEmail().length() < 5) {
+			errors.rejectValue("email", "El email es requerido y debe tener al menos 5 caracteres","El email es requerido y debe tener al menos 5 caracteres");
 		}
 		
-		if ( jugador.getDni() == null || jugador.getDni().length() != 9) {
-			errors.rejectValue("dni", "Debe tener 8 números y una letra","Debe tener 8 números y una letra");
+		//direccion validation
+		if ( jugador.getDireccion() == null || jugador.getDireccion().length() < 5) {
+			errors.rejectValue("direccion", "La dirección es requerida y debe tener al menos 5 caracteres","La dirreción es requerida y debe tener al menos 5 caracteres");
 		}
+<<<<<<< Upstream, based on branch 'master' of https://github.com/gii-is-DP1/dp1-2020-g3-02.git
 
+=======
+		
+		//localidad validation
+		if ( jugador.getLocalidad() == null || jugador.getLocalidad().length() < 5) {
+			errors.rejectValue("localidad", "La localidad es requerida y debe tener al menos 5 caracteres","La localidad es requerida y debe tener al menos 5 caracteres");
+		}
+		
+		//fecha nacimiento validation
+		if ( jugador.getFechaNacimiento() == null || jugador.getFechaNacimiento().isAfter(LocalDate.now())) {
+			errors.rejectValue("fechaNacimiento", "La fecha de nacimiento es requerida y debe ser anterior al día de hoy","La fecha de nacimiento es requerida y debe ser anterior al día de hoy");
+		}
+		
+		//altura validation
+		if ( jugador.getAltura() < 100  || jugador.getAltura() > 300) {
+			errors.rejectValue("altura", "La altura debe estar entre 1 y 3 metros","La altura debe estar entre 1 y 3 metros");
+		}
+		
+		//peso validation
+		if ( jugador.getPeso() >= 250 || jugador.getPeso() < 20) {
+			errors.rejectValue("peso", "El peso debe estar entre 20 y 250 Kg","El peso debe estar entre 20 y 250 Kg");
+		}
+		
+		
+		
+>>>>>>> 7553eb1 validaciones jugador
 	}
 	
 	@Override
