@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.EstadisticaPersonalPartidoRepository;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
+import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,9 @@ public class EstadisticaPersonalPartidoServiceImpl implements EstadisticaPersona
 	
 	@Autowired
 	private JugadorService jugadorService;
+	
+	@Autowired
+	private PartidoService partidoService;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -81,17 +86,22 @@ public class EstadisticaPersonalPartidoServiceImpl implements EstadisticaPersona
 
 	@Override
 	public List<EstadisticaPersonalPartido> findByJugador(int jugador_id) {
-		return estadisticaPersonalPartidoRepository.findByJugador(jugador_id);
+		Optional<Jugador> jugador = jugadorService.findById(jugador_id);
+		
+		return estadisticaPersonalPartidoRepository.findByJugador(jugador.get());
 	}
 
 	@Override
 	public List<EstadisticaPersonalPartido> findByPartido(int partido_id) {
-		return estadisticaPersonalPartidoRepository.findByJugador(partido_id);
+		Optional<Partido> partido = partidoService.findById(partido_id);
+		return estadisticaPersonalPartidoRepository.findByPartido(partido.get());
 	}
 	
 	@Override
-	public List<EstadisticaPersonalPartido> findByJugadorPartido(int jugador_id, int partido_id) {
-		return estadisticaPersonalPartidoRepository.findByJugadorPartido(jugador_id, partido_id);
+	public EstadisticaPersonalPartido findByJugadorAndPartido(int jugador_id, int partido_id) {
+		Optional<Jugador> jugador = jugadorService.findById(jugador_id);
+		Optional<Partido> partido = partidoService.findById(partido_id);
+		return estadisticaPersonalPartidoRepository.findByJugadorAndPartido(jugador.get(), partido.get());
 	}
 
 	@Override
