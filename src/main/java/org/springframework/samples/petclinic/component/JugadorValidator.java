@@ -1,28 +1,16 @@
 package org.springframework.samples.petclinic.component;
 
-<<<<<<< Upstream, based on branch 'master' of https://github.com/gii-is-DP1/dp1-2020-g3-02.git
-=======
+
 import java.time.LocalDate;
-import java.util.Set;
 
-import javax.validation.ConstraintViolation;
 
-import javax.validation.executable.ExecutableValidator;
-import javax.validation.metadata.BeanDescriptor;
-
->>>>>>> 7553eb1 validaciones jugador
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.controller.form.JugadorForm;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 
-import antlr.StringUtils;
 
 @Component
 public class JugadorValidator implements Validator {
@@ -58,9 +46,6 @@ public class JugadorValidator implements Validator {
 		if ( jugador.getDireccion() == null || jugador.getDireccion().length() < 5) {
 			errors.rejectValue("direccion", "La dirección es requerida y debe tener al menos 5 caracteres","La dirreción es requerida y debe tener al menos 5 caracteres");
 		}
-<<<<<<< Upstream, based on branch 'master' of https://github.com/gii-is-DP1/dp1-2020-g3-02.git
-
-=======
 		
 		//localidad validation
 		if ( jugador.getLocalidad() == null || jugador.getLocalidad().length() < 5) {
@@ -82,9 +67,6 @@ public class JugadorValidator implements Validator {
 			errors.rejectValue("peso", "El peso debe estar entre 20 y 250 Kg","El peso debe estar entre 20 y 250 Kg");
 		}
 		
-		
-		
->>>>>>> 7553eb1 validaciones jugador
 	}
 	
 	@Override
