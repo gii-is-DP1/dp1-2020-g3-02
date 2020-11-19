@@ -15,8 +15,10 @@ import org.springframework.samples.petclinic.enumerate.TipoResponsable;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
 @Table(name = "autorizaciones")
 public class Autorizacion extends BaseEntity{
