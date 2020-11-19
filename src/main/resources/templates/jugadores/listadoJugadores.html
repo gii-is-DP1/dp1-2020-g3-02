@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" />
 <!-- Bootstrap CSS -->
@@ -17,6 +17,7 @@
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
 <title>Listado de Jugadores</title>
 <title>Jugadores</title>
+<script th:src="@{/js/utils.js}"></script>
 <link rel="icon" type="image/png" href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
 </head>
 <body class="bg-light">
@@ -91,9 +92,7 @@
 	<div class="row my-3">
 		<div class="col-lg-2"></div>
 		<div class="col-lg-8">
-			<button onclick="location.href='/jugadores/jugadorform?id=0'"
-				class="btn btn-primary btn-lg btn-block" type="submit">Añadir
-				jugador</button>
+			<button id="nuevoJugador" class="btn btn-primary btn-lg btn-block" role="button" onclick="location.href='/jugadores/jugadorform?id=0'">Añadir jugador</button>
 
 		</div>
 		<div class="col-lg-2"></div>
@@ -189,178 +188,181 @@
 	  </div>
 	</div>
 
-
-	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
-	<!-- Optional JavaScript -->
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-		crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-
-	<!--   Datatables-->
-	<script type="text/javascript"
-		src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
-
-	<!-- extension responsive -->
-	<script
-		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-	<!-- Highcharts JS -->    
-	<script type="text/javascript"
-        src="//code.highcharts.com/highcharts.js"></script>
+	<th:block layout:fragment="scripts">
+		<script src=https://code.jquery.com/jquery-3.5.1.js></script>
+		<!-- Optional JavaScript -->
+		<script
+			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+			crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+	
+		<!--   Datatables-->
+		<script type="text/javascript"
+			src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
+	
+		<!-- extension responsive -->
+		<script
+			src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+		<!-- Highcharts JS -->    
+		<script type="text/javascript"
+	        src="//code.highcharts.com/highcharts.js"></script>
 		
-	<script>
-		$(document)
-				.ready(
-						function() {
-							$('#jugadores')
-									.DataTable(
-											{
-												responsive : true,
-												columnDefs : [ {
-													responsivePriority : 0,
-													targets : 0
-												}, {
-													responsivePriority : 1,
-													targets : -1
-												}, {
-													responsivePriority : 2,
-													targets : 6
-												}, {
-													responsivePriority : 2,
-													targets : 7
-												}, {
-													responsivePriority : 0,
-													targets : 9
-												} ],
-												"language" : {
-													"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-												}
-											});
-							$('table .estadisticas').on('click', function(){
-								var id = $(this).parent().find('#id').val();
-																
-								$.ajax({
-									type: 'GET',
-									url: '/jugadores/findestadisticasjugador/'+id,
-									success: function(stats){
-										var max = Math.max(stats.saquesTotales,stats.recepcionesTotales,stats.colocacionesTotales,stats.defensasTotales,stats.bloqueosTotales,stats.rematesTotales,stats.fintasTotales,stats.numAtaquesRapidosTotales);
-
-										Highcharts.chart('contenedor-modal', {
-											chart: {
-								                type: 'column',
-								            },
-								            title: {
-									            text: '',
-									        },
-								            xAxis: {
-								                categories: [
-								                    'Saque',
-								                    'Recepción',
-								                    'Colocación',
-								                    'Defensa',
-								                    'Bloqueo',
-								                    'Remate',
-								                    'Finta',
-								                    'Ataque Rápido'
-								                ],
-								                crosshair: true
-								            },
-								            yAxis: [{ // Primary yAxis
-									            labels: {
-									                format: '{value}',
-									                style: {
-									                    color: Highcharts.getOptions().colors[1]
-									                }
+		
+		<script>
+		
+			$(document)
+					.ready(
+							function() {
+								$('#jugadores')
+										.DataTable(
+												{
+													responsive : true,
+													columnDefs : [ {
+														responsivePriority : 0,
+														targets : 0
+													}, {
+														responsivePriority : 1,
+														targets : -1
+													}, {
+														responsivePriority : 2,
+														targets : 6
+													}, {
+														responsivePriority : 2,
+														targets : 7
+													}, {
+														responsivePriority : 0,
+														targets : 9
+													} ],
+													"language" : {
+														"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+													}
+												});
+								$('table .estadisticas').on('click', function(){
+									var id = $(this).parent().find('#id').val();
+																	
+									$.ajax({
+										type: 'GET',
+										url: '/jugadores/findestadisticasjugador/'+id,
+										success: function(stats){
+											var max = Math.max(stats.saquesTotales,stats.recepcionesTotales,stats.colocacionesTotales,stats.defensasTotales,stats.bloqueosTotales,stats.rematesTotales,stats.fintasTotales,stats.numAtaquesRapidosTotales);
+	
+											Highcharts.chart('contenedor-modal', {
+												chart: {
+									                type: 'column',
 									            },
 									            title: {
-									                text: 'Estadísticas',
-									                style: {
-									                    color: Highcharts.getOptions().colors[1]
+										            text: '',
+										        },
+									            xAxis: {
+									                categories: [
+									                    'Saque',
+									                    'Recepción',
+									                    'Colocación',
+									                    'Defensa',
+									                    'Bloqueo',
+									                    'Remate',
+									                    'Finta',
+									                    'Ataque Rápido'
+									                ],
+									                crosshair: true
+									            },
+									            yAxis: [{ // Primary yAxis
+										            labels: {
+										                format: '{value}',
+										                style: {
+										                    color: Highcharts.getOptions().colors[1]
+										                }
+										            },
+										            title: {
+										                text: 'Estadísticas',
+										                style: {
+										                    color: Highcharts.getOptions().colors[1]
+										                }
+										            },
+										            opposite: true
+										        }, { // Secondary yAxis
+										        	max: 100,
+										        	min: 0,
+										            title: {
+										                text: 'Porcentaje',
+										                style: {
+										                    color: Highcharts.getOptions().colors[0]
+										                }
+										            },
+										            labels: {
+										                format: '{value} %',
+										                style: {
+										                    color: Highcharts.getOptions().colors[1]
+										                }
+										            }
+										        }],
+									            tooltip: {
+									                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+									                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+									                    '<td style="padding:0"><b>{point.y:f} </b></td></tr>',
+									                footerFormat: '</table>',
+									                shared: true,
+									                useHTML: true
+									            },
+									            plotOptions: {
+									                column: {
+									                    pointPadding: 0.2,
+									                    borderWidth: 0
 									                }
 									            },
-									            opposite: true
-									        }, { // Secondary yAxis
-									        	max: 100,
-									        	min: 0,
-									            title: {
-									                text: 'Porcentaje',
-									                style: {
-									                    color: Highcharts.getOptions().colors[0]
+									            series: [
+									                {
+									                    name: 'Acertados',
+									                    data: [stats.saquesAcertados,stats.recepcionesAcertadas,stats.colocacionesAcertadas,stats.defensasAcertadas,stats.bloqueosAcertados,stats.rematesAcertados,stats.fintasAcertadas,stats.numAtaquesRapidosAcertados]
+									                },
+									                {
+									                    name: 'Totales',
+									                    data: [stats.saquesTotales,stats.recepcionesTotales,stats.colocacionesTotales,stats.defensasTotales,stats.bloqueosTotales,stats.rematesTotales,stats.fintasTotales,stats.numAtaquesRapidosTotales],
+									                },
+									                {
+									                    name: 'Porcentajes',
+									                    data: [stats.porcentajeSaques*100,stats.porcentajeRecepciones*100,stats.porcentajeColocaciones*100,stats.porcentajeDefensas*100,stats.porcentajeBloqueos*100,stats.porcentajeRemates*100,stats.porcentajeFintas*100,stats.porcentajeAtaquesRapidos*100],
 									                }
-									            },
-									            labels: {
-									                format: '{value} %',
-									                style: {
-									                    color: Highcharts.getOptions().colors[1]
-									                }
-									            }
-									        }],
-								            tooltip: {
-								                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-								                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-								                    '<td style="padding:0"><b>{point.y:f} </b></td></tr>',
-								                footerFormat: '</table>',
-								                shared: true,
-								                useHTML: true
-								            },
-								            plotOptions: {
-								                column: {
-								                    pointPadding: 0.2,
-								                    borderWidth: 0
-								                }
-								            },
-								            series: [
-								                {
-								                    name: 'Acertados',
-								                    data: [stats.saquesAcertados,stats.recepcionesAcertadas,stats.colocacionesAcertadas,stats.defensasAcertadas,stats.bloqueosAcertados,stats.rematesAcertados,stats.fintasAcertadas,stats.numAtaquesRapidosAcertados]
-								                },
-								                {
-								                    name: 'Totales',
-								                    data: [stats.saquesTotales,stats.recepcionesTotales,stats.colocacionesTotales,stats.defensasTotales,stats.bloqueosTotales,stats.rematesTotales,stats.fintasTotales,stats.numAtaquesRapidosTotales],
-								                },
-								                {
-								                    name: 'Porcentajes',
-								                    data: [stats.porcentajeSaques*100,stats.porcentajeRecepciones*100,stats.porcentajeColocaciones*100,stats.porcentajeDefensas*100,stats.porcentajeBloqueos*100,stats.porcentajeRemates*100,stats.porcentajeFintas*100,stats.porcentajeAtaquesRapidos*100],
-								                }
-								            ]
-										})
-										$('.modal-header').css("color","white");
-										$('.modal-title').text("Estadísticas de "+stats.firstName+" "+stats.lastName);
-										$('#estadisticasModal').modal("show");
-									}
+									            ]
+											})
+											$('.modal-header').css("color","white");
+											$('.modal-title').text("Estadísticas de "+stats.firstName+" "+stats.lastName);
+											$('#estadisticasModal').modal("show");
+										}
+									});
+									
 								});
 								
-							});
-							
-							$('table .editar').on('click', function(){
-								var id = $(this).parent().find('#id').val();
-								
-								$.ajax({
-									type: 'GET',
-									url: '/jugadores/findeditjugador/'+id,
-									success: function(edit){
-										$('#editarModal #id').val(edit.id);
-										$('#editarModal #firstName').val(edit.firstName);
-										$('#editarModal #lastName').val(edit.lastName);
-										$('#editarModal #altura').val(edit.altura);
-										$('#editarModal #peso').val(edit.peso);
-										$('#editarModal #estadoActual').val(edit.estadoActual);
-										$('#editarModal #estadoActual').val(edit.estadoActual);
-										$('#editarModal #posicionPrincipal').val(edit.posicionPrincipal);
-										$('#editarModal #posicionSecundaria').val(edit.posicionSecundaria);
-										
-										$('.modal-header').css("color","white");
-										$('.modal-title').text("Editar a "+edit.firstName+" "+edit.lastName);
-										$('#editarModal').modal("show");
-									}
+								$('table .editar').on('click', function(){
+									var id = $(this).parent().find('#id').val();
+									
+									$.ajax({
+										type: 'GET',
+										url: '/jugadores/findeditjugador/'+id,
+										success: function(edit){
+											$('#editarModal #id').val(edit.id);
+											$('#editarModal #firstName').val(edit.firstName);
+											$('#editarModal #lastName').val(edit.lastName);
+											$('#editarModal #altura').val(edit.altura);
+											$('#editarModal #peso').val(edit.peso);
+											$('#editarModal #estadoActual').val(edit.estadoActual);
+											$('#editarModal #estadoActual').val(edit.estadoActual);
+											$('#editarModal #posicionPrincipal').val(edit.posicionPrincipal);
+											$('#editarModal #posicionSecundaria').val(edit.posicionSecundaria);
+											
+											$('.modal-header').css("color","white");
+											$('.modal-title').text("Editar a "+edit.firstName+" "+edit.lastName);
+											$('#editarModal').modal("show");
+										}
+									});
 								});
+	
 							});
-
-						});
-	</script>
-		<script type="text/javascript">
-       w3IncludeHTML();
-</script>
+		</script>
+			<script type="text/javascript">
+	       w3IncludeHTML();
+		</script>
+</th:block>
 </body>
 </html>

@@ -1,8 +1,5 @@
 package org.springframework.samples.petclinic.controller;
 
-import java.util.ArrayList;
-
-import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,15 +36,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-
-
-
 @Controller
 @RequestMapping("/jugadores")
 public class JugadorController {
 		
 	private static final Log LOG = LogFactory.getLog(JugadorController.class);
+	public static final String TEMPLATE_MODAL_GESTION_JUGADOR = "/jugadores/modalGestionJugador";
 	
+	@Autowired
+	private JugadorValidator jugadorFormValidator;
+
 	
 	@Autowired
 	private JugadorService jugadorService;

@@ -1,12 +1,5 @@
 package org.springframework.samples.petclinic.component;
 
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-
-import javax.validation.executable.ExecutableValidator;
-import javax.validation.metadata.BeanDescriptor;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.controller.form.JugadorForm;
 import org.springframework.samples.petclinic.model.Jugador;
@@ -25,7 +18,7 @@ public class JugadorValidator implements Validator {
 
 	@Autowired
 	private JugadorService jugadorService;
-	
+  
 	@Override
 	public void validate(Object target, Errors errors) {
 		Jugador jugador = (Jugador) target;
@@ -50,10 +43,7 @@ public class JugadorValidator implements Validator {
 		if ( jugador.getDni() == null || jugador.getDni().length() != 9) {
 			errors.rejectValue("dni", "Debe tener 8 números y una letra","Debe tener 8 números y una letra");
 		}
-		
-		if ( jugador.getDni() == null || jugador.getDni().length() != 9) {
-			errors.rejectValue("dni", "Debe tener 8 números y una letra","Debe tener 8 números y una letra");
-		}
+
 	}
 	
 	@Override
