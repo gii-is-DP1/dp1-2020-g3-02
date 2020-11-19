@@ -1,12 +1,5 @@
 package org.springframework.samples.petclinic.component;
 
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-
-import javax.validation.executable.ExecutableValidator;
-import javax.validation.metadata.BeanDescriptor;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.controller.form.JugadorForm;
 import org.springframework.samples.petclinic.model.Jugador;
@@ -23,8 +16,7 @@ public class JugadorValidator implements Validator {
 	private JugadorService jugadorService;
 		
 	@Override
-	public boolean supports(Class<?> clazz) {
-		
+	public boolean supports(Class<?> clazz) {	
 		return JugadorForm.class.equals(clazz);
 	}
 
@@ -35,7 +27,7 @@ public class JugadorValidator implements Validator {
 		
 		ValidationUtils.rejectIfEmpty(errors, "jugador.dni", "El dni es obligatorio");
 		
-	}
+		}
 		
 	}
 }
