@@ -6,9 +6,17 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamiento;
+import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.repository.EntrenamientoRepository;
 import org.springframework.samples.petclinic.repository.EstadisticaPersonalEntrenamientoRepository;
+import org.springframework.samples.petclinic.repository.JugadorRepository;
+import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalEntrenamientoService;
+import org.springframework.samples.petclinic.service.JugadorService;
+import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +32,13 @@ public class EstadisticaPersonalEntrenamientoServiceImpl implements EstadisticaP
 	public List<EstadisticaPersonalEntrenamiento> findAll() {
 		return estadisticaPersonalEntrenamientoRepository.findAll();
 	}
-
+	
+	@Autowired
+	private JugadorService jugadorService;
+	
+	@Autowired
+	private EntrenamientoService entrenamientoService;
+	
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<EstadisticaPersonalEntrenamiento> findById(int id) {
@@ -82,19 +96,23 @@ public class EstadisticaPersonalEntrenamientoServiceImpl implements EstadisticaP
 	@Override
 	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByJugador(int jugador_id) {
-		return estadisticaPersonalEntrenamientoRepository.findByJugador(jugador_id);
+		Optional<Jugador> jugador = jugadorService.findById(jugador_id);
+		return estadisticaPersonalEntrenamientoRepository.findByJugador(jugador.get());
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<EstadisticaPersonalEntrenamiento> findByEntrenamiento(int entrenamiento_id) {
-		return estadisticaPersonalEntrenamientoRepository.findByJugador(entrenamiento_id);
+		Optional<Entrenamiento> entrenamiento = entrenamientoService.findById(entrenamiento_id);
+		return estadisticaPersonalEntrenamientoRepository.findByEntrenamiento(entrenamiento.get());
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<EstadisticaPersonalEntrenamiento> findByJugadorEntrenamiento(int jugador_id, int entrenamiento_id) {
-		return estadisticaPersonalEntrenamientoRepository.findByJugadorEntrenamiento(jugador_id, entrenamiento_id);
+	public EstadisticaPersonalEntrenamiento findByJugadorAndEntrenamiento(int jugador_id, int entrenamiento_id) {
+		Optional<Jugador> jugador = jugadorService.findById(jugador_id);
+		Optional<Entrenamiento> entrenamiento = entrenamientoService.findById(entrenamiento_id);
+		return estadisticaPersonalEntrenamientoRepository.findByJugadorAndEntrenamiento(jugador.get(), entrenamiento.get());
 	}
 
 	@Override

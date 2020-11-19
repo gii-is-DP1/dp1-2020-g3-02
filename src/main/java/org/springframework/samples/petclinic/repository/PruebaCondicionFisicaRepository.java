@@ -21,7 +21,7 @@ public interface PruebaCondicionFisicaRepository extends JpaRepository<PruebaCon
 	public List<PruebaCondicionFisica> findByDatoAndTipoPrueba(double dato, TipoPrueba tipo_prueba);
 	public List<PruebaCondicionFisica> findByTipoPruebaAndDatoLessThanEqual(TipoPrueba tipo_prueba, double dato);
 
-	@Query("SELECT p FROM PruebaCondicionFisica p, Jugador j WHERE j.id=:jugador_id")
-	public List<PruebaCondicionFisica> findByJugador(@Param("jugador_id") int jugador_id);
+//	@Query("SELECT p FROM PruebaCondicionFisica p, Jugador j WHERE j.id=:jugador_id")
+	public List<PruebaCondicionFisica> findByJugador(Jugador jugador);
 
 }

@@ -12,6 +12,7 @@ import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.repository.EquipoRepository;
 import org.springframework.samples.petclinic.repository.PruebaCondicionFisicaRepository;
 import org.springframework.samples.petclinic.service.EquipoService;
+import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,12 +29,15 @@ public class PruebaCondicionFisicaServiceImpl implements PruebaCondicionFisicaSe
 	public Optional<PruebaCondicionFisica> findById(int id) {
 		return pruebaRepository.findById(id);
 	}
+	
+	@Autowired
+	private JugadorService jugadorService;
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<PruebaCondicionFisica> findByJugador(int jugador_id) {
-		
-		return pruebaRepository.findByJugador(jugador_id);
+		Optional<Jugador> jugador = jugadorService.findById(jugador_id);
+		return pruebaRepository.findByJugador(jugador.get());
 	}
 
 	@Override

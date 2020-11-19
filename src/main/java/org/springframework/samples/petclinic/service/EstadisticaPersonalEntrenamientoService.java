@@ -20,7 +20,7 @@ public interface EstadisticaPersonalEntrenamientoService {
 	public abstract List<EstadisticaPersonalEntrenamiento> findByPorcentajeAtaquesRapidosLessThanEqual(double percent);
 	public abstract List<EstadisticaPersonalEntrenamiento> findByJugador(int jugador_id);
 	public abstract List<EstadisticaPersonalEntrenamiento> findByEntrenamiento(int entrenamiento_id);
-	public abstract List<EstadisticaPersonalEntrenamiento> findByJugadorEntrenamiento(int jugador_id,int entrenamiento_id);
+	public abstract EstadisticaPersonalEntrenamiento findByJugadorAndEntrenamiento(int jugador_id,int entrenamiento_id);
 	public abstract EstadisticaPersonalEntrenamiento saveEstadisticaPersonalEntrenamiento(EstadisticaPersonalEntrenamiento statistic);
 	public abstract int statisticCount();
 }
