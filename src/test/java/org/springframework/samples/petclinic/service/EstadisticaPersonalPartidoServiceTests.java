@@ -110,7 +110,6 @@ public class EstadisticaPersonalPartidoServiceTests {
 		List<EstadisticaPersonalPartido> ePartido=new ArrayList<EstadisticaPersonalPartido>(ePartidoService.findByPorcentajeDefensasLessThanEqual(percent));
 		assertEquals(ePartido.size(), 0);
 	}
-	
 	@Test
 	public void testFindByPorcentajeBloqueosLessThanEqualInitialDataFinding() {
 		double percentIntroducido=50;
