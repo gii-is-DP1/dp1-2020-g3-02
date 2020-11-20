@@ -17,6 +17,7 @@ import org.springframework.samples.petclinic.converter.enumerate.PosicionConvert
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
+import org.springframework.samples.petclinic.service.AutorizacionService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Controller;
@@ -40,12 +41,16 @@ public class JugadorController {
 	private static final Log LOG = LogFactory.getLog(JugadorController.class);
 	public static final String TEMPLATE_MODAL_GESTION_JUGADOR = "/jugadores/modalGestionJugador";
 	
+	
 	@Autowired
 	private JugadorValidator jugadorFormValidator;
 
 	
 	@Autowired
 	private JugadorService jugadorService;
+	
+	@Autowired
+	private AutorizacionService autorizacionService;
 	
 	@Autowired
 	private EstadisticaPersonalPartidoService estadisService;
@@ -72,6 +77,13 @@ public class JugadorController {
 	public ModelAndView listadoJugadores() {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		mav.addObject("jugadores", jugadorService.findAll());
+		return mav;
+	}
+	
+	@GetMapping("/showjugadoresaut")
+	public ModelAndView listadoJugadoresAutorizacion() {
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADORES_AUTORIZACION);
+		mav.addObject("jugadoresaut", jugadorService.findAll());
 		return mav;
 	}
 	
