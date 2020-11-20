@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 public class LineaMaterial extends BaseEntity {
 	
 	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "linea_material")
-	private Set<Material> material;
+	private Set<Material> materiales;
 	
 	@Column(name = "cantidad", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
