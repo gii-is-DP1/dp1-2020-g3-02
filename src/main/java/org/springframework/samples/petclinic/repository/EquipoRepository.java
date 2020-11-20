@@ -23,5 +23,5 @@ public interface EquipoRepository extends ExtendedJpaRepository<Equipo> {
 	public List<Equipo> findByJugador(int idJugador);
 	
 	@Query(value = "SELECT categoria FROM equipos", nativeQuery = true)
-	public List<Equipo> findCategoria();
+	public List<String> findCategoria();
 }

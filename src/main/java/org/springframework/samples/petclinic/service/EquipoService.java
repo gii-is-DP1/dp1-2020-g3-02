@@ -9,6 +9,7 @@ public interface EquipoService {
 	
 	public abstract Optional<Equipo> findById(int id);
 	public abstract List<Equipo> findAll();
+	public abstract List<String> findCategoria();
 	public abstract Equipo findByCategoria(String category);
 	public abstract List<Equipo> findByCategoriaStartingWith(String category);
 	public abstract List<Equipo> findByLiga(String league);

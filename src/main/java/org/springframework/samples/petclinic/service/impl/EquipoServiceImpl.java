@@ -29,6 +29,11 @@ public class EquipoServiceImpl implements EquipoService {
 	}
 	
 	@Override
+	public List<String> findCategoria() {
+		return equipoRepository.findCategoria();
+	}
+	
+	@Override
 	@Transactional(readOnly = true)
 	public Equipo findByCategoria(String category) {
 		return equipoRepository.findByCategoria(category);
@@ -121,4 +126,5 @@ public class EquipoServiceImpl implements EquipoService {
 		}
 
 	}
+
 }
