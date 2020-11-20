@@ -63,9 +63,9 @@ public class PartidoController {
 	}
 	
 	@GetMapping("/showestadisiticasPartido")
-	public ModelAndView vistaEstadísticasPartido(int id) {
-		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_JUGADOR_POR_PARTIDO);
-		mav.addObject("estadisticas", estadisService.findByJugador(id));
+	public ModelAndView vistaEstadísticasPartido() {
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_PARTIDO);
+		mav.addObject("estadisticas", partidoService.findAll());
 		
 		return mav;
 	}
