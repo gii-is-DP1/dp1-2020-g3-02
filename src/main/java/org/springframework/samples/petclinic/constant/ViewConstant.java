@@ -24,4 +24,7 @@ public class ViewConstant {
 	public static final String VIEW_ESTADISTICAS_PARTIDO = "partidos/estadisticasPartido";
 	public static final String VIEW_ESTADISTICAS_ENTRENAMIENTO = "entrenamientos/estadisticasEntrenamiento";
 
+	public static final String VIEW_ESTADISTICAS_PARTIDO_JUGADORES = "partidos/estadisticasPartidoTodosJugadores";
+	public static final String VIEW_ESTADISTICAS_ENTRENAMIENTO_JUGADORES = "entrenamientos/estadisticasEntrenamientoTodosJugadores";
+
 }
