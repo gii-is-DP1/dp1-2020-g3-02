@@ -6,22 +6,30 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.controller.form.JugadorForm;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
+import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
+import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,6 +44,9 @@ public class PartidoController {
 	
 	@Autowired
 	private PartidoService partidoService;
+	
+	@Autowired
+	private PartidoConverter partidoConverter;
 	
 	@Autowired
 	private EstadisticaPersonalPartidoService estadisService;
@@ -103,6 +114,18 @@ public class PartidoController {
 		}
 		model.addAttribute("partido", partido);
 		return ViewConstant.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@RequestMapping(value = "findeditpartido/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PartidoEdit> graficoEstadisticasJugador(@PathVariable("id") int id) {
+		try {
+			Optional<Partido> partidoO = partidoService.findById(id);
+			Partido partido = partidoO.get();
+			PartidoEdit edit = partidoConverter.convertPartidoToPartidoEdit(partido);
+			return new ResponseEntity<PartidoEdit>(edit, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<PartidoEdit>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 	
