@@ -48,6 +48,9 @@ public class Partido extends EstadisticasEntity{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "partido")
 	private Set<Sustitucion> sustituciones;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "partido")
+	private Set<SistemaJuego> sistemasJuego;
+	
 	@ManyToOne
 	@JoinColumn(name = "equipo_id")
 	private Equipo equipo;
@@ -57,10 +60,6 @@ public class Partido extends EstadisticasEntity{
 	
 	@Column(name = "hora", nullable = false, length = 5)
 	private String hora;
-	
-	@Column(name = "sistema_juego", nullable = false, columnDefinition = "varchar(255) default 'CINCO_UNO'")
-	@Enumerated(value = EnumType.STRING)
-	private Sistema sistemaJuego;
 	
 	@Column(name = "num_amarillas", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
