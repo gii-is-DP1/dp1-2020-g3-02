@@ -89,6 +89,13 @@ public class PartidoController {
 		return mav;
 	}
 	
+	@GetMapping("/showestadisiticasPartidoJugador")
+	public ModelAndView vistaEstadísticasPartidoJugador(int jugador_id, int partido_id) {
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_PARTIDO_JUGADOR);
+		mav.addObject("estadisticas", estadisService.findByJugadorAndPartido(jugador_id, partido_id));
+		return mav;
+	}
+	
 	
 //	@RequestMapping(value = "findestadisticaspersonalesjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 //	public ResponseEntity<List<EstadisticasStats>> graficoEstadisticasPersonalesJugador(@PathVariable("id") int id) {
