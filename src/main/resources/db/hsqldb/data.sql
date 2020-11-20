@@ -67,6 +67,8 @@ INSERT INTO equipos(id,categoria,federacion) VALUES (2,'Cadete',false);
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (1,'bencrealc','Teodoro', 'Sánchez Bermejo', 'teodorocoach@gmail.com','1987-8-19');
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (2,'bencrealc','Mauricio', 'Colmenero Muñoz', 'mastodonquijote@gmail.com','1997-8-19');
 
+INSERT INTO capitanes(id,ntiemposmuertos,actitud) VALUES (1,6,'POSITIVA');
+INSERT INTO capitanes(id,ntiemposmuertos,actitud) VALUES (2,10,'POSITIVA');
 
 INSERT INTO personales(id,propietario) VALUES(1,'Pablo');
 INSERT INTO personales(id,propietario) VALUES(2,'Ana');
