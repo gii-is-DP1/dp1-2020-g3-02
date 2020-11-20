@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.controller;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -73,8 +74,12 @@ public class JugadorController {
 //	dataBinder.setValidator(new JugadorValidator());
 //	}
 	
+	
+	
+	
 	@GetMapping("/showjugadores")
 	public ModelAndView listadoJugadores() {
+		
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		mav.addObject("jugadores", jugadorService.findAll());
 		return mav;
@@ -110,7 +115,7 @@ public class JugadorController {
 			return new ResponseEntity<JugadorEdit>(HttpStatus.BAD_REQUEST);
 		}	
 	}
-
+	
 	@GetMapping("/navbar")
 	public String navbar() {
 		return ViewConstant.VIEW_NAVBAR;

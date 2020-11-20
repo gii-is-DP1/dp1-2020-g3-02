@@ -15,9 +15,13 @@ public class ViewConstant {
 	public static final String VIEW_ENTRENAMIENTOS = "/entrenamientos/listadoEntrenamientos";
 	
 	public static final String VIEW_NAVBAR = "navbar";
+	public static final String VIEW_HOME = "home";
 	
 	public static final String VIEW_ESTADISTICAS_JUGADOR_POR_PARTIDO = "partidos/estadisticasPersonalesPartidos";
 	public static final String VIEW_ESTADISTICAS_JUGADOR_POR_ENTRENAMIENTO = "entrenamientos/estadisticasPersonalesEntrenamiento";
 	
 	public static final String VIEW_JUGADORES_AUTORIZACION = "/autorizaciones/listadojugadoresaut";
+	public static final String VIEW_ESTADISTICAS_PARTIDO = "partidos/estadisticasPartido";
+	public static final String VIEW_ESTADISTICAS_ENTRENAMIENTO = "entrenamientos/estadisticasEntrenamiento";
+
 }

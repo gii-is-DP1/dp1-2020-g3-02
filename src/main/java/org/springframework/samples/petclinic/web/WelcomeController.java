@@ -6,20 +6,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.padres.Person;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/")
 public class WelcomeController {
 	
 	
-	  @GetMapping({"/"})
+	  @GetMapping("")
 	  public String welcome(Map<String, Object> model) {	    
 
 		  List<Person> persons = new ArrayList<Person>();
@@ -62,7 +65,12 @@ public class WelcomeController {
 	  }
 	  
 	  @GetMapping("/home")
-	  public String home(Model model) {
-		  return "home";
+	  public String home() {
+		  return ViewConstant.VIEW_HOME;
 	  }
+	  
+	  @GetMapping("/navbar")
+		public String navbar() {
+			return ViewConstant.VIEW_NAVBAR;
+		}
 }
