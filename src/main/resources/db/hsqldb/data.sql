@@ -38,7 +38,7 @@ INSERT INTO authorities(id,username,authority) VALUES (18,'blamaurob','owner');
 
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,saques_acertados,saques_totales,porcentaje_saques) VALUES (1,'javgutfal','11111111A','Alberto','Clemente','1998-11-06','Travesía Lorem ipsum dolor, 217 7ºD','arribaespaña@gmail.com','Villaviciosa',178,78,75,22.2,50,70,0.71);
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (2,'gonlalle','11111112A','Paco','Tuerca','1986-02-05','C. Comercial Lorem, 171A 3ºA','cataluñaindependiente@gmail.com','Guarroman',175,78,75,23.2);
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (3,'javgutfal','11111113A','Paco','Tuerca','1978-11-24','Callejón Lorem, 172A 1ºF','covidgod19@gmail.com','Guarroman',175,78,75,23.2);
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (3,'javgutfal','11111113A','Pepe','Tuerca','1978-11-24','Callejón Lorem, 172A 1ºF','covidgod19@gmail.com','Guarroman',175,78,75,23.2);
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (4,'javgutfal','11111114A','Paco','Tuerca','1987-06-08','C. Comercial Lorem, 216 12ºH','arsatratra@gmail.com','Guarroman',175,78,75,23.2);
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (5,'javgutfal','11111115A','Paco','Tuerca','1989-03-23','Carrera Lorem ipsum dolor sit, 12 5ºB','ojitoconeldato@gmail.com','Guarroman',175,78,75,23.2);
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (6,'javgutfal','11111116A','Paco','Tuerca','1988-01-03','Travesía Lorem ipsum dolor, 217B 14ºD','otakumuertoabonopamihuerto@gmail.com','Guarroman',175,78,75,23.2);
@@ -77,12 +77,35 @@ INSERT INTO personales(id,propietario) VALUES(4,'Pepa');
 
 -- INSERT  PARTIDOS
 
-INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (1,'2020-11-06','17:00',5,1);
-INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (2,'2020-11-06','18:00',5,1);
-INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (3,'2020-11-06','19:00',5,1);
-INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (4,'2020-12-06','17:00',5,1);
-INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (5,'2020-10-06','18:00',5,2);
-INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id) VALUES (6,'2020-11-07','19:00',5,2);
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (1,'2020-11-06','17:00',5,1,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (2,'2020-11-07','18:00',5,1,17,20,0.85,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (3,'2020-11-08','19:00',5,1,15,20,0.75,12,20,0.6,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (4,'2020-12-06','17:00',5,1,12,20,0.6,15,20,0.75,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (5,'2020-12-07','18:00',5,2,10,20,0.5,17,20,0.85,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (6,'2020-12-08','19:00',5,2,5,20,0.25,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);	
+	
+
+
+	
+	
+
 
 
 -- INSERT  ENTRENAMIENTOS
@@ -96,7 +119,7 @@ INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento) VALUES (6,'2019-1
 
 
 
--- INSERT ESTADISITICAS PERSONALES PARTIDO
+-- INSERT ESTADISITICAS PERSONALES PARTIDO Jugador 1
 
 INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
@@ -108,19 +131,75 @@ INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,por
 
 INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
-	jugador_id,partido_id) VALUES (3,14,22,0.7,10,20,0.5,15,20,0.75,5,20,0.25,2,3);
+	jugador_id,partido_id) VALUES (3,14,22,0.7,10,20,0.5,15,20,0.75,5,20,0.25,1,3);
 	
 INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
-	jugador_id,partido_id) VALUES (4,10,25,0.4,10,20,0.5,5,20,0.25,15,20,0.75,2,4);
+	jugador_id,partido_id) VALUES (4,10,25,0.4,10,20,0.5,5,20,0.25,15,20,0.75,1,4);
 	
 INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
-	jugador_id,partido_id) VALUES (5,12,14,0.7,15,20,0.75,5,20,0.25,5,20,0.25,2,5); 
+	jugador_id,partido_id) VALUES (5,12,14,0.7,15,20,0.75,5,20,0.25,5,20,0.25,1,5); 
 	
 INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,fintas_acertadas,fintas_totales,porcentaje_fintas,
-	num_ataques_rapidos_acertados,num_ataques_rapidos_totales,porcentaje_ataques_rapidos,jugador_id,partido_id) VALUES (6,14,22,0.63,5,20,0.25,5,20,0.25,5,20,0.25,10,20,0.5,15,20,0.75,2,6); 
+	num_ataques_rapidos_acertados,num_ataques_rapidos_totales,porcentaje_ataques_rapidos,jugador_id,partido_id) VALUES (6,14,22,0.63,5,20,0.25,5,20,0.25,5,20,0.25,10,20,0.5,15,20,0.75,1,6); 
+
+-- INSERT ESTADISITICAS PERSONALES PARTIDO Jugador 2
+
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,jugador_id,partido_id) VALUES (7,20,20,1,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,2,2);
+
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,jugador_id,partido_id) VALUES (8,12,18,0.6,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,2,3); 
+
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
+	jugador_id,partido_id) VALUES (9,14,22,0.7,10,20,0.5,15,20,0.75,5,20,0.25,2,1);
+	
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
+	jugador_id,partido_id) VALUES (10,10,25,0.4,10,20,0.5,5,20,0.25,15,20,0.75,2,6);
+	
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
+	jugador_id,partido_id) VALUES (11,12,14,0.7,15,20,0.75,5,20,0.25,5,20,0.25,2,4); 
+	
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,fintas_acertadas,fintas_totales,porcentaje_fintas,
+	num_ataques_rapidos_acertados,num_ataques_rapidos_totales,porcentaje_ataques_rapidos,jugador_id,partido_id) VALUES (12,14,22,0.63,5,20,0.25,5,20,0.25,5,20,0.25,10,20,0.5,15,20,0.75,2,5); 
+
+
+-- INSERT ESTADISITICAS PERSONALES PARTIDO Jugador 3
+
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,jugador_id,partido_id) VALUES (13,20,20,1,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,3,6);
+
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,jugador_id,partido_id) VALUES (14,12,18,0.6,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,3,5); 
+
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
+	jugador_id,partido_id) VALUES (15,14,22,0.7,10,20,0.5,15,20,0.75,5,20,0.25,3,4);
+	
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
+	jugador_id,partido_id) VALUES (16,10,25,0.4,10,20,0.5,5,20,0.25,15,20,0.75,3,3);
+	
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
+	jugador_id,partido_id) VALUES (17,12,14,0.7,15,20,0.75,5,20,0.25,5,20,0.25,3,2); 
+	
+INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,fintas_acertadas,fintas_totales,porcentaje_fintas,
+	num_ataques_rapidos_acertados,num_ataques_rapidos_totales,porcentaje_ataques_rapidos,jugador_id,partido_id) VALUES (18,14,22,0.63,5,20,0.25,5,20,0.25,5,20,0.25,10,20,0.5,15,20,0.75,3,1); 
+
+
+
 
 
 -- INSERT ESTADISITICAS PERSONALES ENTRENAMIENTO

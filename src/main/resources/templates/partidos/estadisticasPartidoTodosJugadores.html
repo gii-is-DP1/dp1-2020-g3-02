@@ -80,10 +80,6 @@
 				<button class="btn btn-outline-info btn-sm btn-block stats" type="button">ATAQUES R</button>
 			</div>
 			
-			<div class="col">
-				<input type="hidden" id="id" th:value="tiempos">
-				<button class="btn btn-outline-info btn-sm btn-block stats" type="button">TIEMPOS S_JUEGO</button>
-			</div>
 		</div>
 
 		<div class="row">
@@ -94,8 +90,8 @@
 					<thead>
 						<tr class="table-primary">
 							
+							<th>NOMBRE</th>
 							<th>FECHA</th>
-							<th>HORA</th>
 							<th>S_A</th>
 							<th>S_T</th>
 							<th>%_S</th>
@@ -120,9 +116,6 @@
 							<th>A_A</th>
 							<th>A_T</th>
 							<th>%_A</th>
-							<th>5_1</th>
-							<th>4_2</th>
-							<th>6_2</th>
 							<th>Jug</th>
 							
 						</tr>
@@ -130,8 +123,8 @@
 					<tbody>
 						<tr th:each="estadistica : ${estadisticas}">
 							
-							<td  th:text="${estadistica.fecha}"></td>
-							<td  th:text="${estadistica.hora}"></td>
+							<td  th:text="${estadistica.Jugador.firstName}+' '+${estadistica.Jugador.lastName}"></td>
+							<td  th:text="${estadistica.Partido.fecha}"></td>
 							<td th:text="${estadistica.saquesAcertados}"></td>
 							<td th:text="${estadistica.saquesTotales}"></td>
 							<td th:text="${estadistica.porcentajeSaques}"></td>
@@ -156,12 +149,10 @@
 							<td th:text="${estadistica.numAtaquesRapidosAcertados}"></td>
 							<td th:text="${estadistica.numAtaquesRapidosTotales}"></td>
 							<td th:text="${estadistica.porcentajeAtaquesRapidos}"></td>
-							<td th:text="${estadistica.tiempo51}"></td>
-							<td th:text="${estadistica.tiempo42}"></td>
-							<td th:text="${estadistica.tiempo62}"></td>
 							<td>
-								<a href="#" th:href="@{/partidos/showestadisiticasPartidoTodosJugadores?id=__${estadistica.id}__}">
-								<button class="btn btn-outline-success mx-0 jugadores" type="button" title="Estadísticas"><svg width="1.2em" height=1.2em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<input type="hidden" id="id" th:value="${estadistica.Partido.id}"></input>
+								<a href="#" th:href="@{/partidos/showestadisiticasJugadores?id=__${estadistica.Jugador.id}__}">
+								<button class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas"><svg width="1.2em" height=1.2em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 									<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
 									</svg>
 								</button>
@@ -253,6 +244,12 @@
 		 		
 	     		
 		 	}
+		    });
+		    
+		    $('table .estadisticas').on('click', function(){
+				var id = $(this).parent().find('#id').val();
+				
+				
 		    });
 		    
 		    $('th').on('click', function(){
@@ -944,6 +941,7 @@
 		     		table.columns( [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,2,3,4]).visible(false);
 				}
 		    }
+		    
 	</script>
 	
 	<script type="text/javascript">

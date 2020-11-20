@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous" />
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
@@ -19,14 +22,15 @@
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
 <title>Partidos</title>
-<link rel="icon" type="image/png" href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
+<link rel="icon" type="image/png"
+	href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
 </head>
 <body class="bg-light">
 
 	<script src="https://www.w3schools.com/lib/w3data.js"></script>
-	
+
 	<div class="">
-	<div w3-include-html="navbar?id=listadoPartido"></div>
+		<div w3-include-html="navbar?id=listadoPartido"></div>
 	</div>
 
 	<div class="container-fluid">
@@ -50,7 +54,7 @@
 							<th>Transporte</th>
 							<th>Estadística</th>
 							<th>Asistencia</th>
-		
+
 						</tr>
 					</thead>
 					<tbody>
@@ -59,25 +63,35 @@
 							<td th:text="${partido.hora}"></td>
 							<td th:text="${partido.Equipo.categoria}"></td>
 							<td>
-							
+
 								<button type="button" class="btn btn-outline-dark" title="Bus">
 									<i class="fas fa-bus"></i>
 								</button>
-								<button type="button" class="btn btn-outline-secondary" title="Vehículo Personal">
+								<button type="button" class="btn btn-outline-secondary"
+									title="Vehículo Personal">
 									<i class="fas fa-car-side"></i>
 								</button>
 							</td>
 							<td>
-								<button class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+								<button class="btn btn-outline-success mx-0 estadisticas"
+									type="button" title="Estadísticas">
+									<svg width="1.5em" height=1.5em viewBox="0 0 16 16"
+										class="bi bi-graph-up" fill="currentColor"
+										xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd"
+											d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z" />
 									</svg>
 								</button>
-							</td><td>
-								<button class="btn btn-outline-info mx-0 editar" type="button" title="Editar">
+							</td>
+							<td>
+								<input type="hidden" id="id" th:value="${partido.id}"></input>
+								<button class="btn btn-outline-info mx-0 editar" type="button"
+									title="Editar">
 									<i class="fas fa-edit"></i>
 								</button>
-								<button type="button" class="btn btn-outline-danger" title="Asistir">Asisto</button>
-							
+								<button type="button" class="btn btn-outline-danger"
+									title="Asistir">Asisto</button>
+
 							</td>
 					</tbody>
 
@@ -89,12 +103,41 @@
 	<div class="row my-3">
 		<div class="col-lg-2"></div>
 		<div class="col-lg-8">
-				<button onclick="location.href='/partidos/partidosform?id=0'" class="btn btn-primary btn-lg btn-block" type="submit">Nuevo
-					partido</button>
-	
+			<button class="btn btn-primary btn-lg btn-block" id="nuevoPartido" role="button">Nuevo partido</button>
+
 		</div>
 		<div class="col-lg-2"></div>
 	</div>
+
+
+	<div class="modal fade" id="gestionModal" data-backdrop="static"
+		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
+		aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<form th:action="@{/partidos/gestionpartido}" method="post">
+					<div class="modal-header bg-info">
+						<h5 class="modal-title" id="gestionPartido"></h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+											
+					</div>
+					<div class="modal-footer"
+						style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Cerrar</button>
+						<input type="submit" class="btn btn-info" value="Aceptar"></input>
+						<input type="hidden" th:id="id" name="id"></input>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
 
 
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
@@ -122,16 +165,40 @@
 							$('#partidos')
 									.DataTable(
 											{
-												responsive: true,
+												responsive : true,
 												"language" : {
 													"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
 												}
 											});
 
+							$('#nuevoPartido').on('click', function(){
+								$('.modal-header').css("color","white");
+								$('.modal-title').text("Nuevo Partido");
+								$('#gestionModal').modal("show");
+							});
+							
+							$('table .editar')
+									.on(
+											'click',
+											function() {
+												var id = $(this).parent().find('#id').val();
+
+												$.ajax({
+													type : 'GET',
+													url : '/partidos/findeditpartido/' + id,
+													success : function(edit) {
+
+													$('.modal-header').css("color","white");
+													$('.modal-title').text("Editar Partido");
+													$('#gestionModal').modal("show");
+												}
+											});
+								});
+
 						});
 	</script>
 	<script type="text/javascript">
-       w3IncludeHTML();
+		w3IncludeHTML();
 	</script>
 
 </body>

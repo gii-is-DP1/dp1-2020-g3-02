@@ -20,6 +20,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "linea_material")
 public class LineaMaterial extends BaseEntity {
 	
+
 	@ManyToOne
 	@JoinColumn(name = "material_id")
 	private Material material;
