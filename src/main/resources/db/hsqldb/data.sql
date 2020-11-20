@@ -61,14 +61,15 @@ INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,dire
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (23,'javgutfal','72458570Z','Paco','Tuerca','2006-09-09','Callejón Lorem ipsum, 141A 9ºF','tdhcrgehfpaf@gmail.com','Guarroman',175,78,75,23.2);
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc) VALUES (24,'javgutfal','52031289E','Paco','Tuerca','1982-11-04','Vía Lorem ipsum dolor sit, 267B 10ºC','pcbatcerenqt@gmail.com','Guarroman',175,78,75,23.2);
 
-INSERT INTO equipos(id,categoria,federacion) VALUES (1,'Senior',false);
-INSERT INTO equipos(id,categoria,federacion) VALUES (2,'Cadete',false);
+INSERT INTO capitanes(id,ntiemposmuertos,actitud,jugador_id) VALUES (1,6,'POSITIVA',1);
+INSERT INTO capitanes(id,ntiemposmuertos,actitud,jugador_id) VALUES (2,10,'POSITIVA', 2);
 
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (1,'bencrealc','Teodoro', 'Sánchez Bermejo', 'teodorocoach@gmail.com','1987-8-19');
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (2,'bencrealc','Mauricio', 'Colmenero Muñoz', 'mastodonquijote@gmail.com','1997-8-19');
 
-INSERT INTO capitanes(id,ntiemposmuertos,actitud) VALUES (1,6,'POSITIVA');
-INSERT INTO capitanes(id,ntiemposmuertos,actitud) VALUES (2,10,'POSITIVA');
+INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id) VALUES (1,'Senior',false,1,1);
+INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id) VALUES (2,'Cadete',false,2,2);
+
 
 INSERT INTO personales(id,propietario) VALUES(1,'Pablo');
 INSERT INTO personales(id,propietario) VALUES(2,'Ana');
