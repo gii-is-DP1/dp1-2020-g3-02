@@ -43,12 +43,14 @@
 					<thead>
 						<tr class="table-primary">
 							<th>Apellidos/Nombre</th>
-		
+							<!-- columnas de autorizacion -->
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="jugador : ${jugadores}">
-							<td th:text="${jugadores.apellidos/jugadores.nombre}" ></td>
+						<tr th:each="jugador : ${jugadoresaut}">
+							<td th:text="${jugador.lastName} +' / '+ ${jugador.firstName}" ></td>
+							<!-- columnas con botones de autorizacion(usar foreach)/ distintos botones si/no -->
+							
 					</tbody>
 
 				</table>
