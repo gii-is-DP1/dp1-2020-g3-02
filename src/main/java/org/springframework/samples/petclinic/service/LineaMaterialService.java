@@ -11,8 +11,8 @@ public interface LineaMaterialService {
 	public abstract Optional<LineaMaterial> findById(int id);
 	public abstract List<LineaMaterial> findByCantidad(int cantidad);
 	
-	public abstract Optional<LineaMaterial> findByMaterial(int material_id);
-	public abstract Optional<LineaMaterial> findByEntrenamiento(int entrenamiento_id);
+	public abstract List<LineaMaterial> findByMaterial(int material_id);
+	public abstract List<LineaMaterial> findByEntrenamiento(int entrenamiento_id);
 	
 	public abstract LineaMaterial saveLineaMaterial(LineaMaterial lineaMaterial);
 

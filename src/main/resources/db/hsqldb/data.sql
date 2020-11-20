@@ -236,13 +236,21 @@ INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (1,1);
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (2,1);
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (3,1);
 
-INSERT INTO linea_material(id,cantidad) VALUES (1,9);
-INSERT INTO linea_material(id,cantidad) VALUES (2,2);
-INSERT INTO linea_material(id,cantidad) VALUES (3,1);
-INSERT INTO linea_material(id,cantidad) VALUES (4,7);
-INSERT INTO linea_material(id,cantidad) VALUES (5,21);
-INSERT INTO linea_material(id,cantidad) VALUES (6,14);
 
+
+INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (1,'balon duro','BALONMEDICINAL',3);
+INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (2,'balon blando','BALONDEJUEGO',9);
+INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (3,'cuerda','CUERDA',8);
+INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (4,'cinta','CINTA',10);
+INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (5,'poste','POSTE',11);
+
+
+
+INSERT INTO linea_material(id,cantidad,material_id,entrenamiento_id) VALUES (1,9,1,1);
+INSERT INTO linea_material(id,cantidad,material_id,entrenamiento_id) VALUES (2,2,2,2);
+INSERT INTO linea_material(id,cantidad,material_id,entrenamiento_id) VALUES (3,1,3,3);
+INSERT INTO linea_material(id,cantidad,material_id,entrenamiento_id) VALUES (4,7,4,4);
+INSERT INTO linea_material(id,cantidad,material_id,entrenamiento_id) VALUES (5,21,1,5);
 
 INSERT INTO autobus(id,hora_salida,hora_llegada) VALUES (1,'12:30','14:00');
 INSERT INTO autobus(id,hora_salida,hora_llegada) VALUES (2,'07:30','00:30');
