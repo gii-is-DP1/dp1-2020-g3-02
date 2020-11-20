@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.padres.Person;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 public class WelcomeController {
 	
 	
-	  @GetMapping({"/","/welcome"})
+	  @GetMapping({"/"})
 	  public String welcome(Map<String, Object> model) {	    
 
 		  List<Person> persons = new ArrayList<Person>();
@@ -58,5 +59,10 @@ public class WelcomeController {
 		  model.put("group","G3-02");
 		  
 	    return "start";
+	  }
+	  
+	  @GetMapping("/home")
+	  public String home(Model model) {
+		  return "home";
 	  }
 }
