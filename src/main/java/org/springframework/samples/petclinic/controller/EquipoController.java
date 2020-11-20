@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -7,17 +9,24 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,6 +58,17 @@ public class EquipoController {
 		}
 		model.addAttribute("equipo", equipo);
 		return ViewConstant.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@RequestMapping(value = "getallteams", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> findEquipos() {
+		try {
+			List<String> equipos = equipoService.findCategoria();
+			
+			return new ResponseEntity<List<String>>(equipos, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 	@PostMapping("/addequipo")
