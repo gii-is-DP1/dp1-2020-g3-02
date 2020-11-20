@@ -125,7 +125,7 @@ public class PartidoController {
 	}
 	
 	@RequestMapping(value = "findeditpartido/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PartidoEdit> graficoEstadisticasJugador(@PathVariable("id") int id) {
+	public ResponseEntity<PartidoEdit> findPartido(@PathVariable("id") int id) {
 		try {
 			Optional<Partido> partidoO = partidoService.findById(id);
 			Partido partido = partidoO.get();
