@@ -11,12 +11,15 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
 @Table(name = "personales")
 public class Personales extends BaseEntity {

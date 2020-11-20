@@ -12,8 +12,10 @@ import javax.persistence.Table;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
 @Table(name = "autobus")
 public class Autobus extends BaseEntity {

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository("numCamisetaRepository")
 public interface NumCamisetaRespository extends JpaRepository<NumCamiseta, Serializable>{
 	
+	public List<NumCamiseta> findByNumero(Integer numero);
+	
 	@Query("SELECT n FROM NumCamiseta n, Jugador j WHERE j.id=:jugador_id")
 	public List<NumCamiseta> findByJugador(@Param("jugador_id") int jugador_id);
 	
