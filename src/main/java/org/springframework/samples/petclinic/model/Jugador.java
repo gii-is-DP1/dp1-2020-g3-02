@@ -56,11 +56,6 @@ public class Jugador extends Person{
 	Set<NumCamiseta> numCamisetas;
 
 	
-	@ManyToMany
-	@JoinTable(name = "juegaPartido", joinColumns = @JoinColumn(name = "jugador_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "partido_id"))
-	Set<Partido> partidos;
-	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
 	private Set<PruebaCondicionFisica> pruebas_condicion_fisica;
 	

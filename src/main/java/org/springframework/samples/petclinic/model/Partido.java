@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -35,7 +36,7 @@ public class Partido extends EstadisticasEntity{
 	@ManyToMany
 	@JoinTable(name = "juegaPartido", joinColumns = @JoinColumn(name = "partido_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
-	Set<Jugador> jugadores;
+	List<Jugador> jugadores;
 	
 	@ManyToMany
 	@JoinTable(name = "partidosbus", joinColumns = @JoinColumn(name = "partido_id"), 

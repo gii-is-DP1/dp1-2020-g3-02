@@ -29,5 +29,8 @@ public class ViewConstant {
 	
 	public static final String VIEW_ESTADISTICAS_PARTIDO_JUGADOR = "partidos/estadisticasPartidoJugador";
 	public static final String VIEW_ESTADISTICAS_ENTRENAMIENTO_JUGADOR = "entrenamientos/estadisticasEntrenamientoJugador";
+	
+	public static final String VIEW_PARTIDO_JUGADOR_POSICION = "partidos/JugadorPosicionPartido";
+	public static final String VIEW_ENTRENADOR_JUGADOR_POSICION = "entrenamientos/JugadorPosicionEntrenamiento";
 
 }
