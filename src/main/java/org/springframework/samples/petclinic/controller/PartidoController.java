@@ -1,7 +1,10 @@
 package org.springframework.samples.petclinic.controller;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -9,23 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.constant.ViewConstant;
-import org.springframework.samples.petclinic.controller.form.JugadorForm;
-import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
-import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
-import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
+import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
-import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ValidationUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +42,9 @@ public class PartidoController {
 	
 	@Autowired
 	private PartidoService partidoService;
+	
+	@Autowired
+	private EquipoService equipoService;
 	
 	@Autowired
 	private PartidoConverter partidoConverter;
@@ -143,29 +144,44 @@ public class PartidoController {
 		}	
 	}
 	
+		
 	
-	@PostMapping("/addpartido")
-	public String addJugador(@ModelAttribute(name="formPartido") Partido partido, Model model, final BindingResult result) {
+	@PostMapping("/postpartido")
+	public String addPartido(HttpServletRequest request) {
 		
-		//LOG.info("addpartido() -- PARAMETROS: "+ form.getJugador().toString());
+		Partido partido = new Partido();
 		
-//		ValidationUtils.invokeValidator(jugadorFormValidator, form, result);
-//		
-//		if (result.hasErrors()) {
-//			model.addAttribute("formJugador", form);
-//			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
-//		}else {
-//		
+		if(!request.getParameter("id").isEmpty()) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			Optional<Partido> partidoO = partidoService.findById(id);
+			partido = partidoO.get();
+		}else if(request.getParameter("equipo").trim() != null) {
+			Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
 		
-		if(null != partidoService.savePartido(partido)) {
-			model.addAttribute("result", 1);
-			
-		}else {
-			model.addAttribute("result", 0); 
+			partido.setEquipo(equipo);
 		}
-		return "redirect:/partidos/showPartidos";
-	//}
+		
+		
+		partido.setHora(request.getParameter("hora").trim());
+		partido.setFecha(LocalDate.parse(request.getParameter("fecha"), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		
+		Partido match = partidoService.savePartido(partido);
+		
+		return "redirect:/partidos/showpartidos";	
+	}
 	
-}
+	/* @PostMapping("/updatepartido")
+	public String updatePartido(HttpServletRequest request) {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Optional<Partido> partidoO = partidoService.findById(id);
+		Partido partido = partidoO.get();
+		
+		partido.setHora(request.getParameter("hora").trim());
+		partido.setFecha(LocalDate.parse(request.getParameter("fecha"), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+		
+		Partido match = partidoService.savePartido(partido);
+		
+		return "redirect:/partidos/showpartidos";	
+	} */
 	
 }

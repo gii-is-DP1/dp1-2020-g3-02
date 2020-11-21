@@ -11,6 +11,7 @@ public class PartidoConverter {
 		
 		PartidoEdit partidoEdit = new PartidoEdit();
 		
+		partidoEdit.setId(partido.getId());
 		partidoEdit.setEquipo(partido.getEquipo().getCategoria());
 		partidoEdit.setFecha(partido.getFecha());
 		partidoEdit.setHora(partido.getHora());

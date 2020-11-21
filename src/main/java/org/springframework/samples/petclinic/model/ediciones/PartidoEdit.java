@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PartidoEdit {
 	
+	private int id;
+	
 	private String equipo;
 	
 	private LocalDate fecha;
