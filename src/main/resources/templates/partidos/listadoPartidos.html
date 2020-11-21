@@ -115,7 +115,7 @@
 		aria-hidden="true">
 		<div class="modal-dialog modal-xl modal-dialog-centered">
 			<div class="modal-content">
-				<form th:action="@{/partidos/gestionpartido}" method="post">
+				<form th:action="@{/partidos/postpartido}" method="post">
 					<div class="modal-header bg-info">
 						<h5 class="modal-title" id="gestionPartido"></h5>
 						<button type="button" class="close" data-dismiss="modal"
@@ -124,14 +124,23 @@
 						</button>
 					</div>
 					<div class="modal-body">
-											
+						<div class="form-group" id="modalFormPartido">
+							<div class="form-group col-12 datePicker">
+								<label><span class="text-danger">(*) </span>Fecha:</label>
+								<input class="form-control" type="text" placeholder="Fecha" id="fecha" name="fecha" required></input>
+							</div>
+							<div class="form-group col-12">
+								<label><span class="text-danger">(*) </span>Hora:</label>
+								<input class="form-control" type="text" placeholder="Hora" id="hora" name="hora" maxlength="5" required></input>
+							</div>
+						</div>
 					</div>
 					<div class="modal-footer"
 						style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">Cerrar</button>
 						<input type="submit" class="btn btn-info" value="Aceptar"></input>
-						<input type="hidden" th:id="id" name="id"></input>
+						<input type="hidden" id="id" name="id"></input>
 					</div>
 				</form>
 			</div>
@@ -172,9 +181,30 @@
 											});
 
 							$('#nuevoPartido').on('click', function(){
-								$('.modal-header').css("color","white");
-								$('.modal-title').text("Nuevo Partido");
-								$('#gestionModal').modal("show");
+								$.ajax({
+									type: 'GET',
+									url: '/equipos/getallteams',
+									success : function(equipos){
+										$('#modalFormPartido').children('.only').remove();
+										$('#modalFormPartido').children('#equipo').remove();
+										$('#fecha').val('');
+										$('#hora').val('');
+										$('#modalFormPartido').prepend('<div class="form-group col-12 only"><label><span class="text-danger">(*) </span>Equipo:</label><select class="form-control" id="equipo" name="equipo"></select></div>');
+										
+										$.each(equipos, function(index, equipo ) {
+											console.log(equipo);
+											$('#equipo').append($('<option>', {
+										        value: equipo,
+										        text : equipo,
+										        name: "equipo"
+										    }));
+										});
+										
+										$('.modal-header').css("color","white");
+										$('.modal-title').text("Nuevo Partido");
+										$('#gestionModal').modal("show");
+									}
+								});
 							});
 							
 							$('table .editar')
@@ -187,12 +217,22 @@
 													type : 'GET',
 													url : '/partidos/findeditpartido/' + id,
 													success : function(edit) {
+														$('#modalFormPartido').children('.only').remove();
+														
+														//Poner la fecha con el formato correcto
+														var aux = (edit.fecha).split("-");
+														var fechaInput = ""+aux[2]+"/"+aux[1]+"/"+aux[0]+"";
+														
+														
+														$('#gestionModal #id').val(edit.id);
+														$('#gestionModal #fecha').val(fechaInput);
+														$('#gestionModal #hora').val(edit.hora);
 
-													$('.modal-header').css("color","white");
-													$('.modal-title').text("Editar Partido");
-													$('#gestionModal').modal("show");
-												}
-											});
+														$('.modal-header').css("color","white");
+														$('.modal-title').text("Editar partido del equipo "+ edit.equipo);
+														$('#gestionModal').modal("show");
+													}
+												});
 								});
 
 						});
