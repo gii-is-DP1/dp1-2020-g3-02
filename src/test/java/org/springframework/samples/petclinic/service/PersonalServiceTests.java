@@ -64,20 +64,19 @@ public class PersonalServiceTests {
 		assertEquals(personales.size(), 0);//
 	}
 	
-//	@Test
-//	public void testFindByJugadorInitialDataFinding() {
-//		int jugador_id=1;
-//		Optional<Personales> personales=personalesService.findByJugador(jugador_id);
-//		assertEquals(personales, Optional.empty());///
-//	}
-//	
-//	@Test
-//	public void testFindByJugadorInitialDataNotFinding() {
-//		int jugador_id=1000;
-//		Optional<Personales> personales=personalesService.findByJugador(jugador_id);
-//		assertEquals(personales, Optional.empty());//
-//	}
-//	
+	@Test
+	public void testFindByJugadorInitialDataFinding() {
+		int jugador_id=1;
+		List<Personales> personales=personalesService.findByJugador(jugador_id);
+		assertEquals(personales.size(), 2);//
+	}
+	@Test
+	public void testFindByEntrenamientoInitialDataNotFinding() {
+		int jugador_id=6;
+		List<Personales> personales=personalesService.findByJugador(jugador_id);
+		assertEquals(personales.size(),0);
+	}
+	
 //	@Test
 //	public void testFindByPartidoInitialDataFinding() {
 //		int partido_id=1;

@@ -71,10 +71,10 @@ INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id) VALUES (1
 INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id) VALUES (2,'Cadete',false,2,2);
 
 
-INSERT INTO personales(id,propietario) VALUES(1,'Pablo');
-INSERT INTO personales(id,propietario) VALUES(2,'Ana');
-INSERT INTO personales(id,propietario) VALUES(3,'Rosa');
-INSERT INTO personales(id,propietario) VALUES(4,'Pepa');
+INSERT INTO personales(id,propietario,jugador_id) VALUES(1,'Pablo',1);
+INSERT INTO personales(id,propietario,jugador_id) VALUES(2,'Ana',1);
+INSERT INTO personales(id,propietario,jugador_id) VALUES(3,'Rosa',2);
+INSERT INTO personales(id,propietario,jugador_id) VALUES(4,'Pepa',3);
 
 -- INSERT  PARTIDOS
 

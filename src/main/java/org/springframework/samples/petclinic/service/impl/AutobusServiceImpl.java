@@ -42,8 +42,8 @@ public class AutobusServiceImpl implements AutobusService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<Autobus> findByJugador(int id) {
-		return autobusRepository.findByJugador(id);
+	public List<Autobus> findByJugador(int jugador_id) {
+		return autobusRepository.findByJugador(jugador_id);
 	}
 	
 	@Override

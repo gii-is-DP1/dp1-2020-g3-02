@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,9 +14,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.model.Capitan;
-import org.springframework.samples.petclinic.model.Entrenador;
-import org.springframework.samples.petclinic.model.Jugador;
-import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -26,7 +22,7 @@ public class CapitanServiceTests {
 	@Autowired
 	@Qualifier("capitanService")
 	private CapitanService capitanService;
-	
+
 	@Test
 	public void testFindAllInitialData() {
 		List<Capitan> capitan=new ArrayList<Capitan>(capitanService.findAll());
