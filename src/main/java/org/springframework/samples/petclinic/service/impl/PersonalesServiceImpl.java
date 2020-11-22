@@ -6,7 +6,13 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.LineaMaterial;
+import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.Personales;
+import org.springframework.samples.petclinic.repository.JugadorRepository;
+import org.springframework.samples.petclinic.repository.MaterialRepository;
 import org.springframework.samples.petclinic.repository.PersonalesRepository;
 import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.stereotype.Service;
@@ -18,7 +24,11 @@ public class PersonalesServiceImpl  implements PersonalesService {
 	private static final Log LOG = LogFactory.getLog(PersonalesServiceImpl.class);
 
 	@Autowired
+	@Qualifier("personalesRepository")
 	private PersonalesRepository personalesRepository;
+	
+	@Autowired
+	private JugadorRepository jugadorRepository;
 
 
 	@Override
@@ -45,8 +55,9 @@ public class PersonalesServiceImpl  implements PersonalesService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<Personales> findByJugador(int jugador_id) {
-		return personalesRepository.findByJugador(jugador_id);
+	public List<Personales> findByJugador(int jugador_id) {
+		Optional<Jugador> jugador= jugadorRepository.findById(jugador_id);
+		return personalesRepository.findByJugador(jugador.get());
 	}
 
 	@Override

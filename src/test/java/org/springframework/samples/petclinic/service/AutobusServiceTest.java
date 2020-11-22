@@ -41,21 +41,20 @@ public class AutobusServiceTest {
 		Optional<Autobus> autobus=autobusService.findById(id);
 		assertEquals(autobus, Optional.empty());
 	}
-
 /*
 	@Test
-	public void testFindByPartidoInitialDataFinding() {
-		int partido_id=1;
-		List<Autobus> autobus=autobusService.findByPartido(partido_id);
-		assertEquals(autobus.size(), 1);
-	}
+    public void testFindByPartidoInitialDataFinding() {
+        int partido_id = 1;
+        List<Autobus> bus=autobusService.findByPartido(partido_id);
+        assertEquals(bus.size(), 6);
+    }
 */
 /*
 	@Test
 	public void testFindByPartidoInitialDataNotFinding() {
 		int partido_id = 1000;
-		List<Autobus> autobus=autobusService.findByPartido(partido_id);
-		assertEquals(autobus, Optional.empty());
+		List<Autobus> bus=autobusService.findByPartido(partido_id);
+		assertEquals(bus.size(), 0);
 	}
 */
 /*	
@@ -63,7 +62,7 @@ public class AutobusServiceTest {
 	public void testFindByJugadorInitialDataFinding() {
 		int jugador_id=1;
 		List<Autobus> autobus=autobusService.findByJugador(jugador_id);
-		assertEquals(autobus.size(), 1);
+		assertEquals(autobus.size(), 24);
 	}
 */
 /*
