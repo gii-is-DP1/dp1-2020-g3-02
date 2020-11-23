@@ -76,6 +76,7 @@ INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id) VALUES (2
 
 -- INSERT  AUTORIZACIONES
 INSERT INTO autorizaciones(id,fecha,tipo,responsable, jugador_id) VALUES (1,'2020-10-09','TRANSPORTE','PADRE',1);
+INSERT INTO autorizaciones(id,fecha,tipo,responsable, jugador_id) VALUES (3,'2020-10-09','EXCURSIONES','PADRE',1);
 INSERT INTO autorizaciones(id,fecha,tipo,responsable, jugador_id) VALUES (2,'2020-09-09','EXCURSIONES','MADRE',4);
 
 -- INSERT  PERSONALES

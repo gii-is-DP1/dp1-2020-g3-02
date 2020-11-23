@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,7 @@ import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
+import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
@@ -89,6 +92,7 @@ public class JugadorController {
 	public ModelAndView listadoJugadoresAutorizacion() {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADORES_AUTORIZACION);
 		mav.addObject("jugadoresaut", jugadorService.findAll());
+		mav.addObject("listaut", new ArrayList<TipoAutorizacion>(Arrays.asList(TipoAutorizacion.TRANSPORTE, TipoAutorizacion.USOIMAGEN, TipoAutorizacion.USOIMAGEN, TipoAutorizacion.EXCURSIONES)));
 		return mav;
 	}
 	

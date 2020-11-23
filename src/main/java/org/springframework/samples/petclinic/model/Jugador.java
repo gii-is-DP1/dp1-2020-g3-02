@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -78,7 +79,7 @@ public class Jugador extends Person{
 	private Set<Privilegio> privilegios;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
-	private Set<Autorizacion> autorizacion;
+	private List<Autorizacion> autorizacion;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
 	private Set<Sustitucion> sustituciones;
