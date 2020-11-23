@@ -14,8 +14,7 @@ public class SustitucionValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		Sustitucion sustitucion = (Sustitucion) target;
-		
-		//Dni validation
+
 		if (sustitucion.getMinutoSustitucion() == null || sustitucion.getMinutoSustitucion() < 0) {
 			errors.rejectValue("minutoSustitucion", "El minuto de sustitución es requerido y ha de ser mayor que 0.","El minuto de sustitución es requerido y ha de ser mayor que 0.");
 		}
