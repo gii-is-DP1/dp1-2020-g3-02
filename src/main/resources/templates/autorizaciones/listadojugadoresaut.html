@@ -24,7 +24,7 @@
 	<script src="https://www.w3schools.com/lib/w3data.js"></script>
 	
 	<div class="">
-	<div w3-include-html="navbar?id=listadoJugadoresAut"></div>
+	<div w3-include-html="navbar?id=autorizaciones"></div>
 	</div>
 
 	<div class="container-fluid">
@@ -53,8 +53,15 @@
 					<tbody>
 						<tr th:each="jugador : ${jugadoresaut}">
 							<td th:text="${jugador.lastName} +' / '+ ${jugador.firstName}" ></td>
-							<!-- columnas con botones de autorizacion(usar foreach)/ distintos botones si/no -->
-							
+							<span th:each="autorizacion : ${jugador.Autorizacion}">
+								<span th:each="tipo : ${listaut}">
+								<td th:if="${autorizacion.tipoAutorizacion== tipo}">
+								<span th:text= "${tipo}">
+								</td>
+
+	   							
+								</span>	
+							</tr>
 					</tbody>
 
 				</table>
@@ -80,6 +87,9 @@
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 	<script>
+		var atributo = element.getAttribute('jugadoresaut');
+		console.log(atributo);
+		
 		$(document)
 				.ready(
 						function() {
