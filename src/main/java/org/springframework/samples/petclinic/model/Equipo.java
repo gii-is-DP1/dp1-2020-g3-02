@@ -42,10 +42,8 @@ public class Equipo extends EstadisticasEntity{
 	@JoinColumn(name = "entrenador_id")
 	private Entrenador entrenador;
 	
-	@ManyToMany
-	@JoinTable(name = "numCamis", joinColumns = @JoinColumn(name = "equipo_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "num_camiseta_id"))
-	Set<NumCamiseta> numCamisetas;
+	@OneToMany(cascade = CascadeType.MERGE, mappedBy = "equipo")
+	private Set<NumCamiseta> numCamisetas;
 	
 	@ManyToMany
 	@JoinTable(name = "perteneceA", joinColumns = @JoinColumn(name = "equipo_id"), 
