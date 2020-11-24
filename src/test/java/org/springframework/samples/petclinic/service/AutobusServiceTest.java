@@ -25,7 +25,7 @@ public class AutobusServiceTest {
 	@Test
 	public void testFindAllInitialData() {
 		List<Autobus> autobus=new ArrayList<Autobus>(autobusService.findAll());
-		assertEquals(autobus.size(), 2);
+		assertEquals(autobus.size(), 3);
 	}
 
 	@Test
@@ -41,38 +41,35 @@ public class AutobusServiceTest {
 		Optional<Autobus> autobus=autobusService.findById(id);
 		assertEquals(autobus, Optional.empty());
 	}
-/*
+
 	@Test
     public void testFindByPartidoInitialDataFinding() {
         int partido_id = 1;
-        List<Autobus> bus=autobusService.findByPartido(partido_id);
-        assertEquals(bus.size(), 6);
+        List<Integer> bus=autobusService.findByPartido(partido_id);
+        assertEquals(bus.size(), 2);
     }
-*/
-/*
+
 	@Test
 	public void testFindByPartidoInitialDataNotFinding() {
-		int partido_id = 1000;
-		List<Autobus> bus=autobusService.findByPartido(partido_id);
+		int partido_id = 3;
+		List<Integer> bus=autobusService.findByPartido(partido_id);
 		assertEquals(bus.size(), 0);
 	}
-*/
-/*	
+	
 	@Test
 	public void testFindByJugadorInitialDataFinding() {
-		int jugador_id=1;
-		List<Autobus> autobus=autobusService.findByJugador(jugador_id);
-		assertEquals(autobus.size(), 24);
+		int jugador_id = 1;
+		List<Integer> autobus=autobusService.findByJugador(jugador_id);
+		assertEquals(autobus.size(), 1);
 	}
-*/
-/*
+
 	@Test
 	public void testFindByJugadorInitialDataNotFinding() {
-		int jugador_id = 1000;
-		List<Autobus> autobus=autobusService.findByJugador(jugador_id);
-		assertEquals(autobus, Optional.empty());
+		int jugador_id = 6;
+		List<Integer> autobus=autobusService.findByJugador(jugador_id);
+		assertEquals(autobus.size(),0);
 	}
-*/
+
 	@Test
 	public void testFindByHoraSalidaInitialDataFinding() {
 		String hora_salida="12:30";

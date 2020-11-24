@@ -70,26 +70,28 @@ public class PersonalServiceTests {
 		List<Personales> personales=personalesService.findByJugador(jugador_id);
 		assertEquals(personales.size(), 2);//
 	}
+	
 	@Test
-	public void testFindByEntrenamientoInitialDataNotFinding() {
-		int jugador_id=6;
+	public void testFindByJugadorInitialDataNotFinding() {
+		int jugador_id=5;
 		List<Personales> personales=personalesService.findByJugador(jugador_id);
-		assertEquals(personales.size(),0);
+		assertEquals(personales.size(), 0);//
 	}
 	
-//	@Test
-//	public void testFindByPartidoInitialDataFinding() {
-//		int partido_id=1;
-//		Optional<Personales> personales=personalesService.findByPartido(partido_id);
-//		assertEquals(personales, Optional.empty());//
-//	}
-//	
-//	@Test
-//	public void testFindByPartidoInitialDataNotFinding() {
-//		int partido_id=1000;
-//		Optional<Personales> personales=personalesService.findByPartido(partido_id);
-//		assertEquals(personales,Optional.empty());//
-//	}
+	@Test
+	public void testFindByPartidoInitialDataFinding() {
+		int partido_id = 1;
+		List<Integer> personales=personalesService.findByPartido(partido_id);
+		System.out.println(personales);
+		assertEquals(personales.size(), 1);//
+	}
+	
+	@Test
+	public void testFindByPartidoInitialDataNotFinding() {
+		int partido_id = 2;
+		List<Integer> personales=personalesService.findByPartido(partido_id);
+		assertEquals(personales.size(),0);//
+	}
 	
 	@Test
 	public void testSavePersonales() {

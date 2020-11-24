@@ -62,7 +62,7 @@ public class PersonalesServiceImpl  implements PersonalesService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<Personales> findByPartido(int partido_id) {
+	public List<Integer> findByPartido(int partido_id) {
 		return personalesRepository.findByPartido(partido_id);
 	}
 

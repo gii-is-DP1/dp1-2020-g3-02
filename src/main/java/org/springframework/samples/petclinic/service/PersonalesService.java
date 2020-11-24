@@ -13,7 +13,7 @@ public interface PersonalesService {
 	public abstract List<Personales> findByPropietario(String propietario);
 
 	public abstract List<Personales> findByJugador(int jugador_id);
-	public abstract Optional<Personales> findByPartido(int partido_id);
+	public abstract List<Integer> findByPartido(int partido_id);
 
 	public abstract Personales savePersonales(Personales personales);
 }

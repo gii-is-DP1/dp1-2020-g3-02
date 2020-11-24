@@ -30,10 +30,9 @@ public class Personales extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "jugador_id")
 	private Jugador jugador;
-
 	
 	@ManyToMany
-	@JoinTable(name = "sevaen", joinColumns = @JoinColumn(name = "personal_id"), 
+	@JoinTable(name = "sevaen", joinColumns = @JoinColumn(name = "personales_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "partido_id"))
 	Set<Partido> partidos;
 
