@@ -79,12 +79,6 @@ INSERT INTO autorizaciones(id,fecha,tipo,responsable, jugador_id) VALUES (1,'202
 INSERT INTO autorizaciones(id,fecha,tipo,responsable, jugador_id) VALUES (3,'2020-10-09','EXCURSIONES','PADRE',1);
 INSERT INTO autorizaciones(id,fecha,tipo,responsable, jugador_id) VALUES (2,'2020-09-09','EXCURSIONES','MADRE',4);
 
--- INSERT  PERSONALES
-INSERT INTO personales(id,propietario,jugador_id) VALUES(1,'Pablo',1);
-INSERT INTO personales(id,propietario,jugador_id) VALUES(2,'Ana',1);
-INSERT INTO personales(id,propietario,jugador_id) VALUES(3,'Rosa',2);
-INSERT INTO personales(id,propietario,jugador_id) VALUES(4,'Pepa',3);
-
 -- INSERT  PARTIDOS
 
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
@@ -111,13 +105,12 @@ INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertad
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
 	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (6,'2020-12-08','19:00',5,2,5,20,0.25,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);	
 	
-
-
+	
+	
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (1,1);
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (2,1);	
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (3,1);	
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (1,2);	
-	
 
 
 
@@ -267,4 +260,18 @@ INSERT INTO linea_material(id,cantidad,material_id,entrenamiento_id) VALUES (5,2
 
 INSERT INTO autobus(id,hora_salida,hora_llegada) VALUES (1,'12:30','14:00');
 INSERT INTO autobus(id,hora_salida,hora_llegada) VALUES (2,'07:30','00:30');
+INSERT INTO autobus(id,hora_salida,hora_llegada) VALUES (3,'15:30','18:30');
 
+INSERT INTO partidosbus(partido_id,autobus_id) VALUES (1,1);
+INSERT INTO partidosbus(partido_id,autobus_id) VALUES (1,2);
+
+INSERT INTO jugadoresbus(jugador_id,autobus_id) VALUES (1,1);
+
+
+-- INSERT  PERSONALES
+INSERT INTO personales(id,propietario,jugador_id) VALUES (1,'Pablo',1);
+INSERT INTO personales(id,propietario,jugador_id) VALUES (2,'Ana',1);
+INSERT INTO personales(id,propietario,jugador_id) VALUES (3,'Rosa',2);
+INSERT INTO personales(id,propietario,jugador_id) VALUES (4,'Pepa',3);
+
+INSERT INTO sevaen(personales_id,partido_id) VALUES (1,1);
