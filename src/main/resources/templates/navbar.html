@@ -159,9 +159,9 @@
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Entrenamientos</a>
 					<div class="dropdown-menu bg-primary"
 						aria-labelledby="navbarDropdownMenuLinkMatch">
-						<a th:if="${param.id[0] == 'listadoEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/partidos/showpartidos">Próximos
+						<a th:if="${param.id[0] == 'listadoEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showentrenamientos">Próximos
 							Entrenamientos</a>
-						<a th:unless="${param.id[0] == 'listadoEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/partidos/showpartidos">Próximos
+						<a th:unless="${param.id[0] == 'listadoEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showentrenamientos">Próximos
 							Entrenamientos</a>
 							
 						<a th:if="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showestadisiticasJugadores?id=1">Estadísticas de
