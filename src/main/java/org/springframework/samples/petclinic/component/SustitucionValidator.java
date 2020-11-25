@@ -18,6 +18,14 @@ public class SustitucionValidator implements Validator {
 		if (sustitucion.getMinutoSustitucion() == null || sustitucion.getMinutoSustitucion() < 0) {
 			errors.rejectValue("minutoSustitucion", "El minuto de sustitución es requerido y ha de ser mayor que 0.","El minuto de sustitución es requerido y ha de ser mayor que 0.");
 		}
+		
+		if (sustitucion.getJugador() == null) {
+			errors.rejectValue("jugadorSustitucion", "El jugador sustituido es requerido.","El jugador sustituido es requerido.");
+		}
+		
+		if (sustitucion.getPartidos() == null) {
+			errors.rejectValue("partidoSustitucion", "El partido en el que realiza la sustitución es requerido.","El partido en el que realiza la sustitución es requerido.");
+		}
 	}
 	
 	@Override
