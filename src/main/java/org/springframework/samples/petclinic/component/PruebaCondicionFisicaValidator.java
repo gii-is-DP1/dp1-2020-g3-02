@@ -18,8 +18,14 @@ public class PruebaCondicionFisicaValidator implements Validator {
 		if (pruebaCondicionFisica.getFecha() == null) {
 			errors.rejectValue("fechaPruebaCondicionFisica", "La fecha de realización de la prueba física es requerida.", "La fecha de realización de la prueba física es requerida.");
 		}
+		
 		if (pruebaCondicionFisica.getDato() == null) {
 			errors.rejectValue("datoPruebaCondicionFisica", "El dato de la prueba física es requerido.", "El dato de la prueba física es requerido.");
+		}
+		
+		//Tipo de prueba
+		if ( pruebaCondicionFisica.getTipoPrueba().toString().length() > 30) {
+			errors.rejectValue("tipo_prueba", "El tipo de prueba no debe tener más de 30 carácteres","El tipo de prueba no debe tener más de 30 carácteres");
 		}
 	}
 	
