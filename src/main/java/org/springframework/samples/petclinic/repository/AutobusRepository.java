@@ -15,10 +15,10 @@ public interface AutobusRepository extends JpaRepository<Autobus, Serializable>{
 	public List<Autobus> findByHoraSalida(String hora_salida);
 	public List<Autobus> findByHoraLlegada(String hora_llegada);
 	
-	@Query("SELECT a FROM Autobus a, Partido p WHERE p.id=:partido_id")
-	public List<Autobus> findByPartido(@Param("partido_id") int partido_id);
+	@Query(value = "SELECT id FROM autobus WHERE id IN (SELECT autobus_id FROM partidosbus WHERE partido_id = ?1)", nativeQuery = true)
+	public List<Integer> findByPartido(int partido_id);
 	
-	@Query("SELECT a FROM Autobus a, Jugador j WHERE j.id=:jugador_id")
-	public List<Autobus> findByJugador(@Param("jugador_id") int jugador_id);
+	@Query(value = "SELECT id FROM autobus WHERE id IN (SELECT autobus_id FROM jugadoresbus WHERE jugador_id = ?1)", nativeQuery = true)
+	public List<Integer> findByJugador(int jugador_id);
 
 }

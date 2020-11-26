@@ -17,9 +17,6 @@ import org.springframework.samples.petclinic.service.LineaMaterialService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
-
 @Service("lineaMaterialService")
 public class LineaMaterialServiceImpl implements LineaMaterialService {
 	private static final Log LOG = LogFactory.getLog(LineaMaterialServiceImpl.class);

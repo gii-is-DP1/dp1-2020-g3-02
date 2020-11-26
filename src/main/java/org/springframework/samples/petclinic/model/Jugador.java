@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -50,11 +51,8 @@ public class Jugador extends Person{
 	  inverseJoinColumns = @JoinColumn(name = "autobus_id"))
 	Set<Autobus> autobuses;
 	
-	@ManyToMany
-	@JoinTable(name = "num_jugadores", joinColumns = @JoinColumn(name = "jugador_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "num_camiseta_id"))
-	Set<NumCamiseta> numCamisetas;
-
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	private Set<NumCamiseta> numCamisetas;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
 	private Set<PruebaCondicionFisica> pruebas_condicion_fisica;
@@ -78,7 +76,7 @@ public class Jugador extends Person{
 	private Set<Privilegio> privilegios;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
-	private Set<Autorizacion> autorizacion;
+	private List<Autorizacion> autorizacion;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
 	private Set<Sustitucion> sustituciones;

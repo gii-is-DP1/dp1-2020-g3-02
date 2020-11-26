@@ -5,7 +5,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.NumCamiseta;
+import org.springframework.samples.petclinic.repository.EquipoRepository;
+import org.springframework.samples.petclinic.repository.JugadorRepository;
 import org.springframework.samples.petclinic.repository.NumCamisetaRespository;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,12 @@ public class NumCamisetaServiceImpl implements NumCamisetaService{
 	@Autowired
 	@Qualifier("numCamisetaRepository")
 	private NumCamisetaRespository numCamisetaRepository;
+	
+	@Autowired
+	private JugadorRepository jugadorRepository;
+	
+	@Autowired
+	private EquipoRepository equipoRepository;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -26,14 +36,16 @@ public class NumCamisetaServiceImpl implements NumCamisetaService{
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<NumCamiseta> findByIdJugador(int id) {
-		return numCamisetaRepository.findById(id);
+	public List<NumCamiseta> findByJugador(int jugador_id) {
+		Optional<Jugador> jugador = jugadorRepository.findById(jugador_id);
+		return numCamisetaRepository.findByJugador(jugador.get());
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<NumCamiseta> findByIdEquipo(int id) {
-		return numCamisetaRepository.findById(id);
+	public List<NumCamiseta> findByEquipo(int equipo_id) {
+		Optional<Equipo> equipo = equipoRepository.findById(equipo_id);
+		return numCamisetaRepository.findByEquipo(equipo.get());
 	}
 
 	@Override

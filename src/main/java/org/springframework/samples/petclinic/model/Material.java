@@ -1,11 +1,5 @@
 package org.springframework.samples.petclinic.model;
 
-
-
-
-
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -32,7 +26,7 @@ public class Material extends BaseEntity{
 
 	@ManyToOne
 	@JoinColumn(name = "linea_material_id")
-	private LineaMaterial linea_material;
+	private LineaMaterial lineaMaterial;
 
 	@Column(name = "descripcion", nullable = false, length = 280)
 	private String descripcion;

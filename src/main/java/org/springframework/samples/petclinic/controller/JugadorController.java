@@ -1,5 +1,8 @@
 package org.springframework.samples.petclinic.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +20,13 @@ import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.service.AutorizacionService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
+import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
@@ -69,7 +74,6 @@ public class JugadorController {
 	@Autowired
 	private JugadorValidator jugadorValidator;
 	
-	
 //	@InitBinder("jugador")
 //	public void initJugadorBinder(WebDataBinder dataBinder) {
 //	dataBinder.setValidator(new JugadorValidator());
@@ -91,9 +95,8 @@ public class JugadorController {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADORES_AUTORIZACION);
 		mav.addObject("transporte",jugadorService.findAuto(TipoAutorizacion.TRANSPORTE));
 		mav.addObject("jugadoresaut", jugadorService.findAll());
-		
-		
-		
+		mav.addObject("listaut", new ArrayList<TipoAutorizacion>(Arrays.asList(TipoAutorizacion.TRANSPORTE, TipoAutorizacion.USOIMAGEN, TipoAutorizacion.USOIMAGEN, TipoAutorizacion.EXCURSIONES)));
+
 		return mav;
 	}
 	

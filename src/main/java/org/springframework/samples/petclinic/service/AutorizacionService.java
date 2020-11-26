@@ -16,7 +16,7 @@ public interface AutorizacionService {
 		public abstract List<Autorizacion> findByTipoAutorizacion(TipoAutorizacion tipoautorizacion);
 		public abstract List<Autorizacion> findByFecha(LocalDate fecha);
 		public abstract List<Autorizacion> findByJugador(int jugador_id);
-		public abstract List<Autorizacion> findByTipoResponasble(TipoResponsable tiporesponsable);
+		public abstract List<Autorizacion> findByTipoResponsable(TipoResponsable tiporesponsable);
 		public abstract Autorizacion saveAutorizacion(Autorizacion autorizacion);
 		public abstract List<Jugador> findJugadorByTipoAutorizacion(TipoAutorizacion tipoautorizacion);
 }

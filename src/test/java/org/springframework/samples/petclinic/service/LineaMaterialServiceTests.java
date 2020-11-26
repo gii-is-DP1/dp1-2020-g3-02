@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.stereotype.Service;
 
@@ -67,7 +66,7 @@ public class LineaMaterialServiceTests {
 	}
 	@Test
 	public void testFindByMaterialInitialDataNotFinding() {
-		int material_id=5;
+		int material_id = 6;
 		List<LineaMaterial> lineamaterial=lineaMaterialService.findByMaterial(material_id);
 		assertEquals(lineamaterial.size(),0);//
 	}
