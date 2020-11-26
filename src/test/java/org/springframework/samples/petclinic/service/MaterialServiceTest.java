@@ -53,7 +53,7 @@ public class MaterialServiceTest {
 	
 	@Test
 	public void testFindByTipoInitialDataNotFinding() {
-		TipoMaterial tipo = TipoMaterial.RED;
+		TipoMaterial tipo = TipoMaterial.CONOMEDIO;
 		List<Material> material = materialService.findByTipo(tipo);
 		assertEquals(material.size(), 0);
 	}
@@ -102,7 +102,7 @@ public class MaterialServiceTest {
 	
 	@Test
 	public void testSaveMaterial() {
-		Material material = new Material("red",TipoMaterial.RED,5);	
+		Material material = new Material("red",TipoMaterial.CONOBAJO,5);	
 
 		Material _material = materialService.saveMaterial(material);
 
