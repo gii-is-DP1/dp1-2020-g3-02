@@ -15,6 +15,7 @@ import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
+import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
@@ -88,7 +89,11 @@ public class JugadorController {
 	@GetMapping("/showjugadoresaut")
 	public ModelAndView listadoJugadoresAutorizacion() {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADORES_AUTORIZACION);
+		mav.addObject("transporte",jugadorService.findAuto(TipoAutorizacion.TRANSPORTE));
 		mav.addObject("jugadoresaut", jugadorService.findAll());
+		
+		
+		
 		return mav;
 	}
 	

@@ -80,4 +80,10 @@ public class AutorizacionServiceImpl implements AutorizacionService{
 		return a;
 	}
 
+	@Override
+	public List<Jugador> findJugadorByTipoAutorizacion(TipoAutorizacion tipoautorizacion) {
+		
+		return autorizacionRepository.findJugadorByTipoAutorizacion(tipoautorizacion);
+	}
+
 }

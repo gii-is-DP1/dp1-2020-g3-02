@@ -19,4 +19,5 @@ public interface AutorizacionRepository extends JpaRepository<Autorizacion,Seria
 	public List<Autorizacion> findByTipoResponsable(TipoResponsable tipo);
 	public Autorizacion findByJugadorAndTipoAutorizacion(Jugador jugador, TipoAutorizacion tipoAutorizacion);
 	public List<Autorizacion> findByJugador(Jugador jugador);
+	public List<Jugador> findJugadorByTipoAutorizacion(TipoAutorizacion tipoautorizacion);
 }
