@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.stereotype.Service;
 
@@ -67,5 +68,34 @@ public class SustitucionServiceTest {
 		int partido_id = 5;
 		List<Sustitucion> sustitucion = sustitucionService.findByPartido(partido_id);
 		assertEquals(sustitucion.size(),0);
+	}
+	
+	@Test
+	public void findByJugadorInitialDataFinding() {
+		int jugador_id = 1;
+		List<Sustitucion> sustitucion = sustitucionService.findByJugador(jugador_id);
+		assertEquals(sustitucion.size(),2);
+	}
+	
+	@Test
+	public void findByJugadorInitialDataNotFinding() {
+		int jugador_id = 5;
+		List<Sustitucion> sustitucion = sustitucionService.findByJugador(jugador_id);
+		assertEquals(sustitucion.size(),0);
+	}
+	
+	@Test
+	public void testSaveSustitucion() {
+		Sustitucion sustitucion = new Sustitucion(50);	
+
+		Sustitucion sus = sustitucionService.saveSustitucion(sustitucion);
+
+		assertNotNull(sus);
+	}
+	
+	@Test
+	public void testCountSustituciones() {
+		int n = sustitucionService.substitutionCount();
+		assertEquals(n, 3);
 	}
 }
