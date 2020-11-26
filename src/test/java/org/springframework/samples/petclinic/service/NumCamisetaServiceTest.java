@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.stereotype.Service;
 
@@ -54,4 +56,12 @@ public class NumCamisetaServiceTest {
 		assertEquals(numcamiseta.size(), 0);//
 	}
 
+	@Test
+	public void testSaveNumCamiseta() {
+		NumCamiseta numCamiseta = new NumCamiseta(6);	
+
+		NumCamiseta numCami = numCamisetaService.saveNumCamiseta(numCamiseta);
+
+		assertNotNull(numCami);
+	}
 }

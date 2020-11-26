@@ -1,10 +1,14 @@
 package org.springframework.samples.petclinic.model;
 
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
@@ -21,9 +25,8 @@ import lombok.EqualsAndHashCode;
 public class LineaMaterial extends BaseEntity {
 	
 
-	@ManyToOne
-	@JoinColumn(name = "material_id")
-	private Material material;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lineaMaterial")
+	private Set<Material> material;
 	
 	@ManyToOne
 	@JoinColumn(name = "entrenamiento_id")

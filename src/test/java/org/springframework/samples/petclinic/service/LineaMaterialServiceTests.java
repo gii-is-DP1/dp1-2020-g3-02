@@ -66,7 +66,7 @@ public class LineaMaterialServiceTests {
 	}
 	@Test
 	public void testFindByMaterialInitialDataNotFinding() {
-		int material_id=5;
+		int material_id = 6;
 		List<LineaMaterial> lineamaterial=lineaMaterialService.findByMaterial(material_id);
 		assertEquals(lineamaterial.size(),0);//
 	}
