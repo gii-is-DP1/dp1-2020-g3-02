@@ -1,11 +1,5 @@
 package org.springframework.samples.petclinic.model;
 
-
-
-
-
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -26,7 +20,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
-@Table(name = "materiales")
+@Table(name = "materiales", uniqueConstraints = @UniqueConstraint(columnNames = { "tipo" }))
 public class Material extends BaseEntity{
 
 
