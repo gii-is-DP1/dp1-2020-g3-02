@@ -93,8 +93,10 @@ public class JugadorController {
 	@GetMapping("/showjugadoresaut")
 	public ModelAndView listadoJugadoresAutorizacion() {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADORES_AUTORIZACION);
+		mav.addObject("transporte",jugadorService.findAuto(TipoAutorizacion.TRANSPORTE));
 		mav.addObject("jugadoresaut", jugadorService.findAll());
 		mav.addObject("listaut", new ArrayList<TipoAutorizacion>(Arrays.asList(TipoAutorizacion.TRANSPORTE, TipoAutorizacion.USOIMAGEN, TipoAutorizacion.USOIMAGEN, TipoAutorizacion.EXCURSIONES)));
+
 		return mav;
 	}
 	

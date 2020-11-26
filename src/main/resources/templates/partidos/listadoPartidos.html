@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="https://www.thymeleaf.org" 
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8" />
+
 
 <link rel="stylesheet"
 	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
@@ -25,6 +27,9 @@
 <link rel="icon" type="image/png"
 	href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
 </head>
+
+
+  
 <body class="bg-light">
 
 	<script src="https://www.w3schools.com/lib/w3data.js"></script>
@@ -80,13 +85,13 @@
 							</td>
 							<td>
 								<input type="hidden" id="id" th:value="${partido.id}"></input>
-								<button class="btn btn-outline-info mx-0 editar" type="button"
+								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-info mx-0 editar" type="button"
 									title="Editar">
 									<i class="fas fa-edit"></i>
 								</button>
-								<button type="button" class="btn btn-outline-danger"
+								<button sec:authorize="hasAuthority('jugador')" type="button" class="btn btn-outline-danger"
 									title="Asistir">Asisto</button>
-
+								
 							</td>
 					</tbody>
 

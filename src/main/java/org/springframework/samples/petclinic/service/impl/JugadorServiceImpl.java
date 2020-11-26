@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.enumerate.Posicion;
+import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.repository.JugadorRepository;
 import org.springframework.samples.petclinic.service.JugadorService;
@@ -225,6 +226,12 @@ public class JugadorServiceImpl implements JugadorService {
 	@Override
 	public int playerCount() {
 		return (int) jugadorRepository.count();
+	}
+
+	@Override
+	public List<Jugador> findAuto(TipoAutorizacion autorizacion) {
+		
+		return jugadorRepository.findAuto(autorizacion);
 	}
 
 }

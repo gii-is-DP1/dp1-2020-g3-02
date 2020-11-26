@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.enumerate.Posicion;
+import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +21,9 @@ public interface JugadorRepository extends ExtendedJpaRepository<Jugador>{
 	public List<Jugador> findByAlturaLessThanEqual(int height);
 	public List<Jugador> findByPesoGreaterThanEqual(int weight);
 	public List<Jugador> findByPesoLessThanEqual(int weight);
+	
+	@Query("SELECT a.jugador FROM Autorizacion a WHERE a.tipoAutorizacion=:autorizacion")
+	public List<Jugador> findAuto(@Param("autorizacion")TipoAutorizacion autorizacion);
 	
 	@Query("SELECT j FROM Jugador j, Equipo e WHERE e.id=:equipo_id")
 	public List<Jugador> findByEquipo(@Param("equipo_id") int equipo_id);

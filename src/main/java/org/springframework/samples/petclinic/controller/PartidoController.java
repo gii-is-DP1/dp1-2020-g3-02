@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.controller;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -19,6 +20,9 @@ import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.PartidoService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
@@ -29,6 +33,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -54,8 +59,8 @@ public class PartidoController {
 	
 	@GetMapping("/showpartidos")
 	public ModelAndView listadoJugadores() {
-		
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_PARTIDOS);
+		//mav.addObject("dato", currentPrincipalName);
 		mav.addObject("partidos", partidoService.findAll());
 		return mav;
 	}

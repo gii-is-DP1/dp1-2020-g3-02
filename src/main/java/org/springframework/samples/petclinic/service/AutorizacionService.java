@@ -8,6 +8,7 @@ import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoResponsable;
 import org.springframework.samples.petclinic.model.Autobus;
 import org.springframework.samples.petclinic.model.Autorizacion;
+import org.springframework.samples.petclinic.model.Jugador;
 
 public interface AutorizacionService {
 		public abstract List<Autorizacion> findAll();
@@ -17,4 +18,5 @@ public interface AutorizacionService {
 		public abstract List<Autorizacion> findByJugador(int jugador_id);
 		public abstract List<Autorizacion> findByTipoResponsable(TipoResponsable tiporesponsable);
 		public abstract Autorizacion saveAutorizacion(Autorizacion autorizacion);
+		public abstract List<Jugador> findJugadorByTipoAutorizacion(TipoAutorizacion tipoautorizacion);
 }

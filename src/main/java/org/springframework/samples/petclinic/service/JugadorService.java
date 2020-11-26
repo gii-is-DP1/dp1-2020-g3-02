@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.samples.petclinic.enumerate.Posicion;
+import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 
 public interface JugadorService {
@@ -29,6 +30,7 @@ public interface JugadorService {
 	public abstract List<Jugador> findByPorcentajeAtaquesRapidosLessThanEqual(double percent);
 	public abstract List<Jugador> findByNumFaltasTotalesGreaterThanEqual(int faults);
 	public abstract List<Jugador> findByEquipo(int equipo_id);
+	public abstract List<Jugador> findAuto(TipoAutorizacion autorizacion);
 	public abstract Jugador saveJugador(Jugador player);
 	public abstract Jugador updateJugador(Jugador player);
 	public abstract List<Jugador> saveEstadisticasJugadores(List<Jugador> players);
