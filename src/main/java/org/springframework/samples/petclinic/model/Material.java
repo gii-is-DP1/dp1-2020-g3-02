@@ -26,13 +26,13 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
-@Table(name = "materiales", uniqueConstraints = @UniqueConstraint(columnNames = { "tipo" }))
+@Table(name = "materiales")
 public class Material extends BaseEntity{
 
 
 	@ManyToOne
 	@JoinColumn(name = "linea_material_id")
-	private LineaMaterial linea_material;
+	private LineaMaterial lineaMaterial;
 
 	@Column(name = "descripcion", nullable = false, length = 280)
 	private String descripcion;

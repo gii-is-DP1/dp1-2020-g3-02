@@ -11,7 +11,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-
 public class CapitanValidator implements Validator{
 
 
@@ -39,7 +38,7 @@ public class CapitanValidator implements Validator{
 
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return Jugador.class.isAssignableFrom(clazz);
+		return Capitan.class.isAssignableFrom(clazz);
 	}
 
 
