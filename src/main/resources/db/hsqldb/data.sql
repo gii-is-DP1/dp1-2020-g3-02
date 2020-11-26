@@ -255,7 +255,7 @@ INSERT INTO materiales (id,descripcion,tipo,stock,linea_material_id) VALUES (2,'
 INSERT INTO materiales (id,descripcion,tipo,stock,linea_material_id) VALUES (3,'cuerda','CUERDA',8,3);
 INSERT INTO materiales (id,descripcion,tipo,stock,linea_material_id) VALUES (4,'cinta','CINTA',10,4);
 INSERT INTO materiales (id,descripcion,tipo,stock,linea_material_id) VALUES (5,'poste','POSTE',11,1);
-INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (6,'poste','POSTE',11);
+INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (6,'poste','RED',11);
 
 
 
