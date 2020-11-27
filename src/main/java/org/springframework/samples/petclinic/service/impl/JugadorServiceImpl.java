@@ -12,6 +12,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.enumerate.Posicion;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.JugadorRepository;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Service;
@@ -232,6 +233,12 @@ public class JugadorServiceImpl implements JugadorService {
 	public List<Jugador> findAuto(TipoAutorizacion autorizacion) {
 		
 		return jugadorRepository.findAuto(autorizacion);
+	}
+
+	@Override
+	public Jugador findByUser(User username) {
+		
+		return jugadorRepository.findByUser(username);
 	}
 
 }
