@@ -105,6 +105,7 @@ INSERT INTO authorities(id,username,authority) VALUES (40,'user22','jugador');
 -- INSERT  JUGADORES
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,saques_acertados,saques_totales,porcentaje_saques,posicion_principal,posicion_secundaria) VALUES (1,'javgutfal','11111111A','Alberto','Clemente','1998-11-06','Travesía Lorem ipsum dolor, 217 7ºD','arribaespaña@gmail.com','Villaviciosa',178,78,75,22.2,50,70,0.71,'PUNTA','OPUESTO');
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (2,'gonlalle','11111112A','Paco','Tuerca','1986-02-05','C. Comercial Lorem, 171A 3ºA','cataluñaindependiente@gmail.com','Guarroman',175,78,75,23.2,'COLOCADOR','CENTRAL');
+
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (3,'user1','11111113A','Pepe','Tuerca','1978-11-24','Callejón Lorem, 172A 1ºF','covidgod19@gmail.com','Guarroman',175,78,75,23.2,'LIBERO','PUNTA');
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (4,'user2','11111114A','Paco','Tuerca','1987-06-08','C. Comercial Lorem, 216 12ºH','arsatratra@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (5,'user3','11111115A','Paco','Tuerca','1989-03-23','Carrera Lorem ipsum dolor sit, 12 5ºB','ojitoconeldato@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
@@ -141,9 +142,9 @@ INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id) VALUES (1
 INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id) VALUES (2,'Cadete',false,2,2);
 
 -- INSERT  AUTORIZACIONES
-INSERT INTO autorizaciones(id,fecha,tipo,responsable, jugador_id) VALUES (1,'2020-10-09','TRANSPORTE','PADRE',1);
-INSERT INTO autorizaciones(id,fecha,tipo,responsable, jugador_id) VALUES (3,'2020-10-09','EXCURSIONES','PADRE',1);
-INSERT INTO autorizaciones(id,fecha,tipo,responsable, jugador_id) VALUES (2,'2020-09-09','EXCURSIONES','MADRE',4);
+INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (1,'2020-10-09','TRANSPORTE',1);
+INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (3,'2020-10-09','EXCURSIONES',1);
+INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (2,'2020-09-09','EXCURSIONES',4);
 
 -- INSERT  PARTIDOS
 

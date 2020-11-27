@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
-import org.springframework.samples.petclinic.enumerate.TipoResponsable;
 import org.springframework.samples.petclinic.model.Autorizacion;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +27,9 @@ public class AutorizacionServiceTest {
 
 	@Autowired
 	private AutorizacionService autorizacionService;
+	
+	@Autowired
+	private JugadorService jugadorService;
 	
 	
 	
@@ -104,24 +107,11 @@ public class AutorizacionServiceTest {
 	}
 	
 	@Test
-	@Transactional(readOnly = true)
-	public void testFindByTipoResponsableInitialDataFinding() {
-		TipoResponsable tipo= TipoResponsable.PADRE ;
-		List<Autorizacion> autorizacion = new ArrayList<Autorizacion>(autorizacionService.findByTipoResponsable(tipo));
-		assertEquals(autorizacion.size(), 2);//
-	}
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByTipoResponsableInitialDataNotFinding() {
-		TipoResponsable tipo= TipoResponsable.TUTORLEGAL ;
-		List<Autorizacion> autorizacion = new ArrayList<Autorizacion>(autorizacionService.findByTipoResponsable(tipo));
-		assertEquals(autorizacion.size(), 0);//
-	}
-	
-	@Test
 	@Transactional
 	public void testSavePersonales() {
-		Autorizacion autorizacion = new Autorizacion(LocalDate.of(2020, 11, 5), TipoAutorizacion.TRANSPORTE, TipoResponsable.MADRE);	
+		Optional<Jugador> jugador= jugadorService.findById(4);
+		Jugador player= jugador.get();
+		Autorizacion autorizacion = new Autorizacion(player,LocalDate.of(2020, 11, 5), TipoAutorizacion.TRANSPORTE);	
 
 		Autorizacion aut = autorizacionService.saveAutorizacion(autorizacion);
 

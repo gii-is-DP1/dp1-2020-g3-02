@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
+import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
@@ -101,6 +103,32 @@ public class JugadorController {
 		mav.addObject("listaut", new ArrayList<TipoAutorizacion>(Arrays.asList(TipoAutorizacion.TRANSPORTE, TipoAutorizacion.USOIMAGEN, TipoAutorizacion.USOIMAGEN, TipoAutorizacion.EXCURSIONES)));
 
 		return mav;
+	}
+	
+	@GetMapping("/eliminarautorizacion/{id}/{tipoAutorizacion}")
+	public String eliminarAutorizacion(@PathVariable("id") int id , @PathVariable("tipoAutorizacion") TipoAutorizacion autor) {
+		
+		Optional<Jugador> player = jugadorService.findById(id);
+		Jugador jug= player.get();
+		Autorizacion ar= autorizacionService.findByJugadorAndTipo(jug, autor);
+		autorizacionService.deleteAutorizacion(ar.getId());
+		
+		return "redirect:/jugadores/showjugadoresaut";
+		
+	}
+	
+	@GetMapping("/addautorizacion/{id}/{tipoAutorizacion}")
+	public String addAutorizacion(@PathVariable("id") int id , @PathVariable("tipoAutorizacion") TipoAutorizacion autor) {
+		Autorizacion autorizacion= new Autorizacion(); 
+		Optional<Jugador> jug = jugadorService.findById(id);
+		Jugador jugador= jug.get();
+		autorizacion.setFecha(LocalDate.now());
+		autorizacion.setJugador(jugador);
+		autorizacion.setTipoAutorizacion(autor);
+		Autorizacion autorization= autorizacionService.saveAutorizacion(autorizacion);
+		
+		return "redirect:/jugadores/showjugadoresaut";
+		
 	}
 	
 	@RequestMapping(value = "findestadisticasjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)

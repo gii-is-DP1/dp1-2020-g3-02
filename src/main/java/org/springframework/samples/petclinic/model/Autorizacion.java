@@ -11,15 +11,18 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
-import org.springframework.samples.petclinic.enumerate.TipoResponsable;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "autorizaciones")
 public class Autorizacion extends BaseEntity{
 	
@@ -34,16 +37,5 @@ public class Autorizacion extends BaseEntity{
 	@Enumerated(value = EnumType.STRING)
 	private TipoAutorizacion tipoAutorizacion;
 
-	@Column(name = "responsable")
-	@Enumerated(value = EnumType.STRING)
-	private TipoResponsable tipoResponsable;
-
-	public Autorizacion(LocalDate fecha, TipoAutorizacion tipo, TipoResponsable responsable) {
-		super();
-		this.fecha = fecha;
-		this.tipoAutorizacion = tipo;
-		this.tipoResponsable = responsable;
-	}
-	public Autorizacion() {}
 	
 }
