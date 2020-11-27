@@ -163,27 +163,58 @@ public class JugadorController {
 			model.addAttribute("result", 0); 
 		}
 		return "redirect:/jugadores/showjugadores";
+		}
 	}
 	
-	}
+//	@PostMapping("/updatejugador")
+//	public String updateJugador(HttpServletRequest request) {
+//		int id = Integer.parseInt(request.getParameter("id"));
+//		Optional<Jugador> jugadorO = jugadorService.findById(id);
+//		Jugador jugador = jugadorO.get();
+//		
+//		jugador.setFirstName(request.getParameter("firstName").trim());
+//		jugador.setLastName(request.getParameter("lastName").trim());
+//		jugador.setAltura(Integer.parseInt(request.getParameter("altura")));
+//		jugador.setPeso(Integer.parseInt(request.getParameter("peso")));
+//		jugador.setEstadoActual(estadoConverter.convertToEntityAttribute(request.getParameter("estadoActual")));
+//		jugador.setPosicionPrincipal(posicionConverter.convertToEntityAttribute(request.getParameter("posicionPrincipal")));
+//		jugador.setPosicionSecundaria(posicionConverter.convertToEntityAttribute(request.getParameter("posicionSecundaria")));
+//		
+//		Jugador player = jugadorService.updateJugador(jugador);
+//		
+//		return "redirect:/jugadores/showjugadores";	
+//	}
 	
-	@PostMapping("/updatejugador")
-	public String updateJugador(HttpServletRequest request) {
-		int id = Integer.parseInt(request.getParameter("id"));
-		Optional<Jugador> jugadorO = jugadorService.findById(id);
-		Jugador jugador = jugadorO.get();
+	@RequestMapping(value = "updatejugador", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<JugadorEdit> updateJugador(HttpServletRequest request, @ModelAttribute(name="jugador") Jugador jugador, BindingResult result) {
+		try {
+			int id = Integer.parseInt(request.getParameter("id"));
+			Optional<Jugador> jugadorO = jugadorService.findById(id);
+			jugador = jugadorO.get();
+			
+			jugador.setFirstName(request.getParameter("firstName").trim());
+			jugador.setLastName(request.getParameter("lastName").trim());
+			jugador.setAltura(Integer.parseInt(request.getParameter("altura")));
+			jugador.setPeso(Integer.parseInt(request.getParameter("peso")));
+			jugador.setEstadoActual(estadoConverter.convertToEntityAttribute(request.getParameter("estadoActual")));
+			jugador.setPosicionPrincipal(posicionConverter.convertToEntityAttribute(request.getParameter("posicionPrincipal")));
+			jugador.setPosicionSecundaria(posicionConverter.convertToEntityAttribute(request.getParameter("posicionSecundaria")));
+			
+			ValidationUtils.invokeValidator(jugadorValidator, jugador, result);
+			
+			
+			JugadorEdit edit = jugadorConverter.convertJugadorToJugadorEdit(jugador);
+			
+			if (result.hasErrors()) {
+				ResponseEntity<JugadorEdit> re = new ResponseEntity<JugadorEdit>(edit, HttpStatus.BAD_REQUEST);
+				return re;
+			}
+			Jugador player = jugadorService.updateJugador(jugador);
+			return new ResponseEntity<JugadorEdit>(HttpStatus.CREATED);
+		} catch(Exception e) {
+			return new ResponseEntity<JugadorEdit>(HttpStatus.BAD_REQUEST);
+		}
 		
-		jugador.setFirstName(request.getParameter("firstName").trim());
-		jugador.setLastName(request.getParameter("lastName").trim());
-		jugador.setAltura(Integer.parseInt(request.getParameter("altura")));
-		jugador.setPeso(Integer.parseInt(request.getParameter("peso")));
-		jugador.setEstadoActual(estadoConverter.convertToEntityAttribute(request.getParameter("estadoActual")));
-		jugador.setPosicionPrincipal(posicionConverter.convertToEntityAttribute(request.getParameter("posicionPrincipal")));
-		jugador.setPosicionSecundaria(posicionConverter.convertToEntityAttribute(request.getParameter("posicionSecundaria")));
-		
-		Jugador player = jugadorService.updateJugador(jugador);
-		
-		return "redirect:/jugadores/showjugadores";	
 	}
 	
 }

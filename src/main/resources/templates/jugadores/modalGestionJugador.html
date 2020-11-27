@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<!-- Modal Edicion -->
+	<div class="modal fade" id="editarModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="Editar" aria-hidden="true">
+	  <div class="modal-dialog modal-xl modal-dialog-centered">
+	    <div class="modal-content">
+		    <form th:action="@{/jugadores/updatejugador}" method="post">
+		      <div class="modal-header bg-info">
+		        <h5 class="modal-title" id="edicionJugador"></h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+			  	<div id="contenedor-modal">
+			  			<div class="row">
+							<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Nombre:</label><input class="form-control" type="text" placeholder="Nombre" th:id="firstName" name="firstName" required></input>
+							</div>
+							<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Apellidos:</label><input class="form-control" type="text" placeholder="Apellidos" th:id="lastName" name="lastName" required></input>
+							</div>
+						</div>
+						<div class="row">
+							<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Altura(cm):</label><input class="form-control" type="number" placeholder="Altura" th:id="altura" name="altura" required></input>
+							</div>
+							<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Peso(kg):</label><input class="form-control" type="number" placeholder="Peso" th:id="peso" name="peso" min="1" max="300" required></input>
+							</div>
+							<div class="form-group col">
+								<label>Estado:</label> 
+								<select class="form-control" th:id="estadoActual" name="estadoActual">
+									<option th:id="EN_FORMA" th:value="EN_FORMA">EN FORMA</option>
+									<option th:id="LESIONADO" th:value="LESIONADO">LESIONADO</option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+						<div class="form-group col">
+							<label>Posición principal:</label> 
+							<select class="form-control" th:id="posicionPrincipal" name="posicionPrincipal">
+								<option th:id="'PUNTA'" th:value="PUNTA">PUNTA</option>
+								<option th:id="'OPUESTO'" th:value="OPUESTO">OPUESTO</option>
+								<option th:id="'COLOCADOR'" th:value="COLOCADOR">COLOCADOR</option>
+								<option th:id="'CENTRAL'" th:value="CENTRAL">CENTRAL</option>
+								<option th:id="'LIBERO'" th:value="LIBERO">LÍBERO</option>
+							</select>
+						</div>
+						<div class="form-group col">
+							<label>Posición secundaria:</label> 
+							<select class="form-control" th:id="posicionSecundaria" name="posicionSecundaria">
+								<option th:id="'PUNTA'" th:value="PUNTA">PUNTA</option>
+								<option th:id="'OPUESTO'" th:value="OPUESTO">OPUESTO</option>
+								<option th:id="'COLOCADOR'" th:value="COLOCADOR">COLOCADOR</option>
+								<option th:id="'CENTRAL'" th:value="CENTRAL">CENTRAL</option>
+								<option th:id="'LIBERO'" th:value="LIBERO">LÍBERO</option>
+							</select>
+						</div>
+					</div>
+			  	</div>
+			  </div>
+		      <div class="modal-footer" style="background: rgb(23,162,184); background: linear-gradient(0deg, rgba(23,162,184,0.75) 0%, rgba(255,255,255,1) 100%);">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+		        <input type="submit" class="btn btn-info" value="Aceptar"></input>
+		        <input type="hidden" th:id="id" name="id"></input>
+		      </div>
+	    	</form>
+	    </div>
+	  </div>
+	</div>
+</body>
+</html>
