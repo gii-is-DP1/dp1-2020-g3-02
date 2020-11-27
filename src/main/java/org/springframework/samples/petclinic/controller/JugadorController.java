@@ -94,6 +94,9 @@ public class JugadorController {
 	public ModelAndView listadoJugadoresAutorizacion() {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADORES_AUTORIZACION);
 		mav.addObject("transporte",jugadorService.findAuto(TipoAutorizacion.TRANSPORTE));
+		mav.addObject("usoimagen",jugadorService.findAuto(TipoAutorizacion.USOIMAGEN));
+		mav.addObject("lesion",jugadorService.findAuto(TipoAutorizacion.RESPONSABILIDADLESION));
+		mav.addObject("excursiones",jugadorService.findAuto(TipoAutorizacion.EXCURSIONES));
 		mav.addObject("jugadoresaut", jugadorService.findAll());
 		mav.addObject("listaut", new ArrayList<TipoAutorizacion>(Arrays.asList(TipoAutorizacion.TRANSPORTE, TipoAutorizacion.USOIMAGEN, TipoAutorizacion.USOIMAGEN, TipoAutorizacion.EXCURSIONES)));
 

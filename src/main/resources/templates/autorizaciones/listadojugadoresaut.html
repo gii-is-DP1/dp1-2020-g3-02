@@ -53,14 +53,19 @@
 					<tbody>
 						<tr th:each="jugador : ${jugadoresaut}">
 							<td th:text="${jugador.lastName} +' / '+ ${jugador.firstName}" ></td>
-							<span th:each="autorizacion : ${jugador.Autorizacion}">
-								<span th:each="tipo : ${listaut}">
-								<td th:if="${autorizacion.tipoAutorizacion== tipo}">
-								<span th:text= "${tipo}">
-								</td>
-
-	   							
-								</span>	
+							
+							<td  class="alert alert-success" role="alert" th:if="${#lists.contains(transporte, jugador)}">AUTORIZADO</td>
+							<td class="alert alert-danger" role="alert" th:unless="${#lists.contains(transporte, jugador)}">NO AUTORIZADO</td>
+							
+							<td  class="alert alert-success" role="alert"  th:if="${#lists.contains(usoimagen, jugador)}">AUTORIZADO</td>
+							<td class="alert alert-danger" role="alert" th:unless="${#lists.contains(usoimagen, jugador)}">NO AUTORIZADO</td>
+							
+							<td  class="alert alert-success" role="alert" th:if="${#lists.contains(lesion, jugador)}">AUTORIZADO</td>
+							<td class="alert alert-danger" role="alert" th:unless="${#lists.contains(lesion, jugador)}">NO AUTORIZADO</td>
+							
+							<td  class="alert alert-success" role="alert" th:if="${#lists.contains(excursiones, jugador)}">AUTORIZADO</td>
+							<td class="alert alert-danger" role="alert" th:unless="${#lists.contains(excursiones, jugador)}">NO AUTORIZADO</td>
+						
 							</tr>
 					</tbody>
 
