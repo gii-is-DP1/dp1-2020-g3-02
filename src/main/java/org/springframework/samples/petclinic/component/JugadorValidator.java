@@ -53,9 +53,15 @@ public class JugadorValidator implements Validator {
 		}
 		
 		//fecha nacimiento validation
-		if ( jugador.getFechaNacimiento() == null || jugador.getFechaNacimiento().isAfter(LocalDate.now())) {
-			errors.rejectValue("fechaNacimiento", "La fecha de nacimiento es requerida y debe ser anterior al día de hoy","La fecha de nacimiento es requerida y debe ser anterior al día de hoy");
+		try {
+			if (jugador.getFechaNacimiento() == null || jugador.getFechaNacimiento().isAfter(LocalDate.now())) {
+				errors.rejectValue("fechaNacimiento", "La fecha de nacimiento es requerida y debe ser anterior al día de hoy","La fecha de nacimiento es requerida y debe ser anterior al día de hoy");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			errors.rejectValue("fechaNacimiento", "La fecha debe tener el formato requerido(YYYY/MM/DD)","La fecha debe tener el formato requerido(YYYY/MM/DD)");
 		}
+		
 		
 		//altura validation
 		if ( jugador.getAltura() < 100  || jugador.getAltura() > 300) {

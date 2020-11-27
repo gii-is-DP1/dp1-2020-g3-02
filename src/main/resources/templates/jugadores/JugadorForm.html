@@ -40,7 +40,7 @@
 			<h1 class="font-weight-bold font-italic">NUEVO JUGADOR</h1>
 		</div>
 		<div>
-			<a href="#"> <input class="btn btn-secondary btn-lg btn-block"
+			<a href="#" style="text-decoration:none;"> <input class="btn btn-secondary btn-lg btn-block"
 				type="button" value="Registrarme como Entrenador"></input>
 			</a>
 		</div>
@@ -64,11 +64,11 @@
 				<div class="row">
 				<!-- validacion first name -->
 				<div class="form-group col">
-					<div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger" role="alert"></div>
+					<div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="mb-3 col-12 text-danger" role="alert"></div>
 					</div>
 				<!-- validacion last name -->
 				<div class="form-group col">
-				<div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger" role="alert"></div>
+				<div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="mb-3 col-12 text-danger" role="alert"></div>
 				</div>
 				</div>
 				
@@ -77,7 +77,7 @@
 						th:field="*{dni}" th:value="${dni}" required></input>
 				</div>
 				<!-- validacion dni -->
-				<div th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="alert alert-danger" role="alert"></div>
+				<div th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="mb-3 col-12 text-danger" role="alert"></div>
 				
 					
 				<div class="form-group">
@@ -85,7 +85,7 @@
 						th:field="*{email}" th:value="${email}" required></input>
 				</div>
 				<!-- validacion email -->
-				<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger" role="alert"></div>
+				<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="mb-3 col-12 text-danger" role="alert"></div>
 				
 				<div class="row">
 					<div class="form-group col">
@@ -102,25 +102,25 @@
 				<div class="row">
 				<!-- validacion direccion -->
 					<div class="form-group col">
-						<div th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}" class="alert alert-danger" role="alert"></div>
+						<div th:if="${#fields.hasErrors('direccion')}" th:errors="*{direccion}" class="mb-3 col-12 text-danger" role="alert"></div>
 					</div>
 					<!-- validacion localidad -->
 					<div class="form-group col">
-						<div th:if="${#fields.hasErrors('localidad')}" th:errors="*{localidad}" class="alert alert-danger" role="alert"></div>
+						<div th:if="${#fields.hasErrors('localidad')}" th:errors="*{localidad}" class="mb-3 col-12 text-danger" role="alert"></div>
 					</div>
 				</div>
 				
 				<div class="row">
-					<div class="form-group col">
+					<div class="form-group col-12">
 						<!-- <label class="col-form-label col-form-label-sm obligatorio" for="fechaNacimiento" th:text="Fecha de Nacimiento: "></label> -->
 						<div class="input-group date datePicker">
-							<input type="text" class="form-control" id="fechaNacimiento" name="fechaNacimiento" th:field=*{fechaNacimiento} th:value="${fechaNacimiento}" placeholder="Fecha de Nacimiento" maxlength="10"/>
+							<input pattern="\d{4}/\d{2}/\d{2}" type="text" class="form-control" id="fechaNacimiento" name="fechaNacimiento" th:field=*{fechaNacimiento} th:value="${fechaNacimiento}" placeholder="Fecha de Nacimiento(YYYY/MM/DD)" maxlength="10"/>
 							<div class="input-group-append input-group-addon">
 								<span class="input-group-text"><i class="far fa-calendar"></i></span>
 							</div>
 						</div>
 					</div>
-					<div th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}" class="alert alert-danger" role="alert"></div>
+					<div th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}" class="mb-3 col-12 text-danger" role="alert"></div>
 				</div>
 				
 				<div class="row">
@@ -145,11 +145,11 @@
 				<div class="row">
 				<!-- validacion direccion -->
 				<div class="form-group col">
-					<div th:if="${#fields.hasErrors('altura')}" th:errors="*{altura}" class="alert alert-danger" role="alert"></div>
+					<div th:if="${#fields.hasErrors('altura')}" th:errors="*{altura}" class="mb-3 col-12 text-danger" role="alert"></div>
 					</div>
 				<!-- validacion localidad -->
 				<div class="form-group col">
-				<div th:if="${#fields.hasErrors('peso')}" th:errors="*{peso}" class="alert alert-danger" role="alert"></div>
+				<div th:if="${#fields.hasErrors('peso')}" th:errors="*{peso}" class="mb-3 col-12 text-danger" role="alert"></div>
 				</div>
 				<div class="form-group col"></div>
 				</div>
