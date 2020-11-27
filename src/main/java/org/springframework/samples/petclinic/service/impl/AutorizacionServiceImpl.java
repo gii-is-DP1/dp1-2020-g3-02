@@ -9,10 +9,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
-import org.springframework.samples.petclinic.enumerate.TipoResponsable;
 import org.springframework.samples.petclinic.model.Autobus;
 import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Capitan;
+import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.repository.AutorizacionRepository;
@@ -63,13 +63,6 @@ public class AutorizacionServiceImpl implements AutorizacionService{
 		return autorizacionRepository.findByJugador(jugador.get());
 	}
 
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Autorizacion> findByTipoResponsable(TipoResponsable tiporesponsable) {
-		return autorizacionRepository.findByTipoResponsable(tiporesponsable);
-	}
-
 	@Override
 	@Transactional
 	public Autorizacion saveAutorizacion(Autorizacion autorizacion) {
@@ -82,6 +75,22 @@ public class AutorizacionServiceImpl implements AutorizacionService{
 	public List<Jugador> findJugadorByTipoAutorizacion(TipoAutorizacion tipoautorizacion) {
 		
 		return autorizacionRepository.findJugadorByTipoAutorizacion(tipoautorizacion);
+	}
+
+	@Override
+	public void deleteAutorizacion(int id) {
+		Optional<Autorizacion> vacio = Optional.empty();
+		Optional<Autorizacion> autorizacion = findById(id);
+
+		if(autorizacion != vacio) {
+			autorizacionRepository.delete(autorizacion.get());
+		}
+		
+	}
+
+	@Override
+	public Autorizacion findByJugadorAndTipo(Jugador jugador, TipoAutorizacion tipo) {
+		return autorizacionRepository.findByJugadorAndTipoAutorizacion(jugador, tipo);
 	}
 
 }

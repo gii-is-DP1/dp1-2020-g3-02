@@ -56,7 +56,7 @@ INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,dire
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (17,'javgutfal','09354596J','Paco','Tuerca','1989-01-11','Acceso Lorem, 267A 6ºC','xdgpzkqjfirz@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (18,'javgutfal','53931653B','Paco','Tuerca','1998-03-06','Avenida Lorem, 106A 14ºG','htevagkwhcax@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (29,'javgutfal','63567303H','Paco','Tuerca','1981-07-08','Alameda Lorem ipsum dolor sit, 224B 17ºH','cgmufnqwtwjy@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (20,'javgutfal','02107187L','Paco','Tuerca','2000-01-15','Pasaje Lorem ipsum dolor sit, 220 2ºE','yrkgtnnhfujj@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (20,'javgutfal','02107187L','Cristiano','Ronaldo','2000-01-15','Pasaje Lorem ipsum dolor sit, 220 2ºE','yrkgtnnhfujj@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (21,'javgutfal','17004574F','Paco','Tuerca','1991-09-06','Carrer Lorem ipsum, 218 5ºB','rwrqpckdeaat@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (22,'javgutfal','83896479T','Paco','Tuerca','2008-07-11','Plaza Lorem ipsum, 109B 17ºA','dmwtvbuuwukt@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (23,'javgutfal','72458570Z','Paco','Tuerca','2006-09-09','Callejón Lorem ipsum, 141A 9ºF','tdhcrgehfpaf@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
@@ -75,9 +75,9 @@ INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id) VALUES (1
 INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id) VALUES (2,'Cadete',false,2,2);
 
 -- INSERT  AUTORIZACIONES
-INSERT INTO autorizaciones(id,fecha,tipo,responsable, jugador_id) VALUES (1,'2020-10-09','TRANSPORTE','PADRE',1);
-INSERT INTO autorizaciones(id,fecha,tipo,responsable, jugador_id) VALUES (3,'2020-10-09','EXCURSIONES','PADRE',1);
-INSERT INTO autorizaciones(id,fecha,tipo,responsable, jugador_id) VALUES (2,'2020-09-09','EXCURSIONES','MADRE',4);
+INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (1,'2020-10-09','TRANSPORTE',1);
+INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (3,'2020-10-09','EXCURSIONES',1);
+INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (2,'2020-09-09','EXCURSIONES',4);
 
 -- INSERT  PARTIDOS
 

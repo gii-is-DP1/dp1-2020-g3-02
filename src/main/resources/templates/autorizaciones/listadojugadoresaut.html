@@ -42,7 +42,7 @@
 					cellspacing="0" style="width: 100%;">
 					<thead>
 						<tr class="table-primary">
-							<th>Apellidos/Nombre</th>
+							<th>Apellidos, Nombre</th>
 							<!-- columnas de autorizacion -->
 							<th>Transporte</th>
 							<th>Uso de imagen</th>
@@ -52,19 +52,35 @@
 					</thead>
 					<tbody>
 						<tr th:each="jugador : ${jugadoresaut}">
-							<td th:text="${jugador.lastName} +' / '+ ${jugador.firstName}" ></td>
+							<td th:text="${jugador.lastName} +', '+ ${jugador.firstName}" ></td>
 							
-							<td  class="alert alert-success" role="alert" th:if="${#lists.contains(transporte, jugador)}">AUTORIZADO</td>
-							<td class="alert alert-danger" role="alert" th:unless="${#lists.contains(transporte, jugador)}">NO AUTORIZADO</td>
+							<td th:if="${#lists.contains(transporte, jugador)}">
+							<a style="text-decoration:none;" th:href="@{'/jugadores/eliminarautorizacion/'+${jugador.id}+'/TRANSPORTE'}"><button type="button" class="btn btn-outline-success btn-block">AUTORIZADO</button></a>
+							</td>
+							<td role="alert" th:unless="${#lists.contains(transporte, jugador)}">
+							<a style="text-decoration:none;" th:href="@{'/jugadores/addautorizacion/'+${jugador.id}+'/TRANSPORTE'}"><button type="button" class="btn btn-outline-danger btn-block">NO AUTORIZADO</button></a>
+							</td>
 							
-							<td  class="alert alert-success" role="alert"  th:if="${#lists.contains(usoimagen, jugador)}">AUTORIZADO</td>
-							<td class="alert alert-danger" role="alert" th:unless="${#lists.contains(usoimagen, jugador)}">NO AUTORIZADO</td>
+							<td th:if="${#lists.contains(usoimagen, jugador)}">
+							<a style="text-decoration:none;" th:href="@{'/jugadores/eliminarautorizacion/'+${jugador.id}+'/USOIMAGEN'}"><button type="button" class="btn btn-outline-success btn-block">AUTORIZADO</button></a>
+							</td>
+							<td th:unless="${#lists.contains(usoimagen, jugador)}">
+							<a style="text-decoration:none;" th:href="@{'/jugadores/addautorizacion/'+${jugador.id}+'/USOIMAGEN'}"><button type="button" class="btn btn-outline-danger btn-block">NO AUTORIZADO</button></a>
+							</td>
 							
-							<td  class="alert alert-success" role="alert" th:if="${#lists.contains(lesion, jugador)}">AUTORIZADO</td>
-							<td class="alert alert-danger" role="alert" th:unless="${#lists.contains(lesion, jugador)}">NO AUTORIZADO</td>
+							<td th:if="${#lists.contains(lesion, jugador)}">
+							<a style="text-decoration:none;" th:href="@{'/jugadores/eliminarautorizacion/'+${jugador.id}+'/RESPONSABILIDADLESION'}"><button type="button" class="btn btn-outline-success btn-block">AUTORIZADO</button></a>
+							</td>
+							<td th:unless="${#lists.contains(lesion, jugador)}">
+							<a style="text-decoration:none;" th:href="@{'/jugadores/addautorizacion/'+${jugador.id}+'/RESPONSABILIDADLESION'}"><button type="button" class="btn btn-outline-danger btn-block">NO AUTORIZADO</button></a>
+							</td>
 							
-							<td  class="alert alert-success" role="alert" th:if="${#lists.contains(excursiones, jugador)}">AUTORIZADO</td>
-							<td class="alert alert-danger" role="alert" th:unless="${#lists.contains(excursiones, jugador)}">NO AUTORIZADO</td>
+							<td th:if="${#lists.contains(excursiones, jugador)}">
+							<a style="text-decoration:none; "th:href="@{'/jugadores/eliminarautorizacion/'+${jugador.id}+'/EXCURSIONES'}"><button type="button" class="btn btn-outline-success btn-block">AUTORIZADO</button></a>
+							</td>
+							<td th:unless="${#lists.contains(excursiones, jugador)}">
+							<a style="text-decoration:none;" th:href="@{'/jugadores/addautorizacion/'+${jugador.id}+'/EXCURSIONES'}"><button type="button" class="btn btn-outline-danger btn-block">NO AUTORIZADO</button></a>
+							</td>
 						
 							</tr>
 					</tbody>
@@ -92,15 +108,19 @@
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 	<script>
-		var atributo = element.getAttribute('jugadoresaut');
-		console.log(atributo);
 		
 		$(document)
 				.ready(
 						function() {
-							$('#jugadores')
+							$('#jugadoresaut')
 									.DataTable(
 											{
+												"columnDefs": [
+													    { "searchable": false, "targets": 1  },
+													    { "searchable": false, "targets": 2  },
+													    { "searchable": false, "targets": 3  },
+													    { "searchable": false, "targets": 4  }
+													  ],
 												responsive: true,
 												"language" : {
 													"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
@@ -108,6 +128,7 @@
 											});
 
 						});
+		
 	</script>
 	<script type="text/javascript">
        w3IncludeHTML();
