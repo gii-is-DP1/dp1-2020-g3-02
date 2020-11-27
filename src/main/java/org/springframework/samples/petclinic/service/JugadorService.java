@@ -7,12 +7,14 @@ import java.util.Optional;
 import org.springframework.samples.petclinic.enumerate.Posicion;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.User;
 
 public interface JugadorService {
 	
 	public abstract List<Jugador> findAll();
 	public abstract Optional<Jugador> findById(int id);
 	public abstract List<Jugador> findByFirstName(String name);
+	public abstract Jugador findByUser(User username);
 	public abstract List<Jugador> findByPosicionPrincipal(Posicion position);
 	public abstract List<Jugador> findByFechaNacimientoBetweenOrderByFechaNacimiento(LocalDate firstDate, LocalDate secondDate);
 	public abstract List<Jugador> findByFechaNacimientoAfterOrderByFechaNacimiento(LocalDate date);
