@@ -38,7 +38,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="jugadores", uniqueConstraints = @UniqueConstraint(columnNames = { "dni","email" }))
+@Table(name="jugadores", uniqueConstraints = @UniqueConstraint(columnNames = { "dni","email","username" }))
 public class Jugador extends Person{
 	
 

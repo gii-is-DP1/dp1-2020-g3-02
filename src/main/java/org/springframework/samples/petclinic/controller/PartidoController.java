@@ -15,11 +15,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
+import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PartidoService;
+import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -57,6 +61,12 @@ public class PartidoController {
 	@Autowired
 	private EstadisticaPersonalPartidoService estadisService;
 	
+	@Autowired
+	private JugadorService jugadorService;
+	
+	@Autowired
+	private UserService userService;
+	
 	@GetMapping("/showpartidos")
 	public ModelAndView listadoJugadores() {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_PARTIDOS);
@@ -71,10 +81,24 @@ public class PartidoController {
 		return partido.get();
 	}
 	
+	public class GetUserWithHTTPServletRequestController {
+		 
+	    @RequestMapping(value = "/username", method = RequestMethod.GET)
+	    @ResponseBody
+	    public String currentUserNameSimple(HttpServletRequest request) {
+	        Principal principal = request.getUserPrincipal();
+	        return principal.getName();
+	    }
+	}
+	
 	@GetMapping("/showestadisiticasJugadores")
-	public ModelAndView vistaEstadísticas(int id) {
+	public ModelAndView vistaEstadísticas(HttpServletRequest request) {
+		Principal principal = request.getUserPrincipal();
+        String username =  principal.getName(); 
+        User  user = userService.findByUsername(username);
+        Jugador jugador = jugadorService.findByUser(user);
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_JUGADOR_POR_PARTIDO);
-		mav.addObject("estadisticas", estadisService.findByJugador(id));
+		mav.addObject("estadisticas", estadisService.findByJugador(jugador.getId()));
 		
 		return mav;
 	}
