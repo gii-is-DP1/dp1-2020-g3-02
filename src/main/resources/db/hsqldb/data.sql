@@ -19,16 +19,82 @@ INSERT INTO users(username,password,enabled) VALUES ('gonlalle','asdf1234',TRUE)
 INSERT INTO authorities(id,username,authority) VALUES (15,'gonlalle','jugador');
 
 INSERT INTO users(username,password,enabled) VALUES ('gonlalle2','asdf1234',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (19,'gonlalle2','entrenador');
+INSERT INTO authorities(id,username,authority) VALUES (10,'gonlalle2','entrenador');
 
 INSERT INTO users(username,password,enabled) VALUES ('bencrealc','elpepe',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (16,'bencrealc','owner');
+INSERT INTO authorities(id,username,authority) VALUES (16,'bencrealc','jugador');
 
 INSERT INTO users(username,password,enabled) VALUES ('javgutfal','asdf1234',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (17,'javgutfal','owner');
+INSERT INTO authorities(id,username,authority) VALUES (17,'javgutfal','jugador');
 
 INSERT INTO users(username,password,enabled) VALUES ('blamaurob','0wn3r',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (18,'blamaurob','owner');
+INSERT INTO authorities(id,username,authority) VALUES (18,'blamaurob','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user1','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (19,'user1','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user2','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (20,'user2','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user3','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (21,'user3','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user4','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (22,'user4','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user5','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (23,'user5','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user6','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (24,'user6','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user7','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (25,'user7','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user8','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (26,'user8','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user9','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (27,'user9','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user10','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (28,'user10','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user11','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (29,'user11','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user12','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (30,'user12','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user13','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (31,'user13','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user14','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (32,'user14','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user15','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (33,'user15','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user16','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (34,'user16','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user17','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (35,'user17','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user18','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (36,'user18','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user19','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (37,'user19','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user20','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (38,'user20','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user21','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (39,'user21','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('user22','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (40,'user22','jugador');
 
 --INSERT INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
 --INSERT INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749', 'owner1');
@@ -39,28 +105,28 @@ INSERT INTO authorities(id,username,authority) VALUES (18,'blamaurob','owner');
 -- INSERT  JUGADORES
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,saques_acertados,saques_totales,porcentaje_saques,posicion_principal,posicion_secundaria) VALUES (1,'javgutfal','11111111A','Alberto','Clemente','1998-11-06','Travesía Lorem ipsum dolor, 217 7ºD','arribaespaña@gmail.com','Villaviciosa',178,78,75,22.2,50,70,0.71,'PUNTA','OPUESTO');
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (2,'gonlalle','11111112A','Paco','Tuerca','1986-02-05','C. Comercial Lorem, 171A 3ºA','cataluñaindependiente@gmail.com','Guarroman',175,78,75,23.2,'COLOCADOR','CENTRAL');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (3,'javgutfal','11111113A','Pepe','Tuerca','1978-11-24','Callejón Lorem, 172A 1ºF','covidgod19@gmail.com','Guarroman',175,78,75,23.2,'LIBERO','PUNTA');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (4,'javgutfal','11111114A','Paco','Tuerca','1987-06-08','C. Comercial Lorem, 216 12ºH','arsatratra@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (5,'javgutfal','11111115A','Paco','Tuerca','1989-03-23','Carrera Lorem ipsum dolor sit, 12 5ºB','ojitoconeldato@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (6,'javgutfal','11111116A','Paco','Tuerca','1988-01-03','Travesía Lorem ipsum dolor, 217B 14ºD','otakumuertoabonopamihuerto@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (7,'javgutfal','11111117A','Paco','Tuerca','1983-10-21','Avenida Lorem, 78B 11ºD','medijistequemecomprariasflores@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (8,'javgutfal','11111118A','Paco','Tuerca','1986-05-01','Acceso Lorem, 240 7ºC','siespañafueraundonutmadridnoexistiria@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (9,'javgutfal','11111119A','Paco','Tuerca','1983-12-29','Avenida Lorem ipsum dolor, 135B 14ºB','correoparacosasilegales52@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (10,'javgutfal','11111110A','Paco','Tuerca','1997-12-24','C. Comercial Lorem ipsum, 113A 4ºH','barpepepedidos@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (11,'javgutfal','11111120A','Paco','Tuerca','1992-03-20','Rambla Lorem ipsum dolor, 275A 10ºG','mgfzaricyjkk@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (12,'javgutfal','33423595H','Paco','Tuerca','1998-07-22','C. Comercial Lorem ipsum dolor sit, 263B 18ºG','navkkrcdcuxq@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (13,'javgutfal','29390736W','Paco','Tuerca','1993-04-25','Calle Lorem ipsum dolor sit, 293B 1ºF','yppaumrghdqw@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (14,'javgutfal','27424684J','Paco','Tuerca','1998-11-11','Cañada Lorem ipsum dolor sit, 256 4ºF','xzcveipypidy@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (15,'javgutfal','67570361H','Paco','Tuerca','1990-12-08','Urbanización Lorem ipsum dolor sit, 148B 10ºA','edipacuwugtq@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (16,'javgutfal','34035611G','Paco','Tuerca','2007-08-17','Carrer Lorem ipsum dolor, 12A','rkahdnxnjpxf@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (17,'javgutfal','09354596J','Paco','Tuerca','1989-01-11','Acceso Lorem, 267A 6ºC','xdgpzkqjfirz@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (18,'javgutfal','53931653B','Paco','Tuerca','1998-03-06','Avenida Lorem, 106A 14ºG','htevagkwhcax@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (29,'javgutfal','63567303H','Paco','Tuerca','1981-07-08','Alameda Lorem ipsum dolor sit, 224B 17ºH','cgmufnqwtwjy@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (20,'javgutfal','02107187L','Paco','Tuerca','2000-01-15','Pasaje Lorem ipsum dolor sit, 220 2ºE','yrkgtnnhfujj@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (21,'javgutfal','17004574F','Paco','Tuerca','1991-09-06','Carrer Lorem ipsum, 218 5ºB','rwrqpckdeaat@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (22,'javgutfal','83896479T','Paco','Tuerca','2008-07-11','Plaza Lorem ipsum, 109B 17ºA','dmwtvbuuwukt@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (23,'javgutfal','72458570Z','Paco','Tuerca','2006-09-09','Callejón Lorem ipsum, 141A 9ºF','tdhcrgehfpaf@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
-INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (24,'javgutfal','52031289E','Paco','Tuerca','1982-11-04','Vía Lorem ipsum dolor sit, 267B 10ºC','pcbatcerenqt@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (3,'user1','11111113A','Pepe','Tuerca','1978-11-24','Callejón Lorem, 172A 1ºF','covidgod19@gmail.com','Guarroman',175,78,75,23.2,'LIBERO','PUNTA');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (4,'user2','11111114A','Paco','Tuerca','1987-06-08','C. Comercial Lorem, 216 12ºH','arsatratra@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (5,'user3','11111115A','Paco','Tuerca','1989-03-23','Carrera Lorem ipsum dolor sit, 12 5ºB','ojitoconeldato@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (6,'user4','11111116A','Paco','Tuerca','1988-01-03','Travesía Lorem ipsum dolor, 217B 14ºD','otakumuertoabonopamihuerto@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (7,'user5','11111117A','Paco','Tuerca','1983-10-21','Avenida Lorem, 78B 11ºD','medijistequemecomprariasflores@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (8,'user6','11111118A','Paco','Tuerca','1986-05-01','Acceso Lorem, 240 7ºC','siespañafueraundonutmadridnoexistiria@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (9,'user7','11111119A','Paco','Tuerca','1983-12-29','Avenida Lorem ipsum dolor, 135B 14ºB','correoparacosasilegales52@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (10,'user8','11111110A','Paco','Tuerca','1997-12-24','C. Comercial Lorem ipsum, 113A 4ºH','barpepepedidos@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (11,'user9','11111120A','Paco','Tuerca','1992-03-20','Rambla Lorem ipsum dolor, 275A 10ºG','mgfzaricyjkk@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (12,'user10','33423595H','Paco','Tuerca','1998-07-22','C. Comercial Lorem ipsum dolor sit, 263B 18ºG','navkkrcdcuxq@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (13,'user11','29390736W','Paco','Tuerca','1993-04-25','Calle Lorem ipsum dolor sit, 293B 1ºF','yppaumrghdqw@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (14,'user12','27424684J','Paco','Tuerca','1998-11-11','Cañada Lorem ipsum dolor sit, 256 4ºF','xzcveipypidy@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (15,'user13','67570361H','Paco','Tuerca','1990-12-08','Urbanización Lorem ipsum dolor sit, 148B 10ºA','edipacuwugtq@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (16,'user14','34035611G','Paco','Tuerca','2007-08-17','Carrer Lorem ipsum dolor, 12A','rkahdnxnjpxf@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (17,'user15','09354596J','Paco','Tuerca','1989-01-11','Acceso Lorem, 267A 6ºC','xdgpzkqjfirz@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (18,'user16','53931653B','Paco','Tuerca','1998-03-06','Avenida Lorem, 106A 14ºG','htevagkwhcax@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (29,'user17','63567303H','Paco','Tuerca','1981-07-08','Alameda Lorem ipsum dolor sit, 224B 17ºH','cgmufnqwtwjy@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (20,'user18','02107187L','Paco','Tuerca','2000-01-15','Pasaje Lorem ipsum dolor sit, 220 2ºE','yrkgtnnhfujj@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (21,'user19','17004574F','Paco','Tuerca','1991-09-06','Carrer Lorem ipsum, 218 5ºB','rwrqpckdeaat@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (22,'user20','83896479T','Paco','Tuerca','2008-07-11','Plaza Lorem ipsum, 109B 17ºA','dmwtvbuuwukt@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (23,'user21','72458570Z','Paco','Tuerca','2006-09-09','Callejón Lorem ipsum, 141A 9ºF','tdhcrgehfpaf@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
+INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (24,'user22','52031289E','Paco','Tuerca','1982-11-04','Vía Lorem ipsum dolor sit, 267B 10ºC','pcbatcerenqt@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
 
 -- INSERT  CAPITANES
 INSERT INTO capitanes(id,ntiemposmuertos,actitud,jugador_id) VALUES (1,6,'POSITIVA',1);
