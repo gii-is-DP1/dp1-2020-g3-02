@@ -20,7 +20,6 @@
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
 <title>Listado de Jugadores</title>
 <title>Jugadores</title>
-<script th:src="@{/js/utils.js}"></script>
 <link rel="icon" type="image/png" href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
 </head>
 <body class="bg-light">
@@ -123,7 +122,7 @@
 	<div class="modal fade" id="editarModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="Editar" aria-hidden="true">
 	  <div class="modal-dialog modal-xl modal-dialog-centered">
 	    <div class="modal-content">
-		    <form th:action="@{/jugadores/updatejugador}" method="post">
+		    <form id="formEditJugador" method="post">
 		      <div class="modal-header bg-info">
 		        <h5 class="modal-title" id="edicionJugador"></h5>
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -181,7 +180,7 @@
 			  </div>
 		      <div class="modal-footer" style="background: rgb(23,162,184); background: linear-gradient(0deg, rgba(23,162,184,0.75) 0%, rgba(255,255,255,1) 100%);">
 		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-		        <input type="submit" class="btn btn-info" value="Aceptar"></input>
+		        <button type="button" class="btn btn-info" onclick="return enviarEdicion();">Aceptar</button>
 		        <input type="hidden" th:id="id" name="id"></input>
 		      </div>
 	    	</form>
@@ -211,6 +210,24 @@
 		
 		
 		<script>
+		
+			function enviarEdicion(){
+				var form = new FormData(document.getElementById('formEditJugador'));
+				$.ajax({
+	                url: '/jugadores/updatejugador',
+	                type: 'post',
+	                data: form,
+	                processData: false,
+	                contentType: false,
+	                success: function(data){
+	                	$('#editarModal').modal("hide");
+	                	location.reload();
+	                },
+	                error: function(data){
+	                	alert(data.errors);
+	                }
+	            });
+			};
 		
 			$(document)
 					.ready(
