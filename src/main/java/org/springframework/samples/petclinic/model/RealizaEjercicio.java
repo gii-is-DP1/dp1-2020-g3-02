@@ -7,14 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.ManyToOne;
 
 @Data
 @Entity
+@AllArgsConstructor
 @Table(name = "realiza_ejercicios")
 public class RealizaEjercicio extends BaseEntity{
 

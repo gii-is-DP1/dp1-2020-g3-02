@@ -31,7 +31,7 @@ public class Privilegio extends BaseEntity{
 	@JoinColumn(name = "equipo_id")
 	private Equipo equipo;
 	
-	@Column(name= "tipo_privilegio", columnDefinition = "varchar(30) default 'partidos'")
+	@Column(name= "tipo_privilegio", columnDefinition = "varchar(30) default 'PARTIDOS'")
 	@Enumerated(value = EnumType.STRING)
 	private TipoPrivilegio tipoPrivilegio;
 	
