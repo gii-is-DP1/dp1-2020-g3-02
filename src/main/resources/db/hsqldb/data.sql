@@ -355,3 +355,7 @@ INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (2,10,3,1);
 INSERT INTO sustituciones(id,minuto_sustitucion,jugador_id,partido_id) VALUES (1,25,1,1);
 INSERT INTO sustituciones(id,minuto_sustitucion,jugador_id,partido_id) VALUES (2,30,1,2);
 INSERT INTO sustituciones(id,minuto_sustitucion,jugador_id,partido_id) VALUES (3,45,2,1);
+
+-- INSERT PRIVILEGIOS
+INSERT INTO privilegios(descripcion,tipo_privilegio,jugador_id,equipo_id) VALUES('de locos','partidos',1,1);
+INSERT INTO privilegios(descripcion,tipo_privilegio,jugador_id,equipo_id) VALUES('si','partidos',2,2);
