@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.controller;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.model.Equipo;
@@ -31,7 +33,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,6 +72,9 @@ public class PartidoController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private PartidoValidator partidoValidator;
 	
 	@GetMapping("/showpartidos")
 	public ModelAndView listadoJugadores() {
@@ -182,27 +191,39 @@ public class PartidoController {
 		
 	
 	@PostMapping("/postpartido")
-	public String addPartido(HttpServletRequest request) {
-		
-		Partido partido = new Partido();
-		
-		if(!request.getParameter("id").isEmpty()) {
-			int id = Integer.parseInt(request.getParameter("id"));
-			Optional<Partido> partidoO = partidoService.findById(id);
-			partido = partidoO.get();
-		}else if(request.getParameter("equipo").trim() != null) {
-			Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
-		
-			partido.setEquipo(equipo);
+	public ResponseEntity<List<ObjectError>> addPartido(HttpServletRequest request, @ModelAttribute(name="partido") PartidoEdit partidoEdit, BindingResult result) {
+		try {
+			Partido partido = new Partido();
+			if(!request.getParameter("id").isEmpty()) {
+				int id = Integer.parseInt(request.getParameter("id"));
+				Optional<Partido> partidoO = partidoService.findById(id);
+				partido = partidoO.get();
+			}else if(request.getParameter("equipo").trim() != null) {
+				Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
+			
+				partido.setEquipo(equipo);
+			}
+			
+			PartidoEdit edit = new PartidoEdit(partido.getEquipo().getCategoria(), request.getParameter("fecha"), request.getParameter("hora").trim());
+			
+			ValidationUtils.invokeValidator(partidoValidator, edit, result);
+			
+			if(result.hasErrors()) {
+				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+			}
+			
+			partido.setHora(request.getParameter("hora").trim());
+			if(!request.getParameter("fecha").isEmpty()) {
+				partido.setFecha(LocalDate.parse(request.getParameter("fecha"), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+			}
+			
+			Partido match = partidoService.savePartido(partido);
+			
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
-		
-		
-		partido.setHora(request.getParameter("hora").trim());
-		partido.setFecha(LocalDate.parse(request.getParameter("fecha"), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		
-		Partido match = partidoService.savePartido(partido);
-		
-		return "redirect:/partidos/showpartidos";	
 	}
 	
 	/* @PostMapping("/updatepartido")
