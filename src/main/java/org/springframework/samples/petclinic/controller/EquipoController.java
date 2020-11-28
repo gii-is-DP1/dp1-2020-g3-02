@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.component.EquipoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Partido;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +43,9 @@ public class EquipoController {
 	
 	@Autowired
 	private JugadorService jugadorService;
+	
+	@Autowired
+	private EquipoValidator equipoValidator;
 	
 	@GetMapping("/showequipos")
 	public ModelAndView listadoEquipos() {
@@ -78,13 +83,19 @@ public class EquipoController {
 		
 		Equipo equipoSave = equipoService.saveTeam(equipo);
 		
-		LOG.info(equipoSave.getPosicionLiga());
+		ValidationUtils.invokeValidator(equipoValidator, equipo, bindResult);
+		
+		if (bindResult.hasErrors()) {
+			model.addAttribute("equipo", equipo);
+			return ViewConstant.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
+		}else {
 		
 		if(null != equipoSave) {
 			model.addAttribute("result", 1);
 			
 		}else {
 			model.addAttribute("result", 0); 
+		}
 		}
 		return "redirect:/equipos/showequipos";
 		

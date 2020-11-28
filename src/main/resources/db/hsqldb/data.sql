@@ -138,8 +138,8 @@ INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimie
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (2,'bencrealc','Mauricio', 'Colmenero Muñoz', 'mastodonquijote@gmail.com','1997-8-19');
 
 -- INSERT  EQUIPOS
-INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id) VALUES (1,'Senior',false,1,1);
-INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id) VALUES (2,'Cadete',false,2,2);
+INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (1,'Senior',false,1,1,'COLOCADOR_GENERAL');
+INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (2,'Cadete',false,2,2,'COLOCADOR_GENERAL');
 
 -- INSERT  AUTORIZACIONES
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (1,'2020-10-09','TRANSPORTE',1);

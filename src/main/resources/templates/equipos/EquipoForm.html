@@ -41,18 +41,27 @@
 				<div class="form-group">
 					<input class="form-control" type="text" placeholder="Categoría"
 						th:field="*{categoria}" th:value="${categoria}"></input>
+					<small class="categoria text-danger error" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></small>
 				</div>
 				
-				<div class="form-group">
+				
+				<!--<div class="form-group">
 					<input class="form-control" type="text" placeholder="Sistema de juego"
 						th:field="*{sistemaJuego}" th:value="${sistemaJuego}"></input>
+				</div>-->
+				<div class="form-group">
+    					<select class="form-control" th:field="*{sistemaJuego}">
+     							<option th:value="'COLOCADOR_GENERAL'">COLOCADOR GENERAL</option>
+      							<option th:value="'CUATRO_DOS'" >4-2</option>
+     							<option th:value="'CINCO UNO'" >5-1</option>
+      							<option th:value="'SEIS_DOS'" >6-2</option>
+   						</select>
 				</div>
-				
-				
 				
 				<div class="form-group">
 					<input class="form-control" type="text" placeholder="Liga"
 						th:field="*{liga}" th:value="${liga}"></input>
+						<small class="liga text-danger error" th:if="${#fields.hasErrors('liga')}" th:errors="*{liga}"></small>
 				</div>
 				
 				<input type="hidden" th:field="*{saquesAcertados}"></input>
@@ -81,14 +90,6 @@
 				<input type="hidden" th:field="*{numFaltasTotales}"></input>
 				<input type="hidden" th:field="*{numAmarillas}"></input>
 				<input type="hidden" th:field="*{numRojas}"></input>
-				
-				
-				<div class="form-group">
-					<input class="form-control" type="text" placeholder="Posición liga"
-						th:field="*{posicionLiga}" th:value="${posicionLiga}"></input>
-				</div>
-				
-				
 				<input type="hidden" th:field="*{federacion}"></input>
 				
 				
