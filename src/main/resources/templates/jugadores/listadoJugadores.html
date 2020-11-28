@@ -74,13 +74,26 @@
 							<td th:text="${jugador.posicionSecundaria}"></td>
 							<td>
 								<input type="hidden" id="id" th:value="${jugador.id}"></input>
-								<button class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 									<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
 									</svg>
 								</button>
-								<button class="btn btn-outline-info mx-0 editar" type="button" title="Editar">
+								
+								<button sec:authorize="hasAuthority('jugador')" th:if="${jugador.User.username == username}" class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+									</svg>
+								</button>
+								
+								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-info mx-0 editar" type="button" title="Editar">
 									<i class="fas fa-user-edit"></i>
 								</button>
+								
+								<button sec:authorize="hasAuthority('jugador')"  th:if="${jugador.User.username == username}" class="btn btn-outline-info mx-0 editar" type="button" title="Editar">
+									<i class="fas fa-user-edit"></i>
+								</button>
+								
+								<input id="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
+								<input id="security" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="jugador">
 							</td>
 					</tbody>
 
@@ -214,6 +227,14 @@
 		
 		
 		<script>
+		
+			var tipo = $('#security').val(); 
+			if(tipo == 'jugador'){
+				document.getElementById("jugadores").classList.remove('table-sm');
+			}else if(tipo == 'entrenador'){
+				document.getElementById("jugadores").classList.remove('table-sm');
+				document.getElementById("jugadores").classList.add('table-sm');
+			}
 		
 			function enviarEdicion(){
 				var form = new FormData(document.getElementById('formEditJugador'));
