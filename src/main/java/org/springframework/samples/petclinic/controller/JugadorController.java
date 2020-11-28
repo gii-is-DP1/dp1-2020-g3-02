@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.controller;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,12 +24,14 @@ import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Personales;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.service.AutorizacionService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PersonalesService;
+import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
@@ -43,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.w3c.dom.html.HTMLSelectElement;
 
 @Controller
 @RequestMapping("/jugadores")
@@ -54,7 +58,9 @@ public class JugadorController {
 	
 	@Autowired
 	private JugadorValidator jugadorFormValidator;
-
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private JugadorService jugadorService;
@@ -86,11 +92,23 @@ public class JugadorController {
 	
 	
 	@GetMapping("/showjugadores")
-	public ModelAndView listadoJugadores() {
+	public ModelAndView listadoJugadores(HttpServletRequest request) {
+		Principal principal = request.getUserPrincipal();
+		String username = "";
 		
+		if(principal == null) {
+			username = "";
+//			ModelAndView mav = new ModelAndView("/login");
+//			return mav;
+		}else {
+			username =  principal.getName(); 
+			
+		}
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
+		mav.addObject("username", username);
 		mav.addObject("jugadores", jugadorService.findAll());
 		return mav;
+		
 	}
 	
 	@GetMapping("/showjugadoresaut")
