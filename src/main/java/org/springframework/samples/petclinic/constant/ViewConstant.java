@@ -32,5 +32,7 @@ public class ViewConstant {
 	
 	public static final String VIEW_PARTIDO_JUGADOR_POSICION = "partidos/JugadorPosicionPartido";
 	public static final String VIEW_ENTRENADOR_JUGADOR_POSICION = "entrenamientos/JugadorPosicionEntrenamiento";
+	
+	public static final String VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM = "entrenadores/EntrenadorForm";
 
 }

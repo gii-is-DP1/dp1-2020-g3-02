@@ -32,8 +32,8 @@ public class Entrenador extends Person{
 	@Column(name="email", nullable = false)
 	private String email;
 	
-	@Column(name = "fechaNacimiento", nullable = false, columnDefinition = "date default SYSDATE")
-	@DateTimeFormat(pattern = "yyyy/mm/dd")
+	@Column(name = "fecha_nacimiento", nullable = false, columnDefinition = "date default SYSDATE")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaNacimiento;
 	
 	public Entrenador() {
