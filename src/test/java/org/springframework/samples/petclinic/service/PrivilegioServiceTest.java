@@ -75,7 +75,7 @@ public class PrivilegioServiceTest {
 	public void testFindByTipoPrivilegioInitialDataFinding() {
 		TipoPrivilegio tipo = TipoPrivilegio.PARTIDOS;
 		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByTipoPrivilegio(tipo));
-		assertEquals(privilegio.size(), 1);
+		assertEquals(privilegio.size(), 2);
 	}
 	
 	@Test
