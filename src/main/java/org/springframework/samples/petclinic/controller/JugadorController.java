@@ -235,6 +235,7 @@ public class JugadorController {
 	@RequestMapping(value = "updatejugador", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> updateJugador(HttpServletRequest request, @ModelAttribute(name="jugador") Jugador jugador, BindingResult result) {
 		try {
+			
 			int id = Integer.parseInt(request.getParameter("id"));
 			Optional<Jugador> jugadorO = jugadorService.findById(id);
 			jugador = jugadorO.get();
