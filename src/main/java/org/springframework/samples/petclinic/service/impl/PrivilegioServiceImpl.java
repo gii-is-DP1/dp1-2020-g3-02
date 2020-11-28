@@ -7,6 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
+import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Privilegio;
 import org.springframework.samples.petclinic.model.SistemaJuego;
 import org.springframework.samples.petclinic.repository.PrivilegioRepository;
@@ -52,14 +54,14 @@ public class PrivilegioServiceImpl implements PrivilegioService {
 
 		@Override
 		@Transactional(readOnly = true)
-		public List<Privilegio> findByJugador(int jugador_id) {
-			return privilegioRepository.findByJugador(jugador_id);
+		public List<Privilegio> findByJugador(Jugador jugador) {
+			return privilegioRepository.findByJugador(jugador);
 		}
 
 		@Override
 		@Transactional(readOnly = true)
-		public List<Privilegio> findByEquipo(int equipo_id) {
-			return privilegioRepository.findByEquipo(equipo_id);
+		public List<Privilegio> findByEquipo(Equipo equipo) {
+			return privilegioRepository.findByEquipo(equipo);
 		}
 
 
