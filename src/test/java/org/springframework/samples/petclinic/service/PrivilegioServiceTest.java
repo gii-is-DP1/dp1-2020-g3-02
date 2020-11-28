@@ -35,7 +35,7 @@ public class PrivilegioServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Privilegio> privilegios = new ArrayList<Privilegio>(privilegioService.findAll());
-		assertEquals(privilegios.size(),1);
+		assertEquals(privilegios.size(),2);
 	}
 	
 	@Test
@@ -73,14 +73,16 @@ public class PrivilegioServiceTest {
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByTipoPrivilegioInitialDataFinding() {
-		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByTipoPrivilegio(TipoPrivilegio.PARTIDOS));
+		TipoPrivilegio tipo = TipoPrivilegio.PARTIDOS;
+		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByTipoPrivilegio(tipo));
 		assertEquals(privilegio.size(), 1);
 	}
 	
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByTipoPrivilegioInitialDataNotFinding() {
-		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByTipoPrivilegio(TipoPrivilegio.ENTRENAMIENTOS));
+		TipoPrivilegio tipo = TipoPrivilegio.ENTRENAMIENTOS;
+		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByTipoPrivilegio(tipo));
 		assertEquals(privilegio.size(), 0);
 	}
 	
