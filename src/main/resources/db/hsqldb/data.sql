@@ -358,7 +358,6 @@ INSERT INTO sustituciones(id,minuto_sustitucion,jugador_id,partido_id) VALUES (3
 
 -- INSERT PRIVILEGIOS
 INSERT INTO privilegios(descripcion,tipo_privilegio,jugador_id,equipo_id) VALUES('de locos','PARTIDOS',1,1);
-INSERT INTO privilegios(descripcion,tipo_privilegio,jugador_id,equipo_id) VALUES('si','PARTIDOS',2,2);
 
 --INSERT EJERCICIOS INDIVIDUALES
 INSERT INTO ejercicios_individuales(nombre, descripcion, tipo_ejercicio) VALUES('Saque','Realizar 30 saques del tipo que sea',1);

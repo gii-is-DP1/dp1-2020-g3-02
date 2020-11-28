@@ -35,7 +35,7 @@ public class PrivilegioServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Privilegio> privilegios = new ArrayList<Privilegio>(privilegioService.findAll());
-		assertEquals(privilegios.size(),2);
+		assertEquals(privilegios.size(),1);
 	}
 	
 	@Test
@@ -75,7 +75,7 @@ public class PrivilegioServiceTest {
 	public void testFindByTipoPrivilegioInitialDataFinding() {
 		TipoPrivilegio tipo = TipoPrivilegio.PARTIDOS;
 		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByTipoPrivilegio(tipo));
-		assertEquals(privilegio.size(), 2);
+		assertEquals(privilegio.size(), 1);
 	}
 	
 	@Test
@@ -90,15 +90,17 @@ public class PrivilegioServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindByJugadorInitialDataFinding() {
 		int id = 1;
-		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByJugador(id));
+		Optional<Jugador> jugador = jugadorService.findById(id);
+		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByJugador(jugador.get()));
 		assertEquals(privilegio.size(), 1);
 	}
 	
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByJugadorInitialDataNotFinding() {
-		int id = 1000;
-		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByJugador(id));
+		int id = 2;
+		Optional<Jugador> jugador = jugadorService.findById(id);
+		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByJugador(jugador.get()));
 		assertEquals(privilegio.size(), 0);
 	}
 	
@@ -106,15 +108,17 @@ public class PrivilegioServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindByEquipoInitialDataFinding() {
 		int id = 1;
-		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByEquipo(id));
+		Optional<Equipo> equipo = equipoService.findById(id);
+		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByEquipo(equipo.get()));
 		assertEquals(privilegio.size(), 1);
 	}
 	
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByEquipoInitialDataNotFinding() {
-		int id = 1000;
-		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByEquipo(id));
+		int id = 2;
+		Optional<Equipo> equipo = equipoService.findById(id);
+		List<Privilegio> privilegio = new ArrayList<Privilegio>(privilegioService.findByEquipo(equipo.get()));
 		assertEquals(privilegio.size(), 0);
 	}
 	
