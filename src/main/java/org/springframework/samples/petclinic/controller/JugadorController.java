@@ -33,6 +33,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -214,7 +215,7 @@ public class JugadorController {
 //	}
 	
 	@RequestMapping(value = "updatejugador", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<JugadorEdit> updateJugador(HttpServletRequest request, @ModelAttribute(name="jugador") Jugador jugador, BindingResult result) {
+	public ResponseEntity<List<ObjectError>> updateJugador(HttpServletRequest request, @ModelAttribute(name="jugador") Jugador jugador, BindingResult result) {
 		try {
 			int id = Integer.parseInt(request.getParameter("id"));
 			Optional<Jugador> jugadorO = jugadorService.findById(id);
@@ -234,13 +235,13 @@ public class JugadorController {
 			JugadorEdit edit = jugadorConverter.convertJugadorToJugadorEdit(jugador);
 			
 			if (result.hasErrors()) {
-				ResponseEntity<JugadorEdit> re = new ResponseEntity<JugadorEdit>(edit, HttpStatus.BAD_REQUEST);
+				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 				return re;
 			}
 			Jugador player = jugadorService.updateJugador(jugador);
-			return new ResponseEntity<JugadorEdit>(HttpStatus.CREATED);
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 		} catch(Exception e) {
-			return new ResponseEntity<JugadorEdit>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 		
 	}
