@@ -71,10 +71,6 @@ public class Equipo extends EstadisticasEntity{
 	@Min(0)
 	private int numRojas;
 	
-	@Column(name = "posicion_liga", nullable = false, columnDefinition = "integer default 1")
-	@Min(1)
-	private int posicionLiga;
-	
 	@Column(name = "liga", nullable = false, columnDefinition = "varchar(250) default 'IMD'")
 	private String liga;
 	

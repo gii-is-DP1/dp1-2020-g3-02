@@ -24,6 +24,7 @@ public class EquipoServiceImpl implements EquipoService {
 		return equipoRepository.findById(id);
 	}
 	
+	@Override
 	public List<Equipo> findAll(){
 		return equipoRepository.findAll();
 	}
