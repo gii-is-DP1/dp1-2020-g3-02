@@ -13,7 +13,7 @@ public class PartidoConverter {
 		
 		partidoEdit.setId(partido.getId());
 		partidoEdit.setEquipo(partido.getEquipo().getCategoria());
-		partidoEdit.setFecha(partido.getFecha());
+		partidoEdit.setFecha(partido.getFecha().toString());
 		partidoEdit.setHora(partido.getHora());
 		
 		return partidoEdit;

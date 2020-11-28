@@ -204,7 +204,7 @@ public class PartidoController {
 				partido.setEquipo(equipo);
 			}
 			
-			PartidoEdit edit = new PartidoEdit(partido.getEquipo().getCategoria(), request.getParameter("fecha"), request.getParameter("hora").trim());
+			PartidoEdit edit = new PartidoEdit(partido.getId(), partido.getEquipo().getCategoria(), request.getParameter("fecha"), request.getParameter("hora").trim());
 			
 			ValidationUtils.invokeValidator(partidoValidator, edit, result);
 			
