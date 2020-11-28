@@ -368,7 +368,7 @@
 								
 								$('table .editar').on('click', function(){
 									var id = $(this).parent().find('#id').val();
-									
+									$('.error').text('');
 									$.ajax({
 										type: 'GET',
 										url: '/jugadores/findeditjugador/'+id,
