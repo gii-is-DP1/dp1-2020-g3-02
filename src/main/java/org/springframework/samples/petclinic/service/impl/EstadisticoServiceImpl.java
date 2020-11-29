@@ -11,9 +11,10 @@ import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.repository.EstadisticoRepository;
 import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component("estadisticoService")
+@Service("estadisticoService")
 public class EstadisticoServiceImpl implements EstadisticoService{
 
 	@Autowired
