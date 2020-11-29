@@ -261,6 +261,9 @@
 											});
 
 							$('#nuevoPartido').on('click', function(){
+
+								$('.error').text('');
+								
 								$.ajax({
 									type: 'GET',
 									url: '/equipos/getallteams',
