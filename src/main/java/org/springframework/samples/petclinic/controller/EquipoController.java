@@ -67,8 +67,7 @@ public class EquipoController {
 //			ModelAndView mav = new ModelAndView("/login");
 //			return mav;
 		}else {
-			username =  principal.getName(); 
-			
+			username =  principal.getName();
 		}
 		
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
@@ -91,7 +90,6 @@ public class EquipoController {
 	public ResponseEntity<List<String>> findEquipos() {
 		try {
 			List<String> equipos = equipoService.findCategoria();
-			
 			return new ResponseEntity<List<String>>(equipos, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
@@ -103,22 +101,13 @@ public class EquipoController {
 		
 		LOG.info("addequipo() -- PARAMETROS: "+ equipo.toString());
 		
-		Equipo equipoSave = equipoService.saveTeam(equipo);
-		
 		ValidationUtils.invokeValidator(equipoValidator, equipo, bindResult);
 		
 		if (bindResult.hasErrors()) {
 			model.addAttribute("equipo", equipo);
 			return ViewConstant.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
-		}else {
-		
-		if(null != equipoSave) {
-			model.addAttribute("result", 1);
-			
-		}else {
-			model.addAttribute("result", 0); 
 		}
-		}
+		Equipo equipoSave = equipoService.saveTeam(equipo);
 		return "redirect:/equipos/showequipos";
 		
 	}

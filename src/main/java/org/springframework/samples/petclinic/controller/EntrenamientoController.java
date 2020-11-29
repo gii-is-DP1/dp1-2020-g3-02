@@ -92,17 +92,10 @@ public class EntrenamientoController {
 //			model.addAttribute("formJugador", form);
 //			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 //		}else {
-//		
 		
-		if(null != entrenamientoService.saveEntrenamiento(entrenamiento)) {
-			model.addAttribute("result", 1);
-			
-		}else {
-			model.addAttribute("result", 0); 
-		}
+		Entrenamiento training = entrenamientoService.saveEntrenamiento(entrenamiento);
 		return "redirect:/entrenamientos/showEntrenamientos";
 	//}
-	
-}
+	}
 	
 }
