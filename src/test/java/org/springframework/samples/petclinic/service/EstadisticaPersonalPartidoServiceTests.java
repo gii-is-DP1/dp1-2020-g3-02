@@ -21,6 +21,7 @@ import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class EstadisticaPersonalPartidoServiceTests {
@@ -30,12 +31,14 @@ public class EstadisticaPersonalPartidoServiceTests {
 	private EstadisticaPersonalPartidoService ePartidoService;
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindAllInitialDataFinding() {
 		List<EstadisticaPersonalPartido> ePartido = ePartidoService.findAll();
 		assertNotNull(ePartido);
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByIdInitialDataFinding() {
 		int id = 1;
 		Optional<EstadisticaPersonalPartido> ePartido = ePartidoService.findById(id);
@@ -43,13 +46,15 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByIdInitialDataNotFinding() {
-		int id = 6;
+		int id = 50;
 		Optional<EstadisticaPersonalPartido> ePartido = ePartidoService.findById(id);
 		assertEquals(ePartido, Optional.empty());
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeSaquesLessThanEqualInitialDataFinding() {
 		double percent = 0.8;
 		List<EstadisticaPersonalPartido> ePartido = ePartidoService.findByPorcentajeSaquesLessThanEqual(percent);
@@ -60,7 +65,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	public void testFindByPorcentajeSaquesLessThanEqualInitialDataNotFinding() {
 		double percent = 0.2;
 		List<EstadisticaPersonalPartido> ePartido = ePartidoService.findByPorcentajeSaquesLessThanEqual(percent);
-		assertEquals(ePartido, Optional.empty());
+		assertEquals(ePartido.size(), 0);
 	}
 	
 	@Test
@@ -68,7 +73,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<EstadisticaPersonalPartido> ePartido=ePartidoService.findByPorcentajeRecepcionesLessThanEqual(percent);
-		assertEquals(ePartido.size(), 11);
+		assertEquals(ePartido.size(), 15);
 	}
 	
 	@Test
@@ -84,7 +89,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<EstadisticaPersonalPartido> ePartido=new ArrayList<EstadisticaPersonalPartido>(ePartidoService.findByPorcentajeColocacionesLessThanEqual(percent));
-		assertEquals(ePartido.size(), 11);
+		assertEquals(ePartido.size(), 15);
 	}
 	
 	@Test
@@ -100,7 +105,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<EstadisticaPersonalPartido> ePartido=new ArrayList<EstadisticaPersonalPartido>(ePartidoService.findByPorcentajeDefensasLessThanEqual(percent));
-		assertEquals(ePartido.size(), 11);
+		assertEquals(ePartido.size(), 15);
 	}
 	
 	@Test
@@ -115,7 +120,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<EstadisticaPersonalPartido> ePartido=new ArrayList<EstadisticaPersonalPartido>(ePartidoService.findByPorcentajeBloqueosLessThanEqual(percent));
-		assertEquals(ePartido.size(), 11);
+		assertEquals(ePartido.size(), 18);
 	}
 	
 	@Test
@@ -131,7 +136,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<EstadisticaPersonalPartido> ePartido=new ArrayList<EstadisticaPersonalPartido>(ePartidoService.findByPorcentajeRematesLessThanEqual(percent));
-		assertEquals(ePartido.size(), 11);
+		assertEquals(ePartido.size(), 15);
 	}
 	
 	@Test
@@ -147,7 +152,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<EstadisticaPersonalPartido> ePartido=new ArrayList<EstadisticaPersonalPartido>(ePartidoService.findByPorcentajeFintasLessThanEqual(percent));
-		assertEquals(ePartido.size(), 11);
+		assertEquals(ePartido.size(), 18);
 	}
 	
 	@Test
@@ -163,7 +168,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
 		List<EstadisticaPersonalPartido> ePartido=new ArrayList<EstadisticaPersonalPartido>(ePartidoService.findByPorcentajeAtaquesRapidosLessThanEqual(percent));
-		assertEquals(ePartido.size(), 11);
+		assertEquals(ePartido.size(), 15);
 	}
 	
 	@Test

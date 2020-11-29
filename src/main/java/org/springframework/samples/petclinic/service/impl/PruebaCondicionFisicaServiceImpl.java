@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,11 @@ public class PruebaCondicionFisicaServiceImpl implements PruebaCondicionFisicaSe
 	@Transactional(readOnly = true)
 	public List<PruebaCondicionFisica> findByJugador(int jugador_id) {
 		Optional<Jugador> jugador = jugadorService.findById(jugador_id);
-		return pruebaRepository.findByJugador(jugador.get());
+		if(!jugador.equals(Optional.empty())) {
+			return pruebaRepository.findByJugador(jugador.get());
+		} else {
+			return new ArrayList<PruebaCondicionFisica>();
+		}
 	}
 
 	@Override
