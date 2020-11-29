@@ -39,7 +39,7 @@ public class Estadistico extends Person{
 	private String email;
 	
 	@Column(name = "fecha_nacimiento", nullable = false, columnDefinition = "date default SYSDATE")
-	@DateTimeFormat(pattern = "yyyy/mm/dd")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaNacimiento;
 	
 	public Estadistico() {

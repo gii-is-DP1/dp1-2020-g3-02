@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Entrenador;
+import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -15,12 +16,6 @@ public class EntrenadorValidator implements Validator{
 	@Autowired
 	private EntrenadorService entrenadorService;
 	
-	@Override
-	public boolean supports(Class<?> clazz) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	@Override
 	public void validate(Object target, Errors errors) {
 		
@@ -50,6 +45,12 @@ public class EntrenadorValidator implements Validator{
 			// TODO: handle exception
 			errors.rejectValue("fechaNacimiento", "La fecha debe tener el formato requerido(YYYY/MM/DD)","La fecha debe tener el formato requerido(YYYY/MM/DD)");
 		}
+	}
+	
+	@Override
+	public boolean supports(Class<?> clazz) {
+		// TODO Auto-generated method stub
+		return Entrenador.class.isAssignableFrom(clazz);
 	}
 }
 

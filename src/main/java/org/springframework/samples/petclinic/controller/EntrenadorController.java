@@ -3,6 +3,8 @@ package org.springframework.samples.petclinic.controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.component.EntrenadorValidator;
+import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Jugador;
@@ -26,6 +28,9 @@ public class EntrenadorController {
 	@Autowired
 	private EntrenadorService entrenadorService;
 	
+	@Autowired
+	private EntrenadorValidator entrenadorValidator;
+	
 	@GetMapping("/entrenadorform")
 	public String redirectJugadorForm(@RequestParam(name="id",required=false) Integer id, Model model) {
 		Entrenador entrenador = new Entrenador();
@@ -42,7 +47,7 @@ public class EntrenadorController {
 		
 		LOG.info("addentrenador() -- PARAMETROS: "+ entrenador);
 		
-		//ValidationUtils.invokeValidator(entrenadorValidator, jugador, result);
+		ValidationUtils.invokeValidator(entrenadorValidator, entrenador, result);
 	
 		if (result.hasErrors()) {
 			model.addAttribute("entrenador", entrenador);
