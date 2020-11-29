@@ -55,8 +55,8 @@
 					<div class="collapse" id="collapseJugadores">
 						<div class="card-body">
 							<ul class="list-group list-group">
-								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Listado de Jugadores</a></li>
-								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Autorizaciones</a></li>
+								<li class="list-group-item text-white bg-dark"><a href="/jugadores/showjugadores" class="card-link">Listado de Jugadores</a></li>
+								<li sec:authorize="hasAuthority('entrenador')" class="list-group-item text-white bg-dark"><a href="/jugadores/showjugadoresaut" class="card-link">Autorizaciones</a></li>
 								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Ejercicios Individuales</a></li>
 							</ul>
 						</div>
@@ -77,8 +77,8 @@
 					<div class="collapse" id="collapseEquipo">
 						<div class="card-body">
 							<ul class="list-group list-group">
-								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Mis Equipos</a></li>
-								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Nuevo Equipo</a></li>
+								<li class="list-group-item text-white bg-dark"><a href="/equipos/showequipos" class="card-link">Mis Equipos</a></li>
+								<li class="list-group-item text-white bg-dark"><a href="/equipos/equipoform?id=0" class="card-link">Nuevo Equipo</a></li>
 							</ul>
 						</div>
 					</div>
@@ -98,8 +98,9 @@
 					<div class="collapse" id="collapsePartido">
 						<div class="card-body">
 							<ul class="list-group list-group">
-								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Póximos Partidos</a></li>
-								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Estadísticas de Partidos</a></li>
+								<li class="list-group-item text-white bg-dark"><a href="/partidos/showpartidos" class="card-link">Póximos Partidos</a></li>
+								<li sec:authorize="hasAuthority('jugador')" class="list-group-item text-white bg-dark"><a href="/partidos/showestadisiticasJugadores" class="card-link">Estadísticas de Partidos</a></li>
+								<li sec:authorize="hasAuthority('entrenador')" class="list-group-item text-white bg-dark"><a href="/partidos/showestadisiticasPartido" class="card-link">Estadísticas de Partidos</a></li>
 							</ul>
 						</div>
 					</div>
@@ -120,8 +121,8 @@
 					<div class="collapse" id="collapseEntrenamiento">
 						<div class="card-body">
 							<ul class="list-group list-group">
-								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Póximos Entrenamientos</a></li>
-								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Estadísticas de Entrenamientos</a></li>
+								<li class="list-group-item text-white bg-dark"><a href="/entrenamientos/showentrenamientos" class="card-link">Póximos Entrenamientos</a></li>
+								<li class="list-group-item text-white bg-dark"><a href="/entrenamientos/showestadisiticasJugadores?id=1" class="card-link">Estadísticas de Entrenamientos</a></li>
 								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Nuevo Entrenamientos</a></li>
 							</ul>
 						</div>
