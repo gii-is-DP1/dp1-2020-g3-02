@@ -1,9 +1,11 @@
 package org.springframework.samples.petclinic.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
@@ -52,6 +54,26 @@ public class EquipoController {
 		
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_EQUIPO);
 		mav.addObject("equipos", equipoService.findAll());
+		return mav;
+	}
+	
+	@GetMapping("/showjugadores")
+	public ModelAndView listadoJugadores(@RequestParam(name="id",required=true) int id, HttpServletRequest request) {
+		Principal principal = request.getUserPrincipal();
+		String username = "";
+		
+		if(principal == null) {
+			username = "";
+//			ModelAndView mav = new ModelAndView("/login");
+//			return mav;
+		}else {
+			username =  principal.getName(); 
+			
+		}
+		
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
+		mav.addObject("username", username);
+		mav.addObject("jugadores", jugadorService.findByEquipo(id));
 		return mav;
 	}
 	
