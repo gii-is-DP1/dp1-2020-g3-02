@@ -3,12 +3,12 @@ package org.springframework.samples.petclinic.controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.component.EntrenadorValidator;
-import org.springframework.samples.petclinic.component.JugadorValidator;
+import org.springframework.samples.petclinic.component.EstadisticoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.model.Entrenador;
-import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.service.EntrenadorService;
+import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,43 +19,44 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 @Controller
-@RequestMapping("/entrenadores")
-public class EntrenadorController {
-	
-	private static final Log LOG = LogFactory.getLog(EntrenadorController.class);
-	
-	@Autowired
-	private EntrenadorService entrenadorService;
+@RequestMapping("/estadisticos")
+public class EstadisticoController {
+
+private static final Log LOG = LogFactory.getLog(EstadisticoController.class);
 	
 	@Autowired
-	private EntrenadorValidator entrenadorValidator;
+	private EstadisticoService estadisticoService;
 	
-	@GetMapping("/entrenadorform")
+	@Autowired
+	private EstadisticoValidator estadisticoValidator;
+	
+	@GetMapping("/estadisticoform")
 	public String redirectJugadorForm(@RequestParam(name="id",required=false) Integer id, Model model) {
-		Entrenador entrenador = new Entrenador();
+		Estadistico estadistico = new Estadistico();
 		if(id != 0) {
-			entrenador = entrenadorService.findById(id).get();
+			estadistico = estadisticoService.findById(id).get();
 		}
-		model.addAttribute("entrenador", entrenador);
-		return ViewConstant.VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
+		model.addAttribute("estadistico", estadistico);
+		return ViewConstant.VIEWS_ESTADISTICO_CREATE_OR_UPDATE_FORM;
 	}
 
 	
-	@PostMapping("/addentrenador")
-	public String addEntrenador(@ModelAttribute(name="entrenador") Entrenador entrenador, Model model, BindingResult result) {
+	@PostMapping("/addestadistico")
+	public String addEntrenador(@ModelAttribute(name="estadistico") Estadistico estadistico, Model model, BindingResult result) {
 		
-		LOG.info("addentrenador() -- PARAMETROS: "+ entrenador);
+		LOG.info("addestadistico() -- PARAMETROS: "+ estadistico);
 		
-		ValidationUtils.invokeValidator(entrenadorValidator, entrenador, result);
+		ValidationUtils.invokeValidator(estadisticoValidator, estadistico, result);
 	
 		if (result.hasErrors()) {
-			model.addAttribute("entrenador", entrenador);
-			return ViewConstant.VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
+			model.addAttribute("estadistico", estadistico);
+			return ViewConstant.VIEWS_ESTADISTICO_CREATE_OR_UPDATE_FORM;
 		}else {
 		
 		
-		if(null != entrenadorService.saveEntrenador(entrenador)) {
+		if(null != estadisticoService.saveEstadistico(estadistico)) {
 			model.addAttribute("result", 1);
 			
 		}else {
