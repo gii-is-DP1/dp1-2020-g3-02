@@ -47,17 +47,9 @@ public class EntrenadorController {
 		if (result.hasErrors()) {
 			model.addAttribute("entrenador", entrenador);
 			return ViewConstant.VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
-		}else {
-		
-		
-		if(null != entrenadorService.saveEntrenador(entrenador)) {
-			model.addAttribute("result", 1);
-			
-		}else {
-			model.addAttribute("result", 0); 
 		}
+		Entrenador coach = entrenadorService.saveEntrenador(entrenador);
 		return "redirect:/home";
-		}
 	}
 
 }

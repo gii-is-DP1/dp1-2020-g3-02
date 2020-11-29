@@ -200,17 +200,9 @@ public class JugadorController {
 		if (result.hasErrors()) {
 			model.addAttribute("jugador", jugador);
 			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
-		}else {
-		
-		
-		if(null != jugadorService.saveJugador(jugador)) {
-			model.addAttribute("result", 1);
-			
-		}else {
-			model.addAttribute("result", 0); 
 		}
+		Jugador player = jugadorService.saveJugador(jugador);
 		return "redirect:/jugadores/showjugadores";
-		}
 	}
 	
 //	@PostMapping("/updatejugador")
