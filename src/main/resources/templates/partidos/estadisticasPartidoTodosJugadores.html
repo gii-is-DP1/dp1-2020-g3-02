@@ -260,6 +260,9 @@
 		    $('th').on('click', function(){
 		    	if(chart != null){
 			 		chart.destroy();
+			 		if(tipo == null){
+			 			tipo = 'general';
+			 		}
 			 	}
 			 	
 		    	if (tipo == 'general'){
