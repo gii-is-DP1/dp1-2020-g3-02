@@ -28,13 +28,18 @@
 
 	<div class="container-fluid">
 		<div class="row">
-			<div class="py-3 text-center col-lg-12">
-				<h1 class="font-weight-bold font-italic">ESTADISITICAS PARTIDO</h1>
+		
+		<div class="pt-2 col-lg-2">
+				<button onclick="location.href='/partidos/showestadisiticasPartido?id='" class="btn btn-outline-danger flex btn-lg mt-2" type="button">VOLVER</button>
+			</div>
+			
+			<div class="py-3 text-center col-lg-8">
+				<h1 class="font-weight-bold font-italic">ESTADISITICAS PARTIDO <span th:text="${estadisticas[0].Partido.fecha}"></span></h1>
 			</div>
 		</div>
 
 		<div class="row">
-			
+	
 			<div class="col">
 				<input type="hidden" id="id" th:value="general">
 				<button class="btn btn-outline-info btn-sm btn-block stats" type="button">GENERAL</button>
