@@ -15,10 +15,12 @@ import javax.persistence.UniqueConstraint;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.model.padres.Person;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @Entity
+@AllArgsConstructor
 @Table(name="entrenadores",uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))
 public class Entrenador extends Person{
 	
