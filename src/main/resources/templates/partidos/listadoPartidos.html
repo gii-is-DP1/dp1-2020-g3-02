@@ -41,7 +41,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="py-3 text-center col-lg-12">
-				<h1 class="font-weight-bold font-italic">LISTA PARTIDOS</h1>
+				<h1 class="font-weight-bold font-italic">PRÓXIMOS PARTIDOS</h1>
 			</div>
 		</div>
 
@@ -77,6 +77,7 @@
 								</button>
 							</td>
 							<td>
+							<input type="hidden" id="id" th:value="${partido.id}"></input>
 								<button class="btn btn-outline-success mx-0 estadisticas"
 									type="button" title="Estadísticas">
 									<i class="fas fa-chart-pie"></i>
@@ -107,7 +108,60 @@
 		</div>
 		<div class="col-lg-2"></div>
 	</div>
+	
+	
+		<!-- Modal Estadisticas -->
+	<div class="modal fade" id="estadisticasModal" tabindex="-1" aria-labelledby="Estadísticas" aria-hidden="true">
+	  <div class="modal-dialog modal-xl modal-dialog-centered">
+	    <div class="modal-content">
+	      <div class="modal-header bg-success">
+	        <h5 class="modal-title" id="staticBackdropLabel"></h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <div class="modal-body">
+	      <div id="contenedor-modal"></div>
+	      			<div class="row">
+			<div class="col-lg-12 responsive">
+				<table id="posiciones"
+					class="table table-sm table-striped table-bordered table-hover nowrap"
+					cellspacing="0" style="width: 100%;">
+					<thead>
+						<tr class="table-primary">
+							
+							<th>Jugador</th>
+							<th>Principal</th>
+							<th>Secundaria</th>
+							<th>%_S</th>
+							<th>%_R</th>
+							<th>%_C</th>
+							<th>%_D</th>
+							<th>%_B</th>
+							<th>%_Re</th>
+							<th>%_F</th>
+							<th>%_A</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						
+								
+						
+					</tbody>
 
+				</table>
+			</div>
+		</div>
+	      </div>
+	      <div class="modal-footer" style="background: rgb(40,167,69); background: linear-gradient(0deg, rgba(40,167,69,1) 0%, rgba(255,255,255,1) 100%);">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	
+	
 
 	<div class="modal fade" id="gestionModal" data-backdrop="static"
 		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
@@ -233,6 +287,174 @@
 								});
 							});
 							
+							$('table .estadisticas').on('click', function(){
+								var id = $(this).parent().find('#id').val();
+								
+								$.ajax({
+									type: 'GET',
+									//url: '/partidos/findJugadorPosicionPartido/'+id,
+									success: function(stats){
+									//alert(stats);
+								$(document).ready(function () {
+						 		    // Create DataTable
+						 		    var table = $('#posiciones').DataTable({
+						 		        dom: '',
+						 		        responsive: true,
+						 		        columns: [
+						 		        	{ title: "Jugador", data: "name" },
+						 		           { title: "Principal", data: "username" },
+						 		           { title: "Secundaria", data: "email" }
+						 		        ]
+						 		        
+						 		    });
+						 		    
+								});
+								}
+								});
+						 		    var chart = null;
+						 		    var tipo = null; //poner var general
+						 		    
+						 		    graficaPosicion(table);
+						 	
+						 		    // Create the chart with initial data
+						 		    
+						 		    function graficaPosicion(table){ 
+						 		    
+						 		    var container = $('<div/>').insertBefore(table.table().container());
+						 		 
+						 		     chart = Highcharts.chart(container[0], {
+						 		    	 chart: {
+						 		    	        plotBackgroundColor: null,
+						 		    	        plotBorderWidth: null,
+						 		    	        plotShadow: false,
+						 		    	        type: 'pie'
+						 		    	    },
+						 		        title: {
+						 		            text: 'Posiciones Principales Jugadores en el Partido'
+						 		        },
+						 		        tooltip: {
+						 		            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+						 		        },
+						 		        accessibility: {
+						 		            point: {
+						 		                valueSuffix: '%'
+						 		            }
+						 		        },
+						 		        plotOptions: {
+						 		            pie: {
+						 		                allowPointSelect: true,
+						 		                cursor: 'pointer',
+						 		                dataLabels: {
+						 		                    enabled: false
+						 		                },
+						 		                showInLegend: true
+						 		            }
+						 		        },
+						 		        series: [{
+						 		           
+						 		        	name:'Porcentaje',
+						 		        	colorByPoint: true,
+						 		        	data: chartData(table)
+						 		        	
+						 		        }
+						 		        ],
+						 		    });
+						 		    
+						 		    table.on('draw', function () {
+						 		        chart.series[0].setData(chartData(table));
+						 		    });
+						 		    }
+						 		    
+						 		
+						 	
+						 		
+						 	
+						 		
+						 	
+						 	});
+						 	
+						 	//FUNCTIONS
+
+						   function chartData(table) {
+						 		        var counts = {};
+						 		     	var dato = [];
+						 		     	
+						 		     	var punta = 0;
+						 		     	var opuesto = 0;
+						 		     	var colocador = 0;
+						 		     	var central = 0;
+						 		     	var libero  = 0;
+						 		     	
+
+						 		        // Count the number of entries for each position
+						 		        table
+						 		            .column(1, { search: 'applied' })
+						 		            .data()
+						 		            .each(function (val) {
+						 		            	if(val == 'PUNTA'){
+						 		            		punta ++;
+						 		            	}else if(val == 'OPUESTO'){
+						 		            		opuesto++;
+						 		            	}else if(val == 'COLOCADOR'){
+						 		            		colocador++;
+						 		            	}else if(val == 'CENTRAL'){
+						 		            		central++;
+						 		            	}else if(val == 'LIBERO'){
+						 		            		libero++;
+						 		            	}
+						 		            });
+						 		        
+						 		        table
+						 	            .column(2, { search: 'applied' })
+						 	            .data()
+						 	            .each(function (val) {
+						 	            	if(val == 'PUNTA'){
+						 	            		punta ++;
+						 	            	}else if(val == 'OPUESTO'){
+						 	            		opuesto++;
+						 	            	}else if(val == 'COLOCADOR'){
+						 	            		colocador++;
+						 	            	}else if(val == 'CENTRAL'){
+						 	            		central++;
+						 	            	}else if(val == 'LIBERO'){
+						 	            		libero++;
+						 	            	}
+						 	            });
+						 		            
+						 		        
+						 		        	if(punta > 0){
+						             		counts['Puntas'] = punta;
+						 		        	}
+						             	
+						             		if(opuesto > 0){
+						                 		counts['Opuestos'] = opuesto;
+						     		        	}
+						             	
+						             		if(colocador > 0){
+						                 		counts['Colocadores'] = colocador;
+						     		        	}
+						             	
+						             		if(central > 0){
+						                 		counts['Centrales'] = central;
+						     		        	}
+						             	
+						             		if(libero > 0){
+						                 		counts['Liberos'] = libero;
+						     		        	}
+						             	
+						 		        
+						 		        
+						 		     
+						 		        // And map it to the format highcharts uses
+						 		        return $.map(counts, function (val, key) {
+						 		            return {
+						 		                name: key,
+						 		                y: val,
+						 		            };
+						 		        });
+						 		    }
+						 	
+								});
 							$('table .editar')
 									.on(
 											'click',
@@ -263,7 +485,7 @@
 												});
 								});
 
-						});
+						
 	</script>
 	<script type="text/javascript">
 		w3IncludeHTML();
