@@ -72,8 +72,8 @@
 					<thead>
 						<tr class="table-primary">
 							<th>Categoría</th>
-							<th>Capitán</th>
-							<th>Entrenador</th>
+					<!--		<th>Capitán</th>
+							<th>Entrenador</th>  -->
 							<th>Sistema juego</th>
 							<th>Número amarillas</th>
 							<th>Número rojas</th>
@@ -85,8 +85,8 @@
 					<tbody>
 						<tr th:each="equipo : ${equipos}">
 							<td th:text="${equipo.categoria}"></td>
-							<td th:text="${equipo.Capitan.Jugador.firstName} + ' ' + ${equipo.Capitan.Jugador.lastName}"></td>
-							<td th:text="${equipo.Entrenador.firstName} + ' ' + ${equipo.Entrenador.lastName}"></td>
+			<!--			<td th:text="${equipo.Capitan.Jugador.firstName} + ' ' + ${equipo.Capitan.Jugador.lastName}"></td>
+							<td th:text="${equipo.Entrenador.firstName} + ' ' + ${equipo.Entrenador.lastName}"></td>   -->
 							<td th:text="${equipo.sistemaJuego}"></td>
 							<td th:text="${equipo.numAmarillas}"></td>
 							<td th:text="${equipo.numRojas}"></td>
