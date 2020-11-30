@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class SustitucionServiceTest {
@@ -23,12 +24,14 @@ public class SustitucionServiceTest {
 	
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Sustitucion> sustitucion = new ArrayList<Sustitucion>(sustitucionService.findAll());
 		assertEquals(sustitucion.size(), 3);//
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByIdInitialDataFinding() {
 		int id=1;
 		Optional<Sustitucion> sustitucion=sustitucionService.findById(id);
@@ -36,6 +39,7 @@ public class SustitucionServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByIdInitialDataNotFinding() {
 		int id=100;
 		Optional<Sustitucion> sustitucion=sustitucionService.findById(id);
@@ -43,6 +47,7 @@ public class SustitucionServiceTest {
 	}
 
 	@Test
+	@Transactional(readOnly = true)
 	public void findByMinutoSustitucionInitialDataFinding() {
 		int minuto_sustitucion = 30;
 		List<Sustitucion> sustitucion = sustitucionService.findByMinutoSustitucion(minuto_sustitucion);
@@ -50,6 +55,7 @@ public class SustitucionServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void findByMinutoSustitucionInitialDataNotFinding() {
 		int minuto_sustitucion = 1000;
 		List<Sustitucion> sustitucion = sustitucionService.findByMinutoSustitucion(minuto_sustitucion);
@@ -57,6 +63,7 @@ public class SustitucionServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void findByPartidoInitialDataFinding() {
 		int partido_id = 1;
 		List<Sustitucion> sustitucion = sustitucionService.findByPartido(partido_id);
@@ -64,6 +71,7 @@ public class SustitucionServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void findByPartidoInitialDataNotFinding() {
 		int partido_id = 5;
 		List<Sustitucion> sustitucion = sustitucionService.findByPartido(partido_id);
@@ -71,6 +79,7 @@ public class SustitucionServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void findByJugadorInitialDataFinding() {
 		int jugador_id = 1;
 		List<Sustitucion> sustitucion = sustitucionService.findByJugador(jugador_id);
@@ -78,24 +87,27 @@ public class SustitucionServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void findByJugadorInitialDataNotFinding() {
 		int jugador_id = 5;
 		List<Sustitucion> sustitucion = sustitucionService.findByJugador(jugador_id);
 		assertEquals(sustitucion.size(),0);
 	}
+
+	@Test
+	@Transactional(readOnly = true)
+	public void testCountSustituciones() {
+		int n = sustitucionService.substitutionCount();
+		assertEquals(n, 3);
+	}
 	
 	@Test
+	@Transactional
 	public void testSaveSustitucion() {
 		Sustitucion sustitucion = new Sustitucion(50);	
 
 		Sustitucion sus = sustitucionService.saveSustitucion(sustitucion);
 
 		assertNotNull(sus);
-	}
-	
-	@Test
-	public void testCountSustituciones() {
-		int n = sustitucionService.substitutionCount();
-		assertEquals(n, 3);
 	}
 }

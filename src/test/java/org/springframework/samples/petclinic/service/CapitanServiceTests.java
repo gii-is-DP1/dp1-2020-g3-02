@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class CapitanServiceTests {
@@ -24,12 +25,14 @@ public class CapitanServiceTests {
 	private CapitanService capitanService;
 
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Capitan> capitan=new ArrayList<Capitan>(capitanService.findAll());
 		assertEquals(capitan.size(), 2);
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByIdInitialDataFinding() {
 		int id=1;
 		Optional<Capitan> capitan=capitanService.findById(id);
@@ -37,6 +40,7 @@ public class CapitanServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByIdInitialDataNotFinding() {
 		int id=500;
 		Optional<Capitan> capitan=capitanService.findById(id);
@@ -44,6 +48,7 @@ public class CapitanServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByActitudInitialDataFinding() {
 		Actitud at=Actitud.POSITIVA;
 		List<Capitan> capitan=capitanService.findByActitud(at);
@@ -51,6 +56,7 @@ public class CapitanServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByActitudInitialDataNotFinding() {
 		Actitud at=Actitud.NEGATIVA;
 		List<Capitan> capitan= capitanService.findByActitud(at);
@@ -58,6 +64,7 @@ public class CapitanServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByNTiemposMuertosDataFinding() {
 		int ntiemposmuertos=6;
 		List<Capitan> capitan=capitanService.findByNtiemposmuertos(ntiemposmuertos);
@@ -65,6 +72,7 @@ public class CapitanServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByNTiemposMuertosDataNotFinding() {
 		int ntiemposmuertos=60;
 		List<Capitan> capitan=capitanService.findByNtiemposmuertos(ntiemposmuertos);
@@ -72,6 +80,7 @@ public class CapitanServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByEquipoDataFinding() {
 		int equipo_id= 1;
 		List<Capitan> capitan=capitanService.findByEquipo(equipo_id);
@@ -79,6 +88,7 @@ public class CapitanServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByEquipoDataNotFinding() {
 		int equipo_id= 100;
 		List<Capitan> capitan=capitanService.findByEquipo(equipo_id);
@@ -86,6 +96,7 @@ public class CapitanServiceTests {
 	}
 	
 	@Test
+	@Transactional
 	public void testSaveCapitan() {
 		Capitan capitan = new Capitan(10, Actitud.NEGATIVA);
 		capitan.setJugador(null);
@@ -94,6 +105,9 @@ public class CapitanServiceTests {
 		assertNotNull(captain);
 		
 	}
+	
+	@Test
+	@Transactional
 	public void deleteCapitan() {
 		int id= 3;
 		this.capitanService.deleteCapitan(id);

@@ -15,6 +15,7 @@ import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class MaterialServiceTest {
@@ -25,12 +26,14 @@ public class MaterialServiceTest {
 
 
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Material> material = new ArrayList<Material>(materialService.findAll());
 		assertEquals(material.size(), 6);//
 	}
 
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByIdInitialDataFinding() {
 		int id = 1;
 		Optional<Material> material = materialService.findById(id);
@@ -38,6 +41,7 @@ public class MaterialServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByIdInitialDataNotFinding() {
 		int id = 1000;
 		Optional<Material> material = materialService.findById(id);
@@ -45,6 +49,7 @@ public class MaterialServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByTipoInitialDataFinding() {
 		TipoMaterial tipo = TipoMaterial.CUERDA;
 		List<Material> material = materialService.findByTipo(tipo);
@@ -52,6 +57,7 @@ public class MaterialServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByTipoInitialDataNotFinding() {
 		TipoMaterial tipo = TipoMaterial.CONOMEDIO;
 		List<Material> material = materialService.findByTipo(tipo);
@@ -59,6 +65,7 @@ public class MaterialServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByDescripcionInitialDataFinding() {
 		String description = "poste";
 		List<Material> material = materialService.findByDescripcion(description);
@@ -66,6 +73,7 @@ public class MaterialServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByDescripcionInitialDataNotFinding() {
 		String description = "asdjnrfu";
 		List<Material> material = materialService.findByDescripcion(description);
@@ -73,6 +81,7 @@ public class MaterialServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByStockInitialDataFinding() {
 		int stock = 9;
 		List<Material> material = materialService.findByStock(stock);
@@ -80,6 +89,7 @@ public class MaterialServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByStockInitialDataNotFinding() {
 		int stock = 1000;
 		List<Material> material = materialService.findByStock(stock);
@@ -87,6 +97,7 @@ public class MaterialServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByLineaMaterialInitialDataFinding() {
 		int linea_material_id = 1;
 		List<Material> material = new ArrayList<Material>(materialService.findByLineaMaterial(linea_material_id));
@@ -94,6 +105,7 @@ public class MaterialServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByLineaMaterialInitialDataNotFinding() {
 		int linea_material_id = 5;
 		List<Material> material = new ArrayList<Material>(materialService.findByLineaMaterial(linea_material_id));
@@ -101,6 +113,7 @@ public class MaterialServiceTest {
 	}
 	
 	@Test
+	@Transactional
 	public void testSaveMaterial() {
 		Material material = new Material("red",TipoMaterial.CONOBAJO,5);	
 
