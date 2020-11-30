@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Component;
@@ -58,20 +59,25 @@ public class JugadorValidator implements Validator {
 				errors.rejectValue("fechaNacimiento", "La fecha de nacimiento es requerida y debe ser anterior al día de hoy","La fecha de nacimiento es requerida y debe ser anterior al día de hoy");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			errors.rejectValue("fechaNacimiento", "La fecha debe tener el formato requerido(YYYY/MM/DD)","La fecha debe tener el formato requerido(YYYY/MM/DD)");
 		}
 		
 		
 		//altura validation
-		if ( jugador.getAltura() < 100  || jugador.getAltura() > 300) {
+		if (jugador.getAltura() == null) {
+			errors.rejectValue("altura", "error",ValidationConstant.VALOR_OBLIGATORIO);
+		} else if ( jugador.getAltura() < 100  || jugador.getAltura() > 300) {
 			errors.rejectValue("altura", "La altura debe estar entre 1 y 3 metros","La altura debe estar entre 1 y 3 metros");
 		}
 		
+		
 		//peso validation
-		if ( jugador.getPeso() >= 250 || jugador.getPeso() < 20) {
+		if (jugador.getPeso() == null) {
+			errors.rejectValue("peso", "error",ValidationConstant.VALOR_OBLIGATORIO);
+		} else if ( jugador.getPeso() >= 250 || jugador.getPeso() < 20) {
 			errors.rejectValue("peso", "El peso debe estar entre 20 y 250 Kg","El peso debe estar entre 20 y 250 Kg");
 		}
+		
 		
 	}
 	

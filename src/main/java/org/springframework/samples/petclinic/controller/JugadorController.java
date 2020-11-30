@@ -234,8 +234,16 @@ public class JugadorController {
 			
 			jugador.setFirstName(request.getParameter("firstName").trim());
 			jugador.setLastName(request.getParameter("lastName").trim());
-			jugador.setAltura(Integer.parseInt(request.getParameter("altura")));
-			jugador.setPeso(Integer.parseInt(request.getParameter("peso")));
+			if(!request.getParameter("altura").isEmpty()) {
+				jugador.setAltura(Integer.parseInt(request.getParameter("altura")));
+			} else {
+				jugador.setAltura(null);
+			}
+			if(!request.getParameter("peso").isEmpty()) {
+				jugador.setPeso(Integer.valueOf(request.getParameter("peso")));
+			} else {
+				jugador.setPeso(null);
+			}
 			jugador.setEstadoActual(estadoConverter.convertToEntityAttribute(request.getParameter("estadoActual")));
 			jugador.setPosicionPrincipal(posicionConverter.convertToEntityAttribute(request.getParameter("posicionPrincipal")));
 			jugador.setPosicionSecundaria(posicionConverter.convertToEntityAttribute(request.getParameter("posicionSecundaria")));

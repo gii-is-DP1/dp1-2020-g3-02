@@ -104,11 +104,11 @@ public class Jugador extends Person{
 	@Column(name = "altura", nullable = false)
 	@Max(350)
 	@Min(1)
-	private int altura;
+	private Integer altura;
 	
 	@Column(name = "peso", nullable = false)
 	@Min(1)
-	private int peso;
+	private Integer peso;
 	
 	@Column(name = "peso_ideal", nullable = false)
 	private int pesoIdeal;
