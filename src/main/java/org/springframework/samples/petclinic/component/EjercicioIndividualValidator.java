@@ -37,7 +37,7 @@ public class EjercicioIndividualValidator implements Validator{
 	}
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return Jugador.class.isAssignableFrom(clazz);
+		return EjercicioIndividual.class.isAssignableFrom(clazz);
 	}
 
 

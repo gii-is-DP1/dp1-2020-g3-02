@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
+import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.model.EjercicioIndividual;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.RealizaEjercicio;
@@ -132,8 +133,13 @@ public class EjercicioIndividualServiceTest {
 	@Test
 	@Transactional
 	public void testDeleteEjercicioIndividual() {
-		int e = 6;
-		ejercicioIndividualService.deleteEjercicioIndividual(e);
+		
+		int id= 6;
+		this.ejercicioIndividualService.deleteEjercicioIndividual(id);
+		Optional<EjercicioIndividual> ejercicio=ejercicioIndividualService.findById(id);
+		assertEquals(ejercicio, Optional.empty());
+		
+		
 	}
 
 }
