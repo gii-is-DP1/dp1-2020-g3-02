@@ -45,11 +45,10 @@ public class EjercicioIndividual extends BaseEntity {
 	public EjercicioIndividual() {
 	}
 
-	public EjercicioIndividual(Set<RealizaEjercicio> realiza_ejercicios, Set<Jugador> jugadores, String nombre,
+	public EjercicioIndividual( String nombre,
 			String descripcion, TipoEjercicio tipoEjercicio) {
 		super();
-		this.realiza_ejercicios = realiza_ejercicios;
-		this.jugadores = jugadores;
+		
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.tipoEjercicio = tipoEjercicio;
@@ -57,9 +56,11 @@ public class EjercicioIndividual extends BaseEntity {
 
 	@Override
 	public String toString() {
-		return "EjercicioIndividual [realiza_ejercicios=" + realiza_ejercicios + ", jugadores=" + jugadores
-				+ ", nombre=" + nombre + ", descripcion=" + descripcion + ", tipoEjercicio=" + tipoEjercicio + "]";
+		return "EjercicioIndividual [nombre=" + nombre + ", descripcion=" + descripcion + ", tipoEjercicio="
+				+ tipoEjercicio + "]";
 	}
+
+
 
 
 	

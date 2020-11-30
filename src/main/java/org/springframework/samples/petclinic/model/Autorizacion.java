@@ -21,8 +21,6 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "autorizaciones")
 public class Autorizacion extends BaseEntity{
 	
@@ -37,5 +35,25 @@ public class Autorizacion extends BaseEntity{
 	@Enumerated(value = EnumType.STRING)
 	private TipoAutorizacion tipoAutorizacion;
 
+	
+	public Autorizacion() {
+	}
+	
+	
+	public Autorizacion(Jugador jugador, LocalDate fecha, TipoAutorizacion tipoAutorizacion) {
+		super();
+		this.jugador = jugador;
+		this.fecha = fecha;
+		this.tipoAutorizacion = tipoAutorizacion;
+	}
+
+	@Override
+	public String toString() {
+		return "Autorizacion [jugador=" + jugador + ", fecha=" + fecha 
+				+ ", tipoAutorizacion=" + tipoAutorizacion + "]";
+		
+	}
+
+	
 	
 }

@@ -108,7 +108,7 @@ public class AutorizacionServiceTest {
 	
 	@Test
 	@Transactional
-	public void testSavePersonales() {
+	public void testSaveAutorizacion() {
 		Optional<Jugador> jugador= jugadorService.findById(4);
 		Jugador player= jugador.get();
 		Autorizacion autorizacion = new Autorizacion(player,LocalDate.of(2020, 11, 5), TipoAutorizacion.TRANSPORTE);	
