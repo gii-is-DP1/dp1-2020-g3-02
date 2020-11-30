@@ -62,6 +62,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeSaquesLessThanEqualInitialDataNotFinding() {
 		double percent = 0.2;
 		List<EstadisticaPersonalPartido> ePartido = ePartidoService.findByPorcentajeSaquesLessThanEqual(percent);
@@ -69,6 +70,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeRecepcionesLessThanEqualInitialDataFinding() {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
@@ -77,6 +79,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeRecepcionesLessThanEqualInitialDataNotFinding() {
 		double percentIntroducido=-50;
 		double percent=percentIntroducido/100;
@@ -85,6 +88,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeColocacionesLessThanEqualInitialDataFinding() {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
@@ -93,6 +97,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeColocacionesLessThanEqualInitialDataNotFinding() {
 		double percentIntroducido=-50;
 		double percent=percentIntroducido/100;
@@ -101,6 +106,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeDefensasLessThanEqualInitialDataFinding() {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
@@ -109,6 +115,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeDefensasLessThanEqualInitialDataNotFinding() {
 		double percentIntroducido=-50;
 		double percent=percentIntroducido/100;
@@ -116,6 +123,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 		assertEquals(ePartido.size(), 0);
 	}
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeBloqueosLessThanEqualInitialDataFinding() {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
@@ -124,6 +132,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeBloqueosLessThanEqualInitialDataNotFinding() {
 		double percentIntroducido=-50;
 		double percent=percentIntroducido/100;
@@ -132,6 +141,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeRematesLessThanEqualInitialDataFinding() {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
@@ -140,6 +150,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeRematesLessThanEqualInitialDataNotFinding() {
 		double percentIntroducido=-50;
 		double percent=percentIntroducido/100;
@@ -148,6 +159,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeFintasLessThanEqualInitialDataFinding() {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
@@ -156,6 +168,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeFintasLessThanEqualInitialDataNotFinding() {
 		double percentIntroducido=-50;
 		double percent=percentIntroducido/100;
@@ -164,6 +177,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeAtaquesRapidosLessThanEqualInitialDataFinding() {
 		double percentIntroducido=50;
 		double percent=percentIntroducido/100;
@@ -172,6 +186,7 @@ public class EstadisticaPersonalPartidoServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPorcentajeAtaquesRapidosLessThanEqualInitialDataNotFinding() {
 		double percentIntroducido=-50;
 		double percent=percentIntroducido/100;

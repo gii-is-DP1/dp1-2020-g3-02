@@ -16,6 +16,7 @@ import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.repository.PersonalesRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
@@ -29,6 +30,7 @@ public class PersonalServiceTests {
 	
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Personales>personales=new ArrayList<Personales>(personalesService.findAll());
 		assertEquals(personales.size(), 4);//
@@ -37,6 +39,7 @@ public class PersonalServiceTests {
 
 
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByIdInitialDataFinding() {
 		int id=1;
 		Optional<Personales> personales=personalesService.findById(id);
@@ -44,6 +47,7 @@ public class PersonalServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByIdInitialDataNotFinding() {
 		int id=1000;
 		Optional<Personales> personales=personalesService.findById(id);
@@ -51,6 +55,7 @@ public class PersonalServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPropietarioInitialDataFinding() {
 		String propietario="Ana";
 		List<Personales> personales = new ArrayList<Personales>(personalesService.findByPropietario(propietario));
@@ -58,6 +63,7 @@ public class PersonalServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPropietarioInitialDataNotFinding() {
 		String propietario="Luis";
 		List<Personales> personales = new ArrayList<Personales>(personalesService.findByPropietario(propietario));
@@ -65,6 +71,7 @@ public class PersonalServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByJugadorInitialDataFinding() {
 		int jugador_id=1;
 		List<Personales> personales=personalesService.findByJugador(jugador_id);
@@ -72,6 +79,7 @@ public class PersonalServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByJugadorInitialDataNotFinding() {
 		int jugador_id=5;
 		List<Personales> personales=personalesService.findByJugador(jugador_id);
@@ -79,6 +87,7 @@ public class PersonalServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPartidoInitialDataFinding() {
 		int partido_id = 1;
 		List<Integer> personales=personalesService.findByPartido(partido_id);
@@ -87,6 +96,7 @@ public class PersonalServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByPartidoInitialDataNotFinding() {
 		int partido_id = 2;
 		List<Integer> personales=personalesService.findByPartido(partido_id);
@@ -94,6 +104,7 @@ public class PersonalServiceTests {
 	}
 	
 	@Test
+	@Transactional
 	public void testSavePersonales() {
 		Personales personales = new Personales("Amor");	
 

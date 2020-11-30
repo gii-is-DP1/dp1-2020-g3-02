@@ -20,6 +20,7 @@ import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class PruebaCondicionFisicaServiceTests {
@@ -29,6 +30,7 @@ public class PruebaCondicionFisicaServiceTests {
 	private PruebaCondicionFisicaService pruebaService;
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByIdInitialDataFinding() {
 		int id = 1;
 		Optional<PruebaCondicionFisica> prueba = pruebaService.findById(id);
@@ -36,6 +38,7 @@ public class PruebaCondicionFisicaServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByIdInitialDataNotFinding() {
 		int id = 6;
 		Optional<PruebaCondicionFisica> prueba = pruebaService.findById(id);
@@ -43,6 +46,7 @@ public class PruebaCondicionFisicaServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByJugadorInitialDataFinding() {
 		int jugador_id = 1;
 		List<PruebaCondicionFisica> prueba = pruebaService.findByJugador(jugador_id);
@@ -50,6 +54,7 @@ public class PruebaCondicionFisicaServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByJugadorInitialDataNotFinding() {
 		int jugador_id = 222;
 		List<PruebaCondicionFisica> prueba = pruebaService.findByJugador(jugador_id);
@@ -57,6 +62,7 @@ public class PruebaCondicionFisicaServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByTipoPruebaInitialDataFinding() {
 		TipoPrueba tipo_prueba = TipoPrueba.SALTOVERTICAL;
 		List<PruebaCondicionFisica> prueba = pruebaService.findByTipoPrueba(tipo_prueba);
@@ -64,6 +70,7 @@ public class PruebaCondicionFisicaServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByTipoPruebaInitialDataNotFinding() {
 		TipoPrueba tipo_prueba = TipoPrueba.PULSACIONESMINIMAS;
 		List<PruebaCondicionFisica> prueba = pruebaService.findByTipoPrueba(tipo_prueba);
@@ -71,6 +78,7 @@ public class PruebaCondicionFisicaServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByDatoLessThanEqualInitialDataFinding() {
 		int dato = 4;
 		List<PruebaCondicionFisica> prueba = pruebaService.findByDatoLessThanEqual(dato);
@@ -78,6 +86,7 @@ public class PruebaCondicionFisicaServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByDatoLessThanEqualInitialDataNotFinding() {
 		int dato = 2;
 		List<PruebaCondicionFisica> prueba = pruebaService.findByDatoLessThanEqual(dato);
@@ -85,6 +94,7 @@ public class PruebaCondicionFisicaServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByDatoAndTipoPruebaInitialDataFinding() {
 		int dato = 3;
 		TipoPrueba tipo_prueba = TipoPrueba.SALTOVERTICAL;
@@ -93,6 +103,7 @@ public class PruebaCondicionFisicaServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByDatoAndTipoPruebaInitialDataNotFinding() {
 		int dato = 2;
 		TipoPrueba tipo_prueba = TipoPrueba.PULSACIONESMINIMAS;
@@ -101,6 +112,7 @@ public class PruebaCondicionFisicaServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByTipoPruebaAndDatoLessThanEqualInitialDataFinding() {
 		int dato = 4;
 		TipoPrueba tipo_prueba = TipoPrueba.SALTOVERTICAL;
@@ -109,6 +121,7 @@ public class PruebaCondicionFisicaServiceTests {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void testFindByTipoPruebaAndDatoLessThanEqualInitialDataNotFinding() {
 		int dato = 2;
 		TipoPrueba tipo_prueba = TipoPrueba.PULSACIONESMINIMAS;
@@ -118,6 +131,7 @@ public class PruebaCondicionFisicaServiceTests {
 	
 	
 	@Test
+	@Transactional
 	public void testSavePruebaCondicionFisica() {
 		PruebaCondicionFisica p = new PruebaCondicionFisica(3.1,LocalDate.of(2020, 11, 01),TipoPrueba.FLEXIBILIDAD);
 		
