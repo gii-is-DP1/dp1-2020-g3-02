@@ -34,7 +34,7 @@ class RealizaEjercicioServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<RealizaEjercicio> realiza =new ArrayList<RealizaEjercicio>(realizaEjercicioService.findAll());
-		assertEquals(realiza.size(), 1);//
+		assertEquals(realiza.size(), 2);
 	}
 	
 	@Test
@@ -58,7 +58,7 @@ class RealizaEjercicioServiceTest {
 	public void testFindByJugadorInitialDataFinding() {
 		int id=1;
 		List<RealizaEjercicio> realiza=realizaEjercicioService.findByJugador(id);
-		assertEquals(realiza.size(), 1);
+		assertEquals(realiza.size(), 2);
 	}
 	
 	@Test
