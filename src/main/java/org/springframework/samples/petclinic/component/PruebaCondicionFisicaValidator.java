@@ -31,7 +31,7 @@ public class PruebaCondicionFisicaValidator implements Validator {
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return Sustitucion.class.isAssignableFrom(clazz);
+		return PruebaCondicionFisica.class.isAssignableFrom(clazz);
 	}
 
 }

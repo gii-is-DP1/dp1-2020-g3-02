@@ -37,7 +37,7 @@ public class Material extends BaseEntity{
 
 	@Column(name = "stock", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int stock;
+	private Integer stock;
 
 	public Material(String descripcion, TipoMaterial tipo, int stock) {
 		super();
