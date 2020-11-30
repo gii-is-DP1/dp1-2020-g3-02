@@ -30,9 +30,9 @@ public class JugadorEdit {
 	
 	private LocalDate fechaNacimiento;
 	
-	private int altura;
+	private Integer altura;
 	
-	private int peso;
+	private Integer peso;
 	
 	private Posicion posicionPrincipal;
 	
