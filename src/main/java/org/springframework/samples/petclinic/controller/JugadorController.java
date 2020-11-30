@@ -21,9 +21,11 @@ import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
+import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Personales;
+import org.springframework.samples.petclinic.model.Privilegio;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
@@ -31,6 +33,7 @@ import org.springframework.samples.petclinic.service.AutorizacionService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PersonalesService;
+import org.springframework.samples.petclinic.service.PrivilegioService;
 import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,6 +70,9 @@ public class JugadorController {
 	
 	@Autowired
 	private AutorizacionService autorizacionService;
+	
+	@Autowired
+	private PrivilegioService privilegioService;
 	
 	@Autowired
 	private EstadisticaPersonalPartidoService estadisService;
@@ -110,6 +116,28 @@ public class JugadorController {
 		return mav;
 		
 	}
+	
+	@GetMapping("/showjugadorespriv")
+	public String listadoJugadoresPrivilegios(Model model) {
+		model.addAttribute("entrenamientos",jugadorService.findPrivilegio(TipoPrivilegio.ENTRENAMIENTOS));
+		model.addAttribute("partidos",jugadorService.findPrivilegio(TipoPrivilegio.PARTIDOS));
+		model.addAttribute("jugadorespriv", jugadorService.findAll());
+		model.addAttribute("listpriv", new ArrayList<TipoPrivilegio>(Arrays.asList(TipoPrivilegio.ENTRENAMIENTOS, TipoPrivilegio.PARTIDOS)));
+
+		return ViewConstant.VIEW_JUGADORES_PRIVILEGIOS;
+	}
+	
+//	@GetMapping("/addprivilegio/{id}/{tipoPrivilegio}")
+//	public String addPrivilegioJugador(@PathVariable("id") int id, @PathVariable("tipoPrivilegio") TipoPrivilegio priv) {
+//		Privilegio privilegio= new Privilegio(); 
+//		Optional<Jugador> jug = jugadorService.findById(id);
+//		Jugador jugador= jug.get();
+//		privilegio.setJugador(jugador);
+//		privilegio.setTipoPrivilegio(priv);
+//		Privilegio privilege = privilegioService.savePrivilegio(privilegio);
+//		
+//		return "redirect:/jugadores/showjugadorespriv";
+//	}
 	
 	@GetMapping("/showjugadoresaut")
 	public ModelAndView listadoJugadoresAutorizacion() {

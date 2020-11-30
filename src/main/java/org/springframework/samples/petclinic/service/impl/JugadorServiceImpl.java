@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.enumerate.Posicion;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
+import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.JugadorRepository;
@@ -233,6 +234,12 @@ public class JugadorServiceImpl implements JugadorService {
 	public List<Jugador> findAuto(TipoAutorizacion autorizacion) {
 		
 		return jugadorRepository.findAuto(autorizacion);
+	}
+	
+	@Override
+	public List<Jugador> findPrivilegio(TipoPrivilegio privilegio) {
+		
+		return jugadorRepository.findPrivilegio(privilegio);
 	}
 
 	@Override
