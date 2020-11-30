@@ -30,12 +30,12 @@ public class JugadorValidator implements Validator {
 		
 		//Nombre Validation
 		if ( jugador.getFirstName() == null || jugador.getFirstName().length() < 3) {
-			errors.rejectValue("firstName", "El nombre es requerido y debe tener más de tres letras","El nombre es requerido y debe tener más de tres letras");
+			errors.rejectValue("firstName", "error", ValidationConstant.FIRSTNAME_ERROR);
 		}
 		
 		//Apellido validation
 		if ( jugador.getLastName() == null || jugador.getLastName().length() < 3) {
-			errors.rejectValue("lastName", "El apellido es requerido y debe tener más de tres letras","El apellido es requerido y debe tener más de tres letras");
+			errors.rejectValue("lastName", "error",ValidationConstant.LASTNAME_ERROR);
 		}
 		
 		//email validation

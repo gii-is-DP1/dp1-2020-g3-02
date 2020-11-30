@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.component;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.stereotype.Component;
@@ -22,12 +23,12 @@ public class EstadisticoValidator implements Validator{
 		
 		//Nombre Validation
 		if ( estadistico.getFirstName() == null || estadistico.getFirstName().length() < 3) {
-			errors.rejectValue("firstName", "El nombre es requerido y debe tener más de tres letras","El nombre es requerido y debe tener más de tres letras");
+			errors.rejectValue("firstName", "error", ValidationConstant.FIRSTNAME_ERROR);
 		}
 		
 		//Apellido validation
 		if ( estadistico.getLastName() == null || estadistico.getLastName().length() < 3) {
-			errors.rejectValue("lastName", "El apellido es requerido y debe tener más de tres letras","El apellido es requerido y debe tener más de tres letras");
+			errors.rejectValue("lastName", "error", ValidationConstant.LASTNAME_ERROR);
 		}
 		
 		//email validation
