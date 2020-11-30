@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.component;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.service.EntrenadorService;
@@ -23,12 +24,12 @@ public class EntrenadorValidator implements Validator{
 		
 		//Nombre Validation
 		if ( entrenador.getFirstName() == null || entrenador.getFirstName().length() < 3) {
-			errors.rejectValue("firstName", "El nombre es requerido y debe tener más de tres letras","El nombre es requerido y debe tener más de tres letras");
+			errors.rejectValue("firstName", "error", ValidationConstant.FIRSTNAME_ERROR);
 		}
 		
 		//Apellido validation
 		if ( entrenador.getLastName() == null || entrenador.getLastName().length() < 3) {
-			errors.rejectValue("lastName", "El apellido es requerido y debe tener más de tres letras","El apellido es requerido y debe tener más de tres letras");
+			errors.rejectValue("lastName", "error", ValidationConstant.FIRSTNAME_ERROR);
 		}
 		
 		//email validation
@@ -42,14 +43,12 @@ public class EntrenadorValidator implements Validator{
 				errors.rejectValue("fechaNacimiento", "La fecha de nacimiento es requerida y debe ser anterior al día de hoy","La fecha de nacimiento es requerida y debe ser anterior al día de hoy");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			errors.rejectValue("fechaNacimiento", "La fecha debe tener el formato requerido(YYYY/MM/DD)","La fecha debe tener el formato requerido(YYYY/MM/DD)");
 		}
 	}
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		// TODO Auto-generated method stub
 		return Entrenador.class.isAssignableFrom(clazz);
 	}
 }
