@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
+import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.EjercicioIndividual;
 import org.springframework.samples.petclinic.repository.EjercicioIndividualRepository;
 import org.springframework.samples.petclinic.service.EjercicioIndividualService;
@@ -19,6 +20,19 @@ public class EjercicioIndividualServiceImpl implements EjercicioIndividualServic
 	@Qualifier("ejercicioIndividualRepository")
 	private EjercicioIndividualRepository ejercicioIndividualRepository;
 
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<EjercicioIndividual> findAll() {
+		return ejercicioIndividualRepository.findAll();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<EjercicioIndividual> findById(int id) {
+		return ejercicioIndividualRepository.findById(id);
+	}
+	
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<EjercicioIndividual> findByNombre(String nombre) {
@@ -52,6 +66,10 @@ public class EjercicioIndividualServiceImpl implements EjercicioIndividualServic
 		if(ejercicioIndividual != vacio) {
 			ejercicioIndividualRepository.delete(ejercicioIndividual.get());
 		}
+		
 	}
+	
 
 }
+
+

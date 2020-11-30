@@ -359,8 +359,12 @@ INSERT INTO sustituciones(id,minuto_sustitucion,jugador_id,partido_id) VALUES (3
 -- INSERT PRIVILEGIOS
 INSERT INTO privilegios(descripcion,tipo_privilegio,jugador_id,equipo_id) VALUES('de locos','PARTIDOS',1,1);
 
+
 --INSERT EJERCICIOS INDIVIDUALES
-INSERT INTO ejercicios_individuales(nombre, descripcion, tipo_ejercicio) VALUES('Saque','Realizar 30 saques del tipo que sea',1);
+INSERT INTO ejercicios_individuales(id,nombre,descripcion,tipo_ejercicio) VALUES(1,'Saque','Realizar 30 saques del tipo que sea',3);
+INSERT INTO ejercicios_individuales(id,nombre,descripcion,tipo_ejercicio) VALUES(2,'Ataque','Ataque',0);
+INSERT INTO ejercicios_individuales(id,nombre,descripcion,tipo_ejercicio) VALUES(3,'Recepcion','Recibir la pelota 10 veces',1);
 
 --INSERT REALIZA EJERCICIOS
-INSERT INTO realiza_ejercicios(jugador_id, ejercicio_individual_id, fecha) VALUES(1,1,'2020-11-06');
+INSERT INTO realiza_ejercicios(id,jugador_id, ejercicio_individual_id, fecha) VALUES(1,1,1,'2020-11-06');
+INSERT INTO realiza_ejercicios(id,jugador_id, ejercicio_individual_id, fecha) VALUES(2,6,2,'2020-10-06');

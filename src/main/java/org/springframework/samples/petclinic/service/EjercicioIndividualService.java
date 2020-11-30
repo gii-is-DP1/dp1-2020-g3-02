@@ -8,6 +8,8 @@ import org.springframework.samples.petclinic.model.EjercicioIndividual;
 
 public interface EjercicioIndividualService {
 	
+	public abstract List<EjercicioIndividual> findAll();
+	public abstract Optional<EjercicioIndividual> findById(int id);
 	public abstract Optional<EjercicioIndividual> findByNombre(String nombre);
 	public abstract List<EjercicioIndividual> findByNombreContaining(String nombre);
 	public abstract List<EjercicioIndividual> findByTipoEjercicio(TipoEjercicio tipo_ejercicio);
