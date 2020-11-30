@@ -28,7 +28,7 @@ INSERT INTO users(username,password,enabled) VALUES ('javgutfal','asdf1234',TRUE
 INSERT INTO authorities(id,username,authority) VALUES (17,'javgutfal','jugador');
 
 INSERT INTO users(username,password,enabled) VALUES ('blamaurob','0wn3r',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (18,'blamaurob','jugador');
+INSERT INTO authorities(id,username,authority) VALUES (18,'blamaurob','entrenador');
 
 INSERT INTO users(username,password,enabled) VALUES ('user1','asdf1234',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (19,'user1','jugador');
@@ -95,6 +95,9 @@ INSERT INTO authorities(id,username,authority) VALUES (39,'user21','jugador');
 
 INSERT INTO users(username,password,enabled) VALUES ('user22','asdf1234',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (40,'user22','jugador');
+
+INSERT INTO users(username,password,enabled) VALUES ('blamaurob2','0wn3r',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (41,'blamaurob2','entrenador');
 
 --INSERT INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
 --INSERT INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749', 'owner1');
