@@ -95,6 +95,7 @@ public class SustitucionServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void findByJugadorSaleInitialDataFinding() {
 		int jugador_id = 1;
 		List<Sustitucion> sustitucion = sustitucionService.findByJugadorSale(jugador_id);
@@ -102,6 +103,7 @@ public class SustitucionServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
 	public void findByJugadorSaleInitialDataNotFinding() {
 		int jugador_id = 5;
 		List<Sustitucion> sustitucion = sustitucionService.findByJugadorSale(jugador_id);
