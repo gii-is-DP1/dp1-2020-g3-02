@@ -17,7 +17,9 @@ public interface SustitucionRepository extends JpaRepository<Sustitucion, Serial
 	public List<Sustitucion> findByMinutoSustitucion(int minuto_sustitucion);
 	
 //	@Query("SELECT s FROM Sustitucion s, Jugador j WHERE j.id=:jugador_id")
-	public List<Sustitucion> findByJugador(Jugador jugador);
+	public List<Sustitucion> findByJugadorEntra(Jugador jugador);
+	
+	public List<Sustitucion> findByJugadorSale(Jugador jugador);
 	
 //	@Query("SELECT s FROM Sustitucion s, Partido p WHERE p.id=:partido_id")
 	public List<Sustitucion> findByPartido(Partido partido);

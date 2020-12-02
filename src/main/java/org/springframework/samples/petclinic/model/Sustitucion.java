@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -11,9 +13,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
+import org.springframework.samples.petclinic.enumerate.Estado;
+import org.springframework.samples.petclinic.enumerate.Posicion;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@Data
+@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="sustituciones")
 public class Sustitucion extends BaseEntity{
@@ -28,55 +40,16 @@ public class Sustitucion extends BaseEntity{
 	private Partido partido;
 	
 	@ManyToOne
-	@JoinColumn(name = "jugador_id")
-	private Jugador jugador;
+	@JoinColumn(name = "jugador_entra")
+	private Jugador jugadorEntra;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "jugador_id")
-//	private Jugador jugador_sale;
+	@ManyToOne
+	@JoinColumn(name = "jugador_sale")
+	private Jugador jugadorSale;
 	
 	@Column(name = "minuto_sustitucion", nullable = false)
 	@Min(0)
 	private Integer minutoSustitucion;
-	
-	public Sustitucion() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Sustitucion(Integer minutoSustitucion) {
-		super();
-		this.minutoSustitucion = minutoSustitucion;
-	}
-
-	public Partido getPartidos() {
-		return partido;
-	}
-
-	public void setPartidos(Partido partidos) {
-		this.partido = partidos;
-	}
-
-	public Jugador getJugador() {
-		return jugador;
-	}
-
-	public void setJugador(Jugador jugador) {
-		this.jugador = jugador;
-	}
-
-	public Integer getMinutoSustitucion() {
-		return minutoSustitucion;
-	}
-
-	public void setMinutoSustitucion(Integer minutoSustitucion) {
-		this.minutoSustitucion = minutoSustitucion;
-	}
-
-	@Override
-	public String toString() {
-		return "Sustituciones [partido=" + partido + ", minutoSustitucion=" + minutoSustitucion + "]";
-	}
 	
 	
 
