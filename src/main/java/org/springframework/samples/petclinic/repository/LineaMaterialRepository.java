@@ -17,6 +17,7 @@ public interface LineaMaterialRepository extends JpaRepository<LineaMaterial, Se
 	//@Query("SELECT l FROM LineaMaterial l, Material m WHERE m.id=:material_id")
 	public List<LineaMaterial> findByMaterial( Material material);
 	
+	
 	//@Query("SELECT l FROM LineaMaterial l, Entrenamiento e WHERE e.id=:entrenamiento_id")
 	public List<LineaMaterial> findByEntrenamiento(Entrenamiento entrenamiento);
 
