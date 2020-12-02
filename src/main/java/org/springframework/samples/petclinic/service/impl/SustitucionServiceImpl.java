@@ -54,11 +54,18 @@ public class SustitucionServiceImpl implements SustitucionService{
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Sustitucion> findByJugador(int jugador_id) {
+	public List<Sustitucion> findByJugadorEntra(int jugador_id) {
 		Optional<Jugador> jugador = jugadorRepository.findById(jugador_id);
-		return sustitucionRepository.findByJugador(jugador.get());
+		return sustitucionRepository.findByJugadorEntra(jugador.get());
 	}
-
+	
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Sustitucion> findByJugadorSale(int jugador_id) {
+		Optional<Jugador> jugador = jugadorRepository.findById(jugador_id);
+		return sustitucionRepository.findByJugadorSale(jugador.get());
+	}
 	@Override
 	public List<Sustitucion> findAll() {
 		return sustitucionRepository.findAll();
