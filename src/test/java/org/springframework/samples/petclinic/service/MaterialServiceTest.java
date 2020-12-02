@@ -112,13 +112,13 @@ public class MaterialServiceTest {
 		assertEquals(material.size(), 0);
 	}
 	
-	@Test
-	@Transactional
-	public void testSaveMaterial() {
-		Material material = new Material("red",TipoMaterial.CONOBAJO,5);	
-
-		Material _material = materialService.saveMaterial(material);
-
-		assertNotNull(_material);
-	}
+//	@Test
+//	@Transactional
+//	public void testSaveMaterial() {
+//		Material material = new Material("red",TipoMaterial.CONOBAJO,5);	
+//
+//		Material _material = materialService.saveMaterial(material);
+//
+//		assertNotNull(_material);
+//	}
 }

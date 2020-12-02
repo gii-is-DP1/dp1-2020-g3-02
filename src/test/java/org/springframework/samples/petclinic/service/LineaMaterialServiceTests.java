@@ -98,14 +98,14 @@ public class LineaMaterialServiceTests {
 	}
 
 
-	@Test
-	@Transactional
-	public void testSaveLineaMaterial() {
-		LineaMaterial lineaMaterial = new LineaMaterial(6);	
-
-		LineaMaterial linea = lineaMaterialService.saveLineaMaterial(lineaMaterial);
-
-		assertNotNull(linea);
-
-	}
+//	@Test
+//	@Transactional
+//	public void testSaveLineaMaterial() {
+//		LineaMaterial lineaMaterial = new LineaMaterial(6);	
+//
+//		LineaMaterial linea = lineaMaterialService.saveLineaMaterial(lineaMaterial);
+//
+//		assertNotNull(linea);
+//
+//	}
 }
