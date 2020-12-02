@@ -28,8 +28,9 @@ import lombok.NoArgsConstructor;
 public class LineaMaterial extends BaseEntity {
 	
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lineaMaterial")
-	private Set<Material> material;
+	@ManyToOne
+	@JoinColumn(name = "linea_material_id")
+	private Material material;
 	
 	@ManyToOne
 	@JoinColumn(name = "entrenamiento_id")
