@@ -12,7 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
+import org.springframework.samples.petclinic.enumerate.TipoMaterial;
+import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.LineaMaterial;
+import org.springframework.samples.petclinic.model.Material;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -98,14 +102,16 @@ public class LineaMaterialServiceTests {
 	}
 
 
-//	@Test
-//	@Transactional
-//	public void testSaveLineaMaterial() {
-//		LineaMaterial lineaMaterial = new LineaMaterial(6);	
-//
-//		LineaMaterial linea = lineaMaterialService.saveLineaMaterial(lineaMaterial);
-//
-//		assertNotNull(linea);
-//
-//	}
+	@Test
+	@Transactional
+	public void testSaveLineaMaterial() {
+		Material material = new Material("cono", TipoMaterial.CONOALTO, 7, EstadoMaterial.BUENO);
+		Entrenamiento entrenamiento = new Entrenamiento();
+		LineaMaterial lineaMaterial = new LineaMaterial(material, entrenamiento, 8);
+
+		LineaMaterial linea = lineaMaterialService.saveLineaMaterial(lineaMaterial);
+
+		assertNotNull(linea);
+
+	}
 }

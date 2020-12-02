@@ -320,12 +320,12 @@ INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (3,1);
 
 
 
-INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (1,'balon duro','BALONMEDICINAL',3);
-INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (2,'balon blando','BALONDEJUEGO',9);
-INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (3,'cuerda','CUERDA',8);
-INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (4,'cinta','CINTA',10);
-INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (5,'poste','POSTE',11);
-INSERT INTO materiales (id,descripcion,tipo,stock) VALUES (6,'poste','RED',11);
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (1,'balon duro','BALONMEDICINAL',3,'INSERVIBLE');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (2,'balon blando','BALONDEJUEGO',9,'ACEPTABLE');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (3,'cuerda','CUERDA',8,'BUENO');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (4,'cinta','CINTA',10,'NUEVO');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (5,'poste','POSTE',11,'NUEVO');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (6,'poste','RED',11,'NUEVO');
 
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (1,9,1,1);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (2,2,2,2);
