@@ -37,23 +37,29 @@
 		<div class="row">
 			<div class="col-lg-12 responsive">
 				<table id="jugadoresaut"
-					class="table table-sm table-striped table-bordered table-hover nowrap"
+					class="table table-sm table-striped table-bordered table-hover nowrap display"
 					cellspacing="0" style="width: 100%;">
 					<thead>
 						<tr class="table-primary">
+							<th class="invisible"></th>
 							<th>Apellidos, Nombre</th>
+							<th class="invisible"></th>
 							<!-- columnas de autorizacion -->
-							<th>Transporte</th>
+							
+							 <th>Transporte</th>
 							<th>Uso de imagen</th>
 							<th>Responsabilidad de lesion</th>
 							<th>Excursiones</th>
+							
 						</tr>
 					</thead>
-					<tbody>
-						<tr th:each="jugador : ${jugadoresaut}">
+					<!-- <tbody id="contenido">
+						
+					
+						<!--<tr th:each="jugador : ${jugadoresaut}">
 							<td th:text="${jugador.lastName} +', '+ ${jugador.firstName}" ></td>
 							
-							<td th:if="${#lists.contains(transporte, jugador)}">
+							 <td th:if="${#lists.contains(transporte, jugador)}">
 							<a style="text-decoration:none;" th:href="@{'/jugadores/eliminarautorizacion/'+${jugador.id}+'/TRANSPORTE'}"><button type="button" class="btn btn-outline-success btn-block">AUTORIZADO</button></a>
 							</td>
 							<td role="alert" th:unless="${#lists.contains(transporte, jugador)}">
@@ -82,7 +88,7 @@
 							</td>
 						
 							</tr>
-					</tbody>
+					</tbody>-->
 
 				</table>
 			</div>
@@ -101,24 +107,134 @@
 
 	<!--   Datatables-->
 	<script type="text/javascript"
-		src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
+		src="https://cdn.datatables.net/v/bs4/dt-1.10.22/datatables.min.js"></script>
 
 	<!-- extension responsive -->
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 	<script>
 		
+		function postAutorizacion(button, id){
+			console.log(id);
+			console.log(button.value);
+			
+			if(button.innerText=='AUTORIZADO'){
+				$.ajax({
+					type : 'POST',
+					url : '/jugadores/eliminarautorizacion/' + id+"/"+ button.value,
+					success : function(borrar) {
+						tablaJugadoresAut.ajax.reload();
+					}
+				});
+			}else{
+				$.ajax({
+					type : 'POST',
+					url : '/jugadores/addautorizacion/' + id+"/"+button.value,
+					success : function(anadir) {
+						tablaJugadoresAut.ajax.reload();
+					}
+				});
+			}
+		}
+	
 		$(document)
 				.ready(
+						
 						function() {
-							$('#jugadoresaut')
+							
+							tablaJugadoresAut=$('#jugadoresaut')
 									.DataTable(
 											{
+												ajax:'[[@{/jugadores/tablajugadoresaut}]]',
+								
+										
+												"columns":[
+													{data:'id'},
+													{data:'firstName',
+														render: function(data, type, row){
+															if(type=== 'display'){
+																return row.lastName+", "+row.firstName;
+															}else{
+																return data;
+															}
+														}
+													
+													},
+													{data:'lastName'},
+													{data: 'autorizaciones',
+														render: function(data, type, row){
+															if(data.includes('TRANSPORTE')){
+																return "<button type='button' class='btn btn-outline-success btn-block' onclick='return postAutorizacion(this,"+row['id'] +");' value='TRANSPORTE'>AUTORIZADO</button>"
+															}else{
+																return "<button type='button' class='btn btn-outline-danger btn-block' onclick='return postAutorizacion(this,"+row['id'] +");' value='TRANSPORTE'>NO AUTORIZADO</button>"
+															}
+														}
+													},
+													{data: 'autorizaciones', 
+														render: function(data, type, row){
+															if(data.includes('USOIMAGEN')){
+																return "<button type='button' class='btn btn-outline-success btn-block' onclick='return postAutorizacion(this,"+row['id'] +");' value='USOIMAGEN'>AUTORIZADO</button>"
+															}else{
+																return "<button type='button' class='btn btn-outline-danger btn-block' onclick='return postAutorizacion(this,"+row['id'] +");' value='USOIMAGEN'>NO AUTORIZADO</button>"
+															}
+														}
+													},
+													{data: 'autorizaciones', 
+														render: function(data, type, row){
+															if(data.includes('RESPONSABILIDADLESION')){
+																return "<button type='button' class='btn btn-outline-success btn-block' onclick='return postAutorizacion(this,"+row['id'] +");' value='RESPONSABILIDADLESION'>AUTORIZADO</button>"
+															}else{
+																return "<button type='button' class='btn btn-outline-danger btn-block' onclick='return postAutorizacion(this,"+row['id'] +");' value='RESPONSABILIDADLESION'>NO AUTORIZADO</button>"
+															}
+														}
+													},
+													{data: 'autorizaciones', 
+														render: function(data, type, row){
+															if(data.includes('EXCURSIONES')){
+																return "<button type='button' class='btn btn-outline-success btn-block' onclick='return postAutorizacion(this,"+row['id'] +");' value='EXCURSIONES'>AUTORIZADO</button>"
+															}else{
+																return "<button type='button' class='btn btn-outline-danger btn-block' onclick='return postAutorizacion(this,"+row['id'] +");' value='EXCURSIONES'>NO AUTORIZADO</button>"
+															}
+														}
+													}
+													
+												],
 												"columnDefs": [
-													    { "searchable": false, "targets": 1  },
-													    { "searchable": false, "targets": 2  },
-													    { "searchable": false, "targets": 3  },
-													    { "searchable": false, "targets": 4  }
+													   {
+											                "targets": [ 0 ],
+											                "visible": false,
+											                "searchable": false
+											            },
+											            {
+											                "targets": [ 1 ],
+											                "searchable": true
+											            }
+											            ,
+											            {
+											                "targets": [ 2 ],
+											                "visible": false
+											            },
+											            {
+											                "targets": [ 3 ],
+					
+											                "searchable": false
+											            },
+											            {
+											                "targets": [ 4 ],
+											               
+											                "searchable": false
+											            },
+											            {
+											                "targets": [ 5 ],
+											                
+											                "searchable": false
+											            },
+											            {
+											                "targets": [ 6 ],
+											               
+											                "searchable": false
+											            }
+											          
 													  ],
 												responsive: true,
 												"language" : {

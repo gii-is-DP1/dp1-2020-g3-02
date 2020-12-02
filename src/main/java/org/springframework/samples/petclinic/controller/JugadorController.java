@@ -27,6 +27,8 @@ import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.Privilegio;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.service.AutorizacionService;
@@ -152,20 +154,39 @@ public class JugadorController {
 		return mav;
 	}
 	
-	@GetMapping("/eliminarautorizacion/{id}/{tipoAutorizacion}")
-	public String eliminarAutorizacion(@PathVariable("id") int id , @PathVariable("tipoAutorizacion") TipoAutorizacion autor) {
-		
+	@RequestMapping(value = "/tablajugadoresaut", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataAutorizacion> tablaJugadoresAutorizacion(){
+		try {
+			List<Jugador> jugadores = jugadorService.findAll();
+			List<JugadorAut> listajugadoraut= jugadorConverter.convertListJugadorToListJugadorAut(jugadores);
+			DataAutorizacion data= jugadorConverter.convertListJugadoresAutorizaciones(listajugadoraut);
+			return new ResponseEntity<DataAutorizacion>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataAutorizacion>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	//@PostMapping("/eliminarautorizacion/{id}/{tipoAutorizacion}")
+	@RequestMapping(value = "/eliminarautorizacion/{id}/{tipoAutorizacion}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity eliminarAutorizacion(@PathVariable("id") int id , @PathVariable("tipoAutorizacion") TipoAutorizacion autor) {
+		try {
 		Optional<Jugador> player = jugadorService.findById(id);
 		Jugador jug= player.get();
 		Autorizacion ar= autorizacionService.findByJugadorAndTipo(jug, autor);
 		autorizacionService.deleteAutorizacion(ar.getId());
 		
-		return "redirect:/jugadores/showjugadoresaut";
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
 		
 	}
 	
-	@GetMapping("/addautorizacion/{id}/{tipoAutorizacion}")
-	public String addAutorizacion(@PathVariable("id") int id , @PathVariable("tipoAutorizacion") TipoAutorizacion autor) {
+	//@PostMapping("/addautorizacion/{id}/{tipoAutorizacion}")
+	@RequestMapping(value = "/addautorizacion/{id}/{tipoAutorizacion}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Autorizacion> addAutorizacion(@PathVariable("id") int id , @PathVariable("tipoAutorizacion") TipoAutorizacion autor) {
+		try {
 		Autorizacion autorizacion= new Autorizacion(); 
 		Optional<Jugador> jug = jugadorService.findById(id);
 		Jugador jugador= jug.get();
@@ -174,7 +195,12 @@ public class JugadorController {
 		autorizacion.setTipoAutorizacion(autor);
 		Autorizacion autorization= autorizacionService.saveAutorizacion(autorizacion);
 		
-		return "redirect:/jugadores/showjugadoresaut";
+		
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+		// TODO: handle exception
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
 		
 	}
 	
