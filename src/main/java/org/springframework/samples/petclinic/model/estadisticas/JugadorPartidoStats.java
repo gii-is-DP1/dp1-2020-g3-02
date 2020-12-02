@@ -13,8 +13,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PartidoStats {
+public class JugadorPartidoStats {
+		
+	private String firstName;
+	private String lastName;
+	private Posicion principal;
+	private Posicion secundaria;
 	
-	private List<Jugador> jugadores;
-
 }
