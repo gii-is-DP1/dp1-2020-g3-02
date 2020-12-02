@@ -14,12 +14,15 @@ import javax.validation.constraints.Min;
 
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = false, doNotUseGetters = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "linea_material")
 public class LineaMaterial extends BaseEntity {
@@ -32,21 +35,8 @@ public class LineaMaterial extends BaseEntity {
 	@JoinColumn(name = "entrenamiento_id")
 	private Entrenamiento entrenamiento;
 	
-	
-	
 	@Column(name = "cantidad", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
 	private int cantidad;
-
-
-
-	
-	public LineaMaterial() {
-	}
-
-	public LineaMaterial(int cantidad) {
-		super();
-		this.cantidad = cantidad;
-	}
 
 }

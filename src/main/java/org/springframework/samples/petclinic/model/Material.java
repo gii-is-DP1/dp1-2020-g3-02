@@ -11,14 +11,19 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 
+import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "materiales", uniqueConstraints = @UniqueConstraint(columnNames = { "tipo" }))
 public class Material extends BaseEntity{
@@ -28,7 +33,7 @@ public class Material extends BaseEntity{
 	@JoinColumn(name = "linea_material_id")
 	private LineaMaterial lineaMaterial;
 
-	@Column(name = "descripcion", nullable = false, length = 280)
+	@Column(name = "descripcion", nullable = false, length = 255)
 	private String descripcion;
 
 	@Column(name = "tipo")
@@ -38,14 +43,9 @@ public class Material extends BaseEntity{
 	@Column(name = "stock", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
 	private Integer stock;
-
-	public Material(String descripcion, TipoMaterial tipo, int stock) {
-		super();
-		this.descripcion = descripcion;
-		this.tipo = tipo;
-		this.stock = stock;
-	}
-
-	public Material() {}
+	
+	@Column(name = "estado", nullable = false, columnDefinition = "varchar(30) default 'BUENO'")
+	@Enumerated(value = EnumType.STRING)
+	private EstadoMaterial estado;
 
 }
