@@ -29,7 +29,7 @@ public class LineaMaterial extends BaseEntity {
 	
 
 	@ManyToOne
-	@JoinColumn(name = "linea_material_id")
+	@JoinColumn(name = "material_id")
 	private Material material;
 	
 	@ManyToOne
