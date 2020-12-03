@@ -56,7 +56,9 @@
 							<th>Fecha Nacimiento</th>
 							<th>Posición</th>
 							<th>Posicion Secundaria</th>
+							<th class="">PEPEPE</th>
 							<th>Acciones</th>
+							
 						</tr>
 					</thead>
 					<tbody>
@@ -72,6 +74,7 @@
 							<td th:text="${jugador.fechaNacimiento}"></td>
 							<td th:text="${jugador.posicionPrincipal}"></td>
 							<td th:text="${jugador.posicionSecundaria}"></td>
+							<td class="" > <!--  <th:block th:each="equipo : ${jugador.equipos}"> <span th:text="${equipo.categoria}" >  --> </span> </th:block></td>
 							<td>
 								<input type="hidden" id="id" th:value="${jugador.id}"></input>
 								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -95,6 +98,9 @@
 								<input id="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
 								<input id="security" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="jugador">
 							</td>
+							
+							
+							
 					</tbody>
 
 				</table>
@@ -272,7 +278,7 @@
 														responsivePriority : 0,
 														targets : 0
 													}, {
-														responsivePriority : 1,
+														responsivePriority : 0,
 														targets : -1
 													}, {
 														responsivePriority : 2,
@@ -281,7 +287,7 @@
 														responsivePriority : 2,
 														targets : 7
 													}, {
-														responsivePriority : 0,
+														responsivePriority : 1,
 														targets : 9
 													} ],
 													"language" : {

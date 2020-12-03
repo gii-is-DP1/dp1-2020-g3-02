@@ -13,6 +13,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -45,6 +46,11 @@ public class Jugador extends Person{
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
+	
+	@ManyToMany
+	@JoinTable(name = "perteneceA", joinColumns = @JoinColumn(name = "jugador_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "equipo_id"))
+	Set<Equipo> equipos;
 	
 	@ManyToMany
 	@JoinTable(name = "jugadoresbus", joinColumns = @JoinColumn(name = "jugador_id"), 

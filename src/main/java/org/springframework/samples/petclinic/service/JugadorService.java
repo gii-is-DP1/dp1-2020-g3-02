@@ -39,4 +39,5 @@ public interface JugadorService {
 	public abstract Jugador updateJugador(Jugador player);
 	public abstract List<Jugador> saveEstadisticasJugadores(List<Jugador> players);
 	public abstract int playerCount();
+	public abstract List<Jugador> findAllWithEquipo();
 }

@@ -132,6 +132,9 @@ INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,dire
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (23,'user21','72458570Z','Paco','Tuerca','2006-09-09','Callejón Lorem ipsum, 141A 9ºF','tdhcrgehfpaf@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
 INSERT INTO jugadores(id,username,dni,first_name,last_name,fecha_nacimiento,direccion,email,localidad,altura,peso,peso_ideal,imc,posicion_principal,posicion_secundaria) VALUES (24,'user22','52031289E','Paco','Tuerca','1982-11-04','Vía Lorem ipsum dolor sit, 267B 10ºC','pcbatcerenqt@gmail.com','Guarroman',175,78,75,23.2,'PUNTA','OPUESTO');
 
+
+
+
 -- INSERT  CAPITANES
 INSERT INTO capitanes(id,ntiemposmuertos,actitud,jugador_id) VALUES (1,6,'POSITIVA',1);
 INSERT INTO capitanes(id,ntiemposmuertos,actitud,jugador_id) VALUES (2,10,'POSITIVA', 2);
@@ -144,14 +147,25 @@ INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimie
 INSERT INTO estadisticos(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (1,'bencrealc','Romualdo', 'Sánchez Bermejo', 'romualdostats@gmail.com','1987-8-19');
 INSERT INTO estadisticos(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (2,'bencrealc','Julio', 'Iglesias', 'julioiglesias@gmail.com','1997-8-19');
 
--- INSERT  EQUIPOS
-INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (1,'Senior',false,1,1,'COLOCADOR_GENERAL');
-INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (2,'Cadete',false,2,2,'COLOCADOR_GENERAL');
+
 
 -- INSERT  AUTORIZACIONES
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (1,'2020-10-09','TRANSPORTE',1);
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (3,'2020-10-09','EXCURSIONES',1);
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (2,'2020-09-09','EXCURSIONES',4);
+
+-- INSERT  EQUIPOS
+INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (1,'Senior',false,1,1,'COLOCADOR_GENERAL');
+INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (2,'Cadete',false,2,2,'COLOCADOR_GENERAL');
+
+-- INSERT  PERTENECEA
+
+INSERT INTO pertenecea(jugador_id,equipo_id) VALUES (1,1);
+INSERT INTO pertenecea(jugador_id,equipo_id) VALUES (2,1);
+INSERT INTO pertenecea(jugador_id,equipo_id) VALUES (3,1);
+INSERT INTO pertenecea(jugador_id,equipo_id) VALUES (4,1);
+INSERT INTO pertenecea(jugador_id,equipo_id) VALUES (5,1);
+INSERT INTO pertenecea(jugador_id,equipo_id) VALUES (6,1);
 
 -- INSERT  PARTIDOS
 
