@@ -252,6 +252,90 @@
 													"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
 												}
 											});
+							
+							var g = null;
+							$('table .estadisticas').on('click', function(){
+								var id = $(this).parent().find('#id').val();
+								
+								
+								
+				 		    // Create DataTable
+				 		    var tabla = $('.posiciones').DataTable({
+				 		        dom: '',
+				 		        ajax: {
+				 		        	"url": "/partidos/findJugadorPosicionPartido/"+id
+				 		        },
+				 		        responsive: true,
+				 		        "columns": [
+				 		        	{"data": "firstName" },
+				 		        	{"data": "lastName" },
+				 		          	{"data": "principal" },
+				 		           	{"data": "secundaria"}
+				 		        ]
+				 		        
+				 		    });
+				 		    
+				 		    graficaPosicion(tabla);
+				 		   
+							tabla.destroy();
+							
+						 $('#estadisticasModal .modal-header').css("color","white");
+						 $('#estadisticasModal .modal-title').text("Jugadores por Posición");
+						 $('#estadisticasModal').modal("show");
+				 		    
+				 		    var tipo = null; //poner var general
+				 		    
+				 		   if(g != null){
+					 		 	g.destroy();
+					 			}
+							});	
+							
+				 		    function graficaPosicion(table){ 
+				 		    
+				 		    var container = $('<div/>').insertBefore(table.table().container());
+				 		 
+				 		     chart = Highcharts.chart(container[0], {
+				 		    	 chart: {
+				 		    	        plotBackgroundColor: null,
+				 		    	        plotBorderWidth: null,
+				 		    	        plotShadow: false,
+				 		    	        type: 'pie'
+				 		    	    },
+				 		        title: {
+				 		            text: 'Posiciones Principales Jugadores en el Partido'
+				 		        },
+				 		        tooltip: {
+				 		            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+				 		        },
+				 		        accessibility: {
+				 		            point: {
+				 		                valueSuffix: '%'
+				 		            }
+				 		        },
+				 		        plotOptions: {
+				 		            pie: {
+				 		                allowPointSelect: true,
+				 		                cursor: 'pointer',
+				 		                dataLabels: {
+				 		                    enabled: false
+				 		                },
+				 		                showInLegend: true
+				 		            }
+				 		        },
+				 		        series: [{
+				 		           
+				 		        	name:'Porcentaje',
+				 		        	colorByPoint: true,
+				 		        	data: chartData(table)
+				 		        	
+				 		        }
+				 		        ],
+				 		    });
+				 		    
+				 		    table.on('draw', function () {
+				 		        chart.series[0].setData(chartData(table));
+				 		    });
+				 		    }
 
 							$('#nuevoPartido').on('click', function(){
 
@@ -276,8 +360,8 @@
 										    }));
 										});
 										
-										$('.modal-header').css("color","white");
-										$('.modal-title').text("Nuevo Partido");
+										$('#gestionModal .modal-header').css("color","white");
+										$('#gestionModal .modal-title').text("Nuevo Partido");
 										$('#gestionModal').modal("show");
 									}
 								});
@@ -285,6 +369,7 @@
 						});
 							
 								
+
 								$(document).ready(function () {
 									
 									 var chart = null;
@@ -376,7 +461,9 @@
 							
 						 	
 						 	
-						 	
+	
+								
+
 						 	//FUNCTIONS
 
 						   function chartData(table) {
