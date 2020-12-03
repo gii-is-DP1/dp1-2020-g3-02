@@ -130,10 +130,9 @@
 					cellspacing="0" style="width: 100%;">
 				<thead>
 					<tr>
-                		<th>Jugadores</th>
+                		<th>Jugador</th>
                 		<th>Posición Principal</th>
                 		<th>Posición Secundaria</th>
- 						<th>Office</th>
             		</tr>
 				</thead>
 				</table>
@@ -284,8 +283,16 @@
 						 		        },
 						 		        responsive: true,
 						 		        "columns": [
-						 		        	{"data": "firstName" },
-						 		        	{"data": "lastName" },
+						 		        	{"data": "firstName",
+						 		        		render: function(data, type, row){
+													if(type=== 'display'){
+														return row.lastName+", "+row.firstName;
+													}else{
+														return data;
+													}
+												}
+						 		        	},
+						 		        	
 						 		          	{"data": "principal" },
 						 		           	{"data": "secundaria"}
 						 		        ]
