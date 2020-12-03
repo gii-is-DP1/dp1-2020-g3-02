@@ -287,12 +287,11 @@
 								
 								$(document).ready(function () {
 									
-									var g = null;
+									 var chart = null;
 									$('table .estadisticas').on('click', function(){
 										var id = $(this).parent().find('#id').val();
-										
-										
-										
+											
+									
 						 		    // Create DataTable
 						 		    var tabla = $('.posiciones').DataTable({
 						 		        dom: '',
@@ -309,8 +308,13 @@
 						 		        
 						 		    });
 						 		    
-						 		    graficaPosicion(tabla);
-						 		   
+						 		    
+						 		    if(chart == null){
+						 		    	graficaPosicion(tabla);
+						 		    }else{
+						 		    	chart.destroy();
+						 		    	graficaPosicion(tabla);
+						 		    }
 									tabla.destroy();
 									
 									
@@ -319,10 +323,7 @@
 						 		    
 						 		    var tipo = null; //poner var general
 						 		    
-						 		   if(g != null){
-							 		 	g.destroy();
-							 			}
-									});	
+						 		  
 									
 						 		    function graficaPosicion(table){ 
 						 		    
@@ -372,7 +373,7 @@
 						 		    }
 
 								
-							});  
+							
 						 	
 						 	
 						 	
@@ -456,8 +457,9 @@
 						 		            };
 						 		        });
 						 		    }
+									});
 						 	
-								
+								});  
 							$('table .editar')
 									.on(
 											'click',
