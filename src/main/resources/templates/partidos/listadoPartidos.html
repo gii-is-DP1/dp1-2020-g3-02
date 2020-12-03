@@ -309,8 +309,9 @@
 									tabla.destroy();
 									
 									
-								
-								 $('#estadisticasModal').modal("show");
+									$('#estadisticasModal .modal-header').css("color","white");
+									$('#estadisticasModal .modal-title').text("Estadísticas de los jugadores por posición");
+									$('#estadisticasModal').modal("show");
 						 		    
 						 		    var tipo = null; //poner var general
 						 		    
@@ -328,7 +329,7 @@
 						 		    	        type: 'pie'
 						 		    	    },
 						 		        title: {
-						 		            text: 'Posiciones Principales Jugadores en el Partido'
+						 		            text: 'Posiciones Jugadores en el Partido'
 						 		        },
 						 		        tooltip: {
 						 		            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
