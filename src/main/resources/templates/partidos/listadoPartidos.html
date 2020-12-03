@@ -42,7 +42,7 @@
 	<div class="">
 		<div w3-include-html="navbar?id=listadoPartido"></div>
 	</div>
-
+	
 	<div class="container-fluid">
 		<div class="row">
 			<div class="py-3 text-center col-lg-12">
@@ -131,9 +131,9 @@
 					<div class="row">
 						
 						<div class="col-lg-12 responsive">
-							<div class="container-fluid">
+							
 							<table
-								class="table table-sm table-striped table-bordered table-hover display responsive nowrap posiciones"
+								class="table table-sm table-striped table-bordered table-hover nowrap  posiciones"
 								cellspacing="0" width="100%" >
 								<thead>
 									<tr>
@@ -153,7 +153,7 @@
 									</tr>
 								</thead>
 							</table>
-							</div>
+							
 						</div>
 
 					</div>
@@ -232,11 +232,19 @@
 
 	<!-- extension responsive -->
 	<script
-		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+		src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
 
 
 
 	<script>
+	
+	tablaPrincipal = $('#partidos').DataTable({
+		
+		responsive: true,
+		"language" : {
+			"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+		}
+	});
 		function enviarEdicion() {
 			var form = new FormData(document
 					.getElementById('formGestionPartido'));
@@ -307,7 +315,7 @@
 		$(document)
 				.ready(
 						function() {
-
+							var tabla = null;
 							var chart = null;
 							$('table .estadisticas')
 									.on(
@@ -317,20 +325,29 @@
 														'#id').val();
 												
 												// Create DataTable
-												var tabla = $('.posiciones')
-														.DataTable(
-																{
-																	dom : '',
+												$('#estadisticasModal').modal("show");
+												if(tabla != null){
+													tabla.destroy();
+												}
+												
+												tabla = $('.posiciones').DataTable({
+																	dom: '',
 																	responsive: true,
-																	"autoWidth" : true,
-																	scrollCollapse: false,
-																	language: {
-																		emptyTable: "Ningún dato disponible en esta tabla",
+																	ajax:'[[@{/partidos/findJugadorPosicionPartido/}]]'+id,
+																	language:{
+																		emptyTable: "Ningún dato disponible en esta tabla"
 																	},
-																	ajax : {
-																		"url" : "/partidos/findJugadorPosicionPartido/"
-																				+ id
-																	},
+																    columnDefs: [
+																      { className: 'none', targets: 3 },
+																      { className: 'none', targets: 4 },
+																      { className: 'none', targets: 5 },
+																      { className: 'none', targets: 6 },
+																      { className: 'none', targets: 7 },
+																      { className: 'none', targets: 8 },
+																      { className: 'none', targets: 9 },
+																      { className: 'none', targets: -1 }
+																      
+																    ],
 																	"columns" : [
 																			{"data" : "firstName",
 																				render : function(data,type,row) {
@@ -373,31 +390,33 @@
 																				"data" : "porcentajeAtaquesRapidos"
 																			}
 
-																	]
+																	],
+																	drawCallback: ajustarAncho
 																	
 																});
-
+												
+												
+												function ajustarAncho (){
+													this.api().columns.adjust();
+												}
+												
+												
+												
 												if (chart == null) {
 													graficaPosicion(tabla);
 												} else {
 													chart.destroy();
 													graficaPosicion(tabla);
 												}
-
+												
+												
+												tabla.ajax.reload(null, false);
 												$('#estadisticasModal .modal-header').css("color", "white");
 												$('#estadisticasModal .modal-title').text("Estadísticas de los jugadores por posición");
 												
-												$('#estadisticasModal').modal("show");
+
+													
 												
-												$('#estadisticasModal').on('show.bs.modal',function() {
-														tabla.columns.adjust().responsive.recalc();
-														tabla.columns.adjust().responsive.rebuild();
-												});
-												
-												tabla.columns.adjust();
-												
-	
-												tabla.destroy();
 
 												var tipo = null; //poner var general
 

@@ -248,4 +248,10 @@ public class JugadorServiceImpl implements JugadorService {
 		return jugadorRepository.findByUser(username);
 	}
 
+	@Override
+	public List<Jugador> findAllWithEquipo() {
+		
+		return jugadorRepository.findAllWithEquipo();
+	}
+
 }
