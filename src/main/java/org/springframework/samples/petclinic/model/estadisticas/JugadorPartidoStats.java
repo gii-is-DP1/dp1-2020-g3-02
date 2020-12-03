@@ -19,5 +19,13 @@ public class JugadorPartidoStats {
 	private String lastName;
 	private Posicion principal;
 	private Posicion secundaria;
+	private double porcentajeSaques;
+	private double porcentajeRecepciones;
+	private double porcentajeColocaciones;
+	private double porcentajeDefensas;
+	private double porcentajeBloqueos;
+	private double porcentajeRemates;
+	private double porcentajeFintas;
+	private double porcentajeAtaquesRapidos;
 	
 }

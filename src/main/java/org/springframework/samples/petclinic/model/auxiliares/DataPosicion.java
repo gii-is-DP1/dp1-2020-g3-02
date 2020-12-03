@@ -1,6 +1,8 @@
-package org.springframework.samples.petclinic.model.estadisticas;
+package org.springframework.samples.petclinic.model.auxiliares;
 
 import java.util.List;
+
+import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

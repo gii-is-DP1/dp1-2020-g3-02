@@ -17,6 +17,14 @@ public JugadorPartidoStats convertPartidoToPartidoStats(Jugador jugador) {
 		partidoStats.setLastName(jugador.getLastName());
 		partidoStats.setPrincipal(jugador.getPosicionPrincipal());
 		partidoStats.setSecundaria(jugador.getPosicionSecundaria());
+		partidoStats.setPorcentajeSaques(jugador.getPorcentajeSaques());
+		partidoStats.setPorcentajeRecepciones(jugador.getPorcentajeRecepciones());
+		partidoStats.setPorcentajeColocaciones(jugador.getPorcentajeColocaciones());
+		partidoStats.setPorcentajeRemates(jugador.getPorcentajeRemates());
+		partidoStats.setPorcentajeBloqueos(jugador.getPorcentajeBloqueos());
+		partidoStats.setPorcentajeFintas(jugador.getPorcentajeFintas());
+		partidoStats.setPorcentajeDefensas(jugador.getPorcentajeDefensas());
+		partidoStats.setPorcentajeAtaquesRapidos(jugador.getPorcentajeAtaquesRapidos());
 		
 		return partidoStats;
 	}
