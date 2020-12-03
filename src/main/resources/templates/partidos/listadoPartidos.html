@@ -369,7 +369,101 @@
 						});
 							
 								
+
+								$(document).ready(function () {
+									
+									 var chart = null;
+									$('table .estadisticas').on('click', function(){
+										var id = $(this).parent().find('#id').val();
+											
+									
+						 		    // Create DataTable
+						 		    var tabla = $('.posiciones').DataTable({
+						 		        dom: '',
+						 		        ajax: {
+						 		        	"url": "/partidos/findJugadorPosicionPartido/"+id
+						 		        },
+						 		        responsive: true,
+						 		        "columns": [
+						 		        	{"data": "firstName" },
+						 		        	{"data": "lastName" },
+						 		          	{"data": "principal" },
+						 		           	{"data": "secundaria"}
+						 		        ]
+						 		        
+						 		    });
+						 		    
+						 		    
+						 		    if(chart == null){
+						 		    	graficaPosicion(tabla);
+						 		    }else{
+						 		    	chart.destroy();
+						 		    	graficaPosicion(tabla);
+						 		    }
+									tabla.destroy();
+									
+									
 								
+								 $('#estadisticasModal').modal("show");
+						 		    
+						 		    var tipo = null; //poner var general
+						 		    
+						 		  
+									
+						 		    function graficaPosicion(table){ 
+						 		    
+						 		    var container = $('<div/>').insertBefore(table.table().container());
+						 		 
+						 		     chart = Highcharts.chart(container[0], {
+						 		    	 chart: {
+						 		    	        plotBackgroundColor: null,
+						 		    	        plotBorderWidth: null,
+						 		    	        plotShadow: false,
+						 		    	        type: 'pie'
+						 		    	    },
+						 		        title: {
+						 		            text: 'Posiciones Principales Jugadores en el Partido'
+						 		        },
+						 		        tooltip: {
+						 		            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+						 		        },
+						 		        accessibility: {
+						 		            point: {
+						 		                valueSuffix: '%'
+						 		            }
+						 		        },
+						 		        plotOptions: {
+						 		            pie: {
+						 		                allowPointSelect: true,
+						 		                cursor: 'pointer',
+						 		                dataLabels: {
+						 		                    enabled: false
+						 		                },
+						 		                showInLegend: true
+						 		            }
+						 		        },
+						 		        series: [{
+						 		           
+						 		        	name:'Porcentaje',
+						 		        	colorByPoint: true,
+						 		        	data: chartData(table)
+						 		        	
+						 		        }
+						 		        ],
+						 		    });
+						 		    
+						 		    table.on('draw', function () {
+						 		        chart.series[0].setData(chartData(table));
+						 		    });
+						 		    }
+
+								
+							
+						 	
+						 	
+	
+								
+
 						 	//FUNCTIONS
 
 						   function chartData(table) {
@@ -450,8 +544,9 @@
 						 		            };
 						 		        });
 						 		    }
+									});
 						 	
-								
+								});  
 							$('table .editar')
 									.on(
 											'click',
