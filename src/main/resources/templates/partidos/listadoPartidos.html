@@ -23,15 +23,20 @@
 <!--  extension responsive  -->
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    
 <title>Partidos</title>
 <link rel="icon" type="image/png"
 	href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
+<style type="text/css">
+
+#estadisticasModal table td{
+  word-break: break-all !important;
+}
+</style>
+
 </head>
-
-
-
 <body class="bg-light">
-
+	
 	<script src="https://www.w3schools.com/lib/w3data.js"></script>
 
 	<div class="">
@@ -124,16 +129,17 @@
 				<div class="modal-body">
 					<div id="contenedor-modal"></div>
 					<div class="row">
-
+						
 						<div class="col-lg-12 responsive">
+							<div class="container-fluid">
 							<table
-								class="table table-sm table-striped table-bordered table-hover nowrap responsive posiciones"
-								cellspacing="0" style="width: 100%;">
+								class="table table-sm table-striped table-bordered table-hover display responsive nowrap posiciones"
+								cellspacing="0" width="100%" >
 								<thead>
 									<tr>
 										<th>Jugador</th>
-										<th>Posición Principal</th>
-										<th>Posición Secundaria</th>
+										<th>Principal</th>
+										<th>Secundaria</th>
 										<th>%_S</th>
 										<th>%_R</th>
 										<th>%_C</th>
@@ -147,6 +153,7 @@
 									</tr>
 								</thead>
 							</table>
+							</div>
 						</div>
 
 					</div>
@@ -308,13 +315,15 @@
 											function() {
 												var id = $(this).parent().find(
 														'#id').val();
-
+												
 												// Create DataTable
 												var tabla = $('.posiciones')
 														.DataTable(
 																{
 																	dom : '',
-																	responsive : true,
+																	responsive: true,
+																	"autoWidth" : true,
+																	scrollCollapse: false,
 																	language: {
 																		emptyTable: "Ningún dato disponible en esta tabla",
 																	},
@@ -323,16 +332,10 @@
 																				+ id
 																	},
 																	"columns" : [
-																			{
-																				"data" : "firstName",
-																				render : function(
-																						data,
-																						type,
-																						row) {
+																			{"data" : "firstName",
+																				render : function(data,type,row) {
 																					if (type === 'display') {
-																						return row.lastName
-																								+ ", "
-																								+ row.firstName;
+																						return row.lastName+ ", "+ row.firstName;
 																					} else {
 																						return data;
 																					}
@@ -370,29 +373,8 @@
 																				"data" : "porcentajeAtaquesRapidos"
 																			}
 
-																	],
-																	columnDefs : [
-																			{
-																				responsivePriority : 0,
-																				targets : 0
-																			},
-																			{
-																				responsivePriority : 1,
-																				targets : 1
-																			},
-																			{
-																				responsivePriority : 2,
-																				targets : 2
-																			},
-																			{
-																				responsivePriority : 2,
-																				targets : 3
-																			},
-																			{
-																				responsivePriority : 0,
-																				targets : 4
-																			} ]
-
+																	]
+																	
 																});
 
 												if (chart == null) {
@@ -402,29 +384,19 @@
 													graficaPosicion(tabla);
 												}
 
-												$(
-														'#estadisticasModal .modal-header')
-														.css("color", "white");
-												$(
-														'#estadisticasModal .modal-title')
-														.text(
-																"Estadísticas de los jugadores por posición");
-
-												$('#estadisticasModal')
-														.on(
-																'show.bs.modal',
-																function() {
-																	tabla.columns
-																			.adjust().responsive
-																			.recalc();
-																	tabla.columns
-																			.adjust().responsive
-																			.rebuild();
-																});
-												$('#estadisticasModal').modal(
-														"show");
-												//tabla.responsive.recalc();
-
+												$('#estadisticasModal .modal-header').css("color", "white");
+												$('#estadisticasModal .modal-title').text("Estadísticas de los jugadores por posición");
+												
+												$('#estadisticasModal').modal("show");
+												
+												$('#estadisticasModal').on('show.bs.modal',function() {
+														tabla.columns.adjust().responsive.recalc();
+														tabla.columns.adjust().responsive.rebuild();
+												});
+												
+												tabla.columns.adjust();
+												
+	
 												tabla.destroy();
 
 												var tipo = null; //poner var general
