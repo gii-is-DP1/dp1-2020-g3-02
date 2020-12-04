@@ -332,11 +332,22 @@
 												}
 												
 												tabla = $('.posiciones').DataTable({
-																	dom: '',
+																	"lengthMenu": [5],
 																	responsive: true,
 																	ajax:'[[@{/partidos/findJugadorPosicionPartido/}]]'+id,
 																	language:{
-																		emptyTable: "Ningún dato disponible en esta tabla"
+																		emptyTable: "Ningún dato disponible en esta tabla",
+																		"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+																		"infoEmpty":      "Mostrando 0 de 0 registros",
+																		"lengthMenu":     "Mostrando 5 registros",
+																		"search":         "Buscar:",
+																		"zeroRecords":    "No se encontraron resultados",
+																		 "paginate": {
+																		        "first":      "Primera",
+																		        "last":       "Última",
+																		        "next":       "Siguiente",
+																		        "previous":   "Anterior"
+																		    },
 																	},
 																    columnDefs: [
 																      { className: 'none', targets: 3 },
