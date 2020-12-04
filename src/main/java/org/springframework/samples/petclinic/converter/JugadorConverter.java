@@ -2,12 +2,14 @@ package org.springframework.samples.petclinic.converter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorWithEquipo;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.stereotype.Component;
@@ -78,6 +80,24 @@ public class JugadorConverter {
 			
 		}
 		return listafin;
+	}
+	
+	public List<JugadorWithEquipo> convertListJugadorToListJugadorWithEquipo(List<Jugador> listajugadores){
+		List<JugadorWithEquipo> listaJugadorWithEquipos= new ArrayList<JugadorWithEquipo>();
+		for(int i=0; i<listajugadores.size(); i++) {
+			List<String> equipos= new ArrayList<String>();
+			for(int j=0; j<listajugadores.get(i).getEquipos().size(); j++) {
+				equipos.add(listajugadores.get(i).getEquipos().get(j).getCategoria());
+			};
+			JugadorWithEquipo jugadorWithEquipo= new JugadorWithEquipo(listajugadores.get(i).getId(), listajugadores.get(i).getFirstName(),
+					listajugadores.get(i).getLastName(), listajugadores.get(i).getDni(),listajugadores.get(i).getDireccion(), listajugadores.get(i).getEmail(),
+					listajugadores.get(i).getLocalidad(), listajugadores.get(i).getFechaNacimiento(),listajugadores.get(i).getAltura(), listajugadores.get(i).getPeso(),
+					listajugadores.get(i).getPosicionPrincipal(), listajugadores.get(i).getPosicionSecundaria(),listajugadores.get(i).getEstadoActual(), equipos , listajugadores.get(i).getUser());
+			
+			listaJugadorWithEquipos.add(jugadorWithEquipo);
+			
+		}
+		return listaJugadorWithEquipos;
 	}
 	
 	    public DataAutorizacion convertListJugadoresAutorizaciones(List<JugadorAut> jugadores) {

@@ -10,6 +10,7 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -47,10 +48,10 @@ public class Jugador extends Person{
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "perteneceA", joinColumns = @JoinColumn(name = "jugador_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "equipo_id"))
-	Set<Equipo> equipos;
+	List<Equipo> equipos;
 	
 	@ManyToMany
 	@JoinTable(name = "jugadoresbus", joinColumns = @JoinColumn(name = "jugador_id"), 

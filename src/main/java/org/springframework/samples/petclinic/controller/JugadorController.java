@@ -114,7 +114,7 @@ public class JugadorController {
 		}
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		mav.addObject("username", username);
-		mav.addObject("jugadores", jugadorService.findAllWithEquipo());
+		mav.addObject("jugadores", jugadorConverter.convertListJugadorToListJugadorWithEquipo(jugadorService.findAll()));
 		return mav;
 		
 	}
