@@ -64,6 +64,11 @@ public class WelcomeController {
 	    return "start";
 	  }
 	  
+	  @GetMapping("/login")
+	  public String login() {
+		  return ViewConstant.VIEW_LOGIN;
+	  }
+	  
 	  @GetMapping("/home")
 	  public String home() {
 		  return ViewConstant.VIEW_HOME;

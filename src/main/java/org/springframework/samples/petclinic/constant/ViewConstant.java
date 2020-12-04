@@ -15,6 +15,7 @@ public class ViewConstant {
 	public static final String VIEW_ENTRENAMIENTOS = "/entrenamientos/listadoEntrenamientos";
 
 	public static final String VIEW_NAVBAR = "navbar";
+	public static final String VIEW_LOGIN = "login";
 	public static final String VIEW_HOME = "home";
 
 	public static final String VIEW_ESTADISTICAS_JUGADOR_POR_PARTIDO = "partidos/estadisticasPersonalesPartidos";
