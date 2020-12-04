@@ -60,10 +60,8 @@
 							<th>Fecha</th>
 							<th>Hora</th>
 							<th>Equipo</th>
-							<th>Transporte</th>
-							<th>Estadística</th>
-							<th>Asistencia</th>
-
+							<th>Acciones</th>
+							
 						</tr>
 					</thead>
 					<tbody>
@@ -80,13 +78,11 @@
 									title="Vehículo Personal">
 									<i class="fas fa-car-side"></i>
 								</button>
-							</td>
-							<td><input type="hidden" id="id" th:value="${partido.id}"></input>
+								<input type="hidden" id="id" th:value="${partido.id}"></input>
 								<button class="btn btn-outline-success mx-0 estadisticas"
 									type="button" title="Estadísticas">
 									<i class="fas fa-chart-pie"></i>
-								</button></td>
-							<td><input type="hidden" id="id" th:value="${partido.id}"></input>
+								</button><input type="hidden" id="id" th:value="${partido.id}"></input>
 								<button sec:authorize="hasAuthority('entrenador')"
 									class="btn btn-outline-info mx-0 editar" type="button"
 									title="Editar">
