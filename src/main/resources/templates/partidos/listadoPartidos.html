@@ -318,94 +318,90 @@
 						function() {
 							var tabla = null;
 							var chart = null;
-							$('table .estadisticas')
-									.on(
-											'click',
-											function() {
-												var id = $(this).parent().find(
-														'#id').val();
+							$('table .estadisticas').on('click',function() {
+								var id = $(this).parent().find('#id').val();
 												
-												// Create DataTable
-												$('#estadisticasModal').modal("show");
-												if(tabla != null){
-													tabla.destroy();
-												}
+									// Create DataTable
+									$('#estadisticasModal').modal("show");
+										if(tabla != null){
+											tabla.destroy();
+										}
 												
-												tabla = $('.posiciones').DataTable({
-																	"lengthMenu": [5],
-																	responsive: true,
-																	ajax:'[[@{/partidos/findJugadorPosicionPartido/}]]'+id,
-																	language:{
-																		emptyTable: "Ningún dato disponible en esta tabla",
-																		"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-																		"infoEmpty":      "Mostrando 0 de 0 registros",
-																		"lengthMenu":     "Mostrando 5 registros",
-																		"search":         "Buscar:",
-																		"zeroRecords":    "No se encontraron resultados",
-																		 "paginate": {
-																		        "first":      "Primera",
-																		        "last":       "Última",
-																		        "next":       "Siguiente",
-																		        "previous":   "Anterior"
-																		    },
-																	},
-																    columnDefs: [
-																      { className: 'none', targets: 3 },
-																      { className: 'none', targets: 4 },
-																      { className: 'none', targets: 5 },
-																      { className: 'none', targets: 6 },
-																      { className: 'none', targets: 7 },
-																      { className: 'none', targets: 8 },
-																      { className: 'none', targets: 9 },
-																      { className: 'none', targets: -1 }
+											tabla = $('.posiciones').DataTable({
+												"lengthMenu": [5],
+												responsive: true,
+												ajax:'[[@{/partidos/findJugadorPosicionPartido/}]]'+id,
+												language:{
+													emptyTable: "Ningún dato disponible en esta tabla",
+													"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+													"infoEmpty":      "Mostrando 0 de 0 registros",
+													"lengthMenu":     "Mostrando 5 registros",
+													"search":         "Buscar:",
+													"zeroRecords":    "No se encontraron resultados",
+													"paginate": {
+														"first":      "Primera",
+														"last":       "Última",
+														"next":       "Siguiente",
+														"previous":   "Anterior"
+													},
+												},
+												columnDefs: [
+													{ className: 'none', targets: 3 },
+													{ className: 'none', targets: 4 },
+													{ className: 'none', targets: 5 },
+													{ className: 'none', targets: 6 },
+													{ className: 'none', targets: 7 },
+													{ className: 'none', targets: 8 },
+													{ className: 'none', targets: 9 },
+													{ className: 'none', targets: -1 }
 																      
-																    ],
-																	"columns" : [
-																			{"data" : "firstName",
-																				render : function(data,type,row) {
-																					if (type === 'display') {
-																						return row.lastName+ ", "+ row.firstName;
-																					} else {
-																						return data;
-																					}
-																				}
-																			},
+															],
+												"columns" : [
+													{"data" : "firstName",
+														render : function(data,type,row) {
+															if (type === 'display') {
+																return row.lastName+ ", "+ row.firstName;
+															} else {
+																return data;
+															}
+														}
+													},
 
-																			{
-																				"data" : "principal"
-																			},
-																			{
-																				"data" : "secundaria"
-																			},
-																			{
-																				"data" : "porcentajeSaques"
-																			},
-																			{
-																				"data" : "porcentajeRecepciones"
-																			},
-																			{
-																				"data" : "porcentajeColocaciones"
-																			},
-																			{
-																				"data" : "porcentajeDefensas"
-																			},
-																			{
-																				"data" : "porcentajeBloqueos"
-																			},
-																			{
-																				"data" : "porcentajeRemates"
-																			},
-																			{
-																				"data" : "porcentajeFintas"
-																			},
-																			{
-																				"data" : "porcentajeAtaquesRapidos"
-																			}
+													{
+														"data" : "principal"
+													},
+													{
+														"data" : "secundaria"
+													},
+													{
+														"data" : "porcentajeSaques"
+													},
+													{
+														"data" : "porcentajeRecepciones"
+													},
+													{
+														"data" : "porcentajeColocaciones"
+													},
+													{
+														"data" : "porcentajeDefensas"
+													},
+													{
+														"data" : "porcentajeBloqueos"
+													},
+													{
+														"data" : "porcentajeRemates"
+													},
+													{
+														"data" : "porcentajeFintas"
+													},
+													{
+														"data" : "porcentajeAtaquesRapidos"
+													}
 
-																	],
-																	drawCallback: ajustarAncho
-																	
-																});
+												],
+												drawCallback: ajustarAncho
+					
+											});
 												
 												
 												function ajustarAncho (){
