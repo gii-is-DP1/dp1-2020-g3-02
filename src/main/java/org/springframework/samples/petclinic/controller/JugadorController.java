@@ -256,7 +256,7 @@ public class JugadorController {
 			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 		}
 		Jugador player = jugadorService.saveJugador(jugador);
-		return "redirect:/jugadores/showjugadores";
+		return "redirect:/home";
 	}
 	
 //	@PostMapping("/updatejugador")
