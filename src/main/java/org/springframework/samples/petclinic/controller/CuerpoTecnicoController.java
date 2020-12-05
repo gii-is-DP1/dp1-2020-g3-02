@@ -29,5 +29,10 @@ public class CuerpoTecnicoController {
 		mav.addObject("estadisticos", estadisticoService.findAll());
 		return mav;
 	}
+	
+	@GetMapping("/navbar")
+	public String navbar() {
+		return ViewConstant.VIEW_NAVBAR;
+	}
 
 }
