@@ -56,7 +56,10 @@
 							<th>Fecha Nacimiento</th>
 							<th>Posición</th>
 							<th>Posicion Secundaria</th>
-							<th>Acciones</th>
+							<th></th>
+							<th >Acciones</th>
+							
+							
 						</tr>
 					</thead>
 					<tbody>
@@ -72,6 +75,9 @@
 							<td th:text="${jugador.fechaNacimiento}"></td>
 							<td th:text="${jugador.posicionPrincipal}"></td>
 							<td th:text="${jugador.posicionSecundaria}"></td>
+							<td th:text="${jugador.equipos}">  </td>   
+							  	 
+							
 							<td>
 								<input type="hidden" id="id" th:value="${jugador.id}"></input>
 								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -79,7 +85,7 @@
 									</svg>
 								</button>
 								
-								<button sec:authorize="hasAuthority('jugador')" th:if="${jugador.User.username == username}" class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								  <button sec:authorize="hasAuthority('jugador')" th:if="${jugador.User.username == username}" class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 									<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
 									</svg>
 								</button>
@@ -90,25 +96,27 @@
 								
 								<button sec:authorize="hasAuthority('jugador')"  th:if="${jugador.User.username == username}" class="btn btn-outline-info mx-0 editar" type="button" title="Editar">
 									<i class="fas fa-user-edit"></i>
-								</button>
+								</button> 
+								
+								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-secondary mx-0 pruebaCondicion" type="button" title="Editar">
+									<i class="fas fa-dumbbell"></i>
+								</button> 
+								
+								<button sec:authorize="hasAuthority('jugador')"  th:if="${jugador.User.username == username}" class="btn btn-outline-secondary mx-0 pruebaCondicion" type="button" title="Editar">
+									<i class="fas fa-dumbbell"></i>
+								</button> 
 								
 								<input id="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
 								<input id="security" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="jugador">
 							</td>
+							
+							
+							
 					</tbody>
 
 				</table>
 			</div>
 		</div>
-	</div>
-
-	<div class="row my-3">
-		<div class="col-lg-2"></div>
-		<div class="col-lg-8">
-			<button id="nuevoJugador" class="btn btn-primary btn-lg btn-block" role="button" onclick="location.href='/jugadores/jugadorform?id=0'">Añadir jugador</button>
-
-		</div>
-		<div class="col-lg-2"></div>
 	</div>
 	
 	<!-- Modal Estadisticas -->
@@ -129,6 +137,176 @@
 	      </div>
 	    </div>
 	  </div>
+	</div>
+	
+		<!-- Modal Pruebas Condición Física -->
+	<div class="modal fade" id="pruebasCondicionModal" tabindex="-1"
+		aria-labelledby="Pruebas Condición Física" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-success">
+					<h5 class="modal-title" id="staticBackdropLabel"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="contenedor-modal">
+
+					<div id="accordion">
+						<div class="card">
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn" style='color:blue;' data-toggle="collapse"
+										data-target="#collapseOne" aria-expanded="true"
+										aria-controls="collapseOne">ABDOMINAL
+									</button>
+								</h5>
+							</div>
+
+							<div id="collapseOne" class="collapse show"
+								aria-labelledby="headingOne" data-parent="#accordion">
+								<div class="card-body">TABLAAAA</div>
+							</div>
+						</div>
+						
+						<div class="card">
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn" style='color:blue;' data-toggle="collapse"
+										data-target="#collapseTwo" aria-expanded="false"
+										aria-controls="collapseTwo">FLEXIBILIDAD
+									</button>
+								</h5>
+							</div>
+
+							<div id="collapseTwo" class="collapse"
+								aria-labelledby="headingTwo" data-parent="#accordion">
+								<div class="card-body">TABLAAAA</div>
+							</div>
+						</div>
+						
+						<div class="card">
+							<div class="card-header" id="headingTres">
+								<h5 class="mb-0">
+									<button class="btn" style='color:blue;' data-toggle="collapse"
+										data-target="#collapseTres" aria-expanded="false"
+										aria-controls="collapseTres">VELOCIDAD
+									</button>
+								</h5>
+							</div>
+
+							<div id="collapseTres" class="collapse"
+								aria-labelledby="headingTres" data-parent="#accordion">
+								<div class="card-body">TABLAAAA</div>
+							</div>
+						</div>
+						
+						<div class="card">
+							<div class="card-header" id="headingFour">
+								<h5 class="mb-0">
+									<button class="btn" style='color:blue;' data-toggle="collapse"
+										data-target="#collapseFour" aria-expanded="false"
+										aria-controls="collapseFour">SALTOVERTICAL
+									</button>
+								</h5>
+							</div>
+
+							<div id="collapseFour" class="collapse"
+								aria-labelledby="headingFour" data-parent="#accordion">
+								<div class="card-body">TABLAAAA</div>
+							</div>
+						</div>
+						
+						<div class="card">
+							<div class="card-header" id="headingFive">
+								<h5 class="mb-0">
+									<button class="btn" style='color:blue;' data-toggle="collapse"
+										data-target="#collapseFive" aria-expanded="false"
+										aria-controls="collapseFive">AGILIDAD
+									</button>
+								</h5>
+							</div>
+
+							<div id="collapseFive" class="collapse"
+								aria-labelledby="headingFive" data-parent="#accordion">
+								<div class="card-body">TABLAAAA</div>
+							</div>
+						</div>
+						
+						<div class="card">
+							<div class="card-header" id="headingSix">
+								<h5 class="mb-0">
+									<button class="btn" style='color:blue;' data-toggle="collapse"
+										data-target="#collapseSix" aria-expanded="false"
+										aria-controls="collapseSix">RESISTENCIA
+									</button>
+								</h5>
+							</div>
+
+							<div id="collapseSix" class="collapse"
+								aria-labelledby="headingSix" data-parent="#accordion">
+								<div class="card-body">TABLAAAA</div>
+							</div>
+						</div>
+						
+						<div class="card">
+							<div class="card-header" id="headingSeven">
+								<h2 class="mb-0">
+									<button class="btn" style='color:blue;' data-toggle="collapse"
+										data-target="#collapseSeven" aria-expanded="false"
+										aria-controls="collapseSeven">PULSACIONESMINIMAS
+									</button>
+								</h2>
+							</div>
+
+							<div id="collapseSeven" class="collapse"
+								aria-labelledby="headingSeven" data-parent="#accordion">
+								<div class="card-body">TABLAAAA</div>
+							</div>
+						</div>
+						
+					
+					</div>
+					<!--  <div class="row">
+						
+						<div class="col-lg-12 responsive">
+							
+							<table
+								class="table table-sm table-striped table-bordered table-hover nowrap  pruebasCondicion"
+								cellspacing="0" width="100%" >
+								<thead>
+									<tr>
+										<th>Jugador</th>
+										<th>Principal</th>
+										<th>Secundaria</th>
+										<th>%_S</th>
+										<th>%_R</th>
+										<th>%_C</th>
+										<th>%_D</th>
+										<th>%_B</th>
+										<th>%_Rem</th>
+										<th>%_F</th>
+										<th>%_A</th>
+
+
+									</tr>
+								</thead>
+							</table>
+							
+						</div>
+
+					</div> -->
+					</div>
+				</div> 
+				<div class="modal-footer"
+					style="background: rgb(40, 167, 69); background: linear-gradient(0deg, rgba(40, 167, 69, 1) 0%, rgba(255, 255, 255, 1) 100%);">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	
 	<!-- Modal Edicion -->
@@ -227,7 +405,7 @@
 		
 		
 		<script>
-		
+
 			var tipo = $('#security').val(); 
 			if(tipo == 'jugador'){
 				document.getElementById("jugadores").classList.remove('table-sm');
@@ -264,7 +442,7 @@
 			$(document)
 					.ready(
 							function() {
-								$('#jugadores')
+								var tablaPrincipal = $('#jugadores')
 										.DataTable(
 												{
 													responsive : true,
@@ -272,7 +450,7 @@
 														responsivePriority : 0,
 														targets : 0
 													}, {
-														responsivePriority : 1,
+														responsivePriority : 0,
 														targets : -1
 													}, {
 														responsivePriority : 2,
@@ -281,13 +459,17 @@
 														responsivePriority : 2,
 														targets : 7
 													}, {
-														responsivePriority : 0,
+														responsivePriority : 1,
 														targets : 9
 													} ],
 													"language" : {
 														"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
 													}
 												});
+								
+								tablaPrincipal.column( -2 ).visible( false );
+								
+// ESTADISTICAS ================================================================================================================================									
 								$('table .estadisticas').on('click', function(){
 									var id = $(this).parent().find('#id').val();
 																	
@@ -383,7 +565,7 @@
 									});
 									
 								});
-								
+// EDITAR ====================================================================================================================									
 								$('table .editar').on('click', function(){
 									var id = $(this).parent().find('#id').val();
 									$('.error').text('');
@@ -407,7 +589,24 @@
 										}
 									});
 								});
-	
+								
+
+								
+// PRUEBA CONDICION FISICA ===============================================================================	
+											var tablaPruebas = null;
+											var chart = null;
+											$('table .pruebaCondicion').on('click',function() {
+												var id = $(this).parent().find('#id').val();
+																
+													
+													$('.modal-header').css("color","white");
+													$('.modal-title').text("Pruebas Condición Física");
+													$('#pruebasCondicionModal').modal("show");
+																//En desarrollo
+															});
+
+// FIN PRUEBA CONDICION FISICA ===============================================================================											
+								
 							});
 		</script>
 			<script type="text/javascript">

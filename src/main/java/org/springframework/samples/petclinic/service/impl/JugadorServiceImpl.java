@@ -174,7 +174,7 @@ public class JugadorServiceImpl implements JugadorService {
 		
 		userService.saveUser(player.getUser());
 		
-		authoritiesService.saveAuthorities(player.getUser().getUsername(), "player");
+		authoritiesService.saveAuthorities(player.getUser().getUsername(), "jugador");
 		
 		LOG.info(jugador.toString());
 		
@@ -209,7 +209,7 @@ public class JugadorServiceImpl implements JugadorService {
 		
 		userService.saveUser(player.getUser());
 		
-		authoritiesService.saveAuthorities(player.getUser().getUsername(), "player");
+		authoritiesService.saveAuthorities(player.getUser().getUsername(), "jugador");
 		
 		Jugador jugador=jugadorRepository.save(player);
 		
@@ -247,5 +247,7 @@ public class JugadorServiceImpl implements JugadorService {
 		
 		return jugadorRepository.findByUser(username);
 	}
+
+	
 
 }

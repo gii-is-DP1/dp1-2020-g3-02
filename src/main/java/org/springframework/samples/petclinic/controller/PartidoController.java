@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.controller;
 
 import java.security.Principal;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,14 +17,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
+import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
-import org.springframework.samples.petclinic.converter.PartidoStatsConverter;
+import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
-import org.springframework.samples.petclinic.model.estadisticas.PartidoStats;
+import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
@@ -66,7 +69,7 @@ public class PartidoController {
 	private PartidoConverter partidoConverter;
 	
 	@Autowired
-	private PartidoStatsConverter partidoStatsConverter;
+	private JugadorPartidoStatsConverter jugadorPartidoStatsConverter;
 	
 	@Autowired
 	private EstadisticaPersonalPartidoService estadisService;
@@ -79,6 +82,9 @@ public class PartidoController {
 	
 	@Autowired
 	private PartidoValidator partidoValidator;
+	
+	@Autowired
+	private DataPosicionConverter utilConverter;
 	
 	@GetMapping("/showpartidos")
 	public ModelAndView listadoJugadores() {
@@ -146,14 +152,21 @@ public class PartidoController {
 	}
 	
 	@RequestMapping(value = "findJugadorPosicionPartido/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PartidoStats> graficoJugadorPosicionPartido(@PathVariable("id") int id) {
+	public ResponseEntity<DataPosicion> graficoJugadorPosicionPartido(@PathVariable("id") int id) {
 		try {
 			Optional<Partido> partido = partidoService.findById(id);
+			List<JugadorPartidoStats> listaJugadorStats = new ArrayList<JugadorPartidoStats>();
+			for (int i = 0; i<partido.get().getJugadores().size();i++) {
+				
+				JugadorPartidoStats stats = jugadorPartidoStatsConverter.convertPartidoToPartidoStats(partido.get().getJugadores().get(i));
+				listaJugadorStats.add(stats);
+			}
 			
-			PartidoStats stats = partidoStatsConverter.convertPartidoToPartidoStats(partido.get());
-			return new ResponseEntity<PartidoStats>(stats, HttpStatus.OK);
+			
+			DataPosicion data = utilConverter.convertPartidoToPartidoStats(listaJugadorStats);
+			return new ResponseEntity<DataPosicion>(data, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<PartidoStats>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<DataPosicion>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
@@ -223,6 +236,15 @@ public class PartidoController {
 		} catch (Exception e) {
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@GetMapping("/removePartido/{id}")
+	public String removePartido(@PathVariable("id") int id, Model model) {
+		LOG.info("SE PROCEDE A BORRAR EL PARTIDO");
+		
+		partidoService.deletePartido(id);
+		
+		return "redirect:/partidos/showpartidos";
 	}
 	
 	/* @PostMapping("/updatepartido")

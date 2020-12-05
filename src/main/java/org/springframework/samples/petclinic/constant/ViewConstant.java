@@ -15,6 +15,7 @@ public class ViewConstant {
 	public static final String VIEW_ENTRENAMIENTOS = "/entrenamientos/listadoEntrenamientos";
 
 	public static final String VIEW_NAVBAR = "navbar";
+	public static final String VIEW_LOGIN = "login";
 	public static final String VIEW_HOME = "home";
 
 	public static final String VIEW_ESTADISTICAS_JUGADOR_POR_PARTIDO = "partidos/estadisticasPersonalesPartidos";
@@ -36,6 +37,6 @@ public class ViewConstant {
 
 	public static final String VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM = "entrenadores/EntrenadorForm";
 	public static final String VIEWS_ESTADISTICO_CREATE_OR_UPDATE_FORM = "estadisticos/EstadisticoForm";
-	public static final String VIEW_MATERIALES = "/materiales/listadoMateriales";
+	public static final String VIEW_MATERIALES = "/material/material";
 
 }

@@ -10,14 +10,20 @@ import javax.validation.constraints.Min;
 
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "num_camisetas")
 public class NumCamiseta extends BaseEntity{
+
+	
 
 	@ManyToOne
 	@JoinColumn(name = "equipo_id")
@@ -31,65 +37,9 @@ public class NumCamiseta extends BaseEntity{
 	@Max(99)
 	@Min(1)
 	private Integer numero;
-
 	
 	
-	public NumCamiseta() {
-		super();
+	public NumCamiseta(int numCamiseta) {
+		this.numero = numCamiseta; 
 	}
-
-
-
-	public NumCamiseta(@Max(99) @Min(1) Integer numero) {
-		super();
-		this.numero = numero;
-	}
-
-
-
-	public Equipo getEquipos() {
-		return equipo;
-	}
-
-
-
-	public void setEquipos(Equipo equipo) {
-		this.equipo = equipo;
-	}
-
-
-
-	public Jugador getJugadores() {
-		return jugador;
-	}
-
-
-
-	public void setJugadores(Jugador jugador) {
-		this.jugador = jugador;
-	}
-
-
-
-	public Integer getNumero() {
-		return numero;
-	}
-
-
-
-	public void setNumero(Integer numero) {
-		this.numero = numero;
-	}
-
-
-
-	@Override
-	public String toString() {
-		return "NumCamiseta [equipos=" + equipo + ", jugadores=" + jugador + ", numero=" + numero + "]";
-	}
-
-
-
-	
-	
 }

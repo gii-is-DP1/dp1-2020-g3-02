@@ -114,7 +114,7 @@ public class JugadorController {
 		}
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		mav.addObject("username", username);
-		mav.addObject("jugadores", jugadorService.findAll());
+		mav.addObject("jugadores", jugadorConverter.convertListJugadorToListJugadorWithEquipo(jugadorService.findAll()));
 		return mav;
 		
 	}
@@ -256,7 +256,7 @@ public class JugadorController {
 			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 		}
 		Jugador player = jugadorService.saveJugador(jugador);
-		return "redirect:/jugadores/showjugadores";
+		return "redirect:/home";
 	}
 	
 //	@PostMapping("/updatejugador")

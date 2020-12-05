@@ -34,4 +34,6 @@ public interface JugadorRepository extends ExtendedJpaRepository<Jugador>{
 	@Query("SELECT j FROM Jugador j, Equipo e WHERE e.id=:equipo_id")
 	public List<Jugador> findByEquipo(@Param("equipo_id") int equipo_id);
 	
+	//@Query("SELECT DISTINCT j FROM Jugador j LEFT JOIN j.equipos")
+	//public List<Jugador> findAllWithEquipo();
 }

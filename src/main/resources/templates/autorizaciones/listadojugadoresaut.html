@@ -29,7 +29,9 @@
 	<div class="container">
 		<div class="row">
 			<div class="py-3 text-center col-lg-12">
-				<h1 class="font-weight-bold font-italic">LISTA AUTORIZACIONES</h1>
+
+				<h1 class="font-weight-bold font-italic">LISTA DE AUTORIZACIONES</h1>
+
 			</div>
 		</div>
 
@@ -88,7 +90,7 @@
 					type : 'POST',
 					url : '/jugadores/eliminarautorizacion/' + id+"/"+ button.value,
 					success : function(borrar) {
-						tablaJugadoresAut.ajax.reload();
+						tablaJugadoresAut.ajax.reload(null, false);
 					}
 				});
 			}else{
@@ -96,7 +98,7 @@
 					type : 'POST',
 					url : '/jugadores/addautorizacion/' + id+"/"+button.value,
 					success : function(anadir) {
-						tablaJugadoresAut.ajax.reload();
+						tablaJugadoresAut.ajax.reload(null, false);
 					}
 				});
 			}
@@ -111,8 +113,8 @@
 									.DataTable(
 											{
 												ajax:'[[@{/jugadores/tablajugadoresaut}]]',
-								
-										
+												order: [1, 'asc'],
+												
 												"columns":[
 													{data:'id'},
 													{data:'firstName',
@@ -181,22 +183,22 @@
 											            },
 											            {
 											                "targets": [ 3 ],
-					
+											                "orderable": false,					
 											                "searchable": false
 											            },
 											            {
 											                "targets": [ 4 ],
-											               
+											                "orderable": false,
 											                "searchable": false
 											            },
 											            {
 											                "targets": [ 5 ],
-											                
+											                "orderable": false,
 											                "searchable": false
 											            },
 											            {
 											                "targets": [ 6 ],
-											               
+											                "orderable": false,
 											                "searchable": false
 											            }
 											          
