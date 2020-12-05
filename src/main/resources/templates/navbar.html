@@ -33,6 +33,9 @@
 			
 				<li th:if="${param.id[0] == 'home'}" class="nav-item active"><a class="nav-link disabled" href="/home">Inicio</a></li>
 				<li th:unless="${param.id[0] == 'home'}" class="nav-item"><a class="nav-link" href="/home">Inicio</a></li>
+				
+				<li th:if="${param.id[0] == 'cuerpotecnico'}" class="nav-item active"><a class="nav-link disabled" href="/cuerpotecnico/showcuerpotecnico">Cuerpo Técnico</a></li>
+				<li th:unless="${param.id[0] == 'cuerpotecnico'}" class="nav-item"><a class="nav-link" href="/cuerpotecnico/showcuerpotecnico">Cuerpo Técnico</a></li>
 
 <!--  JUGADORES IF -->					
 				<li th:if="${param.id[0] == 'listadoJugadores' || param.id[0] == 'jugadorForm' || param.id[0] == 'ejerciciosIndividuales' || param.id[0] == 'autorizaciones'}" class="nav-item dropdown active"><a
