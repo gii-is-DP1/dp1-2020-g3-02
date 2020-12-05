@@ -9,6 +9,7 @@ import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.PartidoRepository;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PartidoServiceImpl implements PartidoService {
@@ -72,8 +73,10 @@ public class PartidoServiceImpl implements PartidoService {
 	}
 
 	@Override
-	public void deletePartido(Partido partido) {
-		partidoRepository.delete(partido);
+	@Transactional
+	public void deletePartido(int partido_id) {
+		Optional<Partido> partido = partidoRepository.findById(partido_id);
+		partidoRepository.delete(partido.get());
 	}
 
 	@Override

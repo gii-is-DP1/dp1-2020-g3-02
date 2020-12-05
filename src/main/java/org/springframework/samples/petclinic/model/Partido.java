@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -36,25 +37,25 @@ public class Partido extends EstadisticasEntity{
 	@ManyToMany
 	@JoinTable(name = "juegaPartido", joinColumns = @JoinColumn(name = "partido_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
-	List<Jugador> jugadores;
+	private List<Jugador> jugadores;
 	
 	@ManyToMany
 	@JoinTable(name = "partidosbus", joinColumns = @JoinColumn(name = "partido_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "autobus_id"))
-	Set<Autobus> buses;
+	private Set<Autobus> buses;
 	
 	@ManyToMany
 	@JoinTable(name = "partidospersonal", joinColumns = @JoinColumn(name = "partido_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "personales_id"))
-	Set<Personales> personales;
+	private Set<Personales> personales;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "partido")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "partido")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Set<Sustitucion> sustituciones;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "partido")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private Set<SistemaJuego> sistemasJuego;
 	
 	@ManyToOne

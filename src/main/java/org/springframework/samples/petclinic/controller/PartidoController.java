@@ -238,6 +238,15 @@ public class PartidoController {
 		}
 	}
 	
+	@GetMapping("/removePartido/{id}")
+	public String removePartido(@PathVariable("id") int id, Model model) {
+		LOG.info("SE PROCEDE A BORRAR EL PARTIDO");
+		
+		partidoService.deletePartido(id);
+		
+		return "redirect:/partidos/showpartidos";
+	}
+	
 	/* @PostMapping("/updatepartido")
 	public String updatePartido(HttpServletRequest request) {
 		int id = Integer.parseInt(request.getParameter("id"));

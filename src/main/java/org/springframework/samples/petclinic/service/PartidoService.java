@@ -21,6 +21,6 @@ public interface PartidoService {
 	public abstract List<Partido> findByNumFaltasTotalesGreaterThanEqual(int faults);
 	public abstract Partido savePartido(Partido partido);
 	public abstract List<Partido> findAll();
-	public abstract void deletePartido(Partido partido);
+	public abstract void deletePartido(int partido_id);
 	
 }
