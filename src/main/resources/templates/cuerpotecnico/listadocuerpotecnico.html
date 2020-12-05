@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+	crossorigin="anonymous">
+
+<!--  Datatables  -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css" />
+
+<!--  extension responsive  -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+<title>Cuerpo Técnico</title>
+<link rel="icon" type="image/png" href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
+</head>
+<body class="bg-light">
+
+	<script src="https://www.w3schools.com/lib/w3data.js"></script>
+	
+	<div class="">
+	<div w3-include-html="navbar?id=cuerpotecnico"></div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="py-3 text-center col-lg-12">
+				<h1 class="font-weight-bold font-italic">LISTA DEL CUERPO TÉCNICO</h1>
+			</div>
+		</div>
+				<div class="row py-3 ">
+					<div class="col">
+				<div class="card bg-light" style="border-top-color: #007bff; border-top-width: 3px;">
+					<div class="card-header text-white" style="background: rgb(23,162,184);
+background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 70%, rgba(255,255,255,1) 100%);">
+					<div class="row">
+					<h3 class="card-title ml-3">Entrenadores</h3>
+					<a id="coach" href="#collapseEntrenadores" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2">
+						<i class="fas fa-plus"></i>
+					</a>
+					</div>
+					</div>
+					<div class="collapse" id="collapseEntrenadores">
+						<div class="card-body">
+							<table id="entrenadores"
+					class="table table-sm table-striped table-bordered table-hover nowrap display"
+					cellspacing="0" style="width: 100%;">
+							<thead>
+								<tr class="table-primary">
+									<th>Nombre</th>
+									<th>Apellidos</th>
+									<th>Email</th>
+									<th>Fecha de Nacimiento</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="entrenador : ${entrenadores}">
+									<td th:text="${entrenador.firstName}"></td>
+									<td th:text="${entrenador.lastName}"></td>
+									<td th:text="${entrenador.email}"></td>
+									<td th:text="${entrenador.fechaNacimiento}"></td>
+							</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+			</div>
+			<div class="row py-3">
+			<div class="col">
+			<div class="card bg-light" style="border-top-color: #007bff; border-top-width: 3px;">
+					<div class="card-header text-white" style="background: rgb(23,162,184);
+background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 70%, rgba(255,255,255,1) 100%);">
+					<div class="row">
+					<h3 class="card-title ml-3">Estadisticos</h3>
+					<a id="stat" href="#collapseEstadisticos" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2">
+						<i class="fas fa-plus" ></i>
+					</a>
+					</div>
+					</div>
+					<div class="collapse" id="collapseEstadisticos">
+						<div class="card-body">
+							<table id="estadisticos"
+					class="table table-sm table-striped table-bordered table-hover nowrap display"
+					cellspacing="0" style="width: 100%;">
+							<thead>
+								<tr class="table-primary">
+									<th>Nombre</th>
+									<th>Apellidos</th>
+									<th>Email</th>
+									<th>Fecha de Nacimiento</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="estadistico : ${estadisticos}">
+									<td th:text="${estadistico.firstName}"></td>
+									<td th:text="${estadistico.lastName}"></td>
+									<td th:text="${estadistico.email}"></td>
+									<td th:text="${estadistico.fechaNacimiento}"></td>
+							</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				</div>
+				
+			</div>
+			</div>
+	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
+	<!-- Optional JavaScript -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+
+	<!--   Datatables-->
+	<script type="text/javascript"
+		src="https://cdn.datatables.net/v/bs4/dt-1.10.22/datatables.min.js"></script>
+
+	<!-- extension responsive -->
+	<script
+		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+	<script>
+		$('#stat').on('click', function(){
+
+			if(this.getElementsByClassName('fa-plus')[0]){
+				
+				this.getElementsByClassName('fas')[0].classList.replace('fa-plus', 'fa-minus');
+			}else{
+				this.getElementsByClassName('fas')[0].classList.replace('fa-minus', 'fa-plus');
+			}
+		});
+		
+		$('#coach').on('click', function(){
+
+			if(this.getElementsByClassName('fa-plus')[0]){
+				
+				this.getElementsByClassName('fas')[0].classList.replace('fa-plus', 'fa-minus');
+			}else{
+				this.getElementsByClassName('fas')[0].classList.replace('fa-minus', 'fa-plus');
+			}
+		});
+		
+		
+	</script>
+
+	<script>
+	
+	$(document)
+	.ready(
+			
+			function() {
+				
+				$('#entrenadores')
+						.DataTable(
+								{	
+									dom:'ftpr',
+									"lengthMenu": [5],
+									responsive: true,
+									"language" : {
+										"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+									}
+								});
+				$('#estadisticos')
+				.DataTable(
+						{
+							dom:'ftpr',
+							"lengthMenu": [5],
+							responsive: true,
+							"language" : {
+								"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+							}
+						});
+
+
+			});
+	</script>
+	<script type="text/javascript">
+       w3IncludeHTML();
+</script>
+
+</body>
+</html>
