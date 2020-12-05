@@ -45,7 +45,7 @@ public class Partido extends EstadisticasEntity{
 	private Set<Autobus> buses;
 	
 	@ManyToMany
-	@JoinTable(name = "partidospersonal", joinColumns = @JoinColumn(name = "partido_id"), 
+	@JoinTable(name = "sevaen", joinColumns = @JoinColumn(name = "partido_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "personales_id"))
 	private Set<Personales> personales;
 	

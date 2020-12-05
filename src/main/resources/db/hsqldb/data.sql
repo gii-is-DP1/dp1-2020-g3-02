@@ -102,8 +102,8 @@ INSERT INTO authorities(id,username,authority) VALUES (41,'user23','entrenador')
 INSERT INTO users(username,password,enabled) VALUES ('user24','asdf1234',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (42,'user24','entrenador');
 
-INSERT INTO users(username,password,enabled) VALUES ('user25','asdf1234',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (43,'user24','entrenador');
+INSERT INTO users(username,password,enabled) VALUES ('gonlalle3','asdf1234',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (43,'gonlalle3','estadistico');
 
 INSERT INTO users(username,password,enabled) VALUES ('user26','asdf1234',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (44,'user26','estadistico');
@@ -156,7 +156,7 @@ INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimie
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (2,'user24','Mauricio', 'Colmenero Muñoz', 'mastodonquijote@gmail.com','1997-8-19');
 
 -- INSERT  ESTADISTICOS
-INSERT INTO estadisticos(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (1,'user25','Romualdo', 'Sánchez Bermejo', 'romualdostats@gmail.com','1987-8-19');
+INSERT INTO estadisticos(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (1,'gonlalle3','Romualdo', 'Sánchez Bermejo', 'romualdostats@gmail.com','1987-8-19');
 INSERT INTO estadisticos(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (2,'user26','Julio', 'Iglesias', 'julioiglesias@gmail.com','1997-8-19');
 
 
