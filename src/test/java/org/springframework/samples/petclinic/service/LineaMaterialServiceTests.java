@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -105,7 +106,7 @@ public class LineaMaterialServiceTests {
 	@Test
 	@Transactional
 	public void testSaveLineaMaterial() {
-		Material material = new Material("cono", TipoMaterial.CONOALTO, 7, EstadoMaterial.BUENO);
+		Material material = new Material(new HashSet<LineaMaterial>(),"cono", TipoMaterial.CONOALTO, 7, EstadoMaterial.BUENO);
 		Entrenamiento entrenamiento = new Entrenamiento();
 		LineaMaterial lineaMaterial = new LineaMaterial(material, entrenamiento, 8);
 

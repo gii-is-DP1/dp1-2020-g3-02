@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -247,6 +248,7 @@ public class PartidoServiceTest {
 	@Transactional
 	public void testDeletePartido() {
 		int partido_id = 1;
+		
 		partidoService.deletePartido(partido_id);
 		Optional<Partido> partido = partidoService.findById(partido_id);
 		assertEquals(partido, Optional.empty());

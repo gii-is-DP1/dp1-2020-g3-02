@@ -26,11 +26,13 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "materiales", uniqueConstraints = @UniqueConstraint(columnNames = { "tipo" }))
 public class Material extends BaseEntity{
 
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "material")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "material")
 	private Set<LineaMaterial> lineaMaterial;
 
 	@Column(name = "descripcion", nullable = false, length = 255)
@@ -47,21 +49,5 @@ public class Material extends BaseEntity{
 	@Column(name = "estado", nullable = false, columnDefinition = "varchar(30) default 'BUENO'")
 	@Enumerated(value = EnumType.STRING)
 	private EstadoMaterial estado;
-	
-	public Material () {}
-	
-	public Material(String descripcion, TipoMaterial tipo, @Min(0) Integer stock, EstadoMaterial estado) {
-		super();
-		this.descripcion = descripcion;
-		this.tipo = tipo;
-		this.stock = stock;
-		this.estado = estado;
-	}
-
-	@Override
-	public String toString() {
-		return "Material [descripcion=" + descripcion + ", tipo=" + tipo + ", stock=" + stock + ", estado=" + estado
-				+ "]";
-	}
 
 }

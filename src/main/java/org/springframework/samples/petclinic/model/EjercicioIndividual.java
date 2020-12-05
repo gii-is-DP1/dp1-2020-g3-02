@@ -25,7 +25,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "ejercicios_individuales", uniqueConstraints = @UniqueConstraint(columnNames = { "nombre" }))
 public class EjercicioIndividual extends BaseEntity {
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "ejercicio_individual")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "ejercicio_individual")
 	private Set<RealizaEjercicio> realiza_ejercicios;
 	
 	@ManyToMany

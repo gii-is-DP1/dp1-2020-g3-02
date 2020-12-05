@@ -28,9 +28,6 @@ public class Capitan extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "jugador_id")
 	private Jugador jugador;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "capitan")
-	private Set<Equipo> equipos;
 
 	@Column(name = "ntiemposmuertos", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
