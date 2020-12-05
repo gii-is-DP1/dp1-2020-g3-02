@@ -39,18 +39,19 @@
 					<div class="col">
 				<div class="card bg-light" style="border-top-color: #007bff; border-top-width: 3px;">
 					<div class="card-header text-white" style="background: rgb(23,162,184);
-background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 70%, rgba(255,255,255,1) 100%);">
+						background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 70%, rgba(255,255,255,1) 100%);">
 					<div class="row">
 					<h3 class="card-title ml-3">Entrenadores</h3>
 					<a id="coach" href="#collapseEntrenadores" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2">
-						<i class="fas fa-plus"></i>
+						<i class="fas fa-minus"></i>
 					</a>
 					</div>
 					</div>
-					<div class="collapse" id="collapseEntrenadores">
+					<div class="collapse show" id="collapseEntrenadores">
 						<div class="card-body">
+						<div class="container-fluid">
 							<table id="entrenadores"
-					class="table table-sm table-striped table-bordered table-hover nowrap display"
+					class="table table-sm table-striped table-bordered table-hover nowrap display entrenadors responsive"
 					cellspacing="0" style="width: 100%;">
 							<thead>
 								<tr class="table-primary">
@@ -70,6 +71,7 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 70
 							</table>
 						</div>
 					</div>
+					</div>
 				</div>
 			
 			</div>
@@ -82,14 +84,14 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 70
 					<div class="row">
 					<h3 class="card-title ml-3">Estadisticos</h3>
 					<a id="stat" href="#collapseEstadisticos" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2">
-						<i class="fas fa-plus" ></i>
+						<i class="fas fa-minus" ></i>
 					</a>
 					</div>
 					</div>
-					<div class="collapse" id="collapseEstadisticos">
+					<div class="collapse show" id="collapseEstadisticos">
 						<div class="card-body">
 							<table id="estadisticos"
-					class="table table-sm table-striped table-bordered table-hover nowrap display"
+					class="table table-sm table-striped table-bordered table-hover nowrap display estadisticors responsive"
 					cellspacing="0" style="width: 100%;">
 							<thead>
 								<tr class="table-primary">
@@ -132,8 +134,39 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 70
 	<!-- extension responsive -->
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-	<script>
+		
+		<script>
+	
+	$(document)
+	.ready(
+			
+			function() {
+				
+				tEntrenadores = $('#entrenadores')
+						.DataTable(
+								{	
+									"lengthMenu": [3,5,10],
+									responsive: true,
+									"language" : {
+										"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+										
+									}
+								});
+				tEstadisticos = $('#estadisticos')
+				.DataTable(
+						{
+							"lengthMenu": [3,5,10],
+							responsive: true,
+							"language" : {
+								"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+							}
+						});
+
+
+			});
+	
 		$('#stat').on('click', function(){
+			tEstadisticos.draw();
 
 			if(this.getElementsByClassName('fa-plus')[0]){
 				
@@ -144,6 +177,7 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 70
 		});
 		
 		$('#coach').on('click', function(){
+			tEntrenadores.draw();
 
 			if(this.getElementsByClassName('fa-plus')[0]){
 				
@@ -156,40 +190,8 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 70
 		
 	</script>
 
-	<script>
-	
-	$(document)
-	.ready(
-			
-			function() {
-				
-				$('#entrenadores')
-						.DataTable(
-								{	
-									dom:'ftpr',
-									"lengthMenu": [5],
-									responsive: true,
-									"language" : {
-										"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-									}
-								});
-				$('#estadisticos')
-				.DataTable(
-						{
-							dom:'ftpr',
-							"lengthMenu": [5],
-							responsive: true,
-							"language" : {
-								"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-							}
-						});
-
-
-			});
-	</script>
 	<script type="text/javascript">
 		w3IncludeHTML();
 	</script>
-
 </body>
 </html>

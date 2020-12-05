@@ -19,16 +19,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "autobus")
 public class Autobus extends BaseEntity {
-
-	@ManyToMany
-	@JoinTable(name = "jugadoresbus", joinColumns = @JoinColumn(name = "autobus_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
-	Set<Jugador> jugadores;
-	
-	@ManyToMany
-	@JoinTable(name = "partidosbus", joinColumns = @JoinColumn(name = "autobus_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "partido_id"))
-	Set<Partido> partidos;
 	
 	@Column(name = "hora_salida", nullable = false, length = 5)
 	private String horaSalida;

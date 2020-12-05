@@ -38,7 +38,7 @@
 				<li th:unless="${param.id[0] == 'cuerpotecnico'}" class="nav-item"><a class="nav-link" href="/cuerpotecnico/showcuerpotecnico">Cuerpo Técnico</a></li>
 
 <!--  JUGADORES IF -->					
-				<li th:if="${param.id[0] == 'listadoJugadores' || param.id[0] == 'jugadorForm' || param.id[0] == 'ejerciciosIndividuales' || param.id[0] == 'autorizaciones'}" class="nav-item dropdown active"><a
+				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:if="${param.id[0] == 'listadoJugadores' || param.id[0] == 'jugadorForm' || param.id[0] == 'ejerciciosIndividuales' || param.id[0] == 'autorizaciones'}" class="nav-item dropdown active"><a
 					class="nav-link dropdown-toggle" href="#"
 					id="navbarDropdownMenuLinkPlayer" role="button"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jugadores</a>
@@ -56,7 +56,7 @@
 						<a th:unless="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado" href="#">Ejercicios Individuales</a>
 					</div></li>
 <!--  JUGADORES ELSE -->						
-				<li th:unless="${param.id[0] == 'listadoJugadores' || param.id[0] == 'jugadorForm' || param.id[0] == 'ejerciciosIndividuales' || param.id[0] == 'autorizaciones'}" class="nav-item dropdown"><a
+				<li sec:authorize="hasAnyAuthority('entrenador','jugador')"  th:unless="${param.id[0] == 'listadoJugadores' || param.id[0] == 'jugadorForm' || param.id[0] == 'ejerciciosIndividuales' || param.id[0] == 'autorizaciones'}" class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#"
 					id="navbarDropdownMenuLinkPlayer" role="button"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jugadores</a>
@@ -75,7 +75,7 @@
 					</div></li>
 					
 <!--  EQUIPO IF -->					
-				<li th:if="${param.id[0] == 'listadoEquipos' || param.id[0] == 'equipoForm'}" class="nav-item dropdown active"><a
+				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:if="${param.id[0] == 'listadoEquipos' || param.id[0] == 'equipoForm'}" class="nav-item dropdown active"><a
 					class="nav-link dropdown-toggle" href="#"
 					id="navbarDropdownMenuLinkTeam" role="button"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Equipos</a>
@@ -94,7 +94,7 @@
 							Equipo</a>
 					</div></li>
 <!--  EQUIPO ELSE -->	
-				<li th:unless="${param.id[0] == 'listadoEquipos' || param.id[0] == 'equipoForm'}" class="nav-item dropdown"><a
+				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:unless="${param.id[0] == 'listadoEquipos' || param.id[0] == 'equipoForm'}" class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#"
 					id="navbarDropdownMenuLinkTeam" role="button"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Equipos</a>
@@ -114,7 +114,7 @@
 					</div></li>
 					
 <!--  PARTIDO IF -->
-				<li th:if="${param.id[0] == 'listadoPartido' || param.id[0] == 'estadisticasPartido' || param.id[0] == 'partidoForm'}" class="nav-item dropdown active"><a
+				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:if="${param.id[0] == 'listadoPartido' || param.id[0] == 'estadisticasPartido' || param.id[0] == 'partidoForm'}" class="nav-item dropdown active"><a
 					class="nav-link dropdown-toggle" href="#"
 					id="navbarDropdownMenuLinkMatch" role="button"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Partidos</a>
@@ -140,7 +140,7 @@
 		
 					</div></li>
 <!--  PARTIDO ELSE -->					
-				<li th:unless="${param.id[0] == 'listadoPartido' || param.id[0] == 'estadisticasPartido' || param.id[0] == 'partidoForm'}" class="nav-item dropdown"><a
+				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:unless="${param.id[0] == 'listadoPartido' || param.id[0] == 'estadisticasPartido' || param.id[0] == 'partidoForm'}" class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#"
 					id="navbarDropdownMenuLinkMatch" role="button"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Partidos</a>
@@ -166,8 +166,12 @@
 						<a th:unless="${param.id[0] == 'partidoForm'}" class="dropdown-item dropPersonalizado" href="#">Nuevo Partido</a>
 						
 					</div></li>
+					
+<!-- PARTIDO ESTADISTICO -->
+				<li sec:authorize="hasAuthority('estadistico')" th:if="${param.id[0] == 'listadoPartido'}" class="nav-item active"><a class="nav-link disabled" href="/partidos/showpartidos">Próximos Partidos</a></li>
+				<li sec:authorize="hasAuthority('estadistico')" th:unless="${param.id[0] == 'listadoPartido'}" class="nav-item"><a class="nav-link" href="/partidos/showpartidos">Próximos Partidos</a></li>
 <!--  ENTRENAMIENTO IF -->				
-				<li th:if="${param.id[0] == 'listadoEntrenamiento' || param.id[0] == 'estadisticasEntrenamiento' || param.id[0] == 'entrenamientoForm'}" class="nav-item dropdown active"><a
+				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:if="${param.id[0] == 'listadoEntrenamiento' || param.id[0] == 'estadisticasEntrenamiento' || param.id[0] == 'entrenamientoForm'}" class="nav-item dropdown active"><a
 					class="nav-link dropdown-toggle" href="#"
 					id="navbarDropdownMenuLinkMatch" role="button"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Entrenamientos</a>
@@ -188,7 +192,7 @@
 						
 					</div></li>
 <!--  ENTRENAMIENTO ELSE -->					
-					<li th:unless="${param.id[0] == 'listadoEntrenamiento' || param.id[0] == 'estadisticasEntrenamiento' || param.id[0] == 'entrenamientoForm'}" class="nav-item dropdown"><a
+					<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:unless="${param.id[0] == 'listadoEntrenamiento' || param.id[0] == 'estadisticasEntrenamiento' || param.id[0] == 'entrenamientoForm'}" class="nav-item dropdown"><a
 					class="nav-link dropdown-toggle" href="#"
 					id="navbarDropdownMenuLinkMatch" role="button"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Entrenamientos</a>
@@ -208,9 +212,11 @@
 						<a th:unless="${param.id[0] == 'entrenamientoForm'}" class="dropdown-item dropPersonalizado" href="#">Nuevo Entrenamiento</a>
 						
 					</div></li>
-				
+<!-- PARTIDO ESTADISTICO -->
+				<li sec:authorize="hasAuthority('estadistico')" th:if="${param.id[0] == 'listadoEntrenamiento'}" class="nav-item active"><a class="nav-link disabled" href="/entrenamientos/showentrenamientos">Próximos Entrenamientos</a></li>
+				<li sec:authorize="hasAuthority('estadistico')" th:unless="${param.id[0] == 'listadoEntrenamiento'}" class="nav-item"><a class="nav-link" href="/entrenamientos/showentrenamientos">Próximos Entrenamientos</a></li>				
 					
-				<li class="nav-item"><a class="nav-link" href="#">Material</a>
+				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" class="nav-item"><a class="nav-link" href="#">Material</a>
 				</li>
 				<li class="nav-item"><a class="nav-link" href="/login"><svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 					<path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
