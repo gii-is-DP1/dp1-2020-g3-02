@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.controller;
 
 import java.security.Principal;
 
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,6 +38,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.StringUtils;
@@ -239,6 +242,7 @@ public class PartidoController {
 	}
 	
 	@GetMapping("/removePartido/{id}")
+	@Transactional
 	public String removePartido(@PathVariable("id") int id, Model model) {
 		LOG.info("SE PROCEDE A BORRAR EL PARTIDO");
 		

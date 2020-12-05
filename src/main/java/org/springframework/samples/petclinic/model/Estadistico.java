@@ -17,10 +17,14 @@ import javax.validation.constraints.Email;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.model.padres.Person;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="estadisticos", uniqueConstraints = @UniqueConstraint(columnNames = { "email", }))
 public class Estadistico extends Person{
 	
@@ -28,12 +32,6 @@ public class Estadistico extends Person{
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "estadistico")
-	Set<EstadisticaPersonalEntrenamiento> estadisticasPersonalEntrenamiento;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "estadistico")
-	Set<EstadisticaPersonalPartido> estadisticasPersonalPartido;
-
 	@Column(name= "email", nullable = false)
 	@Email
 	private String email;
@@ -41,23 +39,12 @@ public class Estadistico extends Person{
 	@Column(name = "fecha_nacimiento", nullable = false, columnDefinition = "date default SYSDATE")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fechaNacimiento;
-	
-	public Estadistico() {
-		
+
+	public Estadistico(@Email String email, LocalDate fechaNacimiento) {
+		super();
+		this.email = email;
+		this.fechaNacimiento = fechaNacimiento;
 	}
 	
-
-public Estadistico(String email, LocalDate fechaNacimiento) {
-	super();
-
-	this.email = email;
-	this.fechaNacimiento = fechaNacimiento;
-}	
-	@Override
-	public String toString() {
-		return "Estadistico [user=" + user + ", estadisticas_personales_entrenamiento="
-				+ estadisticasPersonalEntrenamiento + ", estadisticas_personales_partido="
-				+ estadisticasPersonalPartido + ", email=" + email + ", fechaNacimiento=" + fechaNacimiento + "]";
-	}
 	
 }

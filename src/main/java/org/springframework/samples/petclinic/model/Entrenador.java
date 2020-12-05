@@ -28,8 +28,6 @@ public class Entrenador extends Person{
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "entrenador")
-	private Set<Equipo> equipos;
 	
 	@Column(name="email", nullable = false)
 	private String email;

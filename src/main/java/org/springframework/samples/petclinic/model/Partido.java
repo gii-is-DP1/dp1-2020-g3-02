@@ -49,13 +49,13 @@ public class Partido extends EstadisticasEntity{
 	  inverseJoinColumns = @JoinColumn(name = "personales_id"))
 	private Set<Personales> personales;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "partido")
 	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "partido")
 	private Set<Sustitucion> sustituciones;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "partido")
 	private Set<SistemaJuego> sistemasJuego;
 	
 	@ManyToOne

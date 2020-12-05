@@ -15,15 +15,23 @@ import javax.persistence.UniqueConstraint;
 
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "personales")
 public class Personales extends BaseEntity {
 	
+	public Personales(String string) {
+		propietario = string;
+	}
+
 	@Column(name = "propietario", nullable = false, length = 5)
 	private String propietario;
 	
@@ -36,23 +44,5 @@ public class Personales extends BaseEntity {
 	  inverseJoinColumns = @JoinColumn(name = "partido_id"))
 	Set<Partido> partidos;
 
-
-	public Personales(String propietario) {
-		super();
-		this.propietario = propietario;
-
-	}
-	public Personales() {
-	}
-	@Override
-	public String toString() {
-		return "Personales [propietario=" + propietario + "]";
-	}
-
-
-
-
-
-	
 
 }
