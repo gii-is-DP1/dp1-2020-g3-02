@@ -6,8 +6,9 @@ public class ValidationConstant {
 	public static final String VALOR_OBLIGATORIO = "Este campo es obligatorio";
 	
 	/** USUARIO */
-	public static final String FIRSTNAME_ERROR = "El nombre es requerido y debe tener más de tres letras";
-	public static final String LASTNAME_ERROR = "El nombre es requerido y debe tener más de tres letras";
+	public static final String FIRSTNAME_ERROR = "El nombre es requerido y no puede contener ningún caracter especial ni números";
+	public static final String LASTNAME_ERROR = "El apellido es requerido y no puede contener ningún caracter especial ni números";
+	public static final String EMAIL_FORMATO_ERROR = "El formato del email es incorrecto";
 	
 	/** FECHA */
 	public static final String FECHA_FORMATO_ERRONEO = "La fecha debe tener el formato dd/MM/yyyy";

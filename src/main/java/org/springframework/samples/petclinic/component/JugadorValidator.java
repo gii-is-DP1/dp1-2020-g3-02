@@ -2,7 +2,7 @@ package org.springframework.samples.petclinic.component;
 
 
 import java.time.LocalDate;
-
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
@@ -29,18 +29,24 @@ public class JugadorValidator implements Validator {
 		}
 		
 		//Nombre Validation
-		if ( jugador.getFirstName() == null || jugador.getFirstName().length() < 3) {
+		if ( jugador.getFirstName() == null) {
 			errors.rejectValue("firstName", "error", ValidationConstant.FIRSTNAME_ERROR);
+		}else if(!Pattern.matches("[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",jugador.getFirstName())){
+			errors.rejectValue("firstName", "error",ValidationConstant.FIRSTNAME_ERROR);
 		}
 		
 		//Apellido validation
-		if ( jugador.getLastName() == null || jugador.getLastName().length() < 3) {
+		if ( jugador.getLastName() == null) {
 			errors.rejectValue("lastName", "error",ValidationConstant.LASTNAME_ERROR);
+		}else if(!Pattern.matches("[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",jugador.getLastName())){
+			errors.rejectValue("firstName", "error",ValidationConstant.LASTNAME_ERROR);
 		}
 		
 		//email validation
-		if ( jugador.getEmail() == null || jugador.getEmail().length() < 5) {
-			errors.rejectValue("email", "El email es requerido y debe tener al menos 5 caracteres","El email es requerido y debe tener al menos 5 caracteres");
+		if ( jugador.getEmail() == null) {
+			errors.rejectValue("email", "error",ValidationConstant.VALOR_OBLIGATORIO);
+		}else if(!Pattern.matches("^[a-zA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)$",jugador.getEmail())){
+			errors.rejectValue("firstName", "error",ValidationConstant.EMAIL_FORMATO_ERROR);
 		}
 		
 		//direccion validation
