@@ -198,14 +198,14 @@ public class JugadorServiceImpl implements JugadorService {
 		LOG.info("PESO IDEAL DEL JUGADOR INSERTADO: "+player.getPesoIdeal());
 		
 		/** CÁLCULO DE PORCENTAJE SIEMPRE QUE SE ACTUALIZA UN JUGADOR */
-		if(player.getSaquesTotales() > 0) player.setPorcentajeSaques(player.getSaquesAcertados()/player.getSaquesTotales());
-		if(player.getRecepcionesTotales() > 0) player.setPorcentajeRecepciones(player.getRecepcionesAcertadas()/player.getRecepcionesTotales());
-		if(player.getColocacionesTotales() > 0) player.setPorcentajeColocaciones(player.getColocacionesAcertadas()/player.getColocacionesTotales());
-		if(player.getDefensasTotales() > 0) player.setPorcentajeDefensas(player.getDefensasAcertadas()/player.getDefensasTotales());
-		if(player.getBloqueosTotales() > 0) player.setPorcentajeBloqueos(player.getBloqueosAcertados()/player.getBloqueosTotales());
-		if(player.getRematesTotales() > 0) player.setPorcentajeRemates(player.getRematesAcertados()/player.getRematesTotales());
-		if(player.getFintasTotales() > 0) player.setPorcentajeFintas(player.getFintasAcertadas()/player.getFintasTotales());
-		if(player.getNumAtaquesRapidosTotales() > 0) player.setPorcentajeAtaquesRapidos(player.getNumAtaquesRapidosAcertados()/player.getNumAtaquesRapidosTotales());
+		if(player.getSaquesTotales() > 0) player.setPorcentajeSaques(1.*player.getSaquesAcertados()/player.getSaquesTotales());
+		if(player.getRecepcionesTotales() > 0) player.setPorcentajeRecepciones(1.*player.getRecepcionesAcertadas()/player.getRecepcionesTotales());
+		if(player.getColocacionesTotales() > 0) player.setPorcentajeColocaciones(1.*player.getColocacionesAcertadas()/player.getColocacionesTotales());
+		if(player.getDefensasTotales() > 0) player.setPorcentajeDefensas(1.*player.getDefensasAcertadas()/player.getDefensasTotales());
+		if(player.getBloqueosTotales() > 0) player.setPorcentajeBloqueos(1.*player.getBloqueosAcertados()/player.getBloqueosTotales());
+		if(player.getRematesTotales() > 0) player.setPorcentajeRemates(1.*player.getRematesAcertados()/player.getRematesTotales());
+		if(player.getFintasTotales() > 0) player.setPorcentajeFintas(1.*player.getFintasAcertadas()/player.getFintasTotales());
+		if(player.getNumAtaquesRapidosTotales() > 0) player.setPorcentajeAtaquesRapidos(1.*player.getNumAtaquesRapidosAcertados()/player.getNumAtaquesRapidosTotales());
 		
 		userService.saveUser(player.getUser());
 		
