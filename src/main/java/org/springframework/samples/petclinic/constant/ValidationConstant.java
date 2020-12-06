@@ -16,6 +16,8 @@ public class ValidationConstant {
 	
 	/** HORA */
 	public static final String HORA_FORMATO_ERRONEO = "La hora debe tener el formato hh:mm, desde 00:00 hasta 23:59";
+	public static final String HORA_PARTIDO_COINCIDEN_ANTERIOR = "Este equipo ya tiene un partido en el tramo horario de 2 horas antes";
+	public static final String HORA_PARTIDO_COINCIDEN_POSTERIOR = "Este equipo ya tiene un partido en el tramo horario de 2 horas después";
 	
 	/** EJERCICIOS INDIVIDUALES */
 	public static final String EJERCICIOS_NOMBRE_DUPLICADO = "Este nombre de ejercicio ya existe";
