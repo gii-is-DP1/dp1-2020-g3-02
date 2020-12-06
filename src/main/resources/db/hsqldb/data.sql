@@ -340,8 +340,12 @@ INSERT INTO estadisticas_personal_entrenamiento(id,saques_acertados,saques_total
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,fintas_acertadas,fintas_totales,porcentaje_fintas,
 	num_ataques_rapidos_acertados,num_ataques_rapidos_totales,porcentaje_ataques_rapidos,jugador_id,entrenamiento_id) VALUES (6,14,22,0.63,5,20,0.25,5,20,0.25,5,20,0.25,10,20,0.5,15,20,0.75,2,6); 
 
-INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (1,3,'2020-11-06','SALTOVERTICAL',1);
-INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (2,3,'2020-11-06','AGILIDAD',1);
+
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (1,10,'2020-11-06','ABDOMINAL',1);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (2,12,'2020-11-07','ABDOMINAL',1);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (3,15,'2020-11-08','ABDOMINAL',1);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (4,3,'2020-11-06','SALTOVERTICAL',1);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (5,3,'2020-11-06','AGILIDAD',1);
 
 
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (1,1);

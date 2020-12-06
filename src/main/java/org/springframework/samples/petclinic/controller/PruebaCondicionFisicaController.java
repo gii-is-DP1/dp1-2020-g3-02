@@ -7,8 +7,15 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.converter.DataPruebaConverter;
+import org.springframework.samples.petclinic.converter.PruebaConverter;
+import org.springframework.samples.petclinic.enumerate.TipoPrueba;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
+import org.springframework.samples.petclinic.model.auxiliares.DataPruebaCondicion;
+import org.springframework.samples.petclinic.model.auxiliares.PruebasSinJugador;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
@@ -19,28 +26,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
+@RequestMapping("/pruebas")
 public class PruebaCondicionFisicaController {
 	
 	@Autowired
 	private PruebaCondicionFisicaService pruebaService;
 	
-//	@RequestMapping(value = "findJugadorPosicionPartido/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-//	public ResponseEntity<DataPosicion> graficoJugadorPosicionPartido(@PathVariable("id") int id) {
-//		try {
-//			Optional<Partido> partido = partidoService.findById(id);
-//			List<JugadorPartidoStats> listaJugadorStats = new ArrayList<JugadorPartidoStats>();
-//			for (int i = 0; i<partido.get().getJugadores().size();i++) {
-//				
-//				JugadorPartidoStats stats = jugadorPartidoStatsConverter.convertPartidoToPartidoStats(partido.get().getJugadores().get(i));
-//				listaJugadorStats.add(stats);
-//			}
-//			
-//			
-//			DataPosicion data = utilConverter.convertPartidoToPartidoStats(listaJugadorStats);
-//			return new ResponseEntity<DataPosicion>(data, HttpStatus.OK);
-//		} catch (Exception e) {
-//			return new ResponseEntity<DataPosicion>(HttpStatus.BAD_REQUEST);
-//		}	
-//	}
+	@Autowired
+	private JugadorService jugadorService;
+	
+	@Autowired
+	private DataPruebaConverter dataPruebaConverter;
+	
+	@Autowired
+	private PruebaConverter pruebaConverter;
+	
+	@RequestMapping(value = "findPruebasCondicionFisicaJugador/{id}/{tipo}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataPruebaCondicion> findPruebasCondicionFisicaJugador(@PathVariable("id") int id,@PathVariable("tipo") String tipo) {
+		try {
+			Optional<Jugador> jugador = jugadorService.findById(id);
+			List<PruebaCondicionFisica> pruebas = pruebaService.findByJugadorAndTipoPrueba(jugador.get(), TipoPrueba.fromNombre(tipo));
+			List<PruebasSinJugador> pruebasSinJugador = new ArrayList<PruebasSinJugador>();
+			for (int i = 0; i<pruebas.size();i++) {
+				pruebasSinJugador.add(pruebaConverter.convertPruebaToPruebaSinJugador(pruebas.get(i)));
+			}
+			DataPruebaCondicion data = dataPruebaConverter.convertPruebaToDataPrueba(pruebasSinJugador);
+			return new ResponseEntity<DataPruebaCondicion>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataPruebaCondicion>(HttpStatus.BAD_REQUEST);
+		}	
+	}
 
 }
