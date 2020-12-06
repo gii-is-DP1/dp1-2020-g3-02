@@ -346,6 +346,38 @@ INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALU
 INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (3,15,'2020-11-08','ABDOMINAL',1);
 INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (4,3,'2020-11-06','SALTOVERTICAL',1);
 INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (5,3,'2020-11-06','AGILIDAD',1);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (6,10,'2020-11-06','FLEXIBILIDAD',1);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (7,12,'2020-11-07','FLEXIBILIDAD',1);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (8,15,'2020-11-08','RESISTENCIA',1);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (9,3,'2020-11-06','PULSACIONESMINIMAS',1);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (10,3,'2020-11-06','AGILIDAD',1);
+
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (11,10,'2020-11-06','ABDOMINAL',2);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (12,12,'2020-11-07','ABDOMINAL',2);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (13,15,'2020-11-08','ABDOMINAL',2);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (14,3,'2020-11-06','SALTOVERTICAL',2);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (15,3,'2020-11-06','AGILIDAD',2);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (16,10,'2020-11-06','FLEXIBILIDAD',2);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (17,12,'2020-11-07','FLEXIBILIDAD',2);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (18,15,'2020-11-08','RESISTENCIA',2);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (19,3,'2020-11-06','PULSACIONESMINIMAS',2);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (20,3,'2020-11-06','AGILIDAD',2);
+
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (21,10,'2020-11-06','ABDOMINAL',3);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (22,12,'2020-11-07','ABDOMINAL',3);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (23,15,'2020-11-08','ABDOMINAL',3);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (24,3,'2020-11-06','SALTOVERTICAL',3);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (25,3,'2020-11-06','AGILIDAD',3);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (26,10,'2020-11-06','FLEXIBILIDAD',3);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (27,12,'2020-11-07','FLEXIBILIDAD',3);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (28,15,'2020-11-08','RESISTENCIA',3);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (29,3,'2020-11-06','PULSACIONESMINIMAS',3);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (30,3,'2020-11-07','AGILIDAD',3);
+
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (31,3,'2020-11-07','VELOCIDAD',1);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (32,3,'2020-11-07','VELOCIDAD',2);
+INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALUES (33,3,'2020-11-07','VELOCIDAD',3);
+
 
 
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (1,1);
