@@ -214,7 +214,27 @@
 							</div>
 							<div id="collapseTwo" class="collapse"
 								aria-labelledby="headingTwo" data-parent="#accordion">
-								<div class="card-body">TABLAAAA</div>
+								<div class="card-body">
+								<div class="row">
+						
+									<div class="col-lg-12 responsive">
+							
+										<table
+											class="table table-sm table-striped table-bordered table-hover nowrap  flexibilidad"
+											cellspacing="0" width="100%" >
+										<thead>
+											<tr>
+												<th>Fecha</th>
+												<th>Dato</th>
+											</tr>
+										</thead>
+									</table>
+							
+									</div>
+
+								</div>	
+								
+								</div>
 							</div>
 						</div>
 						
@@ -232,7 +252,29 @@
 							</div>
 							<div id="collapseTres" class="collapse"
 								aria-labelledby="headingTres" data-parent="#accordion">
-								<div class="card-body">TABLAAAA</div>
+								<div class="card-body">
+								
+								<div class="row">
+						
+									<div class="col-lg-12 responsive">
+							
+										<table
+											class="table table-sm table-striped table-bordered table-hover nowrap  velocidad"
+											cellspacing="0" width="100%" >
+										<thead>
+											<tr>
+												<th>Fecha</th>
+												<th>Dato</th>
+											</tr>
+										</thead>
+									</table>
+							
+									</div>
+
+								</div>	
+								
+								
+								</div>
 							</div>
 						</div>
 						
@@ -250,7 +292,30 @@
 							</div>
 							<div id="collapseFour" class="collapse"
 								aria-labelledby="headingFour" data-parent="#accordion">
-								<div class="card-body">TABLAAAA</div>
+								<div class="card-body">
+								
+								<div class="row">
+						
+									<div class="col-lg-12 responsive">
+							
+										<table
+											class="table table-sm table-striped table-bordered table-hover nowrap  saltoVertical"
+											cellspacing="0" width="100%" >
+										<thead>
+											<tr>
+												<th>Fecha</th>
+												<th>Dato</th>
+											</tr>
+										</thead>
+									</table>
+							
+									</div>
+
+								</div>	
+								
+								
+								
+								</div>
 							</div>
 						</div>
 						
@@ -268,7 +333,29 @@
 							</div>
 							<div id="collapseFive" class="collapse"
 								aria-labelledby="headingFive" data-parent="#accordion">
-								<div class="card-body">TABLAAAA</div>
+								<div class="card-body">
+								
+								<div class="row">
+						
+									<div class="col-lg-12 responsive">
+							
+										<table
+											class="table table-sm table-striped table-bordered table-hover nowrap  agilidad"
+											cellspacing="0" width="100%" >
+										<thead>
+											<tr>
+												<th>Fecha</th>
+												<th>Dato</th>
+											</tr>
+										</thead>
+									</table>
+							
+									</div>
+
+								</div>	
+								
+								
+								</div>
 							</div>
 						</div>
 						
@@ -286,7 +373,29 @@
 							</div>
 							<div id="collapseSix" class="collapse"
 								aria-labelledby="headingSix" data-parent="#accordion">
-								<div class="card-body">TABLAAAA</div>
+								<div class="card-body">
+								
+								<div class="row">
+						
+									<div class="col-lg-12 responsive">
+							
+										<table
+											class="table table-sm table-striped table-bordered table-hover nowrap  resistencia"
+											cellspacing="0" width="100%" >
+										<thead>
+											<tr>
+												<th>Fecha</th>
+												<th>Dato</th>
+											</tr>
+										</thead>
+									</table>
+							
+									</div>
+
+								</div>	
+								
+								
+								</div>
 							</div>
 						</div>
 						
@@ -304,7 +413,29 @@
 							</div>
 							<div id="collapseSeven" class="collapse"
 								aria-labelledby="headingSeven" data-parent="#accordion">
-								<div class="card-body">TABLAAAA</div>
+								<div class="card-body">
+								
+								<div class="row">
+						
+									<div class="col-lg-12 responsive">
+							
+										<table
+											class="table table-sm table-striped table-bordered table-hover nowrap  pulsaciones"
+											cellspacing="0" width="100%" >
+										<thead>
+											<tr>
+												<th>Fecha</th>
+												<th>Dato</th>
+											</tr>
+										</thead>
+									</table>
+							
+									</div>
+
+								</div>	
+								
+								
+								</div>
 							</div>
 						</div>
 						
@@ -610,8 +741,14 @@
 								
 // PRUEBA CONDICION FISICA ===============================================================================	
 											 
-											var tablaPruebas = null;
-											var chart = null;
+											var abdominal = null;
+											var flexibilidad = null;
+											var velocidad = null;
+											var salto = null;
+											var agilidad = null;
+											var resistencia = null;
+											var pulsaciones = null;
+											
 											$('table .pruebaCondicion').on('click',function() {
 												var id = $(this).parent().find('#id').val();
 
@@ -619,8 +756,19 @@
 													$('.modal-title').text("Pruebas Condición Física");
 													$('#pruebasCondicionModal').modal("show");
 													
+													if(abdominal != null){
+														//tabla.destroy();
+														abdominal.destroy();
+														flexibilidad.destroy();
+														velocidad.destroy();
+														salto.destroy();
+														agilidad.destroy();
+														resistencia.destroy();
+														pulsaciones.destroy();
+													}
 													
-													tabla = $('.abdominal').DataTable({
+													
+													abdominal = $('.abdominal').DataTable({
 														"lengthMenu": [5],
 														responsive: true,
 														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/ABDOMINAL",
@@ -650,13 +798,204 @@
 														drawCallback: ajustarAncho
 							
 													});
-														
+													
+													flexibilidad = $('.flexibilidad').DataTable({
+														"lengthMenu": [5],
+														responsive: true,
+														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/FLEXIBILIDAD",
+														language:{
+															emptyTable: "Ningún dato disponible en esta tabla",
+															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+															"infoEmpty":      "Mostrando 0 de 0 registros",
+															"lengthMenu":     "Mostrando 5 registros",
+															"search":         "Buscar:",
+															"zeroRecords":    "No se encontraron resultados",
+															"paginate": {
+																"first":      "Primera",
+																"last":       "Última",
+																"next":       "Siguiente",
+																"previous":   "Anterior"
+															},
+														},
+														"columns" : [
+															{
+																"data" : "fecha"
+															},
+															{
+																"data" : "dato"
+															}
+
+														],
+														drawCallback: ajustarAncho
+							
+													});
+													
+													velocidad = $('.velocidad').DataTable({
+														"lengthMenu": [5],
+														responsive: true,
+														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/VELOCIDAD",
+														language:{
+															emptyTable: "Ningún dato disponible en esta tabla",
+															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+															"infoEmpty":      "Mostrando 0 de 0 registros",
+															"lengthMenu":     "Mostrando 5 registros",
+															"search":         "Buscar:",
+															"zeroRecords":    "No se encontraron resultados",
+															"paginate": {
+																"first":      "Primera",
+																"last":       "Última",
+																"next":       "Siguiente",
+																"previous":   "Anterior"
+															},
+														},
+														"columns" : [
+															{
+																"data" : "fecha"
+															},
+															{
+																"data" : "dato"
+															}
+
+														],
+														drawCallback: ajustarAncho
+							
+													});
+													
+													salto = $('.saltoVertical').DataTable({
+														"lengthMenu": [5],
+														responsive: true,
+														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/SALTOVERTICAL",
+														language:{
+															emptyTable: "Ningún dato disponible en esta tabla",
+															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+															"infoEmpty":      "Mostrando 0 de 0 registros",
+															"lengthMenu":     "Mostrando 5 registros",
+															"search":         "Buscar:",
+															"zeroRecords":    "No se encontraron resultados",
+															"paginate": {
+																"first":      "Primera",
+																"last":       "Última",
+																"next":       "Siguiente",
+																"previous":   "Anterior"
+															},
+														},
+														"columns" : [
+															{
+																"data" : "fecha"
+															},
+															{
+																"data" : "dato"
+															}
+
+														],
+														drawCallback: ajustarAncho
+							
+													});
+													
+													agilidad = $('.agilidad').DataTable({
+														"lengthMenu": [5],
+														responsive: true,
+														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/AGILIDAD",
+														language:{
+															emptyTable: "Ningún dato disponible en esta tabla",
+															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+															"infoEmpty":      "Mostrando 0 de 0 registros",
+															"lengthMenu":     "Mostrando 5 registros",
+															"search":         "Buscar:",
+															"zeroRecords":    "No se encontraron resultados",
+															"paginate": {
+																"first":      "Primera",
+																"last":       "Última",
+																"next":       "Siguiente",
+																"previous":   "Anterior"
+															},
+														},
+														"columns" : [
+															{
+																"data" : "fecha"
+															},
+															{
+																"data" : "dato"
+															}
+
+														],
+														drawCallback: ajustarAncho
+							
+													});
+													
+													resistencia = $('.resistencia').DataTable({
+														"lengthMenu": [5],
+														responsive: true,
+														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/RESISTENCIA",
+														language:{
+															emptyTable: "Ningún dato disponible en esta tabla",
+															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+															"infoEmpty":      "Mostrando 0 de 0 registros",
+															"lengthMenu":     "Mostrando 5 registros",
+															"search":         "Buscar:",
+															"zeroRecords":    "No se encontraron resultados",
+															"paginate": {
+																"first":      "Primera",
+																"last":       "Última",
+																"next":       "Siguiente",
+																"previous":   "Anterior"
+															},
+														},
+														"columns" : [
+															{
+																"data" : "fecha"
+															},
+															{
+																"data" : "dato"
+															}
+
+														],
+														drawCallback: ajustarAncho
+							
+													});
+													
+													pulsaciones = $('.pulsaciones').DataTable({
+														"lengthMenu": [5],
+														responsive: true,
+														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/PULSACIONESMINIMAS",
+														language:{
+															emptyTable: "Ningún dato disponible en esta tabla",
+															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+															"infoEmpty":      "Mostrando 0 de 0 registros",
+															"lengthMenu":     "Mostrando 5 registros",
+															"search":         "Buscar:",
+															"zeroRecords":    "No se encontraron resultados",
+															"paginate": {
+																"first":      "Primera",
+																"last":       "Última",
+																"next":       "Siguiente",
+																"previous":   "Anterior"
+															},
+														},
+														"columns" : [
+															{
+																"data" : "fecha"
+															},
+															{
+																"data" : "dato"
+															}
+
+														],
+														drawCallback: ajustarAncho
+							
+													});
 														
 														function ajustarAncho (){
 															this.api().columns.adjust();
 														}
 														
-													
+														abdominal.ajax.reload(null, false);
+														flexibilidad.ajax.reload(null, false);
+														velocidad.ajax.reload(null, false);
+														salto.ajax.reload(null, false);
+														agilidad.ajax.reload(null, false);
+														resistencia.ajax.reload(null, false);
+														pulsaciones.ajax.reload(null, false);
 													
 												
 																//En desarrollo
