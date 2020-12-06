@@ -51,6 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/estadisticos/estadisticoform").permitAll()
 				.antMatchers("/estadisticos/addestadistico").permitAll()
 				.antMatchers("/estadisticos/**").permitAll()
+				.antMatchers("/pruebas/**").hasAnyAuthority("jugador","entrenador")
 				.antMatchers("/cuerpotecnico/**").hasAnyAuthority("jugador","entrenador","estadistico")
 				.antMatchers("/equipos/**").hasAnyAuthority("jugador","entrenador")
 				.antMatchers("/partidos/showpartidos").hasAnyAuthority("jugador","entrenador","estadistico")

@@ -78,6 +78,12 @@ public class PruebaCondicionFisicaServiceImpl implements PruebaCondicionFisicaSe
 		return pruebaRepository.save(prueba);
 	}
 
+	@Override
+	public List<PruebaCondicionFisica> findByJugadorAndTipoPrueba(Jugador jugador, TipoPrueba tipo_prueba) {
+		
+		return pruebaRepository.findByJugadorAndTipoPrueba(jugador, tipo_prueba);
+	}
+
 	
 	
 }

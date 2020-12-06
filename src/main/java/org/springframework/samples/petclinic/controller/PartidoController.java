@@ -87,7 +87,7 @@ public class PartidoController {
 	private PartidoValidator partidoValidator;
 	
 	@Autowired
-	private DataPosicionConverter utilConverter;
+	private DataPosicionConverter dataPosicionConverter;
 	
 	@GetMapping("/showpartidos")
 	public ModelAndView listadoJugadores() {
@@ -166,7 +166,7 @@ public class PartidoController {
 			}
 			
 			
-			DataPosicion data = utilConverter.convertPartidoToPartidoStats(listaJugadorStats);
+			DataPosicion data = dataPosicionConverter.convertPartidoToPartidoStats(listaJugadorStats);
 			return new ResponseEntity<DataPosicion>(data, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<DataPosicion>(HttpStatus.BAD_REQUEST);

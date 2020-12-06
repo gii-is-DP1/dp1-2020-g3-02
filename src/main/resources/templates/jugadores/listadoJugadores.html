@@ -176,7 +176,27 @@
 							</div>
 							<div id="collapseOne" class="collapse show"
 								aria-labelledby="headingOne" data-parent="#accordion">
-								<div class="card-body">TABLAAAA</div>
+								<div class="card-body">
+								
+								<div class="row">
+						
+									<div class="col-lg-12 responsive">
+							
+										<table
+											class="table table-sm table-striped table-bordered table-hover nowrap  abdominal"
+											cellspacing="0" width="100%" >
+										<thead>
+											<tr>
+												<th>Fecha</th>
+												<th>Dato</th>
+											</tr>
+										</thead>
+									</table>
+							
+									</div>
+
+								</div>	
+								</div>
 							</div>
 						</div>
 						
@@ -290,35 +310,7 @@
 						
 					
 					</div>
-					<!--  <div class="row">
-						
-						<div class="col-lg-12 responsive">
-							
-							<table
-								class="table table-sm table-striped table-bordered table-hover nowrap  pruebasCondicion"
-								cellspacing="0" width="100%" >
-								<thead>
-									<tr>
-										<th>Jugador</th>
-										<th>Principal</th>
-										<th>Secundaria</th>
-										<th>%_S</th>
-										<th>%_R</th>
-										<th>%_C</th>
-										<th>%_D</th>
-										<th>%_B</th>
-										<th>%_Rem</th>
-										<th>%_F</th>
-										<th>%_A</th>
-
-
-									</tr>
-								</thead>
-							</table>
-							
-						</div>
-
-					</div> -->
+					
 					</div>
 				</div> 
 				<div class="modal-footer"
@@ -622,13 +614,51 @@
 											var chart = null;
 											$('table .pruebaCondicion').on('click',function() {
 												var id = $(this).parent().find('#id').val();
-												
-											
-																
-													
+
 													$('.modal-header').css("color","white");
 													$('.modal-title').text("Pruebas Condición Física");
 													$('#pruebasCondicionModal').modal("show");
+													
+													
+													tabla = $('.abdominal').DataTable({
+														"lengthMenu": [5],
+														responsive: true,
+														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/ABDOMINAL",
+														language:{
+															emptyTable: "Ningún dato disponible en esta tabla",
+															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+															"infoEmpty":      "Mostrando 0 de 0 registros",
+															"lengthMenu":     "Mostrando 5 registros",
+															"search":         "Buscar:",
+															"zeroRecords":    "No se encontraron resultados",
+															"paginate": {
+																"first":      "Primera",
+																"last":       "Última",
+																"next":       "Siguiente",
+																"previous":   "Anterior"
+															},
+														},
+														"columns" : [
+															{
+																"data" : "fecha"
+															},
+															{
+																"data" : "dato"
+															}
+
+														],
+														drawCallback: ajustarAncho
+							
+													});
+														
+														
+														function ajustarAncho (){
+															this.api().columns.adjust();
+														}
+														
+													
+													
+												
 																//En desarrollo
 															});
 											
