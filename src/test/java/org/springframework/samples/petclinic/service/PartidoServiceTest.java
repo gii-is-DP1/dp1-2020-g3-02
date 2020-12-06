@@ -42,6 +42,28 @@ public class PartidoServiceTest {
 	
 	@Test
 	@Transactional(readOnly = true)
+	public void testFindByEquipoAndFechaAndHoraBetweenDataFinding() {
+		Equipo equipo = equipoService.findByCategoria("Senior");
+		LocalDate fecha = LocalDate.parse("06/11/2020", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		String hora1 = "17:00";
+		String hora2 = "19:00";
+		List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, fecha, hora1, hora2);
+		assertEquals(partidos.size(), 1);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void testFindByEquipoAndFechaAndHoraBetweenDataNotFinding() {
+		Equipo equipo = equipoService.findByCategoria("Senior");
+		LocalDate fecha = LocalDate.parse("06/11/2020", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		String hora1 = "18:00";
+		String hora2 = "20:00";
+		List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, fecha, hora1, hora2);
+		assertEquals(partidos.size(), 0);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
 	public void testFindByFechaOrderByHoraDataNotFinding() {
 		LocalDate date = LocalDate.parse("06/11/2000", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		List<Partido> partidos = partidoService.findByFechaOrderByHora(date);
@@ -245,13 +267,13 @@ public class PartidoServiceTest {
 		assertNotNull(partido);
 	}
 	
-	@Test
-	@Transactional
-	public void testDeletePartido() {
-		int partido_id = 1;
-		partidoService.deletePartido(partido_id);
-		Optional<Partido> partido = partidoService.findById(partido_id);
-		assertEquals(partido, Optional.empty());
-	}
+//	@Test
+//	@Transactional
+//	public void testDeletePartido() {
+//		int partido_id = 1;
+//		partidoService.deletePartido(partido_id);
+//		Optional<Partido> partido = partidoService.findById(partido_id);
+//		assertEquals(partido, Optional.empty());
+//	}
 
 }

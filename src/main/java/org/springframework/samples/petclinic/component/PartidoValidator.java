@@ -30,12 +30,14 @@ public class PartidoValidator implements Validator{
 			errors.rejectValue("fecha", "error", ValidationConstant.FECHA_FORMATO_ERRONEO);
 		} else {
 			LocalDate fecha = LocalDate.parse(partido.getFecha(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-			if(fecha.isBefore(LocalDate.now())) {
+			if(fecha.isBefore(LocalDate.now().plusDays(1))) {
 				errors.rejectValue("fecha", "error", ValidationConstant.FECHA_ANTERIOR_ERROR);
 			}
 		}
 		if(StringUtils.isEmpty(partido.getHora())) {
 			errors.rejectValue("hora", "error", ValidationConstant.VALOR_OBLIGATORIO);
+		} else if(!Pattern.matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", partido.getHora())) {
+			errors.rejectValue("hora", "error", ValidationConstant.HORA_FORMATO_ERRONEO);			
 		}
 	}
 
