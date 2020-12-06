@@ -97,6 +97,14 @@
 									<i class="fas fa-user-edit"></i>
 								</button> 
 								
+								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-danger mx-0 estado" type="button" title="Estado">
+									<i class="fas fa-user-injured"></i>
+								</button>
+								
+								<button sec:authorize="hasAuthority('jugador')"  th:if="${jugador.User.username == username}" class="btn btn-outline-danger mx-0 estado" type="button" title="Estado">
+									<i class="fas fa-user-injured"></i>
+								</button> 
+								
 								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-dark mx-0 pruebaCondicion" type="button" title="Prueba Condición Física">
 									<i class="fas fa-dumbbell"></i>
 								</button> 
