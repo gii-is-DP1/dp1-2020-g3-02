@@ -166,26 +166,32 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 70
 			});
 	
 		$('#stat').on('click', function(){
-			tEstadisticos.draw();
-
-			if(this.getElementsByClassName('fa-plus')[0]){
-				
-				this.getElementsByClassName('fas')[0].classList.replace('fa-plus', 'fa-minus');
-			}else{
-				this.getElementsByClassName('fas')[0].classList.replace('fa-minus', 'fa-plus');
+			if(!($('#collapseEstadisticos').hasClass('collapsing'))){
+				tEstadisticos.draw();
+	
+				if(this.getElementsByClassName('fa-plus')[0]){
+					
+					this.getElementsByClassName('fas')[0].classList.replace('fa-plus', 'fa-minus');
+				}else{
+					this.getElementsByClassName('fas')[0].classList.replace('fa-minus', 'fa-plus');
+				}
 			}
 		});
 		
-		$('#coach').on('click', function(){
-			tEntrenadores.draw();
-
-			if(this.getElementsByClassName('fa-plus')[0]){
-				
-				this.getElementsByClassName('fas')[0].classList.replace('fa-plus', 'fa-minus');
-			}else{
-				this.getElementsByClassName('fas')[0].classList.replace('fa-minus', 'fa-plus');
-			}
-		});
+		
+			$('#coach').on('click', function(){
+				if(!($('#collapseEntrenadores').hasClass('collapsing'))){
+					tEntrenadores.draw();
+	
+					if(this.getElementsByClassName('fa-plus')[0]){
+						
+						this.getElementsByClassName('fas')[0].classList.replace('fa-plus', 'fa-minus');
+					}else{
+						this.getElementsByClassName('fas')[0].classList.replace('fa-minus', 'fa-plus');
+					}
+				}
+			});
+		
 		
 		
 	</script>
