@@ -1,17 +1,19 @@
 package org.springframework.samples.petclinic.component;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.EjercicioIndividual;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.service.EjercicioIndividualService;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
 public class EjercicioIndividualValidator implements Validator{
-
-
 
 	@Autowired
 	private EjercicioIndividualService ejercicioIndividualService;
@@ -22,16 +24,21 @@ public class EjercicioIndividualValidator implements Validator{
 
 
 		//Descripcion validation
-		if ( ejercicioIndividual.getDescripcion() == null || ejercicioIndividual.getDescripcion().toString().length()>255 ) {
-			errors.rejectValue("descripcion", "La descripcion no debe ser nula y tener más de 255 carácteres","La descripcion no debe ser nula y tener más de 255 carácteres");
+		if (StringUtils.isEmpty(ejercicioIndividual.getDescripcion())) {
+			errors.rejectValue("descripcion", "error",ValidationConstant.VALOR_OBLIGATORIO);
 		}
 		//Nombre validation
-		if ( ejercicioIndividual.getNombre() == null ||  ejercicioIndividual.getNombre().toString().length()>255) {
-			errors.rejectValue("nombre", "El nombre no debe ser nulo y tener más de 255 carácteres","El nombre no debe ser nulo y tener más de 255 carácteres");
+		if (StringUtils.isEmpty(ejercicioIndividual.getNombre())) {
+			errors.rejectValue("nombre", "error",ValidationConstant.VALOR_OBLIGATORIO);
+		} else {
+			Optional<EjercicioIndividual> ejercicio = ejercicioIndividualService.findByNombre(ejercicioIndividual.getNombre());
+			if(!ejercicio.equals(Optional.empty()) && ejercicio.get().getId() != ejercicioIndividual.getId()) {
+				errors.rejectValue("nombre", "error",ValidationConstant.EJERCICIOS_NOMBRE_DUPLICADO);
+			}
 		}
 		//TipoEjercicio validation
-		if ( ejercicioIndividual.getTipoEjercicio() == null) {
-			errors.rejectValue("tipo_ejercicio", "El tipo de ejercicio no puede ser nulo","El tipo de ejercicio no puede ser nulo");
+		if (StringUtils.isEmpty(ejercicioIndividual.getTipoEjercicio())) {
+			errors.rejectValue("tipo_ejercicio", "error",ValidationConstant.VALOR_OBLIGATORIO);
 
 		}
 	}
