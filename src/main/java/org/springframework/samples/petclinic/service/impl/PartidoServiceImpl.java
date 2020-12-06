@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.PartidoRepository;
 import org.springframework.samples.petclinic.service.PartidoService;
@@ -20,6 +21,11 @@ public class PartidoServiceImpl implements PartidoService {
 	@Override
 	public List<Partido> findByFechaOrderByHora(LocalDate date) {
 		return partidoRepository.findByFechaOrderByHora(date);
+	}
+	
+	@Override
+	public List<Partido> findByEquipoAndFechaAndHoraBetween(Equipo equipo, LocalDate fecha, String hora1, String hora2) {
+		return partidoRepository.findByEquipoAndFechaAndHoraBetween(equipo, fecha, hora1, hora2);
 	}
 
 	@Override

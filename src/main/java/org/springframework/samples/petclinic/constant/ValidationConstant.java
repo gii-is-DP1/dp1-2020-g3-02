@@ -12,5 +12,8 @@ public class ValidationConstant {
 	/** FECHA */
 	public static final String FECHA_FORMATO_ERRONEO = "La fecha debe tener el formato dd/MM/yyyy";
 	public static final String FECHA_ANTERIOR_ERROR = "La fecha introducida es anterior a la actual";
+	
+	/** HORA */
+	public static final String HORA_FORMATO_ERRONEO = "La hora debe tener el formato hh:mm, desde 00:00 hasta 23:59";
 
 }
