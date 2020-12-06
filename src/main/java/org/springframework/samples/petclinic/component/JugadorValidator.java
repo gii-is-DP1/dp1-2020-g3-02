@@ -39,14 +39,14 @@ public class JugadorValidator implements Validator {
 		if ( jugador.getLastName() == null) {
 			errors.rejectValue("lastName", "error",ValidationConstant.LASTNAME_ERROR);
 		}else if(!Pattern.matches("[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",jugador.getLastName())){
-			errors.rejectValue("firstName", "error",ValidationConstant.LASTNAME_ERROR);
+			errors.rejectValue("lastName", "error",ValidationConstant.LASTNAME_ERROR);
 		}
 		
 		//email validation
 		if ( jugador.getEmail() == null) {
 			errors.rejectValue("email", "error",ValidationConstant.VALOR_OBLIGATORIO);
-		}else if(!Pattern.matches("^[a-zA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)$",jugador.getEmail())){
-			errors.rejectValue("firstName", "error",ValidationConstant.EMAIL_FORMATO_ERROR);
+		}else if(!Pattern.matches("^[a-zñÑA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zñÑA-Z0-9-]+(?:.[a-zA-Z0-9-]+)$",jugador.getEmail())){
+			errors.rejectValue("email", "error",ValidationConstant.EMAIL_FORMATO_ERROR);
 		}
 		
 		//direccion validation
