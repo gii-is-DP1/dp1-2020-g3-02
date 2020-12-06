@@ -169,7 +169,7 @@
 								<h5 class="mb-0 ml-3 text-white">
 									ABDOMINAL
 								</h5>
-									<a id="stat" href="#collapseOne" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark">
+									<a id="stat" href="#collapseOne" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
 									<i class="fas fa-minus" ></i>
 								</a>
 							</div>
@@ -187,7 +187,7 @@
 								<h5 class="mb-0 ml-3 text-white">
 									FLEXIBILIDAD
 								</h5>
-								<a id="stat" href="#collapseTwo" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark">
+								<a id="stat" href="#collapseTwo" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
 									<i class="fas fa-plus" ></i>
 								</a>
 							</div>
@@ -201,12 +201,15 @@
 						<div class="card">
 							<div class="card-header" id="headingTres" style="background: rgb(52,58,64);
 									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<h5 class="mb-0 text-white">
+								<div class="row">
+								<h5 class="mb-0 ml-3 text-white">
 									VELOCIDAD
 								</h5>
-								
+								<a id="stat" href="#collapseTres" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
+									<i class="fas fa-plus" ></i>
+								</a>
 							</div>
-
+							</div>
 							<div id="collapseTres" class="collapse"
 								aria-labelledby="headingTres" data-parent="#accordion">
 								<div class="card-body">TABLAAAA</div>
@@ -216,12 +219,15 @@
 						<div class="card">
 							<div class="card-header" id="headingFour" style="background: rgb(52,58,64);
 									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<h5 class="mb-0 text-white">
+								<div class="row">
+								<h5 class="mb-0 ml-3 text-white">
 									SALTO VERTICAL
 								</h5>
-								
+								<a id="stat" href="#collapseFour" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
+									<i class="fas fa-plus" ></i>
+								</a>
 							</div>
-
+							</div>
 							<div id="collapseFour" class="collapse"
 								aria-labelledby="headingFour" data-parent="#accordion">
 								<div class="card-body">TABLAAAA</div>
@@ -231,12 +237,15 @@
 						<div class="card">
 							<div class="card-header" id="headingFive" style="background: rgb(52,58,64);
 									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<h5 class="mb-0 text-white">
+								<div class="row">
+								<h5 class="mb-0 ml-3 text-white">
 									AGILIDAD
 								</h5>
-								
+								<a id="stat" href="#collapseFive" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
+									<i class="fas fa-plus" ></i>
+								</a>
 							</div>
-
+							</div>
 							<div id="collapseFive" class="collapse"
 								aria-labelledby="headingFive" data-parent="#accordion">
 								<div class="card-body">TABLAAAA</div>
@@ -246,11 +255,15 @@
 						<div class="card">
 							<div class="card-header" id="headingSix" style="background: rgb(52,58,64);
 									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<h5 class="mb-0 text-white">
+								<div class="row">
+								<h5 class="mb-0 ml-3 text-white">
 									RESISTENCIA
 								</h5>
+								<a id="stat" href="#collapseSix" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
+									<i class="fas fa-plus" ></i>
+								</a>
 							</div>
-
+							</div>
 							<div id="collapseSix" class="collapse"
 								aria-labelledby="headingSix" data-parent="#accordion">
 								<div class="card-body">TABLAAAA</div>
@@ -260,12 +273,15 @@
 						<div class="card">
 							<div class="card-header" id="headingSeven" style="background: rgb(52,58,64);
 									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<h5 class="mb-0 text-white">
+								<div class="row">
+								<h5 class="mb-0 ml-3 text-white">
 									PULSACIONES MÍNIMAS
 								</h5>
-								
+								<a id="stat" href="#collapseSeven" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
+									<i class="fas fa-plus" ></i>
+								</a>
 							</div>
-
+							</div>
 							<div id="collapseSeven" class="collapse"
 								aria-labelledby="headingSeven" data-parent="#accordion">
 								<div class="card-body">TABLAAAA</div>
@@ -411,6 +427,8 @@
 		
 		
 		<script>
+		
+		 
 
 			var tipo = $('#security').val(); 
 			if(tipo == 'jugador'){
@@ -599,10 +617,13 @@
 
 								
 // PRUEBA CONDICION FISICA ===============================================================================	
+											 
 											var tablaPruebas = null;
 											var chart = null;
 											$('table .pruebaCondicion').on('click',function() {
 												var id = $(this).parent().find('#id').val();
+												
+											
 																
 													
 													$('.modal-header').css("color","white");
@@ -611,9 +632,33 @@
 																//En desarrollo
 															});
 											
-// FIN PRUEBA CONDICION FISICA ===============================================================================											
+								
 								
 							});
+			
+			function cambioMasMenos(element){
+				
+				if(!($('#collapseEstadisticos').hasClass('collapsing'))){
+					
+					//tEstadisticos.draw();
+					
+					
+					if(element.children[0].classList.contains('fa-plus')){
+						
+						if($('.fa-minus')[0] != undefined){
+							
+							$('.fa-minus')[0].classList.replace('fa-minus', 'fa-plus');
+						}
+						element.children[0].classList.replace('fa-plus', 'fa-minus');
+						
+					}else{
+						
+						element.children[0].classList.replace('fa-minus', 'fa-plus');
+					}
+				}
+		 }
+			
+// FIN PRUEBA CONDICION FISICA ===============================================================================			
 		</script>
 			<script type="text/javascript">
 	       w3IncludeHTML();
