@@ -520,7 +520,7 @@
 											<div class="form-group col">
 												<label><span class="text-danger">(*) </span>Dato:</label><input class="form-control" type="text"
 													placeholder="Dato" th:id="dato" name="dato" required></input>
-												<small class="dato text-danger error"></small>
+												<small class="dato text-danger errorDato"></small>
 											</div>
 										</div>
 										<div class="row">
@@ -647,8 +647,8 @@
 		
 		
 		<script>
-		
-		 
+			
+				 
 
 			var tipo = $('#security').val(); 
 			if(tipo == 'jugador'){
@@ -835,387 +835,501 @@
 								});
 								
 
-								
-// PRUEBA CONDICION FISICA ===============================================================================	
-											 
-											var abdominal = null;
-											var flexibilidad = null;
-											var velocidad = null;
-											var salto = null;
-											var agilidad = null;
-											var resistencia = null;
-											var pulsaciones = null;
-											
-											$('table .pruebaCondicion').on('click',function() {
-												var id = $(this).parent().find('#id').val();
-												var jugador = $(this).parent().find('#jugador').val();
-													
-													$('#pruebasCondicionModal #id').val(id);
-													$('.modal-header').css("color","white");
-													$('.modal-title').text("Pruebas de Condición Física de "+ jugador);
-													$('#pruebasCondicionModal').modal("show");
-													
-													if(abdominal != null){
-														//tabla.destroy();
-														abdominal.destroy();
-														flexibilidad.destroy();
-														velocidad.destroy();
-														salto.destroy();
-														agilidad.destroy();
-														resistencia.destroy();
-														pulsaciones.destroy();
-													}
-													
-													
-													abdominal = $('.abdominal').DataTable({
-														"lengthMenu": [5],
-														responsive: true,
-														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/ABDOMINAL",
-														language:{
-															emptyTable: "Ningún dato disponible en esta tabla",
-															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-															"infoEmpty":      "Mostrando 0 de 0 registros",
-															"lengthMenu":     "Mostrando 5 registros",
-															"search":         "Buscar:",
-															"zeroRecords":    "No se encontraron resultados",
-															"paginate": {
-																"first":      "Primera",
-																"last":       "Última",
-																"next":       "Siguiente",
-																"previous":   "Anterior"
-															},
-														},
-														"columns" : [
-															{
-																"data" : "fecha"
-															},
-															{
-																"data" : "dato"
-															},
-															{"data": 'editar',
-																render: function(data, type, row){
-																	return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"+
-																	" <button type='button' class='btn btn-outline-danger eliminar' value='editar'><i class='fas fa-trash-alt'></i></button>"
-																	
-																}
-															}
-
-														],
-														drawCallback: ajustarAncho
-							
-													});
-													
-													flexibilidad = $('.flexibilidad').DataTable({
-														"lengthMenu": [5],
-														responsive: true,
-														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/FLEXIBILIDAD",
-														language:{
-															emptyTable: "Ningún dato disponible en esta tabla",
-															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-															"infoEmpty":      "Mostrando 0 de 0 registros",
-															"lengthMenu":     "Mostrando 5 registros",
-															"search":         "Buscar:",
-															"zeroRecords":    "No se encontraron resultados",
-															"paginate": {
-																"first":      "Primera",
-																"last":       "Última",
-																"next":       "Siguiente",
-																"previous":   "Anterior"
-															},
-														},
-														"columns" : [
-															{
-																"data" : "fecha"
-															},
-															{
-																"data" : "dato"
-															},
-															{"data": 'editar',
-																render: function(data, type, row){
-																	return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"+
-																	" <button type='button' class='btn btn-outline-danger eliminar' value='editar'><i class='fas fa-trash-alt'></i></button>"
-																	
-																}
-															}
-
-														],
-														drawCallback: ajustarAncho
-							
-													});
-													
-													velocidad = $('.velocidad').DataTable({
-														"lengthMenu": [5],
-														responsive: true,
-														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/VELOCIDAD",
-														language:{
-															emptyTable: "Ningún dato disponible en esta tabla",
-															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-															"infoEmpty":      "Mostrando 0 de 0 registros",
-															"lengthMenu":     "Mostrando 5 registros",
-															"search":         "Buscar:",
-															"zeroRecords":    "No se encontraron resultados",
-															"paginate": {
-																"first":      "Primera",
-																"last":       "Última",
-																"next":       "Siguiente",
-																"previous":   "Anterior"
-															},
-														},
-														"columns" : [
-															{
-																"data" : "fecha"
-															},
-															{
-																"data" : "dato"
-															},
-															{"data": 'editar',
-																render: function(data, type, row){
-																	return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"+
-																	" <button type='button' class='btn btn-outline-danger eliminar' value='editar'><i class='fas fa-trash-alt'></i></button>"
-																	
-																}
-															}
-
-														],
-														drawCallback: ajustarAncho
-							
-													});
-													
-													salto = $('.saltoVertical').DataTable({
-														"lengthMenu": [5],
-														responsive: true,
-														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/SALTOVERTICAL",
-														language:{
-															emptyTable: "Ningún dato disponible en esta tabla",
-															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-															"infoEmpty":      "Mostrando 0 de 0 registros",
-															"lengthMenu":     "Mostrando 5 registros",
-															"search":         "Buscar:",
-															"zeroRecords":    "No se encontraron resultados",
-															"paginate": {
-																"first":      "Primera",
-																"last":       "Última",
-																"next":       "Siguiente",
-																"previous":   "Anterior"
-															},
-														},
-														"columns" : [
-															{
-																"data" : "fecha"
-															},
-															{
-																"data" : "dato"
-															},
-															{"data": 'editar',
-																render: function(data, type, row){
-																	return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"+
-																	" <button type='button' class='btn btn-outline-danger eliminar' value='editar'><i class='fas fa-trash-alt'></i></button>"
-																	
-																}
-															}
-
-														],
-														drawCallback: ajustarAncho
-							
-													});
-													
-													agilidad = $('.agilidad').DataTable({
-														"lengthMenu": [5],
-														responsive: true,
-														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/AGILIDAD",
-														language:{
-															emptyTable: "Ningún dato disponible en esta tabla",
-															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-															"infoEmpty":      "Mostrando 0 de 0 registros",
-															"lengthMenu":     "Mostrando 5 registros",
-															"search":         "Buscar:",
-															"zeroRecords":    "No se encontraron resultados",
-															"paginate": {
-																"first":      "Primera",
-																"last":       "Última",
-																"next":       "Siguiente",
-																"previous":   "Anterior"
-															},
-														},
-														"columns" : [
-															{
-																"data" : "fecha"
-															},
-															{
-																"data" : "dato"
-															},
-															{"data": 'editar',
-																render: function(data, type, row){
-																	return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"+
-																	" <button type='button' class='btn btn-outline-danger eliminar' value='editar'><i class='fas fa-trash-alt'></i></button>"
-																	
-																}
-															}
-
-														],
-														drawCallback: ajustarAncho
-							
-													});
-													
-													resistencia = $('.resistencia').DataTable({
-														"lengthMenu": [5],
-														responsive: true,
-														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/RESISTENCIA",
-														language:{
-															emptyTable: "Ningún dato disponible en esta tabla",
-															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-															"infoEmpty":      "Mostrando 0 de 0 registros",
-															"lengthMenu":     "Mostrando 5 registros",
-															"search":         "Buscar:",
-															"zeroRecords":    "No se encontraron resultados",
-															"paginate": {
-																"first":      "Primera",
-																"last":       "Última",
-																"next":       "Siguiente",
-																"previous":   "Anterior"
-															},
-														},
-														"columns" : [
-															{
-																"data" : "fecha"
-															},
-															{
-																"data" : "dato"
-															},
-															{"data": 'editar',
-																render: function(data, type, row){
-																	return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"+
-																	" <button type='button' class='btn btn-outline-danger eliminar' value='editar'><i class='fas fa-trash-alt'></i></button>"
-																	
-																}
-															}
-
-														],
-														drawCallback: ajustarAncho
-							
-													});
-													
-													pulsaciones = $('.pulsaciones').DataTable({
-														"lengthMenu": [5],
-														responsive: true,
-														ajax:'[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'+id+"/PULSACIONESMINIMAS",
-														language:{
-															emptyTable: "Ningún dato disponible en esta tabla",
-															"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-															"infoEmpty":      "Mostrando 0 de 0 registros",
-															"lengthMenu":     "Mostrando 5 registros",
-															"search":         "Buscar:",
-															"zeroRecords":    "No se encontraron resultados",
-															"paginate": {
-																"first":      "Primera",
-																"last":       "Última",
-																"next":       "Siguiente",
-																"previous":   "Anterior"
-															},
-														},
-														"columns" : [
-															{
-																"data" : "fecha"
-															},
-															{
-																"data" : "dato"
-															},
-															{"data": 'editar',
-																render: function(data, type, row){
-																	return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"+
-																	" <button type='button' class='btn btn-outline-danger eliminar' value='editar'><i class='fas fa-trash-alt'></i></button>"
-																	
-																}
-															}
-
-														],
-														drawCallback: ajustarAncho
-							
-													});
-														
-														function ajustarAncho (){
-															this.api().columns.adjust();
-														}
-														
-														abdominal.ajax.reload(null, false);
-														flexibilidad.ajax.reload(null, false);
-														velocidad.ajax.reload(null, false);
-														salto.ajax.reload(null, false);
-														agilidad.ajax.reload(null, false);
-														resistencia.ajax.reload(null, false);
-														pulsaciones.ajax.reload(null, false);
-													
-														$('.añadir').on('click', function(){
-																
-																setTimeout( function() {
-															abdominal.ajax.reload(null, false);
-															flexibilidad.ajax.reload(null, false);
-															velocidad.ajax.reload(null, false);
-															salto.ajax.reload(null, false);
-															agilidad.ajax.reload(null, false);
-															resistencia.ajax.reload(null, false);
-															pulsaciones.ajax.reload(null, false);
-															
-														},1000)
-														
-														});
-															});
-											
-										
 							});			
-							
-			
-			function cambioMasMenos(element){
-				
-				if(!($('#collapseEstadisticos').hasClass('collapsing'))){
+// PRUEBA CONDICION FISICA ===============================================================================	
+</script>
+<script >	
+	
 
-					
-					if(element.children[0].classList.contains('fa-plus')){
-						
-						if($('.fa-minus')[0] != undefined){
-							
-							$('.fa-minus')[0].classList.replace('fa-minus', 'fa-plus');
-						}
-						element.children[0].classList.replace('fa-plus', 'fa-minus');
-						
-					}else{
-						
-						element.children[0].classList.replace('fa-minus', 'fa-plus');
-					}
+	var abdominal = null;
+	var flexibilidad = null;
+	var velocidad = null;
+	var salto = null;
+	var agilidad = null;
+	var resistencia = null;
+	var pulsaciones = null;
+
+
+	function cambioMasMenos(element) {
+
+		if (!($('#collapseEstadisticos').hasClass('collapsing'))) {
+
+			if (element.children[0].classList.contains('fa-plus')) {
+
+				if ($('.fa-minus')[0] != undefined) {
+
+					$('.fa-minus')[0].classList.replace('fa-minus', 'fa-plus');
 				}
-		 }
-			
-			
-			function añadir(){
-				
-				var form = new FormData(document.getElementById('formAddPrueba'));
-				console.log(form.get("id"));
-				console.log(form.get("dato"));
-				console.log(form.get("tipoPrueba"));
-				$.ajax({
-					type : 'POST',
-					url : '/pruebas/addprueba/' + form.get("id") +"/"+form.get("tipoPrueba")+"/"+form.get("dato"),
-					success : function(borrar) {
-						
-						$(".exito")[0].classList.remove("invisible")
-						
-						setTimeout(function() {
-					        $(".exito").fadeOut(1500);
-					       
-					    },3000);
-						setTimeout(function() {
-							 $(".exito")[0].classList.add("invisible");
-						     $(".exito").fadeIn(500);
-						},5000);
-					}
-				});
-				
-				
-			};
-			
-							
-// FIN PRUEBA CONDICION FISICA ===============================================================================			
-		</script>
+				element.children[0].classList.replace('fa-plus', 'fa-minus');
+
+			} else {
+
+				element.children[0].classList.replace('fa-minus', 'fa-plus');
+			}
+		}
+	}
+
+	function añadir() {
+
+		var form = new FormData(document.getElementById('formAddPrueba'));
+		console.log(form.get("id"));
+		console.log(form.get("dato"));
+		console.log(form.get("tipoPrueba"));
+		$.ajax({
+			type : 'POST',
+			url : '/pruebas/addprueba/' + form.get("id") + "/"
+					+ form.get("tipoPrueba") + "/" + form.get("dato"),
+			success : function(borrar) {
+				$('.errorDato').text('');
+				$(".exito")[0].classList.remove("invisible")
+
+				setTimeout(function() {
+					$(".exito").fadeOut(1500);
+
+				}, 3000);
+				setTimeout(function() {
+					$(".exito")[0].classList.add("invisible");
+					$(".exito").fadeIn(500);
+				}, 5000);
+			},
+			error : function(data) {
+				$('.errorDato').text('');
+				$(".errorDato").text(
+						"El dato debe estar relleno y ser un número decimal");
+			}
+		});
+
+	};
+
+	function eliminarPrueba(id) {
+		console.log(id);
+
+		$.ajax({
+			type : 'POST',
+			url : '/pruebas/eliminarprueba/' + id + "/",
+			success : function(borrar) {
+
+				abdominal.ajax.reload(null, false);
+				flexibilidad.ajax.reload(null, false);
+				velocidad.ajax.reload(null, false);
+				salto.ajax.reload(null, false);
+				agilidad.ajax.reload(null, false);
+				resistencia.ajax.reload(null, false);
+				pulsaciones.ajax.reload(null, false);
+			}
+		});
+	}
+	$('table .pruebaCondicion')
+			.on(
+					'click',
+					function() {
+						var id = $(this).parent().find('#id').val();
+						var jugador = $(this).parent().find('#jugador').val();
+
+						$(document)
+								.ready(
+										function() {
+
+											$('#pruebasCondicionModal #id')
+													.val(id);
+											$('.modal-header').css("color",
+													"white");
+											$('.modal-title').text(
+													"Pruebas de Condición Física de "
+															+ jugador);
+											$('#pruebasCondicionModal').modal(
+													"show");
+
+											if (abdominal != null) {
+												//tabla.destroy();
+												abdominal.destroy();
+												flexibilidad.destroy();
+												velocidad.destroy();
+												salto.destroy();
+												agilidad.destroy();
+												resistencia.destroy();
+												pulsaciones.destroy();
+											}
+
+											abdominal = $('.abdominal')
+													.DataTable(
+															{
+																"lengthMenu" : [ 5 ],
+																responsive : true,
+																ajax : '[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'
+																		+ id
+																		+ "/ABDOMINAL",
+																language : {
+																	emptyTable : "Ningún dato disponible en esta tabla",
+																	"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+																	"infoEmpty" : "Mostrando 0 de 0 registros",
+																	"lengthMenu" : "Mostrando 5 registros",
+																	"search" : "Buscar:",
+																	"zeroRecords" : "No se encontraron resultados",
+																	"paginate" : {
+																		"first" : "Primera",
+																		"last" : "Última",
+																		"next" : "Siguiente",
+																		"previous" : "Anterior"
+																	},
+																},
+																"columns" : [
+																		{
+																			"data" : "fecha"
+																		},
+																		{
+																			"data" : "dato"
+																		},
+																		{
+																			"data" : 'editar',
+																			render : function(
+																					data,
+																					type,
+																					row) {
+																				return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"
+																					+ " <button type='button' class='btn btn-outline-danger eliminar' onclick='return eliminarPrueba("+ row['id']
+																					+ ");' value='eliminar'><i class='fas fa-trash-alt'></i></button>"
+
+																			}
+																		}
+
+																],
+																drawCallback : ajustarAncho
+
+															});
+
+											flexibilidad = $('.flexibilidad')
+													.DataTable(
+															{
+																"lengthMenu" : [ 5 ],
+																responsive : true,
+																ajax : '[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'
+																		+ id
+																		+ "/FLEXIBILIDAD",
+																language : {
+																	emptyTable : "Ningún dato disponible en esta tabla",
+																	"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+																	"infoEmpty" : "Mostrando 0 de 0 registros",
+																	"lengthMenu" : "Mostrando 5 registros",
+																	"search" : "Buscar:",
+																	"zeroRecords" : "No se encontraron resultados",
+																	"paginate" : {
+																		"first" : "Primera",
+																		"last" : "Última",
+																		"next" : "Siguiente",
+																		"previous" : "Anterior"
+																	},
+																},
+																"columns" : [
+																		{
+																			"data" : "fecha"
+																		},
+																		{
+																			"data" : "dato"
+																		},
+																		{
+																			"data" : 'editar',
+																			render : function(
+																					data,
+																					type,
+																					row) {
+																				return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"
+																					+ " <button type='button' class='btn btn-outline-danger eliminar' onclick='return eliminarPrueba("+ row['id']
+																					+ ");' value='eliminar'><i class='fas fa-trash-alt'></i></button>"
+
+																			}
+																		}
+
+																],
+																drawCallback : ajustarAncho
+
+															});
+
+											velocidad = $('.velocidad')
+													.DataTable(
+															{
+																"lengthMenu" : [ 5 ],
+																responsive : true,
+																ajax : '[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'
+																		+ id
+																		+ "/VELOCIDAD",
+																language : {
+																	emptyTable : "Ningún dato disponible en esta tabla",
+																	"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+																	"infoEmpty" : "Mostrando 0 de 0 registros",
+																	"lengthMenu" : "Mostrando 5 registros",
+																	"search" : "Buscar:",
+																	"zeroRecords" : "No se encontraron resultados",
+																	"paginate" : {
+																		"first" : "Primera",
+																		"last" : "Última",
+																		"next" : "Siguiente",
+																		"previous" : "Anterior"
+																	},
+																},
+																"columns" : [
+																		{
+																			"data" : "fecha"
+																		},
+																		{
+																			"data" : "dato"
+																		},
+																		{
+																			"data" : 'editar',
+																			render : function(
+																					data,
+																					type,
+																					row) {
+																				return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"
+																					+ " <button type='button' class='btn btn-outline-danger eliminar' onclick='return eliminarPrueba("+ row['id']
+																					+ ");' value='eliminar'><i class='fas fa-trash-alt'></i></button>"
+
+																			}
+																		}
+
+																],
+																drawCallback : ajustarAncho
+
+															});
+
+											salto = $('.saltoVertical')
+													.DataTable(
+															{
+																"lengthMenu" : [ 5 ],
+																responsive : true,
+																ajax : '[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'
+																		+ id
+																		+ "/SALTOVERTICAL",
+																language : {
+																	emptyTable : "Ningún dato disponible en esta tabla",
+																	"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+																	"infoEmpty" : "Mostrando 0 de 0 registros",
+																	"lengthMenu" : "Mostrando 5 registros",
+																	"search" : "Buscar:",
+																	"zeroRecords" : "No se encontraron resultados",
+																	"paginate" : {
+																		"first" : "Primera",
+																		"last" : "Última",
+																		"next" : "Siguiente",
+																		"previous" : "Anterior"
+																	},
+																},
+																"columns" : [
+																		{
+																			"data" : "fecha"
+																		},
+																		{
+																			"data" : "dato"
+																		},
+																		{
+																			"data" : 'editar',
+																			render : function(
+																					data,
+																					type,
+																					row) {
+																				return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"
+																					+ " <button type='button' class='btn btn-outline-danger eliminar' onclick='return eliminarPrueba("+ row['id']
+																					+ ");' value='eliminar'><i class='fas fa-trash-alt'></i></button>"
+
+																			}
+																		}
+
+																],
+																drawCallback : ajustarAncho
+
+															});
+
+											agilidad = $('.agilidad')
+													.DataTable(
+															{
+																"lengthMenu" : [ 5 ],
+																responsive : true,
+																ajax : '[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'
+																		+ id
+																		+ "/AGILIDAD",
+																language : {
+																	emptyTable : "Ningún dato disponible en esta tabla",
+																	"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+																	"infoEmpty" : "Mostrando 0 de 0 registros",
+																	"lengthMenu" : "Mostrando 5 registros",
+																	"search" : "Buscar:",
+																	"zeroRecords" : "No se encontraron resultados",
+																	"paginate" : {
+																		"first" : "Primera",
+																		"last" : "Última",
+																		"next" : "Siguiente",
+																		"previous" : "Anterior"
+																	},
+																},
+																"columns" : [
+																		{
+																			"data" : "fecha"
+																		},
+																		{
+																			"data" : "dato"
+																		},
+																		{
+																			"data" : 'editar',
+																			render : function(
+																					data,
+																					type,
+																					row) {
+																				return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"
+																					+ " <button type='button' class='btn btn-outline-danger eliminar' onclick='return eliminarPrueba("+ row['id']
+																					+ ");' value='eliminar'><i class='fas fa-trash-alt'></i></button>"
+
+																			}
+																		}
+
+																],
+																drawCallback : ajustarAncho
+
+															});
+
+											resistencia = $('.resistencia')
+													.DataTable(
+															{
+																"lengthMenu" : [ 5 ],
+																responsive : true,
+																ajax : '[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'
+																		+ id
+																		+ "/RESISTENCIA",
+																language : {
+																	emptyTable : "Ningún dato disponible en esta tabla",
+																	"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+																	"infoEmpty" : "Mostrando 0 de 0 registros",
+																	"lengthMenu" : "Mostrando 5 registros",
+																	"search" : "Buscar:",
+																	"zeroRecords" : "No se encontraron resultados",
+																	"paginate" : {
+																		"first" : "Primera",
+																		"last" : "Última",
+																		"next" : "Siguiente",
+																		"previous" : "Anterior"
+																	},
+																},
+																"columns" : [
+																		{
+																			"data" : "fecha"
+																		},
+																		{
+																			"data" : "dato"
+																		},
+																		{
+																			"data" : 'editar',
+																			render : function(
+																					data,
+																					type,
+																					row) {
+																				return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"
+																					+ " <button type='button' class='btn btn-outline-danger eliminar' onclick='return eliminarPrueba("+ row['id']
+																					+ ");' value='eliminar'><i class='fas fa-trash-alt'></i></button>"
+
+																			}
+																		}
+
+																],
+																drawCallback : ajustarAncho
+
+															});
+
+											pulsaciones = $('.pulsaciones')
+													.DataTable(
+															{
+																"lengthMenu" : [ 5 ],
+																responsive : true,
+																ajax : '[[@{/pruebas/findPruebasCondicionFisicaJugador/}]]'
+																		+ id
+																		+ "/PULSACIONESMINIMAS",
+																language : {
+																	emptyTable : "Ningún dato disponible en esta tabla",
+																	"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+																	"infoEmpty" : "Mostrando 0 de 0 registros",
+																	"lengthMenu" : "Mostrando 5 registros",
+																	"search" : "Buscar:",
+																	"zeroRecords" : "No se encontraron resultados",
+																	"paginate" : {
+																		"first" : "Primera",
+																		"last" : "Última",
+																		"next" : "Siguiente",
+																		"previous" : "Anterior"
+																	},
+																},
+																"columns" : [
+																		{
+																			"data" : "fecha"
+																		},
+																		{
+																			"data" : "dato"
+																		},
+																		{
+																			"data" : 'editar',
+																			render : function(
+																					data,
+																					type,
+																					row) {
+																				return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"
+																					+ " <button type='button' class='btn btn-outline-danger eliminar' onclick='return eliminarPrueba("+ row['id']
+																					+ ");' value='eliminar'><i class='fas fa-trash-alt'></i></button>"
+
+																			}
+																		}
+
+																],
+																drawCallback : ajustarAncho
+
+															});
+
+											function ajustarAncho() {
+												this.api().columns.adjust();
+											}
+
+											abdominal.ajax.reload(null, false);
+											flexibilidad.ajax.reload(null,false);
+											velocidad.ajax.reload(null, false);
+											salto.ajax.reload(null, false);
+											agilidad.ajax.reload(null, false);
+											resistencia.ajax.reload(null, false);
+											pulsaciones.ajax.reload(null, false);
+
+											$('.añadir')
+													.on('click',function() {
+
+																setTimeout(
+																		function() {
+																			abdominal.ajax.reload(null,false);
+																			flexibilidad.ajax.reload(null,false);
+																			velocidad.ajax.reload(null,false);
+																			salto.ajax.reload(null,false);
+																			agilidad.ajax.reload(null,false);
+																			resistencia.ajax.reload(null,false);
+																			pulsaciones.ajax.reload(null,false);
+
+																		}, 1000)
+
+															});
+
+											$('.eliminar')
+													.on('click',function() {
+																console.log("hola");
+																setTimeout(
+																		function() {
+																			abdominal.ajax.reload(null,false);
+																			flexibilidad.ajax.reload(null,false);
+																			velocidad.ajax.reload(null,false);
+																			salto.ajax.reload(null,false);
+																			agilidad.ajax.reload(null,false);
+																			resistencia.ajax.reload(null,false);
+																			pulsaciones.ajax.reload(null,false);
+																		}, 100)
+
+															});
+										});
+
+					});
+
+	// FIN PRUEBA CONDICION FISICA ===============================================================================
+</script>
 			<script type="text/javascript">
 	       w3IncludeHTML();
 		</script>

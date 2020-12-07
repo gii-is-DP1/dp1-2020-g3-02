@@ -17,5 +17,5 @@ public interface PruebaCondicionFisicaService {
 	public abstract List<PruebaCondicionFisica> findByDatoAndTipoPrueba(double dato, TipoPrueba tipo_prueba);
 	public abstract List<PruebaCondicionFisica> findByTipoPruebaAndDatoLessThanEqual(TipoPrueba tipo_prueba, double dato);
 	public abstract PruebaCondicionFisica savePruebaCondicionFisica(PruebaCondicionFisica prueba);
-
+	public abstract void deletePruebaCondicionFisica(int id);
 }
