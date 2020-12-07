@@ -7,6 +7,8 @@ public class ViewConstant {
 
 	public static final String VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM = "/jugadores/JugadorForm";
 	public static final String VIEW_JUGADOR = "/jugadores/listadoJugadores";
+	
+	public static final String VIEW_EJERCICIOS = "/ejercicios/ejerciciosIndividuales";
 
 	public static final String VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM = "/partidos/PartidoForm";
 	public static final String VIEW_PARTIDOS = "/partidos/listadoPartidos";

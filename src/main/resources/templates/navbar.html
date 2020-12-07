@@ -52,8 +52,8 @@
 						<a sec:authorize="hasAuthority('entrenador')" th:if="${param.id[0] == 'autorizaciones'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/jugadores/showjugadoresaut">Autorizaciones</a> 
 						<a sec:authorize="hasAuthority('entrenador')" th:unless="${param.id[0] == 'autorizaciones'}" class="dropdown-item dropPersonalizado" href="/jugadores/showjugadoresaut">Autorizaciones</a> 
 						
-						<a th:if="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="#">Ejercicios Individuales</a>
-						<a th:unless="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado" href="#">Ejercicios Individuales</a>
+						<a th:if="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/ejercicios/showejercicios">Ejercicios Individuales</a>
+						<a th:unless="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado" href="/ejercicios/showejercicios">Ejercicios Individuales</a>
 					</div></li>
 <!--  JUGADORES ELSE -->						
 				<li sec:authorize="hasAnyAuthority('entrenador','jugador')"  th:unless="${param.id[0] == 'listadoJugadores' || param.id[0] == 'jugadorForm' || param.id[0] == 'ejerciciosIndividuales' || param.id[0] == 'autorizaciones'}" class="nav-item dropdown"><a
@@ -70,8 +70,8 @@
 						<a sec:authorize="hasAuthority('entrenador')" th:if="${param.id[0] == 'autorizaciones'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/jugadores/showjugadoresaut">Autorizaciones</a> 
 						<a sec:authorize="hasAuthority('entrenador')" th:unless="${param.id[0] == 'autorizaciones'}" class="dropdown-item dropPersonalizado" href="/jugadores/showjugadoresaut">Autorizaciones</a> 
 						
-						<a th:if="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="#">Ejercicios Individuales</a>
-						<a th:unless="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado" href="#">Ejercicios Individuales</a>
+						<a th:if="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/ejercicios/showejercicios">Ejercicios Individuales</a>
+						<a th:unless="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado" href="/ejercicios/showejercicios">Ejercicios Individuales</a>
 					</div></li>
 					
 <!--  EQUIPO IF -->					
