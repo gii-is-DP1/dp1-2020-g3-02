@@ -403,14 +403,9 @@ INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (5,2
 
 
 -- INSERT AUTOBUSES
-INSERT INTO autobus(id,hora_salida,hora_llegada) VALUES (1,'12:30','14:00');
-INSERT INTO autobus(id,hora_salida,hora_llegada) VALUES (2,'07:30','00:30');
-INSERT INTO autobus(id,hora_salida,hora_llegada) VALUES (3,'15:30','18:30');
-
-INSERT INTO partidosbus(partido_id,autobus_id) VALUES (1,1);
-INSERT INTO partidosbus(partido_id,autobus_id) VALUES (1,2);
-
-INSERT INTO jugadoresbus(jugador_id,autobus_id) VALUES (1,1);
+INSERT INTO autobus(id) VALUES (1);
+INSERT INTO autobus(id) VALUES (2);
+INSERT INTO autobus(id) VALUES (3);
 
 
 -- INSERT PERSONALES
@@ -419,7 +414,8 @@ INSERT INTO personales(id,propietario,jugador_id) VALUES (2,'Ana',1);
 INSERT INTO personales(id,propietario,jugador_id) VALUES (3,'Rosa',2);
 INSERT INTO personales(id,propietario,jugador_id) VALUES (4,'Pepa',3);
 
-INSERT INTO sevaen(personales_id,partido_id) VALUES (1,1);
+--INSERT VIAJE
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (1,'IDA',1,1,1,null,'12:30');
 
 
 -- INSERT NUMCAMISETAS

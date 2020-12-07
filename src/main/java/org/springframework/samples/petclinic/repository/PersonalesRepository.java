@@ -14,11 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository("personalesRepository")
 public interface PersonalesRepository extends JpaRepository<Personales,Serializable>{
 	
-	public List<Personales> findByPropietario(String propietario);
-	
-	@Query(value = "SELECT id FROM personales WHERE id IN (SELECT personales_id FROM sevaen WHERE partido_id = ?1)", nativeQuery = true)
-	public List<Integer> findByPartido(int idPartido); 
-	
+	public List<Personales> findByPropietario(String propietario);	
 	public List<Personales> findByJugador(Jugador jugador);
 
 }

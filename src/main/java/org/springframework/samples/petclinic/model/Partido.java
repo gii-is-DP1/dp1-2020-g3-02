@@ -39,16 +39,6 @@ public class Partido extends EstadisticasEntity{
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	private List<Jugador> jugadores;
 	
-	@ManyToMany
-	@JoinTable(name = "partidosbus", joinColumns = @JoinColumn(name = "partido_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "autobus_id"))
-	private Set<Autobus> buses;
-	
-	@ManyToMany
-	@JoinTable(name = "sevaen", joinColumns = @JoinColumn(name = "partido_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "personales_id"))
-	private Set<Personales> personales;
-	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "partido")
 	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
 	

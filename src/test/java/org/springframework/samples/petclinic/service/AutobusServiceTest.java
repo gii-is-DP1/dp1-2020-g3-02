@@ -46,75 +46,12 @@ public class AutobusServiceTest {
 		assertEquals(autobus, Optional.empty());
 	}
 
-	@Test
-	@Transactional(readOnly = true)
-    public void testFindByPartidoInitialDataFinding() {
-        int partido_id = 1;
-        List<Integer> bus=autobusService.findByPartido(partido_id);
-        assertEquals(bus.size(), 2);
-    }
-
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByPartidoInitialDataNotFinding() {
-		int partido_id = 3;
-		List<Integer> bus=autobusService.findByPartido(partido_id);
-		assertEquals(bus.size(), 0);
-	}
-	
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByJugadorInitialDataFinding() {
-		int jugador_id = 1;
-		List<Integer> autobus=autobusService.findByJugador(jugador_id);
-		assertEquals(autobus.size(), 1);
-	}
-
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByJugadorInitialDataNotFinding() {
-		int jugador_id = 6;
-		List<Integer> autobus=autobusService.findByJugador(jugador_id);
-		assertEquals(autobus.size(),0);
-	}
-
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByHoraSalidaInitialDataFinding() {
-		String hora_salida="12:30";
-		List<Autobus> autobus=autobusService.findByHoraSalida(hora_salida);
-		assertEquals(autobus.size(), 1);
-	}
-
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByHoraSalidaInitialDataNotFinding() {
-		String hora_salida="07:00";
-		List<Autobus> autobus=autobusService.findByHoraSalida(hora_salida);
-		assertEquals(autobus.size(), 0);
-	}
-
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByHoraLlegadaInitialDataFinding() {
-		String hora_llegada="14:00";
-		List<Autobus> autobus=autobusService.findByHoraLlegada(hora_llegada);
-		assertEquals(autobus.size(), 1);
-	}
-	
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByHoraLlegadaInitialDataNotFinding() {
-		String hora_llegada="00:00";
-		List<Autobus> autobus=autobusService.findByHoraLlegada(hora_llegada);
-		assertEquals(autobus.size(), 0);
-	}
 	
 	@Test
 	@Transactional
 	public void testSaveAutobus() {
-		Autobus autobus = new Autobus("12:30", "14:00");
-		autobus.setId(3);
+		Autobus autobus = new Autobus();
+		autobus.setId(76);
 		
 		Autobus bus = autobusService.saveAutobus(autobus);
 		
