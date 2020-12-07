@@ -25,7 +25,7 @@ public class PruebasSinJugador {
 	
 	private Double dato;
 	
-	private LocalDate fecha;
+	private String fecha;
 	
 	private TipoPrueba tipoPrueba;
 	

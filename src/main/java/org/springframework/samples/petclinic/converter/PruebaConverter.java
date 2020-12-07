@@ -14,7 +14,7 @@ public class PruebaConverter {
 		
 		pruebaSinJugador.setId(prueba.getId());
 		pruebaSinJugador.setDato(prueba.getDato());
-		pruebaSinJugador.setFecha(prueba.getFecha());
+		pruebaSinJugador.setFecha(prueba.getFecha().toString());
 		pruebaSinJugador.setTipoPrueba(prueba.getTipoPrueba());
 		
 		return pruebaSinJugador;

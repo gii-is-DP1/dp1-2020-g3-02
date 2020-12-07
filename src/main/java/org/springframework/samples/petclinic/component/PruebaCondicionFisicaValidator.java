@@ -1,12 +1,16 @@
 package org.springframework.samples.petclinic.component;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+@Component
 public class PruebaCondicionFisicaValidator implements Validator {
 	@Autowired
 	private PruebaCondicionFisicaService pruebaCondicionFisicaService;
@@ -16,11 +20,13 @@ public class PruebaCondicionFisicaValidator implements Validator {
 		PruebaCondicionFisica pruebaCondicionFisica = (PruebaCondicionFisica) target;
 
 		if (pruebaCondicionFisica.getFecha() == null) {
-			errors.rejectValue("fechaPruebaCondicionFisica", "La fecha de realización de la prueba física es requerida.", "La fecha de realización de la prueba física es requerida.");
+			errors.rejectValue("fecha", "La fecha de realización de la prueba física es requerida.", "La fecha de realización de la prueba física es requerida.");
+		}else if(pruebaCondicionFisica.getFecha().isAfter(LocalDate.now())) {
+			errors.rejectValue("fecha", "La fecha no puede ser posterior a hoy", "La fecha no puede ser posterior a hoy");
 		}
 		
 		if (pruebaCondicionFisica.getDato() == null) {
-			errors.rejectValue("datoPruebaCondicionFisica", "El dato de la prueba física es requerido.", "El dato de la prueba física es requerido.");
+			errors.rejectValue("dato", "El dato de la prueba física es requerido.", "El dato de la prueba física es requerido y debe ser un número.");
 		}
 		
 		//Tipo de prueba
