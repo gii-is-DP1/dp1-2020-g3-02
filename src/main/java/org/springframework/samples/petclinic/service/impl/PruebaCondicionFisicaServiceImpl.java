@@ -85,6 +85,12 @@ public class PruebaCondicionFisicaServiceImpl implements PruebaCondicionFisicaSe
 		return pruebaRepository.findByJugadorAndTipoPrueba(jugador, tipo_prueba);
 	}
 
+	@Override
+	public void deletePruebaCondicionFisica(int id) {
+		pruebaRepository.deleteById(id);
+		
+	}
+
 	
 	
 }

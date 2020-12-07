@@ -13,7 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.converter.DataPruebaConverter;
 import org.springframework.samples.petclinic.converter.PruebaConverter;
+import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
+import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.auxiliares.DataPruebaCondicion;
@@ -72,13 +74,30 @@ public class PruebaCondicionFisicaController {
 		prueba.setFecha(LocalDate.now());
 		prueba.setJugador(jugador);
 		prueba.setTipoPrueba(tipoPrueba);
-		prueba.setDato(Double.parseDouble(dato));
+		if(!dato.isEmpty()) {
+			prueba.setDato(Double.parseDouble(dato));
+		}else {
+			prueba.setDato(null);
+		}
 		PruebaCondicionFisica pruebaAñadida = pruebaService.savePruebaCondicionFisica(prueba);
 		
 		
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
 		// TODO: handle exception
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@RequestMapping(value = "/eliminarprueba/{id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity eliminarAutorizacion(@PathVariable("id") int id) {
+		try {
+		pruebaService.deletePruebaCondicionFisica(id);
+		
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			// TODO: handle exception
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
