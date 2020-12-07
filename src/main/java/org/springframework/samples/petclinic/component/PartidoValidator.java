@@ -2,11 +2,13 @@ package org.springframework.samples.petclinic.component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.PartidoService;
@@ -54,9 +56,22 @@ public class PartidoValidator implements Validator{
 			String horaPosterior = horaMasMenosNHoras(partido.getHora(), 2);
 			Equipo equipo = equipoService.findByCategoria(partido.getEquipo());
 			if(partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, horaAnterior, partido.getHora()).size() != 0) {
-				errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
+				List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, horaAnterior, partido.getHora());
+				
+				for(int i = 0; i< partidos.size();i++) {
+					if(partido.getId() != partidos.get(i).getId()) {
+						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
+					}
+				}
 			} else if(partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, partido.getHora(), horaPosterior).size() != 0) {
-				errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_POSTERIOR);
+					List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, horaAnterior, partido.getHora());
+				
+				for(int i = 0; i< partidos.size();i++) {
+					if(partido.getId() != partidos.get(i).getId()) {
+						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_POSTERIOR);
+					}
+				}
+				
 			}
 		}
 	}
