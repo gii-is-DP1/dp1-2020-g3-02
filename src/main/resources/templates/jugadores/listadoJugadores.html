@@ -624,7 +624,38 @@
 	    </div>
 	  </div>
 	</div>
-
+	
+<!-- Modal editar prueba -->
+	<div class="modal fade" id="editPrueba" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+     <form id="formEditPrueba" method="post">
+      <div class="modal-header modal-header-edit bg-info">
+        <h5 class="modal-title modal-title-edit" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group col">
+				<label><span class="text-danger">(*) </span>Fecha:</label><input class="form-control" type="text" placeholder="yyyy-mm-dd" th:id="fecha" name="fecha" required></input>
+				<small class="fecha text-danger error"></small>
+		</div>
+		<div class="form-group col">
+				<label><span class="text-danger">(*) </span>Dato:</label><input class="form-control" type="text" placeholder="dato" th:id="dato" name="dato" required></input>
+					<small class="dato text-danger error"></small>
+		</div>
+      </div>
+      <div class="modal-footer" style="background: rgb(23,162,184); background: linear-gradient(0deg, rgba(23,162,184,0.75) 0%, rgba(255,255,255,1) 100%);">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info" onclick="return enviarEdicionPrueba();">Aceptar</button>
+		<input type="hidden" th:id="id" name="id"></input>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+	
 	<th:block layout:fragment="scripts">
 		<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 		<!-- Optional JavaScript -->
@@ -839,7 +870,38 @@
 // PRUEBA CONDICION FISICA ===============================================================================	
 </script>
 <script >	
-	
+
+	function enviarEdicionPrueba(){
+				var form = new FormData(document.getElementById('formEditPrueba'));
+				$.ajax({
+	                url: '/pruebas/updateprueba',
+	                type: 'post',
+	                data: form,
+	                processData: false,
+	                contentType: false,
+	                success: function(data){
+	                	$('#editPrueba').modal("hide");
+	                	
+	                	abdominal.ajax.reload(null, false);
+	    				flexibilidad.ajax.reload(null, false);
+	    				velocidad.ajax.reload(null, false);
+	    				salto.ajax.reload(null, false);
+	    				agilidad.ajax.reload(null, false);
+	    				resistencia.ajax.reload(null, false);
+	    				pulsaciones.ajax.reload(null, false);
+	                },
+	                error: function(data){
+	                	
+	                	$('.error').text('');
+	                	
+	                	for (i = 0; i < data.responseJSON.length; i++){
+	                		
+	                		var campo = data.responseJSON[i].field;
+	                		$('.'+campo).text(data.responseJSON[i].defaultMessage);
+	                	}
+	                }
+	            });
+			};
 
 	var abdominal = null;
 	var flexibilidad = null;
@@ -848,8 +910,34 @@
 	var agilidad = null;
 	var resistencia = null;
 	var pulsaciones = null;
-
-
+	
+	function editarPrueba(id){
+		
+		$('.error').text('');
+		$.ajax({
+			type: 'GET',
+			url: '/pruebas/findPruebasCondicionFisicaById/'+id,
+			success: function(edit){
+				
+				//Poner la fecha con el formato correcto
+				var aux = (edit.fecha).split("-");
+				var fechaInput = "" + aux[2] + "/" + aux[1]
+						+ "/" + aux[0] + "";
+				
+				console.log(edit.fecha);
+				$('#editPrueba #id').val(edit.id);
+				$('#editPrueba #fecha').val(fechaInput);
+				$('#editPrueba #dato').val(edit.dato);
+				
+				$('.modal-header-edit').css("color","white");
+				$('.modal-title-edit').text("Editar Prueba de");
+				$('#editPrueba').modal("show");
+				
+				
+			}
+		});
+		
+	}
 	function cambioMasMenos(element) {
 
 		if (!($('#collapseEstadisticos').hasClass('collapsing'))) {
@@ -986,7 +1074,8 @@
 																					data,
 																					type,
 																					row) {
-																				return "<button type='button' class='btn btn-outline-info mx-0 editar' value='editar'><i class='fas fa-edit'></i></button>"
+																				return "<button type='button' class='btn btn-outline-info mx-0 editarPrueba' onclick='return editarPrueba("+ row['id']
+																					+ ")' value='editar'><i class='fas fa-edit'></i></button>"
 																					+ " <button type='button' class='btn btn-outline-danger eliminar' onclick='return eliminarPrueba("+ row['id']
 																					+ ");' value='eliminar'><i class='fas fa-trash-alt'></i></button>"
 
