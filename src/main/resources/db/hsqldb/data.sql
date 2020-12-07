@@ -415,7 +415,26 @@ INSERT INTO personales(id,propietario,jugador_id) VALUES (3,'Rosa',2);
 INSERT INTO personales(id,propietario,jugador_id) VALUES (4,'Pepa',3);
 
 --INSERT VIAJE
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (1,'IDA',1,1,1,null,'12:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (1,'IDA',1,1,null,1,'12:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (2,'IDA',2,1,1,null,'12:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (3,'IDA',3,1,1,null,'12:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (4,'IDA',4,1,1,null,'12:30');
+
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (5,'VUELTA',1,1,1,null,'14:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (6,'VUELTA',2,1,null,2,'14:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (7,'VUELTA',3,1,1,null,'14:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (8,'VUELTA',4,1,1,null,'14:30');
+
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (9,'IDA',1,2,null,1,'12:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (10,'IDA',2,2,1,null,'12:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (11,'IDA',3,2,1,null,'12:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (12,'IDA',4,2,1,null,'12:30');
+
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (13,'VUELTA',1,2,1,null,'14:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (14,'VUELTA',2,2,null,2,'14:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (15,'VUELTA',3,2,1,null,'14:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (16,'VUELTA',4,2,1,null,'14:30');
+
 
 
 -- INSERT NUMCAMISETAS
