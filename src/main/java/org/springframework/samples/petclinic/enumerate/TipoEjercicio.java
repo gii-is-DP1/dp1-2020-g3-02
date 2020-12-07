@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.enumerate;
 
 public enum TipoEjercicio {
-	ATAQUE,RECEPCION,COLOCACION,SAQUE,BLOQUEO,DEFENSA,ATAQUERAPIDO;
+	ATAQUE,RECEPCION,COLOCACION,SAQUE,BLOQUEO,DEFENSA;
 	
 	public static TipoEjercicio fromNombre(String nombre) {
 		for(TipoEjercicio a : TipoEjercicio.values()) {

@@ -12,11 +12,15 @@ import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.ManyToOne;
 
 @Data
+@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
+@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "realiza_ejercicios")
 public class RealizaEjercicio extends BaseEntity{
@@ -32,10 +36,6 @@ public class RealizaEjercicio extends BaseEntity{
 	
 	@Column(name = "fecha", nullable = false)
 	private LocalDate fecha;
-	
-	public RealizaEjercicio() {
-		
-	}
 	
 	public RealizaEjercicio(LocalDate fecha) {
 		super();
