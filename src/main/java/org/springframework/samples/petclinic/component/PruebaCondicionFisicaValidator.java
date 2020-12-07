@@ -18,13 +18,14 @@ public class PruebaCondicionFisicaValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		PruebaCondicionFisica pruebaCondicionFisica = (PruebaCondicionFisica) target;
-
+		
+		//Fecha
 		if (pruebaCondicionFisica.getFecha() == null) {
 			errors.rejectValue("fecha", "La fecha de realización de la prueba física es requerida.", "La fecha de realización de la prueba física es requerida.");
 		}else if(pruebaCondicionFisica.getFecha().isAfter(LocalDate.now())) {
 			errors.rejectValue("fecha", "La fecha no puede ser posterior a hoy", "La fecha no puede ser posterior a hoy");
 		}
-		
+		//Dato
 		if (pruebaCondicionFisica.getDato() == null) {
 			errors.rejectValue("dato", "El dato de la prueba física es requerido.", "El dato de la prueba física es requerido y debe ser un número.");
 		}
