@@ -35,30 +35,6 @@ public class AutobusServiceImpl implements AutobusService {
 	}
 	
 	@Override
-	@Transactional(readOnly = true)
-	public List<Integer> findByPartido(int partido_id) {
-		return autobusRepository.findByPartido(partido_id);
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public List<Integer> findByJugador(int jugador_id) {
-		return autobusRepository.findByJugador(jugador_id);
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public List<Autobus> findByHoraSalida(String hora_salida) {
-		return autobusRepository.findByHoraSalida(hora_salida);
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public List<Autobus> findByHoraLlegada(String hora_llegada) {
-		return autobusRepository.findByHoraLlegada(hora_llegada);
-	}
-	
-	@Override
 	@Transactional
 	public Autobus saveAutobus(Autobus autobus) {
 		

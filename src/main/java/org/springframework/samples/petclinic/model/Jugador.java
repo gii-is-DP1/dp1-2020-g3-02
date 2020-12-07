@@ -53,11 +53,6 @@ public class Jugador extends Person{
 	  inverseJoinColumns = @JoinColumn(name = "equipo_id"))
 	List<Equipo> equipos;
 	
-	@ManyToMany
-	@JoinTable(name = "jugadoresbus", joinColumns = @JoinColumn(name = "jugador_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "autobus_id"))
-	Set<Autobus> autobuses;
-	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
 	private Set<NumCamiseta> numCamisetas;
 	

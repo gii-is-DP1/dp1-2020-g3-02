@@ -86,22 +86,6 @@ public class PersonalServiceTests {
 		assertEquals(personales.size(), 0);//
 	}
 	
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByPartidoInitialDataFinding() {
-		int partido_id = 1;
-		List<Integer> personales=personalesService.findByPartido(partido_id);
-		System.out.println(personales);
-		assertEquals(personales.size(), 1);//
-	}
-	
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByPartidoInitialDataNotFinding() {
-		int partido_id = 2;
-		List<Integer> personales=personalesService.findByPartido(partido_id);
-		assertEquals(personales.size(),0);//
-	}
 	
 	@Test
 	@Transactional

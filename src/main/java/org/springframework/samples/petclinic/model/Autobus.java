@@ -13,27 +13,15 @@ import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
+@NoArgsConstructor
 @Table(name = "autobus")
 public class Autobus extends BaseEntity {
+		
 	
-	@Column(name = "hora_salida", nullable = false, length = 5)
-	private String horaSalida;
-	
-	@Column(name = "hora_llegada", nullable = false, length = 5)
-	private String horaLlegada;
-	
-	public Autobus() {
-	}
-
-	public Autobus(String hora_salida, String hora_llegada) {
-		super();
-		this.horaSalida = hora_salida;
-		this.horaLlegada = hora_llegada;
-	}
-
 
 }
