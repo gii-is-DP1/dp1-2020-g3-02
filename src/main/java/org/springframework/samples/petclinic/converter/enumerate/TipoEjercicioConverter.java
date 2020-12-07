@@ -1,13 +1,12 @@
 package org.springframework.samples.petclinic.converter.enumerate;
 
 import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
 
-import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
+import org.springframework.stereotype.Component;
 
 
-@Converter
+@Component
 public class TipoEjercicioConverter implements AttributeConverter<TipoEjercicio, String>{
 
 	@Override

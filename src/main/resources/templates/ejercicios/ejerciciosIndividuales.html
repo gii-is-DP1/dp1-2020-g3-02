@@ -44,8 +44,8 @@
 							background: linear-gradient(90deg, rgba(40,167,69,1) 0%, rgba(255,255,255,1) 100%);">
 						<div class="row">
 							<h3 class="card-title ml-3">Recomendados</h3>
-							<a id="realiza" href="#collapseRealiza" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2">
-								<i class="fas fa-plus text-dark"></i>
+							<a id="realiza" href="#collapseRealiza" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2" onclick="return cambioMasMenos(this)">
+								<i class="fas fa-minus text-dark"></i>
 							</a>
 						</div>
 					</div>
@@ -76,7 +76,7 @@
 									background: linear-gradient(90deg, rgba(0,123,255,1) 0%, rgba(255,255,255,1) 100%);">
 								<div class="row">
 									<h3 class="card-title ml-3">Recomendados</h3>
-									<a id="recomended" href="#collapseRecomendados" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2">
+									<a id="recomended" href="#collapseRecomendados" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2" onclick="return cambioMasMenos(this)">
 										<i class="fas fa-plus"></i>
 									</a>
 								</div>
@@ -84,7 +84,7 @@
 							<div class="collapse" id="collapseRecomendados">
 								<div class="card-body">
 								<div class="container-fluid">
-									<table id="recomendados" class="table table-sm table-striped table-bordered table-hover nowrap display recomendados responsive" cellspacing="0" style="width: 100%;">
+									<table id="recomendados" class="table table-sm table-striped table-bordered table-hover display recomendados responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
 												<th>Tipo</th>
@@ -107,7 +107,7 @@
 								background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
 								<div class="row">
 									<h3 class="card-title ml-3">Saque</h3>
-									<a id="serve" href="#collapseSaque" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2">
+									<a id="serve" href="#collapseSaque" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2" onclick="return cambioMasMenos(this)">
 										<i class="fas fa-plus"></i>
 									</a>
 								</div>
@@ -115,7 +115,7 @@
 							<div class="collapse" id="collapseSaque">
 								<div class="card-body">
 								<div class="container-fluid">
-									<table id="saque" class="table table-sm table-striped table-bordered table-hover nowrap display saque responsive" cellspacing="0" style="width: 100%;">
+									<table id="saque" class="table table-sm table-striped table-bordered table-hover saque responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
 												<th>Nombre</th>
@@ -135,7 +135,7 @@
 								background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
 								<div class="row">
 									<h3 class="card-title ml-3">Recepción</h3>
-									<a id="reception" href="#collapseRecepcion" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2">
+									<a id="reception" href="#collapseRecepcion" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2" onclick="return cambioMasMenos(this)">
 										<i class="fas fa-plus"></i>
 									</a>
 								</div>
@@ -143,7 +143,7 @@
 							<div class="collapse" id="collapseRecepcion">
 								<div class="card-body">
 								<div class="container-fluid">
-									<table id="recepcion" class="table table-sm table-striped table-bordered table-hover nowrap display recepcion responsive" cellspacing="0" style="width: 100%;">
+									<table id="recepcion" class="table table-sm table-striped table-bordered table-hover recepcion responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
 												<th>Nombre</th>
@@ -165,7 +165,7 @@
 								background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
 								<div class="row">
 									<h3 class="card-title ml-3">Colocación</h3>
-									<a id="set" href="#collapseColocacion" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2">
+									<a id="set" href="#collapseColocacion" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2" onclick="return cambioMasMenos(this)">
 										<i class="fas fa-plus"></i>
 									</a>
 								</div>
@@ -173,7 +173,7 @@
 							<div class="collapse" id="collapseColocacion">
 								<div class="card-body">
 								<div class="container-fluid">
-									<table id="colocacion" class="table table-sm table-striped table-bordered table-hover nowrap display colocacion responsive" cellspacing="0" style="width: 100%;">
+									<table id="colocacion" class="table table-sm table-striped table-bordered table-hover colocacion responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
 												<th>Nombre</th>
@@ -193,7 +193,7 @@
 								background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
 								<div class="row">
 									<h3 class="card-title ml-3">Defensa</h3>
-									<a id="defense" href="#collapseDefensa" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2">
+									<a id="defense" href="#collapseDefensa" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2" onclick="return cambioMasMenos(this)">
 										<i class="fas fa-plus"></i>
 									</a>
 								</div>
@@ -201,7 +201,7 @@
 							<div class="collapse" id="collapseDefensa">
 								<div class="card-body">
 								<div class="container-fluid">
-									<table id="defensa" class="table table-sm table-striped table-bordered table-hover nowrap display defensa responsive" cellspacing="0" style="width: 100%;">
+									<table id="defensa" class="table table-sm table-striped table-bordered table-hover defensa responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
 												<th>Nombre</th>
@@ -223,7 +223,7 @@
 								background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
 								<div class="row">
 									<h3 class="card-title ml-3">Ataque</h3>
-									<a id="attack" href="#collapseAtaque" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2">
+									<a id="attack" href="#collapseAtaque" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2" onclick="return cambioMasMenos(this)">
 										<i class="fas fa-plus"></i>
 									</a>
 								</div>
@@ -231,7 +231,7 @@
 							<div class="collapse" id="collapseAtaque">
 								<div class="card-body">
 								<div class="container-fluid">
-									<table id="ataque" class="table table-sm table-striped table-bordered table-hover nowrap display ataque responsive" cellspacing="0" style="width: 100%;">
+									<table id="ataque" class="table table-sm table-striped table-bordered table-hover ataque responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
 												<th>Nombre</th>
@@ -251,7 +251,7 @@
 								background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
 								<div class="row">
 									<h3 class="card-title ml-3">Bloqueo</h3>
-									<a id="block" href="#collapseBloqueo" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2">
+									<a id="block" href="#collapseBloqueo" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-2" onclick="return cambioMasMenos(this)">
 										<i class="fas fa-plus"></i>
 									</a>
 								</div>
@@ -259,7 +259,7 @@
 							<div class="collapse" id="collapseBloqueo">
 								<div class="card-body">
 								<div class="container-fluid">
-									<table id="bloqueo" class="table table-sm table-striped table-bordered table-hover nowrap display bloqueo responsive" cellspacing="0" style="width: 100%;">
+									<table id="bloqueo" class="table table-sm table-striped table-bordered table-hover bloqueo responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
 												<th>Nombre</th>
@@ -298,6 +298,16 @@
 	        src="//code.highcharts.com/highcharts.js"></script>
 	        
 	   	<script>
+	   	
+	   	function cambioMasMenos(element){
+	   		if(element.parentNode.parentNode.parentNode.children[1].classList.contains('collapse')){
+				if(element.children[0].classList.contains('fa-plus')){
+					element.children[0].classList.replace('fa-plus', 'fa-minus');
+				}else{
+					element.children[0].classList.replace('fa-minus', 'fa-plus');
+				}
+	   		}
+	 	}
 	   		
 	   	$(document)
 		.ready(
@@ -331,6 +341,217 @@
 									}
 								}
 							});
+					
+					
+					tablaRecomendados=$('#recomendados')
+					.DataTable({
+						ajax: '[[@{/ejercicios/tablaRecomendados}]]',
+						order: [1, 'asc'],
+						responsive: true,
+						"columns":[
+							{data: 'tipo'},
+							{data: 'nombre'},
+							{data: 'descripcion'},
+						],
+						"language" : {
+						    "processing": "Procesando...",
+						    "lengthMenu": "Mostrar _MENU_ registros",
+						    "zeroRecords": "Sin resultados",
+						    "emptyTable": "Sin datos",
+						    "info": "Mostrando del _START_ al _END_ de un total de _TOTAL_",
+						    "infoEmpty": "Mostrando del 0 al 0 de un total de 0",
+						    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+						    "search": "Buscar:",
+						    "infoThousands": ",",
+						    "loadingRecords": "Cargando...",
+						    "paginate": {
+						        "first": "Primero",
+						        "last": "Último",
+						        "next": "Siguiente",
+						        "previous": "Anterior"
+						    }
+						}
+					});
+					
+					tablaSaque=$('#saque')
+					.DataTable({
+						dom: 'ftp',
+						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'SAQUE',
+						order: [0, 'asc'],
+						responsive: true,
+						"columns":[
+							{data: 'nombre'},
+							{data: 'descripcion'},
+						],
+						"language" : {
+						    "processing": "Procesando...",
+						    "lengthMenu": "Mostrar _MENU_ registros",
+						    "zeroRecords": "Sin resultados",
+						    "emptyTable": "Sin datos",
+						    "info": "Mostrando del _START_ al _END_ de un total de _TOTAL_",
+						    "infoEmpty": "Mostrando del 0 al 0 de un total de 0",
+						    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+						    "search": "Buscar:",
+						    "infoThousands": ",",
+						    "loadingRecords": "Cargando...",
+						    "paginate": {
+						        "first": "Primero",
+						        "last": "Último",
+						        "next": "Siguiente",
+						        "previous": "Anterior"
+						    }
+						}
+					});
+					
+					tablaRecepcion=$('#recepcion')
+					.DataTable({
+						dom: 'ftp',
+						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'RECEPCION',
+						order: [0, 'asc'],
+						responsive: true,
+						"columns":[
+							{data: 'nombre'},
+							{data: 'descripcion'},
+						],
+						"language" : {
+						    "processing": "Procesando...",
+						    "lengthMenu": "Mostrar _MENU_ registros",
+						    "zeroRecords": "Sin resultados",
+						    "emptyTable": "Sin datos",
+						    "info": "Mostrando del _START_ al _END_ de un total de _TOTAL_",
+						    "infoEmpty": "Mostrando del 0 al 0 de un total de 0",
+						    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+						    "search": "Buscar:",
+						    "infoThousands": ",",
+						    "loadingRecords": "Cargando...",
+						    "paginate": {
+						        "first": "Primero",
+						        "last": "Último",
+						        "next": "Siguiente",
+						        "previous": "Anterior"
+						    }
+						}
+					});
+					
+					tablaColocacion=$('#colocacion')
+					.DataTable({
+						dom: 'ftp',
+						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'COLOCACION',
+						order: [0, 'asc'],
+						responsive: true,
+						"columns":[
+							{data: 'nombre'},
+							{data: 'descripcion'},
+						],
+						"language" : {
+						    "processing": "Procesando...",
+						    "lengthMenu": "Mostrar _MENU_ registros",
+						    "zeroRecords": "Sin resultados",
+						    "emptyTable": "Sin datos",
+						    "info": "Mostrando del _START_ al _END_ de un total de _TOTAL_",
+						    "infoEmpty": "Mostrando del 0 al 0 de un total de 0",
+						    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+						    "search": "Buscar:",
+						    "infoThousands": ",",
+						    "loadingRecords": "Cargando...",
+						    "paginate": {
+						        "first": "Primero",
+						        "last": "Último",
+						        "next": "Siguiente",
+						        "previous": "Anterior"
+						    }
+						}
+					});
+					
+					tablaDefensa=$('#defensa')
+					.DataTable({
+						dom: 'ftp',
+						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'DEFENSA',
+						order: [0, 'asc'],
+						responsive: true,
+						"columns":[
+							{data: 'nombre'},
+							{data: 'descripcion'},
+						],
+						"language" : {
+						    "processing": "Procesando...",
+						    "lengthMenu": "Mostrar _MENU_ registros",
+						    "zeroRecords": "Sin resultados",
+						    "emptyTable": "Sin datos",
+						    "info": "Mostrando del _START_ al _END_ de un total de _TOTAL_",
+						    "infoEmpty": "Mostrando del 0 al 0 de un total de 0",
+						    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+						    "search": "Buscar:",
+						    "infoThousands": ",",
+						    "loadingRecords": "Cargando...",
+						    "paginate": {
+						        "first": "Primero",
+						        "last": "Último",
+						        "next": "Siguiente",
+						        "previous": "Anterior"
+						    }
+						}
+					});
+					
+					tablaAtaque=$('#ataque')
+					.DataTable({
+						dom: 'ftp',
+						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'ATAQUE',
+						order: [0, 'asc'],
+						responsive: true,
+						"columns":[
+							{data: 'nombre'},
+							{data: 'descripcion'},
+						],
+						"language" : {
+						    "processing": "Procesando...",
+						    "lengthMenu": "Mostrar _MENU_ registros",
+						    "zeroRecords": "Sin resultados",
+						    "emptyTable": "Sin datos",
+						    "info": "Mostrando del _START_ al _END_ de un total de _TOTAL_",
+						    "infoEmpty": "Mostrando del 0 al 0 de un total de 0",
+						    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+						    "search": "Buscar:",
+						    "infoThousands": ",",
+						    "loadingRecords": "Cargando...",
+						    "paginate": {
+						        "first": "Primero",
+						        "last": "Último",
+						        "next": "Siguiente",
+						        "previous": "Anterior"
+						    }
+						}
+					});
+					
+					tablaBloqueo=$('#bloqueo')
+					.DataTable({
+						dom: 'ftp',
+						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'BLOQUEO',
+						order: [0, 'asc'],
+						responsive: true,
+						"columns":[
+							{data: 'nombre'},
+							{data: 'descripcion'},
+						],
+						"language" : {
+						    "processing": "Procesando...",
+						    "lengthMenu": "Mostrar _MENU_ registros",
+						    "zeroRecords": "Sin resultados",
+						    "emptyTable": "Sin datos",
+						    "info": "Mostrando del _START_ al _END_ de un total de _TOTAL_",
+						    "infoEmpty": "Mostrando del 0 al 0 de un total de 0",
+						    "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+						    "search": "Buscar:",
+						    "infoThousands": ",",
+						    "loadingRecords": "Cargando...",
+						    "paginate": {
+						        "first": "Primero",
+						        "last": "Último",
+						        "next": "Siguiente",
+						        "previous": "Anterior"
+						    }
+						}
+					});
 
 				});
 	   	
