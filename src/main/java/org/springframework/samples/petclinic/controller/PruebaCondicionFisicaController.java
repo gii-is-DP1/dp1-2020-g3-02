@@ -1,9 +1,13 @@
 package org.springframework.samples.petclinic.controller;
 
+import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +15,9 @@ import org.springframework.samples.petclinic.converter.DataPruebaConverter;
 import org.springframework.samples.petclinic.converter.PruebaConverter;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 import org.springframework.samples.petclinic.model.Jugador;
-import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
-import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataPruebaCondicion;
 import org.springframework.samples.petclinic.model.auxiliares.PruebasSinJugador;
-import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/pruebas")
 public class PruebaCondicionFisicaController {
+	
+	private static final Log LOG = LogFactory.getLog(PruebaCondicionFisicaController.class);
 	
 	@Autowired
 	private PruebaCondicionFisicaService pruebaService;
@@ -55,6 +58,30 @@ public class PruebaCondicionFisicaController {
 		} catch (Exception e) {
 			return new ResponseEntity<DataPruebaCondicion>(HttpStatus.BAD_REQUEST);
 		}	
+	}
+	
+	
+	@RequestMapping(value = "/addprueba/{id}/{tipoPrueba}/{dato}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PruebaCondicionFisica> addPrueba(@PathVariable("id") int id , @PathVariable("tipoPrueba") TipoPrueba tipoPrueba, @PathVariable("dato") String dato) {
+		try {
+			
+		LOG.info(dato);
+		PruebaCondicionFisica prueba= new PruebaCondicionFisica(); 
+		Optional<Jugador> jug = jugadorService.findById(id);
+		Jugador jugador= jug.get();
+		prueba.setFecha(LocalDate.now());
+		prueba.setJugador(jugador);
+		prueba.setTipoPrueba(tipoPrueba);
+		prueba.setDato(Double.parseDouble(dato));
+		PruebaCondicionFisica pruebaAñadida = pruebaService.savePruebaCondicionFisica(prueba);
+		
+		
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+		// TODO: handle exception
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 
 }

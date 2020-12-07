@@ -79,6 +79,7 @@ public class PruebaCondicionFisicaServiceImpl implements PruebaCondicionFisicaSe
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<PruebaCondicionFisica> findByJugadorAndTipoPrueba(Jugador jugador, TipoPrueba tipo_prueba) {
 		
 		return pruebaRepository.findByJugadorAndTipoPrueba(jugador, tipo_prueba);

@@ -24,5 +24,5 @@ public interface PruebaCondicionFisicaRepository extends JpaRepository<PruebaCon
 
 //	@Query("SELECT p FROM PruebaCondicionFisica p, Jugador j WHERE j.id=:jugador_id")
 	public List<PruebaCondicionFisica> findByJugador(Jugador jugador);
-
+	
 }
