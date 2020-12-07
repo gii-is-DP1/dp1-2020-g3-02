@@ -499,13 +499,14 @@
 							</div>
 							<div id="collapseEight" class="collapse"
 								aria-labelledby="headingEight" data-parent="#accordion">
+								<form id="formAddPrueba" method="post">
 								<div class="card-body">
-
+									
 										<div class="row">
 											<div class="form-group col">
 												<label>Tipo Prueba:</label> <select
-													class="form-control" th:id="posicionSecundaria"
-													name="posicionSecundaria">
+													class="form-control" th:id="tipoPrueba"
+													name="tipoPrueba">
 													<option th:id="'ABDOMINAL'" th:value="ABDOMINAL">ABDOMINAL</option>
 													<option th:id="'FLEXIBILIDAD'" th:value="FLEXIBILIDAD">FLEXIBILIDAD</option>
 													<option th:id="'VELOCIDAD'" th:value="VELOCIDAD">VELOCIDAD</option>
@@ -524,12 +525,13 @@
 										</div>
 										<div class="row">
 										<div class="form-group col">
-										<button type="button" class="btn btn-dark" onclick="añadir()">Añadir</button>
+										<button type="button" class="btn btn-dark añadir" onclick="añadir()">Añadir</button>
+										<input type="hidden" th:id="id" name="id"></input>
 										</div>
 										</div>
 										
 									</div>	
-								
+									</form>
 								
 								</div>
 							</div>
@@ -847,7 +849,8 @@
 											$('table .pruebaCondicion').on('click',function() {
 												var id = $(this).parent().find('#id').val();
 												var jugador = $(this).parent().find('#jugador').val();
-
+													
+													$('#pruebasCondicionModal #id').val(id);
 													$('.modal-header').css("color","white");
 													$('.modal-title').text("Pruebas de Condición Física de "+ jugador);
 													$('#pruebasCondicionModal').modal("show");
@@ -1142,11 +1145,25 @@
 														resistencia.ajax.reload(null, false);
 														pulsaciones.ajax.reload(null, false);
 													
+														$('.añadir').on('click', function(){
+																
+																setTimeout( function() {
+															abdominal.ajax.reload(null, false);
+															flexibilidad.ajax.reload(null, false);
+															velocidad.ajax.reload(null, false);
+															salto.ajax.reload(null, false);
+															agilidad.ajax.reload(null, false);
+															resistencia.ajax.reload(null, false);
+															pulsaciones.ajax.reload(null, false);
+															
+														},1000)
+														
+														});
 															});
 											
 										
-								
-							});
+							});			
+							
 			
 			function cambioMasMenos(element){
 				
@@ -1169,14 +1186,34 @@
 		 }
 			
 			
-			function añadir(element){	
-				$(".exito")[0].classList.remove("invisible")
+			function añadir(){
 				
-				setTimeout(function() {
-			        $(".exito").fadeOut(1500);
-			    },3000);
-			}
+				var form = new FormData(document.getElementById('formAddPrueba'));
+				console.log(form.get("id"));
+				console.log(form.get("dato"));
+				console.log(form.get("tipoPrueba"));
+				$.ajax({
+					type : 'POST',
+					url : '/pruebas/addprueba/' + form.get("id") +"/"+form.get("tipoPrueba")+"/"+form.get("dato"),
+					success : function(borrar) {
+						
+						$(".exito")[0].classList.remove("invisible")
+						
+						setTimeout(function() {
+					        $(".exito").fadeOut(1500);
+					       
+					    },3000);
+						setTimeout(function() {
+							 $(".exito")[0].classList.add("invisible");
+						     $(".exito").fadeIn(500);
+						},5000);
+					}
+				});
+				
+				
+			};
 			
+							
 // FIN PRUEBA CONDICION FISICA ===============================================================================			
 		</script>
 			<script type="text/javascript">
