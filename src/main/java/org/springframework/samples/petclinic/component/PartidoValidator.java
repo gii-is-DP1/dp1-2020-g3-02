@@ -57,20 +57,21 @@ public class PartidoValidator implements Validator{
 			Equipo equipo = equipoService.findByCategoria(partido.getEquipo());
 			if(partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, horaAnterior, partido.getHora()).size() != 0) {
 				List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, horaAnterior, partido.getHora());
-				
-				for(int i = 0; i< partidos.size();i++) {
-					if(partido.getId() != partidos.get(i).getId()) {
-						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
-					}
+				if(partido.getId() == null) {
+					errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
+				}else if (partido.getId() != partidos.get(0).getId()) {
+					errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
 				}
-			} else if(partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, partido.getHora(), horaPosterior).size() != 0) {
-					List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, horaAnterior, partido.getHora());
 				
-				for(int i = 0; i< partidos.size();i++) {
-					if(partido.getId() != partidos.get(i).getId()) {
+			} else if(partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, partido.getHora(), horaPosterior).size() != 0) {
+					List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, partido.getHora(), horaPosterior);
+					if(partido.getId() == null) {
+						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_POSTERIOR);
+					}else if (partido.getId() != partidos.get(0).getId()) {
 						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_POSTERIOR);
 					}
-				}
+					
+				
 				
 			}
 		}

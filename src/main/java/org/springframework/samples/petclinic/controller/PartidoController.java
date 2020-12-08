@@ -215,7 +215,6 @@ public class PartidoController {
 				partido = partidoO.get();
 			}else if(request.getParameter("equipo").trim() != null) {
 				Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
-			
 				partido.setEquipo(equipo);
 			}
 			
