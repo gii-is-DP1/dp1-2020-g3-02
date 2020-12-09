@@ -30,7 +30,7 @@
 	<script src="https://www.w3schools.com/lib/w3data.js"></script>
 
 	<div class="">
-		<div w3-include-html="navbar?id=listadoMaterial"></div>
+		<div w3-include-html="navbar?id=materiales"></div>
 	</div>
 
 	<div class="container-fluid">
@@ -39,48 +39,130 @@
 				<h1 class="font-weight-bold font-italic">LISTA MATERIALES</h1>
 			</div>
 		</div>
-		<div th:each="material : ${materiales}">
 
 
-			<div class="row">
-				<div class="col-lg-12 responsive">
-					<table id="materiales"
-						class="table table-sm table-striped table-bordered table-hover nowrap"
-						cellspacing="0" style="width: 100%;">
-						<thead>
-							<tr class="table-primary">
-								<th>Material</th>
-								<th>Selección</th>
-								<th>Stock</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="material : ${materiales}">
-								<td th:text="${material.tipo}"></td>
-								<td th:text="${material.stock}"></td>
+		<div class="row">
+			<div class="col-lg-12 responsive">
+				<table id="materiales"
+					class="table table-sm table-striped table-bordered table-hover nowrap"
+					cellspacing="0" style="width: 100%;">
+					<thead>
+						<tr class="table-primary">
+							<th>Material</th>
+							<th>Stock</th>
+							<th>Añadir Materiales</th>
 
-								<td><a href="#"
-									th:href="@{/materiales/showmateriales?id=__${material.id}__}"
-									style="text-decoration: none;">
-										<button class="btn btn-outline-success mx-0 editar"
-											type="button" title="Materiales">
-											<svg width="1em" height="1em" viewBox="0 0 16 16"
-												class="bi bi-people-fill" fill="currentColor"
-												xmlns="http://www.w3.org/2000/svg">
-									  <path fill-rule="evenodd"
-													d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
-									</svg>
-										</button>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:each="material : ${materiales}">
+							<td th:text="${material.tipo}"></td>
+							<td th:text="${material.stock}"></td>
+							<td><input type="hidden" id="id" th:value="${material.id}"></input>
+
+								<button sec:authorize="hasAuthority('entrenador')"
+									class="btn btn-outline-info mx-0 editar" type="button">Añadir
+
+								</button> <input id="security" type="hidden"
+								sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
+								<input id="security" type="hidden"
+								sec:authorize="hasAuthority('jugador')" th:value="jugador">
+							</td>
+					</tbody>
+
+				</table>
+			</div>
+		</div>
+		<!-- Modal Edicion -->
+		<div class="modal fade" id="editarModal" data-backdrop="static"
+			data-keyboard="false" tabindex="-1" aria-labelledby="Editar"
+			aria-hidden="true">
+			<div class="modal-dialog modal-xl modal-dialog-centered">
+				<div class="modal-content">
+					<form id="formEditMaterial" method="post">
+						<div class="modal-header bg-info">
+							<h5 class="modal-title" id="edicionMaterial"></h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div id="contenedor-modal">
+
+								<div class="row">
+									<div class="form-group col">
+										<label><span class="text-danger">(*) </span>Stock:</label><input
+											class="form-control" type="number" placeholder="Stock"
+											th:id="stock" name="stock" required></input> <small
+											class="stock text-danger error"></small>
+									</div>
 
 
-								</a></td>
-						</tbody>
-
-					</table>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer"
+							style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Cerrar</button>
+							<button type="button" class="btn btn-info"
+								onclick="return enviarEdicion();">Aceptar</button>
+							<input type="hidden" th:id="id" name="id"></input>
+						</div>
+					</form>
 				</div>
 			</div>
-
-
 		</div>
+		<script>
+			function enviarEdicion() {
+				var form = new FormData(document
+						.getElementById('formEditMaterial'));
+				$.ajax({
+					url : '/materiales/updatematerial',
+					type : 'post',
+					data : form,
+					processData : false,
+					contentType : false,
+					success : function(data) {
+						$('#editarModal').modal("hide");
+						location.reload();
+					},
+					error : function(data) {
+
+						$('.error').text('');
+
+						for (i = 0; i < data.responseJSON.length; i++) {
+
+							var campo = data.responseJSON[i].field;
+							$('.' + campo).text(
+									data.responseJSON[i].defaultMessage);
+						}
+					}
+				});
+			};
+
+			$('table .editar').on('click', function() {
+				var id = $(this).parent().find('#id').val();
+				$('.error').text('');
+				$.ajax({
+					type : 'GET',
+					url : '/materiales/findeditmaterial/' + id,
+					success : function(edit) {
+
+						$('#editarModal #stock').val(edit.stock);
+
+						$('.modal-header').css("color", "white");
+						$('.modal-title').text("Editar a " + edit.tipo);
+						$('#editarModal').modal("show");
+					}
+				});
+			});
+		</script>
+		<script type="text/javascript">
+		w3IncludeHTML();
+	</script>
+	</div>
 </body>
 </html>
