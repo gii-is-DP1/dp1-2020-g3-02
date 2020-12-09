@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.repository.LineaMaterialRepository;
@@ -24,6 +25,9 @@ public class MaterialServiceImpl implements MaterialService {
 	@Autowired
 	@Qualifier("materialRepository")
 	private MaterialRepository materialRepository;
+	
+	@Autowired
+	private MaterialService materialService;
 	
 	@Autowired
 	private LineaMaterialRepository lineaMaterialRepository;
@@ -56,6 +60,19 @@ public class MaterialServiceImpl implements MaterialService {
 	@Transactional(readOnly = true)
 	public List<Material> findByStock(int stock) {
 		return materialRepository.findByStock(stock);
+	}
+	@Override
+	public Material updateMaterial(Material material) {
+		LOG.info("NÚMERO DE ELEMENTOS INSERTADOS: "+material.getStock());
+		
+		
+			
+		materialService.saveMaterial(material);
+		
+		
+		Material materiall=materialRepository.save(material);
+		
+		return materiall;
 	}
 	
 	@Override
