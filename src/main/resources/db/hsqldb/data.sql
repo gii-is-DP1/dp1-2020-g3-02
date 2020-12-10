@@ -393,14 +393,18 @@ INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (2,'balon bland
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (3,'cuerda','CUERDA',8,'BUENO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (4,'cinta','CINTA',10,'NUEVO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (5,'poste','POSTE',11,'NUEVO');
-INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (6,'poste','RED',11,'NUEVO');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (6,'red','RED',11,'NUEVO');
 
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (1,9,1,1);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (2,2,2,2);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (3,1,3,3);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (4,7,4,4);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (5,21,5,5);
-
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (1,2,1,1);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (2,2,1,2);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (3,2,1,3);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (4,1,1,4);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (5,6,1,5);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (6,3,2,1);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (7,4,2,2);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (8,1,2,3);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (9,5,2,4);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (10,2,2,5);
 
 -- INSERT AUTOBUSES
 INSERT INTO autobus(id) VALUES (1);

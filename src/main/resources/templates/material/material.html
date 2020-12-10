@@ -103,8 +103,8 @@
 							<td th:text="${material.tipo}"></td>
 							<td th:text="${material.stock}"></td>
 							<td th:text="${material.estado}"></td>
-
-							<td></td>
+							<td th:text="${material.stock*100}+'%'"></td>
+							
 							<td><input type="hidden" id="id" th:value="${material.id}"></input>
 
 
