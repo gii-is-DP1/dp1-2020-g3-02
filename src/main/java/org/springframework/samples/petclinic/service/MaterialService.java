@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
-import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Material;
 
 public interface MaterialService {
