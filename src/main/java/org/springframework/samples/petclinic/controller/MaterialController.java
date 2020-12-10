@@ -94,7 +94,7 @@ public class MaterialController {
 
 
 			if(!request.getParameter("stock").isEmpty()) {
-				material.setStock(Integer.parseInt(request.getParameter("stock")));
+				material.setStock(Integer.parseInt(request.getParameter("stock")+materialService.findById(id).get().getStock()));
 			} else {
 				material.setStock(null);
 			}
