@@ -53,28 +53,28 @@ public class Jugador extends Person{
 	  inverseJoinColumns = @JoinColumn(name = "equipo_id"))
 	List<Equipo> equipos;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
 	private Set<NumCamiseta> numCamisetas;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
 	private Set<EstadisticaPersonalEntrenamiento> estadisticas_personales_entrenamientos;
 	
-	@OneToMany( mappedBy = "jugador")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
 	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
 	private Set<Personales> personales;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
 	private Set<Capitan> capitan;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
 	private Set<RealizaEjercicio> realiza_ejercicios;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
 	private Set<Privilegio> privilegios;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jugador")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
 	private List<Autorizacion> autorizacion;
 	
 	@Column(name = "dni", nullable = false, length = 9)

@@ -267,13 +267,13 @@ public class PartidoServiceTest {
 		assertNotNull(partido);
 	}
 	
-//	@Test
-//	@Transactional
-//	public void testDeletePartido() {
-//		int partido_id = 1;
-//		partidoService.deletePartido(partido_id);
-//		Optional<Partido> partido = partidoService.findById(partido_id);
-//		assertEquals(partido, Optional.empty());
-//	}
+	@Test
+	@Transactional
+	public void testDeletePartido() {
+		int partido_id = 1;
+		partidoService.deletePartido(partido_id);
+		Optional<Partido> partido = partidoService.findById(partido_id);
+		assertEquals(partido, Optional.empty());
+	}
 
 }
