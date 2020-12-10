@@ -21,17 +21,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class MaterialServiceImpl implements MaterialService {
 
 	private static final Log LOG = LogFactory.getLog(MaterialServiceImpl.class);
-	
+
 	@Autowired
 	@Qualifier("materialRepository")
 	private MaterialRepository materialRepository;
-	
+
 	@Autowired
 	private MaterialService materialService;
-	
+
 	@Autowired
 	private LineaMaterialRepository lineaMaterialRepository;
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Material> findAll() {
@@ -43,48 +43,58 @@ public class MaterialServiceImpl implements MaterialService {
 	public Optional<Material> findById(int id) {
 		return materialRepository.findById(id);
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Material> findByTipo(TipoMaterial tipo) {
 		return materialRepository.findByTipo(tipo);
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Material> findByDescripcion(String descripcion) {
 		return materialRepository.findByDescripcion(descripcion);
 	}
-	
+
 	@Override
-	@Transactional(readOnly = true)
 	public List<Material> findByStock(int stock) {
 		return materialRepository.findByStock(stock);
 	}
 	@Override
 	public Material updateMaterial(Material material) {
 		LOG.info("NÚMERO DE ELEMENTOS INSERTADOS: "+material.getStock());
-		
-		
-			
+
+
+
 		materialService.saveMaterial(material);
-		
-		
+
+
 		Material materiall=materialRepository.save(material);
-		
+
 		return materiall;
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Material> findByLineaMaterial(int linea_material_id){
 		Optional<LineaMaterial> linea_material= lineaMaterialRepository.findById(linea_material_id);
 		return materialRepository.findByLineaMaterial(linea_material.get());
 	}
-	
+
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional
 	public Material saveMaterial(Material material) {
-		return materialRepository.save(material);
+		LOG.info("NÚMERO DE ELEMENTOS INSERTADOS: "+material.getStock());
+
+
+
+		materialService.saveMaterial(material);
+
+
+		Material materiall=materialRepository.save(material);
+		LOG.info(materiall.toString());
+		return materiall;
+
+
 	}
 }
