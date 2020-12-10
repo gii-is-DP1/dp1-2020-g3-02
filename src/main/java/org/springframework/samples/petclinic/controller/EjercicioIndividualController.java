@@ -39,7 +39,7 @@ public class EjercicioIndividualController {
 	private RealizaEjercicioConverter realizaEjercicioConverter;
 	
 	@Autowired
-	private EjercicioIndividualService ejercicioIndividual;
+	private EjercicioIndividualService ejercicioIndividualService;
 	
 	@Autowired 
 	private EjercicioIndividualConverter ejercicioIndividualConverter;
@@ -72,7 +72,7 @@ public class EjercicioIndividualController {
 	public ResponseEntity<DataTableResponse<EjercicioIndividualDTO>> tablaRecomendados(){
 		try {
 			//AHORA MISMO LOS TRAE TODOS, HAY QUE TRAER SOLO LOS RECOMENDADOS, PENDIENTE DE HACER TODO
-			List<EjercicioIndividual> recomendados = ejercicioIndividual.findAll();
+			List<EjercicioIndividual> recomendados = ejercicioIndividualService.findAll();
 			DataTableResponse<EjercicioIndividualDTO> data = new DataTableResponse<EjercicioIndividualDTO>(ejercicioIndividualConverter.converListEntityToListDTO(recomendados));
 			return new ResponseEntity<DataTableResponse<EjercicioIndividualDTO>>(data, HttpStatus.OK);
 		} catch (Exception e) {
@@ -83,7 +83,7 @@ public class EjercicioIndividualController {
 	@RequestMapping(value = "/tablaTipo/{tipo}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataTableResponse<EjercicioIndividualDTO>> tablaTipo(@PathVariable("tipo") String tipo ){
 		try {
-			List<EjercicioIndividual> ejercicios = ejercicioIndividual.findByTipoEjercicio(tipoEjercicioConverter.convertToEntityAttribute(tipo));
+			List<EjercicioIndividual> ejercicios = ejercicioIndividualService.findByTipoEjercicio(tipoEjercicioConverter.convertToEntityAttribute(tipo));
 			DataTableResponse<EjercicioIndividualDTO> data = new DataTableResponse<EjercicioIndividualDTO>(ejercicioIndividualConverter.converListEntityToListDTO(ejercicios));
 			return new ResponseEntity<DataTableResponse<EjercicioIndividualDTO>>(data, HttpStatus.OK);
 		} catch (Exception e) {
