@@ -115,7 +115,39 @@
 						<a th:unless="${param.id[0] == 'equipoForm'}" class="dropdown-item dropPersonalizado" href="/equipos/equipoform?id=0">Nuevo
 							Equipo</a>
 					</div></li>
-					
+				
+				
+<!--  VEHICULO IF -->					
+				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:if="${param.id[0] == 'listadoVehiculos' || param.id[0] == 'vehiculoForm'}" class="nav-item dropdown active"><a
+					class="nav-link dropdown-toggle" href="#"
+					id="navbarDropdownMenuLinkTeam" role="button"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Vehículos</a>
+					<div class="dropdown-menu bg-primary"
+						aria-labelledby="navbarDropdownMenuLinkTeam">
+						
+						<a th:if="${param.id[0] == 'listadoVehiculos'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/personales/showvehiculos">Vehículos</a> 
+						<a th:unless="${param.id[0] == 'listadoVehiculos'}" class="dropdown-item dropPersonalizado" href="/personales/showvehiculos">Vehículos</a> 	
+							
+							
+						<a th:if="${param.id[0] == 'vehiculoForm'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/personales/vehiculoForm?id=0">Nuevo Vehículo</a>
+						<a th:unless="${param.id[0] == 'vehiculoForm'}" class="dropdown-item dropPersonalizado" href="/personales/vehiculoForm?id=0">Nuevo Vehículo</a>
+					</div></li>
+<!--  VEHICULO ELSE -->	
+				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:unless="${param.id[0] == 'listadoVehiculos' || param.id[0] == 'vehiculoForm'}" class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#"
+					id="navbarDropdownMenuLinkTeam" role="button"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Vehículos</a>
+					<div class="dropdown-menu bg-primary"
+						aria-labelledby="navbarDropdownMenuLinkTeam">
+						
+						<a th:if="${param.id[0] == 'listadoVehiculos'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/personales/showvehiculos">Vehículos</a> 
+						<a th:unless="${param.id[0] == 'listadoVehiculos'}" class="dropdown-item dropPersonalizado" href="/personales/showvehiculos">Vehículos</a> 	
+							
+							
+						<a th:if="${param.id[0] == 'vehiculoForm'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/personales/vehiculoForm?id=0">Nuevo Vehículo</a>
+						<a th:unless="${param.id[0] == 'vehiculoForm'}" class="dropdown-item dropPersonalizado" href="/personales/vehiculoForm?id=0">Nuevo Vehículo</a>
+					</div></li>
+						
 					
 					
 <!--  PARTIDO IF -->
@@ -224,6 +256,7 @@
 				<li th:if="${param.id[0] == 'materiales'}" class="nav-item active"><a class="nav-link disabled" href="/materiales/showmateriales">Material</a></li>
 				<li th:unless="${param.id[0] == 'materiales'}" class="nav-item"><a class="nav-link" href="/materiales/showmateriales">Material</a></li>
 					
+				
 				
 				<li class="nav-item"><a class="nav-link" href="/login"><svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 					<path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>

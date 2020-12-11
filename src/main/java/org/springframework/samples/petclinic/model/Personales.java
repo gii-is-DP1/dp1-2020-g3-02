@@ -32,7 +32,7 @@ public class Personales extends BaseEntity {
 		propietario = string;
 	}
 
-	@Column(name = "propietario", nullable = false, length = 5)
+	@Column(name = "propietario", nullable = false)
 	private String propietario;
 	
 	@ManyToOne
