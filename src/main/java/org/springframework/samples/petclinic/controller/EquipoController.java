@@ -61,7 +61,7 @@ public class EquipoController {
 	public ModelAndView listadoJugadores(@RequestParam(name="id",required=true) int id, HttpServletRequest request) {
 		Principal principal = request.getUserPrincipal();
 		String username = "";
-		
+									
 		if(principal == null) {
 			username = "";
 //			ModelAndView mav = new ModelAndView("/login");
