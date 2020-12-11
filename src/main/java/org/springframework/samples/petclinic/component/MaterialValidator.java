@@ -26,6 +26,10 @@ public class MaterialValidator implements Validator{
 		if ( material.getStock()==null ||  material.getStock()<0) {
 			errors.rejectValue("stock", "El stock no debe ser nulo ni menor que 0","El stock no debe ser nulo ni menor que 0");
 		}
+		//Estado Validation
+		if ( material.getEstado()== null  ) {
+			errors.rejectValue("estado", "El estado no puede ser nulo ","El estado no puede ser nulo");
+		}
 		//tipo validation
 		if ( material.getTipo().toString().length()>255) {
 			errors.rejectValue("tipo_material", "El tipo de material no puede tener más de 255 carácteres","El tipo de material no puede tener más de 255 carácteres");
