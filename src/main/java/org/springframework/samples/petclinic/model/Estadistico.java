@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @Table(name="estadisticos", uniqueConstraints = @UniqueConstraint(columnNames = { "email", }))
 public class Estadistico extends Person{
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	

@@ -15,5 +15,6 @@ public interface EstadisticoService {
 	public abstract List<Estadistico> findByFechaNacimientoBetweenOrderByFechaNacimiento(LocalDate firstDate, LocalDate secondDate);
 	public abstract List<Estadistico> findByFechaNacimientoAfterOrderByFechaNacimiento(LocalDate date);
 	public abstract Estadistico saveEstadistico(Estadistico estadistico);
+	public abstract void deleteEstadistico(Estadistico estadistico);
 	public abstract int estadisticoCount();
 }

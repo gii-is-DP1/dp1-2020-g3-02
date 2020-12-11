@@ -17,5 +17,5 @@ public interface MaterialRepository extends JpaRepository<Material, Serializable
 	public List<Material> findByStock(Integer stock);
 	
 //	@Query("SELECT m FROM Material m, LineaMaterial l WHERE l.id=:linea_material_id")
-	public List<Material> findByLineaMaterial(LineaMaterial lineaMaterial);
+//	public List<Material> findByLineaMaterial(LineaMaterial lineaMaterial);
 }

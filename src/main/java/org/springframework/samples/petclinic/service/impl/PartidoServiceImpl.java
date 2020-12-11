@@ -6,9 +6,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.model.Sustitucion;
+import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.repository.PartidoRepository;
+import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.PartidoService;
+import org.springframework.samples.petclinic.service.SustitucionService;
+import org.springframework.samples.petclinic.service.ViajeService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +23,15 @@ public class PartidoServiceImpl implements PartidoService {
 	
 	@Autowired
 	private PartidoRepository partidoRepository;
-
+	
+	@Autowired
+	private EstadisticaPersonalPartidoService estadisticasService;
+	
+	@Autowired
+	private SustitucionService sustitucionService;
+	
+	@Autowired
+	private ViajeService viajeService;
 	@Override
 	public List<Partido> findByFechaOrderByHora(LocalDate date) {
 		return partidoRepository.findByFechaOrderByHora(date);
@@ -82,7 +96,27 @@ public class PartidoServiceImpl implements PartidoService {
 	@Transactional
 	public void deletePartido(int partido_id) {
 		Optional<Partido> partido = partidoRepository.findById(partido_id);
-		partidoRepository.delete(partido.get());
+		List<EstadisticaPersonalPartido> estadisticas = estadisticasService.findByPartido(partido_id);
+		List<Sustitucion> sustituciones = sustitucionService.findByPartido(partido_id);
+		List<Viaje> viajes = viajeService.findByPartido(partido.get());
+		
+		Integer max = Math.max(estadisticas.size(), Math.max(sustituciones.size(), viajes.size()));
+		
+		for (int i = 0; i< max;i++) {
+			if(i<estadisticas.size()) {
+			estadisticasService.deleteEstadisticaPersonalPartido(estadisticas.get(i));
+			}
+			if(i<sustituciones.size()) {
+			sustitucionService.deleteSustitucion(sustituciones.get(i));
+			}
+			if(i<viajes.size()) {
+			viajeService.deleteViaje(viajes.get(i));
+			}
+		}
+		
+		
+		
+		partidoRepository.deleteById(partido_id);
 	}
 
 	@Override

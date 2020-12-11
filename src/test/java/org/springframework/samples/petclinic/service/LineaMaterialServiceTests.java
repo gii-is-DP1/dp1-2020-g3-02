@@ -103,7 +103,7 @@ public class LineaMaterialServiceTests {
 	}
 
 
-	@Test
+/*	@Test
 	@Transactional
 	public void testSaveLineaMaterial() {
 		Material material = new Material(new HashSet<LineaMaterial>(),"cono", TipoMaterial.CONOALTO, 7, EstadoMaterial.BUENO);
@@ -114,5 +114,5 @@ public class LineaMaterialServiceTests {
 
 		assertNotNull(linea);
 
-	}
+	} */
 }

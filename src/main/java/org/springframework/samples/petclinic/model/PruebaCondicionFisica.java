@@ -42,7 +42,7 @@ public class PruebaCondicionFisica extends BaseEntity {
 		super();
 		this.dato = dato;
 		this.fecha = fecha;
-		this.tipoPrueba = tipo_prueba;
+		this.tipoPrueba = tipo_prueba; 
 	}
 
 	@Override

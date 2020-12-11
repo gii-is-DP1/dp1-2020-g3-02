@@ -44,7 +44,7 @@ import lombok.NoArgsConstructor;
 public class Jugador extends Person{
 	
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne()
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
@@ -52,30 +52,33 @@ public class Jugador extends Person{
 	@JoinTable(name = "perteneceA", joinColumns = @JoinColumn(name = "jugador_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "equipo_id"))
 	List<Equipo> equipos;
-	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
-	private Set<NumCamiseta> numCamisetas;
-	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
-	private Set<EstadisticaPersonalEntrenamiento> estadisticas_personales_entrenamientos;
-	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
-	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
-	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
-	private Set<Personales> personales;
-	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
-	private Set<Capitan> capitan;
-	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
-	private Set<RealizaEjercicio> realiza_ejercicios;
-	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
-	private Set<Privilegio> privilegios;
 
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "jugador")
-	private List<Autorizacion> autorizacion;
+//	@OneToMany( mappedBy = "jugador")
+//	private Set<NumCamiseta> numCamisetas;
+//	
+//	@OneToMany( mappedBy = "jugador")
+//	private Set<PruebaCondicionFisica> pruebas;
+//	
+//	@OneToMany( mappedBy = "jugador")
+//	private Set<EstadisticaPersonalEntrenamiento> estadisticas_personales_entrenamientos;
+	
+//	@OneToMany( mappedBy = "jugador")
+//	private Set<EstadisticaPersonalPartido> estadisticas_personales_partido;
+	
+//	@OneToMany( mappedBy = "jugador")
+//	private Set<Personales> personales;
+//	
+//	@OneToMany( mappedBy = "jugador")
+//	private Set<Capitan> capitan;
+//	
+//	@OneToMany( mappedBy = "jugador")
+//	private Set<RealizaEjercicio> realiza_ejercicios;
+//	
+//	@OneToMany( mappedBy = "jugador")
+//	private Set<Privilegio> privilegios;
+//
+	@OneToMany(mappedBy = "jugador")
+	private List<Autorizacion> autorizacion; 
 	
 	@Column(name = "dni", nullable = false, length = 9)
 	private String dni;

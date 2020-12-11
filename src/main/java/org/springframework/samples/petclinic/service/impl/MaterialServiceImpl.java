@@ -78,7 +78,8 @@ public class MaterialServiceImpl implements MaterialService {
 	@Transactional(readOnly = true)
 	public List<Material> findByLineaMaterial(int linea_material_id){
 		Optional<LineaMaterial> linea_material= lineaMaterialRepository.findById(linea_material_id);
-		return materialRepository.findByLineaMaterial(linea_material.get());
+		//return materialRepository.findByLineaMaterial(linea_material.get());
+		return null;
 	}
 	
 

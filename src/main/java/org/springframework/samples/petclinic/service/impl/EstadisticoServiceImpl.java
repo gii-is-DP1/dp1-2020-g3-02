@@ -85,4 +85,10 @@ public class EstadisticoServiceImpl implements EstadisticoService{
 		return (int) estadisticoRepository.count();
 	}
 
+	@Override
+	public void deleteEstadistico(Estadistico estadistico) {
+		estadisticoRepository.delete(estadistico);
+		
+	}
+
 }
