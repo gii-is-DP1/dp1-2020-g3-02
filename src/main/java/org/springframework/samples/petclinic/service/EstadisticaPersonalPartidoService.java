@@ -21,5 +21,6 @@ public interface EstadisticaPersonalPartidoService {
 	public abstract List<EstadisticaPersonalPartido> findByPartido(int partido_id);
 	public abstract EstadisticaPersonalPartido findByJugadorAndPartido(int jugador_id,int partido_id);
 	public abstract EstadisticaPersonalPartido saveEstadisticaPersonalPartido(EstadisticaPersonalPartido statistic);
+	public abstract void deleteEstadisticaPersonalPartido(EstadisticaPersonalPartido statistic);
 	public abstract int statisticCount();
 }

@@ -23,5 +23,6 @@ public interface ViajeService {
 	public abstract List<Viaje> findByJugadorAndTipoViaje(Jugador jugador, TipoViaje tipoViaje);
 	public abstract List<Viaje> findByPartidoAndTipoViaje(Partido partido, TipoViaje tipoViaje);
 	public abstract List<Viaje> findByJugadorAndPersonal(Jugador jugador, Personales personal);
+	public abstract void deleteViaje (Viaje viaje);
 	
 }

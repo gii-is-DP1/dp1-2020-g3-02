@@ -15,5 +15,7 @@ public interface SustitucionService {
 	public abstract List<Sustitucion> findByJugadorEntra(int jugador_id);
 	public abstract List<Sustitucion> findByJugadorSale(int jugador_id);
 	public abstract Sustitucion saveSustitucion(Sustitucion substitution);
+	public abstract void deleteSustitucion(Sustitucion substitution);
 	public abstract int substitutionCount();
+	
 }

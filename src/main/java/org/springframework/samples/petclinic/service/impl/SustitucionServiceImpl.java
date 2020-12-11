@@ -83,4 +83,9 @@ public class SustitucionServiceImpl implements SustitucionService{
 	public int substitutionCount() {
 		return (int) sustitucionRepository.count();
 	}
+
+	@Override
+	public void deleteSustitucion(Sustitucion substitution) {
+		sustitucionRepository.delete(substitution);
+	}
 }

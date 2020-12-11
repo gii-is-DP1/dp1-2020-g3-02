@@ -94,5 +94,11 @@ public class ViajeServiceImpl implements ViajeService {
 		return viajeRepository.findByJugadorAndPersonal(jugador, personal);
 	}
 
+	@Override
+	public void deleteViaje(Viaje viaje) {
+		viajeRepository.delete(viaje);
+		
+	}
+
 
 }

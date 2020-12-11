@@ -237,6 +237,7 @@ INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,por
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
 	remates_acertados,remates_totales,porcentaje_remates,jugador_id,partido_id) VALUES (1,20,20,1,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,1,1);
 
+
 INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
 	remates_acertados,remates_totales,porcentaje_remates,jugador_id,partido_id) VALUES (2,12,18,0.6,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,1,2); 
@@ -419,6 +420,7 @@ INSERT INTO personales(id,propietario,jugador_id) VALUES (3,'Rosa',2);
 INSERT INTO personales(id,propietario,jugador_id) VALUES (4,'Pepa',3);
 
 --INSERT VIAJE
+
 INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (1,'IDA',1,1,null,1,'12:30');
 INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (2,'IDA',2,1,1,null,'12:30');
 INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (3,'IDA',3,1,1,null,'12:30');

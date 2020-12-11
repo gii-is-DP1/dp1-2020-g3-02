@@ -145,4 +145,10 @@ public class EstadisticaPersonalPartidoServiceImpl implements EstadisticaPersona
 		return (int) estadisticaPersonalPartidoRepository.count();
 	}
 
+	@Override
+	public void deleteEstadisticaPersonalPartido(EstadisticaPersonalPartido statistic) {
+		estadisticaPersonalPartidoRepository.delete(statistic);
+		
+	}
+
 }

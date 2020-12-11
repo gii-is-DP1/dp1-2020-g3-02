@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "equipos")
 public class Equipo extends EstadisticasEntity{
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "equipo")
+	@OneToMany( mappedBy = "equipo")
 	private Set<Entrenamiento> entrenamientos;
 	
 	@ManyToOne
@@ -42,7 +42,7 @@ public class Equipo extends EstadisticasEntity{
 	@JoinColumn(name = "entrenador_id")
 	private Entrenador entrenador;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "equipo")
+/*	@OneToMany( mappedBy = "equipo")
 	private Set<NumCamiseta> numCamisetas;
 	
 //	@ManyToMany
@@ -50,11 +50,11 @@ public class Equipo extends EstadisticasEntity{
 //	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 //	Set<Jugador> jugadores;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "equipo")
+	@OneToMany( mappedBy = "equipo")
 	private Set<Privilegio> privilegios;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "equipo")
-	private Set<Partido> partidos;
+	@OneToMany( mappedBy = "equipo")
+	private Set<Partido> partidos; */
 	
 	@Column(name="categoria", nullable = false, columnDefinition = "varchar(255) unique")
 	private String categoria;

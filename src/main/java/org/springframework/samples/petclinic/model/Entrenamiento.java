@@ -39,8 +39,8 @@ public class Entrenamiento extends EstadisticasEntity{
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	Set<Jugador> jugadores;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "entrenamiento")
-	private Set<EstadisticaPersonalEntrenamiento> estadisticas_personales_entrenamientos;
+//	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "entrenamiento")
+//	private Set<EstadisticaPersonalEntrenamiento> estadisticas_personales_entrenamientos;
 	
 	@ManyToOne
 	@JoinColumn(name="equipo_id", nullable = true)
