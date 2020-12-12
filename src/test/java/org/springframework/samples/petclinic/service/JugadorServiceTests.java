@@ -341,7 +341,7 @@ public class JugadorServiceTests {
 		jugador.getUser().setPassword("asdf1234");
 		jugador.getUser().setEnabled(true);
 		
-		Jugador player = jugadorService.saveJugador(jugador);
+		Jugador player = jugadorService.save(jugador);
 		
 		assertNotNull(player);
 		

@@ -107,7 +107,7 @@ public class EquipoController {
 			model.addAttribute("equipo", equipo);
 			return ViewConstant.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
 		}
-		Equipo equipoSave = equipoService.saveTeam(equipo);
+		Equipo equipoSave = equipoService.save(equipo);
 		return "redirect:/equipos/showequipos";
 		
 	}
@@ -120,7 +120,7 @@ public class EquipoController {
 	@GetMapping("/eliminarequipo")
 	public ModelAndView eliminarEquipo(@RequestParam(name="id",required=true) int id) {
 		
-		equipoService.deleteTeam(id);
+		equipoService.deleteByIdSiExiste(id);
 		
 		return listadoEquipos();
 		

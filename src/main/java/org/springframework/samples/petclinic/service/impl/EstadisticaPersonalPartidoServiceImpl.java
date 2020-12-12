@@ -133,7 +133,7 @@ public class EstadisticaPersonalPartidoServiceImpl implements EstadisticaPersona
 		jugador.setNumAmarillas(jugador.getNumAmarillas()+statistic.getNumAmarillas());
 		jugador.setNumRojas(jugador.getNumRojas()+statistic.getNumRojas());
 		
-		Jugador player = jugadorService.saveJugador(jugador);
+		Jugador player = jugadorService.save(jugador);
 		
 		LOG.info("JUGADOR YA ACTUALIZADO POR ESTADÍSTICAS: "+player);
 		

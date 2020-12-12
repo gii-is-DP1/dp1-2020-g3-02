@@ -177,7 +177,6 @@ public class JugadorController {
 		
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
-			// TODO: handle exception
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
@@ -198,7 +197,6 @@ public class JugadorController {
 		
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
-		// TODO: handle exception
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
@@ -255,7 +253,7 @@ public class JugadorController {
 			model.addAttribute("jugador", jugador);
 			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 		}
-		Jugador player = jugadorService.saveJugador(jugador);
+		Jugador player = jugadorService.save(jugador);
 		return "redirect:/home";
 	}
 	
