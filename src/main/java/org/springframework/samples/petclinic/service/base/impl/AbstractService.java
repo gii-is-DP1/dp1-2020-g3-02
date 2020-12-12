@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.samples.petclinic.repository.ExtendedJpaRepository;
 import org.springframework.samples.petclinic.service.base.BaseService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +19,7 @@ public abstract class AbstractService<T> implements BaseService<T>{
 	
 	/** Repositorio genérico */
 	@Autowired
-	protected JpaRepository<T, Integer> genericRepository;
+	protected ExtendedJpaRepository<T> genericRepository;
 
 	@Override
 	public Optional<T> findById(final Integer id) {

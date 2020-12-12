@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
-import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.repository.LineaMaterialRepository;

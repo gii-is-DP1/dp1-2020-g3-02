@@ -16,51 +16,51 @@ public abstract class AbstractEstadisticasService<T> extends AbstractService<T> 
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
-	protected ExtendedJpaRepository<T> genericRepository;
+	protected ExtendedJpaRepository<T> genericEstadisticaRepository;
 
 	@Override
 	public List<T> findByPorcentajeSaquesLessThanEqual(double percent) {
-		return genericRepository.findByPorcentajeSaquesLessThanEqual(percent);
+		return genericEstadisticaRepository.findByPorcentajeSaquesLessThanEqual(percent);
 	}
 
 	@Override
 	public List<T> findByPorcentajeRecepcionesLessThanEqual(double percent) {
-		return genericRepository.findByPorcentajeRecepcionesLessThanEqual(percent);
+		return genericEstadisticaRepository.findByPorcentajeRecepcionesLessThanEqual(percent);
 	}
 
 	@Override
 	public List<T> findByPorcentajeColocacionesLessThanEqual(double percent) {
-		return genericRepository.findByPorcentajeColocacionesLessThanEqual(percent);
+		return genericEstadisticaRepository.findByPorcentajeColocacionesLessThanEqual(percent);
 	}
 
 	@Override
 	public List<T> findByPorcentajeDefensasLessThanEqual(double percent) {
-		return genericRepository.findByPorcentajeDefensasLessThanEqual(percent);
+		return genericEstadisticaRepository.findByPorcentajeDefensasLessThanEqual(percent);
 	}
 
 	@Override
 	public List<T> findByPorcentajeBloqueosLessThanEqual(double percent) {
-		return genericRepository.findByPorcentajeBloqueosLessThanEqual(percent);
+		return genericEstadisticaRepository.findByPorcentajeBloqueosLessThanEqual(percent);
 	}
 
 	@Override
 	public List<T> findByPorcentajeRematesLessThanEqual(double percent) {
-		return genericRepository.findByPorcentajeRematesLessThanEqual(percent);
+		return genericEstadisticaRepository.findByPorcentajeRematesLessThanEqual(percent);
 	}
 
 	@Override
 	public List<T> findByPorcentajeFintasLessThanEqual(double percent) {
-		return genericRepository.findByPorcentajeFintasLessThanEqual(percent);
+		return genericEstadisticaRepository.findByPorcentajeFintasLessThanEqual(percent);
 	}
 
 	@Override
 	public List<T> findByPorcentajeAtaquesRapidosLessThanEqual(double percent) {
-		return genericRepository.findByPorcentajeAtaquesRapidosLessThanEqual(percent);
+		return genericEstadisticaRepository.findByPorcentajeAtaquesRapidosLessThanEqual(percent);
 	}
 
 	@Override
 	public List<T> findByNumFaltasTotalesGreaterThanEqual(int faults) {
-		return genericRepository.findByNumFaltasTotalesGreaterThanEqual(faults);
+		return genericEstadisticaRepository.findByNumFaltasTotalesGreaterThanEqual(faults);
 	}
 
 }

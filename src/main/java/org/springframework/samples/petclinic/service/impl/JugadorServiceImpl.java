@@ -16,12 +16,18 @@ import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.JugadorRepository;
 import org.springframework.samples.petclinic.service.JugadorService;
+import org.springframework.samples.petclinic.service.base.impl.AbstractEstadisticasService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("jugadorService")
-public class JugadorServiceImpl implements JugadorService {
+public class JugadorServiceImpl extends AbstractEstadisticasService<Jugador> implements JugadorService {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static final Log LOG = LogFactory.getLog(JugadorServiceImpl.class);
 	
 	@Autowired
@@ -33,18 +39,6 @@ public class JugadorServiceImpl implements JugadorService {
 	
 	@Autowired
 	private AuthoritiesService authoritiesService; 
-	
-	@Override
-	@Transactional(readOnly = true)
-	public Optional<Jugador> findById(int id) {
-		return jugadorRepository.findById(id);
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public List<Jugador> findAll() {
-		return jugadorRepository.findAll();
-	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -96,67 +90,13 @@ public class JugadorServiceImpl implements JugadorService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeSaquesLessThanEqual(double percent) throws DataAccessException {
-		return jugadorRepository.findByPorcentajeSaquesLessThanEqual(percent);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeRecepcionesLessThanEqual(double percent) throws DataAccessException {
-		return jugadorRepository.findByPorcentajeRecepcionesLessThanEqual(percent);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeColocacionesLessThanEqual(double percent) throws DataAccessException {
-		return jugadorRepository.findByPorcentajeColocacionesLessThanEqual(percent);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeDefensasLessThanEqual(double percent) throws DataAccessException {
-		return jugadorRepository.findByPorcentajeDefensasLessThanEqual(percent);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeBloqueosLessThanEqual(double percent) throws DataAccessException {
-		return jugadorRepository.findByPorcentajeBloqueosLessThanEqual(percent);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeRematesLessThanEqual(double percent) throws DataAccessException {
-		return jugadorRepository.findByPorcentajeRematesLessThanEqual(percent);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeFintasLessThanEqual(double percent) throws DataAccessException {
-		return jugadorRepository.findByPorcentajeFintasLessThanEqual(percent);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Jugador> findByPorcentajeAtaquesRapidosLessThanEqual(double percent) throws DataAccessException {
-		return jugadorRepository.findByPorcentajeAtaquesRapidosLessThanEqual(percent);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Jugador> findByNumFaltasTotalesGreaterThanEqual(int faults) throws DataAccessException {
-		return jugadorRepository.findByNumFaltasTotalesGreaterThanEqual(faults);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
 	public List<Jugador> findByEquipo(int equipo_id) {
 		return jugadorRepository.findByEquipo(equipo_id);
 	}
 
 	@Override
 	@Transactional
-	public Jugador saveJugador(Jugador player) throws DataAccessException {
+	public Jugador save(Jugador player) throws DataAccessException {
 		LOG.info("ALTURA DEL JUGADOR INSERTADO: "+player.getAltura());
 		LOG.info("PESO DEL JUGADOR INSERTADO: "+player.getPeso());
 		

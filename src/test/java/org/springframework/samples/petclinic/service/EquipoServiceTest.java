@@ -270,7 +270,7 @@ public class EquipoServiceTest {
 		equipo.setLiga("IMD");
 		equipo.setSistemaJuego(Sistema.CINCO_UNO);
 		
-		Equipo team = equipoService.saveTeam(equipo);
+		Equipo team = equipoService.save(equipo);
 		assertNotNull(team);
 	}
 	
