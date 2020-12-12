@@ -75,7 +75,7 @@ public class PruebaCondicionFisicaController {
 	
 	
 	@RequestMapping(value = "/addprueba/{id}/{tipoPrueba}/{dato}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PruebaCondicionFisica> addPrueba(@PathVariable("id") int id , @PathVariable("tipoPrueba") TipoPrueba tipoPrueba, @PathVariable("dato") String dato) {
+	public ResponseEntity<List<ObjectError>> addPrueba(@PathVariable("id") int id,@ModelAttribute(name="prueba") PruebasSinJugador prueba_, BindingResult result , @PathVariable("tipoPrueba") TipoPrueba tipoPrueba, @PathVariable("dato") String dato) {
 		try {
 			
 		LOG.info(dato);
@@ -90,10 +90,18 @@ public class PruebaCondicionFisicaController {
 		}else {
 			prueba.setDato(null);
 		}
-		PruebaCondicionFisica pruebaAñadida = pruebaService.savePruebaCondicionFisica(prueba);
 		
+		ValidationUtils.invokeValidator(pruebaValidator, prueba, result);
 		
+		if (result.hasErrors()) {
+			ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+			return re;
+		}else {
+			PruebaCondicionFisica pruebaAñadida = pruebaService.savePruebaCondicionFisica(prueba);
 			return new ResponseEntity(HttpStatus.OK);
+		}
+		
+
 		}catch (Exception e) {
 		// TODO: handle exception
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
@@ -153,9 +161,11 @@ public class PruebaCondicionFisicaController {
 			if (result.hasErrors()) {
 				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 				return re;
+			}else {
+				PruebaCondicionFisica pruebaF = pruebaService.savePruebaCondicionFisica(pruebaO);
+				return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 			}
-			PruebaCondicionFisica pruebaF = pruebaService.savePruebaCondicionFisica(pruebaO);
-			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
+			
 		} catch(Exception e) {
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
