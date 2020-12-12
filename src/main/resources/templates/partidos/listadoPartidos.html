@@ -57,6 +57,7 @@
 					cellspacing="0" style="width: 100%;">
 					<thead>
 						<tr class="table-primary">
+							<th class="invisible"></th>
 							<th>Fecha</th>
 							<th>Hora</th>
 							<th>Equipo</th>
@@ -64,7 +65,8 @@
 							
 						</tr>
 					</thead>
-					<tbody>
+					
+<!-- 					<tbody>
 						<tr th:each="partido : ${partidos}">
 							<td th:text="${partido.fecha}"></td>
 							<td th:text="${partido.hora}"></td>
@@ -87,16 +89,18 @@
 									title="Editar">
 									<i class="fas fa-edit"></i>
 								</button>
+								
 								<button sec:authorize="hasAuthority('jugador')" type="button"
 									class="btn btn-outline-danger" title="Asistir">Asisto</button>
 									
 									
 								<button sec:authorize="hasAuthority('entrenador')" type="button"
-									class="btn btn-outline-danger eliminar" title="Asistir"><i class="fas fa-trash-alt"></i></button>	
+									class="btn btn-outline-danger eliminar" title="Asistir"><i class="fas fa-trash-alt"></i></button>
 									
-
+									
+									
 							</td>
-					</tbody>
+					</tbody> -->
 
 				</table>
 			</div>
@@ -265,12 +269,43 @@
 	<script>
 	
 	tablaPrincipal = $('#partidos').DataTable({
-		
 		responsive: true,
 		"language" : {
 			"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-		}
+		},
+		ajax:'[[@{/partidos/findPartidos}]]',
+		"columns":[
+			{data:'id'},
+			{data: 'fecha'},
+			{data: 'hora'},
+			{data: 'equipo'},
+			{data:'id',
+				 render: function (data, type, row) {
+					 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
+						+"<i class='fas fa-bus'></i> </button>" +
+						
+					" <button type='button' class='btn btn-outline-secondary' "+
+					"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
+					
+					" <button class='btn btn-outline-success mx-0 estadisticas' onclick='return estadisticas(this,"+row['id'] +");' type='button' title='Estadísticas'>"+
+						"<i class='fas fa-chart-pie'></i></button>"+
+					
+					" <button sec:authorize='hasAuthority("+"'entrenador')"+"'  onclick='return editar(this,"+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
+						"<i class='fas fa-edit'></i></button>" + 
+					
+					" <button sec:authorize='hasAuthority("+"'jugador')"+"' class='btn btn-outline-danger' type='button' title='Asistir'>"+
+					"Asisto</button>"
+					
+					" <button sec:authorize='hasAuthority("+"'entrenador')"+"' onclick='return eliminar(this,"+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+						"<i class='fas fa-trash-alt'></i></button>" 
+
+				 }
+			}
+		]
 	});
+	
+	tablaPrincipal.columns([0]).visible(false);
+	
 		function enviarEdicion() {
 			var form = new FormData(document
 					.getElementById('formGestionPartido'));
@@ -282,7 +317,7 @@
 				contentType : false,
 				success : function(data) {
 					$('#gestionModal').modal("hide");
-					location.reload();
+					tablaPrincipal.ajax.reload(null, false);
 				},
 				error : function(data) {
 					$('.error').text('');
@@ -337,14 +372,13 @@
 									});
 						});
 
-		$(document)
-				.ready(
-						function() {
-							var tabla = null;
-							var chart = null;
-							$('table .estadisticas').on('click',function() {
-								var id = $(this).parent().find('#id').val();
-												
+		var tabla = null;
+		var chart = null;
+							function estadisticas(stats,id) {
+								//var id = $(this).parent().find('#id').val();
+								$(document).ready(
+									function() {
+																
 									// Create DataTable
 									$('#estadisticasModal').modal("show");
 										if(tabla != null){
@@ -599,11 +633,10 @@
 												}
 											});
 
-						});
-		$('table .editar').on(
-				'click',
-				function() {
-					var id = $(this).parent().find('#id').val();
+						};
+		
+				function editar(boton,id) {
+					//var id = $(this).parent().find('#id').val();
 
 					$('.error').text('');
 
@@ -631,15 +664,15 @@
 									$('#gestionModal').modal("show");
 								}
 							});
-				});
+				};
 		
-		$('table .eliminar').on('click', function(){
-			var id = $(this).parent().find('#id').val();
+		function eliminar(boton, id){
+			//var id = $(this).parent().find('#id').val();
 			
 			$('.modal-header').css("color", "white");
 			$('.modal-title').text("Eliminar Partido");
 			$('#confirmacionModal').modal("show");
-		})
+		}
 	</script>
 	<script type="text/javascript">
 		w3IncludeHTML();

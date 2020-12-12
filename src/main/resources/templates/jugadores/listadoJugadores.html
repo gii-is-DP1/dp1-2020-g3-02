@@ -1359,12 +1359,8 @@
 																		{
 																			"data" : "dato"
 																		},
-																		{
-																			"data" : 'editar',
-																			render : function(
-																					data,
-																					type,
-																					row) {
+																		{"data" : 'editar',
+																			render : function(data,type,row) {
 																				return "<button type='button' class='btn btn-outline-info mx-0 editarPrueba' onclick='return editarPrueba("+ row['id']
 																					+ ")' value='editar'><i class='fas fa-edit'></i></button>"
 																					+ " <button type='button' class='btn btn-outline-danger eliminar' onclick='return eliminarPrueba("+ row['id']

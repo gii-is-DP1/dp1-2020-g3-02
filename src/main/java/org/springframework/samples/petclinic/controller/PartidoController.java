@@ -25,8 +25,11 @@ import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
+import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
+import org.springframework.samples.petclinic.model.auxiliares.PruebasSinJugador;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 import org.springframework.samples.petclinic.service.EquipoService;
@@ -203,7 +206,24 @@ public class PartidoController {
 		}	
 	}
 	
-		
+	@RequestMapping(value = "/findPartidos", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<PartidoEdit>> listadoPartidos() {
+		try {
+			List<PartidoEdit> partidosSinEquipo = new ArrayList<PartidoEdit>();
+			List<Partido> partidos = partidoService.findAll();
+			
+			for(int i = 0; i<partidos.size();i++) {
+				PartidoEdit partidoSinEquipo = partidoConverter.convertPartidoToPartidoEdit(partidos.get(i));
+				partidosSinEquipo.add(partidoSinEquipo);
+			}
+			DataTableResponse<PartidoEdit> data = new DataTableResponse<PartidoEdit>();
+			data.setData(partidosSinEquipo);
+			
+			return new ResponseEntity<DataTableResponse<PartidoEdit>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<PartidoEdit>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
 	
 	@PostMapping("/postpartido")
 	public ResponseEntity<List<ObjectError>> addPartido(HttpServletRequest request, @ModelAttribute(name="partido") PartidoEdit partidoEdit, BindingResult result) {
