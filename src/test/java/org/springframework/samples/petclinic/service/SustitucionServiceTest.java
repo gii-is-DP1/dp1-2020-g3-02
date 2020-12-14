@@ -99,7 +99,7 @@ public class SustitucionServiceTest {
 	public void findByJugadorSaleInitialDataFinding() {
 		int jugador_id = 1;
 		List<Sustitucion> sustitucion = sustitucionService.findByJugadorSale(jugador_id);
-		assertEquals(sustitucion.size(),2);
+		assertEquals(sustitucion.size(),1);
 	}
 	
 	@Test
