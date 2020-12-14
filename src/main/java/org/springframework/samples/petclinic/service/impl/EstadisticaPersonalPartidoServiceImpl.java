@@ -14,12 +14,17 @@ import org.springframework.samples.petclinic.repository.EstadisticaPersonalParti
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PartidoService;
+import org.springframework.samples.petclinic.service.base.impl.AbstractEstadisticasService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service("estadisticaPersonalPartidoService")
-public class EstadisticaPersonalPartidoServiceImpl implements EstadisticaPersonalPartidoService{
+public class EstadisticaPersonalPartidoServiceImpl extends AbstractEstadisticasService<EstadisticaPersonalPartido> implements EstadisticaPersonalPartidoService{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static final Log LOG = LogFactory.getLog(EstadisticaPersonalEntrenamientoServiceImpl.class);
 
 	@Autowired
@@ -31,58 +36,6 @@ public class EstadisticaPersonalPartidoServiceImpl implements EstadisticaPersona
 	
 	@Autowired
 	private PartidoService partidoService;
-	
-	@Override
-	@Transactional(readOnly = true)
-	public List<EstadisticaPersonalPartido> findAll() {
-		return estadisticaPersonalPartidoRepository.findAll();
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public Optional<EstadisticaPersonalPartido> findById(int id) {
-		return estadisticaPersonalPartidoRepository.findById(id);
-	}
-
-	@Override
-	public List<EstadisticaPersonalPartido> findByPorcentajeSaquesLessThanEqual(double percent) {
-		return estadisticaPersonalPartidoRepository.findByPorcentajeSaquesLessThanEqual(percent);
-	}
-
-	@Override
-	public List<EstadisticaPersonalPartido> findByPorcentajeRecepcionesLessThanEqual(double percent) {
-		return estadisticaPersonalPartidoRepository.findByPorcentajeRecepcionesLessThanEqual(percent);
-	}
-
-	@Override
-	public List<EstadisticaPersonalPartido> findByPorcentajeColocacionesLessThanEqual(double percent) {
-		return estadisticaPersonalPartidoRepository.findByPorcentajeColocacionesLessThanEqual(percent);
-	}
-
-	@Override
-	public List<EstadisticaPersonalPartido> findByPorcentajeDefensasLessThanEqual(double percent) {
-		return estadisticaPersonalPartidoRepository.findByPorcentajeDefensasLessThanEqual(percent);
-	}
-
-	@Override
-	public List<EstadisticaPersonalPartido> findByPorcentajeBloqueosLessThanEqual(double percent) {
-		return estadisticaPersonalPartidoRepository.findByPorcentajeBloqueosLessThanEqual(percent);
-	}
-
-	@Override
-	public List<EstadisticaPersonalPartido> findByPorcentajeRematesLessThanEqual(double percent) {
-		return estadisticaPersonalPartidoRepository.findByPorcentajeRematesLessThanEqual(percent);
-	}
-
-	@Override
-	public List<EstadisticaPersonalPartido> findByPorcentajeFintasLessThanEqual(double percent) {
-		return estadisticaPersonalPartidoRepository.findByPorcentajeFintasLessThanEqual(percent);
-	}
-
-	@Override
-	public List<EstadisticaPersonalPartido> findByPorcentajeAtaquesRapidosLessThanEqual(double percent) {
-		return estadisticaPersonalPartidoRepository.findByPorcentajeAtaquesRapidosLessThanEqual(percent);
-	}
 
 	@Override
 	public List<EstadisticaPersonalPartido> findByJugador(int jugador_id) {
@@ -105,7 +58,7 @@ public class EstadisticaPersonalPartidoServiceImpl implements EstadisticaPersona
 	}
 
 	@Override
-	public EstadisticaPersonalPartido saveEstadisticaPersonalPartido(EstadisticaPersonalPartido statistic) {
+	public EstadisticaPersonalPartido save(EstadisticaPersonalPartido statistic) {
 		EstadisticaPersonalPartido estadisticaPersonalPartido = estadisticaPersonalPartidoRepository.save(statistic);
 		
 		Jugador jugador = statistic.getJugador();
@@ -146,9 +99,10 @@ public class EstadisticaPersonalPartidoServiceImpl implements EstadisticaPersona
 	}
 
 	@Override
-	public void deleteEstadisticaPersonalPartido(EstadisticaPersonalPartido statistic) {
-		estadisticaPersonalPartidoRepository.delete(statistic);
-		
+	public void deleteAllInPartido(Integer partido_id) {
+		Optional<Partido> partido = partidoService.findById(partido_id);
+		List<EstadisticaPersonalPartido> estadisticas = estadisticaPersonalPartidoRepository.findByPartido(partido.get());
+		estadisticaPersonalPartidoRepository.deleteAll(estadisticas);
 	}
 
 }

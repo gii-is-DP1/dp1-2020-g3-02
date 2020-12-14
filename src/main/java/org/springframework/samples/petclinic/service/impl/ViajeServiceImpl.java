@@ -16,35 +16,27 @@ import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.repository.AutobusRepository;
 import org.springframework.samples.petclinic.repository.ViajeRepository;
 import org.springframework.samples.petclinic.service.AutobusService;
+import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.ViajeService;
+import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("viajeService")
-public class ViajeServiceImpl implements ViajeService {
+public class ViajeServiceImpl extends AbstractService<Viaje> implements ViajeService {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private static final Log LOG = LogFactory.getLog(ViajeServiceImpl.class);
 	
 	@Autowired
 	private ViajeRepository viajeRepository;
 	
-	@Override
-	public List<Viaje> findAll() {
-		
-		return viajeRepository.findAll();
-	}
-
-	@Override
-	public Optional<Viaje> findById(int id) {
-		
-		return viajeRepository.findById(id);
-	}
-
-	@Override
-	public Viaje saveViaje(Viaje viaje) {
-		
-		return viajeRepository.save(viaje);
-	}
+	@Autowired
+	private PartidoService partidoService;
 
 	@Override
 	public List<Viaje> findByJugador(Jugador jugador) {
@@ -95,10 +87,9 @@ public class ViajeServiceImpl implements ViajeService {
 	}
 
 	@Override
-	public void deleteViaje(Viaje viaje) {
-		viajeRepository.delete(viaje);
-		
+	public void deleteAllInPartido(Integer partido_id) {
+		Optional<Partido> partido = partidoService.findById(partido_id);
+		List<Viaje> viajes = viajeRepository.findByPartido(partido.get());
+		viajeRepository.deleteAll(viajes);
 	}
-
-
 }

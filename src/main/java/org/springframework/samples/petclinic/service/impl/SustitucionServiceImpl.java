@@ -11,15 +11,21 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Sustitucion;
-import org.springframework.samples.petclinic.repository.JugadorRepository;
-import org.springframework.samples.petclinic.repository.PartidoRepository;
 import org.springframework.samples.petclinic.repository.SustitucionRepository;
+import org.springframework.samples.petclinic.service.JugadorService;
+import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.SustitucionService;
+import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("sustitucionesService")
-public class SustitucionServiceImpl implements SustitucionService{
+public class SustitucionServiceImpl extends AbstractService<Sustitucion> implements SustitucionService{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static final Log LOG = LogFactory.getLog(SustitucionServiceImpl.class);
 	
 	@Autowired
@@ -27,17 +33,10 @@ public class SustitucionServiceImpl implements SustitucionService{
 	private SustitucionRepository sustitucionRepository;
 	
 	@Autowired
-	private JugadorRepository jugadorRepository;
+	private JugadorService jugadorService;
 	
 	@Autowired
-	private PartidoRepository partidoRepository;
-	 
-
-	@Override
-	@Transactional(readOnly = true)
-	public Optional<Sustitucion> findById(int id) {
-		return sustitucionRepository.findById(id);
-	}
+	private PartidoService partidoService;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -48,14 +47,14 @@ public class SustitucionServiceImpl implements SustitucionService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<Sustitucion> findByPartido(int partido_id) {
-		Optional<Partido> partido = partidoRepository.findById(partido_id);
+		Optional<Partido> partido = partidoService.findById(partido_id);
 		return sustitucionRepository.findByPartido(partido.get());
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Sustitucion> findByJugadorEntra(int jugador_id) {
-		Optional<Jugador> jugador = jugadorRepository.findById(jugador_id);
+		Optional<Jugador> jugador = jugadorService.findById(jugador_id);
 		return sustitucionRepository.findByJugadorEntra(jugador.get());
 	}
 	
@@ -63,20 +62,8 @@ public class SustitucionServiceImpl implements SustitucionService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<Sustitucion> findByJugadorSale(int jugador_id) {
-		Optional<Jugador> jugador = jugadorRepository.findById(jugador_id);
+		Optional<Jugador> jugador = jugadorService.findById(jugador_id);
 		return sustitucionRepository.findByJugadorSale(jugador.get());
-	}
-	@Override
-	public List<Sustitucion> findAll() {
-		return sustitucionRepository.findAll();
-	}
-
-	@Override
-	public Sustitucion saveSustitucion(Sustitucion substitution) {
-		Sustitucion sust=sustitucionRepository.save(substitution);
-		LOG.info(sust.toString());
-		
-		return sust;
 	}
 
 	@Override
@@ -85,7 +72,9 @@ public class SustitucionServiceImpl implements SustitucionService{
 	}
 
 	@Override
-	public void deleteSustitucion(Sustitucion substitution) {
-		sustitucionRepository.delete(substitution);
+	public void deleteAllInPartido(Integer partido_id) {
+		Optional<Partido> partido = partidoService.findById(partido_id);
+		List<Sustitucion> sustituciones = sustitucionRepository.findByPartido(partido.get());
+		sustitucionRepository.deleteAll(sustituciones);
 	}
 }

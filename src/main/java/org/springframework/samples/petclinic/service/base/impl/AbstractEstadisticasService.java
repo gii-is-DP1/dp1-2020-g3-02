@@ -8,7 +8,7 @@ import org.springframework.samples.petclinic.service.base.BaseEstadisticasServic
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public abstract class AbstractEstadisticasService<T> extends AbstractService<T> implements BaseEstadisticasService<T> {
+public class AbstractEstadisticasService<T> extends AbstractService<T> implements BaseEstadisticasService<T> {
 	
 	/**
 	 * 

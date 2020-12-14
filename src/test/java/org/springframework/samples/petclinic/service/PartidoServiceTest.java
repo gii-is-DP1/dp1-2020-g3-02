@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,11 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Equipo;
-import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
-import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.stereotype.Service;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -275,7 +271,7 @@ public class PartidoServiceTest {
 	@Transactional
 	public void testDeletePartido() {
 		int partido_id = 1;
-		partidoService.deletePartido(partido_id);
+		partidoService.deleteById(partido_id);
 		Optional<Partido> partido = partidoService.findById(partido_id);
 		assertEquals(partido, Optional.empty());
 		

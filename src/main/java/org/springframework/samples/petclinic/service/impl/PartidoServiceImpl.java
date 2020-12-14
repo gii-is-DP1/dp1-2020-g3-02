@@ -15,12 +15,18 @@ import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoS
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.SustitucionService;
 import org.springframework.samples.petclinic.service.ViajeService;
+import org.springframework.samples.petclinic.service.base.impl.AbstractEstadisticasService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class PartidoServiceImpl implements PartidoService {
+public class PartidoServiceImpl extends AbstractEstadisticasService<Partido> implements PartidoService {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Autowired
 	private PartidoRepository partidoRepository;
 	
@@ -43,91 +49,19 @@ public class PartidoServiceImpl implements PartidoService {
 	}
 
 	@Override
-	public List<Partido> findByPorcentajeSaquesLessThanEqual(double percent) {
-		return partidoRepository.findByPorcentajeSaquesLessThanEqual(percent);
-	}
-
-	@Override
-	public List<Partido> findByPorcentajeRecepcionesLessThanEqual(double percent) {
-		return partidoRepository.findByPorcentajeRecepcionesLessThanEqual(percent);
-	}
-
-	@Override
-	public List<Partido> findByPorcentajeColocacionesLessThanEqual(double percent) {
-		return partidoRepository.findByPorcentajeColocacionesLessThanEqual(percent);
-	}
-
-	@Override
-	public List<Partido> findByPorcentajeDefensasLessThanEqual(double percent) {
-		return partidoRepository.findByPorcentajeDefensasLessThanEqual(percent);
-	}
-
-	@Override
-	public List<Partido> findByPorcentajeBloqueosLessThanEqual(double percent) {
-		return partidoRepository.findByPorcentajeBloqueosLessThanEqual(percent);
-	}
-
-	@Override
-	public List<Partido> findByPorcentajeRematesLessThanEqual(double percent) {
-		return partidoRepository.findByPorcentajeRematesLessThanEqual(percent);
-	}
-
-	@Override
-	public List<Partido> findByPorcentajeFintasLessThanEqual(double percent) {
-		return partidoRepository.findByPorcentajeFintasLessThanEqual(percent);
-	}
-
-	@Override
-	public List<Partido> findByPorcentajeAtaquesRapidosLessThanEqual(double percent) {
-		return partidoRepository.findByPorcentajeAtaquesRapidosLessThanEqual(percent);
-	}
-
-	@Override
-	public List<Partido> findByNumFaltasTotalesGreaterThanEqual(int faults) {
-		return partidoRepository.findByNumFaltasTotalesGreaterThanEqual(faults);
-	}
-
-	@Override
 	public Partido savePartido(Partido partido) {
 		return partidoRepository.save(partido);
 	}
 
 	@Override
 	@Transactional
-	public void deletePartido(int partido_id) {
-		Optional<Partido> partido = partidoRepository.findById(partido_id);
-		List<EstadisticaPersonalPartido> estadisticas = estadisticasService.findByPartido(partido_id);
-		List<Sustitucion> sustituciones = sustitucionService.findByPartido(partido_id);
-		List<Viaje> viajes = viajeService.findByPartido(partido.get());
+	public void deleteById(Integer partido_id) {
 		
-		Integer max = Math.max(estadisticas.size(), Math.max(sustituciones.size(), viajes.size()));
-		
-		for (int i = 0; i< max;i++) {
-			if(i<estadisticas.size()) {
-			estadisticasService.deleteEstadisticaPersonalPartido(estadisticas.get(i));
-			}
-			if(i<sustituciones.size()) {
-			sustitucionService.deleteSustitucion(sustituciones.get(i));
-			}
-			if(i<viajes.size()) {
-			viajeService.deleteViaje(viajes.get(i));
-			}
-		}
-		
-		
-		
+		estadisticasService.deleteAllInPartido(partido_id);
+		sustitucionService.deleteAllInPartido(partido_id);
+		viajeService.deleteAllInPartido(partido_id);
 		partidoRepository.deleteById(partido_id);
-	}
-
-	@Override
-	public List<Partido> findAll() {
-		return partidoRepository.findAll();
 		
-	}
-
-	@Override
-	public Optional<Partido> findById(int partido_id) {
-		return partidoRepository.findById(partido_id);
 	}
 
 }

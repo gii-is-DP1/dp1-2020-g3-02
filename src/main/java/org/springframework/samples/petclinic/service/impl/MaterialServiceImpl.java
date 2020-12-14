@@ -13,11 +13,17 @@ import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.repository.LineaMaterialRepository;
 import org.springframework.samples.petclinic.repository.MaterialRepository;
 import org.springframework.samples.petclinic.service.MaterialService;
+import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("materialService")
-public class MaterialServiceImpl implements MaterialService {
+public class MaterialServiceImpl extends AbstractService<Material> implements MaterialService {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private static final Log LOG = LogFactory.getLog(MaterialServiceImpl.class);
 
@@ -30,12 +36,6 @@ public class MaterialServiceImpl implements MaterialService {
 
 	@Autowired
 	private LineaMaterialRepository lineaMaterialRepository;
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Material> findAll() {
-		return materialRepository.findAll();
-	}
 
 	@Override
 	@Transactional(readOnly = true)

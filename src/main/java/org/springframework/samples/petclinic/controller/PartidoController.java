@@ -265,7 +265,7 @@ public class PartidoController {
 	public String removePartido(@PathVariable("id") int id, Model model) {
 		LOG.info("SE PROCEDE A BORRAR EL PARTIDO");
 		
-		partidoService.deletePartido(id);
+		partidoService.deleteById(id);
 		
 		return "redirect:/partidos/showpartidos";
 	}

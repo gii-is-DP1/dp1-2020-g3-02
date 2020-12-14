@@ -1,16 +1,16 @@
 package org.springframework.samples.petclinic.service.base.impl;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.samples.petclinic.repository.ExtendedJpaRepository;
 import org.springframework.samples.petclinic.service.base.BaseService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
-public abstract class AbstractService<T> implements BaseService<T>{
+public class AbstractService<T> implements BaseService<T>{
 	
 	/**
 	 * 
@@ -19,7 +19,7 @@ public abstract class AbstractService<T> implements BaseService<T>{
 	
 	/** Repositorio genérico */
 	@Autowired
-	protected ExtendedJpaRepository<T> genericRepository;
+	protected JpaRepository<T, Serializable> genericRepository;
 
 	@Override
 	public Optional<T> findById(final Integer id) {
@@ -60,6 +60,11 @@ public abstract class AbstractService<T> implements BaseService<T>{
 		if(genericRepository.existsById(id)) {
 			genericRepository.deleteById(id);
 		}
+	}
+
+	@Override
+	public void deleteAll(List<T> entities) {
+		genericRepository.deleteAll(entities);
 	}
 
 }

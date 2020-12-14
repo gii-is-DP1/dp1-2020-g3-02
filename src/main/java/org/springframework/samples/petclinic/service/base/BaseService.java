@@ -19,5 +19,7 @@ public interface BaseService<T> extends Serializable{
 	public abstract void deleteById(Integer id);
 	
 	public abstract void deleteByIdSiExiste(Integer id);
+	
+	public abstract void deleteAll(List<T> entities);
 
 }
