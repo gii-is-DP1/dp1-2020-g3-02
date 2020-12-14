@@ -101,7 +101,7 @@ public class CapitanServiceTests {
 		Capitan capitan = new Capitan(10, Actitud.NEGATIVA);
 		capitan.setJugador(null);
 		
-		Capitan captain = capitanService.saveCapitan(capitan);
+		Capitan captain = capitanService.save(capitan);
 		assertNotNull(captain);
 		
 	}
@@ -110,7 +110,7 @@ public class CapitanServiceTests {
 	@Transactional
 	public void deleteCapitan() {
 		int id= 3;
-		this.capitanService.deleteCapitan(id);
+		this.capitanService.deleteByIdSiExiste(id);
 		Optional<Capitan> capitan=capitanService.findById(id);
 		assertEquals(capitan, Optional.empty());
 	}

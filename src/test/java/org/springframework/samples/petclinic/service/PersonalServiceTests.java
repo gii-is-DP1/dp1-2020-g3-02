@@ -9,12 +9,9 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.Personales;
-import org.springframework.samples.petclinic.repository.PersonalesRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,7 +89,7 @@ public class PersonalServiceTests {
 	public void testSavePersonales() {
 		Personales personales = new Personales("Amor");	
 
-		Personales personal = personalesService.savePersonales(personales);
+		Personales personal = personalesService.save(personales);
 
 		assertNotNull(personal);
 

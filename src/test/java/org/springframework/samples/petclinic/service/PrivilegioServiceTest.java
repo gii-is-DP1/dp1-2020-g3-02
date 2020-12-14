@@ -136,7 +136,7 @@ public class PrivilegioServiceTest {
 		
 		Privilegio privilegio = new Privilegio(player, team, TipoPrivilegio.PARTIDOS, descripcion);	
 
-		Privilegio priv = privilegioService.savePrivilegio(privilegio);
+		Privilegio priv = privilegioService.save(privilegio);
 
 		assertNotNull(priv);
 

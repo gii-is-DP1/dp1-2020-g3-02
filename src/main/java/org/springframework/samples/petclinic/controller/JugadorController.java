@@ -173,7 +173,7 @@ public class JugadorController {
 		Optional<Jugador> player = jugadorService.findById(id);
 		Jugador jug= player.get();
 		Autorizacion ar= autorizacionService.findByJugadorAndTipo(jug, autor);
-		autorizacionService.deleteAutorizacion(ar.getId());
+		autorizacionService.deleteByIdSiExiste(ar.getId());
 		
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
@@ -192,7 +192,7 @@ public class JugadorController {
 		autorizacion.setFecha(LocalDate.now());
 		autorizacion.setJugador(jugador);
 		autorizacion.setTipoAutorizacion(autor);
-		Autorizacion autorization= autorizacionService.saveAutorizacion(autorizacion);
+		Autorizacion autorization= autorizacionService.save(autorizacion);
 		
 		
 			return new ResponseEntity(HttpStatus.OK);

@@ -7,30 +7,27 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
-import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
-import org.springframework.samples.petclinic.repository.EquipoRepository;
 import org.springframework.samples.petclinic.repository.PruebaCondicionFisicaRepository;
-import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
+import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("pruebaCondicionFisicaService")
-public class PruebaCondicionFisicaServiceImpl implements PruebaCondicionFisicaService {
+public class PruebaCondicionFisicaServiceImpl extends AbstractService<PruebaCondicionFisica> implements PruebaCondicionFisicaService {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	@Autowired
 	@Qualifier("pruebaCondicionFisicaRepository")
 	private PruebaCondicionFisicaRepository pruebaRepository;
-	
-	@Override
-	@Transactional(readOnly = true)
-	public Optional<PruebaCondicionFisica> findById(int id) {
-		return pruebaRepository.findById(id);
-	}
-	
+		
 	@Autowired
 	private JugadorService jugadorService;
 
@@ -74,23 +71,10 @@ public class PruebaCondicionFisicaServiceImpl implements PruebaCondicionFisicaSe
 	}
 
 	@Override
-	public PruebaCondicionFisica savePruebaCondicionFisica(PruebaCondicionFisica prueba) {
-		return pruebaRepository.save(prueba);
-	}
-
-	@Override
 	@Transactional(readOnly = true)
 	public List<PruebaCondicionFisica> findByJugadorAndTipoPrueba(Jugador jugador, TipoPrueba tipo_prueba) {
 		
 		return pruebaRepository.findByJugadorAndTipoPrueba(jugador, tipo_prueba);
 	}
-
-	@Override
-	public void deletePruebaCondicionFisica(int id) {
-		pruebaRepository.deleteById(id);
-		
-	}
-
-	
 	
 }

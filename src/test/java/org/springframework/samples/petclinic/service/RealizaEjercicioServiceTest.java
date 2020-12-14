@@ -78,7 +78,7 @@ class RealizaEjercicioServiceTest {
 		EjercicioIndividual excercise= ejercicio.get();
 		RealizaEjercicio realiza = new RealizaEjercicio(player,excercise, LocalDate.of(2020, 11, 5));	
 
-		RealizaEjercicio rea = realizaEjercicioService.saveRealizaEjercicio(realiza);
+		RealizaEjercicio rea = realizaEjercicioService.save(realiza);
 
 		assertNotNull(rea);
 

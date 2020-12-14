@@ -135,7 +135,7 @@ public class PruebaCondicionFisicaServiceTests {
 	public void testSavePruebaCondicionFisica() {
 		PruebaCondicionFisica p = new PruebaCondicionFisica(3.1,LocalDate.of(2020, 11, 01),TipoPrueba.FLEXIBILIDAD);
 		
-		PruebaCondicionFisica prueba = pruebaService.savePruebaCondicionFisica(p);
+		PruebaCondicionFisica prueba = pruebaService.save(p);
 		
 		assertNotNull(prueba);
 		

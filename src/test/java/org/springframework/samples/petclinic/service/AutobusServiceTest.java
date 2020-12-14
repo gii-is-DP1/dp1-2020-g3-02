@@ -53,7 +53,7 @@ public class AutobusServiceTest {
 		Autobus autobus = new Autobus();
 		autobus.setId(76);
 		
-		Autobus bus = autobusService.saveAutobus(autobus);
+		Autobus bus = autobusService.save(autobus);
 		
 		assertNotNull(bus);
 	}

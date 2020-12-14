@@ -113,7 +113,7 @@ public class AutorizacionServiceTest {
 		Jugador player= jugador.get();
 		Autorizacion autorizacion = new Autorizacion(player,LocalDate.of(2020, 11, 5), TipoAutorizacion.TRANSPORTE);	
 
-		Autorizacion aut = autorizacionService.saveAutorizacion(autorizacion);
+		Autorizacion aut = autorizacionService.save(autorizacion);
 
 		assertNotNull(aut);
 

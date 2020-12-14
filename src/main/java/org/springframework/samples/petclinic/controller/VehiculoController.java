@@ -45,7 +45,7 @@ public class VehiculoController {
 			model.addAttribute("personal", personal);
 			return ViewConstant.VIEWS_VEHICULO_CREATE_OR_UPDATE_FORM;
 		}
-		Personales personalSave = personalService.savePersonales(personal);
+		Personales personalSave = personalService.save(personal);
 		return "redirect:/personales/showvehiculos";
 		
 	}

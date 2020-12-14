@@ -14,11 +14,17 @@ import org.springframework.samples.petclinic.repository.EntrenamientoRepository;
 import org.springframework.samples.petclinic.repository.LineaMaterialRepository;
 import org.springframework.samples.petclinic.repository.MaterialRepository;
 import org.springframework.samples.petclinic.service.LineaMaterialService;
+import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("lineaMaterialService")
-public class LineaMaterialServiceImpl implements LineaMaterialService {
+public class LineaMaterialServiceImpl extends AbstractService<LineaMaterial> implements LineaMaterialService {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static final Log LOG = LogFactory.getLog(LineaMaterialServiceImpl.class);
 	
 	@Autowired
@@ -31,21 +37,6 @@ public class LineaMaterialServiceImpl implements LineaMaterialService {
 	
 	@Autowired
 	private EntrenamientoRepository entrenamientoRepository;
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<LineaMaterial> findAll() {
-		return lineaMaterialRepository.findAll();
-	}
-
-
-
-	@Override
-	@Transactional(readOnly = true)
-	public Optional<LineaMaterial> findById(int id) {
-		return lineaMaterialRepository.findById(id);
-	}
-
 
 	@Override
 	@Transactional(readOnly = true)
@@ -67,13 +58,4 @@ public class LineaMaterialServiceImpl implements LineaMaterialService {
 		Optional<Entrenamiento> entrenamiento= entrenamientoRepository.findById(entrenamiento_id);
 		return lineaMaterialRepository.findByEntrenamiento(entrenamiento.get());
 	}
-
-
-	@Override
-	@Transactional
-	public LineaMaterial saveLineaMaterial(LineaMaterial lineaMaterial) {
-		return lineaMaterialRepository.save(lineaMaterial);
-	}
-
-
 }
