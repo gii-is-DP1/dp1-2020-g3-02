@@ -205,7 +205,7 @@ public class ViajeServiceTest {
 		viaje.setAutobus(autobus);
 		viaje.setHoraSalida("17:00");
 		
-		Viaje _viaje = viajeSevice.saveViaje(viaje);
+		Viaje _viaje = viajeSevice.save(viaje);
 		
 		assertNotNull(_viaje);
 	}
