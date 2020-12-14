@@ -4,10 +4,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.component.EntrenadorValidator;
-import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.model.Entrenador;
-import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +51,7 @@ public class EntrenadorController {
 			model.addAttribute("entrenador", entrenador);
 			return ViewConstant.VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
 		}
-		Entrenador coach = entrenadorService.saveEntrenador(entrenador);
+		Entrenador coach = entrenadorService.save(entrenador);
 		return "redirect:/home";
 	}
 

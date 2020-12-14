@@ -132,7 +132,7 @@ public class EntrenadorServiceTests {
 		entrenador.getUser().setPassword("asdf1234");
 		entrenador.getUser().setEnabled(true);
 		
-		Entrenador coach = entrenadorService.saveEntrenador(entrenador);
+		Entrenador coach = entrenadorService.save(entrenador);
 		
 		assertNotNull(coach);
 		

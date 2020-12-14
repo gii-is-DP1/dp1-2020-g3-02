@@ -5,9 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.component.EstadisticoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
-import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Estadistico;
-import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,7 +54,7 @@ private static final Log LOG = LogFactory.getLog(EstadisticoController.class);
 		}else {
 		
 		
-		if(null != estadisticoService.saveEstadistico(estadistico)) {
+		if(null != estadisticoService.save(estadistico)) {
 			model.addAttribute("result", 1);
 			
 		}else {

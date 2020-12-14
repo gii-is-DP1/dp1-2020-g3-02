@@ -1,14 +1,11 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.samples.petclinic.model.RealizaEjercicio;
+import org.springframework.samples.petclinic.service.base.BaseService;
 
-public interface RealizaEjercicioService {
+public interface RealizaEjercicioService extends BaseService<RealizaEjercicio>{
 
-	public abstract Optional<RealizaEjercicio> findById(int id);
 	public abstract List<RealizaEjercicio> findByJugador(int id);
-	public abstract List<RealizaEjercicio> findAll();
-	public abstract RealizaEjercicio saveRealizaEjercicio(RealizaEjercicio realiza_ejercicio);
 }

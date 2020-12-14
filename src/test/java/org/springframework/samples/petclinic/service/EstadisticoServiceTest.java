@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
@@ -132,7 +131,7 @@ public class EstadisticoServiceTest {
 		estadistico.getUser().setPassword("asdf1234");
 		estadistico.getUser().setEnabled(true);
 		
-		Estadistico stats = estadisticoService.saveEstadistico(estadistico);
+		Estadistico stats = estadisticoService.save(estadistico);
 		
 		assertNotNull(stats);
 		

@@ -12,11 +12,17 @@ import org.springframework.samples.petclinic.repository.EquipoRepository;
 import org.springframework.samples.petclinic.repository.JugadorRepository;
 import org.springframework.samples.petclinic.repository.NumCamisetaRespository;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
+import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("numCamisetaService")
-public class NumCamisetaServiceImpl implements NumCamisetaService{
+public class NumCamisetaServiceImpl extends AbstractService<NumCamiseta> implements NumCamisetaService{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	@Qualifier("numCamisetaRepository")
@@ -30,12 +36,6 @@ public class NumCamisetaServiceImpl implements NumCamisetaService{
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<NumCamiseta> findAll() {
-		return numCamisetaRepository.findAll();
-	}
-
-	@Override
-	@Transactional(readOnly = true)
 	public List<NumCamiseta> findByJugador(int jugador_id) {
 		Optional<Jugador> jugador = jugadorRepository.findById(jugador_id);
 		return numCamisetaRepository.findByJugador(jugador.get());
@@ -46,11 +46,6 @@ public class NumCamisetaServiceImpl implements NumCamisetaService{
 	public List<NumCamiseta> findByEquipo(int equipo_id) {
 		Optional<Equipo> equipo = equipoRepository.findById(equipo_id);
 		return numCamisetaRepository.findByEquipo(equipo.get());
-	}
-
-	@Override
-	public NumCamiseta saveNumCamiseta(NumCamiseta numCamiseta) {
-		return numCamisetaRepository.save(numCamiseta);
 	}
 
 }

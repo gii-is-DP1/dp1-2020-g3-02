@@ -97,7 +97,7 @@ public class PruebaCondicionFisicaController {
 			ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 			return re;
 		}else {
-			PruebaCondicionFisica pruebaAñadida = pruebaService.savePruebaCondicionFisica(prueba);
+			PruebaCondicionFisica pruebaAñadida = pruebaService.save(prueba);
 			return new ResponseEntity(HttpStatus.OK);
 		}
 		
@@ -112,7 +112,7 @@ public class PruebaCondicionFisicaController {
 	@RequestMapping(value = "/eliminarprueba/{id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity eliminarAutorizacion(@PathVariable("id") int id) {
 		try {
-		pruebaService.deletePruebaCondicionFisica(id);
+		pruebaService.deleteById(id);
 		
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
@@ -162,7 +162,7 @@ public class PruebaCondicionFisicaController {
 				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 				return re;
 			}else {
-				PruebaCondicionFisica pruebaF = pruebaService.savePruebaCondicionFisica(pruebaO);
+				PruebaCondicionFisica pruebaF = pruebaService.save(pruebaO);
 				return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 			}
 			

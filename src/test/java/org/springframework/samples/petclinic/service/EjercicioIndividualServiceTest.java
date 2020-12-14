@@ -4,38 +4,23 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
-import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.model.EjercicioIndividual;
-import org.springframework.samples.petclinic.model.Jugador;
-import org.springframework.samples.petclinic.model.RealizaEjercicio;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class EjercicioIndividualServiceTest {
 
-
-
 	@Autowired
 	private EjercicioIndividualService ejercicioIndividualService;
-
-	@Autowired
-	private RealizaEjercicioService realizaEjercicioService;
-
-	@Autowired
-	private JugadorService jugadorService;
-
-
 
 	@Test
 	@Transactional(readOnly = true)
@@ -43,8 +28,6 @@ public class EjercicioIndividualServiceTest {
 		List<EjercicioIndividual>ejer=new ArrayList<EjercicioIndividual>(ejercicioIndividualService.findAll());
 		assertEquals(ejer.size(), 3);//
 	}
-
-
 
 	@Test
 	@Transactional(readOnly = true)
@@ -123,7 +106,7 @@ public class EjercicioIndividualServiceTest {
 
 		EjercicioIndividual ejer = new EjercicioIndividual("Defensa", "Defender" , TipoEjercicio.DEFENSA);	
 
-		EjercicioIndividual ej = ejercicioIndividualService.saveEjercicioIndividual(ejer);
+		EjercicioIndividual ej = ejercicioIndividualService.save(ejer);
 
 		assertNotNull(ej);
 
@@ -135,7 +118,7 @@ public class EjercicioIndividualServiceTest {
 	public void testDeleteEjercicioIndividual() {
 		
 		int id= 6;
-		this.ejercicioIndividualService.deleteEjercicioIndividual(id);
+		this.ejercicioIndividualService.deleteByIdSiExiste(id);
 		Optional<EjercicioIndividual> ejercicio=ejercicioIndividualService.findById(id);
 		assertEquals(ejercicio, Optional.empty());
 		
