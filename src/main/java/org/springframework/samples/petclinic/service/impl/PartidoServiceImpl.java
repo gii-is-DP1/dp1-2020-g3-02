@@ -42,7 +42,12 @@ public class PartidoServiceImpl extends AbstractEstadisticasService<Partido> imp
 	public List<Partido> findByFechaOrderByHora(LocalDate date) {
 		return partidoRepository.findByFechaOrderByHora(date);
 	}
-	
+
+	@Override
+	public List<Partido> findByFechaAfter(LocalDate date) {
+		return partidoRepository.findByFechaAfter(date);
+	}
+
 	@Override
 	public List<Partido> findByEquipoAndFechaAndHoraBetween(Equipo equipo, LocalDate fecha, String hora1, String hora2) {
 		return partidoRepository.findByEquipoAndFechaAndHoraBetween(equipo, fecha, hora1, hora2);

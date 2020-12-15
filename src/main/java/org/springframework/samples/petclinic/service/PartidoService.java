@@ -9,8 +9,9 @@ import org.springframework.samples.petclinic.service.base.BaseEstadisticasServic
 
 public interface PartidoService extends BaseEstadisticasService<Partido>{
 	
-	public List<Partido> findByFechaOrderByHora(LocalDate date);
-	public List<Partido> findByEquipoAndFechaAndHoraBetween(Equipo equipo, LocalDate fecha, String hora1, String hora2);
+	public abstract List<Partido> findByFechaOrderByHora(LocalDate date);
+	public abstract List<Partido> findByFechaAfter(LocalDate date);
+	public abstract List<Partido> findByEquipoAndFechaAndHoraBetween(Equipo equipo, LocalDate fecha, String hora1, String hora2);
 	public abstract Partido savePartido(Partido partido);
 	
 }
