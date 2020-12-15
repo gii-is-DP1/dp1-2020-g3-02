@@ -66,44 +66,12 @@
 						</tr>
 					</thead>
 					
-<!-- 					<tbody>
-						<tr th:each="partido : ${partidos}">
-							<td th:text="${partido.fecha}"></td>
-							<td th:text="${partido.hora}"></td>
-							<td th:text="${partido.Equipo.categoria}"></td>
-							<td>
-								<input type="hidden" id="id" th:value="${partido.id}"></input>
-								<button type="button" class="btn btn-outline-dark" title="Bus">
-									<i class="fas fa-bus"></i>
-								</button>
-								<button type="button" class="btn btn-outline-secondary"
-									title="Vehículo Personal">
-									<i class="fas fa-car-side"></i>
-								</button>
-								<button class="btn btn-outline-success mx-0 estadisticas"
-									type="button" title="Estadísticas">
-									<i class="fas fa-chart-pie"></i>
-								</button>
-								<button sec:authorize="hasAuthority('entrenador')"
-									class="btn btn-outline-info mx-0 editar" type="button"
-									title="Editar">
-									<i class="fas fa-edit"></i>
-								</button>
-								
-								<button sec:authorize="hasAuthority('jugador')" type="button"
-									class="btn btn-outline-danger" title="Asistir">Asisto</button>
-									
-									
-								<button sec:authorize="hasAuthority('entrenador')" type="button"
-									class="btn btn-outline-danger eliminar" title="Asistir"><i class="fas fa-trash-alt"></i></button>
-									
-									
-									
-							</td>
-					</tbody> -->
 
 				</table>
 			</div>
+			
+				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
+				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="jugador">
 		</div>
 	</div>
 
@@ -282,24 +250,24 @@
 			{data: 'equipo'},
 			{data:'id',
 				 render: function (data, type, row) {
-					 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
-						+"<i class='fas fa-bus'></i> </button>" +
-						
-					" <button type='button' class='btn btn-outline-secondary' "+
-					"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
+					 
+					 if($('#security').val() == 'entrenador'){
+						return " <button class='btn btn-outline-success mx-0 estadisticas' onclick='return estadisticas(this,"+row['id'] +");' type='button' title='Estadísticas'>"+
+							"<i class='fas fa-chart-pie'></i></button>"+
+							 "<button  onclick='return editar(this,"+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
+							"<i class='fas fa-edit'></i></button>" + 
+							" <button onclick='return eliminar(this,"+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+							"<i class='fas fa-trash-alt'></i></button>" ;
+						 
+					 }else{
+						 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
+							+"<i class='fas fa-bus'></i> </button>" +
+							" <button type='button' class='btn btn-outline-secondary' "+
+							"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
+							" <button  class='btn btn-outline-danger' type='button' title='Asistir'>"+
+							"Asisto</button>";
+					 }
 					
-					" <button class='btn btn-outline-success mx-0 estadisticas' onclick='return estadisticas(this,"+row['id'] +");' type='button' title='Estadísticas'>"+
-						"<i class='fas fa-chart-pie'></i></button>"+
-					
-					" <button sec:authorize='hasAuthority("+"'entrenador')"+"'  onclick='return editar(this,"+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
-						"<i class='fas fa-edit'></i></button>" + 
-					
-					" <button sec:authorize='hasAuthority("+"'jugador')"+"' class='btn btn-outline-danger' type='button' title='Asistir'>"+
-					"Asisto</button>"
-					
-					" <button sec:authorize='hasAuthority("+"'entrenador')"+"' onclick='return eliminar(this,"+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
-						"<i class='fas fa-trash-alt'></i></button>" 
-
 				 }
 			}
 		]
