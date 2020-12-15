@@ -103,37 +103,37 @@
 							
 							<th>FECHA</th>
 							<th>HORA</th>
-							<th><i dir="../resources/images/indoor-sport-017-256.ico"></i>A</th>
-							<th><img width="14px" height="18px" src="../resources/images/indoor-sport-017-256.ico"> T</th>
-							<th><img width="14px" height="18px" src="../resources/images/indoor-sport-017-256.ico">%</th>
+							<th title="Saques Acertados">Saq A</th>
+							<th title="Saques Totales">Saq T</th>
+							<th title="Porcentaje Saques"> % Saq</th>
 							
-							<th><button class="btn btn-outline-success btn-sm mx-0 " type="button" title="Recepciones Acertados">R_A</button></th>
-							<th><button class="btn btn-outline-success btn-sm mx-0 " type="button" title="Recepciones Totales">R_T</button></th>
-							<th><button class="btn btn-outline-success btn-sm mx-0 " type="button" title="Porcentaje Recepciones">%</button></th>
+							<th title="Recepciones Acertados">Rec A</th>
+							<th title="Recepciones Totales">Rec T</th>
+							<th title="Porcentaje Recepciones">% Rec</th>
 							
-							<th><button class="btn btn-outline-dark btn-sm mx-0 " type="button" title="Colocaciones Acertados">C_A</button></th>
-							<th><button class="btn btn-outline-dark btn-sm mx-0 " type="button" title="Colocaciones Totales">C_T</button></th>
-							<th><button class="btn btn-outline-dark btn-sm mx-0 " type="button" title="Porcentaje Colocaciones">%</button></th>
+							<th title="Colocaciones Acertados">Col A</th>
+							<th title="Colocaciones Totales">Col T</th>
+							<th title="Porcentaje Colocaciones">% Col</th>
 						
-							<th><button class="btn btn-outline-primary btn-sm mx-0 " type="button" title="Defensas Acertados">D_A</button></th>
-							<th><button class="btn btn-outline-primary btn-sm mx-0 " type="button" title="Defensas Totales">D_T</button></th>
-							<th><button class="btn btn-outline-primary btn-sm mx-0 " type="button" title="Porcentaje Defensas">%</button></th>
+							<th title="Defensas Acertados">Def A</th>
+							<th title="Defensas Totales">Def T</th>
+							<th title="Porcentaje Defensas">% Def</th>
 							
-							<th> <button class="btn btn-outline-success btn-sm mx-0 " type="button" title="Bloqueos Acertados">B_A</button></th>
-							<th><button class="btn btn-outline-success btn-sm mx-0 " type="button" title="Bloqueos Totales">B_T</button></th>
-							<th><button class="btn btn-outline-success btn-sm mx-0 " type="button" title="Porcentaje Bloqueos">%</button></th>
+							<th title="Bloqueos Acertados">Blo A</th>
+							<th title="Bloqueos Totales">Blo T</th>
+							<th title="Porcentaje Bloqueos">% Blo</th>
 							
-							<th><button class="btn btn-outline-dark btn-sm mx-0 " type="button" title="Remates Acertados">Re_A</button></th>
-							<th><button class="btn btn-outline-dark btn-sm mx-0 " type="button" title="Remates Totales">Re_T</button></th>
-							<th><button class="btn btn-outline-dark btn-sm mx-0 " type="button" title="Porcentaje Remates">%</button></th>
+							<th title="Remates Acertados">Rem A</th>
+							<th title="Remates Totales">Rem T</th>
+							<th title="Porcentaje Remates">% Rem</th>
 							
-							<th><button class="btn btn-outline-primary btn-sm mx-0 " type="button" title="Fintas Acertados">F_A</button></th>
-							<th><button class="btn btn-outline-primary btn-sm mx-0 " type="button" title="Fintas Totales">F_T</button></th>
-							<th><button class="btn btn-outline-primary btn-sm mx-0 " type="button" title="Porcentaje Fintas">%</button></th>
+							<th title="Fintas Acertados">Fin A</th>
+							<th title="Fintas Totales">Fin T</th>
+							<th title="Porcentaje Fintas">% Fin</th>
 							
-							<th><button class="btn btn-outline-success btn-sm mx-0 " type="button" title="Ataques Rápidos Acertados">A_A</button></th>
-							<th><button class="btn btn-outline-success btn-sm mx-0 " type="button" title="Ataques Rápidos Totales">A_T</button></th>
-							<th><button class="btn btn-outline-success btn-sm mx-0 " type="button" title="Porcentaje Ataques Rápidos">%</button></th>
+							<th title="Ataques Rápidos Acertados">AtR A</th>
+							<th title="Ataques Rápidos Totales">AtR T</th>
+							<th title="Porcentaje Ataques Rápidos">% AtR</th>
 							<th>5_1</th>
 							<th>4_2</th>
 							<th>6_2</th>
@@ -318,16 +318,15 @@
 					responsivePriority : 3,
 					targets : 25
 				}, {
-					responsivePriority : 100,
+					className: 'none',
 					targets : 26 //TIEMPOS
 				}, {
-					responsivePriority : 100,
+					className: 'none',
 					targets : 27
 				}, {
-					responsivePriority : 100,
+					className: 'none',
 					targets : 28
 				}]
-		        
 		    });
 		    var chart = null;
 		    var tipo = null; //poner var general

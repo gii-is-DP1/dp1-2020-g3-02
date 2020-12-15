@@ -91,30 +91,37 @@
 							
 							<th>FECHA</th>
 							<th>HORA</th>
-							<th>S_A</th>
-							<th>S_T</th>
-							<th>%_S</th>
-							<th>R_A</th>
-							<th>R_T</th>
-							<th>%_R</th>
-							<th>C_A</th>
-							<th>C_T</th>
-							<th>%_C</th>
-							<th>D_A</th>
-							<th>D_T</th>
-							<th>%_D</th>
-							<th>B_A</th>
-							<th>B_T</th>
-							<th>%_B</th>
-							<th>Re_A</th>
-							<th>Re_T</th>
-							<th>%_Re</th>
-							<th>F_A</th>
-							<th>F_T</th>
-							<th>%_F</th>
-							<th>A_A</th>
-							<th>A_T</th>
-							<th>%_A</th>
+							<th title="Saques Acertados">Saq A</th>
+							<th title="Saques Totales">Saq T</th>
+							<th title="Porcentaje Saques"> % Saq</th>
+							
+							<th title="Recepciones Acertados">Rec A</th>
+							<th title="Recepciones Totales">Rec T</th>
+							<th title="Porcentaje Recepciones">% Rec</th>
+							
+							<th title="Colocaciones Acertados">Col A</th>
+							<th title="Colocaciones Totales">Col T</th>
+							<th title="Porcentaje Colocaciones">% Col</th>
+						
+							<th title="Defensas Acertados">Def A</th>
+							<th title="Defensas Totales">Def T</th>
+							<th title="Porcentaje Defensas">% Def</th>
+							
+							<th title="Bloqueos Acertados">Blo A</th>
+							<th title="Bloqueos Totales">Blo T</th>
+							<th title="Porcentaje Bloqueos">% Blo</th>
+							
+							<th title="Remates Acertados">Rem A</th>
+							<th title="Remates Totales">Rem T</th>
+							<th title="Porcentaje Remates">% Rem</th>
+							
+							<th title="Fintas Acertados">Fin A</th>
+							<th title="Fintas Totales">Fin T</th>
+							<th title="Porcentaje Fintas">% Fin</th>
+							
+							<th title="Ataques Rápidos Acertados">AtR A</th>
+							<th title="Ataques Rápidos Totales">AtR T</th>
+							<th title="Porcentaje Ataques Rápidos">% AtR</th>
 							
 						</tr>
 					</thead>
@@ -125,28 +132,28 @@
 							<td  th:text="${estadistica.Partido.hora}"></td>
 							<td th:text="${estadistica.saquesAcertados}"></td>
 							<td th:text="${estadistica.saquesTotales}"></td>
-							<td th:text="${estadistica.porcentajeSaques}"></td>
+							<td th:text="${estadistica.porcentajeSaques*100}+'%'"></td>
 							<td th:text="${estadistica.recepcionesAcertadas}"></td>
 							<td th:text="${estadistica.recepcionesTotales}"></td>
-							<td th:text="${estadistica.porcentajeRecepciones}"></td>
+							<td th:text="${estadistica.porcentajeRecepciones*100}+'%'"></td>
 							<td th:text="${estadistica.colocacionesAcertadas}"></td>
 							<td th:text="${estadistica.colocacionesTotales}"></td>
-							<td th:text="${estadistica.porcentajeColocaciones}"></td>
+							<td th:text="${estadistica.porcentajeColocaciones*100}+'%'"></td>
 							<td th:text="${estadistica.defensasAcertadas}"></td>
 							<td th:text="${estadistica.defensasTotales}"></td>
-							<td th:text="${estadistica.porcentajeDefensas}"></td>
+							<td th:text="${estadistica.porcentajeDefensas*100}+'%'"></td>
 							<td th:text="${estadistica.bloqueosAcertados}"></td>
 							<td th:text="${estadistica.bloqueosTotales}"></td>
-							<td th:text="${estadistica.porcentajeBloqueos}"></td>
+							<td th:text="${estadistica.porcentajeBloqueos*100}+'%'"></td>
 							<td th:text="${estadistica.rematesAcertados}"></td>
 							<td th:text="${estadistica.rematesTotales}"></td>
-							<td th:text="${estadistica.porcentajeRemates}"></td>
+							<td th:text="${estadistica.porcentajeRemates*100}+'%'"></td>
 							<td th:text="${estadistica.fintasAcertadas}"></td>
 							<td th:text="${estadistica.fintasTotales}"></td>
-							<td th:text="${estadistica.porcentajeFintas}"></td>
+							<td th:text="${estadistica.porcentajeFintas*100}+'%'"></td>
 							<td th:text="${estadistica.numAtaquesRapidosAcertados}"></td>
 							<td th:text="${estadistica.numAtaquesRapidosTotales}"></td>
-							<td th:text="${estadistica.porcentajeAtaquesRapidos}"></td>
+							<td th:text="${estadistica.porcentajeAtaquesRapidos*100}+'%'"></td>
 							
 						</tr>
 					</tbody>
@@ -497,25 +504,13 @@
 		            .column(columna, { search: 'applied' })
 		            .data()
 		            .each(function (val) {
-		            	dato.push( parseFloat(val,10));
+		            	dato.push( parseFloat(val.replace('%','')));
 		            });
  				 
-// 				for (i = 0; i < fechas.length; i++){
-//		        	sol[fecha[i]+" "+horas[i]] = dato[i]*100;
-//		        }
- 				
  				for (i = 0; i < dato.length; i++){
-		        	dato[i] = dato[i]*100;
+		        	dato[i] = dato[i];
 		        }
  				 
- 				//alert(sol);
-// 				return $.map(sol, function (val, key) {
-//		            return {
-//		                name: key,
-//		                y: val,
-//		            };
-//		        });
-
 				return dato;
 			}
 	
