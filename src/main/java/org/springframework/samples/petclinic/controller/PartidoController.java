@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,6 +30,7 @@ import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
+import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
 import org.springframework.samples.petclinic.model.auxiliares.PruebasSinJugador;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
@@ -93,9 +95,17 @@ public class PartidoController {
 	private DataPosicionConverter dataPosicionConverter;
 	
 	@GetMapping("/showpartidos")
-	public ModelAndView listadoJugadores() {
+	public ModelAndView listadoJugadores(HttpServletRequest request) {
+		Principal principal = request.getUserPrincipal();
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_PARTIDOS);
-		mav.addObject("partidos", partidoService.findAll());
+		if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("jugador")) {
+			String username =  principal.getName(); 
+	        User  user = userService.findByUsername(username);
+	        Jugador jugador = jugadorService.findByUser(user);
+			mav.addObject("idJugador", jugador.getId());
+			
+		}
+			mav.addObject("partidos", partidoService.findAll());
 		return mav;
 	}
 	
@@ -207,21 +217,21 @@ public class PartidoController {
 	}
 	
 	@RequestMapping(value = "/findPartidos", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<DataTableResponse<PartidoEdit>> listadoPartidos() {
+	public ResponseEntity<DataTableResponse<PartidoConAsistencia>> listadoPartidos() {
 		try {
-			List<PartidoEdit> partidosSinEquipo = new ArrayList<PartidoEdit>();
+			List<PartidoConAsistencia> partidosSinEquipo = new ArrayList<PartidoConAsistencia>();
 			List<Partido> partidos = partidoService.findAll();
 			
 			for(int i = 0; i<partidos.size();i++) {
-				PartidoEdit partidoSinEquipo = partidoConverter.convertPartidoToPartidoEdit(partidos.get(i));
+				PartidoConAsistencia partidoSinEquipo = partidoConverter.convertPartidoToPartidoConAsistencia(partidos.get(i));
 				partidosSinEquipo.add(partidoSinEquipo);
 			}
-			DataTableResponse<PartidoEdit> data = new DataTableResponse<PartidoEdit>();
+			DataTableResponse<PartidoConAsistencia> data = new DataTableResponse<PartidoConAsistencia>();
 			data.setData(partidosSinEquipo);
 			
-			return new ResponseEntity<DataTableResponse<PartidoEdit>>(data, HttpStatus.OK);
+			return new ResponseEntity<DataTableResponse<PartidoConAsistencia>>(data, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<DataTableResponse<PartidoEdit>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<DataTableResponse<PartidoConAsistencia>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
