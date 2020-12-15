@@ -45,34 +45,32 @@ public class PartidoValidator implements Validator{
 			if(fecha.isBefore(LocalDate.now().plusDays(1))) {
 				errors.rejectValue("fecha", "error", ValidationConstant.FECHA_ANTERIOR_ERROR);
 			}
-		}
-		if(StringUtils.isEmpty(partido.getHora())) {
-			errors.rejectValue("hora", "error", ValidationConstant.VALOR_OBLIGATORIO);
-		} else if(!Pattern.matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", partido.getHora())) {
-			errors.rejectValue("hora", "error", ValidationConstant.HORA_FORMATO_ERRONEO);			
-		} else {
-			LocalDate date = LocalDate.parse(partido.getFecha(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-			String horaAnterior = horaMasMenosNHoras(partido.getHora(), -2);
-			String horaPosterior = horaMasMenosNHoras(partido.getHora(), 2);
-			Equipo equipo = equipoService.findByCategoria(partido.getEquipo());
-			if(partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, horaAnterior, partido.getHora()).size() != 0) {
-				List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, horaAnterior, partido.getHora());
-				if(partido.getId() == null) {
-					errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
-				}else if (partido.getId() != partidos.get(0).getId()) {
-					errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
-				}
-				
-			} else if(partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, partido.getHora(), horaPosterior).size() != 0) {
+			
+			if(StringUtils.isEmpty(partido.getHora())) {
+				errors.rejectValue("hora", "error", ValidationConstant.VALOR_OBLIGATORIO);
+			} else if(!Pattern.matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", partido.getHora())) {
+				errors.rejectValue("hora", "error", ValidationConstant.HORA_FORMATO_ERRONEO);			
+			} else {
+				LocalDate date = LocalDate.parse(partido.getFecha(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+				String horaAnterior = horaMasMenosNHoras(partido.getHora(), -2);
+				String horaPosterior = horaMasMenosNHoras(partido.getHora(), 2);
+				Equipo equipo = equipoService.findByCategoria(partido.getEquipo());
+				if(partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, horaAnterior, partido.getHora()).size() != 0) {
+					List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, horaAnterior, partido.getHora());
+					if(partido.getId() == null) {
+						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
+					}else if (partido.getId() != partidos.get(0).getId()) {
+						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
+					}
+					
+				} else if(partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, partido.getHora(), horaPosterior).size() != 0) {
 					List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, partido.getHora(), horaPosterior);
 					if(partido.getId() == null) {
 						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_POSTERIOR);
 					}else if (partido.getId() != partidos.get(0).getId()) {
 						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_POSTERIOR);
-					}
-					
-				
-				
+					}				
+				}
 			}
 		}
 	}
