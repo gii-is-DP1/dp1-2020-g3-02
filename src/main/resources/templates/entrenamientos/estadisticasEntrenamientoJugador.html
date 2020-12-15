@@ -23,7 +23,7 @@
 	<script src="https://www.w3schools.com/lib/w3data.js"></script>
 	
 	<div class="">
-	<div w3-include-html="navbar?id=estadisticasPartido"></div>
+	<div w3-include-html="navbar?id=estadisticasEntrenamiento"></div>
 	</div>
 
 	<div class="container-fluid">
@@ -34,7 +34,7 @@
 			</div>
 														
 			<div class="py-3 text-center col-lg-8">
-				<h1 class="font-weight-bold font-italic">Estadísticas de <span th:text="${estadisticas.Jugador.firstName}+' ' +${estadisticas.Jugador.lastName}"></span> partido <span th:text="${estadisticas.Partido.fecha}"></span></h1>
+				<h1 class="font-weight-bold font-italic">Estadísticas de <span th:text="${estadisticas.Jugador.firstName}+' ' +${estadisticas.Jugador.lastName}"></span> entrenamiento <span th:text="${estadisticas.Entrenamiento.fecha}"></span></h1>
 			</div>
 		</div>
 

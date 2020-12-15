@@ -219,9 +219,14 @@
 						<a th:unless="${param.id[0] == 'listadoEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showentrenamientos">Próximos
 							Entrenamientos</a>
 							
-						<a th:if="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showestadisiticasJugadores?id=1">Estadísticas de
+						<a sec:authorize="hasAuthority('jugador')" th:if="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showestadisiticasJugadores">Estadísticas de
 							Entrenamientos</a>	
-						<a th:unless="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showestadisiticasJugadores?id=1">Estadísticas de
+						<a sec:authorize="hasAuthority('jugador')" th:unless="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showestadisiticasJugadores">Estadísticas de
+							Entrenamientos</a>
+							
+						<a sec:authorize="hasAuthority('entrenador')" th:if="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showestadisiticasEntrenamiento">Estadísticas de
+							Entrenamientos</a>	
+						<a sec:authorize="hasAuthority('entrenador')" th:unless="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showestadisiticasEntrenamiento">Estadísticas de
 							Entrenamientos</a>
 															
 						<a th:if="${param.id[0] == 'entrenamientoForm'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="#">Nuevo Entrenamiento</a>
@@ -240,9 +245,14 @@
 						<a th:unless="${param.id[0] == 'listadoEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showentrenamientos">Próximos
 							Entrenamientos</a>
 							
-						<a th:if="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showestadisiticasJugadores?id=1">Estadísticas de
+						<a sec:authorize="hasAuthority('jugador')" th:if="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showestadisiticasJugadores">Estadísticas de
 							Entrenamientos</a>	
-						<a th:unless="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showestadisiticasJugadores?id=1">Estadísticas de
+						<a sec:authorize="hasAuthority('jugador')" th:unless="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showestadisiticasJugadores">Estadísticas de
+							Entrenamientos</a>
+							
+						<a sec:authorize="hasAuthority('entrenador')" th:if="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showestadisiticasEntrenamiento">Estadísticas de
+							Entrenamientos</a>	
+						<a sec:authorize="hasAuthority('entrenador')" th:unless="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showestadisiticasEntrenamiento">Estadísticas de
 							Entrenamientos</a>
 															
 						<a th:if="${param.id[0] == 'entrenamientoForm'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="#">Nuevo Entrenamiento</a>

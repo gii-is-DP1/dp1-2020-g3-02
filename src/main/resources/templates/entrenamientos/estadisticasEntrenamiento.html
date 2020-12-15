@@ -15,6 +15,7 @@
 <!--  extension responsive  -->
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+
 <title>Listado de Estadisticas</title>
 <link rel="icon" type="image/png" href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
 </head>
@@ -25,15 +26,20 @@
 	<div class="">
 	<div w3-include-html="navbar?id=estadisticasEntrenamiento"></div>
 	</div>
+	
+	<script type="text/javascript">
+       w3IncludeHTML();
+	</script>
 
 	<div class="container-fluid">
 		<div class="row">
 			<div class="py-3 text-center col-lg-12">
-				<h1 class="font-weight-bold font-italic">ESTADISITICAS DE MIS ENTRENAMIENTOS</h1>
+				<h1 class="font-weight-bold font-italic">ESTADISITICAS ENTRENAMIENTOS</h1>
 			</div>
 		</div>
 
 		<div class="row">
+		
 			
 			<div class="col">
 				<input type="hidden" id="id" th:value="general">
@@ -82,6 +88,7 @@
 		</div>
 
 		<div class="row">
+						
 			<div class="col-lg-12 responsive">
 				<table id="estadisiticas"
 					class="table table-sm table-striped table-bordered table-hover nowrap"
@@ -122,14 +129,15 @@
 							<th title="Ataques Rápidos Acertados">AtR A</th>
 							<th title="Ataques Rápidos Totales">AtR T</th>
 							<th title="Porcentaje Ataques Rápidos">% AtR</th>
+							<th>Jug</th>
 							
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="estadistica : ${estadisticas}">
 							
-							<td  th:text="${estadistica.Entrenamiento.fecha}"></td>
-							<td  th:text="${estadistica.Entrenamiento.hora}"></td>
+							<td  th:text="${estadistica.fecha}"></td>
+							<td  th:text="${estadistica.hora}"></td>
 							<td th:text="${estadistica.saquesAcertados}"></td>
 							<td th:text="${estadistica.saquesTotales}"></td>
 							<td th:text="${estadistica.porcentajeSaques*100}+'%'"></td>
@@ -154,7 +162,17 @@
 							<td th:text="${estadistica.numAtaquesRapidosAcertados}"></td>
 							<td th:text="${estadistica.numAtaquesRapidosTotales}"></td>
 							<td th:text="${estadistica.porcentajeAtaquesRapidos*100}+'%'"></td>
-							
+								
+								
+							</td>
+							<td>
+								<a href="#" th:href="@{/entrenamientos/showestadisiticasEntrenamientoTodosJugadores?id=__${estadistica.id}__}">
+								<button class="btn btn-outline-success mx-0 jugadores" type="button" title="Estadísticas"><svg width="1.2em" height=1.2em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+									</svg>
+								</button>
+								</a>
+							</td>
 						</tr>
 					</tbody>
 
@@ -164,7 +182,7 @@
 		
 	</div>
 
-
+					
 
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 	<!-- Optional JavaScript -->
@@ -206,8 +224,89 @@
 		    // Create DataTable
 		    var table = $('#estadisiticas').DataTable({
 		        dom: '',
-		        responsive: true
-		        
+		        responsive: true,
+		        columnDefs : [ {
+					responsivePriority : 1,
+					targets : 0 //Fehca
+				}, {
+					responsivePriority : 1,
+					targets : 1 //Hora
+				}, {
+					responsivePriority : 2,
+					targets : -1 //Botón
+				}, {
+					responsivePriority : 5,
+					targets : 2 //SAQUE
+				}, {
+					responsivePriority : 6,
+					targets : 3
+				}, {
+					responsivePriority : 3,
+					targets : 4
+				}, {
+					responsivePriority : 7,
+					targets : 5 //RECEPCION
+				}, {
+					responsivePriority : 8,
+					targets : 6
+				}, {
+					responsivePriority : 3,
+					targets : 7
+				}, {
+					responsivePriority : 9,
+					targets : 8 //COLOCACION
+				}, {
+					responsivePriority : 10,
+					targets : 9
+				}, {
+					responsivePriority : 3,
+					targets : 10
+				}, {
+					responsivePriority : 11,
+					targets : 11 //DEFENSA
+				}, {
+					responsivePriority : 12,
+					targets : 12
+				}, {
+					responsivePriority : 3,
+					targets : 13
+				}, {
+					responsivePriority : 13,
+					targets : 14 //BLOQUEO
+				}, {
+					responsivePriority : 14,
+					targets : 15
+				}, {
+					responsivePriority : 3,
+					targets : 16
+				}, {
+					responsivePriority : 100,
+					targets : 17 //REMATE
+				}, {
+					responsivePriority : 100,
+					targets : 18
+				}, {
+					responsivePriority : 3,
+					targets : 19
+				}, {
+					responsivePriority : 100,
+					targets : 20 //FINTAS
+				}, {
+					responsivePriority : 100,
+					targets : 21
+				}, {
+					responsivePriority : 3,
+					targets : 22
+				}, {
+					responsivePriority : 100,
+					targets : 23 //ATAQUES
+				}, {
+					responsivePriority : 100,
+					targets : 24
+				}, {
+					responsivePriority : 3,
+					targets : 25
+				}]
 		    });
 		    var chart = null;
 		    var tipo = null; //poner var general
@@ -222,16 +321,24 @@
 		 		chart.destroy();
 		 		
 		 	}
-		 	if (tipo != 'general'){
+		 	if (tipo == 'general'){
+		 		
+		 		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
+	     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
+		 		graficaGeneral(table,tipo);
+		 	
+		 	}else if (tipo == 'tiempos'){
+		 		
+		 		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
+	     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
+		 		graficaTiempos (table, tipo);
+		 		
+		 	}else{
 		 		
 		 		columnas(table,tipo);
 		 		graficaEspecifica(table,tipo);
 		 		
-		 	}else{
-		 		
-	     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
-	     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
-		 		graficaGeneral(table,tipo);
+	     		
 		 	}
 		    });
 		    
@@ -241,14 +348,20 @@
 			 		if(tipo == null){
 			 			tipo = 'general';
 			 		}
-			 	}if (tipo == 'general'){
+			 	}
+			 	
+		    	if (tipo == 'general'){
 			 		
 			 		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
 		     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
 			 		graficaGeneral(table,tipo);
-			 	}else{
 			 	
-			 	graficaEspecifica(table,tipo);
+			 	}else{
+			 		
+			 		columnas(table,tipo);
+			 		graficaEspecifica(table,tipo);
+			 		
+		     		
 			 	}
 		    });
 		 	
@@ -346,9 +459,7 @@
 		        chart.series[0].setData(chartData(table));
 		    });
 		    }
-		
-	
-		
+		    	
 	 function graficaGeneral (table, tipo){ 
 		    
 		    var container = $('<div/>').insertBefore(table.table().container());
@@ -504,17 +615,30 @@
 		            .column(columna, { search: 'applied' })
 		            .data()
 		            .each(function (val) {
+		            	//alert(val.substring(0,2));
 		            	dato.push( parseFloat(val.replace('%','')));
 		            });
  				 
+// 				for (i = 0; i < fechas.length; i++){
+//		        	sol[fecha[i]+" "+horas[i]] = dato[i]*100;
+//		        }
+ 				
  				for (i = 0; i < dato.length; i++){
 		        	dato[i] = dato[i];
 		        }
  				 
+ 				//alert(sol);
+// 				return $.map(sol, function (val, key) {
+//		            return {
+//		                name: key,
+//		                y: val,
+//		            };
+//		        });
+
 				return dato;
 			}
 	
-
+ 				
 			function name1(table,tipo){
 				
 				if(tipo == 'saque'){
@@ -604,6 +728,8 @@
 					columna = 20;
 				}else if (tipo == 'ataque'){
 					columna = 23;
+				}else if (tipo == 'tiempos'){
+					columna = 26;
 				}
 		        // Count the number of entries for each position
 		        table
@@ -754,7 +880,11 @@
 	            });
 		        
 		        for (i = 0; i < fechas.length; i++){
-		        	counts[fechas[i]+" "+horas[i]] = dato[i]*100;
+		        	if (tipo =='tiempos' ){
+		        		counts[fechas[i]+" "+horas[i]] = dato[i];
+		        	}else{
+		        	counts[fechas[i]+" "+horas[i]] = dato[i];
+		        	}
 		        }
 		        
 		       
@@ -827,8 +957,6 @@
 		    }
 	</script>
 	
-	<script type="text/javascript">
-       w3IncludeHTML();
-	</script>
+	
 </body>
 </html>
