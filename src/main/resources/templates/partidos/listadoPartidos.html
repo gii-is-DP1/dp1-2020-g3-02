@@ -86,130 +86,9 @@
 	</div>
 
 
-	<!-- Modal Estadisticas -->
-	<div class="modal fade" id="estadisticasModal" tabindex="-1"
-		aria-labelledby="Estadísticas" aria-hidden="true">
-		<div class="modal-dialog modal-xl modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header bg-success">
-					<h5 class="modal-title" id="staticBackdropLabel"></h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div id="contenedor-modal"></div>
-					<div class="row">
-						
-						<div class="col-lg-12 responsive">
-							
-							<table
-								class="table table-sm table-striped table-bordered table-hover nowrap  posiciones"
-								cellspacing="0" width="100%" >
-								<thead>
-									<tr>
-										<th>Jugador</th>
-										<th>Principal</th>
-										<th>Secundaria</th>
-										<th>%_S</th>
-										<th>%_R</th>
-										<th>%_C</th>
-										<th>%_D</th>
-										<th>%_B</th>
-										<th>%_Rem</th>
-										<th>%_F</th>
-										<th>%_A</th>
-
-
-									</tr>
-								</thead>
-							</table>
-							
-						</div>
-
-					</div>
-				</div>
-				<div class="modal-footer"
-					style="background: rgb(40, 167, 69); background: linear-gradient(0deg, rgba(40, 167, 69, 1) 0%, rgba(255, 255, 255, 1) 100%);">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Cerrar</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-
-	<div class="modal fade" id="gestionModal" data-backdrop="static"
-		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
-		aria-hidden="true">
-		<div class="modal-dialog modal-md modal-dialog-centered">
-			<div class="modal-content">
-				<form id="formGestionPartido" method="post">
-					<div class="modal-header bg-info">
-						<h5 class="modal-title" id="gestionPartido"></h5>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group" id="modalFormPartido">
-							<div class="form-group col-12 datePicker">
-								<label><span class="text-danger">(*) </span>Fecha:</label> <input
-									class="form-control" type="text" placeholder="Fecha" id="fecha"
-									name="fecha" maxlength="10" required></input> <small
-									class="fecha text-danger error"></small>
-							</div>
-							<div class="form-group col-12">
-								<label><span class="text-danger">(*) </span>Hora:</label> <input
-									class="form-control" type="text" placeholder="Hora" id="hora"
-									name="hora" maxlength="5" required></input> <small
-									class="hora text-danger error"></small>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer"
-						style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">Cerrar</button>
-						<button type="button" class="btn btn-info"
-							onclick="return enviarEdicion();">Aceptar</button>
-						<input type="hidden" id="id" name="id"></input>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="confirmacionModal" data-backdrop="static"
-		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
-		aria-hidden="true">
-		<div class="modal-dialog modal-md modal-dialog-centered">
-			<div class="modal-content">
-				<form id="formConfirmacionPartido" method="post">
-					<div class="modal-header bg-danger">
-						<h5 class="modal-title" id="confirmacionPartido"></h5>
-						<button type="button" class="close" data-dismiss="modal"
-							aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<span>El partido va a ser eliminado, y la asistencia de los jugadores será cancelada, ¿Está seguro?</span>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-dismiss="modal">Cerrar</button>
-						<button type="button" class="btn btn-info"
-							onclick="return confirmarBorrado();">Aceptar</button>
-						<input type="hidden" id="id" name="id"></input>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+	<div th:replace="partidos/modalEstadisticas"> </div>
+	<div th:replace="partidos/modalEditar"> </div>
+	<div th:replace="partidos/modalEliminar"> </div>
 
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 	<!-- Optional JavaScript -->
@@ -254,7 +133,7 @@
 					 if($('#security').val() == 'entrenador'){
 						return " <button class='btn btn-outline-success mx-0 estadisticas' onclick='return estadisticas(this,"+row['id'] +");' type='button' title='Estadísticas'>"+
 							"<i class='fas fa-chart-pie'></i></button>"+
-							 "<button  onclick='return editar(this,"+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
+							 " <button  onclick='return editar(this,"+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
 							"<i class='fas fa-edit'></i></button>" + 
 							" <button onclick='return eliminar(this,"+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
 							"<i class='fas fa-trash-alt'></i></button>" ;
@@ -274,7 +153,8 @@
 	});
 	
 	tablaPrincipal.columns([0]).visible(false);
-	
+	</script>	
+	<script>
 		function enviarEdicion() {
 			var form = new FormData(document
 					.getElementById('formGestionPartido'));
@@ -300,6 +180,7 @@
 				}
 			});
 		};
+		
 		$('#nuevoPartido')
 				.on(
 						'click',
@@ -340,270 +221,9 @@
 										}
 									});
 						});
+</script>
 
-		var tabla = null;
-		var chart = null;
-							function estadisticas(stats,id) {
-								//var id = $(this).parent().find('#id').val();
-								$(document).ready(
-									function() {
-																
-									// Create DataTable
-									$('#estadisticasModal').modal("show");
-										if(tabla != null){
-											tabla.destroy();
-										}
-												
-											tabla = $('.posiciones').DataTable({
-												"lengthMenu": [5],
-												responsive: true,
-												ajax:'[[@{/partidos/findJugadorPosicionPartido/}]]'+id,
-												language:{
-													emptyTable: "Ningún dato disponible en esta tabla",
-													"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-													"infoEmpty":      "Mostrando 0 de 0 registros",
-													"lengthMenu":     "Mostrando 5 registros",
-													"search":         "Buscar:",
-													"zeroRecords":    "No se encontraron resultados",
-													"paginate": {
-														"first":      "Primera",
-														"last":       "Última",
-														"next":       "Siguiente",
-														"previous":   "Anterior"
-													},
-												},
-												columnDefs: [
-													{ className: 'none', targets: 3 },
-													{ className: 'none', targets: 4 },
-													{ className: 'none', targets: 5 },
-													{ className: 'none', targets: 6 },
-													{ className: 'none', targets: 7 },
-													{ className: 'none', targets: 8 },
-													{ className: 'none', targets: 9 },
-													{ className: 'none', targets: -1 }
-																      
-															],
-												"columns" : [
-													{"data" : "firstName",
-														render : function(data,type,row) {
-															if (type === 'display') {
-																return row.lastName+ ", "+ row.firstName;
-															} else {
-																return data;
-															}
-														}
-													},
-
-													{
-														"data" : "principal"
-													},
-													{
-														"data" : "secundaria"
-													},
-													{
-														"data" : "porcentajeSaques"
-													},
-													{
-														"data" : "porcentajeRecepciones"
-													},
-													{
-														"data" : "porcentajeColocaciones"
-													},
-													{
-														"data" : "porcentajeDefensas"
-													},
-													{
-														"data" : "porcentajeBloqueos"
-													},
-													{
-														"data" : "porcentajeRemates"
-													},
-													{
-														"data" : "porcentajeFintas"
-													},
-													{
-														"data" : "porcentajeAtaquesRapidos"
-													}
-
-												],
-												drawCallback: ajustarAncho
-					
-											});
-												
-												
-												function ajustarAncho (){
-													this.api().columns.adjust();
-												}
-												
-												
-												
-												if (chart == null) {
-													graficaPosicion(tabla);
-												} else {
-													chart.destroy();
-													graficaPosicion(tabla);
-												}
-												
-												
-												tabla.ajax.reload(null, false);
-												$('#estadisticasModal .modal-header').css("color", "white");
-												$('#estadisticasModal .modal-title').text("Estadísticas de los jugadores por posición");
-												
-
-													
-												
-
-												var tipo = null; //poner var general
-
-												function graficaPosicion(table) {
-
-													var container = $('<div/>')
-															.insertBefore(
-																	table
-																			.table()
-																			.container());
-
-													chart = Highcharts
-															.chart(
-																	container[0],
-																	{
-																		chart : {
-																			plotBackgroundColor : null,
-																			plotBorderWidth : null,
-																			plotShadow : false,
-																			type : 'pie'
-																		},
-																		title : {
-																			text : 'Posiciones Jugadores en el Partido'
-																		},
-																		tooltip : {
-																			pointFormat : '{series.name}: <b>{point.percentage:.1f}%</b>'
-																		},
-																		accessibility : {
-																			point : {
-																				valueSuffix : '%'
-																			}
-																		},
-																		plotOptions : {
-																			pie : {
-																				allowPointSelect : true,
-																				cursor : 'pointer',
-																				dataLabels : {
-																					enabled : false
-																				},
-																				showInLegend : true
-																			}
-																		},
-																		series : [ {
-
-																			name : 'Porcentaje',
-																			colorByPoint : true,
-																			data : chartData(table)
-
-																		} ],
-																	});
-
-													table
-															.on(
-																	'draw',
-																	function() {
-																		chart.series[0]
-																				.setData(chartData(table));
-																	});
-												}
-
-												//FUNCTIONS
-
-												function chartData(table) {
-													var counts = {};
-													var dato = [];
-
-													var punta = 0;
-													var opuesto = 0;
-													var colocador = 0;
-													var central = 0;
-													var libero = 0;
-
-													// Count the number of entries for each position
-													table
-															.column(
-																	1,
-																	{
-																		search : 'applied'
-																	})
-															.data()
-															.each(
-																	function(
-																			val) {
-																		if (val == 'PUNTA') {
-																			punta++;
-																		} else if (val == 'OPUESTO') {
-																			opuesto++;
-																		} else if (val == 'COLOCADOR') {
-																			colocador++;
-																		} else if (val == 'CENTRAL') {
-																			central++;
-																		} else if (val == 'LIBERO') {
-																			libero++;
-																		}
-																	});
-
-													table
-															.column(
-																	2,
-																	{
-																		search : 'applied'
-																	})
-															.data()
-															.each(
-																	function(
-																			val) {
-																		if (val == 'PUNTA') {
-																			punta++;
-																		} else if (val == 'OPUESTO') {
-																			opuesto++;
-																		} else if (val == 'COLOCADOR') {
-																			colocador++;
-																		} else if (val == 'CENTRAL') {
-																			central++;
-																		} else if (val == 'LIBERO') {
-																			libero++;
-																		}
-																	});
-
-													if (punta > 0) {
-														counts['Puntas'] = punta;
-													}
-
-													if (opuesto > 0) {
-														counts['Opuestos'] = opuesto;
-													}
-
-													if (colocador > 0) {
-														counts['Colocadores'] = colocador;
-													}
-
-													if (central > 0) {
-														counts['Centrales'] = central;
-													}
-
-													if (libero > 0) {
-														counts['Liberos'] = libero;
-													}
-
-													// And map it to the format highcharts uses
-													return $.map(counts,
-															function(val, key) {
-																return {
-																	name : key,
-																	y : val,
-																};
-															});
-												}
-											});
-
-						};
-		
+<script type="text/javascript">		
 				function editar(boton,id) {
 					//var id = $(this).parent().find('#id').val();
 
