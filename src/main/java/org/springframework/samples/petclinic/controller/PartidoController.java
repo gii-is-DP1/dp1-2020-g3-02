@@ -260,14 +260,18 @@ public class PartidoController {
 		}
 	}
 	
-	@GetMapping("/removePartido/{id}")
-	@Transactional
-	public String removePartido(@PathVariable("id") int id, Model model) {
-		LOG.info("SE PROCEDE A BORRAR EL PARTIDO");
+	@PostMapping("/removePartido/{id}")
+	public ResponseEntity removePartido(@PathVariable("id") int id, Model model) {
+		try {
+			LOG.info("SE PROCEDE A BORRAR EL PARTIDO");
+			
+			partidoService.deleteById(id);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
 		
-		partidoService.deleteById(id);
-		
-		return "redirect:/partidos/showpartidos";
 	}
 	
 	/* @PostMapping("/updatepartido")

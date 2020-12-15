@@ -256,11 +256,22 @@
 				};
 		
 		function eliminar(boton, id){
-			//var id = $(this).parent().find('#id').val();
+			$('#confirmacionModal #id').val(id);
 			
 			$('.modal-header').css("color", "white");
 			$('.modal-title').text("Eliminar Partido");
 			$('#confirmacionModal').modal("show");
+		}
+		
+		function confirmarBorrado(id){
+			$.ajax({
+				type: 'POST',
+				url : '/partidos/removePartido/'+id,
+				success : function(){
+					tablaPrincipal.ajax.reload(null, false);
+					$('#confirmacionModal').modal("hide");
+				}
+			});
 		}
 	</script>
 	<script type="text/javascript">
