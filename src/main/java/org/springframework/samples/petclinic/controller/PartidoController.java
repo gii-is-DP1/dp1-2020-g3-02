@@ -95,7 +95,7 @@ public class PartidoController {
 	private DataPosicionConverter dataPosicionConverter;
 	
 	@GetMapping("/showpartidos")
-	public ModelAndView listadoJugadores(HttpServletRequest request) {
+	public ModelAndView listadoPartidos(HttpServletRequest request) {
 		Principal principal = request.getUserPrincipal();
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_PARTIDOS);
 		if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("jugador")) {
@@ -105,7 +105,6 @@ public class PartidoController {
 			mav.addObject("idJugador", jugador.getId());
 			
 		}
-			mav.addObject("partidos", partidoService.findAll());
 		return mav;
 	}
 	
@@ -220,7 +219,7 @@ public class PartidoController {
 	public ResponseEntity<DataTableResponse<PartidoConAsistencia>> listadoPartidos() {
 		try {
 			List<PartidoConAsistencia> partidosSinEquipo = new ArrayList<PartidoConAsistencia>();
-			List<Partido> partidos = partidoService.findAll();
+			List<Partido> partidos = partidoService.findByFechaAfter(LocalDate.now().minusDays(1));
 			
 			for(int i = 0; i<partidos.size();i++) {
 				PartidoConAsistencia partidoSinEquipo = partidoConverter.convertPartidoToPartidoConAsistencia(partidos.get(i));
