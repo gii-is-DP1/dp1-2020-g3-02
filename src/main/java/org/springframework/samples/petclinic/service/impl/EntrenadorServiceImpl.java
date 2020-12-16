@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Entrenador;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.EntrenadorRepository;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
@@ -68,6 +69,11 @@ public class EntrenadorServiceImpl extends AbstractService<Entrenador> implement
 	@Override
 	public int entrenadorCount() {
 		return (int) entrenadorRepository.count();
+	}
+
+	@Override
+	public Entrenador findByUser(User user) {
+		return entrenadorRepository.findByUser(user);
 	}
 
 }

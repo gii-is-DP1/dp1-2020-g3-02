@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -28,6 +29,8 @@ public class Entrenador extends Person{
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
+	@OneToMany(mappedBy = "entrenador")
+	private List<Equipo> equipos;
 	
 	@Column(name="email", nullable = false)
 	private String email;
