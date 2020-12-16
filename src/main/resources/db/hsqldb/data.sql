@@ -473,6 +473,11 @@ INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (3,'cuerda','CU
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (4,'cinta','CINTA',10,'NUEVO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (5,'poste','POSTE',11,'NUEVO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (6,'red','RED',11,'NUEVO');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (7,'cono bajo','CONOBAJO',0,'INSERVIBLE');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (8,'cono medio','CONOMEDIO',1,'BUENO');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (9,'cono alto','CONOALTO',0,'INSERVIBLE');
+
+	
 
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (1,2,1,1);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (2,2,1,2);

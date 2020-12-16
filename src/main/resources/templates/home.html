@@ -150,7 +150,7 @@
 					<div class="collapse" id="collapseVehiculos">
 						<div class="card-body">
 							<ul class="list-group list-group">
-								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Personales</a></li>
+								<li class="list-group-item text-white bg-dark"><a href="personales/showvehiculos" class="card-link">Vehículos personales</a></li>
 								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Nuevo Vehículo Personal</a></li>
 							</ul>
 						</div>
@@ -171,7 +171,7 @@
 					<div class="collapse" id="collapseMaterial">
 						<div class="card-body">
 							<ul class="list-group list-group">
-								<li class="list-group-item text-white bg-dark"><a href="#" class="card-link">Materiales</a></li>
+								<li sec:authorize="hasAuthority('entrenador')" class="list-group-item text-white bg-dark"><a href="/materiales/showmateriales" class="card-link">Materiales</a></li>
 							</ul>
 						</div>
 					</div>

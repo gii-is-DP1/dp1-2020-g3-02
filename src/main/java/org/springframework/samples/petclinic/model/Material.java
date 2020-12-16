@@ -26,8 +26,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Table(name = "materiales", uniqueConstraints = @UniqueConstraint(columnNames = { "tipo" }))
 public class Material extends BaseEntity{
 
@@ -50,4 +49,20 @@ public class Material extends BaseEntity{
 	@Enumerated(value = EnumType.STRING)
 	private EstadoMaterial estado;
 
+	public Material(String descripcion, TipoMaterial tipo, @Min(0) Integer stock, EstadoMaterial estado) {
+		super();
+		this.descripcion = descripcion;
+		this.tipo = tipo;
+		this.stock = stock;
+		this.estado = estado;
+	}
+	public Material() {
+		
+	}
+	@Override
+	public String toString() {
+		return "Material [descripcion=" + descripcion + ", tipo=" + tipo + ", stock=" + stock + ", estado=" + estado
+				+ "]";
+	}
+	
 }
