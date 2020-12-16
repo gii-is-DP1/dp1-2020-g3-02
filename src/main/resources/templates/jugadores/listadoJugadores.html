@@ -150,7 +150,7 @@
 								<button sec:authorize="hasAuthority('jugador')"  th:if="${jugador.User.username == username}" class="btn btn-outline-dark mx-0 pruebaCondicion" type="button" title="Prueba Condición Física">
 									<i class="fas fa-dumbbell"></i>
 								</button> 
-								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-dark mx-0 privilegio" id="privilegio" role="button" type="button" title="Privilegio">
+								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-dark mx-0 privilegio" id="privilegio" type="button" title="Privilegio">
 									<i class="fas fa-unlock"></i>
 								</button>
 								
@@ -661,7 +661,7 @@
 
 <!-- Modal Privilegios -->
 <div class="modal fade" id="privilegiosModal" data-backdrop="static"
-		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
+		data-keyboard="false" tabindex="-1" aria-labelledby="Privilegios"
 		aria-hidden="true">
 		<div class="modal-dialog modal-md modal-dialog-centered">
 			<div class="modal-content">
@@ -1508,8 +1508,9 @@
 			processData : false,
 			contentType : false,
 			success : function(data) {
-				$('#gestionModal').modal("hide");
-				tablaPrincipal.ajax.reload(null, false);
+				$('#privilegiosModal').modal("hide");
+				location.reload();
+				//tablaPrincipal.ajax.reload(null, false);
 			},
 			error : function(data) {
 				$('.error').text('');
@@ -1523,17 +1524,17 @@
 			}
 		});
 	};
-	$('#privilegio')
+	
+	$('table .privilegio')
 			.on(
 					'click',
 					function() {
-
-						$('.error').text('');
+						var id = $(this).parent().find('#id').val();
 
 						$.ajax({
 									type : 'GET',
-									url : '/equipos/getallteams',
-									success : function(equipos) {
+									url : '/jugadores/getallteamsjugador/'+id,
+									success : function(edit) {
 										$('#modalFormPrivilegio').children(
 												'.only').remove();
 										$('#modalFormPrivilegio').children(
@@ -1555,7 +1556,7 @@
 							                	});
 											}
 										});
-										$('#descripcionPartidos').val('');
+										$('#descripcionPartidos').val(edit.descripcionPartidos);
 										$("input:checkbox").change(function() { 
 											if ($("#entrenamientos").is(":checked")) {  
 										    	// checkbox is checked 
@@ -1578,9 +1579,9 @@
 												.prepend(
 														'<div class="form-group col-12 only"><label><span class="text-danger">(*) </span>Equipo:</label><select class="form-control" id="equipo" name="equipo"></select></div>');
 
-										$.each(equipos, function(index,
+										$.each(edit, function(index,
 												equipo) {
-											console.log(equipo);
+											console.log(edit);
 											$('#equipo').append(
 													$('<option>', {
 														value : equipo,
@@ -1588,6 +1589,7 @@
 														name : "equipo"
 													}));
 										});
+										$('#modalFormPrivilegio #id').val(edit.id);
 
 										$('#privilegiosModal .modal-header')
 												.css("color", "white");
@@ -1597,7 +1599,7 @@
 									}
 								});
 					});
-	
+				
 // FIN PRUEBA CONDICION FISICA ===============================================================================
 </script>
 

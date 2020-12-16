@@ -23,6 +23,7 @@ import org.springframework.samples.petclinic.converter.enumerate.PosicionConvert
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.model.Autorizacion;
+import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.Privilegio;
@@ -32,6 +33,7 @@ import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.service.AutorizacionService;
+import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PersonalesService;
@@ -80,6 +82,9 @@ public class JugadorController {
 	private EstadisticaPersonalPartidoService estadisService;
 	
 	@Autowired
+	private EquipoService equipoService;
+	
+	@Autowired
 	private EstadoConverter estadoConverter;
 	
 	@Autowired
@@ -117,6 +122,22 @@ public class JugadorController {
 		mav.addObject("jugadores", jugadorConverter.convertListJugadorToListJugadorWithEquipo(jugadorService.findAll()));
 		return mav;
 		
+	}
+	
+	@RequestMapping(value = "getallteamsjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> findEquiposJugador(@PathVariable("id") int id) {
+		try {
+			Optional<Jugador> jug = jugadorService.findById(id);
+			Jugador j = jug.get();
+			List<Equipo> e = j.getEquipos();
+			List<String> teams = new ArrayList<String>();
+			for(Equipo team:e) {
+				teams.add(team.getCategoria());
+			}
+			return new ResponseEntity<List<String>>(teams, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 	@GetMapping("/showjugadorespriv")
