@@ -70,7 +70,8 @@
 				</table>
 			</div>
 			
-				<input id="idJugador" class="idJugador" type="hidden" th:value="${idJugador}">
+				<input id="idJugador" class="idJugador" type="hidden" th:value="${jugador.id}">
+				<input id="estado" class="idJugador" type="hidden" th:value="${jugador.estadoActual}">
 				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
 				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="jugador">
 				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('estadistico')" th:value="estadistico">
@@ -164,22 +165,26 @@
 							"<i class='fas fa-trash-alt'></i></button>" ;
 						 
 					 }else  if($('#security').val() == 'jugador'){
-						 if(!data.includes(parseInt($('#idJugador').val(),10))){
-						 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
-							+"<i class='fas fa-bus'></i> </button>" +
-							" <button type='button' class='btn btn-outline-secondary' "+
-							"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
-							" <button  class='btn btn-outline-info' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='Asistir'>"+
-							"Asistir</button>";
+						 if($('#estado').val() == 'EN_FORMA'){
+						 	if(!data.includes(parseInt($('#idJugador').val(),10))){
+						 		return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
+									+"<i class='fas fa-bus'></i> </button>" +
+									" <button type='button' class='btn btn-outline-secondary' "+
+									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
+									" <button  class='btn btn-outline-info' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='Asistir'>"+
+									"Asistir</button>";
+							 }else{
+								 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
+									+"<i class='fas fa-bus'></i> </button>" +
+									" <button type='button' class='btn btn-outline-secondary' "+
+									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
+									" <button  class='btn btn-outline-danger' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='No Asistir'>"+
+									"No Asistir</button>";
+							 }
 						 }else{
-							 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
-								+"<i class='fas fa-bus'></i> </button>" +
-								" <button type='button' class='btn btn-outline-secondary' "+
-								"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
-								" <button  class='btn btn-outline-danger' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='No Asistir'>"+
-								"No Asistir</button>";
+							return " <button  class='btn btn-outline-secondary' type='button' title='Lesionado' disabled>"+
+								"Lesionado</button>";
 						 }
-						 
 					 }else{
 						 return " <button type='button' class='btn btn-outline-dark' title='Tomar estadísiticas'>"
 							+"Tomar estadísticas </button>";

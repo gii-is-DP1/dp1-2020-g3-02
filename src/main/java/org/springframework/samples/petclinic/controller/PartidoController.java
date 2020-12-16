@@ -109,7 +109,7 @@ public class PartidoController {
 			String username =  principal.getName(); 
 	        User  user = userService.findByUsername(username);
 	        Jugador jugador = jugadorService.findByUser(user);
-			mav.addObject("idJugador", jugador.getId());
+			mav.addObject("jugador", jugador);
 			
 		}
 		return mav;
