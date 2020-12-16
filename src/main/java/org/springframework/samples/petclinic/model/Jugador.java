@@ -48,6 +48,11 @@ public class Jugador extends Person{
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
+	@ManyToMany
+	@JoinTable(name = "juegaPartido", joinColumns = @JoinColumn(name = "jugador_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "partido_id"))
+	private List<Partido> partidos;
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "perteneceA", joinColumns = @JoinColumn(name = "jugador_id"), 
 	  inverseJoinColumns = @JoinColumn(name = "equipo_id"))
