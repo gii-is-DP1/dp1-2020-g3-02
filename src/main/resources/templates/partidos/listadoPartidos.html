@@ -70,8 +70,8 @@
 				</table>
 			</div>
 			
-				<input id="idJugador" class="idJugador" type="hidden" th:value="${jugador.id}">
-				<input id="estado" class="idJugador" type="hidden" th:value="${jugador.estadoActual}">
+				<input id="idJugador" class="idJugador" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="${jugador.id}">
+				<input id="estado" class="idJugador" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="${jugador.estadoActual}">
 				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
 				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="jugador">
 				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('estadistico')" th:value="estadistico">
