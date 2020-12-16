@@ -23,14 +23,14 @@ public class PartidoConverter {
 	
 	public PartidoConAsistencia convertPartidoToPartidoConAsistencia(Partido partido) {
 		
-		PartidoConAsistencia partidoEdit = new PartidoConAsistencia();
+		PartidoConAsistencia partidoConAsistencia = new PartidoConAsistencia();
 		
-		partidoEdit.setId(partido.getId());
-		partidoEdit.setEquipo(partido.getEquipo().getCategoria());
-		partidoEdit.setFecha(partido.getFecha().toString());
-		partidoEdit.setHora(partido.getHora());
-		partidoEdit.setAsistencia(partido.getJugadores().stream().map(x->x.getId()).collect(Collectors.toList()));
-		return partidoEdit;
+		partidoConAsistencia.setId(partido.getId());
+		partidoConAsistencia.setEquipo(partido.getEquipo().getCategoria());
+		partidoConAsistencia.setFecha(partido.getFecha().toString());
+		partidoConAsistencia.setHora(partido.getHora());
+		partidoConAsistencia.setAsistencia(partido.getJugadores().stream().map(x->x.getId()).collect(Collectors.toList()));
+		return partidoConAsistencia;
 	}
 
 }
