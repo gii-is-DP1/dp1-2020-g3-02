@@ -264,7 +264,7 @@ public class PartidoController {
 	
 
 	@RequestMapping(value = "/eliminarjuegaJugador/{partido_id}/{jugador_id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity eliminarAutorizacion(@PathVariable("partido_id") int partido_id , @PathVariable("jugador_id") int jugador_id) {
+	public ResponseEntity eliminarJuegaJugador(@PathVariable("partido_id") int partido_id , @PathVariable("jugador_id") int jugador_id) {
 		try {
 			
 			Partido partido = partidoService.findById(partido_id).get();
@@ -282,7 +282,7 @@ public class PartidoController {
 	
 
 	@RequestMapping(value = "/addjuegaJugador/{partido_id}/{jugador_id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Autorizacion> addAutorizacion(@PathVariable("partido_id") int partido_id , @PathVariable("jugador_id") int jugador_id) {
+	public ResponseEntity addJuegaJuegador(@PathVariable("partido_id") int partido_id , @PathVariable("jugador_id") int jugador_id) {
 		try {
 			Partido partido = partidoService.findById(partido_id).get();
 			Jugador jugador = jugadorService.findById(jugador_id).get();
