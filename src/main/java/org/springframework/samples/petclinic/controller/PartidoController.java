@@ -23,6 +23,7 @@ import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
+import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
@@ -34,6 +35,7 @@ import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistenc
 import org.springframework.samples.petclinic.model.auxiliares.PruebasSinJugador;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
+import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
@@ -84,6 +86,9 @@ public class PartidoController {
 	
 	@Autowired
 	private JugadorService jugadorService;
+	
+	@Autowired
+	private EntrenadorService entrenadorService;
 	
 	@Autowired
 	private UserService userService;
@@ -216,13 +221,30 @@ public class PartidoController {
 	}
 	
 	@RequestMapping(value = "/findPartidos", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<DataTableResponse<PartidoConAsistencia>> listadoPartidos() {
+	public ResponseEntity<DataTableResponse<PartidoConAsistencia>> listadoDePartidos(HttpServletRequest request) {
 		try {
 			List<PartidoConAsistencia> partidosSinEquipo = new ArrayList<PartidoConAsistencia>();
 			List<Partido> partidos = partidoService.findByFechaAfter(LocalDate.now().minusDays(1));
 			
-			for(int i = 0; i<partidos.size();i++) {
-				PartidoConAsistencia partidoSinEquipo = partidoConverter.convertPartidoToPartidoConAsistencia(partidos.get(i));
+			Principal principal = request.getUserPrincipal();
+			List<String> categorias = new ArrayList<String>();
+			if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("jugador")) {
+				String username =  principal.getName(); 
+		        User  user = userService.findByUsername(username);
+		        Jugador jugador = jugadorService.findByUser(user);
+		        categorias.addAll(jugador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("entrenador")){
+				String username =  principal.getName(); 
+		        User  user = userService.findByUsername(username);
+		        Entrenador entrenador = entrenadorService.findByUser(user);
+		        categorias.addAll(entrenador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("estadistico")){
+				categorias.addAll(equipoService.findAll().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+			}
+			List<Partido> partidosFiltrados = partidos.stream().filter(x->categorias.contains(x.getEquipo().getCategoria())).collect(Collectors.toList());
+					
+			for(int i = 0; i<partidosFiltrados.size();i++) {
+				PartidoConAsistencia partidoSinEquipo = partidoConverter.convertPartidoToPartidoConAsistencia(partidosFiltrados.get(i));
 				partidosSinEquipo.add(partidoSinEquipo);
 			}
 			DataTableResponse<PartidoConAsistencia> data = new DataTableResponse<PartidoConAsistencia>();
