@@ -22,7 +22,9 @@ import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
+import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
+import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
@@ -228,19 +230,23 @@ public class PartidoController {
 			
 			Principal principal = request.getUserPrincipal();
 			List<String> categorias = new ArrayList<String>();
+			
 			if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("jugador")) {
 				String username =  principal.getName(); 
 		        User  user = userService.findByUsername(username);
 		        Jugador jugador = jugadorService.findByUser(user);
 		        categorias.addAll(jugador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+		        
 			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("entrenador")){
 				String username =  principal.getName(); 
 		        User  user = userService.findByUsername(username);
 		        Entrenador entrenador = entrenadorService.findByUser(user);
 		        categorias.addAll(entrenador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+		        
 			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("estadistico")){
 				categorias.addAll(equipoService.findAll().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
 			}
+			
 			List<Partido> partidosFiltrados = partidos.stream().filter(x->categorias.contains(x.getEquipo().getCategoria())).collect(Collectors.toList());
 					
 			for(int i = 0; i<partidosFiltrados.size();i++) {
@@ -254,6 +260,43 @@ public class PartidoController {
 		} catch (Exception e) {
 			return new ResponseEntity<DataTableResponse<PartidoConAsistencia>>(HttpStatus.BAD_REQUEST);
 		}	
+	}
+	
+
+	@RequestMapping(value = "/eliminarjuegaJugador/{partido_id}/{jugador_id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity eliminarAutorizacion(@PathVariable("partido_id") int partido_id , @PathVariable("jugador_id") int jugador_id) {
+		try {
+			
+			Partido partido = partidoService.findById(partido_id).get();
+			
+			List<Jugador> jugadores = partido.getJugadores().stream().filter(x->x.getId()!= jugador_id).collect(Collectors.toList());
+			partido.setJugadores(jugadores);
+			partidoService.save(partido);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+
+	@RequestMapping(value = "/addjuegaJugador/{partido_id}/{jugador_id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Autorizacion> addAutorizacion(@PathVariable("partido_id") int partido_id , @PathVariable("jugador_id") int jugador_id) {
+		try {
+			Partido partido = partidoService.findById(partido_id).get();
+			Jugador jugador = jugadorService.findById(jugador_id).get();
+			
+			List<Jugador> jugadores = partido.getJugadores();
+			jugadores.add(jugador);
+			partido.setJugadores(jugadores);
+			partidoService.save(partido);
+		
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 	
 	@PostMapping("/postpartido")
