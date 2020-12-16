@@ -99,20 +99,26 @@
 					</thead>
 					<tbody>
 
-						<tr th:each="material : ${materiales}">
+						<!--<tr th:each="lineamaterial : ${lineamaterial}">
+						<td th:text="${lineamaterial.cantidad}"></td>
+							<!--  	<tr th:each="linea_material : ${linea_material}">-->
+						<tr th:each="material : ${materiales } ">
 							<td th:text="${material.tipo}"></td>
 							<td th:text="${material.stock}"></td>
 							<td th:text="${material.estado}"></td>
+							<!-- 	<td th:text="${linea_material.cantidad}">-->
 							<td th:text="${material.stock*100}+'%'"></td>
-							
+
+
 							<td><input type="hidden" id="id" th:value="${material.id}"></input>
 
 
+
+
+
 								<button sec:authorize="hasAuthority('entrenador')"
-									class="btn btn-outline-info mx-0 editar" type="button"
-									title="Editar">Añadir</button> <input id="security"
-								type="hidden" sec:authorize="hasAuthority('entrenador')"
-								th:value="entrenador"></td>
+									class="btn btn-outline-dark mx-0 material" id="material"
+									role="button" type="button" title="Material">Añadir</button>
 					</tbody>
 
 				</table>
@@ -120,32 +126,28 @@
 		</div>
 	</div>
 	<!-- Modal Edicion -->
-	<div class="modal fade" id="editarModal" data-backdrop="static"
-		data-keyboard="false" tabindex="-1" aria-labelledby="Editar"
+	<div class="modal fade" id="materialesModal" data-backdrop="static"
+		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
 		aria-hidden="true">
-		<div class="modal-dialog modal-xl modal-dialog-centered">
+		<div class="modal-dialog modal-md modal-dialog-centered">
 			<div class="modal-content">
-				<form id="formEditMaterial" method="post">
+				<form id="formGestionMateriales" method="post">
 					<div class="modal-header bg-info">
-						<h5 class="modal-title" id="edicionMaterial"></h5>
+						<h5 class="modal-title" id="gestionStock"></h5>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<div id="contenedor-modal">
-
-							<div class="row">
-								<div class="form-group col">
-									<label><span class="text-danger">(*) </span>Stock:</label><input
-										class="form-control" type="number" placeholder="Stock"
-										th:id="stock" name="stock" required></input> <small
-										class="stock text-danger error"></small>
-								</div>
-
-
+						<div class="form-group" id="modalFormMaterial">
+							<div class="form-group col-12 datePicker">
+								<label><span class="text-danger">(*) </span>Stock:</label> <input
+									class="form-control" type="text" placeholder="Stock a añadir"
+									id="stock" name="stock" maxlength="10" required></input> <small
+									class="fecha text-danger error"></small>
 							</div>
+
 						</div>
 					</div>
 					<div class="modal-footer"
@@ -153,13 +155,14 @@
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">Cerrar</button>
 						<button type="button" class="btn btn-info"
-							onclick="return enviarEdicion();">Aceptar</button>
-						<input type="hidden" th:id="id" name="id"></input>
+							onclick="return enviarEdicionMaterial();">Aceptar</button>
+						<input type="hidden" id="id" name="id"></input>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+
 
 
 
@@ -187,9 +190,9 @@
 				document.getElementById("materiales").classList.add('table-sm');
 			}
 
-			function enviarEdicion() {
+			function enviarEdicionMaterial() {
 				var form = new FormData(document
-						.getElementById('formEditMaterial'));
+						.getElementById('formGestionMateriales'));
 				$.ajax({
 					url : '/materiales/updatematerial',
 					type : 'post',
@@ -197,11 +200,10 @@
 					processData : false,
 					contentType : false,
 					success : function(data) {
-						$('#editarModal').modal("hide");
-						location.reload();
+						$('#gestionModal').modal("hide");
+						tablaPrincipal.ajax.reload(null, false);
 					},
 					error : function(data) {
-
 						$('.error').text('');
 
 						for (i = 0; i < data.responseJSON.length; i++) {
@@ -213,74 +215,31 @@
 					}
 				});
 			};
-			$(document)
-					.ready(
-							function() {
-								var tablaPrincipal = $('#materiales')
-										.DataTable(
-												{
-													responsive : true,
-													columnDefs : [ {
-														responsivePriority : 0,
-														targets : 0
-													}, {
-														responsivePriority : 0,
-														targets : -1
-													}, {
-														responsivePriority : 2,
-														targets : 6
-													}, {
-														responsivePriority : 2,
-														targets : 7
-													}, {
-														responsivePriority : 1,
-														targets : 9
-													} ],
-													"language" : {
-														"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-													}
-												});
+			$('table .material').on(
+					'click',
+					function() {
 
-								tablaPrincipal.column(-2).visible(false);
+						$('.error').text('');
 
-								$('table .editar')
-										.on(
-												'click',
-												function() {
-													var id = $(this).parent()
-															.find('#id').val();
-													$('.error').text('');
-													$
-															.ajax({
-																type : 'GET',
-																url : '/materiales/findeditmaterial/'
-																		+ id,
-																success : function(
-																		edit) {
+						$.ajax({
+							type : 'GET',
+							url : '/materiales/showmateriales',
+							success : function(edit) {
+								$('#modalFormMaterial').children('.only')
+										.remove();
+								$('#modalFormMaterial').children('#edit')
+										.remove();
 
-																	$(
-																			'#editarModal #stock')
-																			.val(
-																					edit.stock);
+								$('#stock').val('');
 
-																	$(
-																			'.modal-header')
-																			.css(
-																					"color",
-																					"white");
-																	$(
-																			'.modal-title')
-																			.text(
-																					"Editar a "
-																							+ edit.tipo);
-																	$(
-																			'#editarModal')
-																			.modal(
-																					"show");
-																}
-															});
-												});
-							});
+								$('#materialesModal .modal-header').css(
+										"color", "white");
+								$('#materialesModal .modal-title').text(
+										"Materiales");
+								$('#materialesModal').modal("show");
+							}
+						});
+					});
 		</script>
 		<script type="text/javascript">
 			w3IncludeHTML();

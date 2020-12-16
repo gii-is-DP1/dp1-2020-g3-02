@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.NumCamiseta;
@@ -69,7 +70,7 @@ public class MaterialServiceTest {
 	public void testFindByDescripcionInitialDataFinding() {
 		String description = "poste";
 		List<Material> material = materialService.findByDescripcion(description);
-		assertEquals(material.size(), 2);
+		assertEquals(material.size(), 1);
 	}
 	
 	@Test
@@ -96,29 +97,16 @@ public class MaterialServiceTest {
 		assertEquals(material.size(), 0);
 	}
 	
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByLineaMaterialInitialDataFinding() {
-		int linea_material_id = 1;
-		List<Material> material = new ArrayList<Material>(materialService.findByLineaMaterial(linea_material_id));
-		assertEquals(material.size(), 2);
-	}
+
+
 	
 	@Test
-	@Transactional(readOnly = true)
-	public void testFindByLineaMaterialInitialDataNotFinding() {
-		int linea_material_id = 5;
-		List<Material> material = new ArrayList<Material>(materialService.findByLineaMaterial(linea_material_id));
-		assertEquals(material.size(), 0);
+	@Transactional
+	public void testSaveMaterial() {
+		Material material = new Material("conobajo",TipoMaterial.CONOBAJO,5, EstadoMaterial.ACEPTABLE);	
+
+		Material materiall = materialService.save(material);
+
+		assertNotNull(materiall);
 	}
-	
-//	@Test
-//	@Transactional
-//	public void testSaveMaterial() {
-//		Material material = new Material("red",TipoMaterial.CONOBAJO,5);	
-//
-//		Material _material = materialService.saveMaterial(material);
-//
-//		assertNotNull(_material);
-//	}
 }

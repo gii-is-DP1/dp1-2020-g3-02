@@ -73,13 +73,7 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 		return materiall;
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public List<Material> findByLineaMaterial(int linea_material_id){
-		Optional<LineaMaterial> linea_material= lineaMaterialRepository.findById(linea_material_id);
-		//return materialRepository.findByLineaMaterial(linea_material.get());
-		return null;
-	}
+
 	
 
 	@Override
@@ -88,11 +82,11 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 		LOG.info("NÚMERO DE ELEMENTOS INSERTADOS: "+material.getStock());
 
 
-
+		Material materiall=materialRepository.save(material);
 		materialService.saveMaterial(material);
 
 
-		Material materiall=materialRepository.save(material);
+		
 		LOG.info(materiall.toString());
 		return materiall;
 

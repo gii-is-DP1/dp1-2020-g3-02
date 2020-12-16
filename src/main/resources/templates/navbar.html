@@ -263,8 +263,8 @@
 				<li sec:authorize="hasAuthority('estadistico')" th:if="${param.id[0] == 'listadoEntrenamiento'}" class="nav-item active"><a class="nav-link disabled" href="/entrenamientos/showentrenamientos">Próximos Entrenamientos</a></li>
 				<li sec:authorize="hasAuthority('estadistico')" th:unless="${param.id[0] == 'listadoEntrenamiento'}" class="nav-item"><a class="nav-link" href="/entrenamientos/showentrenamientos">Próximos Entrenamientos</a></li>				
 					
-				<li th:if="${param.id[0] == 'materiales'}" class="nav-item active"><a class="nav-link disabled" href="/materiales/showmateriales">Material</a></li>
-				<li th:unless="${param.id[0] == 'materiales'}" class="nav-item"><a class="nav-link" href="/materiales/showmateriales">Material</a></li>
+				<li sec:authorize="hasAuthority('entrenador')" th:if="${param.id[0] == 'materiales'}" class="nav-item active"><a class="nav-link disabled" href="/materiales/showmateriales">Material</a></li>
+				<li sec:authorize="hasAuthority('entrenador')" th:unless="${param.id[0] == 'materiales'}" class="nav-item"><a class="nav-link" href="/materiales/showmateriales">Material</a></li>
 					
 				
 				
