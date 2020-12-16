@@ -117,6 +117,29 @@
 
 	<script>
 	
+	function postJuegaJuegador(button, id){
+		console.log(id);
+		console.log(button.value);
+		
+		if(button.innerText=='Asistir'){
+			$.ajax({
+				type : 'POST',
+				url : '/partidos/addjuegaJugador/' + id+"/"+ parseInt($('#idJugador').val(),10),
+				success : function(anadir) {
+					tablaPrincipal.ajax.reload(null, false);
+				}
+			});
+		}else{
+			$.ajax({
+				type : 'POST',
+				url : '/partidos/eliminarjuegaJugador/' + id+"/"+ parseInt($('#idJugador').val(),10),
+				success : function(borrar) {
+					tablaPrincipal.ajax.reload(null, false);
+				}
+			});
+		}
+	}
+	
 	tablaPrincipal = $('#partidos').DataTable({
 		responsive: true,
 		"language" : {
@@ -146,19 +169,19 @@
 							+"<i class='fas fa-bus'></i> </button>" +
 							" <button type='button' class='btn btn-outline-secondary' "+
 							"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
-							" <button  class='btn btn-outline-info' type='button'onclick='return asiste(this,"+row['id'] +"); title='Asistir'>"+
-							"Asisto</button>";
+							" <button  class='btn btn-outline-info' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='Asistir'>"+
+							"Asistir</button>";
 						 }else{
 							 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
 								+"<i class='fas fa-bus'></i> </button>" +
 								" <button type='button' class='btn btn-outline-secondary' "+
 								"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
-								" <button  class='btn btn-outline-danger' type='button' 'onclick='return noAsiste(this,"+row['id'] +"); title='Asistir'>"+
-								"No Asisto</button>";
+								" <button  class='btn btn-outline-danger' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='No Asistir'>"+
+								"No Asistir</button>";
 						 }
 						 
 					 }else{
-						 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
+						 return " <button type='button' class='btn btn-outline-dark' title='Tomar estadísiticas'>"
 							+"Tomar estadísticas </button>";
 					 }
 					
@@ -170,6 +193,7 @@
 	tablaPrincipal.columns([0]).visible(false);
 	</script>	
 	<script>
+	
 		function enviarEdicion() {
 			var form = new FormData(document
 					.getElementById('formGestionPartido'));
