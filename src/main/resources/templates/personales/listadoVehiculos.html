@@ -89,9 +89,6 @@
 					<thead>
 						<tr class="table-primary">
 							<th>Propietario</th>
-							
-
-
 						</tr>
 					</thead>
 					<tbody>
@@ -99,8 +96,7 @@
 						<tr th:each="personal : ${personales}">
 							<td th:text="${personal.propietario}"></td>
 							
-							<td>
-							<input type="hidden" id="id" th:value="${personal.id}"></input>
+							<td style="display:none;" th:text="${personal.id}"></td>
 
 <!-- 
 								<button sec:authorize="hasAuthority('entrenador')"
@@ -108,7 +104,14 @@
 									title="Editar">Añadir</button> <input id="security"
 								type="hidden" sec:authorize="hasAuthority('entrenador')"
 								th:value="entrenador">
-								--></td> 
+								-->
+							<td>
+							<a href="#"
+								th:href="@{/personales/removeVehiculo?id=__${personal.id}__}">
+								<button class="btn btn-outline-danger btn-sm" type="button">Eliminar</button>
+								</a>
+							
+							</td>
 					</tbody>
 
 				</table>
