@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.service.impl;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,17 @@ public class AuthoritiesService {
 	public AuthoritiesService(AuthoritiesRepository authoritiesRepository,UserService userService) {
 		this.authoritiesRepository = authoritiesRepository;
 		this.userService = userService;
+	}
+	
+	@Transactional(readOnly = true)
+	public List<String> findByUser(String username){
+		User user = userService.findByUsername(username);
+		return authoritiesRepository.findAuthorityByUser(user);
+	}
+	
+	@Transactional(readOnly = true)
+	public boolean hasAuthority(String permiso, String username) {
+		return findByUser(username).contains(permiso);
 	}
 
 	@Transactional
