@@ -1500,9 +1500,9 @@
 	
 	function enviarEdicionPrivilegio() {
 		var form = new FormData(document
-				.getElementById('formGestionPrivilegios'));		    
+				.getElementById('formGestionPrivilegios'));	
 		$.ajax({
-			url : '/jugadores/updateprivilegios',
+			url : '/jugadores/updateprivilegio',
 			type : 'post',
 			data : form,
 			processData : false,
@@ -1510,7 +1510,6 @@
 			success : function(data) {
 				$('#privilegiosModal').modal("hide");
 				location.reload();
-				//tablaPrincipal.ajax.reload(null, false);
 			},
 			error : function(data) {
 				$('.error').text('');
@@ -1556,7 +1555,7 @@
 							                	});
 											}
 										});
-										$('#descripcionPartidos').val(edit.descripcionPartidos);
+										$('#modalFormPrivilegio #descripcionPartidos').val(edit.descripcionPartidos);
 										$("input:checkbox").change(function() { 
 											if ($("#entrenamientos").is(":checked")) {  
 										    	// checkbox is checked 
@@ -1574,7 +1573,7 @@
 							                	});
 											}
 										});
-										$('#descripcionEntrenamientos').val('');
+										$('#modalFormPrivilegio #descripcionEntrenamientos').val(edit.descripcionEntrenamientos);
 										$('#modalFormPrivilegio')
 												.prepend(
 														'<div class="form-group col-12 only"><label><span class="text-danger">(*) </span>Equipo:</label><select class="form-control" id="equipo" name="equipo"></select></div>');

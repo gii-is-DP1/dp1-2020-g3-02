@@ -50,5 +50,20 @@ public class PrivilegioServiceImpl extends AbstractService<Privilegio> implement
 		public List<Privilegio> findByEquipo(Equipo equipo) {
 			return privilegioRepository.findByEquipo(equipo);
 		}
+		
+		@Override
+		public Privilegio updatePrivilegio(Privilegio privilegio) {
+			LOG.info("PRIVILEGIO INSERTADO: "+privilegio.getTipoPrivilegio());
+			LOG.info("JUGADOR DEL PRIVILEGIO INSERTADO: "+privilegio.getJugador());
+			
+			privilegio.setTipoPrivilegio(privilegio.getTipoPrivilegio());
+			privilegio.setDescripcion(privilegio.getDescripcion());
+			privilegio.setEquipo(privilegio.getEquipo());
+			privilegio.setJugador(privilegio.getJugador());
+			
+			Privilegio priv = privilegioRepository.save(privilegio);
+			
+			return priv;
+		}
 
 }
