@@ -5,9 +5,10 @@ import javax.persistence.Converter;
 
 import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
+import org.springframework.stereotype.Component;
 
 
-@Converter
+@Component
 public class TipoPrivilegioConverter implements AttributeConverter<TipoPrivilegio, String>{
 
 	@Override

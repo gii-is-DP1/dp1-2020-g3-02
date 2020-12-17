@@ -20,6 +20,8 @@ import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
+import org.springframework.samples.petclinic.converter.enumerate.PrivilegioConverter;
+import org.springframework.samples.petclinic.converter.enumerate.TipoPrivilegioConverter;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.model.Autorizacion;
@@ -31,6 +33,7 @@ import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
+import org.springframework.samples.petclinic.model.ediciones.PrivilegioEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.service.AutorizacionService;
 import org.springframework.samples.petclinic.service.EquipoService;
@@ -96,6 +99,12 @@ public class JugadorController {
 	@Autowired
 	private JugadorValidator jugadorValidator;
 	
+	@Autowired
+	private TipoPrivilegioConverter tipoPrivilegioConverter;
+	
+	@Autowired
+	private PrivilegioConverter privilegioConverter;
+	
 //	@InitBinder("jugador")
 //	public void initJugadorBinder(WebDataBinder dataBinder) {
 //	dataBinder.setValidator(new JugadorValidator());
@@ -148,6 +157,28 @@ public class JugadorController {
 		model.addAttribute("listpriv", new ArrayList<TipoPrivilegio>(Arrays.asList(TipoPrivilegio.ENTRENAMIENTOS, TipoPrivilegio.PARTIDOS)));
 
 		return ViewConstant.VIEW_JUGADORES_PRIVILEGIOS;
+	}
+	
+	@RequestMapping(value = "/updateprivilegio", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> editarPrivilegio(HttpServletRequest request, @ModelAttribute(name="privilegiojugador") PrivilegioEdit privilegioedit, BindingResult result) {
+		try {
+			int id = Integer.valueOf(request.getParameter("id"));
+			Optional<Jugador> jugadorO = jugadorService.findById(id);
+			Jugador jugador = jugadorO.get();
+			List<TipoPrivilegio> privilegios = new ArrayList<TipoPrivilegio>();
+			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("partidos").trim()));
+			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionPartidos").trim()));
+			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("entrenamientos").trim()));
+			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionEntrenamientos").trim()));
+			Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
+			List<Privilegio> priv = privilegioConverter.convertListPrivilegiosEditToListPrivilegios(privilegios, jugador, equipo);
+			for(Privilegio privi:priv) {
+				Privilegio p = privilegioService.updatePrivilegio(privi);
+			}
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 //	@GetMapping("/addprivilegio/{id}/{tipoPrivilegio}")

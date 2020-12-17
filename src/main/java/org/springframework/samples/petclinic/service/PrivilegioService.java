@@ -15,4 +15,6 @@ public interface PrivilegioService extends BaseService<Privilegio>{
 	
 	public abstract List<Privilegio> findByJugador(Jugador jugador);
 	public abstract List<Privilegio> findByEquipo(Equipo equipo);
+	
+	public abstract Privilegio updatePrivilegio(Privilegio privilegio);
 }
