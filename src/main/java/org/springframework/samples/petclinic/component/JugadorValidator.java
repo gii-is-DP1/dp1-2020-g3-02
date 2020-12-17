@@ -11,6 +11,7 @@ import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.thymeleaf.util.StringUtils;
 
 
 @Component
@@ -29,33 +30,33 @@ public class JugadorValidator implements Validator {
 		}
 		
 		//Nombre Validation
-		if ( jugador.getFirstName() == null) {
+		if (StringUtils.isEmpty(jugador.getFirstName())) {
 			errors.rejectValue("firstName", "error", ValidationConstant.FIRSTNAME_ERROR);
 		}else if(!Pattern.matches("[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",jugador.getFirstName())){
 			errors.rejectValue("firstName", "error",ValidationConstant.FIRSTNAME_ERROR);
 		}
 		
 		//Apellido validation
-		if ( jugador.getLastName() == null) {
+		if ( StringUtils.isEmpty(jugador.getLastName()) ) {
 			errors.rejectValue("lastName", "error",ValidationConstant.LASTNAME_ERROR);
 		}else if(!Pattern.matches("[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",jugador.getLastName())){
 			errors.rejectValue("lastName", "error",ValidationConstant.LASTNAME_ERROR);
 		}
 		
 		//email validation
-		if ( jugador.getEmail() == null) {
+		if ( StringUtils.isEmpty(jugador.getEmail())) {
 			errors.rejectValue("email", "error",ValidationConstant.VALOR_OBLIGATORIO);
 		}else if(!Pattern.matches("^[a-zñÑA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zñÑA-Z0-9-]+(?:.[a-zA-Z0-9-]+)$",jugador.getEmail())){
 			errors.rejectValue("email", "error",ValidationConstant.EMAIL_FORMATO_ERROR);
 		}
 		
 		//direccion validation
-		if ( jugador.getDireccion() == null || jugador.getDireccion().length() < 5) {
+		if ( StringUtils.isEmpty(jugador.getDireccion()) || jugador.getDireccion().length() < 5) {
 			errors.rejectValue("direccion", "La dirección es requerida y debe tener al menos 5 caracteres","La dirreción es requerida y debe tener al menos 5 caracteres");
 		}
 		
 		//localidad validation
-		if ( jugador.getLocalidad() == null || jugador.getLocalidad().length() < 5) {
+		if ( StringUtils.isEmpty(jugador.getLocalidad()) || jugador.getLocalidad().length() < 5) {
 			errors.rejectValue("localidad", "La localidad es requerida y debe tener al menos 5 caracteres","La localidad es requerida y debe tener al menos 5 caracteres");
 		}
 		
