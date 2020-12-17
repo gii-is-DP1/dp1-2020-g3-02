@@ -7,8 +7,12 @@ import javax.validation.Valid;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
+import org.springframework.samples.petclinic.model.Autorizacion;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.stereotype.Controller;
@@ -17,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +42,7 @@ public class VehiculoController {
 	@PostMapping("/addvehiculo")
 	public String addVehiculo(@Valid @ModelAttribute(name="personal") Personales personal, BindingResult bindResult, Model model) {
 		
-		LOG.info("addpersonal() -- PARAMETROS: "+ personal.toString());
+		LOG.info("addvehiculo() -- PARAMETROS: "+ personal.toString());
 		
 		ValidationUtils.invokeValidator(personalValidator, personal, bindResult);
 		
@@ -66,6 +71,16 @@ public class VehiculoController {
 		model.addAttribute("personal", personal);
 		return ViewConstant.VIEWS_VEHICULO_CREATE_OR_UPDATE_FORM;
 	}
+	
+	@PostMapping("/removeVehiculo")
+	public ModelAndView removeVehiculo(@PathVariable("id") int id, Model model) {
+		personalService.deleteByIdSiExiste(id);
+		
+		return listadoVehiculos();
+
+		
+	}
+
 	
 	@GetMapping("/navbar")
 	public String navbar() {
