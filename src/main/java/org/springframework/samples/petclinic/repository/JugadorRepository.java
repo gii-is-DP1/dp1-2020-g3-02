@@ -17,6 +17,7 @@ public interface JugadorRepository extends ExtendedJpaRepository<Jugador>{
 	
 	public List<Jugador> findByFirstName(String name);
 	public Jugador findByUser(User username);
+	public Jugador findByEmail(String email);
 	public List<Jugador> findByPosicionPrincipal(Posicion position);
 	public List<Jugador> findByFechaNacimientoBetweenOrderByFechaNacimiento(LocalDate firstDate, LocalDate secondDate);
 	public List<Jugador> findByFechaNacimientoAfterOrderByFechaNacimiento(LocalDate date);

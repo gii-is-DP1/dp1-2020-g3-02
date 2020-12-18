@@ -9,6 +9,10 @@ public class ValidationConstant {
 	public static final String FIRSTNAME_ERROR = "El nombre es requerido y no puede contener ningún caracter especial ni números";
 	public static final String LASTNAME_ERROR = "El apellido es requerido y no puede contener ningún caracter especial ni números";
 	public static final String EMAIL_FORMATO_ERROR = "El formato del email es incorrecto";
+	public static final String EMAIL_YAEXISTE_ERROR = "El email ya está registrado";
+	
+	/** DNI */
+	public static final String DNI_ERROR = "El DNI es requerido y debe tener 8 números y una letra";
 	
 	/** FECHA */
 	public static final String FECHA_FORMATO_ERRONEO = "La fecha debe tener el formato dd/MM/yyyy";

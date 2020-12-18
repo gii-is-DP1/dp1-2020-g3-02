@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,6 +43,11 @@ public class JugadorServiceImpl extends AbstractEstadisticasService<Jugador> imp
 	@Transactional(readOnly = true)
 	public List<Jugador> findByFirstName(String name) throws DataAccessException {
 		return jugadorRepository.findByFirstName(name);
+	}
+	
+	@Override
+	public Jugador findByEmail(String email) {
+		return jugadorRepository.findByEmail(email);
 	}
 
 	@Override
@@ -187,7 +191,5 @@ public class JugadorServiceImpl extends AbstractEstadisticasService<Jugador> imp
 		
 		return jugadorRepository.findByUser(username);
 	}
-
-	
 
 }
