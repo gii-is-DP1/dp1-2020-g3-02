@@ -25,8 +25,8 @@ public class JugadorValidator implements Validator {
 		Jugador jugador = (Jugador) target;
 		
 		//Dni validation
-		if ( jugador.getDni() == null || jugador.getDni().length() != 9) {
-			errors.rejectValue("dni", "El DNI debe tener 8 números y una letra","El DNI debe tener 8 números y una letra");
+		if ( StringUtils.isEmpty(jugador.getDni()) || !Pattern.matches("[0-9]{8}[A-Za-z]{1}", jugador.getDni())) {
+			errors.rejectValue("dni", "error",ValidationConstant.DNI_ERROR);
 		}
 		
 		//Nombre Validation
@@ -48,6 +48,11 @@ public class JugadorValidator implements Validator {
 			errors.rejectValue("email", "error",ValidationConstant.VALOR_OBLIGATORIO);
 		}else if(!Pattern.matches("^[a-zñÑA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zñÑA-Z0-9-]+(?:.[a-zA-Z0-9-]+)$",jugador.getEmail())){
 			errors.rejectValue("email", "error",ValidationConstant.EMAIL_FORMATO_ERROR);
+		} else {
+			Jugador player = jugadorService.findByEmail(jugador.getEmail());
+			if(player != null && player.getId() != jugador.getId()) {
+				errors.rejectValue("email", "error",ValidationConstant.EMAIL_YAEXISTE_ERROR);
+			}
 		}
 		
 		//direccion validation

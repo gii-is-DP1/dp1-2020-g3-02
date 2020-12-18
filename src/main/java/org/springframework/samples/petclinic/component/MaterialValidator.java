@@ -17,11 +17,6 @@ public class MaterialValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 		Material material = (Material) target;
 
-
-		//Descripcion validation
-		if ( material.getDescripcion() == null || material.getDescripcion().toString().length()>280 ) {
-			errors.rejectValue("descripcion", "La descripcion no debe ser nula y tener más de 280 carácteres","La descripcion no debe ser nula y tener más de 255 carácteres");
-		}
 		//Stock validation
 		if ( material.getStock()==null ||  material.getStock()<0) {
 			errors.rejectValue("stock", "El stock no debe ser nulo ni menor que 0","El stock no debe ser nulo ni menor que 0");

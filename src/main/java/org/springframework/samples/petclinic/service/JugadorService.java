@@ -14,6 +14,7 @@ public interface JugadorService extends BaseEstadisticasService<Jugador> {
 	
 	public abstract List<Jugador> findByFirstName(String name);
 	public abstract Jugador findByUser(User username);
+	public abstract Jugador findByEmail(String email);
 	public abstract List<Jugador> findByPosicionPrincipal(Posicion position);
 	public abstract List<Jugador> findByFechaNacimientoBetweenOrderByFechaNacimiento(LocalDate firstDate, LocalDate secondDate);
 	public abstract List<Jugador> findByFechaNacimientoAfterOrderByFechaNacimiento(LocalDate date);
