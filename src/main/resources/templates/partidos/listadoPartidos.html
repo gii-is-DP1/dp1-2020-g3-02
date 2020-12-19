@@ -104,7 +104,7 @@
       <div class="pb-3">
       	<div class="border col-lg-12">
       		<div class="py-2 text-center col-lg-12">
-      			<h1 th:id="equipo" class="font-weight-bold font-italic"></h1>
+      			<h1 th:id="equipoAsistencia" class="font-weight-bold font-italic"></h1>
 			</div>
 			
 			<div class="row text-center">
@@ -236,7 +236,7 @@
 						console.log(data[0].fecha);
 						$('#modalAsistencia #fecha').text(data[0].fecha);
 						$('#modalAsistencia #hora').text(data[0].hora);
-						$('#modalAsistencia #equipo').text(data[0].equipo);
+						$('#modalAsistencia #equipoAsistencia').text(data[0].equipo);
 						
 						
 						//Partido al que estabas asistiendo
@@ -347,7 +347,6 @@
 
 											$.each(equipos, function(index,
 													equipo) {
-												console.log(equipo);
 												$('#equipo').append(
 														$('<option>', {
 															value : equipo,
