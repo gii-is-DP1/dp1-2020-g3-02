@@ -41,3 +41,66 @@
 			</div>
 		</div>
 	</div>
+	
+<script>
+
+
+function enviarEdicion() {
+	var form = new FormData(document
+			.getElementById('formGestionPartido'));
+	$.ajax({
+		url : '/partidos/postpartido',
+		type : 'post',
+		data : form,
+		processData : false,
+		contentType : false,
+		success : function(data) {
+			$('#gestionModal').modal("hide");
+			tablaPrincipal.ajax.reload(null, false);
+		},
+		error : function(data) {
+			$('.error').text('');
+
+			for (i = 0; i < data.responseJSON.length; i++) {
+
+				var campo = data.responseJSON[i].field;
+				$('.' + campo)
+						.text(data.responseJSON[i].defaultMessage);
+			}
+		}
+	});
+};
+
+function editar(boton,id) {
+	//var id = $(this).parent().find('#id').val();
+
+	$('.error').text('');
+
+	$
+			.ajax({
+				type : 'GET',
+				url : '/partidos/findeditpartido/' + id,
+				success : function(edit) {
+					$('#modalFormPartido').children('.only')
+							.remove();
+
+					//Poner la fecha con el formato correcto
+					var aux = (edit.fecha).split("-");
+					var fechaInput = "" + aux[2] + "/" + aux[1]
+							+ "/" + aux[0] + "";
+
+					$('#gestionModal #id').val(edit.id);
+					$('#gestionModal #fecha').val(fechaInput);
+					$('#gestionModal #hora').val(edit.hora);
+
+					$('.modal-header').css("color", "white");
+					$('.modal-title').text(
+							"Editar partido del equipo "
+									+ edit.equipo);
+					$('#gestionModal').modal("show");
+				}
+			});
+};
+
+
+</script>

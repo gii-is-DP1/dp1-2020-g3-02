@@ -81,7 +81,7 @@
 	<div class="row my-3">
 		<div class="col-lg-2"></div>
 		<div class="col-lg-8">
-			<button class="btn btn-primary btn-lg btn-block" id="nuevoPartido"
+			<button sec:authorize="hasAuthority('entrenador')" class="btn btn-primary btn-lg btn-block" id="nuevoPartido"
 				role="button">Nuevo partido</button>
 
 		</div>
@@ -180,6 +180,8 @@
 
 
 	<script>
+	
+	// FUNCIONES PARA EL CONTROL DE LAS ASISTENCIAS
 	function enviarAsiste(data){
 		console.log(data);
 		
@@ -264,6 +266,7 @@
 		}
 	}
 	
+	//TABLA PRINCIPAL CON AJAX ===============================================
 	tablaPrincipal = $('#partidos').DataTable({
 		responsive: true,
 		"language" : {
@@ -322,32 +325,6 @@
 	</script>	
 	<script>
 	
-		function enviarEdicion() {
-			var form = new FormData(document
-					.getElementById('formGestionPartido'));
-			$.ajax({
-				url : '/partidos/postpartido',
-				type : 'post',
-				data : form,
-				processData : false,
-				contentType : false,
-				success : function(data) {
-					$('#gestionModal').modal("hide");
-					tablaPrincipal.ajax.reload(null, false);
-				},
-				error : function(data) {
-					$('.error').text('');
-
-					for (i = 0; i < data.responseJSON.length; i++) {
-
-						var campo = data.responseJSON[i].field;
-						$('.' + campo)
-								.text(data.responseJSON[i].defaultMessage);
-					}
-				}
-			});
-		};
-		
 		$('#nuevoPartido')
 				.on(
 						'click',
@@ -359,10 +336,9 @@
 										type : 'GET',
 										url : '/equipos/getallteams',
 										success : function(equipos) {
-											$('#modalFormPartido').children(
-													'.only').remove();
-											$('#modalFormPartido').children(
-													'#equipo').remove();
+											
+											$('#modalFormPartido').children('.only').remove();
+											$('#modalFormPartido').children('#equipo').remove();
 											$('#fecha').val('');
 											$('#hora').val('');
 											$('#modalFormPartido')
@@ -390,57 +366,6 @@
 						});
 </script>
 
-<script type="text/javascript">		
-				function editar(boton,id) {
-					//var id = $(this).parent().find('#id').val();
-
-					$('.error').text('');
-
-					$
-							.ajax({
-								type : 'GET',
-								url : '/partidos/findeditpartido/' + id,
-								success : function(edit) {
-									$('#modalFormPartido').children('.only')
-											.remove();
-
-									//Poner la fecha con el formato correcto
-									var aux = (edit.fecha).split("-");
-									var fechaInput = "" + aux[2] + "/" + aux[1]
-											+ "/" + aux[0] + "";
-
-									$('#gestionModal #id').val(edit.id);
-									$('#gestionModal #fecha').val(fechaInput);
-									$('#gestionModal #hora').val(edit.hora);
-
-									$('.modal-header').css("color", "white");
-									$('.modal-title').text(
-											"Editar partido del equipo "
-													+ edit.equipo);
-									$('#gestionModal').modal("show");
-								}
-							});
-				};
-		
-		function eliminar(boton, id){
-			$('#confirmacionModal #id').val(id);
-			
-			$('.modal-header').css("color", "white");
-			$('.modal-title').text("Eliminar Partido");
-			$('#confirmacionModal').modal("show");
-		}
-		
-		function confirmarBorrado(id){
-			$.ajax({
-				type: 'POST',
-				url : '/partidos/removePartido/'+id,
-				success : function(){
-					tablaPrincipal.ajax.reload(null, false);
-					$('#confirmacionModal').modal("hide");
-				}
-			});
-		}
-	</script>
 	<script type="text/javascript">
 		w3IncludeHTML();
 	</script>
