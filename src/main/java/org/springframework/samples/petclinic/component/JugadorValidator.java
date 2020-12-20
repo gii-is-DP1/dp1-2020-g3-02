@@ -13,8 +13,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.thymeleaf.util.StringUtils;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 
 @Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class JugadorValidator implements Validator {
 
 	@Autowired
