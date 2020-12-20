@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.controller;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +17,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.MaterialValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.MaterialConverter;
+import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
+import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Material;
+import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
+import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
+import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
 import org.springframework.samples.petclinic.model.ediciones.MaterialEdit;
 import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.stereotype.Controller;
@@ -53,10 +62,37 @@ public class MaterialController {
 
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_MATERIALES);
 		mav.addObject("materiales", materialService.findAll());
+		mav.addObject("listestados", new ArrayList<EstadoMaterial>(Arrays.asList(EstadoMaterial.ACEPTABLE, EstadoMaterial.BUENO, EstadoMaterial.DAÑADO,EstadoMaterial.INSERVIBLE,EstadoMaterial.NUEVO)));
+		
+		
 		return mav;
 	}
-
-
+	
+	@RequestMapping(value = "/tablamaterial", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<Material>> tablaMaterial(){
+		try {
+			List<Material> materiales = materialService.findAll();
+			
+			DataTableResponse<Material> data = new DataTableResponse<Material>(materiales);
+			return new ResponseEntity<DataTableResponse<Material>> (data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<Material>> (HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	
+	@RequestMapping(value = "getporcentajes/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Integer> Porcentajos(@PathVariable("id") int id) {
+        try {
+        	
+            int materialito = materialService.porcentajeUso(id);
+           
+            return new ResponseEntity <Integer >(materialito, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+        }
+    }
+	
 	@PostMapping("/addmaterial")
 	public String addMaterial(@Valid @ModelAttribute(name="material") Material material, BindingResult bindResult, Model model) {
 
