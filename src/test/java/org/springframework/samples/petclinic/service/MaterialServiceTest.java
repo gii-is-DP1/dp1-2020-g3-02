@@ -14,7 +14,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.Material;
-import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +29,7 @@ public class MaterialServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Material> material = new ArrayList<Material>(materialService.findAll());
-		assertEquals(material.size(), 6);//
+		assertEquals(material.size(), 11);
 	}
 
 	@Test
@@ -55,14 +54,6 @@ public class MaterialServiceTest {
 		TipoMaterial tipo = TipoMaterial.CUERDA;
 		List<Material> material = materialService.findByTipo(tipo);
 		assertEquals(material.size(), 1);
-	}
-	
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByTipoInitialDataNotFinding() {
-		TipoMaterial tipo = TipoMaterial.CONOMEDIO;
-		List<Material> material = materialService.findByTipo(tipo);
-		assertEquals(material.size(), 0);
 	}
 	
 	@Test

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,11 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
-import org.springframework.samples.petclinic.enumerate.TipoMaterial;
-import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.LineaMaterial;
-import org.springframework.samples.petclinic.model.Material;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +28,7 @@ public class LineaMaterialServiceTests {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<LineaMaterial>lineamaterial=new ArrayList<LineaMaterial>(lineaMaterialService.findAll());
-		assertEquals(lineamaterial.size(), 5);//
+		assertEquals(lineamaterial.size(), 10);
 	}
 
 
@@ -57,9 +52,9 @@ public class LineaMaterialServiceTests {
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByCantidadInitialDataFinding() {
-		int cantidad=9;
+		int cantidad=5;
 		List<LineaMaterial> lineamaterial = new ArrayList<LineaMaterial>(lineaMaterialService.findByCantidad(cantidad));
-		assertEquals(lineamaterial.size(), 1);//
+		assertEquals(lineamaterial.size(), 1);
 	}
 	
 	@Test
@@ -67,7 +62,7 @@ public class LineaMaterialServiceTests {
 	public void testFindByCantidadInitialDataNotFinding() {
 		int cantidad=8;
 		List<LineaMaterial> lineamaterial = new ArrayList<LineaMaterial>(lineaMaterialService.findByCantidad(cantidad));
-		assertEquals(lineamaterial.size(), 0);//
+		assertEquals(lineamaterial.size(), 0);
 	}
 
 	@Test
@@ -75,7 +70,7 @@ public class LineaMaterialServiceTests {
 	public void testFindByMaterialInitialDataFinding() {
 		int material_id=4;
 		List<LineaMaterial> lineamaterial=lineaMaterialService.findByMaterial(material_id);
-		assertEquals(lineamaterial.size(), 1);///
+		assertEquals(lineamaterial.size(), 2);
 	}
 	
 	@Test
@@ -83,15 +78,15 @@ public class LineaMaterialServiceTests {
 	public void testFindByMaterialInitialDataNotFinding() {
 		int material_id = 6;
 		List<LineaMaterial> lineamaterial=lineaMaterialService.findByMaterial(material_id);
-		assertEquals(lineamaterial.size(),0);//
+		assertEquals(lineamaterial.size(),0);
 	}
 	
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByEntrenamientoInitialDataFinding() {
-		int entrenamiento_id=6;
+		int entrenamiento_id=1;
 		List<LineaMaterial> lineamaterial=lineaMaterialService.findByEntrenamiento(entrenamiento_id);
-		assertEquals(lineamaterial.size(), 0);//
+		assertEquals(lineamaterial.size(), 5);
 	}
 	
 	@Test
@@ -99,7 +94,7 @@ public class LineaMaterialServiceTests {
 	public void testFindByEntrenamientoInitialDataNotFinding() {
 		int entrenamiento_id=6;
 		List<LineaMaterial> lineamaterial=lineaMaterialService.findByEntrenamiento(entrenamiento_id);
-		assertEquals(lineamaterial.size(),0);//
+		assertEquals(lineamaterial.size(),0);
 	}
 
 

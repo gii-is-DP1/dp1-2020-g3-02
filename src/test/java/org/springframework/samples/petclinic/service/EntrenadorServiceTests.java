@@ -29,7 +29,7 @@ public class EntrenadorServiceTests {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Entrenador> entrenador=new ArrayList<Entrenador>(entrenadorService.findAll());
-		assertEquals(entrenador.size(), 2);
+		assertEquals(entrenador.size(), 3);
 	}
 	
 	@Test
@@ -52,7 +52,7 @@ public class EntrenadorServiceTests {
 	@Transactional(readOnly = true)
 	public void testCountWithInitialData() {
 		int count=entrenadorService.entrenadorCount();
-		assertEquals(count, 2);
+		assertEquals(count, 3);
 	}
 	
 	@Test
@@ -93,7 +93,7 @@ public class EntrenadorServiceTests {
 		LocalDate firstDate = LocalDate.of(1978, 11, 5);
 		LocalDate secondDate = LocalDate.of(2000, 11, 7);
 		List<Entrenador> entrenadores=new ArrayList<Entrenador>(entrenadorService.findByFechaNacimientoBetweenOrderByFechaNacimiento(firstDate, secondDate));
-		assertEquals(entrenadores.size(), 2);
+		assertEquals(entrenadores.size(), 3);
 	}
 	
 	@Test
@@ -110,7 +110,7 @@ public class EntrenadorServiceTests {
 	public void testFindByFechaNacimientoAfterOrderByFechaNacimientoInitialDataFinding() {
 		LocalDate date = LocalDate.of(1996, 11, 5);
 		List<Entrenador> entrenadores=new ArrayList<Entrenador>(entrenadorService.findByFechaNacimientoAfterOrderByFechaNacimiento(date));
-		assertEquals(entrenadores.size(), 1);
+		assertEquals(entrenadores.size(), 2);
 	}
 	
 	@Test
