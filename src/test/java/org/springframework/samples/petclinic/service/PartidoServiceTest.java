@@ -29,13 +29,10 @@ public class PartidoServiceTest {
 	@Autowired
 	private PartidoService partidoService;
 	
-	@Autowired
-	private EstadisticaPersonalPartidoService estadisticasService;
-	
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByFechaOrderByHoraDataFinding() {
-		LocalDate date = LocalDate.parse("06/11/2020", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		LocalDate date = LocalDate.parse("06/11/2021", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		List<Partido> partidos = partidoService.findByFechaOrderByHora(date);
 		assertEquals(partidos.size(), 1);
 	}
@@ -44,7 +41,7 @@ public class PartidoServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindByEquipoAndFechaAndHoraBetweenDataFinding() {
 		Equipo equipo = equipoService.findByCategoria("Senior");
-		LocalDate fecha = LocalDate.parse("06/11/2020", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		LocalDate fecha = LocalDate.parse("06/11/2021", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		String hora1 = "17:00";
 		String hora2 = "19:00";
 		List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, fecha, hora1, hora2);
@@ -92,7 +89,7 @@ public class PartidoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Partido> partidos = partidoService.findByPorcentajeSaquesLessThanEqual(percent);
-		assertEquals(partidos.size(), 6);
+		assertEquals(partidos.size(), 7);
 	}
 	
 	@Test
@@ -110,7 +107,7 @@ public class PartidoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Partido> partidos = partidoService.findByPorcentajeRecepcionesLessThanEqual(percent);
-		assertEquals(partidos.size(), 6);
+		assertEquals(partidos.size(), 7);
 	}
 	
 	@Test
@@ -128,7 +125,7 @@ public class PartidoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Partido> partidos = partidoService.findByPorcentajeColocacionesLessThanEqual(percent);
-		assertEquals(partidos.size(), 6);
+		assertEquals(partidos.size(), 7);
 	}
 	
 	@Test
@@ -146,7 +143,7 @@ public class PartidoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Partido> partidos = partidoService.findByPorcentajeDefensasLessThanEqual(percent);
-		assertEquals(partidos.size(), 6);
+		assertEquals(partidos.size(), 7);
 	}
 	
 	@Test
@@ -164,7 +161,7 @@ public class PartidoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Partido> partidos = partidoService.findByPorcentajeColocacionesLessThanEqual(percent);
-		assertEquals(partidos.size(), 6);
+		assertEquals(partidos.size(), 7);
 	}
 	
 	@Test
@@ -182,7 +179,7 @@ public class PartidoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Partido> partidos = partidoService.findByPorcentajeBloqueosLessThanEqual(percent);
-		assertEquals(partidos.size(), 6);
+		assertEquals(partidos.size(), 7);
 	}
 	
 	@Test
@@ -200,7 +197,7 @@ public class PartidoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Partido> partidos = partidoService.findByPorcentajeFintasLessThanEqual(percent);
-		assertEquals(partidos.size(), 6);
+		assertEquals(partidos.size(), 7);
 	}
 	
 	@Test
@@ -218,7 +215,7 @@ public class PartidoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Partido> partidos = partidoService.findByPorcentajeAtaquesRapidosLessThanEqual(percent);
-		assertEquals(partidos.size(), 6);
+		assertEquals(partidos.size(), 7);
 	}
 	
 	@Test
@@ -235,7 +232,7 @@ public class PartidoServiceTest {
 	public void testFindByNumFaltasTotalesGreaterThanEqualDataFinding() {
 		int faults=0;
 		List<Partido> partidos=new ArrayList<Partido>(partidoService.findByNumFaltasTotalesGreaterThanEqual(faults));
-		assertEquals(partidos.size(), 6);
+		assertEquals(partidos.size(), 7);
 	}
 	
 	@Test
@@ -250,7 +247,7 @@ public class PartidoServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAll() {
 		List<Partido> partidos=new ArrayList<Partido>(partidoService.findAll());
-		assertEquals(partidos.size(), 6);
+		assertEquals(partidos.size(), 7);
 	}
 	
 	@Test

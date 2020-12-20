@@ -44,14 +44,14 @@ public class EquipoServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAll() {
 		List<Equipo> equipos = equipoService.findAll();
-		assertEquals(equipos.size(), 2);
+		assertEquals(equipos.size(), 3);
 	}
 	
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindCategoria() {
 		List<String> categorias = equipoService.findCategoria();
-		assertEquals(categorias.size(), 2);
+		assertEquals(categorias.size(), 3);
 	}
 	
 	@Test
@@ -91,7 +91,7 @@ public class EquipoServiceTest {
 	public void testFindByLigaDataFinding() {
 		String liga = "IMD";
 		List<Equipo> equipos = equipoService.findByLiga(liga);
-		assertEquals(equipos.size(), 2);
+		assertEquals(equipos.size(), 3);
 	}
 	
 	@Test
@@ -108,7 +108,7 @@ public class EquipoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Equipo> equipos = equipoService.findByPorcentajeSaquesLessThanEqual(percent);
-		assertEquals(equipos.size(), 2);
+		assertEquals(equipos.size(), 3);
 	}
 	
 	@Test
@@ -126,7 +126,7 @@ public class EquipoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Equipo> equipos = equipoService.findByPorcentajeRecepcionesLessThanEqual(percent);
-		assertEquals(equipos.size(), 2);
+		assertEquals(equipos.size(), 3);
 	}
 	
 	@Test
@@ -144,7 +144,7 @@ public class EquipoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Equipo> equipos = equipoService.findByPorcentajeColocacionesLessThanEqual(percent);
-		assertEquals(equipos.size(), 2);
+		assertEquals(equipos.size(), 3);
 	}
 	
 	@Test
@@ -162,7 +162,7 @@ public class EquipoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Equipo> equipos = equipoService.findByPorcentajeDefensasLessThanEqual(percent);
-		assertEquals(equipos.size(), 2);
+		assertEquals(equipos.size(), 3);
 	}
 	
 	@Test
@@ -180,7 +180,7 @@ public class EquipoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Equipo> equipos = equipoService.findByPorcentajeColocacionesLessThanEqual(percent);
-		assertEquals(equipos.size(), 2);
+		assertEquals(equipos.size(), 3);
 	}
 	
 	@Test
@@ -198,7 +198,7 @@ public class EquipoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Equipo> equipos = equipoService.findByPorcentajeBloqueosLessThanEqual(percent);
-		assertEquals(equipos.size(), 2);
+		assertEquals(equipos.size(), 3);
 	}
 	
 	@Test
@@ -216,7 +216,7 @@ public class EquipoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Equipo> equipos = equipoService.findByPorcentajeFintasLessThanEqual(percent);
-		assertEquals(equipos.size(), 2);
+		assertEquals(equipos.size(), 3);
 	}
 	
 	@Test
@@ -234,7 +234,7 @@ public class EquipoServiceTest {
 		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Equipo> equipos = equipoService.findByPorcentajeAtaquesRapidosLessThanEqual(percent);
-		assertEquals(equipos.size(), 2);
+		assertEquals(equipos.size(), 3);
 	}
 	
 	@Test
@@ -251,7 +251,7 @@ public class EquipoServiceTest {
 	public void testFindByNumFaltasTotalesGreaterThanEqualDataFinding() {
 		int faults=0;
 		List<Equipo> equipos=new ArrayList<Equipo>(equipoService.findByNumFaltasTotalesGreaterThanEqual(faults));
-		assertEquals(equipos.size(), 2);
+		assertEquals(equipos.size(), 3);
 	}
 	
 	@Test
