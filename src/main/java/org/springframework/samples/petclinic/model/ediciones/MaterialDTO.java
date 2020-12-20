@@ -14,13 +14,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class MaterialEdit {
+public class MaterialDTO {
 
 
 	
 	private int id;
 	
-	private Set<LineaMaterial> lineaMaterial;
+	//private Set<LineaMaterial> lineaMaterial;
 	
 	private String descripcion;
 	

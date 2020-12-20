@@ -3,19 +3,35 @@ package org.springframework.samples.petclinic.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.base.BaseVolleyballValidatorTest;
+import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 
+@RunWith(MockitoJUnitRunner.class)
 public class JugadorValidatorTest extends BaseVolleyballValidatorTest{
+	
+	private JugadorValidator jugadorValidator;
+	
+	@Mock
+	private JugadorService jugadorService;
+	
+	@BeforeEach
+	private void setUp() {
+		this.jugadorValidator = new JugadorValidator(this.jugadorService);
+	}
 	
 	@Test
     public void dniVacioTest() {
 		// Inicializador del validator
-        JugadorValidator jugadorValidator = new JugadorValidator();
+        //JugadorValidator jugadorValidator = new JugadorValidator(this.jugadorService);
         
         // Obtención de datos correctos
         Jugador jugador = getJugadorCorrecto();
@@ -41,7 +57,7 @@ public class JugadorValidatorTest extends BaseVolleyballValidatorTest{
 	@Test
     public void dniIncorrectoTest() {
 		// Inicializador del validator
-        JugadorValidator jugadorValidator = new JugadorValidator();
+        //JugadorValidator jugadorValidator = new JugadorValidator(this.jugadorService);
         
         // Obtención de datos correctos
         Jugador jugador = getJugadorCorrecto();
@@ -67,7 +83,7 @@ public class JugadorValidatorTest extends BaseVolleyballValidatorTest{
 	@Test
     public void nombreVacioTest() {
 		// Inicializador del validator
-        JugadorValidator jugadorValidator = new JugadorValidator();
+        //JugadorValidator jugadorValidator = new JugadorValidator(this.jugadorService);
         
         // Obtención de datos correctos
         Jugador jugador = getJugadorCorrecto();
@@ -93,7 +109,7 @@ public class JugadorValidatorTest extends BaseVolleyballValidatorTest{
 	@Test
     public void nombreIncorrectoTest() {
 		// Inicializador del validator
-        JugadorValidator jugadorValidator = new JugadorValidator();
+        //JugadorValidator jugadorValidator = new JugadorValidator(this.jugadorService);
         
         // Obtención de datos correctos
         Jugador jugador = getJugadorCorrecto();
@@ -119,7 +135,7 @@ public class JugadorValidatorTest extends BaseVolleyballValidatorTest{
 	@Test
     public void apellidoVacioTest() {
 		// Inicializador del validator
-        JugadorValidator jugadorValidator = new JugadorValidator();
+        //JugadorValidator jugadorValidator = new JugadorValidator(this.jugadorService);
         
         // Obtención de datos correctos
         Jugador jugador = getJugadorCorrecto();
@@ -145,7 +161,7 @@ public class JugadorValidatorTest extends BaseVolleyballValidatorTest{
 	@Test
     public void apellidoIncorrectoTest() {
 		// Inicializador del validator
-        JugadorValidator jugadorValidator = new JugadorValidator();
+        //JugadorValidator jugadorValidator = new JugadorValidator(this.jugadorService);
         
         // Obtención de datos correctos
         Jugador jugador = getJugadorCorrecto();
@@ -171,7 +187,7 @@ public class JugadorValidatorTest extends BaseVolleyballValidatorTest{
 	@Test
     public void emailVacioTest() {
 		// Inicializador del validator
-        JugadorValidator jugadorValidator = new JugadorValidator();
+        //JugadorValidator jugadorValidator = new JugadorValidator(this.jugadorService);
         
         // Obtención de datos correctos
         Jugador jugador = getJugadorCorrecto();
@@ -197,7 +213,7 @@ public class JugadorValidatorTest extends BaseVolleyballValidatorTest{
 	@Test
     public void emailIncorrectoTest() {
 		// Inicializador del validator
-        JugadorValidator jugadorValidator = new JugadorValidator();
+        //JugadorValidator jugadorValidator = new JugadorValidator(this.jugadorService);
         
         // Obtención de datos correctos
         Jugador jugador = getJugadorCorrecto();

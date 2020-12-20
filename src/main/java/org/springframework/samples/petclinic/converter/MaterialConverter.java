@@ -1,15 +1,17 @@
 package org.springframework.samples.petclinic.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.samples.petclinic.model.Material;
-import org.springframework.samples.petclinic.model.ediciones.MaterialEdit;
+import org.springframework.samples.petclinic.model.ediciones.MaterialDTO;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MaterialConverter {
-	public MaterialEdit convertMaterialToMaterialEdit(Material material) {
-		return new MaterialEdit(
+	public MaterialDTO convertMaterialToMaterialDTO(Material material) {
+		return new MaterialDTO(
 				material.getId(),
-				material.getLineaMaterial(),
 				material.getDescripcion(),
 				material.getTipo(),
 				material.getStock(),
@@ -18,4 +20,19 @@ public class MaterialConverter {
 				);
 	}
 	
+	public List<MaterialDTO> convertListEntityToListDTO(List<Material> materiales){
+		List<MaterialDTO> dtos = new ArrayList<MaterialDTO>();
+		
+		for(Material material:materiales) {
+			MaterialDTO dto = new MaterialDTO(material.getId(), 
+					material.getDescripcion(), 
+					material.getTipo(), 
+					material.getStock(), 
+					material.getEstado());
+			dtos.add(dto);
+		}
+		
+		return dtos;
+		
+	}
 }

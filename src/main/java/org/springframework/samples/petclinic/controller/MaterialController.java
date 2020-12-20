@@ -25,7 +25,7 @@ import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
-import org.springframework.samples.petclinic.model.ediciones.MaterialEdit;
+import org.springframework.samples.petclinic.model.ediciones.MaterialDTO;
 import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -69,14 +69,15 @@ public class MaterialController {
 	}
 	
 	@RequestMapping(value = "/tablamaterial", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<DataTableResponse<Material>> tablaMaterial(){
+	public ResponseEntity<DataTableResponse<MaterialDTO>> tablaMaterial(){
 		try {
 			List<Material> materiales = materialService.findAll();
 			
-			DataTableResponse<Material> data = new DataTableResponse<Material>(materiales);
-			return new ResponseEntity<DataTableResponse<Material>> (data, HttpStatus.OK);
+			List<MaterialDTO> dtos = materialConverter.convertListEntityToListDTO(materiales);
+			DataTableResponse<MaterialDTO> data = new DataTableResponse<MaterialDTO>(dtos);
+			return new ResponseEntity<DataTableResponse<MaterialDTO>> (data, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<DataTableResponse<Material>> (HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<DataTableResponse<MaterialDTO>> (HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
@@ -109,14 +110,14 @@ public class MaterialController {
 
 	}
 	@RequestMapping(value = "findeditmaterial/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<MaterialEdit> editarMaterial(@PathVariable("id") int id) {
+	public ResponseEntity<MaterialDTO> editarMaterial(@PathVariable("id") int id) {
 		try {
 			Optional<Material> materialO = materialService.findById(id);
 			Material material = materialO.get();
-			MaterialEdit edit = materialConverter.convertMaterialToMaterialEdit(material);
-			return new ResponseEntity<MaterialEdit>(edit, HttpStatus.OK);
+			MaterialDTO edit = materialConverter.convertMaterialToMaterialDTO(material);
+			return new ResponseEntity<MaterialDTO>(edit, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<MaterialEdit>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<MaterialDTO>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 
@@ -138,7 +139,7 @@ public class MaterialController {
 			ValidationUtils.invokeValidator(materialValidator, material, result);
 
 
-			MaterialEdit edit = materialConverter.convertMaterialToMaterialEdit(material);
+			MaterialDTO edit = materialConverter.convertMaterialToMaterialDTO(material);
 
 			if (result.hasErrors()) {
 				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
