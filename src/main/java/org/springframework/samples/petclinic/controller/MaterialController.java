@@ -3,8 +3,11 @@ package org.springframework.samples.petclinic.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -17,13 +20,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.MaterialValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.MaterialConverter;
+import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
+import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
+import org.springframework.samples.petclinic.model.auxiliares.MaterialEstados;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
 import org.springframework.samples.petclinic.model.ediciones.MaterialDTO;
 import org.springframework.samples.petclinic.service.MaterialService;
@@ -69,15 +75,41 @@ public class MaterialController {
 	}
 	
 	@RequestMapping(value = "/tablamaterial", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<DataTableResponse<MaterialDTO>> tablaMaterial(){
+	public ResponseEntity<DataTableResponse<MaterialEstados>> tablaMaterial(){
 		try {
 			List<Material> materiales = materialService.findAll();
 			
-			List<MaterialDTO> dtos = materialConverter.convertListEntityToListDTO(materiales);
-			DataTableResponse<MaterialDTO> data = new DataTableResponse<MaterialDTO>(dtos);
-			return new ResponseEntity<DataTableResponse<MaterialDTO>> (data, HttpStatus.OK);
+			TipoMaterial[] tipos= TipoMaterial.values();
+			List<MaterialEstados> listaMateriales = new ArrayList<>();
+			
+			for (int i = 0; i < tipos.length; i++) {
+				final int val = i;
+				
+				List<Integer> inservible = materiales.stream().filter(x->x.getTipo() == tipos[val] && x.getEstado().equals(EstadoMaterial.INSERVIBLE)).map(x->x.getStock()).collect(Collectors.toList());
+				List<Integer> nuevo = materiales.stream().filter(x->x.getTipo() == tipos[val] && x.getEstado().equals(EstadoMaterial.NUEVO)).map(x->x.getStock()).collect(Collectors.toList());
+				List<Integer> bueno = materiales.stream().filter(x->x.getTipo() == tipos[val] && x.getEstado().equals(EstadoMaterial.BUENO)).map(x->x.getStock()).collect(Collectors.toList());
+				List<Integer> aceptable = materiales.stream().filter(x->x.getTipo() == tipos[val] && x.getEstado().equals(EstadoMaterial.ACEPTABLE)).map(x->x.getStock()).collect(Collectors.toList());
+				List<Integer> dañado = materiales.stream().filter(x->x.getTipo() == tipos[val] && x.getEstado().equals(EstadoMaterial.DAÑADO)).map(x->x.getStock()).collect(Collectors.toList());
+				
+				MaterialEstados m = new MaterialEstados();
+				m.setTipo(tipos[val]);
+				
+				Map<EstadoMaterial,Integer> map = new HashMap<>();
+				
+				map.put(EstadoMaterial.INSERVIBLE, (inservible.size()!=0)? inservible.get(0):0);
+				map.put(EstadoMaterial.NUEVO, (nuevo.size()!=0)? nuevo.get(0):0);
+				map.put(EstadoMaterial.BUENO, (bueno.size()!=0)? bueno.get(0):0);
+				map.put(EstadoMaterial.ACEPTABLE, (aceptable.size()!=0)? aceptable.get(0):0);
+				map.put(EstadoMaterial.DAÑADO, (dañado.size()!=0)? dañado.get(0):0);
+				m.setEstados(map);
+				listaMateriales.add(m);
+			}
+			
+			//List<MaterialDTO> dtos = materialConverter.convertListEntityToListDTO(materiales);
+			DataTableResponse<MaterialEstados> data = new DataTableResponse<MaterialEstados>(listaMateriales);
+			return new ResponseEntity<DataTableResponse<MaterialEstados>> (data, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<DataTableResponse<MaterialDTO>> (HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<DataTableResponse<MaterialEstados>> (HttpStatus.BAD_REQUEST);
 		}	
 	}
 	

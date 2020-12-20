@@ -234,12 +234,12 @@
 	$(document).ready(function () {
 		    // Create DataTable
 		    var table = $('#estadisiticas').DataTable({
-		    	"lengthMenu" : [ 5 ],
+		    	"lengthMenu" : [5,6,7,8,9,10],
 				language : {
 					emptyTable : "Ningún dato disponible en esta tabla",
 					"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
 					"infoEmpty" : "Mostrando 0 de 0 registros",
-					"lengthMenu" : "Mostrando 5 registros",
+					"lengthMenu" : "Mostrando _MENU_ registros",
 					"search" : "Buscar:",
 					"zeroRecords" : "No se encontraron resultados",
 					"paginate" : {
@@ -344,8 +344,10 @@
 		    });
 		    var chart = null;
 		    var tipo = null; //poner var general
+		    var numRegistros = 5;
+		    var page = 0;
 		    
-		    graficaGeneral(table,'general');
+		    graficaGeneral(table,'general',numRegistros,page);
 		    
 		    $('.stats').on('click', function(){
 				tipo = $(this).parent().find('#id').val(); 
@@ -359,7 +361,7 @@
 		 		
 		 		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
 	     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
-		 		graficaGeneral(table,tipo);
+		 		graficaGeneral(table,tipo,numRegistros,page);
 		 	
 		 	}else if (tipo == 'tiempos'){
 		 		
@@ -371,14 +373,35 @@
 		 		
 		 		columnas(table,tipo);
 		 		graficaEspecifica(table,tipo);
-		 		
 	     		
 		 	}
 		    });
 		    
+		    $('.dataTables_length select').on('change', function(){
+		          page = 0;
+		          numRegistros = this.value;
+		          crearDataTable(this.value,page);
+		    });
+		    
+		    
+		    
+		    $('#estadisiticas').on( 'page.dt', function () {
+		        var info = table.page.info();
+		        console.log(info.page);
+		        page = info.page;
+		        crearDataTable(numRegistros,page);
+		        
+		    } );
+		    
 		    $('th').on('click', function(){
+		    	 
+		          crearDataTable(numRegistros,page);
+		    });
+		 	
+		    function crearDataTable(numRegistros,page){
 		    	if(chart != null){
 			 		chart.destroy();
+			 		console.log("destruida");
 			 		if(tipo == null){
 			 			tipo = 'general';
 			 		}
@@ -388,7 +411,8 @@
 			 		
 			 		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
 		     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
-			 		graficaGeneral(table,tipo);
+			 		graficaGeneral(table,tipo,numRegistros,page);
+			 		
 			 	
 			 	}else if (tipo == 'tiempos'){
 			 		
@@ -403,8 +427,8 @@
 			 		
 		     		
 			 	}
-		    });
-		 	
+		    }
+		    
 		    // Create the chart with initial data
 		    
 		    function graficaEspecifica (table, tipo){ 
@@ -570,7 +594,7 @@
 			    });
 			    }
 		
-	 function graficaGeneral (table, tipo){ 
+	 function graficaGeneral (table, tipo, numRegistros,page){ 
 		    
 		    var container = $('<div/>').insertBefore(table.table().container());
 		 
@@ -582,8 +606,9 @@
 		            text: 'Estadística',
 		        },
 		        xAxis: {
-		            categories: fechas(table),
-		            crosshair: true
+		            categories: fechas(table,numRegistros,page),
+		            crosshair: true,
+		            max: fechas(table,numRegistros,page).length -1
 		        },
 		        yAxis:  {
 		        	max: 100,
@@ -617,39 +642,40 @@
 		        series: [
 		            {	            	
 		            	name: 'Porcentaje Saques',
-		            	data: datos(table,'saque')
+		            	data: datos(table,'saque',numRegistros,page),
+		            	
 		            	
 		            },
 		            {
 		            	name: 'Porcentaje Recepciones',
-		            	data: datos(table,'recepcion')
+		            	data: datos(table,'recepcion',numRegistros,page)
 		            },
 		            {	            	
 		            	name: 'Porcentaje Colocaciones',
-		            	data: datos(table,'colocacion')
+		            	data: datos(table,'colocacion',numRegistros,page)
 		            	
 		            },
 		            {
 		            	name: 'Porcentaje Defensas',
-		            	data: datos(table,'defensa')
+		            	data: datos(table,'defensa',numRegistros,page)
 		            },  
 		            {	            	
 		            	name: 'Porcentaje Bloqueo',
-		            	data: datos(table,'bloqueo')
+		            	data: datos(table,'bloqueo',numRegistros,page)
 		            	
 		            },
 		            {
 		            	name: 'Porcentaje Remate',
-		            	data: datos(table,'remate')
+		            	data: datos(table,'remate',numRegistros,page)
 		            }, 
 		            {	            	
 		            	name: 'Porcentaje Fintas',
-		            	data: datos(table,'finta')
+		            	data: datos(table,'finta',numRegistros,page)
 		            	
 		            },
 		            {
 		            	name: 'Porcentaje Ataques Rápidos',
-		            	data: datos(table,'ataque')
+		            	data: datos(table,'ataque',numRegistros,page)
 		            }, 
 		        ],
 		        
@@ -680,15 +706,14 @@
 	
  // FUNCTIONS	
  
- 			function datos (table,tipo){
- 				
-	 			var sol = {};
-	 			var fecha = [];
+ 			function datos (table,tipo,numRegistros,page){
+ 						
 	 			var dato = [];
-	 			var horas = [];
-	 			
+
+	 			var contador = 0;
 				var columna = 0;
-		     	
+				
+				
 		     	if (tipo == 'saque'){
 		     		columna = 4;
 		     	} else if(tipo == 'recepcion'){
@@ -707,44 +732,21 @@
 					columna = 25;
 				}
 		     	
-		     	table
-	            .column(0, { search: 'applied' })
-	            .data()
-	            .each(function (val) {
-	            	fecha.push( val);
-	            });
-		     	
-		     	 table
-		            .column(1, { search: 'applied' })
-		            .data()
-		            .each(function (val) {
-		            	horas.push( val);
-		            });
+
 	 			
+		     	 contador = 0;
  				 table
 		            .column(columna, { search: 'applied' })
 		            .data()
 		            .each(function (val) {
-		            	//alert(val.substring(0,2));
-		            	dato.push( parseFloat(val.replace('%','')));
+		            	
+		            	if(contador >= numRegistros*page && dato.length < numRegistros){
+		            		dato.push( parseFloat(val.replace('%','')));
+		            	}else{
+		            		contador++;
+		            	}
 		            });
  				 
-// 				for (i = 0; i < fechas.length; i++){
-//		        	sol[fecha[i]+" "+horas[i]] = dato[i]*100;
-//		        }
- 				
- 				for (i = 0; i < dato.length; i++){
-		        	dato[i] = dato[i];
-		        }
- 				 
- 				//alert(sol);
-// 				return $.map(sol, function (val, key) {
-//		            return {
-//		                name: key,
-//		                y: val,
-//		            };
-//		        });
-
 				return dato;
 			}
 	
@@ -864,8 +866,8 @@
 	            });
 		        
 		         
-		        
-		        for (i = 0; i < fechas.length; i++){
+		        min = Math.min(fechas.length, 5);
+		        for (i = 0; i < min; i++){
 		        	counts[fechas[i]+" "+horas[i]] = dato[i];
 		        }
 		        
@@ -928,7 +930,8 @@
 	            	dato.push( parseInt(val,10));
 	            });
 		        
-		        for (i = 0; i < fechas.length; i++){
+		        min = Math.min(fechas.length, 5);
+		        for (i = 0; i < min; i++){
 		        	counts[fechas[i]+" "+horas[i]] = dato[i];
 		        }
 		        
@@ -992,8 +995,9 @@
 	            .each(function (val) {
 	            	dato.push( parseFloat(val));
 	            });
-		        
-		        for (i = 0; i < fechas.length; i++){
+		       
+		        min = Math.min(fechas.length, 5);
+		        for (i = 0; i < min; i++){
 		        	if (tipo =='tiempos' ){
 		        		counts[fechas[i]+" "+horas[i]] = dato[i];
 		        	}else{
@@ -1014,18 +1018,25 @@
 		       
 		    }
 			
-		    function fechas(table) {
+		    function fechas(table,numRegistros,page) {
 		        
 		     	var fecha = [];
-		        
+		     	var contador = 0;
+		     	console.log(numRegistros)
+		     	console.log(page)
+		     	console.log(numRegistros*page)
 		        // Count the number of entries for each position
 		        table
 		            .column(0, { search: 'applied' })
 		            .data()
 		            .each(function (val) {
+		            	if(contador >= numRegistros*page && fecha.length < numRegistros)
 		            	fecha.push( val);
+		            	else{
+		            		contador++;
+		            	}
 		            });
-		        
+		       
 		        // And map it to the format highcharts uses
 		        return fecha;
 		    }

@@ -89,13 +89,16 @@
 					<thead>
 						<tr class="table-primary">
 							<th>Material</th>
-							<th>INSERVIBLE</th>
-							<th>DAÑADO</th>
-							<th>ACEPTABLE</th>
-							<th>BUENO</th>
 							<th>NUEVO</th>
+							<th>BUENO</th>
+							<th>ACEPTABLE</th>
+							<th>DAÑADO</th>
+							<th>INSERVIBLE</th>
+							
+							
+							
 							<th>Porcentaje de uso</th>
-							<th>Añadir Materiales</th>
+							<th>Acciones</th>
 
 
 						</tr>
@@ -202,60 +205,17 @@
 										.DataTable(
 												{
 													ajax : '[[@{/materiales/tablamaterial}]]',
-													order : [ 1, 'asc' ],
+													order : [ 0, 'asc' ],
 
 													"columns" : [
 															{data : 'tipo'},
 
-															{data : 'estado',
-																render : function(data,type,row) {
-																	if ($('#estado').val() == 'INSERVIBLE') {
-																		return $('#stock');
-																	} else {
-																		return 0;
-																	}
-																}
-															},
-
-															{data : 'estado',
-																render : function(data,type,row) {
-																	if ($('#estado').val() == 'DAÑADO') {
-																		return $('#stock');
-																	} else {
-																		return 0;
-																	}
-																}
-															},
-
-															{data : 'estado',
-																render : function(data,type,row) {
-																	if ($('#estado').val() == 'ACEPTABLE') {
-																		return $('#stock');
-																	} else {
-																		return 0;
-																	}
-																}
-															},
-
-															{data : 'estado',
-																render : function(data,type,row) {
-																	if ($('#estado').val() == 'BUENO') {
-																		return $('#stock');
-																	} else {
-																		return 0;
-																	}
-																}
-															},
-
-															{data : 'estado',
-																render : function(data,type,row) {
-																	if ($('#estado').val() == 'NUEVO') {
-																		return $('#stock');
-																	} else {
-																		return 0;
-																	}
-																}
-															}, 
+															{data : 'estados.NUEVO'},
+															{data : 'estados.BUENO'},
+															{data : 'estados.ACEPTABLE'},
+															{data : 'estados.DAÑADO'},
+															{data : 'estados.INSERVIBLE'},
+															
 															{data : 'tipo'}, 
 															{data : 'tipo'}
 
@@ -263,16 +223,18 @@
 													"columnDefs": [
 														   {
 												                "targets": [ 0 ],
-												                "searchable": false
+												                
 												            },
 												            {
 												                "targets": [ 1 ],
-												                "searchable": true
+												                "orderable": false,					
+												                "searchable": false
 												            }
 												            ,
 												            {
 												                "targets": [ 2 ],
-												                "visible": false
+												                "orderable": false,					
+												                "searchable": false
 												            },
 												            {
 												                "targets": [ 3 ],
@@ -291,6 +253,11 @@
 												            },
 												            {
 												                "targets": [ 6 ],
+												                "orderable": false,
+												                "searchable": false
+												            },
+												            {
+												                "targets": [ 7 ],
 												                "orderable": false,
 												                "searchable": false
 												            }
