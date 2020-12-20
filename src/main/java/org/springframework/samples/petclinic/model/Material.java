@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
 
-@Table(name = "materiales", uniqueConstraints = @UniqueConstraint(columnNames = { "tipo" }))
+@Table(name = "materiales", uniqueConstraints = @UniqueConstraint(columnNames = { "tipo","estado" }))
 public class Material extends BaseEntity{
 
 

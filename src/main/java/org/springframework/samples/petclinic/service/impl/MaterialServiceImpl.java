@@ -12,6 +12,7 @@ import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.repository.LineaMaterialRepository;
 import org.springframework.samples.petclinic.repository.MaterialRepository;
+import org.springframework.samples.petclinic.service.LineaMaterialService;
 import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,9 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 
 	@Autowired
 	private MaterialService materialService;
+	
+	@Autowired
+	private LineaMaterialService lineaMaterialService;
 
 	@Autowired
 	private LineaMaterialRepository lineaMaterialRepository;
@@ -73,7 +77,17 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 		return materiall;
 	}
 
-
+	@Override
+	public  int porcentajeUso(int material){
+		Optional<Material> materialito = materialRepository.findById(material);
+		List<LineaMaterial> lineasdndeseusaelmaterial= lineaMaterialRepository.findByMaterial(materialito.get());
+		int numveces = 0;
+		for(LineaMaterial linea: lineasdndeseusaelmaterial) {
+			numveces+=linea.getCantidad();
+		}
+		
+		return (int) (numveces*100/(materialito.get().getStock()*lineasdndeseusaelmaterial.size()));
+	}
 	
 
 	@Override
@@ -92,4 +106,6 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 
 
 	}
+
+
 }

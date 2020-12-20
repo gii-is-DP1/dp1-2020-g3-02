@@ -89,64 +89,58 @@
 					<thead>
 						<tr class="table-primary">
 							<th>Material</th>
-							<th>Stock</th>
-							<th>Estado materiales</th>
+							<th>INSERVIBLE</th>
+							<th>DAÑADO</th>
+							<th>ACEPTABLE</th>
+							<th>BUENO</th>
+							<th>NUEVO</th>
 							<th>Porcentaje de uso</th>
 							<th>Añadir Materiales</th>
 
 
 						</tr>
 					</thead>
-					<tbody>
 
-						<!--<tr th:each="lineamaterial : ${lineamaterial}">
-						<td th:text="${lineamaterial.cantidad}"></td>
-							<!--  	<tr th:each="linea_material : ${linea_material}">-->
-						<tr th:each="material : ${materiales } ">
-							<td th:text="${material.tipo}"></td>
-							<td th:text="${material.stock}"></td>
-							<td th:text="${material.estado}"></td>
-							<!-- 	<td th:text="${linea_material.cantidad}">-->
-							<td th:text="${material.stock*100}+'%'"></td>
-
-
-							<td><input type="hidden" id="id" th:value="${material.id}"></input>
-
-
-
-
-
-								<button sec:authorize="hasAuthority('entrenador')"
-									class="btn btn-outline-dark mx-0 material" id="material"
-									role="button" type="button" title="Material">Añadir</button>
-					</tbody>
 
 				</table>
 			</div>
 		</div>
 	</div>
+
 	<!-- Modal Edicion -->
-	<div class="modal fade" id="materialesModal" data-backdrop="static"
-		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
-		aria-hidden="true">
+	<div class="modal fade" id="materialesModalEstado"
+		data-backdrop="static" data-keyboard="false" tabindex="-1"
+		aria-labelledby="Gestion" aria-hidden="true">
 		<div class="modal-dialog modal-md modal-dialog-centered">
 			<div class="modal-content">
-				<form id="formGestionMateriales" method="post">
+				<form id="formGestionMaterialesEstado" method="post">
 					<div class="modal-header bg-info">
-						<h5 class="modal-title" id="gestionStock"></h5>
+						<h5 class="modal-title" id="gestionEstado"></h5>
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<div class="form-group" id="modalFormMaterial">
-							<div class="form-group col-12 datePicker">
-								<label><span class="text-danger">(*) </span>Stock:</label> <input
-									class="form-control" type="text" placeholder="Stock a añadir"
-									id="stock" name="stock" maxlength="10" required></input> <small
-									class="fecha text-danger error"></small>
+						<div class="form-group" id="modalFormMaterialEstado">
+							<div class="form-group col">
+								<label>Estado:</label> <select class="form-control"
+									th:id="Estado" name="Estado">
+									<option th:id="'INSERVIBLE'" th:value="INSERVIBLE">INSERVIBLE</option>
+									<option th:id="'DAÑADO'" th:value="DAÑADO">DAÑADO</option>
+									<option th:id="'ACEPTABLE'" th:value="ACEPTABLE">ACEPTABLE</option>
+									<option th:id="'BUENO'" th:value="BUENO">BUENO</option>
+									<option th:id="'NUEVO'" th:value="NUEVO">NUEVO</option>
+								</select>
 							</div>
+
+							<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Cantidad:</label><input
+									class="form-control" type="number" placeholder="Cantidad"
+									th:id="cantidad" name="cantidad" min="1" max="300" required></input>
+								<small class="peso text-danger error"></small>
+							</div>
+
 
 						</div>
 					</div>
@@ -166,6 +160,7 @@
 
 
 
+
 	<th:block layout:fragment="scripts">
 		<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 		<!-- Optional JavaScript -->
@@ -177,69 +172,137 @@
 			src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
 			integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
 			crossorigin="anonymous"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+			crossorigin="anonymous"></script>
+			
+
+	
+
+	<script type="text/javascript"
+		src="//code.highcharts.com/highcharts.js"></script>
+	<!--   Datatables-->
+	<script type="text/javascript"
+		src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
+
+	<!-- extension responsive -->
+	<script
+		src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
 
 
 		<script>
-			var tipo = $('#security').val();
-			if (tipo == 'jugador') {
-				document.getElementById("materiales").classList
-						.remove('table-sm');
-			} else if (tipo == 'entrenador') {
-				document.getElementById("materiales").classList
-						.remove('table-sm');
-				document.getElementById("materiales").classList.add('table-sm');
-			}
+		
+			$(document)
+					.ready(
 
-			function enviarEdicionMaterial() {
-				var form = new FormData(document
-						.getElementById('formGestionMateriales'));
-				$.ajax({
-					url : '/materiales/updatematerial',
-					type : 'post',
-					data : form,
-					processData : false,
-					contentType : false,
-					success : function(data) {
-						$('#gestionModal').modal("hide");
-						tablaPrincipal.ajax.reload(null, false);
-					},
-					error : function(data) {
-						$('.error').text('');
+							function() {
 
-						for (i = 0; i < data.responseJSON.length; i++) {
+								tablaMaterial = $('#materiales')
+										.DataTable(
+												{
+													ajax : '[[@{/materiales/tablamaterial}]]',
+													order : [ 1, 'asc' ],
 
-							var campo = data.responseJSON[i].field;
-							$('.' + campo).text(
-									data.responseJSON[i].defaultMessage);
-						}
-					}
-				});
-			};
-			$('table .material').on(
-					'click',
-					function() {
+													"columns" : [
+															{data : 'tipo'},
 
-						$('.error').text('');
+															{data : 'estado',
+																render : function(data,type,row) {
+																	if ($('#estado').val() == 'INSERVIBLE') {
+																		return $('#stock');
+																	} else {
+																		return 0;
+																	}
+																}
+															},
 
-						$.ajax({
-							type : 'GET',
-							url : '/materiales/showmateriales',
-							success : function(edit) {
-								$('#modalFormMaterial').children('.only')
-										.remove();
-								$('#modalFormMaterial').children('#edit')
-										.remove();
+															{data : 'estado',
+																render : function(data,type,row) {
+																	if ($('#estado').val() == 'DAÑADO') {
+																		return $('#stock');
+																	} else {
+																		return 0;
+																	}
+																}
+															},
 
-								$('#stock').val('');
+															{data : 'estado',
+																render : function(data,type,row) {
+																	if ($('#estado').val() == 'ACEPTABLE') {
+																		return $('#stock');
+																	} else {
+																		return 0;
+																	}
+																}
+															},
 
-								$('#materialesModal .modal-header').css(
-										"color", "white");
-								$('#materialesModal .modal-title').text(
-										"Materiales");
-								$('#materialesModal').modal("show");
-							}
-						});
-					});
+															{data : 'estado',
+																render : function(data,type,row) {
+																	if ($('#estado').val() == 'BUENO') {
+																		return $('#stock');
+																	} else {
+																		return 0;
+																	}
+																}
+															},
+
+															{data : 'estado',
+																render : function(data,type,row) {
+																	if ($('#estado').val() == 'NUEVO') {
+																		return $('#stock');
+																	} else {
+																		return 0;
+																	}
+																}
+															}, 
+															{data : 'tipo'}, 
+															{data : 'tipo'}
+
+													],
+													"columnDefs": [
+														   {
+												                "targets": [ 0 ],
+												                "searchable": false
+												            },
+												            {
+												                "targets": [ 1 ],
+												                "searchable": true
+												            }
+												            ,
+												            {
+												                "targets": [ 2 ],
+												                "visible": false
+												            },
+												            {
+												                "targets": [ 3 ],
+												                "orderable": false,					
+												                "searchable": false
+												            },
+												            {
+												                "targets": [ 4 ],
+												                "orderable": false,
+												                "searchable": false
+												            },
+												            {
+												                "targets": [ 5 ],
+												                "orderable": false,
+												                "searchable": false
+												            },
+												            {
+												                "targets": [ 6 ],
+												                "orderable": false,
+												                "searchable": false
+												            }
+												          
+														  ],
+													responsive : true,
+													"language" : {
+														"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+													}
+												});
+
+							});
 		</script>
 		<script type="text/javascript">
 			w3IncludeHTML();

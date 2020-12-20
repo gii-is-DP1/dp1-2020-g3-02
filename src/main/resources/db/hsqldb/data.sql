@@ -475,7 +475,9 @@ INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (5,'poste','POS
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (6,'red','RED',11,'NUEVO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (7,'cono bajo','CONOBAJO',0,'INSERVIBLE');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (8,'cono medio','CONOMEDIO',1,'BUENO');
-INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (9,'cono alto','CONOALTO',0,'INSERVIBLE');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (9,'cono alto nuevos','CONOALTO',3,'NUEVO');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (10,'cono alto bueno','CONOALTO',1,'BUENO');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (11,'cono alto inservibles','CONOALTO',0,'INSERVIBLE');
 
 	
 
