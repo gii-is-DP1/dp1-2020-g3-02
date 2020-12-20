@@ -42,40 +42,40 @@ public class BaseVolleyballValidatorTest {
 	
 	// Todos los servicios necesarios para crear objetos validables
 	@Autowired
-	private CapitanService capitanService;
+	protected CapitanService capitanService;
 	
 	@Autowired
-	private EjercicioIndividualService ejercicioIndividualService;
+	protected EjercicioIndividualService ejercicioIndividualService;
 	
 	@Autowired
-	private EntrenadorService entrenadorService;
+	protected EntrenadorService entrenadorService;
 	
 	@Autowired
-	private EntrenamientoService entrenamientoService;
+	protected EntrenamientoService entrenamientoService;
 	
 	@Autowired
-	private EquipoService equipoService;
+	protected EquipoService equipoService;
 	
 	@Autowired
-	private EstadisticoService estadisticoService;
+	protected EstadisticoService estadisticoService;
 	
 	@Autowired
-	private JugadorService jugadorService;
+	protected JugadorService jugadorService;
 	
 	@Autowired
-	private MaterialService materialService;
+	protected MaterialService materialService;
 	
 	@Autowired
-	private PartidoService partidoService;
+	protected PartidoService partidoService;
 	
 	@Autowired
-	private PersonalesService personalesService;
+	protected PersonalesService personalesService;
 	
 	@Autowired
-	private PruebaCondicionFisicaService pruebaCondicionFisicaService;
+	protected PruebaCondicionFisicaService pruebaCondicionFisicaService;
 	
 	@Autowired
-	private SustitucionService sustitucionService;
+	protected SustitucionService sustitucionService;
 	
 	/**
 	 * Crea un capitan con todos sus campos rellenos con un valor válido
@@ -221,9 +221,17 @@ public class BaseVolleyballValidatorTest {
 		return sustitucion.get();
 	}
 	
-	
-	protected String buildCadenaError(String field, String value, String mensaje) {
-		return "Field error in object '' on field '" + field + "': rejected value [" + value + "]; codes [error." + field + ",error.java.lang.String,error]; arguments []; default message [" + mensaje +"]";
+	/**
+	 * Función que genera automáticamente el mensaje de error devuelto por la clase Errors
+	 * 
+	 * @param type 		Tipo del valor del campo que tiene error
+	 * @param field 	Campo al que se bindea el error
+	 * @param value		Valor erroneo
+	 * @param mensaje	Mensaje asociado al error
+	 * @return
+	 */
+	protected String buildCadenaError(String type, String field, String value, String mensaje) {
+		return "Field error in object '' on field '" + field + "': rejected value [" + value + "]; codes [error." + field + ",error.java.lang." + type + ",error]; arguments []; default message [" + mensaje +"]";
 	}
 	
 }
