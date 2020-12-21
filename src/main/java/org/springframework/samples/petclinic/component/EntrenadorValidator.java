@@ -3,13 +3,12 @@ package org.springframework.samples.petclinic.component;
 import java.time.LocalDate;
 import java.util.regex.Pattern;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Entrenador;
-import org.springframework.samples.petclinic.model.Equipo;
-import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.service.EntrenadorService;
-import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -22,6 +21,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EntrenadorValidator implements Validator{
+	
+	private static final Log LOG = LogFactory.getLog(EntrenadorValidator.class);
 
 	@Autowired
 	private EntrenadorService entrenadorService;
@@ -33,6 +34,7 @@ public class EntrenadorValidator implements Validator{
 		
 		//Nombre Validation
 				if (StringUtils.isEmpty(entrenador.getFirstName())) {
+					LOG.warn(ValidationConstant.FIRSTNAME_ERROR);
 					errors.rejectValue("firstName", "error", ValidationConstant.FIRSTNAME_ERROR);
 				}else if(!Pattern.matches("[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",entrenador.getFirstName())){
 					errors.rejectValue("firstName", "error",ValidationConstant.FIRSTNAME_ERROR);

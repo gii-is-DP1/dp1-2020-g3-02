@@ -1,7 +1,5 @@
 package org.springframework.samples.petclinic.controller;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.service.EntrenadorService;
@@ -14,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/cuerpotecnico")
 public class CuerpoTecnicoController {
-	private static final Log LOG = LogFactory.getLog(CuerpoTecnicoController.class);
 	
 	@Autowired
 	private EntrenadorService entrenadorService;
