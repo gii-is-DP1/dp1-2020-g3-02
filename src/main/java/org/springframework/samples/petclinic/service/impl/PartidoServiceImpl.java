@@ -69,4 +69,10 @@ public class PartidoServiceImpl extends AbstractEstadisticasService<Partido> imp
 		
 	}
 
+	@Override
+	public List<Partido> findByEquipo(Equipo equipo) {
+		
+		return partidoRepository.findByEquipo(equipo);
+	}
+
 }

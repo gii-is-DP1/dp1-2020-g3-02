@@ -40,10 +40,11 @@
 				<h1 class="font-weight-bold font-italic">ESTADISITICAS PARTIDOS</h1>
 			</div>
 			<div class="py-3 mt-2 text-center col-lg-2">
-				<select class="form-control border border-info">
-					<option th:text="'Elegir equipo'"></option>
-					<option th:text="'EN FORMA'"></option>
-					<option th:text="'LESIONADO'"></option>
+				<select id="equipo" class="form-control border border-info">
+					<option th:value="todo">Elegir un equipo</option>
+					<th:block th:each="categoria : ${categorias}">
+						<option th:value="${categoria}" th:text="${categoria}"></option>
+					</th:block>
 				</select>
 			</div>
 		</div>
@@ -153,53 +154,6 @@
 							
 						</tr>
 					</thead>
-					<tbody>
-						<tr th:each="estadistica : ${estadisticas}">
-							
-							<td  th:text="${estadistica.fecha}"></td>
-							<td  th:text="${estadistica.hora}"></td>
-							<td th:text="${estadistica.saquesAcertados}"></td>
-							<td th:text="${estadistica.saquesTotales}"></td>
-							<td th:text="${estadistica.porcentajeSaques*100}+'%'"></td>
-							<td th:text="${estadistica.recepcionesAcertadas}"></td>
-							<td th:text="${estadistica.recepcionesTotales}"></td>
-							<td th:text="${estadistica.porcentajeRecepciones*100}+'%'"></td>
-							<td th:text="${estadistica.colocacionesAcertadas}"></td>
-							<td th:text="${estadistica.colocacionesTotales}"></td>
-							<td th:text="${estadistica.porcentajeColocaciones*100}+'%'"></td>
-							<td th:text="${estadistica.defensasAcertadas}"></td>
-							<td th:text="${estadistica.defensasTotales}"></td>
-							<td th:text="${estadistica.porcentajeDefensas*100}+'%'"></td>
-							<td th:text="${estadistica.bloqueosAcertados}"></td>
-							<td th:text="${estadistica.bloqueosTotales}"></td>
-							<td th:text="${estadistica.porcentajeBloqueos*100}+'%'"></td>
-							<td th:text="${estadistica.rematesAcertados}"></td>
-							<td th:text="${estadistica.rematesTotales}"></td>
-							<td th:text="${estadistica.porcentajeRemates*100}+'%'"></td>
-							<td th:text="${estadistica.fintasAcertadas}"></td>
-							<td th:text="${estadistica.fintasTotales}"></td>
-							<td th:text="${estadistica.porcentajeFintas*100}+'%'"></td>
-							<td th:text="${estadistica.numAtaquesRapidosAcertados}"></td>
-							<td th:text="${estadistica.numAtaquesRapidosTotales}"></td>
-							<td th:text="${estadistica.porcentajeAtaquesRapidos*100}+'%'"></td>
-							<td th:text="${estadistica.tiempo51}"></td>
-							<td th:text="${estadistica.tiempo42}"></td>
-							<td th:text="${estadistica.tiempo62}"> </td>
-							<td th:text="${estadistica.Equipo.categoria}">
-								
-								
-							</td>
-							<td>
-								<a href="#" th:href="@{/partidos/showestadisiticasPartidoTodosJugadores?id=__${estadistica.id}__}">
-								<button class="btn btn-outline-success mx-0 jugadores" type="button" title="Estadísticas"><svg width="1.2em" height=1.2em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
-									</svg>
-								</button>
-								</a>
-							</td>
-						</tr>
-					</tbody>
-
 				</table>
 			</div>
 		</div>
@@ -241,11 +195,22 @@
 	<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
 	
 	<script type="text/javascript">
-	/**
+	/** 
 	 * 
 	 */
 
 	$(document).ready(function () {
+		
+			var equipo = "todo";
+			
+			  $('#equipo').change(function(){
+					 equipo = $(this).find("option:selected").attr('value'); 
+					 //table.destroy();
+					 //table.ajax.reload();
+					 crearDataTable(5,0);
+					 
+		          });
+			
 		    // Create DataTable
 		    var table = $('#estadisiticas').DataTable({
 		    	"lengthMenu" : [5,6,7,8,9,10],
@@ -263,6 +228,83 @@
 						"previous" : "Anterior"
 					},
 				},
+				ajax:'[[@{/partidos/findestadisticasPartidos/}]]'+equipo,
+				columns:[
+					{data:'fecha'},
+					{data:'hora'},
+					{data:'saquesAcertados'},
+					{data:'saquesTotales'},
+					{data:'porcentajeSaques',
+						 render: function ( data, type, row ) {
+							    return data*100 +"%";
+								}
+					},
+					{data:'recepcionesAcertadas'},
+					{data:'recepcionesTotales'},
+					{data:'porcentajeRecepciones',
+						 render: function ( data, type, row ) {
+							    return data*100 +"%";
+								}
+					},
+					{data:'colocacionesAcertadas'},
+					{data:'colocacionesTotales'},
+					{data:'porcentajeColocaciones',
+						 render: function ( data, type, row ) {
+							    return data*100 +"%";
+								}
+					},
+					{data:'defensasAcertadas'},
+					{data:'defensasTotales'},
+					{data:'porcentajeDefensas',
+						 render: function ( data, type, row ) {
+							    return data*100 +"%";
+								}
+					},
+					{data:'bloqueosAcertados'},
+					{data:'bloqueosTotales'},
+					{data:'porcentajeBloqueos',
+						 render: function ( data, type, row ) {
+							    return data*100 +"%";
+								}
+					},
+					{data:'rematesAcertados'},
+					{data:'rematesTotales'},
+					{data:'porcentajeRemates',
+						 render: function ( data, type, row ) {
+							    return data*100 +"%";
+								}
+					},
+					{data:'fintasAcertadas'},
+					{data:'fintasTotales'},
+					{data:'porcentajeFintas',
+						 render: function ( data, type, row ) {
+							    return data*100 +"%";
+								}
+					},
+					{data:'numAtaquesRapidosAcertados'},
+					{data:'numAtaquesRapidosTotales'},
+					{data:'porcentajeAtaquesRapidos',
+						 render: function ( data, type, row ) {
+							    return data*100 +"%";
+								}
+					},
+					{data:'tiempo51'},
+					{data:'tiempo42'},
+					{data:'tiempo62'},
+					{data:'categoria'},
+					{data: 'id',
+						render:function ( data, type, row ) {
+					
+						
+					
+					return	'<a href="#" th:href="@{/partidos/showestadisiticasPartidoTodosJugadores?id=__${'+data+'}__}">'+
+						'<button class="btn btn-outline-success mx-0 jugadores" type="button" title="Estadísticas"><svg width="1.2em" height=1.2em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'+
+						'<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>'+
+						'</svg> </button> </a>';
+						}
+					}
+					
+				],
 		        responsive: true,
 		        columnDefs : [ {
 					responsivePriority : 1,
@@ -395,6 +437,7 @@
 		    var page = 0;
 		    
 		    graficaGeneral(table,'general',numRegistros,page);
+		   
 		    
 		    $('.stats').on('click', function(){
 				tipo = $(this).parent().find('#id').val(); 
@@ -782,7 +825,8 @@
 		            .each(function (val) {
 		            	
 		            	if(contador >= numRegistros*page && dato.length < numRegistros){
-		            		dato.push( parseFloat(val.replace('%','')));
+		            		
+		            		dato.push( parseFloat(val*100));
 		            	}else{
 		            		contador++;
 		            	}
@@ -1082,8 +1126,10 @@
 				for (i = 0; i < fechas.length; i++){
 		        	
 		        	if(contador >= numRegistros*page && contCounts < numRegistros){
-		        		
-		        		counts[fechas[i]+" "+horas[i]+ " "+ equipo[i]] = dato[i];
+		        		if(tipo != "tiempos")
+		        			counts[fechas[i]+" "+horas[i]+ " "+ equipo[i]] = dato[i]*100;
+		        		else
+		        			counts[fechas[i]+" "+horas[i]+ " "+ equipo[i]] = dato[i];
 		        		console.log(counts);
 		        		contCounts++;
 		        	}else{
