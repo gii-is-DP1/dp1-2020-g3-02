@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public interface EntrenadorRepository extends JpaRepository<Entrenador, Serializable>{
 	
 	public List<Entrenador> findByFirstName(String name);
-	public List<Entrenador> findByEmail(String email);
+	public Entrenador findByEmail(String email);
 	public Entrenador findByUser(User user);
 	public List<Entrenador> findByFechaNacimientoBetweenOrderByFechaNacimiento(LocalDate firstDate, LocalDate secondDate);
 	public List<Entrenador> findByFechaNacimientoAfterOrderByFechaNacimiento(LocalDate date);

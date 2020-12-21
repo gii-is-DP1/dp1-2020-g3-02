@@ -1,16 +1,24 @@
 package org.springframework.samples.petclinic.component;
 
 import java.time.LocalDate;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
+import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.thymeleaf.util.StringUtils;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Component
+@AllArgsConstructor
+@NoArgsConstructor
 public class EstadisticoValidator implements Validator{
 	
 	@Autowired
@@ -22,28 +30,40 @@ public class EstadisticoValidator implements Validator{
 		Estadistico estadistico = (Estadistico) target;
 		
 		//Nombre Validation
-		if ( estadistico.getFirstName() == null || estadistico.getFirstName().length() < 3) {
+		if (StringUtils.isEmpty(estadistico.getFirstName())) {
 			errors.rejectValue("firstName", "error", ValidationConstant.FIRSTNAME_ERROR);
+		}else if(!Pattern.matches("[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",estadistico.getFirstName())){
+			errors.rejectValue("firstName", "error",ValidationConstant.FIRSTNAME_ERROR);
 		}
 		
 		//Apellido validation
-		if ( estadistico.getLastName() == null || estadistico.getLastName().length() < 3) {
-			errors.rejectValue("lastName", "error", ValidationConstant.LASTNAME_ERROR);
+		if ( StringUtils.isEmpty(estadistico.getLastName()) ) {
+			errors.rejectValue("lastName", "error",ValidationConstant.LASTNAME_ERROR);
+		}else if(!Pattern.matches("[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",estadistico.getLastName())){
+			errors.rejectValue("lastName", "error",ValidationConstant.LASTNAME_ERROR);
 		}
 		
 		//email validation
-		if ( estadistico.getEmail() == null || estadistico.getEmail().length() < 5) {
-			errors.rejectValue("email", "El email es requerido y debe tener al menos 5 caracteres","El email es requerido y debe tener al menos 5 caracteres");
+		if ( StringUtils.isEmpty(estadistico.getEmail())) {
+			errors.rejectValue("email", "error",ValidationConstant.VALOR_OBLIGATORIO);
+		}else if(!Pattern.matches("^[a-zñÑA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zñÑA-Z0-9-]+(?:.[a-zA-Z0-9-]+)$",estadistico.getEmail())){
+			errors.rejectValue("email", "error",ValidationConstant.EMAIL_FORMATO_ERROR);
+		} else {
+			Estadistico stat = estadisticoService.findByEmail(estadistico.getEmail());
+			if(stat != null && stat.getId() != estadistico.getId()) {
+				errors.rejectValue("email", "error",ValidationConstant.EMAIL_YAEXISTE_ERROR);
+			}
 		}
-				
+		
 		//fecha nacimiento validation
 		try {
-			if (estadistico.getFechaNacimiento() == null || estadistico.getFechaNacimiento().isAfter(LocalDate.now())) {
-				errors.rejectValue("fechaNacimiento", "La fecha de nacimiento es requerida y debe ser anterior al día de hoy","La fecha de nacimiento es requerida y debe ser anterior al día de hoy");
+			if (estadistico.getFechaNacimiento() == null) {
+				errors.rejectValue("fechaNacimiento", "error",ValidationConstant.VALOR_OBLIGATORIO);
+			} else if(estadistico.getFechaNacimiento().isAfter(LocalDate.now())) {
+				errors.rejectValue("fechaNacimiento", "error",ValidationConstant.FECHA_POSTERIOR_ERROR);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
-			errors.rejectValue("fechaNacimiento", "La fecha debe tener el formato requerido(YYYY/MM/DD)","La fecha debe tener el formato requerido(YYYY/MM/DD)");
+			errors.rejectValue("fechaNacimiento", "error",ValidationConstant.FECHA_FORMATO_ERRONEO_INVERSO);
 		}
 	}
 	

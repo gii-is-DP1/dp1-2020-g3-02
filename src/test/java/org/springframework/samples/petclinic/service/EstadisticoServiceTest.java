@@ -74,16 +74,16 @@ public class EstadisticoServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindByEmailDataFinding() {
 		String email = "romualdostats@gmail.com";
-		List<Estadistico> estadisticos=new ArrayList<Estadistico>(estadisticoService.findByEmail(email));
-		assertEquals(estadisticos.size(), 1);
+		Estadistico estadistico=estadisticoService.findByEmail(email);
+		assertNotNull(estadistico);
 	}
 	
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByEmailDataNotFinding() {
 		String email = "paco123@gmail.com";
-		List<Estadistico> estadisticos=new ArrayList<Estadistico>(estadisticoService.findByEmail(email));
-		assertEquals(estadisticos.size(), 0);
+		Estadistico estadistico=estadisticoService.findByEmail(email);
+		assertEquals(estadistico, null);
 	}
 	
 	@Test
