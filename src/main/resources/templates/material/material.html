@@ -225,7 +225,13 @@
 															{data : 'estados.DAÑADO'},
 															{data : 'estados.INSERVIBLE'},
 															
-															{data : 'tipo'}, 
+															{data : null,
+																render: function ( data, type, row ) {
+																	return porcentajes(); 
+																}
+																
+															
+															}, 
 															{ data: null,
 																  render: function ( data, type, row ) {
 																	    return " <button  class='btn btn-outline-info mx-0 añadir' onclick='return añadir();' type='button' title='añadir'>"+
@@ -309,6 +315,12 @@
 
 							}
 						});
+					};
+						
+						function porcentajes() {
+
+							$('.error').text('');
+						
 						$.ajax({
 							type : 'GET',
 							url : '/materiales/getporcentajes/{id}',
