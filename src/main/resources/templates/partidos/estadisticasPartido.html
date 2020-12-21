@@ -33,8 +33,18 @@
 
 	<div class="container-fluid">
 		<div class="row">
-			<div class="py-3 text-center col-lg-12">
+			<div class="py-3 text-center col-lg-2">
+				
+			</div>
+			<div class="py-3 text-center col-lg-8">
 				<h1 class="font-weight-bold font-italic">ESTADISITICAS PARTIDOS</h1>
+			</div>
+			<div class="py-3 mt-2 text-center col-lg-2">
+				<select class="form-control border border-info">
+					<option th:text="'Elegir equipo'"></option>
+					<option th:text="'EN FORMA'"></option>
+					<option th:text="'LESIONADO'"></option>
+				</select>
 			</div>
 		</div>
 
@@ -137,7 +147,9 @@
 							<th>5_1</th>
 							<th>4_2</th>
 							<th>6_2</th>
+							<th>Equipo</th>
 							<th>Jug</th>
+							
 							
 						</tr>
 					</thead>
@@ -172,7 +184,8 @@
 							<td th:text="${estadistica.porcentajeAtaquesRapidos*100}+'%'"></td>
 							<td th:text="${estadistica.tiempo51}"></td>
 							<td th:text="${estadistica.tiempo42}"></td>
-							<td th:text="${estadistica.tiempo62}"> 
+							<td th:text="${estadistica.tiempo62}"> </td>
+							<td th:text="${estadistica.Equipo.categoria}">
 								
 								
 							</td>
@@ -225,6 +238,7 @@
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 	
+	<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
 	
 	<script type="text/javascript">
 	/**
@@ -258,88 +272,121 @@
 					targets : 1 //Hora
 				}, {
 					responsivePriority : 2,
-					targets : -1 //Botón
+					targets : -1, //Botón
+					orderable:false
 				}, {
 					responsivePriority : 5,
 					targets : 2 //SAQUE
+					,orderable:false
 				}, {
 					responsivePriority : 6,
 					targets : 3
+					,orderable:false
 				}, {
 					responsivePriority : 3,
 					targets : 4
+					,orderable:false
 				}, {
 					responsivePriority : 7,
 					targets : 5 //RECEPCION
+					,orderable:false
 				}, {
 					responsivePriority : 8,
 					targets : 6
+					,orderable:false
 				}, {
 					responsivePriority : 3,
 					targets : 7
+					,orderable:false
 				}, {
 					responsivePriority : 9,
 					targets : 8 //COLOCACION
+					,orderable:false
 				}, {
 					responsivePriority : 10,
 					targets : 9
+					,orderable:false
 				}, {
 					responsivePriority : 3,
 					targets : 10
+					,orderable:false
 				}, {
 					responsivePriority : 11,
 					targets : 11 //DEFENSA
+					,orderable:false
 				}, {
 					responsivePriority : 12,
 					targets : 12
+					,orderable:false
 				}, {
 					responsivePriority : 3,
 					targets : 13
+					,orderable:false
 				}, {
 					responsivePriority : 13,
 					targets : 14 //BLOQUEO
+					,orderable:false
 				}, {
 					responsivePriority : 14,
 					targets : 15
+					,orderable:false
 				}, {
 					responsivePriority : 3,
 					targets : 16
+					,orderable:false
 				}, {
 					responsivePriority : 100,
 					targets : 17 //REMATE
+					,orderable:false
 				}, {
 					responsivePriority : 100,
 					targets : 18
+					,orderable:false
 				}, {
 					responsivePriority : 3,
 					targets : 19
+					,orderable:false
 				}, {
 					responsivePriority : 100,
 					targets : 20 //FINTAS
+					,orderable:false
 				}, {
 					responsivePriority : 100,
 					targets : 21
+					,orderable:false
 				}, {
 					responsivePriority : 3,
 					targets : 22
+					,orderable:false
 				}, {
 					responsivePriority : 100,
 					targets : 23 //ATAQUES
+					,orderable:false
 				}, {
 					responsivePriority : 100,
 					targets : 24
+					,orderable:false
 				}, {
 					responsivePriority : 3,
 					targets : 25
+					,orderable:false
 				}, {
 					className: 'none',
 					targets : 26 //TIEMPOS
+					,orderable:false
 				}, {
 					className: 'none',
 					targets : 27
+					,orderable:false
 				}, {
 					className: 'none',
 					targets : 28
+					,orderable:false
+				}, {
+					className: 'none',
+					targets : 29
+					,orderable:false,
+					visible:false
 				}]
 		    });
 		    var chart = null;
@@ -367,12 +414,12 @@
 		 		
 		 		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
 	     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
-		 		graficaTiempos (table, tipo);
+		 		graficaTiempos (table, tipo,numRegistros,page);
 		 		
 		 	}else{
 		 		
 		 		columnas(table,tipo);
-		 		graficaEspecifica(table,tipo);
+		 		graficaEspecifica(table,tipo,numRegistros,page);
 	     		
 		 	}
 		    });
@@ -385,13 +432,14 @@
 		    
 		    
 		    
-		    $('#estadisiticas').on( 'page.dt', function () {
+		    $('#estadisiticas').on( 'draw.dt', function () {
 		        var info = table.page.info();
 		        console.log(info.page);
 		        page = info.page;
 		        crearDataTable(numRegistros,page);
+		        //chart.reflow();
 		        
-		    } );
+		    });
 		    
 		    $('th').on('click', function(){
 		    	 
@@ -418,12 +466,12 @@
 			 		
 			 		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
 		     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
-			 		graficaTiempos (table, tipo);
+			 		graficaTiempos (table, tipo,numRegistros,page);
 			 		
 			 	}else{
-			 		
+			 	
 			 		columnas(table,tipo);
-			 		graficaEspecifica(table,tipo);
+			 		graficaEspecifica(table,tipo,numRegistros,page);
 			 		
 		     		
 			 	}
@@ -431,7 +479,7 @@
 		    
 		    // Create the chart with initial data
 		    
-		    function graficaEspecifica (table, tipo){ 
+		    function graficaEspecifica (table, tipo,numRegistros,page){ 
 		    
 		    var container = $('<div/>').insertBefore(table.table().container());
 		 
@@ -443,7 +491,7 @@
 		            text: name(table,tipo),
 		        },
 		        xAxis: {
-		            categories: fechas(table),
+		            categories: fechas(table,numRegistros,page),
 		            crosshair: true
 		        },
 		        yAxis: [{ // Primary yAxis
@@ -491,21 +539,21 @@
 		            }
 		        },
 		        series: [
-		            {	            	
+		        	
+		        	{
 		            	name: name1(table,tipo),
-		            	data: chartData(table,tipo),
+		            	data: chartData(table,tipo,numRegistros,page),
 		            	yAxis: 0
-		            	
-		            },
+		            }, 
 		            {
 		            	name: name2(table,tipo),
-		            	data: chartData2(table,tipo),
+		            	data: chartData2(table,tipo,numRegistros,page),
 		            	yAxis: 0
 		            }, 
 		            {
 		                type: 'spline',
 		                name: 'Porcentaje',
-		                data: chartData3(table,tipo),
+		                data: chartData3(table,tipo,numRegistros,page),
 		                yAxis: 1,
 		                tooltip: {
 		                    valueSuffix: ' %'
@@ -519,13 +567,10 @@
 		        ],
 		    });
 		    
-		    table.on('draw', function () {
-		        chart.series[0].setData(chartData(table));
-		    });
 		    }
 		    
 		
-	function graficaTiempos (table, tipo){ 
+	function graficaTiempos (table, tipo,numRegistros,page){ 
 			    
 			    var container = $('<div/>').insertBefore(table.table().container());
 			 
@@ -537,7 +582,7 @@
 			            text: name(table,tipo),
 			        },
 			        xAxis: {
-			            categories: fechas(table),
+			            categories: fechas(table,numRegistros,page),
 			            crosshair: true
 			        },
 			        yAxis: { // Primary yAxis
@@ -570,28 +615,27 @@
 			            }
 			        },
 			        series: [
+			        	
 			            {	            	
 			            	name: 'Minutos 5_1',
-			            	data: chartData(table,tipo),
+			            	data: chartData(table,tipo,numRegistros,page),
 			            	yAxis: 0
 			            	
 			            },
 			            {
 			            	name: 'Minutos 4_2',
-			            	data: chartData2(table,tipo),
+			            	data: chartData2(table,tipo,numRegistros,page),
 			            	yAxis: 0
 			            }, 
 			            {
 			            	name: 'Minutos 6_2',
-			            	data: chartData3(table,tipo),
+			            	data: chartData3(table,tipo,numRegistros,page),
 			            	yAxis: 0
 			            }
 			        ],
 			    });
 			    
-			    table.on('draw', function () {
-			        chart.series[0].setData(chartData(table));
-			    });
+
 			    }
 		
 	 function graficaGeneral (table, tipo, numRegistros,page){ 
@@ -695,9 +739,6 @@
 		        }
 		    });
 		    
-		    table.on('draw', function () {
-		        chart.series[0].setData(chartData(table));
-		    });
 		    }
 		
 	
@@ -816,13 +857,15 @@
 				}
 			}
 			
-		    function chartData(table,tipo) {
+		    function chartData(table,tipo,numRegistros,page) {
 		        var counts = {};
 		     	var fechas = [];
 		     	var horas = [];
 		     	var dato = [];
-		        
+		     	var contador = 0;
 		     	var columna = 0;
+		     	var contCounts = 0;
+		     	var equipo = [];
 		     	
 		     	if (tipo == 'saque'){
 		     		columna = 2;
@@ -865,30 +908,46 @@
 	            	dato.push( parseInt(val,10));
 	            });
 		        
-		         
-		        min = Math.min(fechas.length, 5);
-		        for (i = 0; i < min; i++){
-		        	counts[fechas[i]+" "+horas[i]] = dato[i];
+		        table
+	            .column(29, { search: 'applied' })
+	            .data()
+	            .each(function (val) {
+	            	equipo.push(val);
+	            });
+		      
+				for (i = 0; i < fechas.length; i++){
+		        	
+		        	if(contador >= numRegistros*page && contCounts < numRegistros){
+		        		
+		        		counts[fechas[i]+" "+horas[i]+ " "+ equipo[i]] = dato[i];
+		        		console.log(counts);
+		        		contCounts++;
+		        	}else{
+		        			
+		        			contador++;
+		        	}
 		        }
 		        
-		     
+		     	
 		        // And map it to the format highcharts uses
-		        return $.map(counts, function (val, key) {
-		            return {
-		                name: key,
-		                y: val,
-		            };
-		        });
+				 return $.map(counts, function (val, key) {
+			            return {
+			                name: key,
+			                y: val,
+			            };
+			        });
 		    }
 		    
-		    function chartData2(table,tipo) {
-		        var counts = {};
-		     	var fechas = [];
-		     	var horas = [];
-		     	var dato = [];
-		        
-				var columna = 0;
-		     	
+		    function chartData2(table,tipo,numRegistros,page) {
+		    	 var counts = {};
+			     	var fechas = [];
+			     	var horas = [];
+			     	var dato = [];
+			     	var contador = 0;
+					var columna = 0;
+					var contCounts = 0;
+					var equipo = [];
+				
 		     	if (tipo == 'saque'){
 		     		columna = 3;
 		     	} else if(tipo == 'recepcion'){
@@ -930,9 +989,24 @@
 	            	dato.push( parseInt(val,10));
 	            });
 		        
-		        min = Math.min(fechas.length, 5);
-		        for (i = 0; i < min; i++){
-		        	counts[fechas[i]+" "+horas[i]] = dato[i];
+		        table
+	            .column(29, { search: 'applied' })
+	            .data()
+	            .each(function (val) {
+	            	equipo.push(val);
+	            });
+		        
+     			for (i = 0; i < fechas.length; i++){
+		        	
+		        	if(contador >= numRegistros*page && contCounts < numRegistros){
+		        		
+		        		counts[fechas[i]+" "+horas[i]+ " "+ equipo[i]] = dato[i];
+		        		console.log(counts);
+		        		contCounts++;
+		        	}else{
+		        			
+		        			contador++;
+		        	}
 		        }
 		        
 		     
@@ -946,13 +1020,15 @@
 		        
 		    }
 		     
-		    function chartData3(table,tipo) {
+		    function chartData3(table,tipo,numRegistros,page) {
 		        var counts = {};
 		     	var fechas = [];
 		     	var horas = [];
 		     	var dato = [];
-		     	
+		     	var contador = 0;
 				var columna = 0;
+				var contCounts = 0;
+				var equipo = [];
 		     	
 		     	if (tipo == 'saque'){
 		     		columna = 4;
@@ -996,17 +1072,26 @@
 	            	dato.push( parseFloat(val));
 	            });
 		       
-		        min = Math.min(fechas.length, 5);
-		        for (i = 0; i < min; i++){
-		        	if (tipo =='tiempos' ){
-		        		counts[fechas[i]+" "+horas[i]] = dato[i];
+		        table
+	            .column(29, { search: 'applied' })
+	            .data()
+	            .each(function (val) {
+	            	equipo.push(val);
+	            });
+		      
+				for (i = 0; i < fechas.length; i++){
+		        	
+		        	if(contador >= numRegistros*page && contCounts < numRegistros){
+		        		
+		        		counts[fechas[i]+" "+horas[i]+ " "+ equipo[i]] = dato[i];
+		        		console.log(counts);
+		        		contCounts++;
 		        	}else{
-		        	counts[fechas[i]+" "+horas[i]] = dato[i];
+		        			
+		        			contador++;
 		        	}
 		        }
 		        
-		       
-		     
 		        // And map it to the format highcharts uses
 		        return $.map(counts, function (val, key) {
 		            return {
@@ -1036,7 +1121,7 @@
 		            		contador++;
 		            	}
 		            });
-		       
+		       console.log(fecha);
 		        // And map it to the format highcharts uses
 		        return fecha;
 		    }
