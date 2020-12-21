@@ -89,6 +89,7 @@
 					<thead>
 						<tr class="table-primary">
 							<th>Propietario</th>
+							<th>Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -107,7 +108,7 @@
 								-->
 							<td>
 							<a href="#"
-								th:href="@{/personales/removeVehiculo?id=__${personal.id}__}">
+								th:href="@{/personales/eliminarvehiculo?id=__${personal.id}__}">
 								<button class="btn btn-outline-danger btn-sm" type="button">Eliminar</button>
 								</a>
 							
@@ -117,6 +118,14 @@
 				</table>
 			</div>
 		</div>
+		<div class="row my-3">
+		<div class="col-lg-4"></div>
+			<div class="col-lg-4">
+				<button onclick="location.href='/personales/vehiculoform?id=0'" class="btn btn-primary btn-lg btn-block" type="submit">Añadir
+					Vehículo</button>
+			</div>
+		<div class="col-lg-4"></div>
+		</div>	
 	</div>
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 	<!-- Optional JavaScript -->

@@ -30,7 +30,7 @@
 	
 		<div class="py-3 text-center">
 			<h1 class="font-weight-bold font-italic">NUEVO VEHICULO</h1>
-			</div>
+		</div>
 		
 		<div class="py-3">
 			<form action="#" th:action="@{/personales/addvehiculo}"
@@ -41,8 +41,8 @@
 				<div class="form-group">
 					<input class="form-control" type="text" placeholder="Propietario"
 						th:field="*{propietario}" th:value="${propietario}" required></input>
-						<small class="propietario text-danger error" th:if="${#fields.hasErrors('propietario')}" th:errors="*{propietario}"></small>
-				
+					<small class="propietario text-danger error" th:if="${#fields.hasErrors('propietario')}" th:errors="*{propietario}"></small>
+				</div>
 	
 				
 				 <input
@@ -60,7 +60,8 @@
 	
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 	<!-- Optional JavaScript -->
-	<script>
+	<script
+		var chart = 
 	
 		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
