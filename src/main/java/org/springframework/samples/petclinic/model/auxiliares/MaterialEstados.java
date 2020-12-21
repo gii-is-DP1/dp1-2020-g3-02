@@ -21,5 +21,6 @@ public class MaterialEstados {
 	private TipoMaterial tipo;
 	
 	private Map<EstadoMaterial,Integer> estados;
+	private Integer porcentaje;
 	
 }

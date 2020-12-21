@@ -34,7 +34,7 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 
 	@Autowired
 	private MaterialService materialService;
-	
+
 	@Autowired
 	private LineaMaterialService lineaMaterialService;
 
@@ -81,14 +81,19 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 	public  int porcentajeUso(int material){
 		Optional<Material> materialito = materialRepository.findById(material);
 		List<LineaMaterial> lineasdndeseusaelmaterial= lineaMaterialRepository.findByMaterial(materialito.get());
-		int numveces = 0;
-		for(LineaMaterial linea: lineasdndeseusaelmaterial) {
-			numveces+=linea.getCantidad();
+		int finl=0;
+		if(lineasdndeseusaelmaterial.size()==0) {
+			finl=0;
+		}else {
+			int numveces = 0;
+			for(LineaMaterial linea: lineasdndeseusaelmaterial) {
+				numveces+=linea.getCantidad();
+			}
+			finl=(int) (numveces*100/(materialito.get().getStock()*lineasdndeseusaelmaterial.size()));
 		}
-		
-		return (int) (numveces*100/(materialito.get().getStock()*lineasdndeseusaelmaterial.size()));
+		return finl;
 	}
-	
+
 
 	@Override
 	@Transactional
@@ -100,7 +105,7 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 		materialService.saveMaterial(material);
 
 
-		
+
 		LOG.info(materiall.toString());
 		return materiall;
 
