@@ -15,9 +15,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.EquipoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
+import org.springframework.samples.petclinic.converter.DataPosicionConverter;
+import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
+import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
+import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Controller;
@@ -48,6 +53,12 @@ public class EquipoController {
 	
 	@Autowired
 	private EquipoValidator equipoValidator;
+	
+	@Autowired
+	private JugadorPartidoStatsConverter jugadorPartidoStatsConverter;
+	
+	@Autowired
+	private DataPosicionConverter dataPosicionConverter;
 	
 	@GetMapping("/showequipos")
 	public ModelAndView listadoEquipos() {
@@ -124,6 +135,25 @@ public class EquipoController {
 		
 		return listadoEquipos();
 		
+	}
+	
+	@RequestMapping(value = "findJugadorPosicionEquipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataPosicion> graficoJugadorPosicionEquipo(@PathVariable("id") int id) {
+		try {
+			Optional<Equipo> equipo = equipoService.findById(id);
+			List<JugadorPartidoStats> listaJugadorStats = new ArrayList<JugadorPartidoStats>();
+			for (int i = 0; i<equipo.get().getJugadores().size();i++) {
+				
+				JugadorPartidoStats stats = jugadorPartidoStatsConverter.convertPartidoToPartidoStats(equipo.get().getJugadores().get(i));
+				listaJugadorStats.add(stats);
+			}
+			
+			
+			DataPosicion data = dataPosicionConverter.convertPartidoToPartidoStats(listaJugadorStats);
+			return new ResponseEntity<DataPosicion>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataPosicion>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 
 }

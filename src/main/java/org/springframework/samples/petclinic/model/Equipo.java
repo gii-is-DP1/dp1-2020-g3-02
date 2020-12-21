@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -42,19 +43,19 @@ public class Equipo extends EstadisticasEntity{
 	@JoinColumn(name = "entrenador_id")
 	private Entrenador entrenador;
 	
-/*	@OneToMany( mappedBy = "equipo")
-	private Set<NumCamiseta> numCamisetas;
+//	@OneToMany( mappedBy = "equipo")
+//	private Set<NumCamiseta> numCamisetas;
 	
-//	@ManyToMany
-//	@JoinTable(name = "perteneceA", joinColumns = @JoinColumn(name = "equipo_id"), 
-//	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
-//	Set<Jugador> jugadores;
+  	@ManyToMany
+  	@JoinTable(name = "perteneceA", joinColumns = @JoinColumn(name = "equipo_id"), 
+  	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
+  	  List<Jugador> jugadores;
 	
-	@OneToMany( mappedBy = "equipo")
-	private Set<Privilegio> privilegios;
+//	@OneToMany( mappedBy = "equipo")
+//	private Set<Privilegio> privilegios;
 	
-	@OneToMany( mappedBy = "equipo")
-	private Set<Partido> partidos; */
+//	@OneToMany( mappedBy = "equipo")
+//	private Set<Partido> partidos;
 	
 	@Column(name="categoria", nullable = false, columnDefinition = "varchar(255) unique")
 	private String categoria;
