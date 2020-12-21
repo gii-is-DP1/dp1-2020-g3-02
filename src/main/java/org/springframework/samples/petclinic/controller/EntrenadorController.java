@@ -51,7 +51,13 @@ public class EntrenadorController {
 			model.addAttribute("entrenador", entrenador);
 			return ViewConstant.VIEWS_ENTRENADOR_CREATE_OR_UPDATE_FORM;
 		}
-		Entrenador coach = entrenadorService.save(entrenador);
+		try {
+			Entrenador coach = entrenadorService.save(entrenador);
+			LOG.info("Éxito al guardar el entrenador:" + coach);
+		} catch (Exception e) {
+			LOG.error("Error al guardar el entrenador: "+entrenador);
+		}
+		
 		return "redirect:/home";
 	}
 
