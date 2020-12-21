@@ -73,6 +73,14 @@ public class MaterialController {
 		
 		return mav;
 	}
+	@GetMapping("/showmaterialesentr")
+	public ModelAndView listadoMaterialesEntrenamiento() {
+
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_MATERIALES_ENTRENAMIENTO);
+		mav.addObject("materiales", materialService.findAll());
+		
+		return mav;
+	}
 	
 	@RequestMapping(value = "/tablamaterial", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataTableResponse<MaterialEstados>> tablaMaterial(){
@@ -81,7 +89,7 @@ public class MaterialController {
 			
 			TipoMaterial[] tipos= TipoMaterial.values();
 			List<MaterialEstados> listaMateriales = new ArrayList<>();
-			
+			 		 
 			for (int i = 0; i < tipos.length; i++) {
 				final int val = i;
 				
@@ -102,7 +110,9 @@ public class MaterialController {
 				map.put(EstadoMaterial.ACEPTABLE, (aceptable.size()!=0)? aceptable.get(0):0);
 				map.put(EstadoMaterial.DAÑADO, (dañado.size()!=0)? dañado.get(0):0);
 				m.setEstados(map);
+				m.setPorcentaje(calcularPorcentajeUso(materiales.get(i)));
 				listaMateriales.add(m);
+				
 			}
 			
 			//List<MaterialDTO> dtos = materialConverter.convertListEntityToListDTO(materiales);
@@ -113,18 +123,18 @@ public class MaterialController {
 		}	
 	}
 	
-	
-	@RequestMapping(value = "getporcentajes/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Integer> Porcentajos(@PathVariable("id") int id) {
-        try {
-        	
-            int materialito = materialService.porcentajeUso(id);
-           
-            return new ResponseEntity <Integer >(materialito, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
-        }
-    }
+//	
+//	@RequestMapping(value = "getporcentajes/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<Integer> Porcentajos(@PathVariable("id") int id) {
+//        try {
+//        	
+//            int materialito = materialService.porcentajeUso(id);
+//           
+//            return new ResponseEntity <Integer >(materialito, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 	
 	@PostMapping("/addmaterial")
 	public String addMaterial(@Valid @ModelAttribute(name="material") Material material, BindingResult bindResult, Model model) {
@@ -190,7 +200,12 @@ public class MaterialController {
 	public String navbar() {
 		return ViewConstant.VIEW_NAVBAR;
 	}
-
+	private Integer calcularPorcentajeUso( Material material){
+		
+		int materialito = materialService.porcentajeUso(material.getId());
+		
+		return materialito;
+	}
 
 	
 }

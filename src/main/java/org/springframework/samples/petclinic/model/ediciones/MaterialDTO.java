@@ -29,7 +29,5 @@ public class MaterialDTO {
 	private Integer stock;
 	
 	private EstadoMaterial estado;
-	
-	
 
 }

@@ -41,6 +41,7 @@ public class ViewConstant {
 	public static final String VIEWS_ESTADISTICO_CREATE_OR_UPDATE_FORM = "estadisticos/EstadisticoForm";
 	
 	public static final String VIEW_MATERIALES = "/material/material";
+	public static final String VIEW_MATERIALES_ENTRENAMIENTO = "/material/escogerMaterial";
 	public static final String VIEWS_MATERIALES_CREATE_OR_UPDATE_FORM= "/material/MaterialesForm";
 	
 	public static final String VIEW_VEHICULO = "/personales/listadoVehiculos";

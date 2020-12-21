@@ -59,6 +59,11 @@
 .closebtn:hover {
 	color: black;
 }
+.custom-class {
+    color: red;
+    padding: 8px 10px;
+    cursor: pointer;
+    }
 </style>
 
 <body class="bg-light">
@@ -125,7 +130,7 @@
 					<div class="modal-body">
 						<div class="form-group" id="modalFormMaterialEstado">
 							<div class="form-group col">
-								<label>Estado Anterior:</label> <select class="form-control"
+								<label><span class="text-danger">(*) </span>Estado Anterior:</label> <select class="form-control"
 									th:id="Estado" name="Estado">
 									<option th:id="'INSERVIBLE'" th:value="INSERVIBLE">INSERVIBLE</option>
 									<option th:id="'DAÑADO'" th:value="DAÑADO">DAÑADO</option>
@@ -135,7 +140,7 @@
 								</select>
 							</div>
 							<div class="form-group col">
-								<label>Nuevo Estado:</label> <select class="form-control"
+								<label><span class="text-danger">(*) </span>Nuevo Estado:</label> <select class="form-control"
 									th:id="Estado" name="Estado">
 									<option th:id="'INSERVIBLE'" th:value="INSERVIBLE">INSERVIBLE</option>
 									<option th:id="'DAÑADO'" th:value="DAÑADO">DAÑADO</option>
@@ -224,19 +229,25 @@
 															{data : 'estados.ACEPTABLE'},
 															{data : 'estados.DAÑADO'},
 															{data : 'estados.INSERVIBLE'},
-															
-															{data : null,
+
+															{data : 'porcentaje',
 																render: function ( data, type, row ) {
-																	return porcentajes(); 
-																}
+																	
+															   			return "<div class='progress'>"+
+															   		 " <div class='progress-bar' role='progressbar' style='width:"+ data+"%;' aria-valuenow="+data+"' aria-valuemin='0' aria-valuemax='100'>"+data+"%</div>"+
+															   		"</div>";
+																	}
 																
-															
-															}, 
-															{ data: null,
+																	
+																		
+															},
+															{ data: 'porcentaje',
 																  render: function ( data, type, row ) {
+																	  if(data>70){
 																	    return " <button  class='btn btn-outline-info mx-0 añadir' onclick='return añadir();' type='button' title='añadir'>"+
 																		"Añadir</button>";
 																		}
+															}
 															}
 
 													],
@@ -269,7 +280,8 @@
 												            {
 												                "targets": [ 5 ],
 												                "orderable": false,
-												                "searchable": false
+												                "searchable": false,
+												                "class": "custom-class" 
 												            },
 												            {
 												                "targets": [ 6 ],
