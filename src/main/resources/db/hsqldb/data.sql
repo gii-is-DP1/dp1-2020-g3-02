@@ -168,9 +168,9 @@ INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (3,'2020-10-09','EX
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (2,'2020-09-09','EXCURSIONES',4);
 
 -- INSERT  EQUIPOS
-INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (1,'Senior',false,1,1,'COLOCADOR_GENERAL');
-INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (2,'Cadete',false,2,2,'COLOCADOR_GENERAL');
-INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (3,'Junior',false,2,2,'COLOCADOR_GENERAL');
+INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (1,'Senior',false,1,2,'COLOCADOR_GENERAL');
+INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (2,'Cadete',false,2,1,'COLOCADOR_GENERAL');
+INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (3,'Junior',false,2,1,'COLOCADOR_GENERAL');
 
 -- INSERT  PERTENECEA
 
@@ -217,8 +217,38 @@ INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertad
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
 	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (7,'2021-12-08','19:00',5,3,5,20,0.25,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);		
+
+--Mitad 
+
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (8,'2021-08-06','17:00',5,3,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
 	
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (9,'2021-08-07','18:00',5,3,17,20,0.85,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
 	
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (10,'2021-08-04','19:00',5,3,15,20,0.75,12,20,0.6,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (11,'2021-08-09','17:00',5,3,12,20,0.6,15,20,0.75,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (12,'2021-08-07','18:00',5,2,10,20,0.5,17,20,0.85,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (13,'2021-08-12','19:00',5,2,5,20,0.25,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);	
+
+INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (14,'2021-08-08','19:00',5,3,5,20,0.25,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);	
+	
+			
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (1,1);
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (2,1);	
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (3,1);	
