@@ -32,6 +32,7 @@ import org.springframework.samples.petclinic.model.padres.Person;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
