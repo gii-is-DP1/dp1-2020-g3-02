@@ -1,17 +1,26 @@
 package org.springframework.samples.petclinic.component;
 
 import java.time.LocalDate;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.service.EntrenadorService;
+import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.thymeleaf.util.StringUtils;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class EntrenadorValidator implements Validator{
 
 	@Autowired
@@ -23,28 +32,41 @@ public class EntrenadorValidator implements Validator{
 		Entrenador entrenador = (Entrenador) target;
 		
 		//Nombre Validation
-		if ( entrenador.getFirstName() == null || entrenador.getFirstName().length() < 3) {
-			errors.rejectValue("firstName", "error", ValidationConstant.FIRSTNAME_ERROR);
-		}
-		
-		//Apellido validation
-		if ( entrenador.getLastName() == null || entrenador.getLastName().length() < 3) {
-			errors.rejectValue("lastName", "error", ValidationConstant.FIRSTNAME_ERROR);
-		}
-		
-		//email validation
-		if ( entrenador.getEmail() == null || entrenador.getEmail().length() < 5) {
-			errors.rejectValue("email", "El email es requerido y debe tener al menos 5 caracteres","El email es requerido y debe tener al menos 5 caracteres");
-		}
+				if (StringUtils.isEmpty(entrenador.getFirstName())) {
+					errors.rejectValue("firstName", "error", ValidationConstant.FIRSTNAME_ERROR);
+				}else if(!Pattern.matches("[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",entrenador.getFirstName())){
+					errors.rejectValue("firstName", "error",ValidationConstant.FIRSTNAME_ERROR);
+				}
 				
-		//fecha nacimiento validation
-		try {
-			if (entrenador.getFechaNacimiento() == null || entrenador.getFechaNacimiento().isAfter(LocalDate.now())) {
-				errors.rejectValue("fechaNacimiento", "La fecha de nacimiento es requerida y debe ser anterior al día de hoy","La fecha de nacimiento es requerida y debe ser anterior al día de hoy");
-			}
-		} catch (Exception e) {
-			errors.rejectValue("fechaNacimiento", "La fecha debe tener el formato requerido(YYYY/MM/DD)","La fecha debe tener el formato requerido(YYYY/MM/DD)");
-		}
+				//Apellido validation
+				if ( StringUtils.isEmpty(entrenador.getLastName()) ) {
+					errors.rejectValue("lastName", "error",ValidationConstant.LASTNAME_ERROR);
+				}else if(!Pattern.matches("[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",entrenador.getLastName())){
+					errors.rejectValue("lastName", "error",ValidationConstant.LASTNAME_ERROR);
+				}
+				
+				//email validation
+				if ( StringUtils.isEmpty(entrenador.getEmail())) {
+					errors.rejectValue("email", "error",ValidationConstant.VALOR_OBLIGATORIO);
+				}else if(!Pattern.matches("^[a-zñÑA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zñÑA-Z0-9-]+(?:.[a-zA-Z0-9-]+)$",entrenador.getEmail())){
+					errors.rejectValue("email", "error",ValidationConstant.EMAIL_FORMATO_ERROR);
+				} else {
+					Entrenador coach = entrenadorService.findByEmail(entrenador.getEmail());
+					if(coach != null && coach.getId() != entrenador.getId()) {
+						errors.rejectValue("email", "error",ValidationConstant.EMAIL_YAEXISTE_ERROR);
+					}
+				}
+				
+				//fecha nacimiento validation
+				try {
+					if (entrenador.getFechaNacimiento() == null) {
+						errors.rejectValue("fechaNacimiento", "error",ValidationConstant.VALOR_OBLIGATORIO);
+					} else if(entrenador.getFechaNacimiento().isAfter(LocalDate.now())) {
+						errors.rejectValue("fechaNacimiento", "error",ValidationConstant.FECHA_POSTERIOR_ERROR);
+					}
+				} catch (Exception e) {
+					errors.rejectValue("fechaNacimiento", "error",ValidationConstant.FECHA_FORMATO_ERRONEO_INVERSO);
+				}
 	}
 	
 	@Override

@@ -38,7 +38,7 @@ public class EstadisticoServiceImpl extends AbstractService<Estadistico> impleme
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Estadistico> findByEmail(String email) {
+	public Estadistico findByEmail(String email) {
 		return estadisticoRepository.findByEmail(email);
 	}
 

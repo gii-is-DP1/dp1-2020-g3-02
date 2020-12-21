@@ -39,7 +39,7 @@ public class EntrenadorServiceImpl extends AbstractService<Entrenador> implement
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Entrenador> findByEmail(String email) throws DataAccessException {
+	public Entrenador findByEmail(String email) throws DataAccessException {
 		return entrenadorRepository.findByEmail(email);
 	}
 

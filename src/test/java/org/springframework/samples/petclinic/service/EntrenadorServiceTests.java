@@ -75,16 +75,16 @@ public class EntrenadorServiceTests {
 	@Transactional(readOnly = true)
 	public void testFindByEmailDataFinding() {
 		String email = "teodorocoach@gmail.com";
-		List<Entrenador> entrenadores=new ArrayList<Entrenador>(entrenadorService.findByEmail(email));
-		assertEquals(entrenadores.size(), 1);
+		Entrenador entrenador=entrenadorService.findByEmail(email);
+		assertNotNull(entrenador);
 	}
 	
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByEmailDataNotFinding() {
 		String email = "paco123@gmail.com";
-		List<Entrenador> entrenadores=new ArrayList<Entrenador>(entrenadorService.findByEmail(email));
-		assertEquals(entrenadores.size(), 0);
+		Entrenador entrenador=entrenadorService.findByEmail(email);
+		assertEquals(entrenador, null);
 	}
 	
 	@Test

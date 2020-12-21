@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface EstadisticoRepository extends JpaRepository<Estadistico, Serializable>{
 
 	public List<Estadistico> findByFirstName(String name);
-	public List<Estadistico> findByEmail(String email);
+	public Estadistico findByEmail(String email);
 	public List<Estadistico> findByFechaNacimientoBetweenOrderByFechaNacimiento(LocalDate firstDate, LocalDate secondDate);
 	public List<Estadistico> findByFechaNacimientoAfterOrderByFechaNacimiento(LocalDate date);
 	
