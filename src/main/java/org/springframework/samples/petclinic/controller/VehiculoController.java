@@ -50,7 +50,7 @@ public class VehiculoController {
 			model.addAttribute("personal", personal);
 			return ViewConstant.VIEWS_VEHICULO_CREATE_OR_UPDATE_FORM;
 		}
-		Personales personalSave = personalService.save(personal);
+		Personales personalSave = personalService.savePersonal(personal);
 		return "redirect:/personales/showvehiculos";
 		
 	}
@@ -72,12 +72,13 @@ public class VehiculoController {
 		return ViewConstant.VIEWS_VEHICULO_CREATE_OR_UPDATE_FORM;
 	}
 	
-	@PostMapping("/removeVehiculo")
-	public ModelAndView removeVehiculo(@PathVariable("id") int id, Model model) {
+
+	@GetMapping("/eliminarvehiculo")
+	public ModelAndView eliminarVehiculo(@RequestParam(name="id",required=true) int id) {
+		
 		personalService.deleteByIdSiExiste(id);
 		
 		return listadoVehiculos();
-
 		
 	}
 

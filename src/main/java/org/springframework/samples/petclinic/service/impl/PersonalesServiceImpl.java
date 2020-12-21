@@ -8,9 +8,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.repository.JugadorRepository;
 import org.springframework.samples.petclinic.repository.PersonalesRepository;
+import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,9 @@ public class PersonalesServiceImpl extends AbstractService<Personales>  implemen
 	
 	@Autowired
 	private JugadorRepository jugadorRepository;
+	
+	@Autowired
+	private PersonalesService personalesService;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -44,6 +49,22 @@ public class PersonalesServiceImpl extends AbstractService<Personales>  implemen
 	public List<Personales> findByJugador(int jugador_id) {
 		Optional<Jugador> jugador= jugadorRepository.findById(jugador_id);
 		return personalesRepository.findByJugador(jugador.get());
+	}
+	
+	@Override
+	@Transactional
+	public Personales savePersonal(Personales personal) {
+
+
+		Personales personalito=personalesRepository.save(personal);
+		personalesService.savePersonal(personal);
+
+
+		
+		LOG.info(personalito.toString());
+		return personalito;
+
+
 	}
 
 }

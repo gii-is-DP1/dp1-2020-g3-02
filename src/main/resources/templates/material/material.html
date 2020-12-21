@@ -125,7 +125,17 @@
 					<div class="modal-body">
 						<div class="form-group" id="modalFormMaterialEstado">
 							<div class="form-group col">
-								<label>Estado:</label> <select class="form-control"
+								<label>Estado Anterior:</label> <select class="form-control"
+									th:id="Estado" name="Estado">
+									<option th:id="'INSERVIBLE'" th:value="INSERVIBLE">INSERVIBLE</option>
+									<option th:id="'DAÑADO'" th:value="DAÑADO">DAÑADO</option>
+									<option th:id="'ACEPTABLE'" th:value="ACEPTABLE">ACEPTABLE</option>
+									<option th:id="'BUENO'" th:value="BUENO">BUENO</option>
+									<option th:id="'NUEVO'" th:value="NUEVO">NUEVO</option>
+								</select>
+							</div>
+							<div class="form-group col">
+								<label>Nuevo Estado:</label> <select class="form-control"
 									th:id="Estado" name="Estado">
 									<option th:id="'INSERVIBLE'" th:value="INSERVIBLE">INSERVIBLE</option>
 									<option th:id="'DAÑADO'" th:value="DAÑADO">DAÑADO</option>
@@ -216,7 +226,12 @@
 															{data : 'estados.INSERVIBLE'},
 															
 															{data : 'tipo'}, 
-															{data : 'tipo'}
+															{ data: null,
+																  render: function ( data, type, row ) {
+																	    return " <button  class='btn btn-outline-info mx-0 añadir' onclick='return añadir();' type='button' title='añadir'>"+
+																		"Añadir</button>";
+																		}
+															}
 
 													],
 													"columnDefs": [
@@ -269,6 +284,81 @@
 												});
 
 							});
+			
+					function añadir() {
+
+						$('.error').text('');
+
+						$.ajax({
+							type : 'GET',
+							url : '/materiales/showmateriales',
+							success : function(edit) {
+								$('#modalFormMaterialEstado').children('.only')
+										.remove();
+								$('#modalFormMaterialEstado').children('#edit')
+										.remove();
+
+								$('#stock').val('');
+								$('#estado').val('');
+
+								$('#materialesModalEstado .modal-header').css(
+										"color", "white");
+								$('#materialesModalEstado .modal-title').text(
+										"Materiales");
+								$('#materialesModalEstado').modal("show");
+
+							}
+						});
+						$.ajax({
+							type : 'GET',
+							url : '/materiales/getporcentajes/{id}',
+							success : function(edit) {
+								$('#modalFormMaterialEstado').children('.only')
+										.remove();
+								$('#modalFormMaterialEstado').children('#edit')
+										.remove();
+
+								$('#stock').val('');
+								$('#estado').val('');
+
+								$('#materialesModalEstado .modal-header').css(
+										"color", "white");
+								$('#materialesModalEstado .modal-title').text(
+										"Materiales");
+								$('#materialesModalEstado').modal("show");
+
+							}
+						});
+					};
+					
+					function enviarEdicionMaterial() {
+						var form = new FormData(document
+								.getElementById('formGestionMaterialesEstado'));
+						$.ajax({
+							url : '/materiales/updatematerial',
+							type : 'post',
+							data : form,
+							processData : false,
+							contentType : false,
+							success : function(data) {
+								$('#materialesModalEstado').modal("hide");
+								tablaPrincipal.ajax.reload(null, false);
+							},
+							error : function(data) {
+								$('.error').text('');
+
+								for (i = 0; i < data.responseJSON.length; i++) {
+
+									var campo = data.responseJSON[i].field;
+									$('.' + campo).text(
+											data.responseJSON[i].defaultMessage);
+								}
+							}
+						});
+					};
+					
+				
+
 		</script>
 		<script type="text/javascript">
 			w3IncludeHTML();
