@@ -24,9 +24,11 @@ import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConver
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
+import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
@@ -36,6 +38,7 @@ import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
 import org.springframework.samples.petclinic.model.auxiliares.PruebasSinJugador;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
+import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.model.estadisticas.PartidoStats;
@@ -102,6 +105,9 @@ public class PartidoController {
 	
 	@Autowired
 	private DataPosicionConverter dataPosicionConverter;
+	
+	@Autowired
+	private EstadisticasConverter estadisticasConverter;
 	
 	@GetMapping("/showpartidos")
 	public ModelAndView listadoPartidos(HttpServletRequest request) {
@@ -207,6 +213,28 @@ public class PartidoController {
 		mav.addObject("estadisticas", estadisService.findByPartido(id));
 		
 		return mav;
+	}
+	
+	@RequestMapping(value = "/findestadisticasPartidosTodosLosJugadores/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<EstadisticasPersonalesStats>> graficoEstadisticasTodosLosPartidos(@PathVariable("id") int id, HttpServletRequest request) {
+		try {
+			
+			
+			List<EstadisticaPersonalPartido> estadisticasPersonalesPartidos = estadisService.findByPartido(id);
+			List<EstadisticasPersonalesStats> estadisticasPersonalesStats = new ArrayList<EstadisticasPersonalesStats>();
+			
+			
+			for (int i = 0; i < estadisticasPersonalesPartidos.size();i++) {
+				EstadisticasPersonalesStats estadisticaPersonalesStats = estadisticasConverter.convertEstadisticasToEstadisticasStats(estadisticasPersonalesPartidos.get(i));
+				estadisticasPersonalesStats.add(estadisticaPersonalesStats);
+			}
+			
+			DataTableResponse<EstadisticasPersonalesStats> data = new DataTableResponse<EstadisticasPersonalesStats>();
+			data.setData(estadisticasPersonalesStats);
+			return new ResponseEntity<DataTableResponse<EstadisticasPersonalesStats>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<EstadisticasPersonalesStats>>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 	@GetMapping("/showestadisiticasPartidoJugador")
