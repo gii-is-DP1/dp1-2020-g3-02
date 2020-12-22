@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.controller;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +18,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.EquipoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
+import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
+import org.springframework.samples.petclinic.enumerate.Sistema;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
+import org.springframework.samples.petclinic.model.ediciones.EquipoEdit;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 import org.springframework.samples.petclinic.service.EquipoService;
@@ -29,6 +35,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -55,6 +62,9 @@ public class EquipoController {
 	private EquipoValidator equipoValidator;
 	
 	@Autowired
+	private JugadorConverter jugadorConverter;
+	
+	@Autowired
 	private JugadorPartidoStatsConverter jugadorPartidoStatsConverter;
 	
 	@Autowired
@@ -65,6 +75,7 @@ public class EquipoController {
 		
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_EQUIPO);
 		mav.addObject("equipos", equipoService.findAll());
+		mav.addObject("jugadores", jugadorService.findAll());
 		return mav;
 	}
 	
@@ -83,7 +94,7 @@ public class EquipoController {
 		
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		mav.addObject("username", username);
-		mav.addObject("jugadores", jugadorService.findByEquipo(id));
+		mav.addObject("jugadores", jugadorConverter.convertListJugadorToListJugadorWithEquipo(jugadorService.findByEquipo(id)));
 		return mav;
 	}
 	
@@ -154,6 +165,45 @@ public class EquipoController {
 		} catch (Exception e) {
 			return new ResponseEntity<DataPosicion>(HttpStatus.BAD_REQUEST);
 		}	
+	}
+	
+	@RequestMapping(value = "/postequipo/{sistemajuego}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> addEquipo(HttpServletRequest request, @ModelAttribute(name="equipo") EquipoEdit equipoEdit, BindingResult result, @PathVariable("sistemajuego") Sistema sistemajuego) {
+		try {
+		/*	Equipo equipo = new Equipo();
+			if(!request.getParameter("id").isEmpty()) {
+				int id = Integer.parseInt(request.getParameter("id"));
+				Optional<Equipo> equipoO = partidoService.findById(id);
+				partido = partidoO.get();
+			}else if(request.getParameter("equipo").trim() != null) {
+				Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
+				partido.setEquipo(equipo);
+			}
+			*/
+			EquipoEdit edit = new EquipoEdit(null, request.getParameter("categoria").trim(), sistemajuego, request.getParameter("liga").trim());
+			
+			//ValidationUtils.invokeValidator(partidoValidator, edit, result);
+			
+			if(result.hasErrors()) {
+				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+			}
+			Equipo equipo = new Equipo(request.getParameter("categoria").trim(), sistemajuego, request.getParameter("liga").trim());
+			List<Jugador> jugadores = jugadorService.findAll();
+			List<Jugador> agregados = new ArrayList<Jugador>();
+			for(int i=0; i<jugadores.size(); i++) {
+				String añadido = request.getParameter(String.valueOf(i+1));
+				if(añadido.equals("true")) {
+					agregados.add(jugadores.get(i));
+				}
+			}
+			equipo.setJugadores(agregados);
+			Equipo team = equipoService.save(equipo);
+			
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
+			
+		} catch (Exception e) {
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 }

@@ -58,6 +58,12 @@
    						</select>
 				</div>
 				
+				<tr th:each="jugador : ${jugadores}">
+				<div class="form-group">
+    					<input type="checkbox" id="${jugador.id}" name="${jugador.id}" th:field="${jugador.first_name} + ' ' + ${jugador.last_name}" value="${jugador.id}"></input>
+				</div>
+				</tr>
+				
 				<div class="form-group">
 					<input class="form-control" type="text" placeholder="Liga"
 						th:field="*{liga}" th:value="${liga}"></input>

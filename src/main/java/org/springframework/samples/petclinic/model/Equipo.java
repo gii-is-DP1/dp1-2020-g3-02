@@ -32,6 +32,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "equipos")
 public class Equipo extends EstadisticasEntity{
 	
+	public Equipo(String trim, Sistema parameter, String trim2) {
+		this.categoria = trim;
+		this.sistemaJuego = parameter;
+		this.liga = trim2;
+	}
+
 	@OneToMany( mappedBy = "equipo")
 	private Set<Entrenamiento> entrenamientos;
 	

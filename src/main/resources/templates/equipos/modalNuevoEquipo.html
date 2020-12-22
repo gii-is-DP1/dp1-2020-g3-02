@@ -1,0 +1,170 @@
+<meta charset="UTF-8" />
+
+	<div class="modal fade" id="nuevoEquipoModal" data-backdrop="static"
+		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
+		aria-hidden="true">
+		<div class="modal-dialog modal-md modal-dialog-centered">
+			<div class="modal-content">
+				<form id="formNuevoEquipo" method="post">
+					<div class="modal-header bg-info">
+						<h5 class="modal-title" id="gestionPartido"></h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" id="modalFormPartido">
+							<div class="form-group col-12">
+								<label><span class="text-danger">(*) </span>Categoría:</label> <input
+									class="form-control" type="text" placeholder="Categoría" id="categoria"
+									name="categoria" maxlength="10" required></input> <small
+									class="categoria text-danger error"></small>
+							</div>
+							<div class="form-group col-12">
+								<label><span class="text-danger">(*) </span>Sistema de Juego:</label> <select
+									class="form-control" type="text" placeholder="Sistema de juego" id="sistemajuego"
+									name="sistemajuego" required>
+									
+									<option th:id="colocadorGeneral" th:value="COLOCADOR_GENERAL" th:text="colocadorGeneral" name="sistemajuego">Colocador general</option>
+									<option th:id="4-2" th:value="CUATRO_DOS" th:text="4_2" name="sistemajuego" >4-2</option>
+									<option th:id="5-1" th:value="CINCO_UNO" th:text="5_1" name="sistemajuego" >5-1</option>
+									<option th:id="6-2" th:value="SEIS_DOS" th:text="6_2" name="sistemajuego" >6-2</option>
+									
+									</select> 
+									
+									
+									<small
+									class="sistemajuego text-danger error"></small>
+							</div>
+							
+							<div class="form-group col-12">
+								<label><span class="text-danger">(*) </span>Liga:</label> <input
+									class="form-control" type="text" placeholder="Liga" id="liga"
+									name="liga" maxlength="10" required></input> <small
+									class="liga text-danger error"></small>
+							</div>
+							
+							<div class="form-group col-12">
+								<label><span class="text-danger">(*) </span>Jugadores:</label>
+								<div class="col-12 border border-info" style="height: 300px; overflow-y: scroll">
+									<th:block th:each="jugador : ${jugadores}">
+										<div class="form-group col-12">
+										  <input class="form-check-input jugadores" type="checkbox" name="jugadores[]" th:value="${jugador.id}" th:id="${jugador.firstName} + '' + ${jugador.lastName}">
+										  <label class="form-check-label" for="defaultCheck1" th:text="${jugador.firstName} + '' + ${jugador.lastName}">
+										  </label>
+										</div>
+                    				</th:block>
+                    				</div>
+									
+									<small
+									class="jugadores text-danger error"></small>
+							</div>
+							
+							<div class="form-group col-12">
+								<label><span class="text-danger">(*) </span>Capitán:</label> <select
+									class="form-control" type="text" placeholder="Capitán" id="capitan"
+									name="capitan" required>
+									
+									</select> 
+									
+									
+									<small
+									class="capitan text-danger error"></small>
+							</div>
+							
+						</div>
+					</div>
+					<div class="modal-footer"
+						style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-info"
+							onclick="return enviarEdicion();">Aceptar</button>
+						<input type="hidden" id="id" name="id"></input>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<script>
+
+
+function enviarEdicion() {
+	var form = new FormData(document
+			.getElementById('formNuevoEquipo'));
+
+	var checkbox = $("#formNuevoEquipo").find("input[type=checkbox]");
+	$.each(checkbox, function(key, val) {
+	    form.append($(val).attr('value'), $(val).is(':checked'))
+	});
+	$.ajax({
+		url : '/equipos/postequipo/' + form.get("sistemajuego"),
+		type : 'post',
+		data : form,
+		processData : false,
+		contentType : false,
+		success : function(data) {
+			$('#nuevoEquipoModal').modal("hide");
+			location.reload();
+			//tablaPrincipal.ajax.reload(null, false);
+		},
+		error : function(data) {
+			$('.error').text('');
+
+			for (i = 0; i < data.responseJSON.length; i++) {
+
+				var campo = data.responseJSON[i].field;
+				$('.' + campo)
+						.text(data.responseJSON[i].defaultMessage);
+			}
+		}
+	});
+};
+
+function crear(){
+		$('.modal-header').css("color", "white");
+		$('.modal-title').text(
+				"Nuevo equipo");
+		$('#nuevoEquipoModal').modal("show");
+};
+
+function capitan(jugador){
+	
+	$('#capitan').append(
+            $('<option>', {
+                value : jugador.value(),
+                text : equipo,
+                name : "equipo"
+            }));
+	
+}
+
+
+
+$('.jugadores').on('click', function() { click() });
+
+function click(){
+	var checkbox = document.getElementsByName("jugadores[]");
+	var sel = document.getElementById('capitan');
+	sel.innerHTML="";
+  	for(var i=0, length=checkbox.length; i<length; i++){
+  		
+  		if(checkbox[i].checked == true){
+  			showOption(checkbox[i]);
+  		}
+ 	}
+}
+
+function showOption(check){
+	var sel = document.getElementById('capitan');
+	//console.log(sel);
+	var opt = document.createElement('option');
+	opt.appendChild(document.createTextNode(check.id));
+	opt.value = check.value;
+	sel.appendChild(opt);
+}
+
+
+</script>
