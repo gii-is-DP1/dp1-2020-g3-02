@@ -201,12 +201,233 @@
 
 	$(document).ready(function () {
 		
-			var equipo = "todo";
+			var equipo = $(this).find("option:selected").attr('value'); 
 			
 			  $('#equipo').change(function(){
-					 equipo = $(this).find("option:selected").attr('value'); 
-					 //table.destroy();
-					 //table.ajax.reload();
+					var equipo = $(this).find("option:selected").attr('value'); 
+					console.log(equipo);
+					table.destroy();
+					
+					table = $('#estadisiticas').DataTable({
+				    	"lengthMenu" : [5,6,7,8,9,10],
+						language : {
+							emptyTable : "Ningún dato disponible en esta tabla",
+							"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+							"infoEmpty" : "Mostrando 0 de 0 registros",
+							"lengthMenu" : "Mostrando _MENU_ registros",
+							"search" : "Buscar:",
+							"zeroRecords" : "No se encontraron resultados",
+							"paginate" : {
+								"first" : "Primera",
+								"last" : "Última",
+								"next" : "Siguiente",
+								"previous" : "Anterior"
+							},
+						},
+						ajax:'[[@{/partidos/findestadisticasPartidos/}]]'+ equipo,
+						columns:[
+							{data:'fecha'},
+							{data:'hora'},
+							{data:'saquesAcertados'},
+							{data:'saquesTotales'},
+							{data:'porcentajeSaques',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'recepcionesAcertadas'},
+							{data:'recepcionesTotales'},
+							{data:'porcentajeRecepciones',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'colocacionesAcertadas'},
+							{data:'colocacionesTotales'},
+							{data:'porcentajeColocaciones',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'defensasAcertadas'},
+							{data:'defensasTotales'},
+							{data:'porcentajeDefensas',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'bloqueosAcertados'},
+							{data:'bloqueosTotales'},
+							{data:'porcentajeBloqueos',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'rematesAcertados'},
+							{data:'rematesTotales'},
+							{data:'porcentajeRemates',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'fintasAcertadas'},
+							{data:'fintasTotales'},
+							{data:'porcentajeFintas',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'numAtaquesRapidosAcertados'},
+							{data:'numAtaquesRapidosTotales'},
+							{data:'porcentajeAtaquesRapidos',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'tiempo51'},
+							{data:'tiempo42'},
+							{data:'tiempo62'},
+							{data:'categoria'},
+							{data: 'id',
+								render:function ( data, type, row ) {
+							
+								
+							
+							return	'<a href="#" th:href="@{/partidos/showestadisiticasPartidoTodosJugadores?id='+data+'}">'+
+								'<button class="btn btn-outline-success mx-0 jugadores" type="button" title="Estadísticas"><svg width="1.2em" height=1.2em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'+
+								'<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>'+
+								'</svg> </button> </a>';
+								}
+							}
+							
+						],
+				        responsive: true,
+				        columnDefs : [ {
+							responsivePriority : 1,
+							targets : 0 //Fehca
+						}, {
+							responsivePriority : 1,
+							targets : 1 //Hora
+						}, {
+							responsivePriority : 2,
+							targets : -1, //Botón
+							orderable:false
+						}, {
+							responsivePriority : 5,
+							targets : 2 //SAQUE
+							,orderable:false
+						}, {
+							responsivePriority : 6,
+							targets : 3
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 4
+							,orderable:false
+						}, {
+							responsivePriority : 7,
+							targets : 5 //RECEPCION
+							,orderable:false
+						}, {
+							responsivePriority : 8,
+							targets : 6
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 7
+							,orderable:false
+						}, {
+							responsivePriority : 9,
+							targets : 8 //COLOCACION
+							,orderable:false
+						}, {
+							responsivePriority : 10,
+							targets : 9
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 10
+							,orderable:false
+						}, {
+							responsivePriority : 11,
+							targets : 11 //DEFENSA
+							,orderable:false
+						}, {
+							responsivePriority : 12,
+							targets : 12
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 13
+							,orderable:false
+						}, {
+							responsivePriority : 13,
+							targets : 14 //BLOQUEO
+							,orderable:false
+						}, {
+							responsivePriority : 14,
+							targets : 15
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 16
+							,orderable:false
+						}, {
+							responsivePriority : 100,
+							targets : 17 //REMATE
+							,orderable:false
+						}, {
+							responsivePriority : 100,
+							targets : 18
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 19
+							,orderable:false
+						}, {
+							responsivePriority : 100,
+							targets : 20 //FINTAS
+							,orderable:false
+						}, {
+							responsivePriority : 100,
+							targets : 21
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 22
+							,orderable:false
+						}, {
+							responsivePriority : 100,
+							targets : 23 //ATAQUES
+							,orderable:false
+						}, {
+							responsivePriority : 100,
+							targets : 24
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 25
+							,orderable:false
+						}, {
+							className: 'none',
+							targets : 26 //TIEMPOS
+							,orderable:false
+						}, {
+							className: 'none',
+							targets : 27
+							,orderable:false
+						}, {
+							className: 'none',
+							targets : 28
+							,orderable:false
+						}, {
+							className: 'none',
+							targets : 29
+							,orderable:false,
+							visible:false
+						}]
+				    });
+					table.ajax.reload();
 					 crearDataTable(5,0);
 					 
 		          });
@@ -228,7 +449,7 @@
 						"previous" : "Anterior"
 					},
 				},
-				ajax:'[[@{/partidos/findestadisticasPartidos/}]]'+equipo,
+				ajax:'[[@{/partidos/findestadisticasPartidos/}]]'+ equipo,
 				columns:[
 					{data:'fecha'},
 					{data:'hora'},
