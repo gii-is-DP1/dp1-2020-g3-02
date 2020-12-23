@@ -259,7 +259,7 @@ public class PartidoServiceTest {
 		match.setHora("22:00");
 		match.setEquipo(equipo);
 		
-		Partido partido = partidoService.savePartido(match);
+		Partido partido = partidoService.save(match);
 		
 		assertNotNull(partido);
 	}
