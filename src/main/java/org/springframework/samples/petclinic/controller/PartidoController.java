@@ -22,25 +22,20 @@ import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
-import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
-import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
-import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
-import org.springframework.samples.petclinic.model.auxiliares.PruebasSinJugador;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
-import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.model.estadisticas.PartidoStats;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EquipoService;
@@ -48,14 +43,10 @@ import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoS
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.impl.UserService;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.ValidationUtils;
@@ -291,11 +282,13 @@ public class PartidoController {
 	@RequestMapping(value = "findeditpartido/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PartidoEdit> findPartido(@PathVariable("id") int id) {
 		try {
+			LOG.info("Buscamos el partido con el id: " + id);
 			Optional<Partido> partidoO = partidoService.findById(id);
 			Partido partido = partidoO.get();
 			PartidoEdit edit = partidoConverter.convertPartidoToPartidoEdit(partido);
 			return new ResponseEntity<PartidoEdit>(edit, HttpStatus.OK);
 		} catch (Exception e) {
+			LOG.error("Excepción encontrando el partido para editar");
 			return new ResponseEntity<PartidoEdit>(HttpStatus.BAD_REQUEST);
 		}	
 	}
@@ -344,15 +337,18 @@ public class PartidoController {
 	@RequestMapping(value = "/eliminarjuegaJugador/{partido_id}/{jugador_id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity eliminarJuegaJugador(@PathVariable("partido_id") int partido_id , @PathVariable("jugador_id") int jugador_id) {
 		try {
-			
+			LOG.info("Buscamos el partido con el id: " + partido_id);
 			Partido partido = partidoService.findById(partido_id).get();
 			
+			LOG.info("Filtramos los jugadores para encontrar dentro del partido todos los que no tienen el id: " + jugador_id);
 			List<Jugador> jugadores = partido.getJugadores().stream().filter(x->x.getId()!= jugador_id).collect(Collectors.toList());
 			partido.setJugadores(jugadores);
+			LOG.info("Actualizamos el partido de id=" + partido_id + " sin el jugador con id=" + jugador_id);
 			partidoService.save(partido);
 			
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
+			LOG.error("Excepción eliminando el jugador del partido");
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
@@ -410,6 +406,7 @@ public class PartidoController {
 		
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
+			LOG.error("Excepción añadiendo el jugador al partido");
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
@@ -421,9 +418,11 @@ public class PartidoController {
 			Partido partido = new Partido();
 			if(!request.getParameter("id").isEmpty()) {
 				int id = Integer.parseInt(request.getParameter("id"));
+				LOG.info("Estamos editando el partido con el id: " + id);
 				Optional<Partido> partidoO = partidoService.findById(id);
 				partido = partidoO.get();
 			}else if(request.getParameter("equipo").trim() != null) {
+				LOG.info("Estamos creando un partido nuevo para el equipo con categoría: " + request.getParameter("equipo").trim());
 				Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
 				partido.setEquipo(equipo);
 			}
@@ -433,6 +432,7 @@ public class PartidoController {
 			ValidationUtils.invokeValidator(partidoValidator, edit, result);
 			
 			if(result.hasErrors()) {
+				LOG.warn("Se han encontrado " + result.getErrorCount() + " errores de validación");
 				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 			}
 			
@@ -441,11 +441,13 @@ public class PartidoController {
 				partido.setFecha(LocalDate.parse(request.getParameter("fecha"), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 			}
 			
-			Partido match = partidoService.savePartido(partido);
+			LOG.info("Procedemos a guardar el partido");
+			Partido match = partidoService.save(partido);
 			
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 			
 		} catch (Exception e) {
+			LOG.error("Error al guardar el partido");
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -453,12 +455,13 @@ public class PartidoController {
 	@PostMapping("/removePartido/{id}")
 	public ResponseEntity removePartido(@PathVariable("id") int id, Model model) {
 		try {
-			LOG.info("SE PROCEDE A BORRAR EL PARTIDO");
+			LOG.info("Se procede a borrar el partido con id: " + id);
 			
 			partidoService.deleteById(id);
 			
 			return new ResponseEntity(HttpStatus.OK);
 		} catch (Exception e) {
+			LOG.error("Error al eliminar el partido");
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
