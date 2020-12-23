@@ -213,7 +213,20 @@
 	                       $( row ).css( "background-color", "Orange" );
 	                       $( row ).addClass( "warning" );
 	                   }
-	               }
+	               },
+	               columnDefs : [ {
+						responsivePriority : 1,
+						targets : 1, //Acertados
+						orderable:false
+					}, {
+						responsivePriority : 1,
+						targets : 2, //Totales
+						orderable:false
+					}, {
+						responsivePriority : 2,
+						targets : 3, //Porcentaje
+						orderable:false
+					}]
 		        
 		    });
 		    var chart = null;
