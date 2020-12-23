@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.controller.PartidoController;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Partido;
@@ -21,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PartidoServiceImpl extends AbstractEstadisticasService<Partido> implements PartidoService {
+	
+	private static final Log LOG = LogFactory.getLog(PartidoServiceImpl.class);
 	
 	/**
 	 * 
@@ -54,17 +59,16 @@ public class PartidoServiceImpl extends AbstractEstadisticasService<Partido> imp
 	}
 
 	@Override
-	public Partido savePartido(Partido partido) {
-		return partidoRepository.save(partido);
-	}
-
-	@Override
 	@Transactional
 	public void deleteById(Integer partido_id) {
 		
+		LOG.info("Se eliminarán las estadísticas del partido con id: " + partido_id);
 		estadisticasService.deleteAllInPartido(partido_id);
+		LOG.info("Se eliminarán las sustituciones del partido con id: " + partido_id);
 		sustitucionService.deleteAllInPartido(partido_id);
+		LOG.info("Se eliminarán los viajes del partido con id: " + partido_id);
 		viajeService.deleteAllInPartido(partido_id);
+		LOG.info("Borramos el partido");
 		partidoRepository.deleteById(partido_id);
 		
 	}
