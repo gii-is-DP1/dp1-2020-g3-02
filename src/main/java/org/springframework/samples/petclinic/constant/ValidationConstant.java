@@ -4,6 +4,9 @@ public class ValidationConstant {
 	
 	/** GENERALES */
 	public static final String VALOR_OBLIGATORIO = "Este campo es obligatorio";
+	public static final String CAMPO_NEGATIVO = "El valor no puede ser un número negativo";
+	public static final String VALOR_ERROR_ENUM = "El valor no es compatible en este campo";
+	public static final String VALOR_NUMERICO_ENTERO_ERROR = "El valor introducido debe ser un número entero";
 	
 	/** USUARIO */
 	public static final String FIRSTNAME_ERROR = "El nombre es requerido y no puede contener ningún caracter especial ni números";
@@ -20,6 +23,10 @@ public class ValidationConstant {
 	/** DNI */
 	public static final String DNI_ERROR = "El DNI es requerido y debe tener 8 números y una letra";
 	
+	/** EQUIPO */
+	public static final String CATEGORIA_ERROR = "La categoría es requerida y debe tener un mínimo de 3 caracteres";
+	public static final String LIGA_ERROR = "La liga es requerida y debe tener un mínimo de 3 caracteres";
+	
 	/** FECHA */
 	public static final String FECHA_FORMATO_ERRONEO = "La fecha debe tener el formato dd/MM/yyyy";
 	public static final String FECHA_FORMATO_ERRONEO_INVERSO = "La fecha debe tener el formato yyyy/MM/dd";
@@ -33,5 +40,18 @@ public class ValidationConstant {
 	
 	/** EJERCICIOS INDIVIDUALES */
 	public static final String EJERCICIOS_NOMBRE_DUPLICADO = "Este nombre de ejercicio ya existe";
+	
+	/** SUSTITUCIONES */
+	public static final String MINUTO_SUSTITUCION_ERROR = "El minuto de sustitución es requerido y ha de ser mayor que 0";
+	
+	/** PERSONALES */
+	public static final String PROPIETARIO_ERROR = "El propietario debe ser un jugador o un entrenador";
+	
+	/** PRUEBAS DE CONDICIÓN FÍSICA */
+	public static final String TIPOPRUEBA_ERROR = "El tipo de prueba no debe tener más de 30 carácteres";
+	public static final String DATO_PRUEBA_ERROR = "El dato de la prueba física es requerido y debe ser un número";
+	public static final String PULSACIONES_ERROR = "Las pulsaciones deben ser un número entero entre 30 y 200";
+	public static final String FLEXIBILIDAD_ERROR ="El dato de flexibilidad debe ser un número decimal y ser menor a 50";
+	public static final String SALTOVERTICAL_ERROR ="El salto vertical no puede ser menor que la altura del jugador";
 
 }
