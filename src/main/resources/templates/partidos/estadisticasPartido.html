@@ -39,6 +39,8 @@
 			<div class="py-3 text-center col-lg-8">
 				<h1 class="font-weight-bold font-italic">ESTADISITICAS PARTIDOS</h1>
 			</div>
+			
+	<!-- Este es el selector de equipo -->
 			<div class="py-3 mt-2 text-center col-lg-2">
 				<select id="equipo" class="form-control border border-info">
 					<th:block th:each="categoria : ${categorias}">
@@ -50,7 +52,7 @@
 
 		<div class="row">
 		
-			
+		<!-- Todos estos son los botones que aparecen debajo del título para cambiar entre General y cualquier estadística concreta -->
 			<div class="col">
 				<input type="hidden" id="id" th:value="general">
 				<button class="btn btn-outline-info btn-sm btn-block stats" type="button">GENERAL</button>
@@ -197,16 +199,19 @@
 	/** 
 	 * 
 	 */
+	 //Función para reenviar a otras estadísticas tras pulsar el botón en la tabla (columna Jug)
 	 function statsTodos(id){
 			
 			window.location.href = "/partidos/showestadisiticasPartidoTodosJugadores?id="+id;
 		}
 		  
 	$(document).ready(function () {
-		
+			//Obtenemos el nombre del equipo que ha sido seleccionado
 			var equipo = $(this).find("option:selected").attr('value'); 
 			
-			  $('#equipo').change(function(){
+			//equipo es el id del selector de equipo y en caso de cambie, destruimos la tabla, creamos una nueva con ajax, con los datos del equipo elegido
+			// y al final del todo actualizamos el gráfico con crearGrafica
+			$('#equipo').change(function(){
 					var equipo = $(this).find("option:selected").attr('value'); 
 					
 					table.destroy();
@@ -431,7 +436,7 @@
 				    });
 					
 					//table.ajax.reload();
-						crearDataTable(5,0);
+						crearGrafica(5,0);
 					
 					 
 					 
@@ -439,7 +444,7 @@
 			
 			  
 			
-		    // Create DataTable
+			//Aquí creamos el DataTable con ajax, con sus columns, columnsDefs y demás
 		    var table = $('#estadisiticas').DataTable({
 		    	"lengthMenu" : [5,6,7,8,9,10],
 				language : {
@@ -658,13 +663,22 @@
 					visible:false
 				}]
 		    });
+			
 		    var chart = null;
-		    var tipo = null; //poner var general
+		    var tipo = null;
 		    var numRegistros = 5;
 		    var page = 0;
 		    
+		    //La gráfica que se muestra siempre que se entra es la gráfica de estadísticas generales del partido que estemos viendo
+		    // numRegistros indica el número de registros que se muestran en el dataTable y page indica el número de la página en la
+		    // que estamos del datatable, estos datos los usamos dentro de las funciones para calcular que datos concretamente deben
+		    // mostrarse en la gráfica según los datos y configuración de la tabla.
+
 		    graficaGeneral(table,'general',numRegistros,page);
 		   
+		    // Aquí detectamos cuando se pulsa uno de los botones de justo debajo del título, se destruye el gráfico 
+		    // que haya actualmente y se crea uno según el tipo pulsado, mostrando o ocultando las columnas necesarias
+		    // la función columna oculta y muestra columnas según cual sea el tipo concreto de estadística que hayamos pulsado.
 		    
 		    $('.stats').on('click', function(){
 				tipo = $(this).parent().find('#id').val(); 
@@ -694,29 +708,38 @@
 		 	}
 		    });
 		    
+		    //Si cambiamos el número de registro a mostrar page pasa a ser 0 (página 1) y la variable numRegistros se actualiza
+		    //con el valor que hayamos elegido entre 5 y 10, y actualizamos la gráfica (crearGráfica)
 		    $('.dataTables_length select').on('change', function(){
 		          page = 0;
 		          numRegistros = this.value;
-		          crearDataTable(this.value,page);
+		          crearGrafica(this.value,page);
 		    });
 		    
 		    
-		    
+		    //Aquí detectamos cuando se cambia de página y actualizamos la variable page con el número de página que hemos pulsado
 		    $('#estadisiticas').on( 'draw.dt', function () {
 		        var info = table.page.info();
 		        console.log(info.page);
 		        page = info.page;
-		        crearDataTable(numRegistros,page);
+		        crearGrafica(numRegistros,page);
 		        //chart.reflow();
 		        
 		    });
 		    
+		    
+		    //Si ordenamos la tabla por fecha simplemente actualizamos el gráfico
 		    $('th').on('click', function(){
 		    	 
-		          crearDataTable(numRegistros,page);
+		          crearGrafica(numRegistros,page);
 		    });
+		    
 		 	
-		    function crearDataTable(numRegistros,page){
+		    // Esta es la función crearGráfica que hemos nombrado varias veces, donde primero se destruye la gráfica si la hubiese
+		    // Se actualizan las columnas visibles y no visibles y se crea la gráfica concreta según el tipo, numRegistros, page que
+		    // hallamos elegido de alguna de las formas anteriormente vistas
+		    
+		    function crearGrafica(numRegistros,page){
 		    	if(chart != null){
 			 		chart.destroy();
 			 		console.log("destruida");
@@ -747,21 +770,21 @@
 			 	}
 		    }
 		    
-		    // Create the chart with initial data
 		    
+		    //Aquí creamos la primera de las gráficas
 		    function graficaEspecifica (table, tipo,numRegistros,page){ 
 		    
 		    var container = $('<div/>').insertBefore(table.table().container());
 		 
 		     chart = Highcharts.chart(container[0], {
 		        chart: {
-		            type: 'column',
+		            type: 'column', //el tipo de la gráfica
 		        },
 		        title: {
-		            text: name(table,tipo),
+		            text: name(table,tipo), //nombre de la gráfica según el tipo
 		        },
 		        xAxis: {
-		            categories: fechas(table,numRegistros,page),
+		            categories: fechas(table,numRegistros,page), //devuelve una lista con las fechas que salen en el eje x
 		            crosshair: true
 		        },
 		        yAxis: [{ // Primary yAxis
@@ -808,22 +831,22 @@
 		                borderWidth: 0
 		            }
 		        },
-		        series: [
+		        series: [  //A partir de aquí se describen las series
 		        	
 		        	{
-		            	name: name1(table,tipo),
-		            	data: chartData(table,tipo,numRegistros,page),
+		            	name: name1(table,tipo), //parecido a name
+		            	data: chartData(table,tipo,numRegistros,page), //delvuelve los datos de acertados
 		            	yAxis: 0
 		            }, 
 		            {
-		            	name: name2(table,tipo),
-		            	data: chartData2(table,tipo,numRegistros,page),
+		            	name: name2(table,tipo), //parecido a name
+		            	data: chartData2(table,tipo,numRegistros,page), //delvuelve los datos de totales
 		            	yAxis: 0
 		            }, 
 		            {
-		                type: 'spline',
+		                type: 'spline',  // está sería en vez de ser de tipo columna es de tipo línea
 		                name: 'Porcentaje',
-		                data: chartData3(table,tipo,numRegistros,page),
+		                data: chartData3(table,tipo,numRegistros,page), //delvuelve los datos de porcentaje
 		                yAxis: 1,
 		                tooltip: {
 		                    valueSuffix: ' %'
@@ -839,7 +862,7 @@
 		    
 		    }
 		    
-		
+	//Creación gráfica tiempos Similar a la anterior cambiando algunos datos, y ahora la tercera serie no es Spline sino column	
 	function graficaTiempos (table, tipo,numRegistros,page){ 
 			    
 			    var container = $('<div/>').insertBefore(table.table().container());
@@ -907,20 +930,21 @@
 			    
 
 			    }
-		
+	
+	//Creación Gráfica general
 	 function graficaGeneral (table, tipo, numRegistros,page){ 
 		    
 		    var container = $('<div/>').insertBefore(table.table().container());
 		 
 		     chart = Highcharts.chart(container[0], {
 		    	 chart: {
-			            type: 'spline',
+			            type: 'spline', //esta es de tipo linea
 			        },
 		        title: {
 		            text: 'Estadística',
 		        },
 		        xAxis: {
-		            categories: fechas(table,numRegistros,page),
+		            categories: fechas(table,numRegistros,page), //procedimiento similar a la gráfica específica
 		            crosshair: true,
 		            max: fechas(table,numRegistros,page).length -1
 		        },
@@ -953,10 +977,10 @@
 		            }
 		        },
 		   
-		        series: [
+		        series: [ // A diferencia de la gráfica anterior aquí las series son los porcentajes de cada una de las estadísticas
 		            {	            	
 		            	name: 'Porcentaje Saques',
-		            	data: datos(table,'saque',numRegistros,page),
+		            	data: datos(table,'saque',numRegistros,page), 
 		            	
 		            },
 		            {
@@ -1015,7 +1039,8 @@
 		
 	
  // FUNCTIONS	
- 
+ 			
+ 			//Función usado en grafica general
  			function datos (table,tipo,numRegistros,page){
  						
 	 			var dato = [];
@@ -1023,7 +1048,7 @@
 	 			var contador = 0;
 				var columna = 0;
 				
-				
+				//Vemos de que columna es de la que vemos a crear la serie según el tipo que llega como parámetro
 		     	if (tipo == 'saque'){
 		     		columna = 4;
 		     	} else if(tipo == 'recepcion'){
@@ -1045,6 +1070,7 @@
 
 	 			
 		     	 contador = 0;
+		     	 //recorremos la columna de tabla y añadimos solo aquellos que están dentro del paginado de la tabla
  				 table
 		            .column(columna, { search: 'applied' })
 		            .data()
@@ -1061,7 +1087,7 @@
 				return dato;
 			}
 	
- 				
+ 			//Funciones de nombres no son complejas	
 			function name1(table,tipo){
 				
 				if(tipo == 'saque'){
@@ -1126,7 +1152,7 @@
 					return 'ATAQUES RÁPIDOS'
 				}
 			}
-			
+			//Calculamos los datos de acertados o de tiempo 5-1 según la gráfica elegida
 		    function chartData(table,tipo,numRegistros,page) {
 		        var counts = {};
 		     	var fechas = [];
@@ -1208,6 +1234,7 @@
 			        });
 		    }
 		    
+		    //Calculamos los datos de Totales o de tiempo 4-2 según la gráfica elegida
 		    function chartData2(table,tipo,numRegistros,page) {
 		    	 var counts = {};
 			     	var fechas = [];
@@ -1289,7 +1316,8 @@
 		        });
 		        
 		    }
-		     
+		  //Usamos misma metodologia que en otros casos para calcular la tercera serie  de las gráficas de especifica y tiempos
+		  // con algunas diferencias según cual sea de la que queremos obtener los datos
 		    function chartData3(table,tipo,numRegistros,page) {
 		        var counts = {};
 		     	var fechas = [];
@@ -1375,10 +1403,12 @@
 		       
 		    }
 			
+		    //Usamos misma metodologia que en otros casos para calcular las fechas del gráfico
 		    function fechas(table,numRegistros,page) {
 		        
 		     	var fecha = [];
 		     	var contador = 0;
+		     	
 		     	console.log(numRegistros)
 		     	console.log(page)
 		     	console.log(numRegistros*page)
@@ -1398,6 +1428,7 @@
 		        return fecha;
 		    }
 		    
+		    //Función columnas usado para hacer visible o invisibles determinadas columnas según el tipo de estadísitcas que hayamos seleccionado
 		    function columnas(table,tipo){
 		    	
 		    	var column = table.column(2);

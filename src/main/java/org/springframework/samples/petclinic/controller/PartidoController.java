@@ -6,6 +6,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -153,7 +154,7 @@ public class PartidoController {
 		String username =  principal.getName(); 
         User  user = userService.findByUsername(username);
         Entrenador entrenador = entrenadorService.findByUser(user);
-        categorias.addAll(entrenador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+        categorias.addAll(entrenador.getEquipos().stream().map(x->x.getCategoria()).sorted().collect(Collectors.toList()));
         mav.addObject("categorias", categorias);
 		return mav;
 	}
