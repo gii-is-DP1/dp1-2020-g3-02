@@ -1,11 +1,13 @@
 package org.springframework.samples.petclinic.component;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PersonalesService;
-import org.springframework.samples.petclinic.service.impl.JugadorServiceImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -13,10 +15,17 @@ import org.springframework.validation.Validator;
 @Component
 public class PersonalesValidator implements Validator{
 	
+	private static final Log LOG = LogFactory.getLog(PersonalesValidator.class);
+	
 	@Autowired
 	private PersonalesService personalesService;
+	
+	@Autowired
 	private JugadorService jugadorService;
+	
+	@Autowired
 	private EntrenadorService entrenadorService;
+	
 	@Override
 	public void validate(Object target, Errors errors) {
 		Personales personales = (Personales) target;
@@ -25,7 +34,8 @@ public class PersonalesValidator implements Validator{
 		//Propietario validation
 		if ( jugadorService.findByFirstName(personales.getPropietario())==null ||
 				entrenadorService.findByFirstName(personales.getPropietario())==null) {
-			errors.rejectValue("stock", "El propietario debe ser un jugador o un entrenador","El propietario debe ser un jugador o un entrenador");
+			LOG.warn(ValidationConstant.PROPIETARIO_ERROR);
+			errors.rejectValue("stock", "error",ValidationConstant.PROPIETARIO_ERROR);
 		}
 		
 	}

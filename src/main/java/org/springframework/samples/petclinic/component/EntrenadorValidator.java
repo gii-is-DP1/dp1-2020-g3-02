@@ -20,57 +20,71 @@ import lombok.NoArgsConstructor;
 @Component
 @NoArgsConstructor
 @AllArgsConstructor
-public class EntrenadorValidator implements Validator{
-	
+public class EntrenadorValidator implements Validator {
+
 	private static final Log LOG = LogFactory.getLog(EntrenadorValidator.class);
 
 	@Autowired
 	private EntrenadorService entrenadorService;
-	
+
 	@Override
 	public void validate(Object target, Errors errors) {
-		
+
 		Entrenador entrenador = (Entrenador) target;
-		
-		//Nombre Validation
-				if (StringUtils.isEmpty(entrenador.getFirstName())) {
-					LOG.warn(ValidationConstant.FIRSTNAME_ERROR);
-					errors.rejectValue("firstName", "error", ValidationConstant.FIRSTNAME_ERROR);
-				}else if(!Pattern.matches("[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",entrenador.getFirstName())){
-					errors.rejectValue("firstName", "error",ValidationConstant.FIRSTNAME_ERROR);
-				}
-				
-				//Apellido validation
-				if ( StringUtils.isEmpty(entrenador.getLastName()) ) {
-					errors.rejectValue("lastName", "error",ValidationConstant.LASTNAME_ERROR);
-				}else if(!Pattern.matches("[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",entrenador.getLastName())){
-					errors.rejectValue("lastName", "error",ValidationConstant.LASTNAME_ERROR);
-				}
-				
-				//email validation
-				if ( StringUtils.isEmpty(entrenador.getEmail())) {
-					errors.rejectValue("email", "error",ValidationConstant.VALOR_OBLIGATORIO);
-				}else if(!Pattern.matches("^[a-zñÑA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zñÑA-Z0-9-]+(?:.[a-zA-Z0-9-]+)$",entrenador.getEmail())){
-					errors.rejectValue("email", "error",ValidationConstant.EMAIL_FORMATO_ERROR);
-				} else {
-					Entrenador coach = entrenadorService.findByEmail(entrenador.getEmail());
-					if(coach != null && coach.getId() != entrenador.getId()) {
-						errors.rejectValue("email", "error",ValidationConstant.EMAIL_YAEXISTE_ERROR);
-					}
-				}
-				
-				//fecha nacimiento validation
-				try {
-					if (entrenador.getFechaNacimiento() == null) {
-						errors.rejectValue("fechaNacimiento", "error",ValidationConstant.VALOR_OBLIGATORIO);
-					} else if(entrenador.getFechaNacimiento().isAfter(LocalDate.now())) {
-						errors.rejectValue("fechaNacimiento", "error",ValidationConstant.FECHA_POSTERIOR_ERROR);
-					}
-				} catch (Exception e) {
-					errors.rejectValue("fechaNacimiento", "error",ValidationConstant.FECHA_FORMATO_ERRONEO_INVERSO);
-				}
+
+		// Nombre Validation
+		if (StringUtils.isEmpty(entrenador.getFirstName())) {
+			LOG.warn(ValidationConstant.FIRSTNAME_ERROR);
+			errors.rejectValue("firstName", "error", ValidationConstant.FIRSTNAME_ERROR);
+		} else if (!Pattern.matches(
+				"[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",
+				entrenador.getFirstName())) {
+			LOG.warn(ValidationConstant.FIRSTNAME_ERROR);
+			errors.rejectValue("firstName", "error", ValidationConstant.FIRSTNAME_ERROR);
+		}
+
+		// Apellido validation
+		if (StringUtils.isEmpty(entrenador.getLastName())) {
+			LOG.warn(ValidationConstant.LASTNAME_ERROR);
+			errors.rejectValue("lastName", "error", ValidationConstant.LASTNAME_ERROR);
+		} else if (!Pattern.matches(
+				"[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}",
+				entrenador.getLastName())) {
+			LOG.warn(ValidationConstant.LASTNAME_ERROR);
+			errors.rejectValue("lastName", "error", ValidationConstant.LASTNAME_ERROR);
+		}
+
+		// email validation
+		if (StringUtils.isEmpty(entrenador.getEmail())) {
+			LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": email");
+			errors.rejectValue("email", "error", ValidationConstant.VALOR_OBLIGATORIO);
+		} else if (!Pattern.matches("^[a-zñÑA-Z0-9.!#$%&’+/=?^_`{|}~-]+@[a-zñÑA-Z0-9-]+(?:.[a-zA-Z0-9-]+)$",
+				entrenador.getEmail())) {
+			LOG.warn(ValidationConstant.EMAIL_FORMATO_ERROR);
+			errors.rejectValue("email", "error", ValidationConstant.EMAIL_FORMATO_ERROR);
+		} else {
+			Entrenador coach = entrenadorService.findByEmail(entrenador.getEmail());
+			if (coach != null && coach.getId() != entrenador.getId()) {
+				LOG.warn(ValidationConstant.EMAIL_YAEXISTE_ERROR);
+				errors.rejectValue("email", "error", ValidationConstant.EMAIL_YAEXISTE_ERROR);
+			}
+		}
+
+		// fecha nacimiento validation
+		try {
+			if (entrenador.getFechaNacimiento() == null) {
+				LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": fechaNacimiento");
+				errors.rejectValue("fechaNacimiento", "error", ValidationConstant.VALOR_OBLIGATORIO);
+			} else if (entrenador.getFechaNacimiento().isAfter(LocalDate.now())) {
+				LOG.warn(ValidationConstant.FECHA_POSTERIOR_ERROR);
+				errors.rejectValue("fechaNacimiento", "error", ValidationConstant.FECHA_POSTERIOR_ERROR);
+			}
+		} catch (Exception e) {
+			LOG.warn(ValidationConstant.FECHA_FORMATO_ERRONEO_INVERSO);
+			errors.rejectValue("fechaNacimiento", "error", ValidationConstant.FECHA_FORMATO_ERRONEO_INVERSO);
+		}
 	}
-	
+
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return Entrenador.class.isAssignableFrom(clazz);

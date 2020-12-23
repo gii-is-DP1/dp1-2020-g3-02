@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Equipo;
@@ -19,6 +21,8 @@ import org.springframework.validation.Validator;
 
 @Component
 public class PartidoValidator implements Validator{
+	
+	private static final Log LOG = LogFactory.getLog(PartidoValidator.class);
 	
 	@Autowired
 	private PartidoService partidoService;
@@ -37,18 +41,23 @@ public class PartidoValidator implements Validator{
 		PartidoEdit partido = (PartidoEdit) target;
 		
 		if(StringUtils.isEmpty(partido.getFecha())) {
+			LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": fecha");
 			errors.rejectValue("fecha", "error", ValidationConstant.VALOR_OBLIGATORIO);
 		} else if (!(Pattern.matches("^([0-2][0-9]|3[0-1])(\\/|-)(0[1-9]|1[0-2])\\2(\\d{4})$", partido.getFecha()))){
+			LOG.warn(ValidationConstant.FECHA_FORMATO_ERRONEO);
 			errors.rejectValue("fecha", "error", ValidationConstant.FECHA_FORMATO_ERRONEO);
 		} else {
 			LocalDate fecha = LocalDate.parse(partido.getFecha(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 			if(fecha.isBefore(LocalDate.now().plusDays(1))) {
+				LOG.warn(ValidationConstant.FECHA_ANTERIOR_ERROR);
 				errors.rejectValue("fecha", "error", ValidationConstant.FECHA_ANTERIOR_ERROR);
 			}
 			
 			if(StringUtils.isEmpty(partido.getHora())) {
+				LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": hora");
 				errors.rejectValue("hora", "error", ValidationConstant.VALOR_OBLIGATORIO);
 			} else if(!Pattern.matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", partido.getHora())) {
+				LOG.warn(ValidationConstant.HORA_FORMATO_ERRONEO);
 				errors.rejectValue("hora", "error", ValidationConstant.HORA_FORMATO_ERRONEO);			
 			} else {
 				LocalDate date = LocalDate.parse(partido.getFecha(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -58,16 +67,20 @@ public class PartidoValidator implements Validator{
 				if(partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, horaAnterior, partido.getHora()).size() != 0) {
 					List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, horaAnterior, partido.getHora());
 					if(partido.getId() == null) {
+						LOG.warn(ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
 						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
 					}else if (partido.getId() != partidos.get(0).getId()) {
+						LOG.warn(ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
 						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR);
 					}
 					
 				} else if(partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, partido.getHora(), horaPosterior).size() != 0) {
 					List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, date, partido.getHora(), horaPosterior);
 					if(partido.getId() == null) {
+						LOG.warn(ValidationConstant.HORA_PARTIDO_COINCIDEN_POSTERIOR);
 						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_POSTERIOR);
 					}else if (partido.getId() != partidos.get(0).getId()) {
+						LOG.warn(ValidationConstant.HORA_PARTIDO_COINCIDEN_POSTERIOR);
 						errors.rejectValue("hora", "error", ValidationConstant.HORA_PARTIDO_COINCIDEN_POSTERIOR);
 					}				
 				}

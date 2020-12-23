@@ -2,10 +2,12 @@ package org.springframework.samples.petclinic.component;
 
 import java.time.LocalDate;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
-import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -13,6 +15,9 @@ import org.springframework.validation.Validator;
 
 @Component
 public class PruebaCondicionFisicaValidator implements Validator {
+	
+	private static final Log LOG = LogFactory.getLog(PruebaCondicionFisicaValidator.class);
+	
 	@Autowired
 	private PruebaCondicionFisicaService pruebaCondicionFisicaService;
   
@@ -22,36 +27,44 @@ public class PruebaCondicionFisicaValidator implements Validator {
 		
 		//Fecha
 		if (pruebaCondicionFisica.getFecha() == null) {
-			errors.rejectValue("fecha", "error", "La fecha de realización de la prueba física es requerida.");
+			LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": fecha");
+			errors.rejectValue("fecha", "error", ValidationConstant.VALOR_OBLIGATORIO);
 		}else if(pruebaCondicionFisica.getFecha().isAfter(LocalDate.now())) {
-			errors.rejectValue("fecha", "error", "La fecha no puede ser posterior a hoy");
+			LOG.warn(ValidationConstant.FECHA_ANTERIOR_ERROR);
+			errors.rejectValue("fecha", "error", ValidationConstant.FECHA_ANTERIOR_ERROR);
 		}
 		//Dato
 		if (pruebaCondicionFisica.getDato() == null || pruebaCondicionFisica.getDato() <= 0) {
-			errors.rejectValue("dato", "error", "El dato de la prueba física es requerido y debe ser un número.");
+			LOG.warn(ValidationConstant.DATO_PRUEBA_ERROR);
+			errors.rejectValue("dato", "error", ValidationConstant.DATO_PRUEBA_ERROR);
 		}
 		
 		if(pruebaCondicionFisica.getTipoPrueba().equals(TipoPrueba.ABDOMINAL) && pruebaCondicionFisica.getDato() != Math.floor(pruebaCondicionFisica.getDato())) {
-			errors.rejectValue("dato", "error", "Debe ser un número entero.");
+			LOG.warn(ValidationConstant.VALOR_NUMERICO_ENTERO_ERROR + ": abdominal");
+			errors.rejectValue("dato", "error", ValidationConstant.VALOR_NUMERICO_ENTERO_ERROR);
 		}
 		
 		if(pruebaCondicionFisica.getTipoPrueba().equals(TipoPrueba.PULSACIONESMINIMAS) && 
 				(pruebaCondicionFisica.getDato() != Math.floor(pruebaCondicionFisica.getDato()) ||  pruebaCondicionFisica.getDato() <=30 
 				|| pruebaCondicionFisica.getDato() >=200)) {
-			errors.rejectValue("dato", "error", "Debe ser un número entero entre 30 y 200");
+			LOG.warn(ValidationConstant.PULSACIONES_ERROR);
+			errors.rejectValue("dato", "error", ValidationConstant.PULSACIONES_ERROR);
 		}
 		
 		if(pruebaCondicionFisica.getTipoPrueba().equals(TipoPrueba.FLEXIBILIDAD) && pruebaCondicionFisica.getDato() >=50) {
-			errors.rejectValue("dato", "error", "Debe ser un número decimal y ser menor a 50.");
+			LOG.warn(ValidationConstant.FLEXIBILIDAD_ERROR);
+			errors.rejectValue("dato", "error", ValidationConstant.FLEXIBILIDAD_ERROR);
 		}
 		
 		if(pruebaCondicionFisica.getTipoPrueba().equals(TipoPrueba.SALTOVERTICAL) && pruebaCondicionFisica.getDato() < pruebaCondicionFisica.getJugador().getAltura()) {
-			errors.rejectValue("dato", "error", "No puede ser nunca menor que la altura del jugador");
+			LOG.warn(ValidationConstant.SALTOVERTICAL_ERROR);
+			errors.rejectValue("dato", "error", ValidationConstant.SALTOVERTICAL_ERROR);
 		}
 		
 		//Tipo de prueba
 		if ( pruebaCondicionFisica.getTipoPrueba().toString().length() > 30) {
-			errors.rejectValue("tipo_prueba", "El tipo de prueba no debe tener más de 30 carácteres","El tipo de prueba no debe tener más de 30 carácteres");
+			LOG.warn(ValidationConstant.TIPOPRUEBA_ERROR);
+			errors.rejectValue("tipo_prueba", "error",ValidationConstant.TIPOPRUEBA_ERROR);
 		}
 	}
 	
