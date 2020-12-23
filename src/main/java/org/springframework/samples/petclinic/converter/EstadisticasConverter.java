@@ -9,7 +9,7 @@ public class EstadisticasConverter {
 	
 	public EstadisticasPersonalesStats convertEstadisticasToEstadisticasStats(EstadisticaPersonalPartido estadistica) {
 		return new EstadisticasPersonalesStats(
-				estadistica.getId(),
+				estadistica.getJugador().getId(),
 				estadistica.getJugador().getFirstName() +", " + estadistica.getJugador().getLastName(),
 				estadistica.getPartido().getFecha(),
 				estadistica.getSaquesAcertados(), 
@@ -35,7 +35,8 @@ public class EstadisticasConverter {
 				estadistica.getPorcentajeFintas(), 
 				estadistica.getNumAtaquesRapidosAcertados(), 
 				estadistica.getNumAtaquesRapidosTotales(), 
-				estadistica.getPorcentajeAtaquesRapidos()
+				estadistica.getPorcentajeAtaquesRapidos(),
+				estadistica.getPartido().getId()
 				);
 	}
 	

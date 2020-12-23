@@ -41,7 +41,6 @@
 			</div>
 			<div class="py-3 mt-2 text-center col-lg-2">
 				<select id="equipo" class="form-control border border-info">
-					<option th:value="todo">Elegir un equipo</option>
 					<th:block th:each="categoria : ${categorias}">
 						<option th:value="${categoria}" th:text="${categoria}"></option>
 					</th:block>
@@ -209,7 +208,7 @@
 			
 			  $('#equipo').change(function(){
 					var equipo = $(this).find("option:selected").attr('value'); 
-					console.log(equipo);
+					
 					table.destroy();
 					
 					table = $('#estadisiticas').DataTable({
@@ -430,8 +429,11 @@
 							visible:false
 						}]
 				    });
-					table.ajax.reload();
-					 crearDataTable(5,0);
+					
+					//table.ajax.reload();
+						crearDataTable(5,0);
+					
+					 
 					 
 		          });
 			
@@ -956,7 +958,6 @@
 		            	name: 'Porcentaje Saques',
 		            	data: datos(table,'saque',numRegistros,page),
 		            	
-		            	
 		            },
 		            {
 		            	name: 'Porcentaje Recepciones',
@@ -1387,7 +1388,7 @@
 		            .data()
 		            .each(function (val) {
 		            	if(contador >= numRegistros*page && fecha.length < numRegistros)
-		            	fecha.push( val);
+		            		fecha.push( val);
 		            	else{
 		            		contador++;
 		            	}

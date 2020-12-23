@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EstadisticasPersonalesStats {
 	
-	private int id;
+	private int jugadorId;
 	
 	private String firstName;
 	
@@ -66,5 +66,7 @@ public class EstadisticasPersonalesStats {
 	private int numAtaquesRapidosTotales;
 	
 	private double porcentajeAtaquesRapidos;
+	
+	private int partidoId;
 	
 }
