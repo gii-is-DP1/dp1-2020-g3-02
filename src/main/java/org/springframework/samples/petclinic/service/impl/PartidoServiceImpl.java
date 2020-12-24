@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service.impl;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,11 +9,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.controller.PartidoController;
+import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.model.Viaje;
+import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
 import org.springframework.samples.petclinic.repository.PartidoRepository;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.PartidoService;
@@ -24,6 +28,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PartidoServiceImpl extends AbstractEstadisticasService<Partido> implements PartidoService {
+	
+	@Autowired
+	private PartidoService partidoService;
+	
+	@Autowired
+	private PartidoConverter partidoConverter;
 	
 	private static final Log LOG = LogFactory.getLog(PartidoServiceImpl.class);
 	
@@ -77,6 +87,75 @@ public class PartidoServiceImpl extends AbstractEstadisticasService<Partido> imp
 	public List<Partido> findByEquipo(Equipo equipo) {
 		
 		return partidoRepository.findByEquipo(equipo);
+	}
+
+	@Override
+	public List<PartidoConAsistencia> obtenerPartidosConfrontados(List<Equipo> equiposJugador, Jugador jugador, Partido partido) {
+		
+		List<PartidoConAsistencia> partidosConfrontados = new ArrayList<PartidoConAsistencia>();
+		PartidoConAsistencia partidoConfrontacion = new PartidoConAsistencia();
+		
+		String horaAnterior = horaMasMenosNHoras(partido.getHora(), -2);
+		String horaPosterior = horaMasMenosNHoras(partido.getHora(), 2);
+		
+		for(int i=0;i<equiposJugador.size();i++) {
+			
+			List<Partido> partidosAsisteJugador = new ArrayList<Partido>(jugador.getPartidos());
+			List<Partido> partidosAntes = partidoService.findByEquipoAndFechaAndHoraBetween(equiposJugador.get(i), partido.getFecha(), horaAnterior, partido.getHora());
+			List<Partido> partidosDespues = partidoService.findByEquipoAndFechaAndHoraBetween(equiposJugador.get(i), partido.getFecha(), horaPosterior, partido.getHora());
+			LOG.info(partidosAsisteJugador.size());
+			partidosAsisteJugador.retainAll(partidosAntes);
+			LOG.info(partidosAntes.size());
+			LOG.info(partidosAsisteJugador.size());
+			
+			if(partidosAsisteJugador.size() != 0) {
+				partidoConfrontacion = partidoConverter.convertPartidoToPartidoConAsistencia(partidosAsisteJugador.get(0));
+				partidosConfrontados.add(partidoConfrontacion);
+				
+			}
+			partidosAsisteJugador.retainAll(partidosDespues);
+			if (partidosAsisteJugador.size() != 0) {
+				partidoConfrontacion = partidoConverter.convertPartidoToPartidoConAsistencia(partidosAsisteJugador.get(0));
+				partidosConfrontados.add(partidoConfrontacion);
+			}
+			
+		}
+		return partidosConfrontados;
+	}
+	
+	private String horaMasMenosNHoras(String hora, int tiempo) {
+		String[] splitHora = hora.split(":");
+		Integer horaInt = Integer.valueOf(splitHora[0]);
+		Integer minutosInt = Integer.valueOf(splitHora[1]);
+		Integer horaAux = horaInt + tiempo;
+		Integer minutosAux = 0;
+		
+		if(tiempo > 0) {
+			minutosAux = minutosInt - 1;
+			if(minutosAux < 0) {
+				minutosAux = minutosAux + 60;
+				horaAux = horaAux - 1;
+			}
+		} else {
+			minutosAux = minutosInt + 1;
+			if(minutosAux > 59) {
+				minutosAux = minutosAux - 60;
+				horaAux = horaAux + 1;
+			}
+		}
+		
+		if(horaAux < 0) {
+			horaAux = horaAux + 24;
+		} else if(horaAux > 23) {
+			horaAux = horaAux - 24;
+		}
+		
+		String horaString = (horaAux < 10)?"0"+horaAux:horaAux.toString();
+		String minutosString = (minutosAux < 10)?"0"+minutosAux:minutosAux.toString();
+		
+		String horaFin = horaString+":"+minutosString;
+		
+		return horaFin;
 	}
 
 }
