@@ -114,11 +114,13 @@ public class JugadorServiceImpl extends AbstractEstadisticasService<Jugador> imp
 			
 		LOG.info("PESO IDEAL DEL JUGADOR INSERTADO: "+player.getPesoIdeal());
 		
-		Jugador jugador=jugadorRepository.save(player);
-		
+		LOG.info("Se procede a guardar el usuario con user name: " + player.getUser().getUsername());
 		userService.saveUser(player.getUser());
 		
+		LOG.info("Se procede a guardar las authorities de tipo jugador");
 		authoritiesService.saveAuthorities(player.getUser().getUsername(), "jugador");
+		
+		Jugador jugador=jugadorRepository.save(player);
 		
 		LOG.info(jugador.toString());
 		

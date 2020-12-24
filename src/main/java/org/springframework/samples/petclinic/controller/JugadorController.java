@@ -222,13 +222,18 @@ public class JugadorController {
 	@RequestMapping(value = "/eliminarautorizacion/{id}/{tipoAutorizacion}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity eliminarAutorizacion(@PathVariable("id") int id , @PathVariable("tipoAutorizacion") TipoAutorizacion autor) {
 		try {
-		Optional<Jugador> player = jugadorService.findById(id);
-		Jugador jug= player.get();
-		Autorizacion ar= autorizacionService.findByJugadorAndTipo(jug, autor);
-		autorizacionService.deleteByIdSiExiste(ar.getId());
+			LOG.info("Buscamos el jugador con id=" + id);
+			Optional<Jugador> player = jugadorService.findById(id);
+			Jugador jug= player.get();
+			Autorizacion ar= autorizacionService.findByJugadorAndTipo(jug, autor);
+			
+			LOG.info("Se procede a eliminar la autorización");
+			autorizacionService.deleteByIdSiExiste(ar.getId());
+			LOG.info("Se ha eliminado la autorización con éxito");
 		
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
+			LOG.error("No se ha podido eliminar la autorización");
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
@@ -239,16 +244,20 @@ public class JugadorController {
 	public ResponseEntity<Autorizacion> addAutorizacion(@PathVariable("id") int id , @PathVariable("tipoAutorizacion") TipoAutorizacion autor) {
 		try {
 		Autorizacion autorizacion= new Autorizacion(); 
+		LOG.info("Buscamos el jugador con id=" + id);
 		Optional<Jugador> jug = jugadorService.findById(id);
 		Jugador jugador= jug.get();
 		autorizacion.setFecha(LocalDate.now());
 		autorizacion.setJugador(jugador);
 		autorizacion.setTipoAutorizacion(autor);
-		Autorizacion autorization= autorizacionService.save(autorizacion);
 		
+		LOG.info("Se procede a añadir la autorización");
+		Autorizacion autorization= autorizacionService.save(autorizacion);
+		LOG.info("Se ha guardado la autorización con éxito: " + autorization);
 		
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
+			LOG.error("No se ha podido añadir la autorización");
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
@@ -302,10 +311,19 @@ public class JugadorController {
 		ValidationUtils.invokeValidator(jugadorValidator, jugador, result);
 	
 		if (result.hasErrors()) {
+			LOG.warn("Se han obtenido " + result.getErrorCount() + " errores de validación");
 			model.addAttribute("jugador", jugador);
 			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 		}
-		Jugador player = jugadorService.save(jugador);
+		
+		try {
+			LOG.info("Se procede a guardar el jugador");
+			Jugador player = jugadorService.save(jugador);
+			LOG.info("Se ha guardado el jugador con éxito: " + player);
+		} catch (Exception e) {
+			LOG.error("No se ha podido guardar el jugador");
+		}
+		
 		return "redirect:/home";
 	}
 	
@@ -333,6 +351,7 @@ public class JugadorController {
 		try {
 			
 			int id = Integer.parseInt(request.getParameter("id"));
+			LOG.info("Buscamos el jugador con id=" + id);
 			Optional<Jugador> jugadorO = jugadorService.findById(id);
 			jugador = jugadorO.get();
 			
@@ -355,15 +374,19 @@ public class JugadorController {
 			ValidationUtils.invokeValidator(jugadorValidator, jugador, result);
 			
 			
-			JugadorEdit edit = jugadorConverter.convertJugadorToJugadorEdit(jugador);
+			//JugadorEdit edit = jugadorConverter.convertJugadorToJugadorEdit(jugador);
 			
 			if (result.hasErrors()) {
+				LOG.warn("Se han obtenido " + result.getErrorCount() + " errores de validación");
 				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 				return re;
 			}
+			LOG.info("Se procede a actualizar el jugador");
 			Jugador player = jugadorService.updateJugador(jugador);
+			LOG.info("Se ha actualizado el jugador con éxito: " + player);
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 		} catch(Exception e) {
+			LOG.error("No se ha podido guardar el jugador");
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 		
