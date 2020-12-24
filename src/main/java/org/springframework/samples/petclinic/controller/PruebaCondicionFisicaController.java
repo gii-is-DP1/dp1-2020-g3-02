@@ -112,7 +112,8 @@ public class PruebaCondicionFisicaController {
 	@RequestMapping(value = "/eliminarprueba/{id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity eliminarAutorizacion(@PathVariable("id") int id) {
 		try {
-		pruebaService.deleteById(id);
+			LOG.info("Se procede al borrado de la prueba con id=" + id);
+			pruebaService.deleteById(id);
 		
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
@@ -139,6 +140,7 @@ public class PruebaCondicionFisicaController {
 		try {
 			
 			int id = Integer.parseInt(request.getParameter("id"));
+			LOG.info("Buscamos la prueba con id: " + id);
 			PruebaCondicionFisica pruebaO = pruebaService.findById(id).get();
 			
 			
@@ -156,17 +158,21 @@ public class PruebaCondicionFisicaController {
 			ValidationUtils.invokeValidator(pruebaValidator, pruebaO, result);
 			
 			
-			PruebasSinJugador pruebaSinJugador = pruebaConverter.convertPruebaToPruebaSinJugador(pruebaO);
+			//PruebasSinJugador pruebaSinJugador = pruebaConverter.convertPruebaToPruebaSinJugador(pruebaO);
 			
 			if (result.hasErrors()) {
+				LOG.warn("Se han obtenido " + result.getErrorCount() + " errores de validación");
 				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 				return re;
 			}else {
+				LOG.info("Se procede a actualizar la prueba");
 				PruebaCondicionFisica pruebaF = pruebaService.save(pruebaO);
+				LOG.info("Se ha guardado la prueba con éxito: " + pruebaF);
 				return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 			}
 			
 		} catch(Exception e) {
+			LOG.error("No se ha podido actualizar la prueba");
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 		

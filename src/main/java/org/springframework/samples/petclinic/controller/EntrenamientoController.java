@@ -124,7 +124,14 @@ public class EntrenamientoController {
 //			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 //		}else {
 		
-		Entrenamiento training = entrenamientoService.save(entrenamiento);
+		LOG.info("Se procede a guardar el entrenamiento");
+		try {
+			Entrenamiento training = entrenamientoService.save(entrenamiento);
+			LOG.info("Entrenamiento guardado con éxito: " + training);
+		} catch (Exception e) {
+			LOG.error("No se ha podido crear el entrenamiento");
+		}
+		
 		return "redirect:/entrenamientos/showEntrenamientos";
 	//}
 	}

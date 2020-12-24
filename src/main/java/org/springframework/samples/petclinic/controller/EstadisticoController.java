@@ -49,18 +49,21 @@ private static final Log LOG = LogFactory.getLog(EstadisticoController.class);
 		ValidationUtils.invokeValidator(estadisticoValidator, estadistico, result);
 	
 		if (result.hasErrors()) {
+			LOG.warn("Se han obtenido " + result.getErrorCount() + " errores de validación");
 			model.addAttribute("estadistico", estadistico);
 			return ViewConstant.VIEWS_ESTADISTICO_CREATE_OR_UPDATE_FORM;
 		}else {
 		
-		
-		if(null != estadisticoService.save(estadistico)) {
-			model.addAttribute("result", 1);
-			
-		}else {
-			model.addAttribute("result", 0); 
-		}
-		return "redirect:/home";
+			try {
+				LOG.info("Se procede a guardar el estadístico");
+				Estadistico estadisticoSave = estadisticoService.save(estadistico);
+				LOG.info("Se ha guardado el estadístico con éxito: " + estadisticoSave);
+				model.addAttribute("result", 1);
+			} catch (Exception e) {
+				LOG.error("No se ha podido guardar el estadístico");
+				model.addAttribute("result", 0); 
+			}
+			return "redirect:/home";
 		}
 	}
 
