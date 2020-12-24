@@ -50,7 +50,14 @@ public class VehiculoController {
 			model.addAttribute("personal", personal);
 			return ViewConstant.VIEWS_VEHICULO_CREATE_OR_UPDATE_FORM;
 		}
-		Personales personalSave = personalService.savePersonal(personal);
+		try {
+			LOG.info("Se procede a guardar el vehículo personal");
+			Personales personalSave = personalService.savePersonal(personal);
+			LOG.info("Se ha guardado el vehículo con éxito: " + personalSave);
+		} catch (Exception e) {
+			LOG.error("No se ha podido guardar el vehículo");
+		}
+		
 		return "redirect:/personales/showvehiculos";
 		
 	}
@@ -74,11 +81,12 @@ public class VehiculoController {
 	
 
 	@GetMapping("/eliminarvehiculo")
-	public ModelAndView eliminarVehiculo(@RequestParam(name="id",required=true) int id) {
+	public String eliminarVehiculo(@RequestParam(name="id",required=true) int id) {
 		
+		LOG.info("Se procede a la eliminación del vehículo con id: " + id);
 		personalService.deleteByIdSiExiste(id);
 		
-		return listadoVehiculos();
+		return "redirect:/personales/showvehiculos";
 		
 	}
 

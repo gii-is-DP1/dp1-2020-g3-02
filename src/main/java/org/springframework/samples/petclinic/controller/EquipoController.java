@@ -126,10 +126,18 @@ public class EquipoController {
 		ValidationUtils.invokeValidator(equipoValidator, equipo, bindResult);
 		
 		if (bindResult.hasErrors()) {
+			LOG.warn("Se han obtenido " + bindResult.getErrorCount() + " errores de validación");
 			model.addAttribute("equipo", equipo);
 			return ViewConstant.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
 		}
-		Equipo equipoSave = equipoService.save(equipo);
+		
+		try {
+			Equipo equipoSave = equipoService.save(equipo);
+			LOG.info("Se ha guardado el equipo con éxito: " + equipoSave);
+		} catch (Exception e) {
+			LOG.error("No se ha podido guardar el equipo");
+		}
+		
 		return "redirect:/equipos/showequipos";
 		
 	}
@@ -142,6 +150,7 @@ public class EquipoController {
 	@GetMapping("/eliminarequipo")
 	public ModelAndView eliminarEquipo(@RequestParam(name="id",required=true) int id) {
 		
+		LOG.info("Se procede al borrado del equipo con id=" + id);
 		equipoService.deleteByIdSiExiste(id);
 		
 		return listadoEquipos();
@@ -170,16 +179,6 @@ public class EquipoController {
 	@RequestMapping(value = "/postequipo/{sistemajuego}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> addEquipo(HttpServletRequest request, @ModelAttribute(name="equipo") EquipoEdit equipoEdit, BindingResult result, @PathVariable("sistemajuego") Sistema sistemajuego) {
 		try {
-		/*	Equipo equipo = new Equipo();
-			if(!request.getParameter("id").isEmpty()) {
-				int id = Integer.parseInt(request.getParameter("id"));
-				Optional<Equipo> equipoO = partidoService.findById(id);
-				partido = partidoO.get();
-			}else if(request.getParameter("equipo").trim() != null) {
-				Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
-				partido.setEquipo(equipo);
-			}
-			*/
 			EquipoEdit edit = new EquipoEdit(null, request.getParameter("categoria").trim(), sistemajuego, request.getParameter("liga").trim());
 			
 			//ValidationUtils.invokeValidator(partidoValidator, edit, result);
