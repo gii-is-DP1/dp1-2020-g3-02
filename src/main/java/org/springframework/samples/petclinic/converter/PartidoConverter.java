@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
-import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.model.estadisticas.PartidoStats;
 import org.springframework.stereotype.Component;
 
