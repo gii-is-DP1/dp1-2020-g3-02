@@ -71,16 +71,16 @@ public class EquipoController {
 	private DataPosicionConverter dataPosicionConverter;
 	
 	@GetMapping("/showequipos")
-	public ModelAndView listadoEquipos() {
+	public String listadoEquipos(Model model) {
 		
-		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_EQUIPO);
-		mav.addObject("equipos", equipoService.findAll());
-		mav.addObject("jugadores", jugadorService.findAll());
-		return mav;
+		
+		model.addAttribute("equipos", equipoService.findAll());
+		model.addAttribute("jugadores", jugadorService.findAll());
+		return ViewConstant.VIEW_EQUIPOS;
 	}
 	
-	@GetMapping("/showjugadores")
-	public ModelAndView listadoJugadores(@RequestParam(name="id",required=true) int id, HttpServletRequest request) {
+	@GetMapping("/showequipo/{id}")
+	public ModelAndView equipo(@PathVariable("id") int id, HttpServletRequest request) {
 		Principal principal = request.getUserPrincipal();
 		String username = "";
 									
@@ -92,9 +92,11 @@ public class EquipoController {
 			username =  principal.getName();
 		}
 		
-		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
+		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_EQUIPO);
 		mav.addObject("username", username);
-		mav.addObject("jugadores", jugadorConverter.convertListJugadorToListJugadorWithEquipo(jugadorService.findByEquipo(id)));
+		Optional<Equipo> eq = equipoService.findById(id);
+		mav.addObject("equipo", eq.get());
+		mav.addObject("jugadores", jugadorConverter.convertListJugadorToListJugadorInEquipo(jugadorService.findByEquipo(id)));
 		return mav;
 	}
 	
@@ -148,12 +150,12 @@ public class EquipoController {
 	}
 	
 	@GetMapping("/eliminarequipo")
-	public ModelAndView eliminarEquipo(@RequestParam(name="id",required=true) int id) {
+	public String eliminarEquipo(@RequestParam(name="id",required=true) int id, Model model) {
 		
 		LOG.info("Se procede al borrado del equipo con id=" + id);
 		equipoService.deleteByIdSiExiste(id);
 		
-		return listadoEquipos();
+		return "redirect:/equipos/showequipos";
 		
 	}
 	

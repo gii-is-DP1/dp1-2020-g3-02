@@ -10,6 +10,7 @@ import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorWithEquipo;
+import org.springframework.samples.petclinic.model.auxiliares.JugadoresInEquipo;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.stereotype.Component;
@@ -98,6 +99,26 @@ public class JugadorConverter {
 			
 		}
 		return listaJugadorWithEquipos;
+	}
+	
+	public JugadoresInEquipo  convertJugadorToJugadorInEquipo(Jugador jugador) {
+		
+		JugadoresInEquipo jugadorInEquipo= new JugadoresInEquipo(jugador.getId(), jugador.getFirstName(),
+				jugador.getLastName(),jugador.getAltura(), jugador.getPeso(), jugador.getPesoIdeal(),
+				jugador.getPosicionPrincipal(), jugador.getPosicionSecundaria(),jugador.getImc(), jugador.getUser());
+		
+		return jugadorInEquipo;
+				
+	}
+	
+	public List<JugadoresInEquipo> convertListJugadorToListJugadorInEquipo(List<Jugador> listajugadores){
+		List<JugadoresInEquipo> listaJugadoresInEquipo= new ArrayList<JugadoresInEquipo>();
+		for(int i=0; i<listajugadores.size(); i++) {
+			
+			listaJugadoresInEquipo.add(convertJugadorToJugadorInEquipo(listajugadores.get(i)));
+			
+		}
+		return listaJugadoresInEquipo;
 	}
 	
 	    public DataAutorizacion convertListJugadoresAutorizaciones(List<JugadorAut> jugadores) {
