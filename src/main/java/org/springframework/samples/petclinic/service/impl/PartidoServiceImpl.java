@@ -3,19 +3,14 @@ package org.springframework.samples.petclinic.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.controller.PartidoController;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.model.Equipo;
-import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
-import org.springframework.samples.petclinic.model.Sustitucion;
-import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
 import org.springframework.samples.petclinic.repository.PartidoRepository;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
@@ -31,9 +26,6 @@ public class PartidoServiceImpl extends AbstractEstadisticasService<Partido> imp
 	
 	@Autowired
 	private PartidoService partidoService;
-	
-	@Autowired
-	private PartidoConverter partidoConverter;
 	
 	private static final Log LOG = LogFactory.getLog(PartidoServiceImpl.class);
 	
@@ -91,6 +83,7 @@ public class PartidoServiceImpl extends AbstractEstadisticasService<Partido> imp
 
 	@Override
 	public List<PartidoConAsistencia> obtenerPartidosConfrontados(List<Equipo> equiposJugador, Jugador jugador, Partido partido) {
+		PartidoConverter partidoConverter = new PartidoConverter();
 		
 		List<PartidoConAsistencia> partidosConfrontados = new ArrayList<PartidoConAsistencia>();
 		PartidoConAsistencia partidoConfrontacion = new PartidoConAsistencia();
