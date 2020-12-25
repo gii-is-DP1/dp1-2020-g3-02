@@ -437,7 +437,7 @@
 					
 					//table.ajax.reload();
 						crearGrafica(5,0);
-					
+						numRegistros = 5;
 					 
 					 
 		          });
@@ -710,11 +710,15 @@
 		    
 		    //Si cambiamos el número de registro a mostrar page pasa a ser 0 (página 1) y la variable numRegistros se actualiza
 		    //con el valor que hayamos elegido entre 5 y 10, y actualizamos la gráfica (crearGráfica)
-		    $('.dataTables_length select').on('change', function(){
-		          page = 0;
-		          numRegistros = this.value;
-		          crearGrafica(this.value,page);
-		    });
+		    
+		    $('#estadisiticas').on( 'length.dt', function ( e, settings, len ) {
+		    	page = 0;
+		        numRegistros = len;
+		        console.log(numRegistros);
+		        crearGrafica(numRegistros,page);
+		    	
+		    	console.log( 'New page length: '+len );
+		 } );
 		    
 		    
 		    //Aquí detectamos cuando se cambia de página y actualizamos la variable page con el número de página que hemos pulsado

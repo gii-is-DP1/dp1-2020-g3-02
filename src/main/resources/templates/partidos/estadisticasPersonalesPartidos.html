@@ -408,6 +408,7 @@
 				
 				//table.ajax.reload();
 					crearGrafica(5,0);
+					numRegistros = 5;
 				
 				 
 				 
@@ -630,11 +631,14 @@
 		 	}
 		    });
 		    
-		    $('.dataTables_length select').on('change', function(){
-		          page = 0;
-		          numRegistros = this.value;
-		          crearGrafica(this.value,page);
-		    });
+		    $('#estadisiticas').on( 'length.dt', function ( e, settings, len ) {
+		    	page = 0;
+		        numRegistros = len;
+		        console.log(numRegistros);
+		        crearGrafica(numRegistros,page);
+		    	
+		    	console.log( 'New page length: '+len );
+		 } );
 		    
 		    $('#estadisiticas').on( 'draw.dt', function () {
 		        var info = table.page.info();

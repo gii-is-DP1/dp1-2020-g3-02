@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.EntrenamientoRepository;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractEstadisticasService;
@@ -30,5 +31,11 @@ public class EntrenamientoServiceImpl extends AbstractEstadisticasService<Entren
 	@Override
 	public List<Entrenamiento> findByFechaOrderByHora(LocalDate date) {
 		return entrenamientoRepository.findByFechaOrderByHora(date);
+	}
+
+	@Override
+	public List<Entrenamiento> findByEquipo(Equipo equipo) {
+		
+		return entrenamientoRepository.findByEquipo(equipo);
 	}
 }
