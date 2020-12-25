@@ -50,19 +50,7 @@
 					<div class="collapse show" id="collapseEstadisticas">
 						<div class="card-body">
 						<div class="container-fluid">
-							<table id="estadisticas"
-					class="table table-sm table-striped table-bordered table-hover nowrap display entrenadors responsive"
-					cellspacing="0" style="width: 100%;">
-							<thead>
-								<tr class="table-primary">
-									<th>Categoria</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-								<td th:text="${equipo.categoria}"></td>
-							</tbody>
-							</table>
+							<div id="contenedor-modal"></div>
 						</div>
 					</div>
 					</div>
@@ -142,6 +130,7 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 	$(document)
 	.ready(
 			
+			
 			function() {
 				
 				tEstadisticas = $('#estadisticas')
@@ -164,8 +153,110 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 							}
 						});
 
-
+			
+				
+			
 			});
+	
+	/*$(document)
+	.ready(
+			function(){
+		//var id = $(this).parent().find('#id').val();
+		//var id=[[${equipo.id}]];
+		var id = $(this).parent().find('#id').val();
+										
+		$.ajax({
+			type: 'GET',
+			url: '/equipos/findEstadisticasEquipo/'+id,
+			success: function(stats){
+				var max = Math.max(stats.saquesTotales,stats.recepcionesTotales,stats.colocacionesTotales,stats.defensasTotales,stats.bloqueosTotales,stats.rematesTotales,stats.fintasTotales,stats.numAtaquesRapidosTotales);
+
+				Highcharts.chart('contenedor-modal', {
+					chart: {
+		                type: 'column',
+		            },
+		            title: {
+			            text: '',
+			        },
+		            xAxis: {
+		                categories: [
+		                    'Saque',
+		                    'Recepción',
+		                    'Colocación',
+		                    'Defensa',
+		                    'Bloqueo',
+		                    'Remate',
+		                    'Finta',
+		                    'Ataque Rápido'
+		                ],
+		                crosshair: true
+		            },
+		            yAxis: [{ // Primary yAxis
+			            labels: {
+			                format: '{value}',
+			                style: {
+			                    color: Highcharts.getOptions().colors[1]
+			                }
+			            },
+			            title: {
+			                text: 'Estadísticas',
+			                style: {
+			                    color: Highcharts.getOptions().colors[1]
+			                }
+			            },
+			            opposite: true
+			        }, { // Secondary yAxis
+			        	max: 100,
+			        	min: 0,
+			            title: {
+			                text: 'Porcentaje',
+			                style: {
+			                    color: Highcharts.getOptions().colors[0]
+			                }
+			            },
+			            labels: {
+			                format: '{value} %',
+			                style: {
+			                    color: Highcharts.getOptions().colors[1]
+			                }
+			            }
+			        }],
+		            tooltip: {
+		                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+		                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+		                    '<td style="padding:0"><b>{point.y:.0f} </b></td></tr>',
+		                footerFormat: '</table>',
+		                shared: true,
+		                useHTML: true
+		            },
+		            plotOptions: {
+		                column: {
+		                    pointPadding: 0.2,
+		                    borderWidth: 0
+		                }
+		            },
+		            series: [
+		                {
+		                    name: 'Acertados',
+		                    data: [stats.saquesAcertados,stats.recepcionesAcertadas,stats.colocacionesAcertadas,stats.defensasAcertadas,stats.bloqueosAcertados,stats.rematesAcertados,stats.fintasAcertadas,stats.numAtaquesRapidosAcertados]
+		                },
+		                {
+		                    name: 'Totales',
+		                    data: [stats.saquesTotales,stats.recepcionesTotales,stats.colocacionesTotales,stats.defensasTotales,stats.bloqueosTotales,stats.rematesTotales,stats.fintasTotales,stats.numAtaquesRapidosTotales],
+		                },
+		                {
+		                    name: 'Porcentajes',
+		                    data: [stats.porcentajeSaques*100,stats.porcentajeRecepciones*100,stats.porcentajeColocaciones*100,stats.porcentajeDefensas*100,stats.porcentajeBloqueos*100,stats.porcentajeRemates*100,stats.porcentajeFintas*100,stats.porcentajeAtaquesRapidos*100],
+		                }
+		            ]
+				})
+				$('.modal-header').css("color","white");
+				$('.modal-title').text("Estadísticas de "+stats.firstName+" "+stats.lastName);
+				$('#estadisticasModal').modal("show");
+			}
+		});
+		
+	});*/
 	
 		$('#stat').on('click', function(){
 			if(!($('#collapseJugadores').hasClass('collapsing'))){
