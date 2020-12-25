@@ -415,11 +415,14 @@
 		    
 		     
 		    
-		    $('.dataTables_length select').on('change', function(){
-		          page = 0;
-		          numRegistros = this.value;
-		          crearDataTable(this.value,page);
-		    });
+		    $('#estadisiticas').on( 'length.dt', function ( e, settings, len ) {
+		    	page = 0;
+		        numRegistros = len;
+		        console.log(numRegistros);
+		        crearDataTable(numRegistros,page);
+		    	
+		    	console.log( 'New page length: '+len );
+		 } );
 		    
 		    
 		    
