@@ -87,9 +87,11 @@
 									<table id="recomendados" class="table table-sm table-striped table-bordered table-hover display recomendados responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
+												<th class="invisible"></th>
 												<th>Tipo</th>
 												<th>Nombre</th>
 												<th>Descripción</th>
+												<th>Acciones</th>
 											</tr>
 										</thead>
 									</table>
@@ -118,8 +120,10 @@
 									<table id="saque" class="table table-sm table-striped table-bordered table-hover saque responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
+												<th class="invisible"></th>
 												<th>Nombre</th>
 												<th>Descripción</th>
+												<th>Acciones</th>
 											</tr>
 										</thead>
 									</table>
@@ -146,8 +150,10 @@
 									<table id="recepcion" class="table table-sm table-striped table-bordered table-hover recepcion responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
+												<th class="invisible"></th>
 												<th>Nombre</th>
 												<th>Descripción</th>
+												<th>Acciones</th>
 											</tr>
 										</thead>
 									</table>
@@ -176,8 +182,10 @@
 									<table id="colocacion" class="table table-sm table-striped table-bordered table-hover colocacion responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
+												<th class="invisible"></th>
 												<th>Nombre</th>
 												<th>Descripción</th>
+												<th>Acciones</th>
 											</tr>
 										</thead>
 									</table>
@@ -204,8 +212,10 @@
 									<table id="defensa" class="table table-sm table-striped table-bordered table-hover defensa responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
+												<th class="invisible"></th>
 												<th>Nombre</th>
 												<th>Descripción</th>
+												<th>Acciones</th>
 											</tr>
 										</thead>
 									</table>
@@ -234,8 +244,10 @@
 									<table id="ataque" class="table table-sm table-striped table-bordered table-hover ataque responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
+												<th class="invisible"></th>
 												<th>Nombre</th>
 												<th>Descripción</th>
+												<th>Acciones</th>
 											</tr>
 										</thead>
 									</table>
@@ -262,8 +274,10 @@
 									<table id="bloqueo" class="table table-sm table-striped table-bordered table-hover bloqueo responsive" style="width: 100%;">
 										<thead>
 											<tr class="table-primary">
+												<th class="invisible"></th>
 												<th>Nombre</th>
 												<th>Descripción</th>
+												<th>Acciones</th>
 											</tr>
 										</thead>
 									</table>
@@ -307,6 +321,7 @@
 	   	<script>
 	   	
 	   	var permisoEntrenador = [[${permisoEntrenador}]];
+	   	var permisoJugador = [[${permisoJugador}]];
 	   	
 	   	function cambioMasMenos(element){
 	   		if(element.parentNode.parentNode.parentNode.children[1].classList.contains('collapse')){
@@ -337,6 +352,28 @@
 	   		
 	   		return tipoCorregido;
 	   	}
+	   	
+	   	function editar(id) {
+	   		//var id = $(this).parent().find('#id').val();
+
+	   		$('.error').text('');
+
+	   		$.ajax({
+	   			type : 'GET',
+	   			url : '/ejercicios/findEjercicio/' + id,
+	   			success : function(edit) {
+	   				console.log(edit.tipo);
+	   				$('#tipoGestionEjercicio').val(edit.tipo);
+                	$('#idGestionEjercicio').val(edit.id);
+                	$('#nombre').val(edit.nombre);
+					$('#descripcion').val(edit.descripcion);
+	   				
+	   				$('#gestionModal .modal-header').css("color", "white");
+					$('#gestionModal .modal-title').text("Edición del Ejercicio de " + obtenerTipoCorregido(edit.tipo));
+					$('#gestionModal').modal("show");
+	   			}
+	   		});
+	   	};
 	   	
 	   	function inicializaBotonesSiEntrenador(permiso, tipo){
 	   		var buttons = [];
@@ -404,9 +441,31 @@
 						order: [1, 'asc'],
 						responsive: true,
 						"columns":[
+							{data: 'id'},
 							{data: 'tipo'},
 							{data: 'nombre'},
 							{data: 'descripcion'},
+							{data: 'acciones',
+								render: function(data,type,row){
+								var botones = "";
+								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
+								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								
+								if(permisoEntrenador){
+									botones = botonEditar;
+								} else if(permisoJugador){
+									botones = botonRealizar;
+								}
+								
+								return botones;
+							}}
+						],
+						columnDefs: [
+							{
+				                "targets": [ 0 ],
+				                "visible": false,
+				                "searchable": false
+				            }
 						],
 						"language" : {
 						    "processing": "Procesando...",
@@ -432,11 +491,33 @@
 					.DataTable({
 						dom: "<'row'<'col-sm-3'B><'col-sm-9'f>r>tp",
 						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'SAQUE',
-						order: [0, 'asc'],
+						order: [1, 'asc'],
 						responsive: true,
 						"columns":[
+							{data: 'id'},
 							{data: 'nombre'},
 							{data: 'descripcion'},
+							{data: 'acciones',
+								render: function(data,type,row){
+								var botones = "";
+								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
+								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								
+								if(permisoEntrenador){
+									botones = botonEditar;
+								} else if(permisoJugador){
+									botones = botonRealizar;
+								}
+								
+								return botones;
+							}}
+						],
+						columnDefs: [
+							{
+				                "targets": [ 0 ],
+				                "visible": false,
+				                "searchable": false
+				            }
 						],
 						buttons: inicializaBotonesSiEntrenador(permisoEntrenador, 'SAQUE'),
 						"language" : {
@@ -466,8 +547,30 @@
 						order: [0, 'asc'],
 						responsive: true,
 						"columns":[
+							{data: 'id'},
 							{data: 'nombre'},
 							{data: 'descripcion'},
+							{data: 'acciones',
+								render: function(data,type,row){
+								var botones = "";
+								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
+								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								
+								if(permisoEntrenador){
+									botones = botonEditar;
+								} else if(permisoJugador){
+									botones = botonRealizar;
+								}
+								
+								return botones;
+							}}
+						],
+						columnDefs: [
+							{
+				                "targets": [ 0 ],
+				                "visible": false,
+				                "searchable": false
+				            }
 						],
 						buttons: inicializaBotonesSiEntrenador(permisoEntrenador, 'RECEPCION'),
 						"language" : {
@@ -497,8 +600,30 @@
 						order: [0, 'asc'],
 						responsive: true,
 						"columns":[
+							{data: 'id'},
 							{data: 'nombre'},
 							{data: 'descripcion'},
+							{data: 'acciones',
+								render: function(data,type,row){
+								var botones = "";
+								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
+								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								
+								if(permisoEntrenador){
+									botones = botonEditar;
+								} else if(permisoJugador){
+									botones = botonRealizar;
+								}
+								
+								return botones;
+							}}
+						],
+						columnDefs: [
+							{
+				                "targets": [ 0 ],
+				                "visible": false,
+				                "searchable": false
+				            }
 						],
 						buttons: inicializaBotonesSiEntrenador(permisoEntrenador, 'COLOCACION'),
 						"language" : {
@@ -528,8 +653,30 @@
 						order: [0, 'asc'],
 						responsive: true,
 						"columns":[
+							{data: 'id'},
 							{data: 'nombre'},
 							{data: 'descripcion'},
+							{data: 'acciones',
+								render: function(data,type,row){
+								var botones = "";
+								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
+								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								
+								if(permisoEntrenador){
+									botones = botonEditar;
+								} else if(permisoJugador){
+									botones = botonRealizar;
+								}
+								
+								return botones;
+							}}
+						],
+						columnDefs: [
+							{
+				                "targets": [ 0 ],
+				                "visible": false,
+				                "searchable": false
+				            }
 						],
 						buttons: inicializaBotonesSiEntrenador(permisoEntrenador, 'DEFENSA'),
 						"language" : {
@@ -559,8 +706,30 @@
 						order: [0, 'asc'],
 						responsive: true,
 						"columns":[
+							{data: 'id'},
 							{data: 'nombre'},
 							{data: 'descripcion'},
+							{data: 'acciones',
+								render: function(data,type,row){
+								var botones = "";
+								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
+								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								
+								if(permisoEntrenador){
+									botones = botonEditar;
+								} else if(permisoJugador){
+									botones = botonRealizar;
+								}
+								
+								return botones;
+							}}
+						],
+						columnDefs: [
+							{
+				                "targets": [ 0 ],
+				                "visible": false,
+				                "searchable": false
+				            }
 						],
 						buttons: inicializaBotonesSiEntrenador(permisoEntrenador, 'ATAQUE'),
 						"language" : {
@@ -590,8 +759,30 @@
 						order: [0, 'asc'],
 						responsive: true,
 						"columns":[
+							{data: 'id'},
 							{data: 'nombre'},
 							{data: 'descripcion'},
+							{data: 'acciones',
+								render: function(data,type,row){
+								var botones = "";
+								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
+								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								
+								if(permisoEntrenador){
+									botones = botonEditar;
+								} else if(permisoJugador){
+									botones = botonRealizar;
+								}
+								
+								return botones;
+							}}
+						],
+						columnDefs: [
+							{
+				                "targets": [ 0 ],
+				                "visible": false,
+				                "searchable": false
+				            }
 						],
 						buttons: inicializaBotonesSiEntrenador(permisoEntrenador, 'BLOQUEO'),
 						"language" : {

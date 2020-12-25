@@ -82,7 +82,9 @@ public class EjercicioIndividualController {
 	public String inicio(Model model, HttpServletRequest request) {
 		Principal principal = request.getUserPrincipal();
 		boolean permisoEntrenador = authoritiesService.hasAuthority("entrenador", principal.getName());
+		boolean permisoJugador = authoritiesService.hasAuthority("jugador", principal.getName());
 		model.addAttribute("permisoEntrenador", permisoEntrenador);
+		model.addAttribute("permisoJugador", permisoJugador);
 		return ViewConstant.VIEW_EJERCICIOS;
 	}
 	
@@ -119,6 +121,17 @@ public class EjercicioIndividualController {
 			return new ResponseEntity<DataTableResponse<EjercicioIndividualDTO>>(data, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<DataTableResponse<EjercicioIndividualDTO>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "/findEjercicio/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EjercicioIndividualDTO> findEjercicio(@PathVariable("id") int id ){
+		try {
+			EjercicioIndividual ejercicio = ejercicioIndividualService.findById(id).get();
+			EjercicioIndividualDTO data = ejercicioIndividualConverter.converterEntityToDTO(ejercicio);
+			return new ResponseEntity<EjercicioIndividualDTO>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<EjercicioIndividualDTO>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
