@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.converter;
 
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
+import org.springframework.samples.petclinic.model.estadisticas.EstadisticasDeUnJugadorStats;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,39 @@ public class EstadisticasConverter {
 				estadistica.getNumAtaquesRapidosTotales(), 
 				estadistica.getPorcentajeAtaquesRapidos(),
 				estadistica.getPartido().getId()
+				);
+	}
+	
+	public EstadisticasDeUnJugadorStats convertEstadisticasPersonalesToJugadorStats(EstadisticaPersonalPartido estadisiticas) {
+		
+		return new EstadisticasDeUnJugadorStats(
+				estadisiticas.getId(),
+				estadisiticas.getPartido().getFecha(),
+				estadisiticas.getPartido().getHora(),
+				estadisiticas.getSaquesAcertados(), 
+				estadisiticas.getSaquesTotales(), 
+				estadisiticas.getPorcentajeSaques(), 
+				estadisiticas.getRecepcionesAcertadas(), 
+				estadisiticas.getRecepcionesTotales(), 
+				estadisiticas.getPorcentajeRecepciones(), 
+				estadisiticas.getColocacionesAcertadas(), 
+				estadisiticas.getColocacionesTotales(), 
+				estadisiticas.getPorcentajeColocaciones(), 
+				estadisiticas.getDefensasAcertadas(), 
+				estadisiticas.getDefensasTotales(), 
+				estadisiticas.getPorcentajeDefensas(), 
+				estadisiticas.getBloqueosAcertados(), 
+				estadisiticas.getBloqueosTotales(), 
+				estadisiticas.getPorcentajeBloqueos(), 
+				estadisiticas.getRematesAcertados(), 
+				estadisiticas.getRematesTotales(), 
+				estadisiticas.getPorcentajeRemates(), 
+				estadisiticas.getFintasAcertadas(), 
+				estadisiticas.getFintasTotales(), 
+				estadisiticas.getPorcentajeFintas(), 
+				estadisiticas.getNumAtaquesRapidosAcertados(), 
+				estadisiticas.getNumAtaquesRapidosTotales(), 
+				estadisiticas.getPorcentajeAtaquesRapidos()
 				);
 	}
 	

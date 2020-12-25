@@ -28,8 +28,18 @@
 
 	<div class="container-fluid">
 		<div class="row">
-			<div class="py-3 text-center col-lg-12">
+		
+		<div class="py-3 text-center col-lg-2"></div>
+			<div class="py-3 text-center col-lg-8">
 				<h1 class="font-weight-bold font-italic">ESTADISITICAS DE MIS PARTIDOS</h1>
+			</div>
+			
+			<div class="py-3 mt-2 text-center col-lg-2">
+				<select id="equipo" class="form-control border border-info">
+					<th:block th:each="categoria : ${categorias}">
+						<option th:value="${categoria}" th:text="${categoria}"></option>
+					</th:block>
+				</select>
 			</div>
 		</div>
 
@@ -122,14 +132,15 @@
 							<th title="Ataques Rápidos Acertados">AtR A</th>
 							<th title="Ataques Rápidos Totales">AtR T</th>
 							<th title="Porcentaje Ataques Rápidos">% AtR</th>
+							 
 							
 						</tr>
 					</thead>
-					<tbody>
+		<!--  			<tbody>
 						<tr th:each="estadistica : ${estadisticas}">
 							
-							<td  th:text="${estadistica.Partido.fecha}"></td>
-							<td  th:text="${estadistica.Partido.hora}"></td>
+							<td th:text="${estadistica.Partido.fecha}"></td>
+							<td th:text="${estadistica.Partido.hora}"></td>
 							<td th:text="${estadistica.saquesAcertados}"></td>
 							<td th:text="${estadistica.saquesTotales}"></td>
 							<td th:text="${estadistica.porcentajeSaques*100}+'%'"></td>
@@ -154,9 +165,9 @@
 							<td th:text="${estadistica.numAtaquesRapidosAcertados}"></td>
 							<td th:text="${estadistica.numAtaquesRapidosTotales}"></td>
 							<td th:text="${estadistica.porcentajeAtaquesRapidos*100}+'%'"></td>
-							
+					
 						</tr>
-					</tbody>
+					</tbody> -->
 
 				</table>
 			</div>
@@ -204,16 +215,392 @@
 
 	$(document).ready(function () {
 		    // Create DataTable
-		    var table = $('#estadisiticas').DataTable({
-		        dom: '',
-		        responsive: true,
-		       
-		        
-		    });
+		    
+		   var equipo = $(this).find("option:selected").attr('value'); 
+		    
+		   $('#equipo').change(function(){
+				var equipo = $(this).find("option:selected").attr('value'); 
+				
+				table.destroy();
+				
+				table = $('#estadisiticas').DataTable({
+			    	"lengthMenu" : [5,6,7,8,9,10],
+					language : {
+						emptyTable : "Ningún dato disponible en esta tabla",
+						"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+						"infoEmpty" : "Mostrando 0 de 0 registros",
+						"lengthMenu" : "Mostrando _MENU_ registros",
+						"search" : "Buscar:",
+						"zeroRecords" : "No se encontraron resultados",
+						"paginate" : {
+							"first" : "Primera",
+							"last" : "Última",
+							"next" : "Siguiente",
+							"previous" : "Anterior"
+						},
+					},
+					ajax:'[[@{/partidos/findestadisticasJugador/}]]'+ equipo,
+					columns:[
+						{data:'fecha'},
+						{data:'hora'},
+						{data:'saquesAcertados'},
+						{data:'saquesTotales'},
+						{data:'porcentajeSaques',
+							 render: function ( data, type, row ) {
+								    return data*100 +"%";
+									}
+						},
+						{data:'recepcionesAcertadas'},
+						{data:'recepcionesTotales'},
+						{data:'porcentajeRecepciones',
+							 render: function ( data, type, row ) {
+								    return data*100 +"%";
+									}
+						},
+						{data:'colocacionesAcertadas'},
+						{data:'colocacionesTotales'},
+						{data:'porcentajeColocaciones',
+							 render: function ( data, type, row ) {
+								    return data*100 +"%";
+									}
+						},
+						{data:'defensasAcertadas'},
+						{data:'defensasTotales'},
+						{data:'porcentajeDefensas',
+							 render: function ( data, type, row ) {
+								    return data*100 +"%";
+									}
+						},
+						{data:'bloqueosAcertados'},
+						{data:'bloqueosTotales'},
+						{data:'porcentajeBloqueos',
+							 render: function ( data, type, row ) {
+								    return data*100 +"%";
+									}
+						},
+						{data:'rematesAcertados'},
+						{data:'rematesTotales'},
+						{data:'porcentajeRemates',
+							 render: function ( data, type, row ) {
+								    return data*100 +"%";
+									}
+						},
+						{data:'fintasAcertadas'},
+						{data:'fintasTotales'},
+						{data:'porcentajeFintas',
+							 render: function ( data, type, row ) {
+								    return data*100 +"%";
+									}
+						},
+						{data:'numAtaquesRapidosAcertados'},
+						{data:'numAtaquesRapidosTotales'},
+						{data:'porcentajeAtaquesRapidos',
+							 render: function ( data, type, row ) {
+								    return data*100 +"%";
+									}
+						}
+					],
+			        responsive: true,
+			        columnDefs : [ {
+						responsivePriority : 1,
+						targets : 0 //Fehca
+					}, {
+						responsivePriority : 1,
+						targets : 1 //Hora
+					}, {
+						responsivePriority : 5,
+						targets : 2 //SAQUE
+						,orderable:false
+					}, {
+						responsivePriority : 6,
+						targets : 3
+						,orderable:false
+					}, {
+						responsivePriority : 3,
+						targets : 4
+						,orderable:false
+					}, {
+						responsivePriority : 7,
+						targets : 5 //RECEPCION
+						,orderable:false
+					}, {
+						responsivePriority : 8,
+						targets : 6
+						,orderable:false
+					}, {
+						responsivePriority : 3,
+						targets : 7
+						,orderable:false
+					}, {
+						responsivePriority : 9,
+						targets : 8 //COLOCACION
+						,orderable:false
+					}, {
+						responsivePriority : 10,
+						targets : 9
+						,orderable:false
+					}, {
+						responsivePriority : 3,
+						targets : 10
+						,orderable:false
+					}, {
+						responsivePriority : 11,
+						targets : 11 //DEFENSA
+						,orderable:false
+					}, {
+						responsivePriority : 12,
+						targets : 12
+						,orderable:false
+					}, {
+						responsivePriority : 3,
+						targets : 13
+						,orderable:false
+					}, {
+						responsivePriority : 13,
+						targets : 14 //BLOQUEO
+						,orderable:false
+					}, {
+						responsivePriority : 14,
+						targets : 15
+						,orderable:false
+					}, {
+						responsivePriority : 3,
+						targets : 16
+						,orderable:false
+					}, {
+						responsivePriority : 100,
+						targets : 17 //REMATE
+						,orderable:false
+					}, {
+						responsivePriority : 100,
+						targets : 18
+						,orderable:false
+					}, {
+						responsivePriority : 3,
+						targets : 19
+						,orderable:false
+					}, {
+						responsivePriority : 100,
+						targets : 20 //FINTAS
+						,orderable:false
+					}, {
+						responsivePriority : 100,
+						targets : 21
+						,orderable:false
+					}, {
+						responsivePriority : 3,
+						targets : 22
+						,orderable:false
+					}, {
+						responsivePriority : 100,
+						targets : 23 //ATAQUES
+						,orderable:false
+					}, {
+						responsivePriority : 100,
+						targets : 24
+						,orderable:false
+					}, {
+						responsivePriority : 3,
+						targets : 25
+						,orderable:false
+					}]
+	   			});
+				
+				//table.ajax.reload();
+					crearGrafica(5,0);
+				
+				 
+				 
+	          });
+		    
+		   table = $('#estadisiticas').DataTable({
+				    	"lengthMenu" : [5,6,7,8,9,10],
+						language : {
+							emptyTable : "Ningún dato disponible en esta tabla",
+							"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+							"infoEmpty" : "Mostrando 0 de 0 registros",
+							"lengthMenu" : "Mostrando _MENU_ registros",
+							"search" : "Buscar:",
+							"zeroRecords" : "No se encontraron resultados",
+							"paginate" : {
+								"first" : "Primera",
+								"last" : "Última",
+								"next" : "Siguiente",
+								"previous" : "Anterior"
+							},
+						},
+						ajax:'[[@{/partidos/findestadisticasJugador/}]]'+ equipo,
+						columns:[
+							{data:'fecha'},
+							{data:'hora'},
+							{data:'saquesAcertados'},
+							{data:'saquesTotales'},
+							{data:'porcentajeSaques',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'recepcionesAcertadas'},
+							{data:'recepcionesTotales'},
+							{data:'porcentajeRecepciones',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'colocacionesAcertadas'},
+							{data:'colocacionesTotales'},
+							{data:'porcentajeColocaciones',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'defensasAcertadas'},
+							{data:'defensasTotales'},
+							{data:'porcentajeDefensas',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'bloqueosAcertados'},
+							{data:'bloqueosTotales'},
+							{data:'porcentajeBloqueos',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'rematesAcertados'},
+							{data:'rematesTotales'},
+							{data:'porcentajeRemates',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'fintasAcertadas'},
+							{data:'fintasTotales'},
+							{data:'porcentajeFintas',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							},
+							{data:'numAtaquesRapidosAcertados'},
+							{data:'numAtaquesRapidosTotales'},
+							{data:'porcentajeAtaquesRapidos',
+								 render: function ( data, type, row ) {
+									    return data*100 +"%";
+										}
+							}
+						],
+				        responsive: true,
+				        columnDefs : [ {
+							responsivePriority : 1,
+							targets : 0 //Fehca
+						}, {
+							responsivePriority : 1,
+							targets : 1 //Hora
+						}, {
+							responsivePriority : 5,
+							targets : 2 //SAQUE
+							,orderable:false
+						}, {
+							responsivePriority : 6,
+							targets : 3
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 4
+							,orderable:false
+						}, {
+							responsivePriority : 7,
+							targets : 5 //RECEPCION
+							,orderable:false
+						}, {
+							responsivePriority : 8,
+							targets : 6
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 7
+							,orderable:false
+						}, {
+							responsivePriority : 9,
+							targets : 8 //COLOCACION
+							,orderable:false
+						}, {
+							responsivePriority : 10,
+							targets : 9
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 10
+							,orderable:false
+						}, {
+							responsivePriority : 11,
+							targets : 11 //DEFENSA
+							,orderable:false
+						}, {
+							responsivePriority : 12,
+							targets : 12
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 13
+							,orderable:false
+						}, {
+							responsivePriority : 13,
+							targets : 14 //BLOQUEO
+							,orderable:false
+						}, {
+							responsivePriority : 14,
+							targets : 15
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 16
+							,orderable:false
+						}, {
+							responsivePriority : 100,
+							targets : 17 //REMATE
+							,orderable:false
+						}, {
+							responsivePriority : 100,
+							targets : 18
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 19
+							,orderable:false
+						}, {
+							responsivePriority : 100,
+							targets : 20 //FINTAS
+							,orderable:false
+						}, {
+							responsivePriority : 100,
+							targets : 21
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 22
+							,orderable:false
+						}, {
+							responsivePriority : 100,
+							targets : 23 //ATAQUES
+							,orderable:false
+						}, {
+							responsivePriority : 100,
+							targets : 24
+							,orderable:false
+						}, {
+							responsivePriority : 3,
+							targets : 25
+							,orderable:false
+						}]
+		   			});
 		    var chart = null;
 		    var tipo = null; //poner var general
+		    var numRegistros = 5;
+		    var page = 0;
 		    
-		    graficaGeneral(table,'general');
+		    graficaGeneral(table,'general',numRegistros,page);
 		    
 		    $('.stats').on('click', function(){
 				tipo = $(this).parent().find('#id').val(); 
@@ -223,252 +610,286 @@
 		 		chart.destroy();
 		 		
 		 	}
-		 	if (tipo != 'general'){
+		 	if (tipo == 'general'){
 		 		
-		 		columnas(table,tipo);
-		 		graficaEspecifica(table,tipo);
+		 		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
+	     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
+		 		graficaGeneral(table,tipo,numRegistros,page);
+		 	
+		 	}else if (tipo == 'tiempos'){
+		 		
+		 		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
+	     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
+		 		graficaTiempos (table, tipo,numRegistros,page);
 		 		
 		 	}else{
 		 		
-	     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
-	     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
-		 		graficaGeneral(table,tipo);
+		 		columnas(table,tipo);
+		 		graficaEspecifica(table,tipo,numRegistros,page);
+	     		
 		 	}
 		    });
 		    
+		    $('.dataTables_length select').on('change', function(){
+		          page = 0;
+		          numRegistros = this.value;
+		          crearGrafica(this.value,page);
+		    });
+		    
+		    $('#estadisiticas').on( 'draw.dt', function () {
+		        var info = table.page.info();
+		        console.log(info.page);
+		        page = info.page;
+		        crearGrafica(numRegistros,page);
+		        //chart.reflow();
+		        
+		    });
+		    
 		    $('th').on('click', function(){
+		    	 
+		          crearGrafica(numRegistros,page);
+		    });
+		    
+		    function crearGrafica(numRegistros,page){
 		    	if(chart != null){
 			 		chart.destroy();
+			 		console.log("destruida");
 			 		if(tipo == null){
 			 			tipo = 'general';
 			 		}
-			 	}if (tipo == 'general'){
+			 	}
+			 	
+		    	if (tipo == 'general'){
 			 		
 			 		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
 		     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
-			 		graficaGeneral(table,tipo);
+			 		graficaGeneral(table,tipo,numRegistros,page);
+			 		
+			 	
+			 	}else if (tipo == 'tiempos'){
+			 		
+			 		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
+		     		table.columns( [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]).visible(true);
+			 		graficaTiempos (table, tipo,numRegistros,page);
+			 		
 			 	}else{
 			 	
-			 	graficaEspecifica(table,tipo);
+			 		columnas(table,tipo);
+			 		graficaEspecifica(table,tipo,numRegistros,page);
+			 		
+		     		
 			 	}
-		    });
+		    }
 		 	
 		    // Create the chart with initial data
 		    
-		    function graficaEspecifica (table, tipo){ 
-		    
-		    var container = $('<div/>').insertBefore(table.table().container());
-		 
-		     chart = Highcharts.chart(container[0], {
-		        chart: {
-		            type: 'column',
-		        },
-		        title: {
-		            text: name(table,tipo),
-		        },
-		        xAxis: {
-		            categories: fechas(table),
-		            crosshair: true
-		        },
-		        yAxis: [{ // Primary yAxis
-		            labels: {
-		                format: '{value}',
-		                style: {
-		                    color: Highcharts.getOptions().colors[1]
-		                }
-		            },
-		            title: {
-		                text: 'Estadísticas',
-		                style: {
-		                    color: Highcharts.getOptions().colors[1]
-		                }
-		            },
-		            opposite: true
-		        }, { // Secondary yAxis
-		        	max: 100,
-		        	min: 0,
-		            title: {
-		                text: 'Porcentaje',
-		                style: {
-		                    color: Highcharts.getOptions().colors[0]
-		                }
-		            },
-		            labels: {
-		                format: '{value} %',
-		                style: {
-		                    color: Highcharts.getOptions().colors[1]
-		                }
-		            }
-		        }],
-		        tooltip: {
-		            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-		            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-		                '<td style="padding:0"><b>{point.y:f}</b></td></tr>',
-		            footerFormat: '</table>',
-		            shared: true,
-		            useHTML: true
-		        },
-		        plotOptions: {
-		            column: {
-		                pointPadding: 0.2,
-		                borderWidth: 0
-		            }
-		        },
-		        series: [
-		            {	            	
-		            	name: name1(table,tipo),
-		            	data: chartData(table,tipo),
-		            	yAxis: 0
-		            	
-		            },
-		            {
-		            	name: name2(table,tipo),
-		            	data: chartData2(table,tipo),
-		            	yAxis: 0
-		            }, 
-		            {
-		                type: 'spline',
-		                name: 'Porcentaje',
-		                data: chartData3(table,tipo),
-		                yAxis: 1,
-		                tooltip: {
-		                    valueSuffix: ' %'
-		                },
-		                marker: {
-		                    lineWidth: 2,
-		                    lineColor: Highcharts.getOptions().colors[3],
-		                    fillColor: 'white'
-		                }
-		            }
-		        ],
-		    });
-		    
-		    table.on('draw', function () {
-		        chart.series[0].setData(chartData(table));
-		    });
-		    }
-		
-	
-		
-	 function graficaGeneral (table, tipo){ 
-		    
-		    var container = $('<div/>').insertBefore(table.table().container());
-		 
-		     chart = Highcharts.chart(container[0], {
-		    	 chart: {
-			            type: 'spline',
+		    function graficaEspecifica (table, tipo,numRegistros,page){ 
+			    
+			    var container = $('<div/>').insertBefore(table.table().container());
+			 
+			     chart = Highcharts.chart(container[0], {
+			        chart: {
+			            type: 'column', //el tipo de la gráfica
 			        },
-		        title: {
-		            text: 'Estadística',
-		        },
-		        xAxis: {
-		            categories: fechas(table),
-		            crosshair: true
-		        },
-		        yAxis:  {
-		        	max: 100,
-		        	min: 0,
-		            title: {
-		                text: 'Porcentaje',
-		                style: {
-		                    color: Highcharts.getOptions().colors[0]
-		                }
-		            },
-		            labels: {
-		                format: '{value} %',
-		                style: {
-		                    color: Highcharts.getOptions().colors[1]
-		                }
-		            }
-		        },
-		        
-		        legend: {
-		            layout: 'vertical',
-		            align: 'right',
-		            verticalAlign: 'middle'
-		        },
-		        plotOptions: {
-		            series: {
-		                pointPadding: 0.2,
-		                borderWidth: 0
-		            }
-		        },
-		   
-		        series: [
-		            {	            	
-		            	name: 'Porcentaje Saques',
-		            	data: datos(table,'saque')
-		            	
-		            },
-		            {
-		            	name: 'Porcentaje Recepciones',
-		            	data: datos(table,'recepcion')
-		            },
-		            {	            	
-		            	name: 'Porcentaje Colocaciones',
-		            	data: datos(table,'colocacion')
-		            	
-		            },
-		            {
-		            	name: 'Porcentaje Defensas',
-		            	data: datos(table,'defensa')
-		            },  
-		            {	            	
-		            	name: 'Porcentaje Bloqueo',
-		            	data: datos(table,'bloqueo')
-		            	
-		            },
-		            {
-		            	name: 'Porcentaje Remate',
-		            	data: datos(table,'remate')
-		            }, 
-		            {	            	
-		            	name: 'Porcentaje Fintas',
-		            	data: datos(table,'finta')
-		            	
-		            },
-		            {
-		            	name: 'Porcentaje Ataques Rápidos',
-		            	data: datos(table,'ataque')
-		            }, 
-		        ],
-		        
-		        responsive: {
-		            rules: [{
-		                condition: {
-		                    maxWidth: 500
-		                },
-		                chartOptions: {
-		                    legend: {
-		                        layout: 'horizontal',
-		                        align: 'center',
-		                        verticalAlign: 'bottom'
-		                    }
-		                }
-		            }]
-		        }
-		    });
-		    
-		    table.on('draw', function () {
-		        chart.series[0].setData(chartData(table));
-		    });
-		    }
+			        title: {
+			            text: name(table,tipo), //nombre de la gráfica según el tipo
+			        },
+			        xAxis: {
+			            categories: fechas(table,numRegistros,page), //devuelve una lista con las fechas que salen en el eje x
+			            crosshair: true
+			        },
+			        yAxis: [{ // Primary yAxis
+			            labels: {
+			                format: '{value}',
+			                style: {
+			                    color: Highcharts.getOptions().colors[1]
+			                }
+			            },
+			            title: {
+			                text: 'Estadísticas',
+			                style: {
+			                    color: Highcharts.getOptions().colors[1]
+			                }
+			            },
+			            opposite: true
+			        }, { // Secondary yAxis
+			        	max: 100,
+			        	min: 0,
+			            title: {
+			                text: 'Porcentaje',
+			                style: {
+			                    color: Highcharts.getOptions().colors[0]
+			                }
+			            },
+			            labels: {
+			                format: '{value} %',
+			                style: {
+			                    color: Highcharts.getOptions().colors[1]
+			                }
+			            }
+			        }],
+			        tooltip: {
+			            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+			            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+			                '<td style="padding:0"><b>{point.y:f}</b></td></tr>',
+			            footerFormat: '</table>',
+			            shared: true,
+			            useHTML: true
+			        },
+			        plotOptions: {
+			            column: {
+			                pointPadding: 0.2,
+			                borderWidth: 0
+			            }
+			        },
+			        series: [  //A partir de aquí se describen las series
+			        	
+			        	{
+			            	name: name1(table,tipo), //parecido a name
+			            	data: chartData(table,tipo,numRegistros,page), //delvuelve los datos de acertados
+			            	yAxis: 0
+			            }, 
+			            {
+			            	name: name2(table,tipo), //parecido a name
+			            	data: chartData2(table,tipo,numRegistros,page), //delvuelve los datos de totales
+			            	yAxis: 0
+			            }, 
+			            {
+			                type: 'spline',  // está sería en vez de ser de tipo columna es de tipo línea
+			                name: 'Porcentaje',
+			                data: chartData3(table,tipo,numRegistros,page), //delvuelve los datos de porcentaje
+			                yAxis: 1,
+			                tooltip: {
+			                    valueSuffix: ' %'
+			                },
+			                marker: {
+			                    lineWidth: 2,
+			                    lineColor: Highcharts.getOptions().colors[3],
+			                    fillColor: 'white'
+			                }
+			            }
+			        ],
+			    });
+			    
+			    }
 		
 	
-	});
 		
-	
+		    function graficaGeneral (table, tipo, numRegistros,page){ 
+			    
+			    var container = $('<div/>').insertBefore(table.table().container());
+			 
+			     chart = Highcharts.chart(container[0], {
+			    	 chart: {
+				            type: 'spline', //esta es de tipo linea
+				        },
+			        title: {
+			            text: 'Estadística',
+			        },
+			        xAxis: {
+			            categories: fechas(table,numRegistros,page), //procedimiento similar a la gráfica específica
+			            crosshair: true,
+			            max: fechas(table,numRegistros,page).length -1
+			        },
+			        yAxis:  {
+			        	max: 100,
+			        	min: 0,
+			            title: {
+			                text: 'Porcentaje',
+			                style: {
+			                    color: Highcharts.getOptions().colors[0]
+			                }
+			            },
+			            labels: {
+			                format: '{value} %',
+			                style: {
+			                    color: Highcharts.getOptions().colors[1]
+			                }
+			            }
+			        },
+			        
+			        legend: {
+			            layout: 'vertical',
+			            align: 'right',
+			            verticalAlign: 'middle'
+			        },
+			        plotOptions: {
+			            series: {
+			                pointPadding: 0.2,
+			                borderWidth: 0
+			            }
+			        },
+			   
+			        series: [ // A diferencia de la gráfica anterior aquí las series son los porcentajes de cada una de las estadísticas
+			            {	            	
+			            	name: 'Porcentaje Saques',
+			            	data: datos(table,'saque',numRegistros,page), 
+			            	
+			            },
+			            {
+			            	name: 'Porcentaje Recepciones',
+			            	data: datos(table,'recepcion',numRegistros,page)
+			            },
+			            {	            	
+			            	name: 'Porcentaje Colocaciones',
+			            	data: datos(table,'colocacion',numRegistros,page)
+			            	
+			            },
+			            {
+			            	name: 'Porcentaje Defensas',
+			            	data: datos(table,'defensa',numRegistros,page)
+			            },  
+			            {	            	
+			            	name: 'Porcentaje Bloqueo',
+			            	data: datos(table,'bloqueo',numRegistros,page)
+			            	
+			            },
+			            {
+			            	name: 'Porcentaje Remate',
+			            	data: datos(table,'remate',numRegistros,page)
+			            }, 
+			            {	            	
+			            	name: 'Porcentaje Fintas',
+			            	data: datos(table,'finta',numRegistros,page)
+			            	
+			            },
+			            {
+			            	name: 'Porcentaje Ataques Rápidos',
+			            	data: datos(table,'ataque',numRegistros,page)
+			            }, 
+			        ],
+			        
+			        responsive: {
+			            rules: [{
+			                condition: {
+			                    maxWidth: 500
+			                },
+			                chartOptions: {
+			                    legend: {
+			                        layout: 'horizontal',
+			                        align: 'center',
+			                        verticalAlign: 'bottom'
+			                    }
+			                }
+			            }]
+			        }
+			    });
+			    
+			    }
+			
+		
+		});
+			
  // FUNCTIONS	
  
- 			function datos (table,tipo){
- 				
-	 			var sol = {};
-	 			var fecha = [];
+ 			function datos (table,tipo,numRegistros,page){
+ 						
 	 			var dato = [];
-	 			var horas = [];
-	 			
+
+	 			var contador = 0;
 				var columna = 0;
-		     	
+				
+				//Vemos de que columna es de la que vemos a crear la serie según el tipo que llega como parámetro
 		     	if (tipo == 'saque'){
 		     		columna = 4;
 		     	} else if(tipo == 'recepcion'){
@@ -487,30 +908,22 @@
 					columna = 25;
 				}
 		     	
-		     	table
-	            .column(0, { search: 'applied' })
-	            .data()
-	            .each(function (val) {
-	            	fecha.push( val);
-	            });
-		     	
-		     	 table
-		            .column(1, { search: 'applied' })
-		            .data()
-		            .each(function (val) {
-		            	horas.push( val);
-		            });
+
 	 			
+		     	 contador = 0;
+		     	 //recorremos la columna de tabla y añadimos solo aquellos que están dentro del paginado de la tabla
  				 table
 		            .column(columna, { search: 'applied' })
 		            .data()
 		            .each(function (val) {
-		            	dato.push( parseFloat(val.replace('%','')));
+		            	
+		            	if(contador >= numRegistros*page && dato.length < numRegistros){
+		            		
+		            		dato.push( parseFloat(val*100));
+		            	}else{
+		            		contador++;
+		            	}
 		            });
- 				 
- 				for (i = 0; i < dato.length; i++){
-		        	dato[i] = dato[i];
-		        }
  				 
 				return dato;
 			}
@@ -581,211 +994,261 @@
 				}
 			}
 			
-		    function chartData(table,tipo) {
-		        var counts = {};
-		     	var fechas = [];
-		     	var horas = [];
-		     	var dato = [];
-		        
-		     	var columna = 0;
-		     	
-		     	if (tipo == 'saque'){
-		     		columna = 2;
-		     	} else if(tipo == 'recepcion'){
-		     		columna = 5;
-		     	}else if (tipo == 'colocacion'){
-		     		columna = 8;
-		     	}else if (tipo == 'defensa'){
-					columna = 11;
-				}else if (tipo == 'bloqueo'){
-					columna = 14;
-				}else if (tipo == 'remate'){
-					columna = 17;
-				}else if (tipo == 'finta'){
-					columna = 20;
-				}else if (tipo == 'ataque'){
-					columna = 23;
-				}
-		        // Count the number of entries for each position
-		        table
-		            .column(0, { search: 'applied' })
+			 function chartData(table,tipo,numRegistros,page) {
+			        var counts = {};
+			     	var fechas = [];
+			     	var horas = [];
+			     	var dato = [];
+			     	var contador = 0;
+			     	var columna = 0;
+			     	var contCounts = 0;
+			     	var equipo = [];
+			     	
+			     	if (tipo == 'saque'){
+			     		columna = 2;
+			     	} else if(tipo == 'recepcion'){
+			     		columna = 5;
+			     	}else if (tipo == 'colocacion'){
+			     		columna = 8;
+			     	}else if (tipo == 'defensa'){
+						columna = 11;
+					}else if (tipo == 'bloqueo'){
+						columna = 14;
+					}else if (tipo == 'remate'){
+						columna = 17;
+					}else if (tipo == 'finta'){
+						columna = 20;
+					}else if (tipo == 'ataque'){
+						columna = 23;
+					}else if (tipo == 'tiempos'){
+						columna = 26;
+					}
+			        // Count the number of entries for each position
+			        table
+			            .column(0, { search: 'applied' })
+			            .data()
+			            .each(function (val) {
+			            	fechas.push( val);
+			            });
+			        
+			        table
+		            .column(1, { search: 'applied' })
 		            .data()
 		            .each(function (val) {
-		            	fechas.push( val);
+		            	horas.push( val);
 		            });
-		        
-		        table
-	            .column(1, { search: 'applied' })
-	            .data()
-	            .each(function (val) {
-	            	horas.push( val);
-	            });
-		        
-		        table
-	            .column(columna, { search: 'applied' })
-	            .data()
-	            .each(function (val) {
-	            	dato.push( parseInt(val,10));
-	            });
-		        
-		         
-		        
-		        for (i = 0; i < fechas.length; i++){
-		        	counts[fechas[i]+" "+horas[i]] = dato[i];
-		        }
-		        
-		     
-		        // And map it to the format highcharts uses
-		        return $.map(counts, function (val, key) {
-		            return {
-		                name: key,
-		                y: val,
-		            };
-		        });
-		    }
-		    
-		    function chartData2(table,tipo) {
-		        var counts = {};
-		     	var fechas = [];
-		     	var horas = [];
-		     	var dato = [];
-		        
-				var columna = 0;
-		     	
-		     	if (tipo == 'saque'){
-		     		columna = 3;
-		     	} else if(tipo == 'recepcion'){
-		     		columna = 6;
-		     	} else if (tipo == 'colocacion'){
-		     		columna = 9;
-		     	}else if (tipo == 'defensa'){
-					columna = 12;
-		     	}else if (tipo == 'bloqueo'){
-					columna = 15;
-				}else if (tipo == 'remate'){
-					columna = 18;
-				}else if (tipo == 'finta'){
-					columna = 21;
-				}else if (tipo == 'ataque'){
-					columna = 24;
-				}					
-		        // Count the number of entries for each position
-		        table
-		            .column(0, { search: 'applied' })
+			        
+			        table
+		            .column(columna, { search: 'applied' })
 		            .data()
 		            .each(function (val) {
-		            	fechas.push(val);
+		            	dato.push( parseInt(val,10));
 		            });
-		        
-		        table
-	            .column(1, { search: 'applied' })
-	            .data()
-	            .each(function (val) {
-	            	horas.push( val);
-	            });
-		        
-		        table
-	            .column(columna, { search: 'applied' })
-	            .data()
-	            .each(function (val) {
-	            	dato.push( parseInt(val,10));
-	            });
-		        
-		        for (i = 0; i < fechas.length; i++){
-		        	counts[fechas[i]+" "+horas[i]] = dato[i];
-		        }
-		        
-		     
-		        // And map it to the format highcharts uses
-		        return $.map(counts, function (val, key) {
-		            return {
-		                name: key,
-		                y: val,
-		            };
-		        });
-		        
-		    }
-		     
-		    function chartData3(table,tipo) {
-		        var counts = {};
-		     	var fechas = [];
-		     	var horas = [];
-		     	var dato = [];
-		     	
-				var columna = 0;
-		     	
-		     	if (tipo == 'saque'){
-		     		columna = 4;
-		     	} else if(tipo == 'recepcion'){
-		     		columna = 7;
-		     	}else if(tipo == 'colocacion'){
-		     		columna = 10;
-		     	}else if (tipo == 'defensa'){
-					columna = 13;
-		     	}else if (tipo == 'bloqueo'){
-					columna = 16;
-				}else if (tipo == 'remate'){
-					columna = 19;
-				}else if (tipo == 'finta'){
-					columna = 22;
-				}else if (tipo == 'ataque'){
-					columna = 25;
-				}
-		        
-		        // Count the number of entries for each position
-		        table
-		            .column(0, { search: 'applied' })
+			        
+			        
+			      
+					for (i = 0; i < fechas.length; i++){
+			        	
+			        	if(contador >= numRegistros*page && contCounts < numRegistros){
+			        		
+			        		counts[fechas[i]+" "+horas[i]] = dato[i];
+			        		console.log(counts);
+			        		contCounts++;
+			        	}else{
+			        			
+			        			contador++;
+			        	}
+			        }
+			        
+			     	
+			        // And map it to the format highcharts uses
+					 return $.map(counts, function (val, key) {
+				            return {
+				                name: key,
+				                y: val,
+				            };
+				        });
+			    }
+			    
+			    function chartData2(table,tipo,numRegistros,page) {
+			    	 var counts = {};
+				     	var fechas = [];
+				     	var horas = [];
+				     	var dato = [];
+				     	var contador = 0;
+						var columna = 0;
+						var contCounts = 0;
+						var equipo = [];
+					
+			     	if (tipo == 'saque'){
+			     		columna = 3;
+			     	} else if(tipo == 'recepcion'){
+			     		columna = 6;
+			     	} else if (tipo == 'colocacion'){
+			     		columna = 9;
+			     	}else if (tipo == 'defensa'){
+						columna = 12;
+			     	}else if (tipo == 'bloqueo'){
+						columna = 15;
+					}else if (tipo == 'remate'){
+						columna = 18;
+					}else if (tipo == 'finta'){
+						columna = 21;
+					}else if (tipo == 'ataque'){
+						columna = 24;
+					}else if (tipo == 'tiempos'){
+						columna = 27;
+					}					
+			        // Count the number of entries for each position
+			        table
+			            .column(0, { search: 'applied' })
+			            .data()
+			            .each(function (val) {
+			            	fechas.push(val);
+			            });
+			        
+			        table
+		            .column(1, { search: 'applied' })
 		            .data()
 		            .each(function (val) {
-		            	fechas.push( val);
+		            	horas.push( val);
 		            });
-		        
-		        table
-	            .column(1, { search: 'applied' })
-	            .data()
-	            .each(function (val) {
-	            	horas.push( val);
-	            });
-		        
-		        table
-	            .column(columna, { search: 'applied' })
-	            .data()
-	            .each(function (val) {
-	            	dato.push( parseFloat(val));
-	            });
-		        
-		        for (i = 0; i < fechas.length; i++){
-		        	counts[fechas[i]+" "+horas[i]] = dato[i]*100;
-		        }
-		        
-		       
-		     
-		        // And map it to the format highcharts uses
-		        return $.map(counts, function (val, key) {
-		            return {
-		                name: key,
-		                y: val,
-		            };
-		        });
-		        
-		       
-		    }
+			        
+			        table
+		            .column(columna, { search: 'applied' })
+		            .data()
+		            .each(function (val) {
+		            	dato.push( parseInt(val,10));
+		            });
+			        
+			       
+			        
+	     			for (i = 0; i < fechas.length; i++){
+			        	
+			        	if(contador >= numRegistros*page && contCounts < numRegistros){
+			        		
+			        		counts[fechas[i]+" "+horas[i]] = dato[i];
+			        		console.log(counts);
+			        		contCounts++;
+			        	}else{
+			        			
+			        			contador++;
+			        	}
+			        }
+			        
+			     
+			        // And map it to the format highcharts uses
+			        return $.map(counts, function (val, key) {
+			            return {
+			                name: key,
+			                y: val,
+			            };
+			        });
+			        
+			    }
+
+			    function chartData3(table,tipo,numRegistros,page) {
+			        var counts = {};
+			     	var fechas = [];
+			     	var horas = [];
+			     	var dato = [];
+			     	var contador = 0;
+					var columna = 0;
+					var contCounts = 0;
+					var equipo = [];
+			     	
+			     	if (tipo == 'saque'){
+			     		columna = 4;
+			     	} else if(tipo == 'recepcion'){
+			     		columna = 7;
+			     	}else if(tipo == 'colocacion'){
+			     		columna = 10;
+			     	}else if (tipo == 'defensa'){
+						columna = 13;
+			     	}else if (tipo == 'bloqueo'){
+						columna = 16;
+					}else if (tipo == 'remate'){
+						columna = 19;
+					}else if (tipo == 'finta'){
+						columna = 22;
+					}else if (tipo == 'ataque'){
+						columna = 25;
+					}else if (tipo == 'tiempos'){
+						columna = 28;
+					}
+			        
+			        // Count the number of entries for each position
+			        table
+			            .column(0, { search: 'applied' })
+			            .data()
+			            .each(function (val) {
+			            	fechas.push( val);
+			            });
+			        
+			        table
+		            .column(1, { search: 'applied' })
+		            .data()
+		            .each(function (val) {
+		            	horas.push( val);
+		            });
+			        
+			        table
+		            .column(columna, { search: 'applied' })
+		            .data()
+		            .each(function (val) {
+		            	dato.push( parseFloat(val));
+		            });
+			       
+			       
+					for (i = 0; i < fechas.length; i++){
+			        	
+			        	if(contador >= numRegistros*page && contCounts < numRegistros){
+			        		if(tipo != "tiempos")
+			        			counts[fechas[i]+" "+horas[i]] = dato[i]*100;
+			        		else
+			        			counts[fechas[i]+" "+horas[i]] = dato[i];
+			        		console.log(counts);
+			        		contCounts++;
+			        	}else{
+			        			
+			        			contador++;
+			        	}
+			        }
+			        
+			        // And map it to the format highcharts uses
+			        return $.map(counts, function (val, key) {
+			            return {
+			                name: key,
+			                y: val,
+			            };
+			        });
+			        
+			       
+			    }
 			
-		    function fechas(table) {
-		        
-		     	var fecha = [];
-		        
-		        // Count the number of entries for each position
-		        table
-		            .column(0, { search: 'applied' })
-		            .data()
-		            .each(function (val) {
-		            	fecha.push( val);
-		            });
-		        
-		        // And map it to the format highcharts uses
-		        return fecha;
-		    }
+			    function fechas(table,numRegistros,page) {
+			        
+			     	var fecha = [];
+			     	var contador = 0;
+			     	
+			     	console.log(numRegistros)
+			     	console.log(page)
+			     	console.log(numRegistros*page)
+			        // Count the number of entries for each position
+			        table
+			            .column(0, { search: 'applied' })
+			            .data()
+			            .each(function (val) {
+			            	if(contador >= numRegistros*page && fecha.length < numRegistros)
+			            		fecha.push( val);
+			            	else{
+			            		contador++;
+			            	}
+			            });
+			       console.log(fecha);
+			        // And map it to the format highcharts uses
+			        return fecha;
+			    }
 		    
 		    function columnas(table,tipo){
 		    	

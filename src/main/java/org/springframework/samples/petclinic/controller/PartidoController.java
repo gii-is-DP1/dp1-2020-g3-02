@@ -6,7 +6,6 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,6 +34,7 @@ import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
+import org.springframework.samples.petclinic.model.estadisticas.EstadisticasDeUnJugadorStats;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 import org.springframework.samples.petclinic.model.estadisticas.PartidoStats;
@@ -141,7 +141,11 @@ public class PartidoController {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_JUGADOR_POR_PARTIDO);
 		mav.addObject("estadisticas", estadisService.findByJugador(jugador.getId()));
 		
-		return mav;
+		List<String> categorias = new ArrayList<String>();
+		categorias.addAll(jugador.getEquipos().stream().map(x->x.getCategoria()).sorted().collect(Collectors.toList()));
+        mav.addObject("categorias", categorias);
+		
+        return mav;
 	}
 	
 	@GetMapping("/showestadisiticasPartido")
@@ -157,6 +161,43 @@ public class PartidoController {
         categorias.addAll(entrenador.getEquipos().stream().map(x->x.getCategoria()).sorted().collect(Collectors.toList()));
         mav.addObject("categorias", categorias);
 		return mav;
+	}
+	
+	@RequestMapping(value = "findestadisticasJugador/{categoria}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<EstadisticasDeUnJugadorStats>> graficoEstadisticasTodosLosPartidosDeUnJugador(@PathVariable("categoria") String categoria, HttpServletRequest request) {
+		try {
+			
+			List<String> categorias = new ArrayList<String>();
+			
+			Principal principal = request.getUserPrincipal();
+			String username =  principal.getName(); 
+	        User  user = userService.findByUsername(username);
+	        Jugador jugador = jugadorService.findByUser(user);
+	        
+	        categorias.addAll(jugador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+			
+			List<EstadisticaPersonalPartido> estadisticasJugador = new ArrayList<EstadisticaPersonalPartido>();
+			List<EstadisticasDeUnJugadorStats> estadisticas = new ArrayList<EstadisticasDeUnJugadorStats>();
+			
+		
+				Equipo equipo = equipoService.findByCategoria(categoria);
+				estadisticasJugador = estadisService.findByJugador(jugador.getId());
+			
+			
+			for (int i = 0; i < estadisticasJugador.size();i++) {
+				if(estadisticasJugador.get(i).getPartido().getEquipo().equals(equipo)) {
+					EstadisticasDeUnJugadorStats estadistica = estadisticasConverter.convertEstadisticasPersonalesToJugadorStats(estadisticasJugador.get(i));
+					estadisticas.add(estadistica);
+				}
+				
+			}
+			
+			DataTableResponse<EstadisticasDeUnJugadorStats> data = new DataTableResponse<EstadisticasDeUnJugadorStats>();
+			data.setData(estadisticas);
+			return new ResponseEntity<DataTableResponse<EstadisticasDeUnJugadorStats>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<EstadisticasDeUnJugadorStats>>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 	@RequestMapping(value = "findestadisticasPartidos/{categoria}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
