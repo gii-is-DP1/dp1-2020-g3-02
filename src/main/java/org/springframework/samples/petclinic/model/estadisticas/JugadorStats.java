@@ -1,7 +1,5 @@
 package org.springframework.samples.petclinic.model.estadisticas;
 
-import org.springframework.stereotype.Component;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
