@@ -1,8 +1,6 @@
 package org.springframework.samples.petclinic.controller;
 
 import java.security.Principal;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,16 +16,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.EquipoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
+import org.springframework.samples.petclinic.converter.EquipoConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.enumerate.Sistema;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
-import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
-import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.ediciones.EquipoEdit;
-import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
+import org.springframework.samples.petclinic.model.estadisticas.EquipoStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.JugadorService;
@@ -63,6 +60,9 @@ public class EquipoController {
 	
 	@Autowired
 	private JugadorConverter jugadorConverter;
+	
+	@Autowired
+	private EquipoConverter equipoConverter;
 	
 	@Autowired
 	private JugadorPartidoStatsConverter jugadorPartidoStatsConverter;
@@ -157,6 +157,18 @@ public class EquipoController {
 		
 		return "redirect:/equipos/showequipos";
 		
+	}
+	
+	@RequestMapping(value = "findEstadisticasEquipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EquipoStats> graficoEstadisticasEquipo(@PathVariable("id") int id) {
+		try {
+			Optional<Equipo> equipoO = equipoService.findById(id);
+			Equipo equipo = equipoO.get();
+			EquipoStats stats = equipoConverter.convertEquipoToEquipoStats(equipo);
+			return new ResponseEntity<EquipoStats>(stats, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<EquipoStats>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 	@RequestMapping(value = "findJugadorPosicionEquipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
