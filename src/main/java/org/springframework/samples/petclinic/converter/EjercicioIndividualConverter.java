@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class EjercicioIndividualConverter {
 	
 	public EjercicioIndividualDTO converterEntityToDTO(EjercicioIndividual entity) {
-		return new EjercicioIndividualDTO(entity.getTipoEjercicio(), entity.getNombre(), entity.getDescripcion());
+		return new EjercicioIndividualDTO(entity.getId(), entity.getTipoEjercicio(), entity.getNombre(), entity.getDescripcion());
 	}
 	
 	public List<EjercicioIndividualDTO> converListEntityToListDTO(List<EjercicioIndividual> entities){

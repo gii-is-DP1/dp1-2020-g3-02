@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EjercicioIndividualDTO {
 	
+	private Integer id;
+	
 	private TipoEjercicio tipo;
 	
 	private String nombre;
