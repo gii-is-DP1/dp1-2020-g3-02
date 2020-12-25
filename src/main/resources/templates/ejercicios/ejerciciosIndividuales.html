@@ -277,6 +277,8 @@
 		</div>
 	</div>
 	
+	<div th:replace="ejercicios/modalGestionEjercicio"> </div>
+	
 	<th:block layout:fragment="scripts">
 		<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 		<!-- Optional JavaScript -->
@@ -316,15 +318,45 @@
 	   		}
 	 	}
 	   	
+	   	function obtenerTipoCorregido(tipo){
+	   		var tipoCorregido = '';
+	   		
+	   		if(tipo === 'SAQUE'){
+	   			tipoCorregido = 'Saque';
+	   		} else if(tipo === 'RECEPCION'){
+	   			tipoCorregido = 'Recepción';
+	   		} else if(tipo === 'COLOCACION'){
+	   			tipoCorregido = 'Colocación';
+	   		} else if(tipo === 'DEFENSA'){
+	   			tipoCorregido = 'Defensa';
+	   		} else if(tipo === 'ATAQUE'){
+	   			tipoCorregido = 'Ataque';
+	   		} else if(tipo === 'BLOQUEO'){
+	   			tipoCorregido = 'Bloqueo';
+	   		}
+	   		
+	   		return tipoCorregido;
+	   	}
+	   	
 	   	function inicializaBotonesSiEntrenador(permiso, tipo){
 	   		var buttons = [];
 	   		if(permiso){
 	   			buttons.push({
 		   			text: '<i class="fas fa-plus"></i> Nuevo',
-	        		className: 'btn btn-success px-2',
+	        		className: 'btn btn-info px-2',
 	                titleAttr: 'Nuevo',
 	                action: function (e, dt, node, config) {
-						console.log(tipo);
+	                	
+	                	$('.error').text('');
+	                	
+	                	$('#tipoGestionEjercicio').val(tipo);
+	                	$('#idGestionEjercicio').val('');
+	                	$('#nombre').val('');
+						$('#descripcion').val('');
+	                	
+	                	$('#gestionModal .modal-header').css("color", "white");
+						$('#gestionModal .modal-title').text("Nuevo Ejercicio de " + obtenerTipoCorregido(tipo));
+						$('#gestionModal').modal("show");
 					}
 		   		});
 	   		}

@@ -42,12 +42,6 @@ public class EjercicioIndividualValidator implements Validator{
 				errors.rejectValue("nombre", "error",ValidationConstant.EJERCICIOS_NOMBRE_DUPLICADO);
 			}
 		}
-		//TipoEjercicio validation
-		if (StringUtils.isEmpty(ejercicioIndividual.getTipoEjercicio())) {
-			LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": tipoEjercicio");
-			errors.rejectValue("tipo_ejercicio", "error",ValidationConstant.VALOR_OBLIGATORIO);
-
-		}
 	}
 	@Override
 	public boolean supports(Class<?> clazz) {
