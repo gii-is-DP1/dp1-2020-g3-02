@@ -14,7 +14,7 @@ public class RealizaEjercicioConverter {
 		return new RealizaEjercicioDTO(entity.getJugador().getFirstName() + " " + entity.getJugador().getLastName(), 
 				entity.getJugador().getPosicionPrincipal(), 
 				entity.getEjercicio_individual().getNombre(), 
-				entity.getFecha());
+				entity.getFecha().getDayOfMonth()+"/"+entity.getFecha().getMonthValue()+"/"+entity.getFecha().getYear());
 	}
 	
 	public List<RealizaEjercicioDTO> converListEntityToListDTO(List<RealizaEjercicio> entities){

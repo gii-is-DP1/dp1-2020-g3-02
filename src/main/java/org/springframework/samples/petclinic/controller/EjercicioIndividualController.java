@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.controller;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.EjercicioIndividualValidator;
+import org.springframework.samples.petclinic.component.RealizaEjercicioValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.EjercicioIndividualConverter;
 import org.springframework.samples.petclinic.converter.RealizaEjercicioConverter;
@@ -60,6 +63,9 @@ public class EjercicioIndividualController {
 	
 	@Autowired
 	private RealizaEjercicioConverter realizaEjercicioConverter;
+	
+	@Autowired
+	private RealizaEjercicioValidator realizaEjercicioValidator;
 	
 	@Autowired
 	private EjercicioIndividualService ejercicioIndividualService;
@@ -135,6 +141,40 @@ public class EjercicioIndividualController {
 		}
 	}
 	
+	@RequestMapping(value = "postRealizaEjercicio", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> postRealizaEjercicio(HttpServletRequest request, @ModelAttribute(name="realizaEjercicio") RealizaEjercicioDTO realizaEjercicioDTO, BindingResult result){
+		try {
+			
+			Principal principal = request.getUserPrincipal();
+			User user = userService.findByUsername(principal.getName());
+			Jugador jugador = jugadorService.findByUser(user);
+			EjercicioIndividual ejercicio = ejercicioIndividualService.findById(Integer.valueOf(request.getParameter("idRealizarEjercicio"))).get();
+			
+			realizaEjercicioDTO.setFecha(request.getParameter("fecha").trim());
+			
+			ValidationUtils.invokeValidator(realizaEjercicioValidator, realizaEjercicioDTO, result);
+			
+			if (result.hasErrors()) {
+				LOG.warn("Se han obtenido " + result.getErrorCount() + " errores de validación");
+				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+			}
+			
+			RealizaEjercicio realizaEjercicio = new RealizaEjercicio();
+			
+			realizaEjercicio.setEjercicio_individual(ejercicio);
+			realizaEjercicio.setJugador(jugador);
+			realizaEjercicio.setFecha(LocalDate.parse(request.getParameter("fecha").trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+			
+			LOG.info("Se procede a actualizar la realización del ejercicio");
+			RealizaEjercicio realizaEjercicioSave = realizaEjercicioService.save(realizaEjercicio);
+			LOG.info("Se ha actualizado la realización del ejercicio con éxito: " + realizaEjercicioSave);
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			LOG.error("No se ha podido guardar la realización del ejercicio");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@RequestMapping(value = "postEjercicio", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> postEjercicio(HttpServletRequest request, @ModelAttribute(name="ejercicio") EjercicioIndividual ejercicio, BindingResult result){
 		try {
@@ -156,9 +196,9 @@ public class EjercicioIndividualController {
 				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 			}
 			
-			LOG.info("Se procede a actualizar el jugador");
+			LOG.info("Se procede a actualizar el ejercicio");
 			EjercicioIndividual ejercicioSave = ejercicioIndividualService.save(ejercicio);
-			LOG.info("Se ha actualizado el jugador con éxito: " + ejercicioSave);
+			LOG.info("Se ha actualizado el ejercicio con éxito: " + ejercicioSave);
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			LOG.error("No se ha podido guardar el ejercicio");
