@@ -11,5 +11,7 @@ import org.springframework.samples.petclinic.model.User;
 public interface AuthoritiesRepository extends  CrudRepository<Authorities, String>{
 	
 	public List<String> findAuthorityByUser(User user);
+	public List<Authorities> findByUser(User user);
+	public Authorities findByUserAndAuthority(User user, String authority);
 	
 }

@@ -69,7 +69,7 @@
 			</div>
 			
 			<div class="container-fluid col-lg-9">
-				<div class="row">
+				<div sec:authorize="hasAuthority('jugador')" class="row">
 					<div class="col-lg py-3">
 						<div class="card shadow bg-light" style="border-top-color: #007bff; border-top-width: 3px;">
 							<div class="card-header text-white" style="background: rgb(0,123,255);
@@ -297,7 +297,14 @@
 		<script type="text/javascript"
 	        src="//code.highcharts.com/highcharts.js"></script>
 	        
+		<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.2.1/js/dataTables.buttons.min.js">
+		</script>
+		<script type="text/javascript" language="javascript" src="//cdn.datatables.net/buttons/1.2.1/js/buttons.html5.min.js">
+		</script> 
+	        
 	   	<script>
+	   	
+	   	var permisoEntrenador = [[${permisoEntrenador}]];
 	   	
 	   	function cambioMasMenos(element){
 	   		if(element.parentNode.parentNode.parentNode.children[1].classList.contains('collapse')){
@@ -308,6 +315,22 @@
 				}
 	   		}
 	 	}
+	   	
+	   	function inicializaBotonesSiEntrenador(permiso, tipo){
+	   		var buttons = [];
+	   		if(permiso){
+	   			buttons.push({
+		   			text: '<i class="fas fa-plus mr-1"></i>Nuevo',
+	        		className: 'btn btn-success px-2',
+	                titleAttr: 'Nuevo',
+	                action: function (e, dt, node, config) {
+						console.log(tipo);
+					}
+		   		});
+	   		}
+	   		
+	   		return buttons;
+	   	}
 	   		
 	   	$(document)
 		.ready(
@@ -375,7 +398,7 @@
 					
 					tablaSaque=$('#saque')
 					.DataTable({
-						dom: 'ftp',
+						dom: "<'row'<'col-sm-3'B><'col-sm-9'f>r>tp",
 						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'SAQUE',
 						order: [0, 'asc'],
 						responsive: true,
@@ -383,6 +406,7 @@
 							{data: 'nombre'},
 							{data: 'descripcion'},
 						],
+						buttons: inicializaBotonesSiEntrenador(permisoEntrenador, 'SAQUE'),
 						"language" : {
 						    "processing": "Procesando...",
 						    "lengthMenu": "Mostrar _MENU_ registros",
@@ -405,7 +429,7 @@
 					
 					tablaRecepcion=$('#recepcion')
 					.DataTable({
-						dom: 'ftp',
+						dom: "<'row'<'col-sm-3'B><'col-sm-9'f>r>tp",
 						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'RECEPCION',
 						order: [0, 'asc'],
 						responsive: true,
@@ -413,6 +437,7 @@
 							{data: 'nombre'},
 							{data: 'descripcion'},
 						],
+						buttons: inicializaBotonesSiEntrenador(permisoEntrenador, 'RECEPCION'),
 						"language" : {
 						    "processing": "Procesando...",
 						    "lengthMenu": "Mostrar _MENU_ registros",
@@ -435,7 +460,7 @@
 					
 					tablaColocacion=$('#colocacion')
 					.DataTable({
-						dom: 'ftp',
+						dom: "<'row'<'col-sm-3'B><'col-sm-9'f>r>tp",
 						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'COLOCACION',
 						order: [0, 'asc'],
 						responsive: true,
@@ -443,6 +468,7 @@
 							{data: 'nombre'},
 							{data: 'descripcion'},
 						],
+						buttons: inicializaBotonesSiEntrenador(permisoEntrenador, 'COLOCACION'),
 						"language" : {
 						    "processing": "Procesando...",
 						    "lengthMenu": "Mostrar _MENU_ registros",
@@ -465,7 +491,7 @@
 					
 					tablaDefensa=$('#defensa')
 					.DataTable({
-						dom: 'ftp',
+						dom: "<'row'<'col-sm-3'B><'col-sm-9'f>r>tp",
 						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'DEFENSA',
 						order: [0, 'asc'],
 						responsive: true,
@@ -473,6 +499,7 @@
 							{data: 'nombre'},
 							{data: 'descripcion'},
 						],
+						buttons: inicializaBotonesSiEntrenador(permisoEntrenador, 'DEFENSA'),
 						"language" : {
 						    "processing": "Procesando...",
 						    "lengthMenu": "Mostrar _MENU_ registros",
@@ -495,7 +522,7 @@
 					
 					tablaAtaque=$('#ataque')
 					.DataTable({
-						dom: 'ftp',
+						dom: "<'row'<'col-sm-3'B><'col-sm-9'f>r>tp",
 						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'ATAQUE',
 						order: [0, 'asc'],
 						responsive: true,
@@ -503,6 +530,7 @@
 							{data: 'nombre'},
 							{data: 'descripcion'},
 						],
+						buttons: inicializaBotonesSiEntrenador(permisoEntrenador, 'ATAQUE'),
 						"language" : {
 						    "processing": "Procesando...",
 						    "lengthMenu": "Mostrar _MENU_ registros",
@@ -525,7 +553,7 @@
 					
 					tablaBloqueo=$('#bloqueo')
 					.DataTable({
-						dom: 'ftp',
+						dom: "<'row'<'col-sm-3'B><'col-sm-9'f>r>tp",
 						ajax: '[[@{/ejercicios/tablaTipo/}]]'+'BLOQUEO',
 						order: [0, 'asc'],
 						responsive: true,
@@ -533,6 +561,7 @@
 							{data: 'nombre'},
 							{data: 'descripcion'},
 						],
+						buttons: inicializaBotonesSiEntrenador(permisoEntrenador, 'BLOQUEO'),
 						"language" : {
 						    "processing": "Procesando...",
 						    "lengthMenu": "Mostrar _MENU_ registros",
