@@ -2,10 +2,7 @@ package org.springframework.samples.petclinic.converter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
-import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;

@@ -1,7 +1,5 @@
 package org.springframework.samples.petclinic.model.auxiliares;
 
-import java.time.LocalDate;
-
 import org.springframework.samples.petclinic.enumerate.Posicion;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +17,6 @@ public class RealizaEjercicioDTO {
 	
 	private String nombreEjercicio;
 	
-	private LocalDate fecha;
+	private String fecha;
 
 }

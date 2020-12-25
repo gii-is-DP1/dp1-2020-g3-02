@@ -291,7 +291,8 @@
 		</div>
 	</div>
 	
-	<div th:replace="ejercicios/modalGestionEjercicio"> </div>
+	<div th:replace="ejercicios/modalGestionEjercicio"></div>
+	<div th:replace="ejercicios/modalRealizaEjercicio"></div>
 	
 	<th:block layout:fragment="scripts">
 		<script src=https://code.jquery.com/jquery-3.5.1.js></script>
@@ -375,6 +376,28 @@
 	   		});
 	   	};
 	   	
+	   	function realizar(id) {
+
+	   		$('.error').text('');
+
+	   		$.ajax({
+	   			type : 'GET',
+	   			url : '/ejercicios/findEjercicio/' + id,
+	   			success : function(dato) {
+	   				
+	   				var hoy = new Date();
+	   				var hoyS = hoy.getDate() + "/" + (hoy.getMonth() +1) + "/" + hoy.getFullYear();
+	   				
+	   				$('#idRealizarEjercicio').val(dato.id);
+	   				$('#fecha').val(hoyS);
+	   				
+	   				$('#realizaModal .modal-header').css("color", "white");
+					$('#realizaModal .modal-title').text("Realizo el Ejercicio: " + dato.nombre);
+					$('#realizaModal').modal("show");
+	   			}
+	   		});
+	   	};
+	   	
 	   	function inicializaBotonesSiEntrenador(permiso, tipo){
 	   		var buttons = [];
 	   		if(permiso){
@@ -410,11 +433,27 @@
 							.DataTable({
 								ajax: '[[@{/ejercicios/tablaRealizados}]]',
 								dom: 'tp',
-								order: [1, 'asc'],
+								order: [1, 'desc'],
 								responsive: true,
 								"columns":[
 									{data: 'nombreJugador'},
-									{data: 'fecha'},
+									{data: 'fecha',
+										render: function(data){
+											var partes = data.split("/");
+											var year = partes[2];
+											var month = partes[1];
+											var day = partes[0];
+											
+											if(day<10){
+												day = "0"+day;
+											}
+											
+											if(month<10){
+												month = "0"+month;
+											}
+											
+											return year + "-" + month + "-" + day;
+										}},
 									{data: 'nombreEjercicio'},
 									{data: 'posicionJugador'},
 								],
