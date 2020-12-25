@@ -10,11 +10,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.component.EjercicioIndividualValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.EjercicioIndividualConverter;
 import org.springframework.samples.petclinic.converter.RealizaEjercicioConverter;
 import org.springframework.samples.petclinic.converter.enumerate.TipoEjercicioConverter;
-import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.EjercicioIndividual;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.RealizaEjercicio;
@@ -30,10 +30,15 @@ import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.thymeleaf.util.StringUtils;
 
 @Controller
 @RequestMapping("/ejercicios")
@@ -58,6 +63,9 @@ public class EjercicioIndividualController {
 	
 	@Autowired
 	private EjercicioIndividualService ejercicioIndividualService;
+	
+	@Autowired
+	private EjercicioIndividualValidator ejercicioIndividualValidator;
 	
 	@Autowired 
 	private EjercicioIndividualConverter ejercicioIndividualConverter;
@@ -111,6 +119,37 @@ public class EjercicioIndividualController {
 			return new ResponseEntity<DataTableResponse<EjercicioIndividualDTO>>(data, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<DataTableResponse<EjercicioIndividualDTO>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "postEjercicio", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> postEjercicio(HttpServletRequest request, @ModelAttribute(name="ejercicio") EjercicioIndividual ejercicio, BindingResult result){
+		try {
+			
+			if(!StringUtils.isEmpty(request.getParameter("idGestionEjercicio"))) {
+				Integer id = Integer.parseInt(request.getParameter("idGestionEjercicio"));
+				ejercicio = ejercicioIndividualService.findById(id).get();
+			} else {
+				ejercicio.setTipoEjercicio(tipoEjercicioConverter.convertToEntityAttribute(request.getParameter("tipoGestionEjercicio")));
+			}
+			
+			ejercicio.setNombre(request.getParameter("nombre").trim());
+			ejercicio.setDescripcion(request.getParameter("descripcion").trim());
+			
+			ValidationUtils.invokeValidator(ejercicioIndividualValidator, ejercicio, result);
+			
+			if (result.hasErrors()) {
+				LOG.warn("Se han obtenido " + result.getErrorCount() + " errores de validación");
+				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+			}
+			
+			LOG.info("Se procede a actualizar el jugador");
+			EjercicioIndividual ejercicioSave = ejercicioIndividualService.save(ejercicio);
+			LOG.info("Se ha actualizado el jugador con éxito: " + ejercicioSave);
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			LOG.error("No se ha podido guardar el ejercicio");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 

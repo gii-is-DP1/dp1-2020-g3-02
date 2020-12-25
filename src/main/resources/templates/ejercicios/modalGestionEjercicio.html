@@ -1,0 +1,93 @@
+<meta charset="UTF-8" />
+
+	<div class="modal fade" id="gestionModal" data-backdrop="static"
+		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-centered">
+			<div class="modal-content">
+				<form id="formGestionEjercicio" method="post">
+					<div class="modal-header bg-info">
+						<h5 class="modal-title" id="gestionEjercicio"></h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" id="modalFormEjercicio">
+							<div class="form-group col-12">
+								<label for="nombreEjercicio"><span class="text-danger">(*) </span>Nombre:</label> <input
+									class="form-control" type="text" placeholder="Nombre" id="nombre"
+									name="nombre" required></input> <small
+									class="nombre text-danger error"></small>
+							</div>
+							<div class="form-group col-12">
+								<label for="descripcionEjercicio"><span class="text-danger">(*) </span>Hora:</label> <textarea
+									class="form-control" placeholder="Descripción" id="descripcion"
+									name="descripcion" required></textarea> <small
+									class="descripcion text-danger error"></small>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer"
+						style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-info"
+							onclick="return submitFormEjercicios();">Aceptar</button>
+						<input type="hidden" id="idGestionEjercicio" name="idGestionEjercicio"></input>
+						<input type="hidden" id="tipoGestionEjercicio" name="tipoGestionEjercicio"></input>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<script>
+
+function recargarTablaCorrecta(){
+	var tipo = $('#tipoGestionEjercicio').val();
+		console.log(tipo);
+		if(tipo === 'SAQUE'){
+			tablaSaque.ajax.reload(null, false);
+		} else if(tipo === 'RECEPCION'){
+			tablaRecepcion.ajax.reload(null, false);
+		} else if(tipo === 'COLOCACION'){
+			tablaColocacion.ajax.reload(null, false);
+		} else if(tipo === 'DEFENSA'){
+			tablaDefensa.ajax.reload(null, false);
+		} else if(tipo === 'ATAQUE'){
+			tablaAtaque.ajax.reload(null, false);
+		} else if(tipo === 'BLOQUEO'){
+			tablaBloqueo.ajax.reload(null, false);
+		}
+}
+
+function submitFormEjercicios(){
+	var form = new FormData(document
+			.getElementById('formGestionEjercicio'));
+	$.ajax({
+		url : '/ejercicios/postEjercicio',
+		type : 'post',
+		data : form,
+		processData : false,
+		contentType : false,
+		success : function(data) {
+			$('#gestionModal').modal("hide");
+			//tablaRecomendados.ajax.reload(null, false);
+			recargarTablaCorrecta();
+		},
+		error : function(data) {
+			$('.error').text('');
+
+			for (i = 0; i < data.responseJSON.length; i++) {
+
+				var campo = data.responseJSON[i].field;
+				$('.' + campo)
+						.text(data.responseJSON[i].defaultMessage);
+			}
+		}
+	});
+}
+
+</script>
