@@ -8,11 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.service.CapitanService;
+import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 @Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class CapitanValidator implements Validator{
 
 	private static final Log LOG = LogFactory.getLog(CapitanValidator.class);

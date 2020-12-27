@@ -31,7 +31,7 @@ public class Capitan extends BaseEntity {
 
 	@Column(name = "ntiemposmuertos", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int ntiemposmuertos;
+	private Integer ntiemposmuertos;
 
 	@Column(name = "actitud")
 	@Enumerated(value = EnumType.STRING)
