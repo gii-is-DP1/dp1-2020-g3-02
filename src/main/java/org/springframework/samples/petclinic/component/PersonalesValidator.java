@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.component;
 
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+
 @Component
-public class PersonalesValidator implements Validator{
+@NoArgsConstructor
+@AllArgsConstructor
+public class PersonalesValidator implements Validator {
 	
 	private static final Log LOG = LogFactory.getLog(PersonalesValidator.class);
 	
