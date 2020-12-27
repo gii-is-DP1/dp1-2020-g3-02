@@ -15,14 +15,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.EntrenamientoConverter;
+import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamiento;
+import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.estadisticas.EntrenamientoStats;
+import org.springframework.samples.petclinic.model.estadisticas.EstadisticasDeUnJugadorStats;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EquipoService;
@@ -76,6 +80,9 @@ public class EntrenamientoController {
 	@Autowired
 	private EntrenamientoConverter entrenamientoConverter;
 	
+	@Autowired
+	private EstadisticasConverter estadisticasConverter;
+	
 	@GetMapping("/showentrenamientos")
 	public ModelAndView listadoJugadores() {
 		
@@ -100,7 +107,48 @@ public class EntrenamientoController {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_JUGADOR_POR_ENTRENAMIENTO);
 		mav.addObject("estadisticas", estadisService.findByJugador(jugador.getId()));
 		
+		
+		List<String> categorias = new ArrayList<String>();
+		categorias.addAll(jugador.getEquipos().stream().map(x->x.getCategoria()).sorted().collect(Collectors.toList()));
+        mav.addObject("categorias", categorias);
 		return mav;
+	}
+	
+	@RequestMapping(value = "findestadisticasJugador/{categoria}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<EstadisticasDeUnJugadorStats>> graficoEstadisticasTodosLosEntrenamientosDeUnJugador(@PathVariable("categoria") String categoria, HttpServletRequest request) {
+		try {
+			
+			List<String> categorias = new ArrayList<String>();
+			
+			Principal principal = request.getUserPrincipal();
+			String username =  principal.getName(); 
+	        User  user = userService.findByUsername(username);
+	        Jugador jugador = jugadorService.findByUser(user);
+	        
+	        categorias.addAll(jugador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+			
+			List<EstadisticaPersonalEntrenamiento> estadisticasJugador = new ArrayList<EstadisticaPersonalEntrenamiento>();
+			List<EstadisticasDeUnJugadorStats> estadisticas = new ArrayList<EstadisticasDeUnJugadorStats>();
+			
+		
+				Equipo equipo = equipoService.findByCategoria(categoria);
+				estadisticasJugador = estadisService.findByJugador(jugador.getId());
+			
+			
+			for (int i = 0; i < estadisticasJugador.size();i++) {
+				if(estadisticasJugador.get(i).getEntrenamiento().getEquipo().equals(equipo)) {
+					EstadisticasDeUnJugadorStats estadistica = estadisticasConverter.convertEstadisticasPersonalesToJugadorStats(estadisticasJugador.get(i));
+					estadisticas.add(estadistica);
+				}
+				
+			}
+			
+			DataTableResponse<EstadisticasDeUnJugadorStats> data = new DataTableResponse<EstadisticasDeUnJugadorStats>();
+			data.setData(estadisticas);
+			return new ResponseEntity<DataTableResponse<EstadisticasDeUnJugadorStats>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<EstadisticasDeUnJugadorStats>>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 	@GetMapping("/showestadisiticasEntrenamiento")

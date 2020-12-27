@@ -219,8 +219,22 @@
 	$(document).ready(function () {
 		    // Create DataTable
 		    var table = $('#estadisiticas').DataTable({
-		        dom: '',
 		        responsive: true,
+		        "lengthMenu" : [5,6,7,8,9,10],
+				language : {
+					emptyTable : "Ningún dato disponible en esta tabla",
+					"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+					"infoEmpty" : "Mostrando 0 de 0 registros",
+					"lengthMenu" : "Mostrando _MENU_ registros",
+					"search" : "Buscar:",
+					"zeroRecords" : "No se encontraron resultados",
+					"paginate" : {
+						"first" : "Primera",
+						"last" : "Última",
+						"next" : "Siguiente",
+						"previous" : "Anterior"
+					},
+				},
 		        columnDefs : [ {
 					responsivePriority : 1,
 					targets : 0 //Nombre
