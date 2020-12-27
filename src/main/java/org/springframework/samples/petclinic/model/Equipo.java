@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.model;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -83,5 +82,13 @@ public class Equipo extends EstadisticasEntity{
 	
 	@Column(name = "federacion")
 	private boolean federacion;
+	
+	public boolean getFederacion() {
+		return this.federacion;
+	}
+	
+	public void setFederacion(boolean federacion) {
+		this.federacion = federacion;
+	}
 	
 }

@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -20,14 +21,21 @@ import org.springframework.samples.petclinic.converter.EquipoConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.enumerate.Sistema;
+import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
+import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
+import org.springframework.samples.petclinic.model.auxiliares.EquipoTablaEquipos;
 import org.springframework.samples.petclinic.model.ediciones.EquipoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EquipoStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
+import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.JugadorService;
+import org.springframework.samples.petclinic.service.impl.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
@@ -50,10 +58,16 @@ public class EquipoController {
 	private static final Log LOG = LogFactory.getLog(EquipoController.class);
 	
 	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private EquipoService equipoService;
 	
 	@Autowired
 	private JugadorService jugadorService;
+	
+	@Autowired
+	private EntrenadorService entrenadorService;
 	
 	@Autowired
 	private EquipoValidator equipoValidator;
@@ -217,6 +231,46 @@ public class EquipoController {
 		} catch (Exception e) {
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@RequestMapping(value = "/findEquipos", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<EquipoTablaEquipos>> listadoDeEquipos(HttpServletRequest request) {
+		try {
+			List<EquipoTablaEquipos> listaDeEquipos = new ArrayList<EquipoTablaEquipos>();
+			List<Equipo> equipos = equipoService.findAll();
+			
+			Principal principal = request.getUserPrincipal();
+			List<String> categorias = new ArrayList<String>();
+			
+			if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("jugador")) {
+				String username =  principal.getName(); 
+		        User  user = userService.findByUsername(username);
+		        Jugador jugador = jugadorService.findByUser(user);
+		        categorias.addAll(jugador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+		        
+			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("entrenador")){
+				String username =  principal.getName(); 
+		        User  user = userService.findByUsername(username);
+		        Entrenador entrenador = entrenadorService.findByUser(user);
+		        categorias.addAll(entrenador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+		        
+			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("estadistico")){
+				categorias.addAll(equipoService.findAll().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+			}
+			
+			List<Equipo> equiposFiltrados = equipos.stream().filter(x->categorias.contains(x.getCategoria())).collect(Collectors.toList());
+					
+			for(int i = 0; i<equiposFiltrados.size();i++) {
+				EquipoTablaEquipos equipoTablaEquipos = equipoConverter.convertEquipoToEquipoTablaEquipo(equiposFiltrados.get(i));
+				listaDeEquipos.add(equipoTablaEquipos);
+			}
+			DataTableResponse<EquipoTablaEquipos> data = new DataTableResponse<EquipoTablaEquipos>();
+			data.setData(listaDeEquipos);
+			
+			return new ResponseEntity<DataTableResponse<EquipoTablaEquipos>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<EquipoTablaEquipos>>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 
 }

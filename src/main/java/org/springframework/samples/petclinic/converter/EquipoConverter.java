@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.converter;
 
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.auxiliares.EquipoTablaEquipos;
 import org.springframework.samples.petclinic.model.estadisticas.EquipoStats;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +36,23 @@ public class EquipoConverter {
 				equipo.getNumAtaquesRapidosAcertados(), 
 				equipo.getNumAtaquesRapidosTotales(), 
 				equipo.getPorcentajeAtaquesRapidos());
+	}
+	
+	public EquipoTablaEquipos convertEquipoToEquipoTablaEquipo(Equipo equipo) {
+		String fed;
+		if(equipo.getFederacion()) {
+			fed = "Federado";
+		}
+		else {
+			fed = "No federado";
+		}
+		return new EquipoTablaEquipos(
+				equipo.getId(),
+				equipo.getCategoria(),
+				equipo.getNumAmarillas(),
+				equipo.getNumRojas(),
+				equipo.getLiga(),
+				fed);
 	}
 
 }
