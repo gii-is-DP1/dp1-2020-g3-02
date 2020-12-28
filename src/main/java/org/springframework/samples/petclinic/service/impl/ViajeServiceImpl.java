@@ -6,21 +6,17 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
 import org.springframework.samples.petclinic.model.Autobus;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.Viaje;
-import org.springframework.samples.petclinic.repository.AutobusRepository;
 import org.springframework.samples.petclinic.repository.ViajeRepository;
-import org.springframework.samples.petclinic.service.AutobusService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.ViajeService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service("viajeService")
 public class ViajeServiceImpl extends AbstractService<Viaje> implements ViajeService {
@@ -92,4 +88,12 @@ public class ViajeServiceImpl extends AbstractService<Viaje> implements ViajeSer
 		List<Viaje> viajes = viajeRepository.findByPartido(partido.get());
 		viajeRepository.deleteAll(viajes);
 	}
+
+	@Override
+	public Viaje findByJugadorAndPartidoAndTipoViaje(Jugador jugador, Partido partido, TipoViaje tipoViaje) {
+		
+		return viajeRepository.findByJugadorAndPartidoAndTipoViaje(jugador, partido, tipoViaje);
+	}
+
+
 }

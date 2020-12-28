@@ -222,37 +222,46 @@ INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertad
 
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
-	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (8,'2021-08-06','17:00',5,3,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (8,'2022-08-06','17:00',5,3,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
 	
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
-	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (9,'2021-08-07','18:00',5,3,17,20,0.85,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (9,'2022-08-07','18:00',5,3,17,20,0.85,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
 	
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
-	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (10,'2021-08-04','19:00',5,3,15,20,0.75,12,20,0.6,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (10,'2022-08-04','19:00',5,3,15,20,0.75,12,20,0.6,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
 	
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
-	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (11,'2021-08-09','17:00',5,3,12,20,0.6,15,20,0.75,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (11,'2022-08-09','17:00',5,3,12,20,0.6,15,20,0.75,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
 	
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
-	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (12,'2021-08-07','18:00',5,2,10,20,0.5,17,20,0.85,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (12,'2022-08-07','18:00',5,2,10,20,0.5,17,20,0.85,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);
 	
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
-	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (13,'2021-08-12','19:00',5,2,5,20,0.25,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);	
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (13,'2022-08-12','19:00',5,2,5,20,0.25,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);	
 
 INSERT INTO partidos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
-	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (14,'2021-08-08','19:00',5,3,5,20,0.25,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);	
+	remates_acertados,remates_totales,porcentaje_remates,tiempo_5_1,tiempo_4_2,tiempo_6_2) VALUES (14,'2022-08-08','19:00',5,3,5,20,0.25,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,30,15,45);	
 	
 			
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (1,1);
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (2,1);	
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (3,1);	
-INSERT INTO juega_partido(jugador_id,partido_id) VALUES (1,2);	
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (4,1);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (5,1);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (6,1);	
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (7,1);	
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (8,1);	
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (9,2);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (2,2);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (3,2);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (4,2);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (5,2);
 
 
 
@@ -536,25 +545,30 @@ INSERT INTO personales(id,propietario,jugador_id) VALUES (4,'Pepa',3);
 
 --INSERT VIAJE
 
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (1,'IDA',1,1,null,1,'12:30');
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (2,'IDA',2,1,1,null,'12:30');
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (3,'IDA',3,1,1,null,'12:30');
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (4,'IDA',4,1,1,null,'12:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (1,'IDA',1,1,null,1,'12:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (2,'IDA',2,1,1,null,'12:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (3,'IDA',3,1,null,3,'12:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (4,'IDA',4,1,1,null,'12:30',false);
 
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (5,'VUELTA',1,1,1,null,'14:30');
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (6,'VUELTA',2,1,null,2,'14:30');
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (7,'VUELTA',3,1,1,null,'14:30');
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (8,'VUELTA',4,1,1,null,'14:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (17,'IDA',5,1,null,1,'12:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (18,'IDA',6,1,1,null,'12:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (19,'IDA',7,1,1,null,'12:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (20,'IDA',8,1,1,null,'12:30',false);
 
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (9,'IDA',1,2,null,1,'12:30');
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (10,'IDA',2,2,1,null,'12:30');
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (11,'IDA',3,2,1,null,'12:30');
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (12,'IDA',4,2,1,null,'12:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (5,'VUELTA',1,1,1,null,'14:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (6,'VUELTA',2,1,null,2,'14:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (7,'VUELTA',3,1,1,null,'14:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (8,'VUELTA',4,1,1,null,'14:30',false);
 
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (13,'VUELTA',1,2,1,null,'14:30');
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (14,'VUELTA',2,2,null,2,'14:30');
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (15,'VUELTA',3,2,1,null,'14:30');
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida) VALUES (16,'VUELTA',4,2,1,null,'14:30');
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (9,'IDA',1,2,null,1,'12:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (10,'IDA',2,2,1,null,'12:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (11,'IDA',3,2,1,null,'12:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (12,'IDA',4,2,1,null,'12:30',false);
+
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (13,'VUELTA',1,2,1,null,'14:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (14,'VUELTA',2,2,null,2,'14:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (15,'VUELTA',3,2,1,null,'14:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (16,'VUELTA',4,2,1,null,'14:30',false);
 
 
 

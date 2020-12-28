@@ -56,8 +56,8 @@ public class Jugador extends Person{
 	  inverseJoinColumns = @JoinColumn(name = "equipo_id"))
 	List<Equipo> equipos;
 
-//	@OneToMany( mappedBy = "jugador")
-//	private Set<NumCamiseta> numCamisetas;
+	@OneToMany( mappedBy = "jugador")
+	private List<NumCamiseta> numCamisetas;
 //	
 //	@OneToMany( mappedBy = "jugador")
 //	private Set<PruebaCondicionFisica> pruebas;

@@ -22,6 +22,8 @@ import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
+import org.springframework.samples.petclinic.converter.ViajeConverter;
+import org.springframework.samples.petclinic.enumerate.TipoViaje;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.model.Entrenador;
@@ -30,8 +32,10 @@ import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorPartidoViaje;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasDeUnJugadorStats;
@@ -43,6 +47,7 @@ import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PartidoService;
+import org.springframework.samples.petclinic.service.ViajeService;
 import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -100,6 +105,12 @@ public class PartidoController {
 	
 	@Autowired
 	private EstadisticasConverter estadisticasConverter;
+	
+	@Autowired
+	private ViajeService viajeService;
+	
+	@Autowired
+	private ViajeConverter viajeConverter;
 	
 	@GetMapping("/showpartidos")
 	public ModelAndView listadoPartidos(HttpServletRequest request) {
@@ -376,6 +387,30 @@ public class PartidoController {
 		}	
 	}
 	
+	@RequestMapping(value = "findjugadorespartido/{partido_id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<JugadorPartidoViaje>> findJugadoresPartido(@PathVariable("partido_id") int partido_id) {
+		try {
+			LOG.info("Buscamos el partido con el id: " + partido_id);
+			
+			Partido partido = partidoService.findById(partido_id).get();
+			List<Jugador> jugadores = partido.getJugadores();
+			List<JugadorPartidoViaje> jugadoresPartidoViajes = new ArrayList<JugadorPartidoViaje>();
+			for (int i=0; i<jugadores.size();i++) {
+				Viaje viajeJugador = viajeService.findByJugadorAndPartidoAndTipoViaje(jugadores.get(i), partido, TipoViaje.IDA);
+				if(viajeJugador !=null) {
+					JugadorPartidoViaje jugadorPartidoViaje = viajeConverter.convertViajeToJugadorPartidoViaje(viajeJugador);
+					jugadoresPartidoViajes.add(jugadorPartidoViaje);
+				}
+			}
+			
+			DataTableResponse<JugadorPartidoViaje> data = new DataTableResponse<JugadorPartidoViaje>();
+			data.setData(jugadoresPartidoViajes);
+			return new ResponseEntity<DataTableResponse<JugadorPartidoViaje>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Excepción encontrando al buscar jugadores del partido");
+			return new ResponseEntity<DataTableResponse<JugadorPartidoViaje>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
 
 	@RequestMapping(value = "/eliminarjuegaJugador/{partido_id}/{jugador_id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity eliminarJuegaJugador(@PathVariable("partido_id") int partido_id , @PathVariable("jugador_id") int jugador_id) {
