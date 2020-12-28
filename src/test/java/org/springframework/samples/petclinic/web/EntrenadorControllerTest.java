@@ -44,14 +44,14 @@ public class EntrenadorControllerTest {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/entrenadores/addentrenador").param("firstName", "Pepe")
+		mockMvc.perform(post("/entrenadores/addentrenador").with(csrf())
+				.param("firstName", "Pepe")
 				.param("lastName", "Cayetano")
-				.with(csrf())
 				.param("email", "cucutras@gmail.com")
 				.param("fechaNacimiento", "1990/10/10")
 				.param("user.username", "testEntrenadorUser")
-				.param("user.password", "testEntrenadorUser")).andExpect(status().is3xxRedirection());
-				//.andExpect(view().name("redirect:/home"));
+				.param("user.password", "testEntrenadorUser")).andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/home"));
 	}
 
 }

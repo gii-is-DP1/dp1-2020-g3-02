@@ -30,7 +30,7 @@ public class EntrenadorController {
 	private EntrenadorValidator entrenadorValidator;
 	
 	@GetMapping("/entrenadorform")
-	public String redirectJugadorForm(@RequestParam(name="id",required=true) Integer id, Model model) {
+	public String redirectEntrenadorForm(@RequestParam(name="id",required=true) Integer id, Model model) {
 		Entrenador entrenador = new Entrenador();
 		if(id != 0) {
 			entrenador = entrenadorService.findById(id).get();
