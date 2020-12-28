@@ -677,14 +677,14 @@
 						<div class="form-group" id="modalFormPrivilegio">
 							<div class="form-group col-12 datePicker">
 								<input type="checkbox" value="partidos" name="partidos" id="partidos" class="partidos">
-								<label><span class="text-danger">(*) </span>Partidos:</label> <input
+								<label><span class="text-danger">(*) </span>Partidos</label> <input
 									class="form-control" type="text" placeholder="Descripción" id="descripcionPartidos"
 									name="descripcionPartidos" maxlength="10" required></input> <small
 									class="fecha text-danger error"></small>
 							</div>
 							<div class="form-group col-12">
 								<input type="checkbox" value="entrenamientos" name="entrenamientos" id="entrenamientos" class="entrenamientos">
-								<label><span class="text-danger">(*) </span>Entrenamientos:</label> <input
+								<label><span class="text-danger">(*) </span>Entrenamientos</label> <input
 									class="form-control" type="text" placeholder="Descripción" id="descripcionEntrenamientos"
 									name="descripcionEntrenamientos" maxlength="5" required></input> <small
 									class="hora text-danger error"></small>
@@ -697,7 +697,7 @@
 							data-dismiss="modal">Cerrar</button>
 						<button type="button" class="btn btn-info"
 							onclick="return enviarEdicionPrivilegio();">Aceptar</button>
-						<input type="hidden" id="id" name="id"></input>
+						<input type="hidden" th:id="id" name="id"></input>
 					</div>
 				</form>
 			</div>
@@ -1538,42 +1538,26 @@
 												'.only').remove();
 										$('#modalFormPrivilegio').children(
 												'#equipo').remove();
-										$("input:checkbox").change(function() { 
+										$("#partidos").change(function() { 
 											if ($("#partidos").is(":checked")) {  
 										    	// checkbox is checked 
-												$.ajax({
-							                    	url: 'on_off.aspx',
-							                    	type: 'POST',
-							                    	data: { strID:$("#partidos").attr("id"), strState:"1" }
-							                	});
+												$("#partidos").attr('value', 'true');
 											} else {
 										    	// checkbox is not checked 
-												$.ajax({
-							                    	url: 'on_off.aspx',
-							                    	type: 'POST',
-							                    	data: { strID:$("#partidos").attr("id"), strState:"0" }
-							                	});
+												$("#partidos").attr('value', 'false');
 											}
 										});
-										$('#modalFormPrivilegio #descripcionPartidos').val(edit.descripcionPartidos);
-										$("input:checkbox").change(function() { 
+										$("#descripcionPartidos").val();
+										$("#entrenamientos").change(function() { 
 											if ($("#entrenamientos").is(":checked")) {  
 										    	// checkbox is checked 
-												$.ajax({
-							                    	url: 'on_off.aspx',
-							                    	type: 'POST',
-							                    	data: { strID:$("#entrenamientos").attr("id"), strState:"1" }
-							                	});
+												$("#entrenamientos").attr('value', 'true');
 											} else {
 										    	// checkbox is not checked 
-												$.ajax({
-							                    	url: 'on_off.aspx',
-							                    	type: 'POST',
-							                    	data: { strID:$("#entrenamientos").attr("id"), strState:"0" }
-							                	});
+												$("#entrenamientos").attr('value', 'false');
 											}
 										});
-										$('#modalFormPrivilegio #descripcionEntrenamientos').val(edit.descripcionEntrenamientos);
+										$("#descripcionEntrenamientos").val();
 										$('#modalFormPrivilegio')
 												.prepend(
 														'<div class="form-group col-12 only"><label><span class="text-danger">(*) </span>Equipo:</label><select class="form-control" id="equipo" name="equipo"></select></div>');
@@ -1588,7 +1572,7 @@
 														name : "equipo"
 													}));
 										});
-										$('#modalFormPrivilegio #id').val(edit.id);
+										$('#modalFormPrivilegio #id').val();
 
 										$('#privilegiosModal .modal-header')
 												.css("color", "white");
