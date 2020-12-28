@@ -2,8 +2,6 @@ package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,9 +15,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.model.padres.Person;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @AllArgsConstructor
 @Table(name="entrenadores",uniqueConstraints = @UniqueConstraint(columnNames = { "email" }))

@@ -12,9 +12,11 @@ import javax.persistence.Table;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "pruebas_condicion_fisica")
 public class PruebaCondicionFisica extends BaseEntity {
