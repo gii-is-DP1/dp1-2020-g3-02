@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +25,7 @@ import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
-import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.Privilegio;
-import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
@@ -39,7 +35,6 @@ import org.springframework.samples.petclinic.service.AutorizacionService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
-import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.samples.petclinic.service.PrivilegioService;
 import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Controller;
@@ -56,7 +51,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.w3c.dom.html.HTMLSelectElement;
 
 @Controller
 @RequestMapping("/jugadores")
@@ -332,28 +326,10 @@ public class JugadorController {
 		try {
 			
 			int id = Integer.parseInt(request.getParameter("id"));
-			LOG.info("Buscamos el jugador con id=" + id);
-			Optional<Jugador> jugadorO = jugadorService.findById(id);
-			jugador = jugadorO.get();
 			
-			jugador.setFirstName(request.getParameter("firstName").trim());
-			jugador.setLastName(request.getParameter("lastName").trim());
-			if(!request.getParameter("altura").isEmpty()) {
-				jugador.setAltura(Integer.parseInt(request.getParameter("altura")));
-			} else {
-				jugador.setAltura(null);
-			}
-			if(!request.getParameter("peso").isEmpty()) {
-				jugador.setPeso(Integer.valueOf(request.getParameter("peso")));
-			} else {
-				jugador.setPeso(null);
-			}
-			jugador.setEstadoActual(estadoConverter.convertToEntityAttribute(request.getParameter("estadoActual")));
-			jugador.setPosicionPrincipal(posicionConverter.convertToEntityAttribute(request.getParameter("posicionPrincipal")));
-			jugador.setPosicionSecundaria(posicionConverter.convertToEntityAttribute(request.getParameter("posicionSecundaria")));
+			jugador = seleccionarAtributosJugador(jugador, request);
 			
 			ValidationUtils.invokeValidator(jugadorValidator, jugador, result);
-			
 			
 			//JugadorEdit edit = jugadorConverter.convertJugadorToJugadorEdit(jugador);
 			
@@ -362,6 +338,13 @@ public class JugadorController {
 				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 				return re;
 			}
+			
+			LOG.info("Buscamos el jugador con id=" + id);
+			Optional<Jugador> jugadorO = jugadorService.findById(id);
+			jugador = jugadorO.get();
+			
+			jugador = seleccionarAtributosJugador(jugador, request);
+			
 			LOG.info("Se procede a actualizar el jugador");
 			Jugador player = jugadorService.updateJugador(jugador);
 			LOG.info("Se ha actualizado el jugador con éxito: " + player);
@@ -371,6 +354,25 @@ public class JugadorController {
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+	
+	private Jugador seleccionarAtributosJugador(Jugador jugador, HttpServletRequest request) {
+		jugador.setFirstName(request.getParameter("firstName").trim());
+		jugador.setLastName(request.getParameter("lastName").trim());
+		if(!request.getParameter("altura").isEmpty()) {
+			jugador.setAltura(Integer.parseInt(request.getParameter("altura")));
+		} else {
+			jugador.setAltura(null);
+		}
+		if(!request.getParameter("peso").isEmpty()) {
+			jugador.setPeso(Integer.valueOf(request.getParameter("peso")));
+		} else {
+			jugador.setPeso(null);
+		}
+		jugador.setEstadoActual(estadoConverter.convertToEntityAttribute(request.getParameter("estadoActual")));
+		jugador.setPosicionPrincipal(posicionConverter.convertToEntityAttribute(request.getParameter("posicionPrincipal")));
+		jugador.setPosicionSecundaria(posicionConverter.convertToEntityAttribute(request.getParameter("posicionSecundaria")));
+		return jugador;
 	}
 	
 }
