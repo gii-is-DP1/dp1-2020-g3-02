@@ -103,6 +103,7 @@ public class PartidoController {
 	
 	@GetMapping("/showpartidos")
 	public ModelAndView listadoPartidos(HttpServletRequest request) {
+		
 		Principal principal = request.getUserPrincipal();
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_PARTIDOS);
 		if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("jugador")) {
