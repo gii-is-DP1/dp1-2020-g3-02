@@ -242,11 +242,12 @@
 																		
 															},
 															{ data: 'porcentaje',
-																  render: function ( data, type, row ) {
+																render: function ( data, type, row ) {
 																	  if(data>70){
 																	    return " <button  class='btn btn-outline-info mx-0 añadir' onclick='return añadir();' type='button' title='añadir'>"+
 																		"Añadir</button>";
 																		}
+																	  return null;
 															}
 															}
 
