@@ -159,12 +159,13 @@ public class JugadorController {
 			int id = Integer.valueOf(request.getParameter("id"));
 			Optional<Jugador> jugadorO = jugadorService.findById(id);
 			Jugador jugador = jugadorO.get();
+			Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
+			LOG.info("Buscamos los privilegios del jugador con id = " + jugador.getId() + " en el equipo " + equipo.getCategoria());
 			List<TipoPrivilegio> privilegios = new ArrayList<TipoPrivilegio>();
 			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("partidos").trim()));
 			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionPartidos").trim()));
 			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("entrenamientos").trim()));
 			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionEntrenamientos").trim()));
-			Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
 			List<Privilegio> priv = privilegioConverter.convertListPrivilegiosEditToListPrivilegios(privilegios, jugador, equipo);
 			for(Privilegio privi:priv) {
 				Privilegio p = privilegioService.updatePrivilegio(privi);
