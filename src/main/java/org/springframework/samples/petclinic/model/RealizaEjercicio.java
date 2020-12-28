@@ -7,17 +7,18 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
-import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.ManyToOne;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
 @NoArgsConstructor

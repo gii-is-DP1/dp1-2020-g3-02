@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.web;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -39,16 +41,17 @@ public class EntrenadorControllerTest {
 				.andExpect(model().attributeExists("entrenador"));
 	}
 
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testProcessCreationFormSuccess() throws Exception {
-//		mockMvc.perform(post("/entrenadores/addentrenador").with(csrf()).param("firstName", "Pepe")
-//				.param("lastName", "Cayetano")
-//				.param("email", "cucutras@gmail.com")
-//				.param("fechaNacimiento", "1990/10/10")
-//				.param("user.username", "testEntrenadorUser")
-//				.param("user.password", "testEntrenadorUser")).andExpect(status().is3xxRedirection())
-//				.andExpect(view().name("redirect:/home"));
-//	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationFormSuccess() throws Exception {
+		mockMvc.perform(post("/entrenadores/addentrenador").param("firstName", "Pepe")
+				.param("lastName", "Cayetano")
+				.with(csrf())
+				.param("email", "cucutras@gmail.com")
+				.param("fechaNacimiento", "1990/10/10")
+				.param("user.username", "testEntrenadorUser")
+				.param("user.password", "testEntrenadorUser")).andExpect(status().is3xxRedirection());
+				//.andExpect(view().name("redirect:/home"));
+	}
 
 }
