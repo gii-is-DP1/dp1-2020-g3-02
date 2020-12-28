@@ -41,9 +41,13 @@
 				<div class="form-group">
 					<input class="form-control" type="text" placeholder="Propietario"
 						th:field="*{propietario}" th:value="${propietario}" required></input>
-					<small class="propietario text-danger error" th:if="${#fields.hasErrors('propietario')}" th:errors="*{propietario}"></small>
+					
 				</div>
-	
+				<div class= "row">
+				<div class="form-group col">
+					<div th:if="${#fields.hasErrors('propietario')}" th:errors="*{propietario}" class="mb-3 col-12 text-danger" role="alert"></div>
+					</div>
+				</div>	
 				
 				 <input
 					class="btn btn-outline-success btn-lg btn-block" type="submit"
