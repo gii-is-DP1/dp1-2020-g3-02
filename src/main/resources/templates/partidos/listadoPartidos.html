@@ -145,7 +145,7 @@
       <div class="modal-footer" style="background: rgb(23,162,184); background: linear-gradient(0deg, rgba(23,162,184,0.75) 0%, rgba(255,255,255,1) 100%);">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         
-		<input type="hidden" th:id="id" name="id"></input>
+		
       </div>
       </form>
     </div>
@@ -155,6 +155,7 @@
 	<div th:replace="partidos/modalEstadisticas"> </div>
 	<div th:replace="partidos/modalEditar"> </div>
 	<div th:replace="partidos/modalEliminar"> </div>
+	<div th:replace="partidos/modalAsistenciaPartido"> </div>
 
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 	<!-- Optional JavaScript -->
@@ -288,7 +289,9 @@
 							 " <button  onclick='return editar(this,"+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
 							"<i class='fas fa-edit'></i></button>" + 
 							" <button onclick='return eliminar(this,"+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
-							"<i class='fas fa-trash-alt'></i></button>" ;
+							"<i class='fas fa-trash-alt'></i></button>" +
+							" <button onclick='return tablaAsistencia(this,"+'"'+row['fecha']+'","'+row['hora']+'",'+row['id'] +");' class='btn btn-outline-warning asistenciaPartido' type='button' title='Asistencia'>"+
+							"<i class='fas fa-route'></i></button>" ;
 						 
 					 }else  if($('#security').val() == 'jugador'){
 						 if($('#estado').val() == 'EN_FORMA'){

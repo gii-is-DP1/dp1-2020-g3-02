@@ -38,6 +38,9 @@ public class Viaje extends BaseEntity {
 	@Column(name = "hora_salida", nullable = false, length = 5)
 	private String horaSalida;
 	
+	@Column(name= "ha_llegado", nullable = false, length = 5)
+	private boolean haLlegado; 
+	
 	@ManyToOne
 	@JoinColumn(name = "jugador_id")
 	private Jugador jugador;
