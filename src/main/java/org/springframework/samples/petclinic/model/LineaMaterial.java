@@ -36,6 +36,6 @@ public class LineaMaterial extends BaseEntity {
 	
 	@Column(name = "cantidad", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
-	private int cantidad;
+	private Integer cantidad;
 
 }
