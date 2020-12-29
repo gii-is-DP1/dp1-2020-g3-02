@@ -5,11 +5,11 @@
 		aria-labelledby="Asistencia a Partido" aria-hidden="true">
 		<div class="modal-dialog modal-xl modal-dialog-centered">
 			<div class="modal-content">
-				<div class="modal-header bg-success">
+				<div class="modal-header bg-dark">
 					<h5 class="modal-title" id="staticBackdropLabel"></h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
-						<span aria-hidden="true">&times;</span>
+						<span  class="text-white" aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
@@ -44,7 +44,7 @@
 											<thead>
 												<tr>
 													<th>Jugador</th>
-													<th>Ha llegado </th>
+													<th>Llegada</th>
 												</tr>
 											</thead>
 										</table>
@@ -82,7 +82,7 @@
 											<thead>
 												<tr>
 													<th>Jugador</th>
-													<th>Ha llegado </th>
+													<th>Llegada</th>
 													<th>Propietario</th>
 												</tr>
 											</thead>
@@ -102,7 +102,7 @@
 					</div>
 				</div>
 				<div class="modal-footer"
-					style="background: rgb(40, 167, 69); background: linear-gradient(0deg, rgba(40, 167, 69, 1) 0%, rgba(255, 255, 255, 1) 100%);">
+					style="background: rgb(40, 167, 69); background: linear-gradient(0deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Cerrar</button>
 				</div>
@@ -138,6 +138,7 @@
 				url : '/partidos/confirmacionDeLaNoLlegada/' + id,
 				success : function(borrar) {
 					tablaPropietario.ajax.reload(null, false);
+					tablaAutobus.ajax.reload(null, false);
 				}
 			});
 		}else{
@@ -146,6 +147,7 @@
 				url : '/partidos/confirmacionLlegada/' + id,
 				success : function(anadir) {
 					tablaPropietario.ajax.reload(null, false);
+					tablaAutobus.ajax.reload(null, false);
 				}
 			});
 		}
@@ -192,7 +194,16 @@
 															}
 														}
 													},
-													{data: "haLlegado"}
+													{data: "haLlegado",
+														render : function(data,type,row) {
+															if (data == true) {
+																return "<button type='button' class='btn btn-outline-success btn-block' onclick='return llegada(this,"+row['viajeId'] +");' value='HA LLEGADO'>HA LLEGADO</button>";
+															} else {
+																return "<button type='button' class='btn btn-outline-danger btn-block' onclick='return llegada(this,"+row['viajeId'] +");' value='NO HA LLEGADO AÚN'>NO HA LLEGADO</button>";
+															}
+														}
+													
+													}
 
 													
 													
@@ -242,7 +253,7 @@
 															if (data == true) {
 																return "<button type='button' class='btn btn-outline-success btn-block' onclick='return llegada(this,"+row['viajeId'] +");' value='HA LLEGADO'>HA LLEGADO</button>";
 															} else {
-																return "<button type='button' class='btn btn-outline-danger btn-block' onclick='return llegada(this,"+row['viajeId'] +");' value='NO HA LLEGADO AÚN'>NO HA LLEGADO AÚN</button>";
+																return "<button type='button' class='btn btn-outline-danger btn-block' onclick='return llegada(this,"+row['viajeId'] +");' value='NO HA LLEGADO AÚN'>NO HA LLEGADO</button>";
 															}
 														}
 													
