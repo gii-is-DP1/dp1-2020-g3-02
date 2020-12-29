@@ -387,8 +387,8 @@ public class PartidoController {
 		}	
 	}
 	
-	@RequestMapping(value = "findjugadorespartido/{partido_id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<DataTableResponse<JugadorPartidoViaje>> findJugadoresPartido(@PathVariable("partido_id") int partido_id) {
+	@RequestMapping(value = "findjugadorespartidoAutobus/{partido_id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<JugadorPartidoViaje>> findJugadoresPartidoAutobus(@PathVariable("partido_id") int partido_id) {
 		try {
 			LOG.info("Buscamos el partido con el id: " + partido_id);
 			
@@ -397,7 +397,7 @@ public class PartidoController {
 			List<JugadorPartidoViaje> jugadoresPartidoViajes = new ArrayList<JugadorPartidoViaje>();
 			for (int i=0; i<jugadores.size();i++) {
 				Viaje viajeJugador = viajeService.findByJugadorAndPartidoAndTipoViaje(jugadores.get(i), partido, TipoViaje.IDA);
-				if(viajeJugador !=null) {
+				if(viajeJugador !=null && viajeJugador.getPersonal() == null) {
 					JugadorPartidoViaje jugadorPartidoViaje = viajeConverter.convertViajeToJugadorPartidoViaje(viajeJugador);
 					jugadoresPartidoViajes.add(jugadorPartidoViaje);
 				}
@@ -410,6 +410,67 @@ public class PartidoController {
 			LOG.error("Excepción encontrando al buscar jugadores del partido");
 			return new ResponseEntity<DataTableResponse<JugadorPartidoViaje>>(HttpStatus.BAD_REQUEST);
 		}	
+	}
+	
+	@RequestMapping(value = "findjugadorespartidoPersonales/{partido_id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<JugadorPartidoViaje>> findJugadoresPartidoPersonales(@PathVariable("partido_id") int partido_id) {
+		try {
+			LOG.info("Buscamos el partido con el id: " + partido_id);
+			
+			Partido partido = partidoService.findById(partido_id).get();
+			List<Jugador> jugadores = partido.getJugadores();
+			List<JugadorPartidoViaje> jugadoresPartidoViajes = new ArrayList<JugadorPartidoViaje>();
+			for (int i=0; i<jugadores.size();i++) {
+				Viaje viajeJugador = viajeService.findByJugadorAndPartidoAndTipoViaje(jugadores.get(i), partido, TipoViaje.IDA);
+				if(viajeJugador !=null && viajeJugador.getPersonal() != null) {
+					JugadorPartidoViaje jugadorPartidoViaje = viajeConverter.convertViajeToJugadorPartidoViaje(viajeJugador);
+					jugadoresPartidoViajes.add(jugadorPartidoViaje);
+				}
+			}
+			
+			DataTableResponse<JugadorPartidoViaje> data = new DataTableResponse<JugadorPartidoViaje>();
+			data.setData(jugadoresPartidoViajes);
+			return new ResponseEntity<DataTableResponse<JugadorPartidoViaje>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Excepción encontrando al buscar jugadores del partido");
+			return new ResponseEntity<DataTableResponse<JugadorPartidoViaje>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@RequestMapping(value = "/confirmacionLlegada/{viaje_id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity confirmarLlegadaAPartidoJugador(@PathVariable("viaje_id") int viaje_id ) {
+		try {
+			LOG.info("Buscamos el viaje con el id: " + viaje_id);
+			Viaje viaje = viajeService.findById(viaje_id).get();
+			
+			viaje.setHaLlegado(true);
+			LOG.info("Actualizamos el campo haLlegado de false a true");
+			viajeService.save(viaje);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando el viaje");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@RequestMapping(value = "/confirmacionDeLaNoLlegada/{viaje_id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity confirmacionDeLaNoLlegada(@PathVariable("viaje_id") int viaje_id ) {
+		try {
+			LOG.info("Buscamos el viaje con el id: " + viaje_id);
+			Viaje viaje = viajeService.findById(viaje_id).get();
+			
+			viaje.setHaLlegado(false);
+			LOG.info("Actualizamos el campo haLlegado de true a false");
+			viajeService.save(viaje);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando el viaje");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 
 	@RequestMapping(value = "/eliminarjuegaJugador/{partido_id}/{jugador_id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)

@@ -17,17 +17,85 @@
 					<div class="row">
 						
 						<div class="col-lg-12 responsive">
+						
+						<div id="accordion">
+						<div class="card">
+							<div class="card-header" id="headingAutobus" style="background: rgb(52,58,64);
+									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
+								<div class="row">
+								<h5 class="mb-0 ml-3 text-white">
+									AUTOBÚS
+								</h5>
+									<a id="stat" href="#collapseAutobus" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
+									<i class="fas fa-minus" ></i>
+								</a>
+							</div>
+							</div>
+							<div id="collapseAutobus" class="collapse show"
+								aria-labelledby="headingAutobus" data-parent="#accordion">
+								<div class="card-body">
+								
+								<div class="row">
+						
+									<div class="col-lg-12 responsive">
 							
-							<table class="table table-sm table-striped table-bordered table-hover nowrap asistencia"
-								cellspacing="0" width="100%" >
-								<thead>
-									<tr>
-										<th>Jugador</th>
-										<th>Ha llegado </th>
-										<th>Asiste en</th>
-									</tr>
-								</thead>
-							</table>
+										<table class="table table-sm table-striped table-bordered table-hover nowrap autobus"
+											cellspacing="0" width="100%" >
+											<thead>
+												<tr>
+													<th>Jugador</th>
+													<th>Ha llegado </th>
+												</tr>
+											</thead>
+										</table>
+							
+									</div>
+
+								</div>	
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="card">
+							<div class="card-header" id="headingPersonal" style="background: rgb(52,58,64);
+									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
+								<div class="row">
+								<h5 class="mb-0 ml-3 text-white">
+									VEHÍCULO PERSONAL
+								</h5>
+									<a id="stat" href="#collapsePersonal" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
+									<i class="fas fa-plus" ></i>
+								</a>
+							</div>
+							</div>
+							<div id="collapsePersonal" class="collapse"
+								aria-labelledby="headingPersonal" data-parent="#accordion">
+								<div class="card-body">
+								
+								<div class="row">
+						
+									<div class="col-lg-12 responsive">
+							
+										<table class="table table-sm table-striped table-bordered table-hover nowrap personal"
+											cellspacing="0" width="100%" >
+											<thead>
+												<tr>
+													<th>Jugador</th>
+													<th>Ha llegado </th>
+													<th>Propietario</th>
+												</tr>
+											</thead>
+										</table>
+							
+									</div>
+
+								</div>	
+								</div>
+							</div>
+						</div>
+							
+						</div>
 							
 						</div>
 
@@ -43,6 +111,45 @@
 	</div>
 
 	<script type="text/javascript">
+	function cambioMasMenos(element) {
+
+		if (!($('#collapseAutobus').hasClass('collapsing'))) {
+
+			if (element.children[0].classList.contains('fa-plus')) {
+
+				if ($('.fa-minus')[0] != undefined) {
+
+					$('.fa-minus')[0].classList.replace('fa-minus', 'fa-plus');
+				}
+				element.children[0].classList.replace('fa-plus', 'fa-minus');
+
+			} else {
+
+				element.children[0].classList.replace('fa-minus', 'fa-plus');
+			}
+		}
+	}
+	
+	function llegada(button, id){
+		
+		if(button.innerText=='HA LLEGADO'){
+			$.ajax({
+				type : 'POST',
+				url : '/partidos/confirmacionDeLaNoLlegada/' + id,
+				success : function(borrar) {
+					tablaPropietario.ajax.reload(null, false);
+				}
+			});
+		}else{
+			$.ajax({
+				type : 'POST',
+				url : '/partidos/confirmacionLlegada/' + id,
+				success : function(anadir) {
+					tablaPropietario.ajax.reload(null, false);
+				}
+			});
+		}
+	}
 	
 						var tabla = null;
 						
@@ -57,15 +164,15 @@
 											tabla.destroy();
 										}
 												
-											tabla = $('.asistencia').DataTable({
+											tablaAutobus = $('.autobus').DataTable({
 												"lengthMenu": [5,6,7,8,9,10],
 												responsive: true,
-												ajax:'[[@{/partidos/findjugadorespartido/}]]'+id,
+												ajax:'[[@{/partidos/findjugadorespartidoAutobus/}]]'+id,
 												language:{
 													emptyTable: "Ningún dato disponible en esta tabla",
 													"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
 													"infoEmpty":      "Mostrando 0 de 0 registros",
-													"lengthMenu":     "Mostrando 5 registros",
+													"lengthMenu":     "Mostrando _MENU_ registros",
 													"search":         "Buscar:",
 													"zeroRecords":    "No se encontraron resultados",
 													"paginate": {
@@ -85,19 +192,66 @@
 															}
 														}
 													},
-													{data: "haLlegado"},
+													{data: "haLlegado"}
+
+													
+													
+
+												],
+										        columnDefs : [ {
+													responsivePriority : 1,
+													targets : 0 //Nombre
+												}, {
+													responsivePriority : 1,
+													targets : 1, //Ha llegado
+													orderable:false
+												}]
+					
+											});
+											
+											tablaPropietario = $('.personal').DataTable({
+												"lengthMenu": [5,6,7,8,9,10],
+												responsive: true,
+												ajax:'[[@{/partidos/findjugadorespartidoPersonales/}]]'+id,
+												language:{
+													emptyTable: "Ningún dato disponible en esta tabla",
+													"info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+													"infoEmpty":      "Mostrando 0 de 0 registros",
+													"lengthMenu":     "Mostrando _MENU_ registros",
+													"search":         "Buscar:",
+													"zeroRecords":    "No se encontraron resultados",
+													"paginate": {
+														"first":      "Primera",
+														"last":       "Última",
+														"next":       "Siguiente",
+														"previous":   "Anterior"
+													},
+												},
+												"columns" : [
+													{"data" : "nombre",
+														render : function(data,type,row) {
+															if (row.numCamiseta != null) {
+																return row.nombre +", "+ row.numCamiseta;
+															} else {
+																return data;
+															}
+														}
+													},
+													{data: "haLlegado",
+														render : function(data,type,row) {
+															if (data == true) {
+																return "<button type='button' class='btn btn-outline-success btn-block' onclick='return llegada(this,"+row['viajeId'] +");' value='HA LLEGADO'>HA LLEGADO</button>";
+															} else {
+																return "<button type='button' class='btn btn-outline-danger btn-block' onclick='return llegada(this,"+row['viajeId'] +");' value='NO HA LLEGADO AÚN'>NO HA LLEGADO AÚN</button>";
+															}
+														}
+													
+													},
 
 													{"data" : "propietario",
 														render: function(data,type,row){
 															
-															if(row.propietario != null){
-																return "Vehículo personal, propietario: "+ data;	
-															
-															}else{
-																return "Autobús número "+ row.autobusId;	
-															
-															}
-															
+															return data;	
 															
 														}
 													}
@@ -120,7 +274,8 @@
 					
 											});
 												
-												tabla.ajax.reload(null, false);
+												tablaAutobus.ajax.reload(null, false);
+												tablaPropietario.ajax.reload(null, false);
 												$('#asistenciaPartidoModal .modal-header').css("color", "white");
 												$('#asistenciaPartidoModal .modal-title').text("Partido "+fecha+", "+hora);
 												
