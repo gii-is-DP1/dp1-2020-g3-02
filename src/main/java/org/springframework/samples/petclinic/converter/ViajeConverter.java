@@ -12,6 +12,7 @@ public class ViajeConverter {
 	public JugadorPartidoViaje convertViajeToJugadorPartidoViaje(Viaje viaje) {
 		JugadorPartidoViaje jugadorPartidoViaje = new JugadorPartidoViaje();
 		
+		jugadorPartidoViaje.setViajeId(viaje.getId());
 		jugadorPartidoViaje.setFecha(viaje.getPartido().getFecha());
 		jugadorPartidoViaje.setHora(viaje.getPartido().getHora());
 		jugadorPartidoViaje.setHaLlegado(viaje.isHaLlegado());

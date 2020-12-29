@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class JugadorPartidoViaje {
 	
+	private int viajeId;
 	private LocalDate fecha;
 	private String hora;
 	private String nombre;
