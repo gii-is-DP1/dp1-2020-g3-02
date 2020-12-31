@@ -100,7 +100,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="jugador : ${jugadores}">
+						<tr th:classappend="(${jugador.estadoActual} == ${estadoLesionado})?'table-danger':_" th:each="jugador : ${jugadores}">
 							<td th:text="${jugador.firstName}"></td>
 							<td th:text="${jugador.lastName}"></td>
 							<td th:text="${jugador.dni}"></td>
@@ -133,15 +133,8 @@
 								
 								<button sec:authorize="hasAuthority('jugador')"  th:if="${jugador.User.username == username}" class="btn btn-outline-info mx-0 editar" type="button" title="Editar">
 									<i class="fas fa-user-edit"></i>
-								</button> 
-								
-								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-danger mx-0 estado" type="button" title="Estado">
-									<i class="fas fa-user-injured"></i>
 								</button>
 								
-								<button sec:authorize="hasAuthority('jugador')"  th:if="${jugador.User.username == username}" class="btn btn-outline-danger mx-0 estado" type="button" title="Estado">
-									<i class="fas fa-user-injured"></i>
-								</button> 
 								<input type="hidden" id="jugador" th:value="${jugador.firstName}+' ' +${jugador.lastName}"></input>
 								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-dark mx-0 pruebaCondicion" type="button" title="Prueba Condición Física">
 									<i class="fas fa-dumbbell"></i>
@@ -150,7 +143,7 @@
 								<button sec:authorize="hasAuthority('jugador')"  th:if="${jugador.User.username == username}" class="btn btn-outline-dark mx-0 pruebaCondicion" type="button" title="Prueba Condición Física">
 									<i class="fas fa-dumbbell"></i>
 								</button> 
-								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-dark mx-0 privilegio" id="privilegio" type="button" title="Privilegio">
+								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-danger mx-0 privilegio" id="privilegio" type="button" title="Privilegio">
 									<i class="fas fa-unlock"></i>
 								</button>
 								
@@ -770,6 +763,7 @@
 										.DataTable(
 												{
 													responsive : true,
+													stateSave: true,
 													columnDefs : [ {
 														responsivePriority : 0,
 														targets : 0
@@ -902,7 +896,6 @@
 											$('#editarModal #lastName').val(edit.lastName);
 											$('#editarModal #altura').val(edit.altura);
 											$('#editarModal #peso').val(edit.peso);
-											$('#editarModal #estadoActual').val(edit.estadoActual);
 											$('#editarModal #estadoActual').val(edit.estadoActual);
 											$('#editarModal #posicionPrincipal').val(edit.posicionPrincipal);
 											$('#editarModal #posicionSecundaria').val(edit.posicionSecundaria);

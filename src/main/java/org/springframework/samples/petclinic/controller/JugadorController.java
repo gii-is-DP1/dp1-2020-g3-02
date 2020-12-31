@@ -20,6 +20,7 @@ import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PrivilegioConverter;
 import org.springframework.samples.petclinic.converter.enumerate.TipoPrivilegioConverter;
+import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.model.Autorizacion;
@@ -122,6 +123,7 @@ public class JugadorController {
 		}
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		mav.addObject("username", username);
+		mav.addObject("estadoLesionado", Estado.LESIONADO);
 		mav.addObject("jugadores", jugadorConverter.convertListJugadorToListJugadorWithEquipo(jugadorService.findAll()));
 		return mav;
 		
@@ -323,14 +325,23 @@ public class JugadorController {
 	}
 	
 	@RequestMapping(value = "updatejugador", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ObjectError>> updateJugador(HttpServletRequest request, @ModelAttribute(name="jugador") Jugador jugador, BindingResult result) {
+	public ResponseEntity<List<ObjectError>> updateJugador(HttpServletRequest request, @ModelAttribute(name="jugador") Jugador jugadorAux, BindingResult result) {
 		try {
 			
 			int id = Integer.parseInt(request.getParameter("id"));
 			
-			jugador = seleccionarAtributosJugador(jugador, request);
+			LOG.info("Buscamos el jugador con id=" + id);
+			Optional<Jugador> jugadorO = jugadorService.findById(id);
+			Jugador jugador = jugadorO.get();
 			
-			ValidationUtils.invokeValidator(jugadorValidator, jugador, result);
+			jugadorAux.setDni(jugador.getDni());
+			jugadorAux.setEmail(jugador.getEmail());
+			jugadorAux.setDireccion(jugador.getDireccion());
+			jugadorAux.setLocalidad(jugador.getLocalidad());
+			jugadorAux.setFechaNacimiento(jugador.getFechaNacimiento());
+			jugadorAux = seleccionarAtributosJugador(jugadorAux, request);
+			
+			ValidationUtils.invokeValidator(jugadorValidator, jugadorAux, result);
 			
 			//JugadorEdit edit = jugadorConverter.convertJugadorToJugadorEdit(jugador);
 			
@@ -339,10 +350,6 @@ public class JugadorController {
 				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 				return re;
 			}
-			
-			LOG.info("Buscamos el jugador con id=" + id);
-			Optional<Jugador> jugadorO = jugadorService.findById(id);
-			jugador = jugadorO.get();
 			
 			jugador = seleccionarAtributosJugador(jugador, request);
 			
