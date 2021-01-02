@@ -40,7 +40,7 @@
 									<div class="col-lg-12 responsive">
 							
 										<table class="table table-sm table-striped table-bordered table-hover nowrap autobus"
-											cellspacing="0" width="100%" >
+											cellspacing="0" width="100%" id="autobus" >
 											<thead>
 												<tr>
 													<th>Jugador</th>
@@ -197,9 +197,9 @@
 													{data: "haLlegado",
 														render : function(data,type,row) {
 															if (data == true) {
-																return "<button type='button' class='btn btn-outline-success btn-block' onclick='return llegada(this,"+row['viajeId'] +");' value='HA LLEGADO'>HA LLEGADO</button>";
+																return "<button type='button' class='btn btn-outline-success btn-block' onclick='return llegada(this,"+row['viajeId'] +");' style='width:75%' value='HA LLEGADO'>HA LLEGADO</button>";
 															} else {
-																return "<button type='button' class='btn btn-outline-danger btn-block' onclick='return llegada(this,"+row['viajeId'] +");' value='NO HA LLEGADO AÚN'>NO HA LLEGADO</button>";
+																return "<button type='button' class='btn btn-outline-danger btn-block' onclick='return llegada(this,"+row['viajeId'] +");' style='width:75%' value='NO HA LLEGADO AÚN'>NO HA LLEGADO</button>";
 															}
 														}
 													
@@ -251,9 +251,9 @@
 													{data: "haLlegado",
 														render : function(data,type,row) {
 															if (data == true) {
-																return "<button type='button' class='btn btn-outline-success btn-block' onclick='return llegada(this,"+row['viajeId'] +");' value='HA LLEGADO'>HA LLEGADO</button>";
+																return "<button type='button' class='btn btn-outline-success btn-block' onclick='return llegada(this,"+row['viajeId'] +");' style='justify-content: center;align-items: center;width:75%' value='HA LLEGADO'>HA LLEGADO</button>";
 															} else {
-																return "<button type='button' class='btn btn-outline-danger btn-block' onclick='return llegada(this,"+row['viajeId'] +");' value='NO HA LLEGADO AÚN'>NO HA LLEGADO</button>";
+																return "<button type='button' class='btn btn-outline-danger btn-block' onclick='return llegada(this,"+row['viajeId'] +");' style='justify-content: center;align-items: center;width:75%' value='NO HA LLEGADO AÚN'>NO HA LLEGADO</button>";
 															}
 														}
 													

@@ -12,8 +12,8 @@ import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.repository.AutorizacionRepository;
-import org.springframework.samples.petclinic.repository.JugadorRepository;
 import org.springframework.samples.petclinic.service.AutorizacionService;
+import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +32,7 @@ public class AutorizacionServiceImpl extends AbstractService<Autorizacion> imple
 	private AutorizacionRepository autorizacionRepository;
 	
 	@Autowired
-	private JugadorRepository jugadorRepository;
+	private JugadorService jugadorService;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -49,7 +49,7 @@ public class AutorizacionServiceImpl extends AbstractService<Autorizacion> imple
 	@Override
 	@Transactional(readOnly = true)
 	public List<Autorizacion> findByJugador(int jugador_id) {
-		Optional<Jugador> jugador= jugadorRepository.findById(jugador_id);
+		Optional<Jugador> jugador= jugadorService.findById(jugador_id);
 		return autorizacionRepository.findByJugador(jugador.get());
 	}
 
