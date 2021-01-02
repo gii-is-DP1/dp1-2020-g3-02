@@ -31,7 +31,7 @@ private static final Log LOG = LogFactory.getLog(EstadisticoController.class);
 	private EstadisticoValidator estadisticoValidator;
 	
 	@GetMapping("/estadisticoform")
-	public String redirectJugadorForm(@RequestParam(name="id",required=false) Integer id, Model model) {
+	public String redirectJugadorForm(@RequestParam(name="id",required=true) Integer id, Model model) {
 		Estadistico estadistico = new Estadistico();
 		if(id != 0) {
 			estadistico = estadisticoService.findById(id).get();
@@ -49,22 +49,17 @@ private static final Log LOG = LogFactory.getLog(EstadisticoController.class);
 		ValidationUtils.invokeValidator(estadisticoValidator, estadistico, result);
 	
 		if (result.hasErrors()) {
-			LOG.warn("Se han obtenido " + result.getErrorCount() + " errores de validación");
 			model.addAttribute("estadistico", estadistico);
 			return ViewConstant.VIEWS_ESTADISTICO_CREATE_OR_UPDATE_FORM;
-		}else {
+		}
 		
 			try {
-				LOG.info("Se procede a guardar el estadístico");
-				Estadistico estadisticoSave = estadisticoService.save(estadistico);
-				LOG.info("Se ha guardado el estadístico con éxito: " + estadisticoSave);
-				model.addAttribute("result", 1);
+				Estadistico stat = estadisticoService.save(estadistico);
+				LOG.info("Éxito al guardar el estadistico:" + stat);
 			} catch (Exception e) {
-				LOG.error("No se ha podido guardar el estadístico");
-				model.addAttribute("result", 0); 
+				LOG.error("Error al guardar el estadistico: "+ estadistico);
 			}
 			return "redirect:/home";
 		}
-	}
 
 }

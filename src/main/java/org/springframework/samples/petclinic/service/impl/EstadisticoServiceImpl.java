@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Estadistico;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.EstadisticoRepository;
 import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
@@ -31,7 +33,6 @@ public class EstadisticoServiceImpl extends AbstractService<Estadistico> impleme
 	private AuthoritiesService authoritiesService;
 
 	@Override
-	@Transactional(readOnly = true)
 	public List<Estadistico> findByFirstName(String name) {
 		return estadisticoRepository.findByFirstName(name);
 	}
@@ -56,7 +57,8 @@ public class EstadisticoServiceImpl extends AbstractService<Estadistico> impleme
 	}
 
 	@Override
-	public Estadistico save(Estadistico estadistico) {
+	@Transactional
+	public Estadistico save(Estadistico estadistico) throws DataAccessException{
 		Estadistico _estadistico = estadisticoRepository.save(estadistico);
 		userService.saveUser(estadistico.getUser());
 		authoritiesService.saveAuthorities(estadistico.getUser().getUsername(),"estadistico");
@@ -66,6 +68,11 @@ public class EstadisticoServiceImpl extends AbstractService<Estadistico> impleme
 	@Override
 	public int estadisticoCount() {
 		return (int) estadisticoRepository.count();
+	}
+	
+	@Override
+	public Estadistico findByUser(User user) {
+		return estadisticoRepository.findByUser(user);
 	}
 
 }

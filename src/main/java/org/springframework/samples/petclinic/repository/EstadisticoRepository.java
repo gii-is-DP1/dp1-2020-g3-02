@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.samples.petclinic.model.Estadistico;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Repository;
 
 @Repository("estadisticoRepository")
@@ -15,5 +16,6 @@ public interface EstadisticoRepository extends JpaRepository<Estadistico, Serial
 	public Estadistico findByEmail(String email);
 	public List<Estadistico> findByFechaNacimientoBetweenOrderByFechaNacimiento(LocalDate firstDate, LocalDate secondDate);
 	public List<Estadistico> findByFechaNacimientoAfterOrderByFechaNacimiento(LocalDate date);
+	public Estadistico findByUser(User user);
 	
 }
