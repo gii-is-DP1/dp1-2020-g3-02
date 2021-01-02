@@ -46,7 +46,6 @@ public class Entrenador extends Person{
 	public Entrenador(String email,
 			LocalDate fechaNacimiento) {
 		super();
-
 		this.email = email;
 		this.fechaNacimiento = fechaNacimiento;
 	}
