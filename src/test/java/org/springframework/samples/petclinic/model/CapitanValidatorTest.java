@@ -51,31 +51,31 @@ public class CapitanValidatorTest extends BaseVolleyballValidatorTest {
         assertEquals(buildCadenaError(type, field, value, mensaje), errors.getFieldError(field).toString());
     }
 	
-//	@Test
-//	@Transactional(readOnly = true)
-//    public void actitudTest() {
-//        
-//        // Obtención de datos correctos
-//        Capitan capitan = getCapitanCorrecto();
-//        
-//        // Campo con el valor a validar y mensaje de validación
-//        String type = "Integer";
-//        String field = "ntiemposmuertos";
-//        Actitud a = Actitud.valueOf("anzynipighqpymntzaivcuhcgwkmgretrrrgjptqckjwslofjchzvhemzjrcysezsnpeknlmpnfamircqzrmzuprsopxdyfjiukuxpslrpltteknupxmzontazjonofefgkgfjzqbczlwjfsmptoyontrhxmbmdpxsgkryhyklzdkbplhhorakyvyncjyphxjirenzyedzsnxaxftmxrwlmzjamezwkgtppghtokbypkkrfffxcupxlrxaaciro");
-//        String value = a.toString();
-//        String mensaje = ValidationConstant.VALOR_ERROR_ENUM;
-//        
-//        // Modificación del campo
-//        capitan.setActitud(a);
-//
-//        // Bindear de errores
-//        Errors errors = new BeanPropertyBindingResult(capitan, "");
-//        
-//        // Validar
-//        capitanValidator.validate(capitan, errors);
-//        
-//        assertThat(errors.hasErrors()).isEqualTo(true);
-//        assertEquals(buildCadenaError(type, field, value, mensaje), errors.getFieldError(field).toString());
-//    }
+	@Test
+	@Transactional(readOnly = true)
+    public void actitudTest() {
+        
+        // Obtención de datos correctos
+        Capitan capitan = getCapitanCorrecto();
+        
+        // Campo con el valor a validar y mensaje de validación
+        String type = "Actitud";
+        String field = "actitud";
+        String value = "anzynipighqpymntzaivcuhcgwkmgretrrrgjptqckjwslofjchzvhemzjrcysezsnpeknlmpnfamircqzrmzuprsopxdyfjiukuxpslrpltteknupxmzontazjonofefgkgfjzqbczlwjfsmptoyontrhxmbmdpxsgkryhyklzdkbplhhorakyvyncjyphxjirenzyedzsnxaxftmxrwlmzjamezwkgtppghtokbypkkrfffxcupxlrxaaciro";
+        String mensaje = ValidationConstant.VALOR_ERROR_ENUM;
+        
+        // Modificación del campo
+        Actitud a = Actitud.fromNombre("manoloeldelospalotes");
+        capitan.setActitud(a);
+
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(capitan, "");
+        
+        // Validar
+        capitanValidator.validate(capitan, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(true);
+        assertEquals(buildCadenaError(type, field, value, mensaje), errors.getFieldError(field).toString());
+    }
 
 }
