@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.Material;
-import org.springframework.samples.petclinic.repository.LineaMaterialRepository;
 import org.springframework.samples.petclinic.repository.MaterialRepository;
 import org.springframework.samples.petclinic.service.LineaMaterialService;
 import org.springframework.samples.petclinic.service.MaterialService;
@@ -37,9 +36,6 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 
 	@Autowired
 	private LineaMaterialService lineaMaterialService;
-
-	@Autowired
-	private LineaMaterialRepository lineaMaterialRepository;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -80,7 +76,7 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 	@Override
 	public  int porcentajeUso(int material){
 		Optional<Material> materialito = materialRepository.findById(material);
-		List<LineaMaterial> lineasdndeseusaelmaterial= lineaMaterialRepository.findByMaterial(materialito.get());
+		List<LineaMaterial> lineasdndeseusaelmaterial= lineaMaterialService.findByMaterial(materialito.get().getId());
 		int finl=0;
 		if(lineasdndeseusaelmaterial.size()==0) {
 			finl=0;
@@ -89,7 +85,7 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 			for(LineaMaterial linea: lineasdndeseusaelmaterial) {
 				numveces+=linea.getCantidad();
 			}
-			finl=(int) (numveces*100/(materialito.get().getStock()*lineasdndeseusaelmaterial.size()));
+			finl=numveces*100/(materialito.get().getStock()*lineasdndeseusaelmaterial.size());
 		}
 		return finl;
 	}

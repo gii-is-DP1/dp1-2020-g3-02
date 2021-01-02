@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.NumCamiseta;
-import org.springframework.samples.petclinic.repository.EquipoRepository;
-import org.springframework.samples.petclinic.repository.JugadorRepository;
 import org.springframework.samples.petclinic.repository.NumCamisetaRespository;
+import org.springframework.samples.petclinic.service.EquipoService;
+import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
@@ -29,22 +29,22 @@ public class NumCamisetaServiceImpl extends AbstractService<NumCamiseta> impleme
 	private NumCamisetaRespository numCamisetaRepository;
 	
 	@Autowired
-	private JugadorRepository jugadorRepository;
+	private JugadorService jugadorService;
 	
 	@Autowired
-	private EquipoRepository equipoRepository;
+	private EquipoService equipoService;
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<NumCamiseta> findByJugador(int jugador_id) {
-		Optional<Jugador> jugador = jugadorRepository.findById(jugador_id);
+		Optional<Jugador> jugador = jugadorService.findById(jugador_id);
 		return numCamisetaRepository.findByJugador(jugador.get());
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<NumCamiseta> findByEquipo(int equipo_id) {
-		Optional<Equipo> equipo = equipoRepository.findById(equipo_id);
+		Optional<Equipo> equipo = equipoService.findById(equipo_id);
 		return numCamisetaRepository.findByEquipo(equipo.get());
 	}
 
