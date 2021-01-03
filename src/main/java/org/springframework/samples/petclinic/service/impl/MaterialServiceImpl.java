@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.Material;
@@ -74,20 +76,43 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 	}
 
 	@Override
-	public  int porcentajeUso(int material){
-		Optional<Material> materialito = materialRepository.findById(material);
-		List<LineaMaterial> lineasdndeseusaelmaterial= lineaMaterialService.findByMaterial(materialito.get().getId());
-		int finl=0;
-		if(lineasdndeseusaelmaterial.size()==0) {
-			finl=0;
-		}else {
-			int numveces = 0;
-			for(LineaMaterial linea: lineasdndeseusaelmaterial) {
-				numveces+=linea.getCantidad();
+	public  int porcentajeUso(TipoMaterial material){
+		//Optional<Material> materialito = materialRepository.findById(material);
+		//TipoMaterial tipo = materialito.get().getTipo();
+		List<Material> materialesDeUnTipo= new ArrayList<>();
+		materialesDeUnTipo.addAll(materialService.findByTipo(material));
+		List<LineaMaterial> lineasdndeseusaelmaterial= new ArrayList<>();
+		int stock=0;
+		for(Material en:materialesDeUnTipo) {
+			if(!(en.getEstado()==EstadoMaterial.DAÑADO) &&!(en.getEstado()==EstadoMaterial.INSERVIBLE)) {
+				stock+=en.getStock();
 			}
-			finl=numveces*100/(materialito.get().getStock()*lineasdndeseusaelmaterial.size());
 		}
-		return finl;
+		int finl=0;
+		int numveces = 0;
+		for(Material materialdelalista:materialesDeUnTipo) {
+
+
+			lineasdndeseusaelmaterial.addAll(lineaMaterialService.findByMaterial(materialdelalista.getId()));
+
+			if(materialdelalista.getEstado()==EstadoMaterial.DAÑADO ||materialdelalista.getEstado()==EstadoMaterial.INSERVIBLE || lineasdndeseusaelmaterial.size()==0  ) {
+				finl+=0;
+			}else {
+
+				for(LineaMaterial linea: lineasdndeseusaelmaterial) {
+
+					numveces+=linea.getCantidad();
+
+				}
+				finl=numveces*100/(stock*lineasdndeseusaelmaterial.size());
+			}
+
+		}
+		if(finl>100) {
+			return 100;
+		}else {
+			return finl;
+		}
 	}
 
 

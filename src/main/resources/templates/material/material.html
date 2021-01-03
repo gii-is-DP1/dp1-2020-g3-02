@@ -131,7 +131,7 @@
 						<div class="form-group" id="modalFormMaterialEstado">
 							<div class="form-group col">
 								<label><span class="text-danger">(*) </span>Estado Anterior:</label> <select class="form-control"
-									th:id="Estado" name="Estado">
+									th:id="EstadoAnterior" name="EstadoAnterior">
 									<option th:id="'INSERVIBLE'" th:value="INSERVIBLE">INSERVIBLE</option>
 									<option th:id="'DAÑADO'" th:value="DAÑADO">DAÑADO</option>
 									<option th:id="'ACEPTABLE'" th:value="ACEPTABLE">ACEPTABLE</option>
@@ -141,7 +141,7 @@
 							</div>
 							<div class="form-group col">
 								<label><span class="text-danger">(*) </span>Nuevo Estado:</label> <select class="form-control"
-									th:id="Estado" name="Estado">
+									th:id="EstadoNuevo" name="EstadoNuevo">
 									<option th:id="'INSERVIBLE'" th:value="INSERVIBLE">INSERVIBLE</option>
 									<option th:id="'DAÑADO'" th:value="DAÑADO">DAÑADO</option>
 									<option th:id="'ACEPTABLE'" th:value="ACEPTABLE">ACEPTABLE</option>
@@ -253,7 +253,7 @@
 															},
 															{ data: 'porcentaje',
 																render: function ( data, type, row ) {
-																	  if(data>70){
+																	  if(data>70 ){
 																	    return " <button  class='btn btn-outline-info mx-0 añadir' onclick='return añadir();' type='button' title='añadir'>"+
 																		"Añadir</button>";
 																		}
@@ -286,7 +286,8 @@
 												            {
 												                "targets": [ 4 ],
 												                "orderable": false,
-												                "searchable": false
+												                "searchable": false,
+												                "class": "custom-class" 
 												            },
 												            {
 												                "targets": [ 5 ],
