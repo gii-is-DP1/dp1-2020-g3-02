@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -52,6 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/estadisticos/estadisticoform").permitAll()
 				.antMatchers("/estadisticos/addestadistico").permitAll()
 				.antMatchers("/estadisticos/**").permitAll()
+				.antMatchers("/estadisticas/**").hasAnyAuthority("estadistico","entrenador")
 				.antMatchers("/pruebas/**").hasAnyAuthority("jugador","entrenador")
 				.antMatchers("/cuerpotecnico/**").hasAnyAuthority("jugador","entrenador","estadistico")
 				.antMatchers("/equipos/**").hasAnyAuthority("jugador","entrenador")

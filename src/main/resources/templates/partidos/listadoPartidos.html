@@ -183,6 +183,11 @@
 	<script>
 	
 	// FUNCIONES PARA EL CONTROL DE LAS ASISTENCIAS
+	
+	function irAFormEstadisticas(data,partidoId){
+		window.location.href = "/estadisticas/estadisticasPartidoForm?partido_id="+partidoId;
+	}
+	
 	function enviarAsiste(data){
 		console.log(data);
 		
@@ -315,7 +320,7 @@
 								"Lesionado</button>";
 						 }
 					 }else{
-						 return " <button type='button' class='btn btn-outline-dark' title='Tomar estadísiticas'>"
+						 return " <button type='button'  class='btn btn-outline-dark' onclick='return irAFormEstadisticas(this,"+row['id'] +");' title='Tomar estadísiticas'>"
 							+"Tomar estadísticas </button>";
 					 }
 					
