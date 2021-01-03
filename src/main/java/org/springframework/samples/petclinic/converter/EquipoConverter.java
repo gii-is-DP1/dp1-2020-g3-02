@@ -48,6 +48,7 @@ public class EquipoConverter {
 		}
 		return new EquipoTablaEquipos(
 				equipo.getId(),
+				equipo.getSistemaJuego(),
 				equipo.getCategoria(),
 				equipo.getNumAmarillas(),
 				equipo.getNumRojas(),
