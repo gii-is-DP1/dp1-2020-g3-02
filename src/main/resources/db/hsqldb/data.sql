@@ -512,11 +512,11 @@ INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (3,'cuerda','CU
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (4,'cinta','CINTA',10,'NUEVO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (5,'poste','POSTE',11,'NUEVO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (6,'red','RED',11,'NUEVO');
-INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (7,'cono bajo','CONOBAJO',0,'INSERVIBLE');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (7,'cono bajo','CONOBAJO',10,'INSERVIBLE');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (8,'cono medio','CONOMEDIO',1,'BUENO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (9,'cono alto nuevos','CONOALTO',3,'NUEVO');
-INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (10,'cono alto bueno','CONOALTO',1,'BUENO');
-INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (11,'cono alto inservibles','CONOALTO',0,'INSERVIBLE');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (10,'cono alto bueno','CONOALTO',6,'BUENO');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (11,'cono alto inservibles','CONOALTO',3,'INSERVIBLE');
 
 	
 
@@ -530,6 +530,8 @@ INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (7,4
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (8,1,2,3);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (9,5,2,4);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (10,2,2,5);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (11,3,1,10);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (12,1,2,11);
 
 -- INSERT AUTOBUSES
 INSERT INTO autobus(id) VALUES (1);

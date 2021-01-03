@@ -18,5 +18,5 @@ public interface MaterialService extends BaseService<Material>{
 	
 	public abstract Material saveMaterial(Material material);
 
-	int porcentajeUso(int material);
+	int porcentajeUso(TipoMaterial material);
 }

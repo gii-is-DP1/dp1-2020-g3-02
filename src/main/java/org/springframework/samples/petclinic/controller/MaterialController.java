@@ -89,7 +89,7 @@ public class MaterialController {
 			
 			TipoMaterial[] tipos= TipoMaterial.values();
 			List<MaterialEstados> listaMateriales = new ArrayList<>();
-			 		 
+			
 			for (int i = 0; i < tipos.length; i++) {
 				final int val = i;
 				
@@ -110,7 +110,7 @@ public class MaterialController {
 				map.put(EstadoMaterial.ACEPTABLE, (aceptable.size()!=0)? aceptable.get(0):0);
 				map.put(EstadoMaterial.DAÑADO, (dañado.size()!=0)? dañado.get(0):0);
 				m.setEstados(map);
-				m.setPorcentaje(calcularPorcentajeUso(materiales.get(i)));
+				m.setPorcentaje(calcularPorcentajeUso(tipos[i]));
 				listaMateriales.add(m);
 				
 			}
@@ -200,9 +200,9 @@ public class MaterialController {
 	public String navbar() {
 		return ViewConstant.VIEW_NAVBAR;
 	}
-	private Integer calcularPorcentajeUso( Material material){
+	private Integer calcularPorcentajeUso( TipoMaterial material){
 		
-		int materialito = materialService.porcentajeUso(material.getId());
+		int materialito = materialService.porcentajeUso(material);
 		
 		return materialito;
 	}
