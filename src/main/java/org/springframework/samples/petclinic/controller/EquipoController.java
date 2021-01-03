@@ -109,8 +109,9 @@ public class EquipoController {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_EQUIPO);
 		mav.addObject("username", username);
 		Optional<Equipo> eq = equipoService.findById(id);
-		mav.addObject("equipo", eq.get());
-		mav.addObject("jugadores", jugadorConverter.convertListJugadorToListJugadorInEquipo(jugadorService.findByEquipo(id)));
+		Equipo equipo = eq.get();
+		mav.addObject("equipo", equipo);
+		mav.addObject("jugadores", jugadorConverter.convertListJugadorToListJugadorInEquipo(equipo.getJugadores()));
 		return mav;
 	}
 	

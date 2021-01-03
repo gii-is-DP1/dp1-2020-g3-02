@@ -50,7 +50,7 @@
 					<div class="collapse show" id="collapseEstadisticas">
 						<div class="card-body">
 						<div class="container-fluid">
-							<div id="contenedor-modal"></div>
+							<div id="estadisticas_grafica"></div>
 						</div>
 					</div>
 					</div>
@@ -104,6 +104,8 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 				</div>
 				</div>
 				
+				<input id="equipo_id" type ="hidden" th:value="${equipo.id}">
+				
 			</div>
 			</div>
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
@@ -125,7 +127,11 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 		
-		<script>
+	<!-- Highcharts JS -->    
+	<script type="text/javascript"
+        src="//code.highcharts.com/highcharts.js"></script>
+		
+	<script>
 	
 	$(document)
 	.ready(
@@ -152,18 +158,8 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 								"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
 							}
 						});
-
-			
-				
-			
-			});
-	
-	/*$(document)
-	.ready(
-			function(){
 		//var id = $(this).parent().find('#id').val();
-		//var id=[[${equipo.id}]];
-		var id = $(this).parent().find('#id').val();
+		var id = $("#equipo_id").val();
 										
 		$.ajax({
 			type: 'GET',
@@ -171,7 +167,7 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 			success: function(stats){
 				var max = Math.max(stats.saquesTotales,stats.recepcionesTotales,stats.colocacionesTotales,stats.defensasTotales,stats.bloqueosTotales,stats.rematesTotales,stats.fintasTotales,stats.numAtaquesRapidosTotales);
 
-				Highcharts.chart('contenedor-modal', {
+				Highcharts.chart('estadisticas_grafica', {
 					chart: {
 		                type: 'column',
 		            },
@@ -256,7 +252,7 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 			}
 		});
 		
-	});*/
+	});
 	
 		$('#stat').on('click', function(){
 			if(!($('#collapseJugadores').hasClass('collapsing'))){

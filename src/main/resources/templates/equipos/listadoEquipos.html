@@ -63,6 +63,7 @@
 							<th>Acciones</th>
 						</tr>
 					</thead>
+					
 					<tbody>
 						<tr th:each="equipo : ${equipos}">
 							<td th:text="${equipo.categoria}"></td>
@@ -106,6 +107,7 @@
 							</a>
 							</td>
 					</tbody>
+					
 
 				</table>
 			</div>
@@ -142,10 +144,14 @@
 	<div th:replace="equipos/modalEstadisticas"></div>
 	<div th:replace="equipos/modalNuevoEquipo"></div>
 	
+	
+	<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
+	<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="jugador">
+	
 	<script>
 	
 	//TABLA PRINCIPAL CON AJAX (EN CONSTRUCCION)===============================================
-	tablaPrincipal = $('#equipos').DataTable({
+	/*tablaPrincipal = $('#equipos').DataTable({
 		responsive: true,
 		"language" : {
 			"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
@@ -153,14 +159,13 @@
 		order: [1,'asc'],
 		ajax:'[[@{/equipos/findEquipos}]]',
 		"columns":[
-			{data:'id'},
 			{data: 'categoria'},
+			{data: 'sistemaJuego'},
 			{data: 'numAmarillas'},
-			{data: 'numRojas'},
 			{data: 'numRojas'},
 			{data: 'liga'},
 			{data: 'federacion'},
-			{//?????????????????????????????????????????????????????
+			{data: 'id',
 				 render: function (data, type, row) {
 					 
 					 if($('#security').val() == 'entrenador'){//Cambiar los botones!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -192,17 +197,13 @@
 							return " <button  class='btn btn-outline-secondary' type='button' title='Lesionado' disabled>"+
 								"Lesionado</button>";
 						 }
-					 }else{
-						 return " <button type='button' class='btn btn-outline-dark' title='Tomar estadísiticas'>"
-							+"Tomar estadísticas </button>";
 					 }
 					
 				 }
 			}
 		]
-	});
+	});*/
 	
-	tablaPrincipal.columns([0]).visible(false);
 
 	</script>
 	
