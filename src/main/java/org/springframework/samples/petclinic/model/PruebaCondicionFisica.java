@@ -47,10 +47,6 @@ public class PruebaCondicionFisica extends BaseEntity {
 		this.tipoPrueba = tipo_prueba; 
 	}
 
-	@Override
-	public String toString() {
-		return "PruebaCondicionFisica [jugador=" + jugador + ", dato=" + dato + ", fecha=" + fecha + ", tipoPrueba="
-				+ tipoPrueba + "]";
-	}
+	
 
 }

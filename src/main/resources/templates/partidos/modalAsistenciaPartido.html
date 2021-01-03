@@ -153,8 +153,8 @@
 		}
 	}
 	
-						var tabla = null;
-						
+						var tablaAutobus = null;
+						var tablaPropietario = null;
 							function tablaAsistencia(boton,fecha,hora,id) {
 								//var id = $(this).parent().find('#id').val();
 								$(document).ready(
@@ -162,8 +162,9 @@
 																
 									// Create DataTable
 									$('#asistenciaPartidoModal').modal("show");
-										if(tabla != null){
-											tabla.destroy();
+										if(tablaAutobus != null){
+											tablaAutobus.destroy();
+											tablaPropietario.destroy();
 										}
 												
 											tablaAutobus = $('.autobus').DataTable({
