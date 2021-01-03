@@ -1,7 +1,5 @@
 package org.springframework.samples.petclinic.controller;
 
-import javax.validation.Valid;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +39,7 @@ public class VehiculoController {
 	}
 	
 	@GetMapping("/vehiculoform")
-	public String redirectVehiculoForm(@RequestParam(name="id",required=false) int id, Model model) {
+	public String redirectVehiculoForm(@RequestParam(name="id",required=true) int id, Model model) {
 		Personales personal= new Personales();
 		if(id != 0) {
 			personal = personalService.findById(id).get();
@@ -51,7 +49,7 @@ public class VehiculoController {
 	}
 	
 	@PostMapping("/addvehiculo")
-	public String addVehiculo(@Valid @ModelAttribute(name="personal") Personales personal, BindingResult bindResult, Model model) {
+	public String addVehiculo(@ModelAttribute(name="personal") Personales personal, BindingResult bindResult, Model model) {
 		LOG.info("addvehiculo() -- PARAMETROS: "+ personal);
 		
 		ValidationUtils.invokeValidator(personalValidator, personal, bindResult);
@@ -61,14 +59,13 @@ public class VehiculoController {
 			return ViewConstant.VIEWS_VEHICULO_CREATE_OR_UPDATE_FORM;
 		}
 		try {
-			LOG.info("Se procede a guardar el vehículo personal");
-			Personales personalSave = personalService.savePersonal(personal);
+			Personales personalSave = personalService.save(personal);
 			LOG.info("Se ha guardado el vehículo con éxito: " + personalSave);
 		} catch (Exception e) {
 			LOG.error("No se ha podido guardar el vehículo");
 		}
 		
-		return "redirect:/home";
+		return "redirect:/personales/showvehiculos";
 		
 	}
 
@@ -81,7 +78,7 @@ public class VehiculoController {
 		return "redirect:/personales/showvehiculos";
 		
 	}
-
+	
 	
 	@GetMapping("/navbar")
 	public String navbar() {

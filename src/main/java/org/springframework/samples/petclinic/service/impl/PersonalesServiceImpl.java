@@ -16,7 +16,7 @@ import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service("personalesService")
 public class PersonalesServiceImpl extends AbstractService<Personales>  implements PersonalesService {
 
 	/**
@@ -37,7 +37,6 @@ public class PersonalesServiceImpl extends AbstractService<Personales>  implemen
 	private PersonalesService personalesService;
 
 	@Override
-	@Transactional(readOnly = true)
 	public List<Personales> findByPropietario(String propietario)  {
 		return personalesRepository.findByPropietario(propietario);
 	}
@@ -49,20 +48,4 @@ public class PersonalesServiceImpl extends AbstractService<Personales>  implemen
 		return personalesRepository.findByJugador(jugador.get());
 	}
 	
-	@Override
-	@Transactional
-	public Personales savePersonal(Personales personal) {
-
-
-		Personales personalito=personalesRepository.save(personal);
-		personalesService.savePersonal(personal);
-
-
-		
-		LOG.info(personalito.toString());
-		return personalito;
-
-
-	}
-
 }
