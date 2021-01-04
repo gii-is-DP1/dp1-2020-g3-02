@@ -6,6 +6,7 @@ import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorWithEquipo;
 import org.springframework.samples.petclinic.model.auxiliares.JugadoresInEquipo;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
@@ -14,6 +15,25 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JugadorConverter {
+	
+	public JugadorDTO convertParcialJugadorToJugadorDTO(Jugador jugador) {
+		return new JugadorDTO(jugador.getId(), 
+				jugador.getFirstName(), 
+				jugador.getLastName(), 
+				null, 
+				jugador.getDni(), 
+				jugador.getDireccion(), 
+				jugador.getEmail(), 
+				jugador.getLocalidad(), 
+				jugador.getFechaNacimiento(), 
+				jugador.getAltura(), 
+				jugador.getPeso(), 
+				jugador.getPesoIdeal(), 
+				jugador.getImc(), 
+				jugador.getPosicionPrincipal(), 
+				jugador.getPosicionSecundaria(), 
+				jugador.getEstadoActual());
+	}
 	
 	public JugadorStats convertJugadorToJugadorStats(Jugador jugador) {
 		return new JugadorStats(

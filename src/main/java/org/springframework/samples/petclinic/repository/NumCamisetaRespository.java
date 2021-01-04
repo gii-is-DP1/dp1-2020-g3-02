@@ -17,4 +17,6 @@ public interface NumCamisetaRespository extends JpaRepository<NumCamiseta, Seria
 	public List<NumCamiseta> findByJugador(Jugador jugador);
 	
 	public List<NumCamiseta> findByEquipo(Equipo equipo);
+	
+	public NumCamiseta findByEquipoAndJugador(Equipo equipo, Jugador jugador);
 }
