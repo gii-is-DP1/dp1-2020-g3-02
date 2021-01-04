@@ -48,4 +48,12 @@ public class NumCamisetaServiceImpl extends AbstractService<NumCamiseta> impleme
 		return numCamisetaRepository.findByEquipo(equipo.get());
 	}
 
+	@Override
+	public NumCamiseta findByEquipoAndJugador(int equipo_id, int jugador_id) {
+		Equipo equipo = equipoService.findById(equipo_id).get();
+		Jugador jugador = jugadorService.findById(jugador_id).get();
+		NumCamiseta numCamiseta = numCamisetaRepository.findByEquipoAndJugador(equipo, jugador);
+		return numCamiseta;
+	}
+
 }

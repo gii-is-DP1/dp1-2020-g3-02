@@ -577,6 +577,12 @@ INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hor
 -- INSERT NUMCAMISETAS
 INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (1,10,1,1);
 INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (2,10,3,1);
+INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (3,11,2,1);
+INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (4,2,4,1);
+INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (5,3,5,1);
+INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (6,12,6,1);
+INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (7,4,7,1);
+INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (8,5,8,1);
 
 -- INSERT SUSTITUCIONES
 INSERT INTO sustituciones(id,minuto_sustitucion,jugador_entra,jugador_sale,partido_id) VALUES (1,25,1,2,1);
