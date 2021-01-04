@@ -63,56 +63,6 @@
 							<th>Acciones</th>
 						</tr>
 					</thead>
-					
-					<tbody>
-						<tr th:each="equipo : ${equipos}">
-							<td th:text="${equipo.categoria}"></td>
-			<!--			<td th:text="${equipo.Capitan.Jugador.firstName} + ' ' + ${equipo.Capitan.Jugador.lastName}"></td>
-							<td th:text="${equipo.Entrenador.firstName} + ' ' + ${equipo.Entrenador.lastName}"></td>   -->
-							<td th:text="${equipo.sistemaJuego}"></td>
-							<td th:text="${equipo.numAmarillas}"></td>
-							<td th:text="${equipo.numRojas}"></td>
-							<td th:text="${equipo.liga}"></td>
-							<td th:text="${equipo.federacion}"></td>
-							<td>
-							<a href="#"
-
-								th:href="@{/equipos/showequipo/__${equipo.id}__}" style="text-decoration: none;">
-								<button class="btn btn-outline-primary mx-0 editar" type="button" title="Detalles">
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-  										<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-									</svg>
-								</button>
-								
-				
-							</a>
-							<input type="hidden" id="id" th:value="${equipo.id}"></input>
-								<button class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas" onclick="return estadisticas(this)" ><svg width="1.2em" height=1.2em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
-									</svg>
-								</button>
-							<a href="#"
-								th:href="@{/equipos/equipoform?id=__${equipo.id}__}" style="text-decoration: none;">
-								<button class="btn btn-outline-info mx-0 editar" type="button" title="Editar">
-									<i class="fas fa-user-edit"></i>
-								</button>
-							</a>
-							<input type="hidden" id="id" th:value="${equipo.id}"></input>
-							<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-dark mx-0 capitan" id="capitan" type="button" title="Capitan">
-								<i class="fas fa-award"></i>
-							</button>
-							<a href="#"
-								th:href="@{/equipos/eliminarequipo?id=__${equipo.id}__}">
-								<button class="btn btn-outline-danger mx-0 eliminar" type="button" title="Eliminar">
-									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  										<path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
-									</svg>
-								</button>
-							</a>
-							
-							</td>
-					</tbody>
-					
 
 				</table>
 			</div>
@@ -155,8 +105,20 @@
 	
 	<script>
 	
+	function detalleEquipo(data,equipoId){
+		window.location.href = "/equipos/showequipo/"+equipoId;
+	}
+	
+	function editar(data,equipoId){
+		window.location.href = "/equipos/equipoform/?id="+equipoId;
+	}
+	
+	function eliminar(data,equipoId){
+		window.location.href = "/equipos/eliminarequipo/?id="+equipoId;
+	}
+	
 	//TABLA PRINCIPAL CON AJAX (EN CONSTRUCCION)===============================================
-	/*tablaPrincipal = $('#equipos').DataTable({
+	tablaPrincipal = $('#equipos').DataTable({
 		responsive: true,
 		"language" : {
 			"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
@@ -174,40 +136,26 @@
 				 render: function (data, type, row) {
 					 
 					 if($('#security').val() == 'entrenador'){//Cambiar los botones!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-						return " <button class='btn btn-outline-success mx-0 estadisticas' onclick='return estadisticas(this,"+row['id'] +");' type='button' title='Estadísticas'>"+
-							"<i class='fas fa-chart-pie'></i></button>"+
+						return " <button class='btn btn-outline-success mx-0 detalles' onclick='return detalleEquipo(this,"+row['id'] +");' type='button' title='Detalles'>"+
+							"<i class='fas fa-users'></i></button>"+
+							 " <button  onclick='return estadisticas("+row['id'] +");' class='btn btn-outline-success mx-0 estadisicas' type='button' title='Estadísicas'>"+
+							 "<i class='fas fa-chart-pie'></i></button>" + 
 							 " <button  onclick='return editar(this,"+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
-							"<i class='fas fa-edit'></i></button>" + 
+							 "<i class='fas fa-edit'></i></button>" + 
 							" <button onclick='return eliminar(this,"+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
 							"<i class='fas fa-trash-alt'></i></button>" ;
 						 
 					 }else  if($('#security').val() == 'jugador'){
-						 if($('#estado').val() == 'EN_FORMA'){
-						 	if(!data.includes(parseInt($('#idJugador').val(),10))){
-						 		return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
-									+"<i class='fas fa-bus'></i> </button>" +
-									" <button type='button' class='btn btn-outline-secondary' "+
-									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
-									" <button  class='btn btn-outline-info' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='Asistir'>"+
-									"Asistir</button>";
-							 }else{
-								 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
-									+"<i class='fas fa-bus'></i> </button>" +
-									" <button type='button' class='btn btn-outline-secondary' "+
-									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
-									" <button  class='btn btn-outline-danger' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='No Asistir'>"+
-									"No Asistir</button>";
-							 }
-						 }else{
-							return " <button  class='btn btn-outline-secondary' type='button' title='Lesionado' disabled>"+
-								"Lesionado</button>";
-						 }
+						 return " <button class='btn btn-outline-success mx-0 detalles' onclick='return detalleEquipo(this,"+row['id'] +");' type='button' title='Detalles'>"+
+							"<i class='fas fa-users'></i></button>"+
+							 " <button  onclick='return estadisticas("+row['id'] +");' class='btn btn-outline-success mx-0 estadisicas' type='button' title='Estadísicas'>"+
+							 "<i class='fas fa-chart-pie'></i></button>";
 					 }
 					
 				 }
 			}
 		]
-	});*/
+	});
 	
 
 	</script>
