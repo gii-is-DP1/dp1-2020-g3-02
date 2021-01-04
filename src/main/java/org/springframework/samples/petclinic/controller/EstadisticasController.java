@@ -75,6 +75,39 @@ public class EstadisticasController {
 		}
 	}
 	
+	@RequestMapping(value = "/tablaSustituciones/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<JugadorDTO>> tablaSustituciones(@PathVariable("partidoId") int partidoId) {
+		try {
+			Partido partido = partidoService.findById(partidoId).get();
+			
+			List<Jugador> jugadores = partido.getJugadores();
+			List<Jugador> jugadoresJugando = partido.getJugadoresJugando();
+			
+			List<JugadorDTO> jugadoresDTO = new ArrayList<JugadorDTO>();
+			
+			
+			for(Jugador jugador:jugadores) {
+				JugadorDTO jugadorDTO = new JugadorDTO();
+				jugadorDTO = jugadorConverter.convertParcialJugadorToJugadorDTO(jugador);
+				jugadorDTO.setNumCamiseta(numCamisetaService.findByEquipoAndJugador(partido.getEquipo().getId(), jugador.getId()).getNumero());
+				
+				if(jugadoresJugando.contains(jugador)) {
+					jugadorDTO.setEnCampo(true);
+					jugadoresDTO.add(jugadorDTO);
+				}else {
+					jugadorDTO.setEnCampo(false);
+					jugadoresDTO.add(jugadorDTO);
+				}
+				
+			}
+			
+			DataTableResponse<JugadorDTO> data = new DataTableResponse<JugadorDTO>(jugadoresDTO);
+			return new ResponseEntity<DataTableResponse<JugadorDTO>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<JugadorDTO>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@GetMapping("/navbar")
 	public String navbar() {
 		return ViewConstant.VIEW_NAVBAR;
