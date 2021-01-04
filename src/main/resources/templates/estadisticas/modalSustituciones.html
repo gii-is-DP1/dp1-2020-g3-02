@@ -1,0 +1,142 @@
+<meta charset="UTF-8" />
+
+<!-- Modal Sustituciones -->
+	<div class="modal fade" id="sustitucionesModal" tabindex="-1"
+		aria-labelledby="Sustituciones de jugadores" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-dark">
+					<h5 class="modal-title" id="staticBackdropLabel"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span  class="text-white" aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					
+					<div class="row">
+						<div class="col-lg-16 ">
+						
+						</div>
+						
+						<div class="col-lg-16 ">
+						
+						</div>
+					
+					</div>
+					
+					<div class="row">
+						
+						<div class="col-lg-12 responsive">
+						
+						<div class="card shadow bg-light">
+						<div class="card-header text-white"
+							style="background: rgb(40, 167, 69); background: linear-gradient(90deg, rgba(40, 167, 69, 1) 0%, rgba(255, 255, 255, 1) 100%);">
+							<div class="row">
+								<h3 class="card-title ml-3">Jugadores en partido</h3>
+								
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="container-fluid">
+								<table id="sustitucionesJugadores"
+									class="table table-striped table-bordered table-hover sustitucionesJugadores responsive"
+									style="width: 100%;">
+									<thead>
+										<tr class="table-primary">
+											
+											<th>Nombre</th>
+											<th>Dorsal</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					
+						
+					</div>
+						
+				</div>
+			</div>		
+		</div>			
+				<div class="modal-footer"
+					style="background: rgb(40, 167, 69); background: linear-gradient(0deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	
+	
+		
+		var tablaJugadores = null;
+		function tablaSustituciones(boton) {
+			var partidoId = $('#partidoId').val();
+			$(document)
+					.ready(
+							function() {
+
+								// Create DataTable
+								$('#sustitucionesModal').modal("show");
+								if (tablaJugadores != null) {
+									tablaJugadores.destroy();
+									
+								}
+
+								tablaJugadores = $('.sustitucionesJugadores')
+										.DataTable({
+													"lengthMenu" : [ 5, 6, 7,8, 9, 10 ],
+													responsive : true,
+													processing: true,
+													ajax : '[[@{/estadisticas/tablaSustituciones/}]]'+ partidoId,
+													language : {
+														emptyTable : "Ningún dato disponible en esta tabla",
+														"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+														"infoEmpty" : "Mostrando 0 de 0 registros",
+														"lengthMenu" : "Mostrando _MENU_ registros",
+														"search" : "Buscar:",
+														"zeroRecords" : "No se encontraron resultados",
+														"paginate" : {
+															"first" : "Primera",
+															"last" : "Última",
+															"next" : "Siguiente",
+															"previous" : "Anterior"
+														},
+													},
+													"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+														console.log(aData.enCampo);
+											            if ( aData.enCampo == true ){
+											           		$('td', nRow).css('background-color', '#90EE90');
+											            }
+											            
+											        },
+													"columns" : [
+															{"data" : "firstName",
+																render : function(data,type,row) {
+																	return row.firstName+ ", "+ row.lastName;
+																}
+															},
+															{
+																data : "numCamiseta"
+															}
+
+													],
+													columnDefs : [ {
+														responsivePriority : 1,
+														targets : 0
+													//Nombre
+													}, {
+														responsivePriority : 1,
+														targets : 1, //Ha llegado
+														orderable : false
+													} ]
+
+												});
+
+							});
+		};
+		
+	</script>

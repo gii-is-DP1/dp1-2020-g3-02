@@ -42,9 +42,12 @@
 					ESTADÍSTICAS</h1>
 			</div>
 		</div>
-
+		
+		
 		<div th:replace="estadisticas/cronometro"></div>
-
+		
+		<input type="hidden" id="partidoId" th:value="${partido.id}"></input>
+		
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md py-3">
@@ -53,7 +56,7 @@
 							style="background: rgb(40, 167, 69); background: linear-gradient(90deg, rgba(40, 167, 69, 1) 0%, rgba(255, 255, 255, 1) 100%);">
 							<div class="row">
 								<h3 class="card-title ml-3">Introducción de estadísticas</h3>
-								<button class="btn btn-info ml-auto mr-2" th:title="Sustitución"><i class="fas fa-exchange-alt"></i> Jugadores</button>
+								<button class="btn btn-info ml-auto mr-2" onclick="return tablaSustituciones(this);" th:title="Sustitución"><i class="fas fa-exchange-alt"></i> Jugadores</button>
 							</div>
 						</div>
 						<div class="card-body">
@@ -116,6 +119,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<div th:replace="estadisticas/modalSustituciones"></div>
 
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 	<!-- Optional JavaScript -->
@@ -150,18 +155,25 @@
 
 
 	<script type="text/javascript">
-		function cambioMasMenos(element) {
-			if (element.parentNode.parentNode.parentNode.children[1].classList
-					.contains('collapse')) {
-				if (element.children[0].classList.contains('fa-plus')) {
-					element.children[0].classList
-							.replace('fa-plus', 'fa-minus');
-				} else {
-					element.children[0].classList
-							.replace('fa-minus', 'fa-plus');
+		
+	function cambioMasMenos(element) {
+
+		if (!($('#collapseEstadisticas').hasClass('collapsing'))) {
+
+			if (element.children[0].classList.contains('fa-plus')) {
+
+				if ($('.fa-minus')[0] != undefined) {
+
+					$('.fa-minus')[0].classList.replace('fa-minus', 'fa-plus');
 				}
+				element.children[0].classList.replace('fa-plus', 'fa-minus');
+
+			} else {
+
+				element.children[0].classList.replace('fa-minus', 'fa-plus');
 			}
 		}
+	}
 		
 		$(document)
 		.ready(

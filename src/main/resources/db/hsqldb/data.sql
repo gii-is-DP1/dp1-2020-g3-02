@@ -263,7 +263,12 @@ INSERT INTO juega_partido(jugador_id,partido_id) VALUES (3,2);
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (4,2);
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (5,2);
 
-
+INSERT INTO jugando_partido(jugador_id,partido_id) VALUES (1,1);
+INSERT INTO jugando_partido(jugador_id,partido_id) VALUES (2,1);
+INSERT INTO jugando_partido(jugador_id,partido_id) VALUES (3,1);
+INSERT INTO jugando_partido(jugador_id,partido_id) VALUES (4,1);
+INSERT INTO jugando_partido(jugador_id,partido_id) VALUES (5,1);
+INSERT INTO jugando_partido(jugador_id,partido_id) VALUES (6,1);
 
 -- INSERT  ENTRENAMIENTOS
 
