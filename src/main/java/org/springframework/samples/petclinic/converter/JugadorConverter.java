@@ -138,6 +138,7 @@ public class JugadorConverter {
 		return listaJugadoresInEquipo;
 	}
 	
+	
 	    public DataAutorizacion convertListJugadoresAutorizaciones(List<JugadorAut> jugadores) {
 
 	        DataAutorizacion dataaut = new DataAutorizacion();

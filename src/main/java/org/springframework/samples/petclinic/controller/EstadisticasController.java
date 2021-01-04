@@ -2,6 +2,9 @@ package org.springframework.samples.petclinic.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,6 +19,7 @@ import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
+import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.stereotype.Controller;
@@ -41,6 +45,9 @@ public class EstadisticasController {
 	private PartidoService partidoService;
 	
 	@Autowired
+	private JugadorService jugadorService;
+	
+	@Autowired
 	private EstadisticaPersonalPartidoService estadisticaPersonalPartidoService;
 	
 	private static final Log LOG = LogFactory.getLog(EstadisticasController.class);
@@ -56,7 +63,7 @@ public class EstadisticasController {
 	public ResponseEntity<DataTableResponse<JugadorDTO>> tablaIntroducirEstadisticas(@PathVariable("partidoId") int partidoId) {
 		try {
 			Partido partido = partidoService.findById(partidoId).get();
-			List<Jugador> jugadores = partido.getJugadores();
+			List<Jugador> jugadores = partido.getJugadoresJugando();
 			
 			List<JugadorDTO> jugadoresDTO = new ArrayList<JugadorDTO>();
 			for(Jugador jugador:jugadores) {
@@ -73,6 +80,67 @@ public class EstadisticasController {
 		} catch (Exception e) {
 			return new ResponseEntity<DataTableResponse<JugadorDTO>>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@RequestMapping(value = "/jugadoresEnCampo/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> jugadoresEnCampo(@PathVariable("partidoId") int partidoId) {
+		try {
+			Partido partido = partidoService.findById(partidoId).get();
+			
+			List<String> jugadores = partido.getJugadoresJugando().stream().map(x->x.getFirstName()+", " +x.getLastName()+ " "
+			+ x.getNumCamisetas().stream().filter(y->y.getEquipo().getId().equals(partido.getEquipo().getId()))
+			.map(z->z.getNumero()).collect(Collectors.toList()).get(0)+";"+x.getId())
+			.collect(Collectors.toList());
+			
+			return new ResponseEntity<List<String>>(jugadores, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@RequestMapping(value = "/jugadoresEnBanquillo/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> jugadoresEnBanquillo(@PathVariable("partidoId") int partidoId) {
+		try {
+			Partido partido = partidoService.findById(partidoId).get();
+			
+			List<String> jugadores = partido.getJugadores().stream().filter(x->!partido.getJugadoresJugando().contains(x))
+			.map(x->x.getFirstName()+", " +x.getLastName()+ " "
+			+ x.getNumCamisetas().stream().filter(y->y.getEquipo().getId().equals(partido.getEquipo().getId()))
+			.map(z->z.getNumero()).collect(Collectors.toList()).get(0)+";"+x.getId())
+			.collect(Collectors.toList());
+			
+			return new ResponseEntity<List<String>>(jugadores, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@RequestMapping(value = "realizarsustitucion", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity realizarSustitucion(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			int jugadorEnCampoId = Integer.parseInt(request.getParameter("jugadorEnCampo"));
+			int jugadorEnBanquilloId = Integer.parseInt(request.getParameter("jugadorEnBanquillo"));
+			
+			Partido partido = partidoService.findById(partidoId).get();
+			Jugador jugadorEnCampo = jugadorService.findById(jugadorEnCampoId).get();
+			Jugador jugadorEnBanquillo = jugadorService.findById(jugadorEnBanquilloId).get();
+			
+			List<Jugador> jugadoresEnCampo = partido.getJugadoresJugando();
+			
+			jugadoresEnCampo.add(jugadorEnBanquillo);
+			jugadoresEnCampo.remove(jugadorEnCampo);
+			
+			partido.setJugadoresJugando(jugadoresEnCampo);
+			
+			Partido partido_ = partidoService.save(partido);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando el viaje");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 	
 	@RequestMapping(value = "/tablaSustituciones/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
