@@ -20,10 +20,13 @@ import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.converter.EquipoConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
+import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.enumerate.Sistema;
+import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
@@ -31,9 +34,11 @@ import org.springframework.samples.petclinic.model.auxiliares.EquipoTablaEquipos
 import org.springframework.samples.petclinic.model.ediciones.EquipoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EquipoStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
+import org.springframework.samples.petclinic.service.CapitanService;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.JugadorService;
+import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -76,6 +81,9 @@ public class EquipoController {
 	private JugadorConverter jugadorConverter;
 	
 	@Autowired
+	private CapitanService capitanService;
+	
+	@Autowired
 	private EquipoConverter equipoConverter;
 	
 	@Autowired
@@ -83,6 +91,9 @@ public class EquipoController {
 	
 	@Autowired
 	private DataPosicionConverter dataPosicionConverter;
+	
+	@Autowired
+	private NumCamisetaService numCamisetaService;
 	
 	@GetMapping("/showequipos")
 	public String listadoEquipos(Model model) {
@@ -205,17 +216,17 @@ public class EquipoController {
 		}	
 	}
 	
-	@RequestMapping(value = "/postequipo/{sistemajuego}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ObjectError>> addEquipo(HttpServletRequest request, @ModelAttribute(name="equipo") EquipoEdit equipoEdit, BindingResult result, @PathVariable("sistemajuego") Sistema sistemajuego) {
+	@RequestMapping(value = "/postequipo", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> addEquipo(HttpServletRequest request, @ModelAttribute(name="equipo") EquipoEdit equipoEdit, BindingResult result) {
 		try {
-			EquipoEdit edit = new EquipoEdit(null, request.getParameter("categoria").trim(), sistemajuego, request.getParameter("liga").trim());
+			EquipoEdit edit = new EquipoEdit(null, request.getParameter("categoria").trim(), Sistema.valueOf(request.getParameter("sistemajuego").trim()), request.getParameter("liga").trim());
 			
 			//ValidationUtils.invokeValidator(partidoValidator, edit, result);
 			
 			if(result.hasErrors()) {
 				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 			}
-			Equipo equipo = new Equipo(request.getParameter("categoria").trim(), sistemajuego, request.getParameter("liga").trim());
+			Equipo equipo = new Equipo(request.getParameter("categoria").trim(), Sistema.valueOf(request.getParameter("sistemajuego").trim()), request.getParameter("liga").trim());
 			List<Jugador> jugadores = jugadorService.findAll();
 			List<Jugador> agregados = new ArrayList<Jugador>();
 			for(int i=0; i<jugadores.size(); i++) {
@@ -224,8 +235,35 @@ public class EquipoController {
 					agregados.add(jugadores.get(i));
 				}
 			}
+			
+			//añadir jugadores
 			equipo.setJugadores(agregados);
+			
+			//añadir capitan
+			Optional<Jugador> capi = jugadorService.findById(Integer.valueOf(request.getParameter("capitan")));
+			Capitan aux = capitanService.findByJugador(capi.get());
+			if(aux==null) {
+				Capitan capitan = new Capitan(capi.get(),0, Actitud.POSITIVA);
+				Capitan capitanSave = capitanService.save(capitan);
+				equipo.setCapitan(capitanSave);
+			}
+			else {
+				equipo.setCapitan(aux);
+			}
+			
+			//añadir entrenador
+			Principal principal = request.getUserPrincipal();
+			String username =  principal.getName(); 
+	        User  user = userService.findByUsername(username);
+	        Entrenador entrenador = entrenadorService.findByUser(user);
+			equipo.setEntrenador(entrenador);
+			
 			Equipo team = equipoService.save(equipo);
+			
+			for(int i=0; i<agregados.size(); i++) {
+				NumCamiseta num = new NumCamiseta(team,agregados.get(i),i+1);
+				NumCamiseta number = numCamisetaService.save(num);
+			}
 			
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 			
@@ -255,8 +293,6 @@ public class EquipoController {
 		        Entrenador entrenador = entrenadorService.findByUser(user);
 		        categorias.addAll(entrenador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
 		        
-			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("estadistico")){
-				categorias.addAll(equipoService.findAll().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
 			}
 			
 			List<Equipo> equiposFiltrados = equipos.stream().filter(x->categorias.contains(x.getCategoria())).collect(Collectors.toList());
