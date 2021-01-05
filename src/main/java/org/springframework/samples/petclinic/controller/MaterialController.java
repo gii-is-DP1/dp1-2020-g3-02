@@ -22,8 +22,10 @@ import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.MaterialConverter;
 import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
+import org.springframework.samples.petclinic.enumerate.Sistema;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
+import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
@@ -31,7 +33,9 @@ import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
 import org.springframework.samples.petclinic.model.auxiliares.MaterialEstados;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
+import org.springframework.samples.petclinic.model.ediciones.EquipoEdit;
 import org.springframework.samples.petclinic.model.ediciones.MaterialDTO;
+import org.springframework.samples.petclinic.model.ediciones.MaterialEdit;
 import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +49,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -69,8 +74,8 @@ public class MaterialController {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_MATERIALES);
 		mav.addObject("materiales", materialService.findAll());
 		mav.addObject("listestados", new ArrayList<EstadoMaterial>(Arrays.asList(EstadoMaterial.ACEPTABLE, EstadoMaterial.BUENO, EstadoMaterial.DAÑADO,EstadoMaterial.INSERVIBLE,EstadoMaterial.NUEVO)));
-		
-		
+
+
 		return mav;
 	}
 	@GetMapping("/showmaterialesentr")
@@ -78,32 +83,32 @@ public class MaterialController {
 
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_MATERIALES_ENTRENAMIENTO);
 		mav.addObject("materiales", materialService.findAll());
-		
+
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/tablamaterial", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataTableResponse<MaterialEstados>> tablaMaterial(){
 		try {
 			List<Material> materiales = materialService.findAll();
-			
+
 			TipoMaterial[] tipos= TipoMaterial.values();
 			List<MaterialEstados> listaMateriales = new ArrayList<>();
-			
+
 			for (int i = 0; i < tipos.length; i++) {
 				final int val = i;
-				
+
 				List<Integer> inservible = materiales.stream().filter(x->x.getTipo() == tipos[val] && x.getEstado().equals(EstadoMaterial.INSERVIBLE)).map(x->x.getStock()).collect(Collectors.toList());
 				List<Integer> nuevo = materiales.stream().filter(x->x.getTipo() == tipos[val] && x.getEstado().equals(EstadoMaterial.NUEVO)).map(x->x.getStock()).collect(Collectors.toList());
 				List<Integer> bueno = materiales.stream().filter(x->x.getTipo() == tipos[val] && x.getEstado().equals(EstadoMaterial.BUENO)).map(x->x.getStock()).collect(Collectors.toList());
 				List<Integer> aceptable = materiales.stream().filter(x->x.getTipo() == tipos[val] && x.getEstado().equals(EstadoMaterial.ACEPTABLE)).map(x->x.getStock()).collect(Collectors.toList());
 				List<Integer> dañado = materiales.stream().filter(x->x.getTipo() == tipos[val] && x.getEstado().equals(EstadoMaterial.DAÑADO)).map(x->x.getStock()).collect(Collectors.toList());
-				
+
 				MaterialEstados m = new MaterialEstados();
 				m.setTipo(tipos[val]);
-				
+
 				Map<EstadoMaterial,Integer> map = new HashMap<>();
-				
+
 				map.put(EstadoMaterial.INSERVIBLE, (inservible.size()!=0)? inservible.get(0):0);
 				map.put(EstadoMaterial.NUEVO, (nuevo.size()!=0)? nuevo.get(0):0);
 				map.put(EstadoMaterial.BUENO, (bueno.size()!=0)? bueno.get(0):0);
@@ -112,9 +117,9 @@ public class MaterialController {
 				m.setEstados(map);
 				m.setPorcentaje(calcularPorcentajeUso(tipos[i]));
 				listaMateriales.add(m);
-				
+
 			}
-			
+
 			//List<MaterialDTO> dtos = materialConverter.convertListEntityToListDTO(materiales);
 			DataTableResponse<MaterialEstados> data = new DataTableResponse<MaterialEstados>(listaMateriales);
 			return new ResponseEntity<DataTableResponse<MaterialEstados>> (data, HttpStatus.OK);
@@ -122,20 +127,20 @@ public class MaterialController {
 			return new ResponseEntity<DataTableResponse<MaterialEstados>> (HttpStatus.BAD_REQUEST);
 		}	
 	}
-	
-//	
-//	@RequestMapping(value = "getporcentajes/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-//	public ResponseEntity<Integer> Porcentajos(@PathVariable("id") int id) {
-//        try {
-//        	
-//            int materialito = materialService.porcentajeUso(id);
-//           
-//            return new ResponseEntity <Integer >(materialito, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
-	
+
+	//	
+	//	@RequestMapping(value = "getporcentajes/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	//	public ResponseEntity<Integer> Porcentajos(@PathVariable("id") int id) {
+	//        try {
+	//        	
+	//            int materialito = materialService.porcentajeUso(id);
+	//           
+	//            return new ResponseEntity <Integer >(materialito, HttpStatus.OK);
+	//        } catch (Exception e) {
+	//            return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+	//        }
+	//    }
+
 	@PostMapping("/addmaterial")
 	public String addMaterial(@Valid @ModelAttribute(name="material") Material material, BindingResult bindResult, Model model) {
 
@@ -187,7 +192,7 @@ public class MaterialController {
 				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 				return re;
 			}
-			
+
 			Material materiall = materialService.updateMaterial(material);
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 		} catch(Exception e) {
@@ -195,17 +200,55 @@ public class MaterialController {
 		}
 
 	}
+	@RequestMapping(value = "/postmaterial/{tipo}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> addMaterial(HttpServletRequest request, @ModelAttribute(name="material") MaterialDTO materialDto, BindingResult result, @PathVariable("tipo") TipoMaterial tipo) {
+		try {
+			MaterialEdit edit = new MaterialEdit(null, request.getParameter("nombre").trim(), tipo, Integer.parseInt(request.getParameter("stock")));
+
+			//ValidationUtils.invokeValidator(partidoValidator, edit, result);
+
+			if(result.hasErrors()) {
+				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+			}
+			Material material = new Material(request.getParameter("nombre").trim(), tipo, Integer.parseInt(request.getParameter("stock")));
+			//			List<Jugador> jugadores = jugadorService.findAll();
+			//			List<Jugador> agregados = new ArrayList<Jugador>();
+			//			for(int i=0; i<jugadores.size(); i++) {
+			//				String añadido = request.getParameter(String.valueOf(i+1));
+			//				if(añadido.equals("true")) {
+			//					agregados.add(jugadores.get(i));
+			//				}
+			//			}
+			//			equipo.setJugadores(agregados);
+			Material hola = materialService.save(material);
+
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
+
+		} catch (Exception e) {
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	@GetMapping("/eliminarmaterial")
+	public String eliminarMaterial(@RequestParam(name="id",required=true) int id, Model model) {
+
+		LOG.info("Se procede al borrado del material con id=" + id);
+		materialService.deleteByIdSiExiste(id);
+
+		return "redirect:/materiales/showmateriales";
+
+	}
+
 
 	@GetMapping("/navbar")
 	public String navbar() {
 		return ViewConstant.VIEW_NAVBAR;
 	}
 	private Integer calcularPorcentajeUso( TipoMaterial material){
-		
+
 		int materialito = materialService.porcentajeUso(material);
-		
+
 		return materialito;
 	}
 
-	
+
 }
