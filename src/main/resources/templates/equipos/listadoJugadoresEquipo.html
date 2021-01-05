@@ -104,6 +104,15 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 				</div>
 				</div>
 				
+				<div class="row my-3">
+					<div class="col-lg-4"></div>
+					<div class="col-lg-4">
+						<button th:onclick="return agregarJugadores();" class="btn btn-primary btn-lg btn-block" type="submit">Añadir
+							jugador</button>
+					</div>
+					<div class="col-lg-4"></div>
+				</div>	
+				
 				<input id="equipo_id" type ="hidden" th:value="${equipo.id}">
 				
 			</div>
@@ -130,6 +139,8 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 	<!-- Highcharts JS -->    
 	<script type="text/javascript"
         src="//code.highcharts.com/highcharts.js"></script>
+        
+    <div th:replace="equipos/modalAgregarJugadores"></div>
 		
 	<script>
 	

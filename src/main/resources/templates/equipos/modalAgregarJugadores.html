@@ -1,0 +1,90 @@
+<meta charset="UTF-8" />
+
+<div class="modal fade" id="agregarJugadoresModal" data-backdrop="static"
+		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
+		aria-hidden="true">
+		<div class="modal-dialog modal-md modal-dialog-centered">
+			<div class="modal-content">
+				<form id="formAgregarJugadores" method="post">
+					<div class="modal-header bg-info">
+						<h5 class="modal-title" id="gestionPartido"></h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" id="modalFormPartido">
+							
+							
+							<div class="form-group col-12">
+								<label><span class="text-danger">(*) </span>Jugadores:</label>
+								<div class="col-12 border border-info" style="height: 300px; overflow-y: scroll">
+									<th:block th:each="jugador : ${jugadores}">
+										<div class="form-group col-12">
+										  <input class="form-check-input jugadores" type="checkbox" name="jugadores[]" th:value="${jugador.id}" th:id="${jugador.firstName} + '' + ${jugador.lastName}">
+										  <label class="form-check-label" for="defaultCheck1" th:text="${jugador.firstName} + ' ' + ${jugador.lastName}">
+										  </label>
+										</div>
+                    				</th:block>
+                    				</div>
+									
+									<small
+									class="jugadores text-danger error"></small>
+							</div>
+							
+						</div>
+					</div>
+					<div class="modal-footer"
+						style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-info"
+							onclick="return enviarEdicion();">Aceptar</button>
+						<input type="hidden" id="id" name="id"></input>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+	
+	function agregarJugadores(){
+		
+		var id = $("#equipo_id").val();
+		
+		$.ajax({
+            url: '/equipos/jugadoresNoEquipo/' + id,
+            type: 'get',
+            success: function(jugadores){
+            	for (i = 0; i < jugadores.length; i++){
+            		
+            	}
+            	/*$.each(jugadores, function(index,
+						jugador) {
+
+                	console.log(jugador);
+					console.log(jugador.firstName);
+				});*/
+            	
+            },
+            error: function(data){
+
+                $('.error').text('');
+
+                for (i = 0; i < data.responseJSON.length; i++){
+
+                    var campo = data.responseJSON[i].field;
+                    $('.'+campo).text(data.responseJSON[i].defaultMessage);
+                }
+            }
+        });
+		
+		$('.modal-header').css("color", "white");
+		$('.modal-title').text(
+				"Añadir jugadores al equipo");
+		$('#agregarJugadoresModal').modal("show");
+	};
+
+</script>

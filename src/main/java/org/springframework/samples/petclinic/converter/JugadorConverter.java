@@ -35,6 +35,15 @@ public class JugadorConverter {
 				jugador.getEstadoActual());
 	}
 	
+	public List<JugadorDTO> convertParcialListJugadorToListJugadorDTO(List<Jugador> jugadores){
+		List<JugadorDTO> jugadoresDTO = new ArrayList<JugadorDTO>();
+		for(int i=0;i<jugadores.size();i++) {
+			JugadorDTO jugadorDTO = convertParcialJugadorToJugadorDTO(jugadores.get(i));
+			jugadoresDTO.add(jugadorDTO);
+		}
+		return jugadoresDTO;
+	}
+	
 	public JugadorStats convertJugadorToJugadorStats(Jugador jugador) {
 		return new JugadorStats(
 				jugador.getId(),
