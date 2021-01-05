@@ -67,8 +67,7 @@
 									<thead>
 										<tr class="table-primary">
 											<th class="invisible"></th>
-											<th>Nombre</th>
-											<th>Dorsal</th>
+											<th>Jugador</th>
 											<th>Saque</th>
 											<th>Rece</th>
 											<th>Colo</th>
@@ -189,25 +188,71 @@
 								order: [1, 'asc'],
 								columns: [
 									{data: 'id'},
-									{data: 'firstName'},
-									{data: 'numCamiseta'},
-									{data: 'porcentajeSaques'},
-									{data: 'porcentajeRecepciones'},
-									{data: 'porcentajeColocaciones'},
-									{data: 'porcentajeDefensas'},
-									{data: 'porcentajeBloqueos'},
-									{data: 'porcentajeRemates'},
-									{data: 'porcentajeFintas'},
-									{data: 'porcentajeAtaquesRapidos'},
-									{data: 'numFaltasTotales'},
-									{data: 'numAmarillas'}
+									{data: 'firstName',
+										render: function (data, type, row) {
+											
+											return row['posicionPrincipal']+ " / "+ data +", "+ row['lastName']+ " / " + row['numCamiseta'];
+										}
+									},
+									{data: 'porcentajeSaques',
+										render: function (data, type, row) {
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fsaque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='asaque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='fsaque,"+row['id']+"' class='form-control' type='number'> <input id='asaque,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+										}
+									},
+									{data: 'porcentajeRecepciones',
+										render: function (data, type, row) {
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='frecepcion"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='arecepcion"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='frecepcion"+row['id']+"' class='form-control' type='number'> <input id='arecepcion"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+										}
+									},
+									{data: 'porcentajeColocaciones',
+										render: function (data, type, row) {
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fcolocacion,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='acolocacion,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='fcolocacion,"+row['id']+"' class='form-control' type='number'> <input id='acolocacion,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+										}
+									},
+									{data: 'porcentajeDefensas',
+										render: function (data, type, row) {
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fdefensa,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='adefensa,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='fdefensa,"+row['id']+"' class='form-control' type='number'> <input id='adefensa,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+										}
+									},
+									{data: 'porcentajeBloqueos',
+										render: function (data, type, row) {
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fbloqueo,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='abloqueo,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='fbloqueo,"+row['id']+"' class='form-control' type='number'> <input id='abloqueo,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+										}
+									},
+									{data: 'porcentajeRemates',
+										render: function (data, type, row) {
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fremate,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='aremate,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='fremate,"+row['id']+"' class='form-control' type='number'> <input id='aremate,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+										}
+									},
+									{data: 'porcentajeFintas',
+										render: function (data, type, row) {
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='ffinta,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='afinta,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='ffinta,"+row['id']+"' class='form-control' type='number'> <input id='afinta,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+										}
+									},
+									{data: 'porcentajeAtaquesRapidos',
+										render: function (data, type, row) {
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fataque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='aataque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='fataque,"+row['id']+"' class='form-control' type='number'> <input id='aataque,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+										}
+									},
+									{data: 'numFaltasTotales',
+										render: function (data, type, row) {
+											return "<div class='container-fluid'> <div class='row'> <div class='col-6 text-center text-danger'> <label for='faltas'><i class='fas fa-lg fa-hand-paper'></i></label> </div> </div> <div class='row'> <div class='col-6 py-0'> <div class='input-group'>  <input id='faltas' class='form-control' type='number'> </div> </div> </div> </div>";
+									}
+									},
+									{data: 'numAmarillas',
+										render: function (data, type, row) {
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-warning'> <label for='amarillas'><i class='fas fa-lg fa-rectangle-portrait'></i></i></label> </div> <div class='col-sm-6 text-center text-danger'> <label for='rojas'><i class='fas fa-lg fa-rectangle-portrait'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='amarillas' class='form-control' type='number'> <input id='rojas' class='form-control' type='number'> </div> </div> </div>";
+										}
+									}
 								],
 								columnDefs: [
 									{
 						                "targets": [ 0 ],
 						                "visible": false,
 						                "searchable": false
-						            }
+						            },
+						            { className: 'none', targets: -2 },
+									{ className: 'none', targets: -1 },
 								],
 								language : {
 								    "processing": "Procesando...",
