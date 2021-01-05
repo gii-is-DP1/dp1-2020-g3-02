@@ -16,12 +16,14 @@ import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.PartidoService;
+import org.springframework.samples.petclinic.service.SustitucionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
@@ -46,6 +48,9 @@ public class EstadisticasController {
 	
 	@Autowired
 	private JugadorService jugadorService;
+	
+	@Autowired
+	private SustitucionService sustitucionService;
 	
 	@Autowired
 	private EstadisticaPersonalPartidoService estadisticaPersonalPartidoService;
@@ -121,7 +126,9 @@ public class EstadisticasController {
 			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
 			int jugadorEnCampoId = Integer.parseInt(request.getParameter("jugadorEnCampo"));
 			int jugadorEnBanquilloId = Integer.parseInt(request.getParameter("jugadorEnBanquillo"));
+			int minutoSustitucion = Integer.parseInt(request.getParameter("minutoSustitucion"));
 			
+			Sustitucion sustitucion = new Sustitucion();
 			Partido partido = partidoService.findById(partidoId).get();
 			Jugador jugadorEnCampo = jugadorService.findById(jugadorEnCampoId).get();
 			Jugador jugadorEnBanquillo = jugadorService.findById(jugadorEnBanquilloId).get();
@@ -132,8 +139,14 @@ public class EstadisticasController {
 			jugadoresEnCampo.remove(jugadorEnCampo);
 			
 			partido.setJugadoresJugando(jugadoresEnCampo);
-			
 			Partido partido_ = partidoService.save(partido);
+			
+			sustitucion.setJugadorEntra(jugadorEnCampo);
+			sustitucion.setJugadorSale(jugadorEnBanquillo);
+			sustitucion.setMinutoSustitucion(minutoSustitucion);
+			sustitucion.setPartido(partido);
+			
+			Sustitucion sustitucio_ = sustitucionService.save(sustitucion);
 			
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
