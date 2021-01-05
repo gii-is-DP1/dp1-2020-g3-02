@@ -31,6 +31,7 @@ import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoTablaEquipos;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
 import org.springframework.samples.petclinic.model.ediciones.EquipoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EquipoStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
@@ -143,6 +144,17 @@ public class EquipoController {
 			return new ResponseEntity<List<String>>(equipos, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@RequestMapping(value = "jugadoresNoEquipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<JugadorDTO>> jugadoresNoEquipo(@PathVariable("id") int id) {
+		try {
+			List<Jugador> jugadores = equipoService.findJugadoresNoEquipo(id);
+			List<JugadorDTO> jugadoresDTO = jugadorConverter.convertParcialListJugadorToListJugadorDTO(jugadores);
+			return new ResponseEntity<List<JugadorDTO>>(jugadoresDTO, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<JugadorDTO>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
