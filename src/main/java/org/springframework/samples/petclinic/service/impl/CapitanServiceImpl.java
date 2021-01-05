@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.model.Capitan;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.repository.CapitanRepository;
 import org.springframework.samples.petclinic.service.CapitanService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
@@ -44,5 +45,11 @@ public class CapitanServiceImpl extends AbstractService<Capitan> implements Capi
 	@Transactional(readOnly = true)
 	public List<Capitan> findByEquipo(int equipo_id) {
 		return capitanRepository.findByEquipo(equipo_id);
+	}
+
+	@Override
+	public Capitan findByJugador(Jugador jugador) {
+		
+		return capitanRepository.findByJugador(jugador);
 	}
 }

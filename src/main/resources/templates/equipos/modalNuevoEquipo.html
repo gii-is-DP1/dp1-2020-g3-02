@@ -51,7 +51,7 @@
 									<th:block th:each="jugador : ${jugadores}">
 										<div class="form-group col-12">
 										  <input class="form-check-input jugadores" type="checkbox" name="jugadores[]" th:value="${jugador.id}" th:id="${jugador.firstName} + '' + ${jugador.lastName}">
-										  <label class="form-check-label" for="defaultCheck1" th:text="${jugador.firstName} + '' + ${jugador.lastName}">
+										  <label class="form-check-label" for="defaultCheck1" th:text="${jugador.firstName} + ' ' + ${jugador.lastName}">
 										  </label>
 										</div>
                     				</th:block>
@@ -100,15 +100,15 @@ function enviarEdicion() {
 	    form.append($(val).attr('value'), $(val).is(':checked'))
 	});
 	$.ajax({
-		url : '/equipos/postequipo/' + form.get("sistemajuego"),
+		url : '/equipos/postequipo/',
 		type : 'post',
 		data : form,
 		processData : false,
 		contentType : false,
 		success : function(data) {
 			$('#nuevoEquipoModal').modal("hide");
-			location.reload();
-			//tablaPrincipal.ajax.reload(null, false);
+			//location.reload();
+			tablaPrincipal.ajax.reload(null, false);
 		},
 		error : function(data) {
 			$('.error').text('');

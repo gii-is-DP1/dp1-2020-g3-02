@@ -12,14 +12,18 @@ import javax.validation.constraints.Min;
 import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false,doNotUseGetters = true)
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "capitanes")
 public class Capitan extends BaseEntity {
 	
@@ -40,7 +44,6 @@ public class Capitan extends BaseEntity {
 		this.ntiemposmuertos = ntiemposmuertos;
 		this.actitud = actitud;
 	}
-	public Capitan() {}
 
 	
 }
