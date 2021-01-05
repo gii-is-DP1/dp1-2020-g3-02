@@ -3,7 +3,7 @@
 <div class="modal fade" id="agregarJugadoresModal" data-backdrop="static"
 		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
 		aria-hidden="true">
-		<div class="modal-dialog modal-md modal-dialog-centered">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
 			<div class="modal-content">
 				<form id="formAgregarJugadores" method="post">
 					<div class="modal-header bg-info">
@@ -19,15 +19,21 @@
 							
 							<div class="form-group col-12">
 								<label><span class="text-danger">(*) </span>Jugadores:</label>
-								<div class="col-12 border border-info" style="height: 300px; overflow-y: scroll">
-									<th:block th:each="jugador : ${jugadores}">
-										<div class="form-group col-12">
-										  <input class="form-check-input jugadores" type="checkbox" name="jugadores[]" th:value="${jugador.id}" th:id="${jugador.firstName} + '' + ${jugador.lastName}">
-										  <label class="form-check-label" for="defaultCheck1" th:text="${jugador.firstName} + ' ' + ${jugador.lastName}">
-										  </label>
-										</div>
-                    				</th:block>
-                    				</div>
+								
+									
+										  <table id="jugadoresNoEquipo"
+											class="table table-sm table-striped table-bordered table-hover nowrap"
+											cellspacing="0" style="width: 100%;">
+											<thead>
+												<tr class="table-primary">
+													<th>Nombre</th>
+													<th>Apellidos</th>
+													<th>Posición principal</th>
+													<th>Posición secundaria</th>
+												</tr>
+											</thead>
+						
+										</table>
 									
 									<small
 									class="jugadores text-danger error"></small>
@@ -50,36 +56,26 @@
 	
 	<script>
 	
+	var id = $("#equipo_id").val();
+	
+	tablaJugadoresNoEquipo = $('#jugadoresNoEquipo').DataTable({
+		responsive: true,
+		"language" : {
+			"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+		},
+		order: [1,'asc'],
+		ajax:'[[@{/equipos/jugadoresNoEquipo/}]]' + id,
+		"columns":[
+			{data: 'firstName'},
+			{data: 'lastName'},
+			{data: 'posicionPrincipal'},
+			{data: 'posicionSecundaria'}
+		]
+	});
+	
 	function agregarJugadores(){
 		
-		var id = $("#equipo_id").val();
-		
-		$.ajax({
-            url: '/equipos/jugadoresNoEquipo/' + id,
-            type: 'get',
-            success: function(jugadores){
-            	for (i = 0; i < jugadores.length; i++){
-            		
-            	}
-            	/*$.each(jugadores, function(index,
-						jugador) {
-
-                	console.log(jugador);
-					console.log(jugador.firstName);
-				});*/
-            	
-            },
-            error: function(data){
-
-                $('.error').text('');
-
-                for (i = 0; i < data.responseJSON.length; i++){
-
-                    var campo = data.responseJSON[i].field;
-                    $('.'+campo).text(data.responseJSON[i].defaultMessage);
-                }
-            }
-        });
+		tablaJugadoresNoEquipo.ajax.reload(null, false);
 		
 		$('.modal-header').css("color", "white");
 		$('.modal-title').text(

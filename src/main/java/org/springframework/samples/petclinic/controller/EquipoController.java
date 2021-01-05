@@ -147,17 +147,6 @@ public class EquipoController {
 		}	
 	}
 	
-	@RequestMapping(value = "jugadoresNoEquipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<JugadorDTO>> jugadoresNoEquipo(@PathVariable("id") int id) {
-		try {
-			List<Jugador> jugadores = equipoService.findJugadoresNoEquipo(id);
-			List<JugadorDTO> jugadoresDTO = jugadorConverter.convertParcialListJugadorToListJugadorDTO(jugadores);
-			return new ResponseEntity<List<JugadorDTO>>(jugadoresDTO, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<List<JugadorDTO>>(HttpStatus.BAD_REQUEST);
-		}	
-	}
-	
 	@PostMapping("/addequipo")
 	public String addEquipo(@Valid @ModelAttribute(name="equipo") Equipo equipo, BindingResult bindResult, Model model) {
 		
@@ -282,6 +271,19 @@ public class EquipoController {
 		} catch (Exception e) {
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@RequestMapping(value = "jugadoresNoEquipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<JugadorDTO>> jugadoresNoEquipo(@PathVariable("id") int id) {
+		try {
+			List<Jugador> jugadores = equipoService.findJugadoresNoEquipo(id);
+			List<JugadorDTO> jugadoresDTO = jugadorConverter.convertParcialListJugadorToListJugadorDTO(jugadores);
+			DataTableResponse<JugadorDTO> data = new DataTableResponse<JugadorDTO>();
+			data.setData(jugadoresDTO);
+			return new ResponseEntity<DataTableResponse<JugadorDTO>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<JugadorDTO>>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 	@RequestMapping(value = "/findEquipos", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
