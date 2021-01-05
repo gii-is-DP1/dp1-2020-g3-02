@@ -61,6 +61,7 @@
 						</div>
 						<div class="card-body">
 							<div class="container-fluid">
+							
 								<table id="introducirEstadisticas"
 									class="table table-striped table-bordered table-hover introducirEstadisticas responsive"
 									style="width: 100%;">
@@ -81,11 +82,12 @@
 										</tr>
 									</thead>
 								</table>
+								
 							</div>
 						</div>
 						<div class="card-footer text-right">
 							<button type="button" class="btn btn-success"
-								onclick="return guardarJugada();">Aceptar</button>
+								onclick="return insertarDatosEstadisticas(this);">Aceptar</button>
 							<input type="hidden" id="idGuardar" name="id"></input>
 						</div>
 					</div>
@@ -173,6 +175,40 @@
 			}
 		}
 	}
+	
+	var form = new FormData();
+	
+	function addToForm(input,id){
+		console.log(input.value);
+		form.append(id,input.value);
+	}
+	
+	function insertarDatosEstadisticas(data){
+		
+		$.ajax({
+            url: '/estadisticas/realizarsustitucion',
+            type: 'post',
+            processData: false,
+            contentType: false,
+            success: function(data){
+                   	
+            	tablaIntroducirEstadisticas.ajax.reload(null, false);
+            	
+
+            },
+            error: function(data){
+            	
+            	$('.error').text('');
+            	
+            	for (i = 0; i < data.responseJSON.length; i++){
+            		
+            		var campo = data.responseJSON[i].field;
+            		$('.'+campo).text(data.responseJSON[i].defaultMessage);
+            	}
+            }
+        });
+		
+	};
 		
 		$(document)
 		.ready(
@@ -196,7 +232,7 @@
 									},
 									{data: 'porcentajeSaques',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fsaque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='asaque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='fsaque,"+row['id']+"' class='form-control' type='number'> <input id='asaque,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fsaque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='asaque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input class='form-control' min=0 value='1' onclick='return addToForm(this,"+'"fsaque,'+row['id']+'");'+"' id='fsaque,"+row['id']+"' class='form-control' type='number'> <input class='form-control' min=0 id='asaque,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeRecepciones',
@@ -236,12 +272,12 @@
 									},
 									{data: 'numFaltasTotales',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-6 text-center text-danger'> <label for='faltas'><i class='fas fa-lg fa-hand-paper'></i></label> </div> </div> <div class='row'> <div class='col-6 py-0'> <div class='input-group'>  <input id='faltas' class='form-control' type='number'> </div> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-6 text-center text-danger'> <label for='faltas,"+row['id']+"'><i class='fas fa-lg fa-hand-paper'></i></label> </div> </div> <div class='row'> <div class='col-6 py-0'> <div class='input-group'>  <input id='faltas,"+row['id']+"' class='form-control' type='number'> </div> </div> </div> </div>";
 									}
 									},
 									{data: 'numAmarillas',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-warning'> <label for='amarillas'><i class='fas fa-lg fa-rectangle-portrait'></i></i></label> </div> <div class='col-sm-6 text-center text-danger'> <label for='rojas'><i class='fas fa-lg fa-rectangle-portrait'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='amarillas' class='form-control' type='number'> <input id='rojas' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-warning'> <label for='amarillas,"+row['id']+"'><i class='fas fa-lg fa-rectangle-portrait'></i></i></label> </div> <div class='col-sm-6 text-center text-danger'> <label for='rojas,"+row['id']+"'><i class='fas fa-lg fa-rectangle-portrait'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='amarillas,"+row['id']+"' class='form-control' type='number'> <input id='rojas,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									}
 								],

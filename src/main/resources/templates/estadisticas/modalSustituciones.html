@@ -104,6 +104,10 @@
 		form.append('jugadorEnCampo', jugadorEnCampo);
 		form.append('jugadorEnBanquillo', jugadorEnBanquillo);
 		
+		var minutos = parseInt($('#minute').text());
+		var horas = parseInt($('#hour').text())*60;
+		form.append('minutoSustitucion',minutos+horas);
+		
 		$.ajax({
             url: '/estadisticas/realizarsustitucion',
             type: 'post',
