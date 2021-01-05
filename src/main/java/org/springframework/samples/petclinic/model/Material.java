@@ -13,6 +13,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 
 import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
+import org.springframework.samples.petclinic.enumerate.Sistema;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
@@ -28,7 +29,11 @@ import lombok.Setter;
 @Table(name = "materiales", uniqueConstraints = @UniqueConstraint(columnNames = { "tipo","estado" }))
 public class Material extends BaseEntity{
 
-
+	public Material(String nombre, TipoMaterial tipo, Integer stock) {
+		this.descripcion = nombre;
+		this.tipo = tipo;
+		this.stock = stock;
+	}
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "material")
 	private Set<LineaMaterial> lineaMaterial;
 

@@ -111,9 +111,17 @@
 				</table>
 			</div>
 		</div>
+		
 	</div>
-
-	<!-- Modal Edicion -->
+<div class="row my-3">
+		<div class="col-lg-4"></div>
+			<div class="col-lg-4">
+				<button onclick="return crear();" class="btn btn-primary btn-lg btn-block" type="submit">Añadir
+					material</button>
+			</div>
+		<div class="col-lg-4"></div>
+		</div>	
+		<!-- Modal Edicion -->
 	<div class="modal fade" id="materialesModalEstado"
 		data-backdrop="static" data-keyboard="false" tabindex="-1"
 		aria-labelledby="Gestion" aria-hidden="true">
@@ -172,9 +180,71 @@
 			</div>
 		</div>
 	</div>
+	<!-- Modal crear material -->
+<div class="modal fade" id="nuevoMaterialModal" data-backdrop="static"
+	data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
+	aria-hidden="true">
+	<div class="modal-dialog modal-md modal-dialog-centered">
+		<div class="modal-content">
+			<form id="formNuevoMaterial" method="post">
+				<div class="modal-header bg-info">
+					<h5 class="modal-title" id="gestionMaterial"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group" id="modalFormMaterial">
+
+						<div class="form-group col-12">
+							<label><span class="text-danger">(*) </span>Nombre:</label> <input
+								class="form-control" type="text" placeholder="Nombre"
+								id="nombre" name="nombre" maxlength="255" required></input> <small
+								class="nombre text-danger error"></small>
+						</div>
+
+						<div class="form-group col">
+							<label><span class="text-danger">(*) </span>Tipo
+								Material:</label> <select class="form-control" th:id="TipoMaterial"
+								name="TipoMaterial">
+
+								<option th:id="'BALONMEDICINAL'" th:value="BALONMEDICINAL">BALON
+									MEDICINAL</option>
+								<option th:id="'BALONDEJUEGO'" th:value="BALONDEJUEGO">BALON
+									DE JUEGO</option>
+								<option th:id="'RED'" th:value="RED">RED</option>
+								<option th:id="'POSTE'" th:value="POSTE">POSTE</option>
+								<option th:id="'CONOBAJO'" th:value="CONOBAJO">CONO
+									BAJO</option>
+								<option th:id="'CONOMEDIO'" th:value="CONOMEDIO">CONO
+									MEDIO</option>
+								<option th:id="'CONOALTO'" th:value="CONOALTO">CONO
+									ALTO</option>
+								<option th:id="'CUERDA'" th:value="CUERDA">CUERDA</option>
+								<option th:id="'CINTA'" th:value="CINTA">CINTA</option>
+							</select>
+						</div>
+						<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Stock:</label><input class="form-control" type="number" placeholder="Stock" th:id="stock" name="stock" min="1" max="300" required></input>
+								<small class="stock text-danger error"></small>
+							</div>
 
 
-
+					</div>
+				</div>
+				<div class="modal-footer"
+					style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Cerrar</button>
+					<button type="button" class="btn btn-info"
+						onclick="return enviarEdicion();">Aceptar</button>
+					<input type="hidden" id="id" name="id"></input>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 
 
 	<th:block layout:fragment="scripts">
@@ -208,7 +278,9 @@
 
 
 		<script>
-		
+		function eliminar(data,materialId){
+			window.location.href = "/materiales/eliminarmaterial/?id="+materialId;
+		}
 			$(document)
 					.ready(
 
@@ -253,11 +325,17 @@
 															},
 															{ data: 'porcentaje',
 																render: function ( data, type, row ) {
+																																		
 																	  if(data>70 ){
 																	    return " <button  class='btn btn-outline-info mx-0 añadir' onclick='return añadir();' type='button' title='añadir'>"+
 																		"Añadir</button>";
 																		}
-																	  return null;
+																	  
+																	   return " <button onclick='return eliminar(this,"+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+																		"<i class='fas fa-trash-alt'></i></button>" ;
+																		
+																	  
+																	 
 															}
 															}
 
@@ -367,18 +445,25 @@
 						});
 					};
 					
-					function enviarEdicionMaterial() {
+					
+					function enviarEdicion() {
 						var form = new FormData(document
-								.getElementById('formGestionMaterialesEstado'));
+								.getElementById('formNuevoMaterial'));
+
+						var checkbox = $("#formNuevoMaterial").find("input[type=checkbox]");
+						$.each(checkbox, function(key, val) {
+						    form.append($(val).attr('value'), $(val).is(':checked'))
+						});
 						$.ajax({
-							url : '/materiales/updatematerial',
+							url : '/materiales/postmaterial/' + form.get("tipo"),
 							type : 'post',
 							data : form,
 							processData : false,
 							contentType : false,
 							success : function(data) {
-								$('#materialesModalEstado').modal("hide");
-								tablaPrincipal.ajax.reload(null, false);
+								$('#nuevoMaterialModal').modal("hide");
+								location.reload();
+								//tablaPrincipal.ajax.reload(null, false);
 							},
 							error : function(data) {
 								$('.error').text('');
@@ -386,14 +471,21 @@
 								for (i = 0; i < data.responseJSON.length; i++) {
 
 									var campo = data.responseJSON[i].field;
-									$('.' + campo).text(
-											data.responseJSON[i].defaultMessage);
+									$('.' + campo)
+											.text(data.responseJSON[i].defaultMessage);
 								}
 							}
 						});
 					};
-					
-				
+
+					function crear(){
+							$('.modal-header').css("color", "white");
+							$('.modal-title').text(
+									"Nuevo material");
+							$('#nuevoMaterialModal').modal("show");
+					};
+
+
 
 		</script>
 		<script type="text/javascript">
