@@ -32,6 +32,7 @@ import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoTablaEquipos;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
+import org.springframework.samples.petclinic.model.auxiliares.JugadoresInEquipoSinUser;
 import org.springframework.samples.petclinic.model.ediciones.EquipoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EquipoStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
@@ -105,6 +106,45 @@ public class EquipoController {
 		return ViewConstant.VIEW_EQUIPOS;
 	}
 	
+	@RequestMapping(value = "/findEquipos", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<EquipoTablaEquipos>> listadoDeEquipos(HttpServletRequest request) {
+		try {
+			List<EquipoTablaEquipos> listaDeEquipos = new ArrayList<EquipoTablaEquipos>();
+			List<Equipo> equipos = equipoService.findAll();
+			
+			Principal principal = request.getUserPrincipal();
+			List<String> categorias = new ArrayList<String>();
+			
+			if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("jugador")) {
+				String username =  principal.getName(); 
+		        User  user = userService.findByUsername(username);
+		        Jugador jugador = jugadorService.findByUser(user);
+		        categorias.addAll(jugador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+		        
+			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("entrenador")){
+				String username =  principal.getName(); 
+		        User  user = userService.findByUsername(username);
+		        Entrenador entrenador = entrenadorService.findByUser(user);
+		        categorias.addAll(entrenador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+		        
+			}
+			
+			List<Equipo> equiposFiltrados = equipos.stream().filter(x->categorias.contains(x.getCategoria())).collect(Collectors.toList());
+					
+			for(int i = 0; i<equiposFiltrados.size();i++) {
+				EquipoTablaEquipos equipoTablaEquipos = equipoConverter.convertEquipoToEquipoTablaEquipo(equiposFiltrados.get(i));
+				listaDeEquipos.add(equipoTablaEquipos);
+			}
+			DataTableResponse<EquipoTablaEquipos> data = new DataTableResponse<EquipoTablaEquipos>();
+			data.setData(listaDeEquipos);
+			
+			return new ResponseEntity<DataTableResponse<EquipoTablaEquipos>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<EquipoTablaEquipos>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+
+	
 	@GetMapping("/showequipo/{id}")
 	public ModelAndView equipo(@PathVariable("id") int id, HttpServletRequest request) {
 		Principal principal = request.getUserPrincipal();
@@ -125,6 +165,18 @@ public class EquipoController {
 		mav.addObject("equipo", equipo);
 		mav.addObject("jugadores", jugadorConverter.convertListJugadorToListJugadorInEquipo(equipo.getJugadores()));
 		return mav;
+	}
+	
+	@RequestMapping(value = "/findEquipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<JugadoresInEquipoSinUser>> findEquipo(@PathVariable("id") int id, HttpServletRequest request) {
+		try {
+			Equipo equipo = equipoService.findById(id).get();
+			DataTableResponse<JugadoresInEquipoSinUser> data = new DataTableResponse<JugadoresInEquipoSinUser>();
+			data.setData(jugadorConverter.convertListJugadorToListJugadorInEquipoSinUser(equipo.getJugadores()));
+			return new ResponseEntity<DataTableResponse<JugadoresInEquipoSinUser>>(data, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<JugadoresInEquipoSinUser>>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 	@GetMapping("/equipoform")
@@ -299,46 +351,6 @@ public class EquipoController {
 			return new ResponseEntity<DataTableResponse<JugadorDTO>>(data, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<DataTableResponse<JugadorDTO>>(HttpStatus.BAD_REQUEST);
-		}	
-	}
-	
-	
-	
-	@RequestMapping(value = "/findEquipos", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<DataTableResponse<EquipoTablaEquipos>> listadoDeEquipos(HttpServletRequest request) {
-		try {
-			List<EquipoTablaEquipos> listaDeEquipos = new ArrayList<EquipoTablaEquipos>();
-			List<Equipo> equipos = equipoService.findAll();
-			
-			Principal principal = request.getUserPrincipal();
-			List<String> categorias = new ArrayList<String>();
-			
-			if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("jugador")) {
-				String username =  principal.getName(); 
-		        User  user = userService.findByUsername(username);
-		        Jugador jugador = jugadorService.findByUser(user);
-		        categorias.addAll(jugador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
-		        
-			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("entrenador")){
-				String username =  principal.getName(); 
-		        User  user = userService.findByUsername(username);
-		        Entrenador entrenador = entrenadorService.findByUser(user);
-		        categorias.addAll(entrenador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
-		        
-			}
-			
-			List<Equipo> equiposFiltrados = equipos.stream().filter(x->categorias.contains(x.getCategoria())).collect(Collectors.toList());
-					
-			for(int i = 0; i<equiposFiltrados.size();i++) {
-				EquipoTablaEquipos equipoTablaEquipos = equipoConverter.convertEquipoToEquipoTablaEquipo(equiposFiltrados.get(i));
-				listaDeEquipos.add(equipoTablaEquipos);
-			}
-			DataTableResponse<EquipoTablaEquipos> data = new DataTableResponse<EquipoTablaEquipos>();
-			data.setData(listaDeEquipos);
-			
-			return new ResponseEntity<DataTableResponse<EquipoTablaEquipos>>(data, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<DataTableResponse<EquipoTablaEquipos>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 

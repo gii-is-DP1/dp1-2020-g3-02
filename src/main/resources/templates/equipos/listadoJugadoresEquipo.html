@@ -20,6 +20,12 @@
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
 <title>Equipo</title>
 <link rel="icon" type="image/png" href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
+<style type="text/css">
+
+#estadisticasModal table td{
+  word-break: break-all !important;
+}
+</style>
 </head>
 <body class="bg-light">
 
@@ -72,13 +78,18 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 					</a>
 					</div>
 					</div>
+        
+				    <input id="security" class="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
+					<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="jugador"> 
+					
 					<div class="collapse" id="collapseJugadores">
 						<div class="card-body">
-							<table id="jugadores"
+							<table id="jugadoresTabla"
 					class="table table-sm table-striped table-bordered table-hover nowrap display estadisticors responsive"
 					cellspacing="0" style="width: 100%;">
 							<thead>
 								<tr class="table-primary">
+									<th>ID</th>
 									<th>Nombre</th>
 									<th>Apellidos</th>
 									<th>P.Principal</th>
@@ -87,19 +98,9 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 									<th>Peso</th>
 									<th>Peso ideal</th>
 									<th>IMC</th>
+									<th>Acciones</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr th:each="jugador : ${jugadores}">
-									<td th:text="${jugador.firstName}"></td>
-									<td th:text="${jugador.lastName}"></td>
-									<td th:text="${jugador.posicionPrincipal}"></td>
-									<td th:text="${jugador.posicionSecundaria}"></td>
-									<td th:text="${jugador.altura}"></td>
-									<td th:text="${jugador.peso}"></td>
-									<td th:text="${jugador.pesoIdeal}"></td>
-									<td th:text="${jugador.imc}"></td>
-							</tbody>
 							</table>
 						</div>
 					</div>
@@ -131,34 +132,54 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 		
 	<!-- Highcharts JS -->    
 	<script type="text/javascript"
-        src="//code.highcharts.com/highcharts.js"></script>
+        src="//code.highcharts.com/highcharts.js"></script> 
         
     <div th:replace="equipos/modalAgregarJugadores"></div>
 		
 	<script>
 	
+	var id = $("#equipo_id").val();
+	
+	tablaJugadores = $('#jugadoresTabla').DataTable({
+		responsive: true,
+		"language" : {
+			"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+		},
+		order: [1,'asc'],
+		ajax:'[[@{/equipos/findEquipo/}]]'+id,
+		"columns":[
+			{data: 'id'},
+			{data: 'firstName'},
+			{data: 'lastName'},
+			{data: 'posicionPrincipal'},
+			{data: 'posicionSecundaria'},
+			{data: 'altura'},
+			{data: 'peso'},
+			{data: 'pesoIdeal'},
+			{data: 'imc'},
+			{data: 'email',
+				 render: function (data, type, row) {
+					 
+					 if($('#security').val() == 'entrenador'){
+						return " <button  onclick='return estadisticasJugador(this,"+row['id'] +");' class='btn btn-outline-success mx-0 estadisicas' type='button' title='Estadísicas'><i class='fas fa-chart-pie'></i></button>";
+						 
+					 }
+					
+				 }
+			}
+		],
+		columnDefs: [
+			{
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            }
+		]
+	});
+	
 	$(document)
 	.ready(
 			function() {
-				tEstadisticas = $('#estadisticas')
-						.DataTable(
-								{	
-									"lengthMenu": [3,5,10],
-									responsive: true,
-									"language" : {
-										"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-										
-									}
-								});
-				tJugadores = $('#jugadores')
-				.DataTable(
-						{
-							"lengthMenu": [3,5,10],
-							responsive: true,
-							"language" : {
-								"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-							}
-						});
 		//var id = $(this).parent().find('#id').val();
 		var id = $("#equipo_id").val();
 										
@@ -254,7 +275,6 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 	
 		$('#stat').on('click', function(){
 			if(!($('#collapseJugadores').hasClass('collapsing'))){
-				tEstadisticas.draw();
 	
 				if(this.getElementsByClassName('fa-plus')[0]){
 					
@@ -268,7 +288,7 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 		
 			$('#coach').on('click', function(){
 				if(!($('#collapseEstadisticas').hasClass('collapsing'))){
-					tJugadores.draw();
+					tablaJugadores.draw();
 	
 					if(this.getElementsByClassName('fa-plus')[0]){
 						
