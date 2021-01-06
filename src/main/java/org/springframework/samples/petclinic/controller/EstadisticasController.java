@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.controller;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.constant.ViewConstant;
+import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
@@ -19,6 +21,7 @@ import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
+import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
@@ -53,6 +56,9 @@ public class EstadisticasController {
 	private SustitucionService sustitucionService;
 	
 	@Autowired
+	private EstadisticasConverter estadisticasConverter;
+	
+	@Autowired
 	private EstadisticaPersonalPartidoService estadisticaPersonalPartidoService;
 	
 	private static final Log LOG = LogFactory.getLog(EstadisticasController.class);
@@ -85,6 +91,121 @@ public class EstadisticasController {
 		} catch (Exception e) {
 			return new ResponseEntity<DataTableResponse<JugadorDTO>>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@RequestMapping(value = "/obtenerEstadisticasJugadores/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<EstadisticasPersonalesStats>> obtenerEstadisticasJugadores(@PathVariable("partidoId") int partidoId) {
+		try {
+			
+			List<EstadisticaPersonalPartido> estadisticasPersonalesPartidos = estadisticaPersonalPartidoService.findByPartido(partidoId);
+			
+			List<EstadisticasPersonalesStats> estadisticasPersonalesStats = new ArrayList<EstadisticasPersonalesStats>();
+			
+			
+			for (int i = 0; i < estadisticasPersonalesPartidos.size();i++) {
+				EstadisticasPersonalesStats estadisticaPersonalesStats = estadisticasConverter.convertEstadisticasToEstadisticasStats(estadisticasPersonalesPartidos.get(i));
+				estadisticasPersonalesStats.add(estadisticaPersonalesStats);
+			}
+			
+			return new ResponseEntity<List<EstadisticasPersonalesStats>>(estadisticasPersonalesStats, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<EstadisticasPersonalesStats>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "rellenarDatos", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity rellenarDatos(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			
+			Partido partido = partidoService.findById(partidoId).get();
+			List<Jugador> jugadores = partido.getJugadores();
+			
+			Enumeration<String> parameters = request.getParameterNames();
+			
+			while (parameters.hasMoreElements()) {
+				
+				String clave = parameters.nextElement();
+				
+				if(!clave.equals("partidoId")) {
+					String accion = clave.split(",")[0];
+					int jugadorId = Integer.parseInt(clave.split(",")[1]);
+					Jugador jugador = jugadorService.findById(jugadorId).get();
+					
+					Integer dato = Integer.parseInt(request.getParameter(clave));
+					if (dato < 0) {
+						return new ResponseEntity(HttpStatus.BAD_REQUEST);
+					}
+					EstadisticaPersonalPartido estadisticas = estadisticaPersonalPartidoService.findByJugadorAndPartido(jugadorId, partidoId);
+					if(estadisticas == null) {
+						estadisticas = new EstadisticaPersonalPartido();
+						estadisticas.setPartido(partido);
+						estadisticas.setJugador(jugador);
+					}
+					
+					
+					if(accion.startsWith("a")) {
+						if(accion.contains("saque")) {
+							estadisticas.setSaquesTotales(estadisticas.getSaquesTotales()+dato-estadisticas.getSaquesAcertados());
+							estadisticas.setSaquesAcertados(dato);
+						}else if(accion.contains("recepcion")){
+							estadisticas.setRecepcionesTotales(estadisticas.getRecepcionesTotales()+dato-estadisticas.getRecepcionesAcertadas());
+							estadisticas.setRecepcionesAcertadas(dato);
+						}else if(accion.contains("colocacion")){
+							estadisticas.setColocacionesTotales(estadisticas.getColocacionesTotales()+dato-estadisticas.getColocacionesAcertadas());
+							estadisticas.setColocacionesAcertadas(dato);
+						}else if(accion.contains("defensa")){
+							estadisticas.setDefensasTotales(estadisticas.getDefensasTotales()+dato-estadisticas.getDefensasAcertadas());
+							estadisticas.setDefensasAcertadas(dato);
+						}else if(accion.contains("bloqueo")){
+							estadisticas.setBloqueosTotales(estadisticas.getBloqueosTotales()+dato-estadisticas.getBloqueosAcertados());
+							estadisticas.setBloqueosAcertados(dato);
+						}else if(accion.contains("remate")){
+							estadisticas.setRematesTotales(estadisticas.getRematesTotales()+dato-estadisticas.getRematesAcertados());
+							estadisticas.setRematesAcertados(dato);
+						}else if(accion.contains("finta")){
+							estadisticas.setFintasTotales(estadisticas.getFintasTotales()+dato-estadisticas.getFintasAcertadas());
+							estadisticas.setFintasAcertadas(dato);
+						}else if(accion.contains("ataque")){
+							estadisticas.setNumAtaquesRapidosTotales(estadisticas.getNumAtaquesRapidosTotales()+dato-estadisticas.getNumAtaquesRapidosAcertados());
+							estadisticas.setNumAtaquesRapidosAcertados(dato);
+						}
+					}else {
+						if(accion.contains("saque")) {
+							estadisticas.setSaquesTotales(estadisticas.getSaquesAcertados()+dato);
+						}else if(accion.contains("recepcion")){
+							estadisticas.setRecepcionesTotales(estadisticas.getRecepcionesAcertadas()+dato);
+						}else if(accion.contains("colocacion")){
+							estadisticas.setColocacionesTotales(estadisticas.getColocacionesAcertadas()+dato);
+						}else if(accion.contains("defensa")){
+							estadisticas.setDefensasTotales(estadisticas.getDefensasAcertadas()+dato);
+						}else if(accion.contains("bloqueo")){
+							estadisticas.setBloqueosTotales(estadisticas.getBloqueosAcertados()+dato);
+						}else if(accion.contains("remate")){
+							estadisticas.setRematesTotales(estadisticas.getRematesAcertados()+dato);
+						}else if(accion.contains("finta")){
+							estadisticas.setFintasTotales(estadisticas.getFintasAcertadas()+dato);
+						}else if(accion.contains("ataque")){
+							estadisticas.setNumAtaquesRapidosTotales(estadisticas.getNumAtaquesRapidosAcertados()+dato);
+						}
+					}
+					
+					estadisticaPersonalPartidoService.save(estadisticas);
+				}
+				
+				
+			}
+//			for (int i = 0; i<; i++) {
+//				if (request.getParameterMap().)
+//			}
+			
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando el viaje");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 	
 	@RequestMapping(value = "/jugadoresEnCampo/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
