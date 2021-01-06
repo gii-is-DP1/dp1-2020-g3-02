@@ -32,7 +32,7 @@ public class RealizaEjercicio extends BaseEntity{
 	
 	@ManyToOne
 	@JoinColumn(name = "ejercicio_individual_id")
-	private EjercicioIndividual ejercicio_individual;
+	private EjercicioIndividual ejercicioIndividual;
 	
 	
 	@Column(name = "fecha", nullable = false)

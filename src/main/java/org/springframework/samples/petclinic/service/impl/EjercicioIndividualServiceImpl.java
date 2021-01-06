@@ -12,8 +12,10 @@ import org.springframework.samples.petclinic.enumerate.Posicion;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
 import org.springframework.samples.petclinic.model.EjercicioIndividual;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.RealizaEjercicio;
 import org.springframework.samples.petclinic.repository.EjercicioIndividualRepository;
 import org.springframework.samples.petclinic.service.EjercicioIndividualService;
+import org.springframework.samples.petclinic.service.RealizaEjercicioService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +33,9 @@ public class EjercicioIndividualServiceImpl extends AbstractService<EjercicioInd
 	@Autowired
 	@Qualifier("ejercicioIndividualRepository")
 	private EjercicioIndividualRepository ejercicioIndividualRepository;
+	
+	@Autowired
+	private RealizaEjercicioService realizaEjercicioService;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -98,6 +103,16 @@ public class EjercicioIndividualServiceImpl extends AbstractService<EjercicioInd
 		}
 		
 		return recomendados;
+	}
+	
+	@Override
+	public void deleteById(Integer id) {
+		List<RealizaEjercicio> realizaEjercicios = realizaEjercicioService.findByEjercicio(id);
+		
+		for(RealizaEjercicio realizaEjercicio:realizaEjercicios) {
+			realizaEjercicioService.delete(realizaEjercicio);
+		}
+		ejercicioIndividualRepository.deleteById(id);
 	}
 	
 	private double calcularPorcentajeAtaque(double remate, double finta, double ataqueRapido) {		
