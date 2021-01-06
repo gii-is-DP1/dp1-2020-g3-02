@@ -161,7 +161,7 @@ public class EjercicioIndividualController {
 			
 			RealizaEjercicio realizaEjercicio = new RealizaEjercicio();
 			
-			realizaEjercicio.setEjercicio_individual(ejercicio);
+			realizaEjercicio.setEjercicioIndividual(ejercicio);
 			realizaEjercicio.setJugador(jugador);
 			realizaEjercicio.setFecha(LocalDate.parse(request.getParameter("fecha").trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 			
@@ -202,6 +202,19 @@ public class EjercicioIndividualController {
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 		} catch (Exception e) {
 			LOG.error("No se ha podido guardar el ejercicio");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "deleteEjercicio/{id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> deleteEjercicio(@PathVariable("id") Integer id){
+		try {
+			LOG.info("Se procede a eliminar el ejercicio");
+			ejercicioIndividualService.deleteById(id);
+			LOG.info("Se ha eliminado el ejercicio con éxito");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("No se ha podido eliminar el ejercicio");
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 	}

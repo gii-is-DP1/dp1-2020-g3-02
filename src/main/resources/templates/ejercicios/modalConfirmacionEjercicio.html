@@ -1,0 +1,61 @@
+<meta charset="UTF-8" />
+
+<div class="modal fade" id="confirmacionEjercicioModal"
+	data-backdrop="static" data-keyboard="false" tabindex="-1"
+	aria-labelledby="Confirmar" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header bg-danger">
+				<h5 class="modal-title" id="confirmacionEjercicio"></h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<span>El ejercicio será eliminado. ¿Está seguro?</span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-info"
+					onclick="return confirmacionBorradoEjercicio();">Aceptar</button>
+				<input type="hidden" id="idConfirmacionEjercicio"
+					name="idConfirmacionEjercicio"></input> <input type="hidden"
+					id="tipoConfirmacionEjercicio" name="tipoConfirmacionEjercicio"></input>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function recargarTablaCorrectaEliminar() {
+		var tipo = $('#tipoConfirmacionEjercicio').val();
+		console.log(tipo);
+		if (tipo === 'SAQUE') {
+			tablaSaque.ajax.reload(null, false);
+		} else if (tipo === 'RECEPCION') {
+			tablaRecepcion.ajax.reload(null, false);
+		} else if (tipo === 'COLOCACION') {
+			tablaColocacion.ajax.reload(null, false);
+		} else if (tipo === 'DEFENSA') {
+			tablaDefensa.ajax.reload(null, false);
+		} else if (tipo === 'ATAQUE') {
+			tablaAtaque.ajax.reload(null, false);
+		} else if (tipo === 'BLOQUEO') {
+			tablaBloqueo.ajax.reload(null, false);
+		}
+	}
+	function confirmacionBorradoEjercicio() {
+		var id = $('#idConfirmacionEjercicio').val();
+
+		$.ajax({
+			type : 'POST',
+			url : '/ejercicios/deleteEjercicio/' + id,
+			success : function(data) {
+				$('#confirmacionEjercicioModal').modal("hide");
+				tablaRealizaEjercicio.ajax.reload(null, false);
+				recargarTablaCorrectaEliminar();
+			}
+		});
+	}
+</script>

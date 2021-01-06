@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.model.RealizaEjercicio;
 import org.springframework.samples.petclinic.repository.RealizaEjercicioRepository;
+import org.springframework.samples.petclinic.service.EjercicioIndividualService;
 import org.springframework.samples.petclinic.service.RealizaEjercicioService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,18 @@ public class RealizaEjercicioServiceImpl extends AbstractService<RealizaEjercici
 	@Qualifier("realizaEjercicioRepository")
 	private RealizaEjercicioRepository realizaEjercicioRepository;
 	
+	@Autowired
+	private EjercicioIndividualService ejercicioIndividualService;
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<RealizaEjercicio> findByJugador(int id) {
 		return realizaEjercicioRepository.findByJugador(id);
+	}
+
+	@Override
+	public List<RealizaEjercicio> findByEjercicio(Integer id) {
+		return realizaEjercicioRepository.findByEjercicioIndividual(ejercicioIndividualService.findById(id).get());
 	}
 	
 }

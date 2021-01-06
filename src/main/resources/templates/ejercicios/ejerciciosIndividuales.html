@@ -293,6 +293,7 @@
 	
 	<div th:replace="ejercicios/modalGestionEjercicio"></div>
 	<div th:replace="ejercicios/modalRealizaEjercicio"></div>
+	<div th:replace="ejercicios/modalConfirmacionEjercicio"></div>
 	
 	<th:block layout:fragment="scripts">
 		<script src=https://code.jquery.com/jquery-3.5.1.js></script>
@@ -386,7 +387,7 @@
 	   			success : function(dato) {
 	   				
 	   				var hoy = new Date();
-	   				var hoyS = hoy.getDate() + "/" + (hoy.getMonth() +1) + "/" + hoy.getFullYear();
+	   				var hoyS = zeros(hoy.getDate()) + "/" + (zeros(hoy.getMonth() +1)) + "/" + hoy.getFullYear();
 	   				
 	   				$('#idRealizarEjercicio').val(dato.id);
 	   				$('#fecha').val(hoyS);
@@ -394,6 +395,30 @@
 	   				$('#realizaModal .modal-header').css("color", "white");
 					$('#realizaModal .modal-title').text("Realizo el Ejercicio: " + dato.nombre);
 					$('#realizaModal').modal("show");
+	   			}
+	   		});
+	   	};
+	   	
+	   	function zeros(dato){
+	   		if(dato<10){
+	   			return "0"+dato;
+	   		} else {
+	   			return dato;
+	   		}
+	   	}
+	   	
+	   	function eliminarEjercicio(id) {
+	   		$.ajax({
+	   			type : 'GET',
+	   			url : '/ejercicios/findEjercicio/' + id,
+	   			success : function(data) {
+	   				console.log(data.tipo);
+	   				$('#tipoConfirmacionEjercicio').val(data.tipo);
+                	$('#idConfirmacionEjercicio').val(data.id);
+	   				
+					$('#confirmacionEjercicioModal .modal-header').css("color", "white");
+					$('#confirmacionEjercicioModal .modal-title').text("Eliminar Ejercicio: " + data.nombre);
+					$('#confirmacionEjercicioModal').modal("show");
 	   			}
 	   		});
 	   	};
@@ -560,11 +585,12 @@
 							{data: 'acciones',
 								render: function(data,type,row){
 								var botones = "";
-								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
-								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
+								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								var botonEliminar = "<button  onclick='return eliminarEjercicio("+ row['id'] +");' class='btn btn-outline-danger ml-1 realizar' type='button' title='Eliminar'>"+"<i class='fas fa-trash-alt'></i></button>"
 								
 								if(permisoEntrenador){
-									botones = botonEditar;
+									botones = botonEditar + botonEliminar;
 								} else if(permisoJugador){
 									botones = botonRealizar;
 								}
@@ -631,9 +657,10 @@
 								var botones = "";
 								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
 								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								var botonEliminar = "<button  onclick='return eliminarEjercicio("+ row['id'] +");' class='btn btn-outline-danger ml-1 realizar' type='button' title='Eliminar'>"+"<i class='fas fa-trash-alt'></i></button>"
 								
 								if(permisoEntrenador){
-									botones = botonEditar;
+									botones = botonEditar + botonEliminar;
 								} else if(permisoJugador){
 									botones = botonRealizar;
 								}
@@ -700,9 +727,10 @@
 								var botones = "";
 								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
 								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								var botonEliminar = "<button  onclick='return eliminarEjercicio("+ row['id'] +");' class='btn btn-outline-danger ml-1 realizar' type='button' title='Eliminar'>"+"<i class='fas fa-trash-alt'></i></button>"
 								
 								if(permisoEntrenador){
-									botones = botonEditar;
+									botones = botonEditar + botonEliminar;
 								} else if(permisoJugador){
 									botones = botonRealizar;
 								}
@@ -769,9 +797,10 @@
 								var botones = "";
 								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
 								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								var botonEliminar = "<button  onclick='return eliminarEjercicio("+ row['id'] +");' class='btn btn-outline-danger ml-1 realizar' type='button' title='Eliminar'>"+"<i class='fas fa-trash-alt'></i></button>"
 								
 								if(permisoEntrenador){
-									botones = botonEditar;
+									botones = botonEditar + botonEliminar;
 								} else if(permisoJugador){
 									botones = botonRealizar;
 								}
@@ -838,9 +867,10 @@
 								var botones = "";
 								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
 								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								var botonEliminar = "<button  onclick='return eliminarEjercicio("+ row['id'] +");' class='btn btn-outline-danger ml-1 realizar' type='button' title='Eliminar'>"+"<i class='fas fa-trash-alt'></i></button>"
 								
 								if(permisoEntrenador){
-									botones = botonEditar;
+									botones = botonEditar + botonEliminar;
 								} else if(permisoJugador){
 									botones = botonRealizar;
 								}
@@ -907,9 +937,10 @@
 								var botones = "";
 								var botonEditar = "<button  onclick='return editar("+ row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+"<i class='fas fa-edit'></i></button>";
 								var botonRealizar = "<button  onclick='return realizar("+ row['id'] +");' class='btn btn-outline-success mx-0 realizar' type='button' title='Realizar'>"+"<i class='fas fa-volleyball-ball'></i></button>"
+								var botonEliminar = "<button  onclick='return eliminarEjercicio("+ row['id'] +");' class='btn btn-outline-danger ml-1 realizar' type='button' title='Eliminar'>"+"<i class='fas fa-trash-alt'></i></button>"
 								
 								if(permisoEntrenador){
-									botones = botonEditar;
+									botones = botonEditar + botonEliminar;
 								} else if(permisoJugador){
 									botones = botonRealizar;
 								}

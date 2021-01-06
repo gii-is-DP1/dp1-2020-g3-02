@@ -13,7 +13,7 @@ public class RealizaEjercicioConverter {
 	public RealizaEjercicioDTO converterEntityToDTO(RealizaEjercicio entity) {
 		return new RealizaEjercicioDTO(entity.getJugador().getFirstName() + " " + entity.getJugador().getLastName(), 
 				entity.getJugador().getPosicionPrincipal(), 
-				entity.getEjercicio_individual().getNombre(), 
+				entity.getEjercicioIndividual().getNombre(), 
 				entity.getFecha().getDayOfMonth()+"/"+entity.getFecha().getMonthValue()+"/"+entity.getFecha().getYear());
 	}
 	

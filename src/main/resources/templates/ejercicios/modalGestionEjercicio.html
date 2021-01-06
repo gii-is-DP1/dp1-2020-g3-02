@@ -47,6 +47,7 @@
 
 function recargarTablaCorrecta(){
 	var tipo = $('#tipoGestionEjercicio').val();
+		console.log("hola");
 		console.log(tipo);
 		if(tipo === 'SAQUE'){
 			tablaSaque.ajax.reload(null, false);
