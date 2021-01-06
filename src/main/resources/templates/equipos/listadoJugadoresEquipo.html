@@ -156,7 +156,13 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 			{data: 'altura'},
 			{data: 'peso'},
 			{data: 'pesoIdeal'},
-			{data: 'imc'},
+			{data: 'imc',
+				render: function (data, type, row) {
+					
+					let number = data;
+	    			return parseFloat(number.toFixed(2));
+				}
+			},
 			{data: 'email',
 				 render: function (data, type, row) {
 					 

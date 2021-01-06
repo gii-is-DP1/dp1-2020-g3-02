@@ -213,7 +213,7 @@ public class EstadisticasController {
 		try {
 			Partido partido = partidoService.findById(partidoId).get();
 			
-			List<String> jugadores = partido.getJugadoresJugando().stream().map(x->x.getFirstName()+", " +x.getLastName()+ " "
+			List<String> jugadores = partido.getJugadoresJugando().stream().filter(x->!x.equals(partido.getJugadorLibero())).map(x->x.getFirstName()+", " +x.getLastName()+ " "
 			+ x.getNumCamisetas().stream().filter(y->y.getEquipo().getId().equals(partido.getEquipo().getId()))
 			.map(z->z.getNumero()).collect(Collectors.toList()).get(0)+";"+x.getId())
 			.collect(Collectors.toList());
@@ -253,6 +253,17 @@ public class EstadisticasController {
 			Partido partido = partidoService.findById(partidoId).get();
 			Jugador jugadorEnCampo = jugadorService.findById(jugadorEnCampoId).get();
 			Jugador jugadorEnBanquillo = jugadorService.findById(jugadorEnBanquilloId).get();
+			
+			if(jugadorEnCampo.getPosicionPrincipal().equals(jugadorEnBanquillo.getPosicionPrincipal()) ||
+				jugadorEnCampo.getPosicionPrincipal().equals(jugadorEnBanquillo.getPosicionSecundaria()) ||
+				jugadorEnCampo.getPosicionSecundaria().equals(jugadorEnBanquillo.getPosicionPrincipal()) ||
+				jugadorEnCampo.getPosicionSecundaria().equals(jugadorEnBanquillo.getPosicionSecundaria())) {
+				
+				
+				
+				
+				return new ResponseEntity("coinciden",HttpStatus.OK);
+			}
 			
 			List<Jugador> jugadoresEnCampo = partido.getJugadoresJugando();
 			

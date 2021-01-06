@@ -157,6 +157,11 @@
 
 
 	<script type="text/javascript">
+	
+	window.onbeforeunload = function() {
+	    return 'You have unsaved changes!';
+	}
+	
 	var chart = null;
 	function datos(stats,tipo){
 			
