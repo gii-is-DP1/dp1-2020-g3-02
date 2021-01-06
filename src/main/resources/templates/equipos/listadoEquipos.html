@@ -136,7 +136,7 @@
 			{data: 'id',
 				 render: function (data, type, row) {
 					 
-					 if($('#security').val() == 'entrenador'){//Cambiar los botones!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					 if($('#security').val() == 'entrenador'){
 						return " <button class='btn btn-outline-success mx-0 detalles' onclick='return detalleEquipo(this,"+row['id'] +");' type='button' title='Detalles'>"+
 							"<i class='fas fa-users'></i></button>"+
 							 " <button  onclick='return estadisticas("+row['id'] +");' class='btn btn-outline-success mx-0 estadisicas' type='button' title='Estadísicas'>"+

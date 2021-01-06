@@ -26,10 +26,12 @@
 											cellspacing="0" style="width: 100%;">
 											<thead>
 												<tr class="table-primary">
+													<th>ID</th>
 													<th>Nombre</th>
 													<th>Apellidos</th>
 													<th>Posición principal</th>
 													<th>Posición secundaria</th>
+													<th>Acciones</th>
 												</tr>
 											</thead>
 						
@@ -56,6 +58,10 @@
 	
 	<script>
 	
+	function agregarJugador(data,jugadorId){
+		window.location.href = "/equipos/addjugador/"+jugadorId;
+	}
+	
 	var id = $("#equipo_id").val();
 	
 	tablaJugadoresNoEquipo = $('#jugadoresNoEquipo').DataTable({
@@ -66,10 +72,24 @@
 		order: [1,'asc'],
 		ajax:'[[@{/equipos/jugadoresNoEquipo/}]]' + id,
 		"columns":[
+			{data: 'id'},
 			{data: 'firstName'},
 			{data: 'lastName'},
 			{data: 'posicionPrincipal'},
-			{data: 'posicionSecundaria'}
+			{data: 'posicionSecundaria'},
+			{data: 'email',
+				render: function (data, type, row) {
+					return " <button class='btn btn-outline-success mx-0 detalles' onclick='return agregarJugador(this,"+row['id'] +");' type='button' title='Añadir jugador'>"+
+						"Añadir"+"</button>"
+				}
+			}
+		],
+		columnDefs: [
+			{
+                "targets": [ 0 ],
+                "visible": false,
+                "searchable": false
+            }
 		]
 	});
 	
