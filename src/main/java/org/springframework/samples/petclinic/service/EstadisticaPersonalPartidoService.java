@@ -12,4 +12,5 @@ public interface EstadisticaPersonalPartidoService extends BaseEstadisticasServi
 	public abstract EstadisticaPersonalPartido findByJugadorAndPartido(int jugador_id,int partido_id);
 	public abstract int statisticCount();
 	public abstract void deleteAllInPartido(Integer partido_id);
+	
 }

@@ -111,7 +111,8 @@
 						</div>
 						<div class="collapse" id="collapseEstadisticas">
 							<div class="card-body">
-								<div class="container-fluid">
+								<div id="estadisticas-contenedor" class="container-fluid">
+								
 								</div>
 							</div>
 						</div>
@@ -156,6 +157,169 @@
 
 
 	<script type="text/javascript">
+	var chart = null;
+	function datos(stats,tipo){
+			
+			var dato = [];
+
+		var contador = 0;
+		var columna = 0;
+		
+     	
+     	
+     	for (i = 0; i<stats.length;i++){
+     		if (tipo == 'saque'){
+     			var number = stats[i].porcentajeSaques*100;
+     			dato.push(parseFloat(number.toFixed(2)));
+         	} else if(tipo == 'recepcion'){
+         		let number = stats[i].porcentajeRecepciones*100;
+         		dato.push(parseFloat(number.toFixed(2)));
+         	}else if(tipo == 'colocacion'){
+         		let number = stats[i].porcentajeColocaciones*100;
+         		dato.push(parseFloat(number.toFixed(2)));
+         	}else if (tipo == 'defensa'){
+         		let number = stats[i].porcentajeDefensas*100;
+         		dato.push(parseFloat(number.toFixed(2)));
+         	}else if (tipo == 'bloqueo'){
+         		let number = stats[i].porcentajeBloqueos*100;
+         		dato.push(parseFloat(number.toFixed(2)));
+    		}else if (tipo == 'remate'){
+    			let number = stats[i].porcentajeRemates*100;
+    			dato.push(parseFloat(number.toFixed(2)));
+    		}else if (tipo == 'finta'){
+    			let number = stats[i].porcentajeFintas*100;
+    			dato.push(parseFloat(number.toFixed(2)));
+    		}else if (tipo == 'ataque'){
+    			let number = stats[i].porcentajeAtaquesRapidos*100;
+    			dato.push(parseFloat(number.toFixed(2)));
+    		}
+			
+		}
+			 
+		return dato;
+	}
+	
+	function categorias(stats) {
+        var categ = [];
+		for (i = 0; i<stats.length;i++){
+			categ.push(stats[i].firstName);
+		}
+     	return categ;
+    }
+	
+	function estadisticas(){
+		
+		if(chart != null){
+	 		
+	 		chart.destroy();
+	 		
+	 	}
+		
+		$.ajax({
+			type: 'GET',
+			url: '/estadisticas/obtenerEstadisticasJugadores/'+$('#partidoId').val(),
+			success: function(stats){
+
+				chart = Highcharts.chart('estadisticas-contenedor', {
+				    	 chart: {
+					            type: 'column',
+					        },
+				        title: {
+				            text: 'Estadística',
+				        },
+				        xAxis: {
+				            categories: categorias(stats),
+				            crosshair: true,
+				            max: categorias(stats).length -1
+				        },
+				        yAxis:  {
+				        	max: 100,
+				        	min: 0,
+				            title: {
+				                text: 'Porcentaje',
+				                style: {
+				                    color: Highcharts.getOptions().colors[0]
+				                }
+				            },
+				            labels: {
+				                format: '{value} %',
+				                style: {
+				                    color: Highcharts.getOptions().colors[1]
+				                }
+				            }
+				        },
+				        
+				        legend: {
+				            layout: 'vertical',
+				            align: 'right',
+				            verticalAlign: 'middle'
+				        },
+				        plotOptions: {
+				            series: {
+				                pointPadding: 0.2,
+				                borderWidth: 0
+				            }
+				        },
+				   
+				        series: [
+				            {	            	
+				            	name: 'Porcentaje Saques',
+				            	data: datos(stats,'saque'),
+				            	
+				            },
+				            {
+				            	name: 'Porcentaje Recepciones',
+				            	data: datos(stats,'recepcion')
+				            },
+				            {	            	
+				            	name: 'Porcentaje Colocaciones',
+				            	data: datos(stats,'colocacion')
+				            	
+				            },
+				            {
+				            	name: 'Porcentaje Defensas',
+				            	data: datos(stats,'defensa')
+				            },  
+				            {	            	
+				            	name: 'Porcentaje Bloqueo',
+				            	data: datos(stats,'bloqueo')
+				            	
+				            },
+				            {
+				            	name: 'Porcentaje Remate',
+				            	data: datos(stats,'remate')
+				            }, 
+				            {	            	
+				            	name: 'Porcentaje Fintas',
+				            	data: datos(stats,'finta')
+				            	
+				            },
+				            {
+				            	name: 'Porcentaje Ataques Rápidos',
+				            	data: datos(stats,'ataque')
+				            }, 
+				        ],
+				        
+				        responsive: {
+				            rules: [{
+				                condition: {
+				                    maxWidth: 500
+				                },
+				                chartOptions: {
+				                    legend: {
+				                        layout: 'horizontal',
+				                        align: 'center',
+				                        verticalAlign: 'bottom'
+				                    }
+				                }
+				            }]
+				        }
+				   
+				    
+				 });
+			}	
+		 });
+	}
 		
 	function cambioMasMenos(element) {
 
@@ -179,22 +343,29 @@
 	var form = new FormData();
 	
 	function addToForm(input,id){
-		console.log(input.value);
-		form.append(id,input.value);
+		//console.log("Clave: " +id+" ,valor: "+ input.value);
+		if(!form.has(id)){
+			form.append(id,input.value);
+		}else{
+			form.delete(id);
+			form.append(id,input.value);
+		}
+		
 	}
 	
 	function insertarDatosEstadisticas(data){
 		
+		form.append('partidoId',$('#partidoId').val());
+		
 		$.ajax({
-            url: '/estadisticas/realizarsustitucion',
+            url: '/estadisticas/rellenarDatos',
             type: 'post',
+            data: form,
             processData: false,
             contentType: false,
             success: function(data){
-                   	
-            	tablaIntroducirEstadisticas.ajax.reload(null, false);
-            	
-
+            	estadisticas();
+            	form = new FormData();
             },
             error: function(data){
             	
@@ -232,42 +403,42 @@
 									},
 									{data: 'porcentajeSaques',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fsaque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='asaque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input class='form-control' min=0 value='1' onclick='return addToForm(this,"+'"fsaque,'+row['id']+'");'+"' id='fsaque,"+row['id']+"' class='form-control' type='number'> <input class='form-control' min=0 id='asaque,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fsaque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='asaque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 class='form-control' onchange='return addToForm(this,"+'"fsaque,'+row['id']+'");'+"' id='fsaque,"+row['id']+"' class='form-control' type='number'> <input class='form-control' min=0 onchange='return addToForm(this,"+'"asaque,'+row['id']+'");'+"' id='asaque,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeRecepciones',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='frecepcion"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='arecepcion"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='frecepcion"+row['id']+"' class='form-control' type='number'> <input id='arecepcion"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='frecepcion"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='arecepcion"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"frecepcion,'+row['id']+'");'+"' id='frecepcion"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"arecepcion,'+row['id']+'");'+"' id='arecepcion"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeColocaciones',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fcolocacion,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='acolocacion,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='fcolocacion,"+row['id']+"' class='form-control' type='number'> <input id='acolocacion,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fcolocacion,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='acolocacion,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"fcolocacion,'+row['id']+'");'+"' id='fcolocacion,"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"acolocacion,'+row['id']+'");'+"' id='acolocacion,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeDefensas',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fdefensa,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='adefensa,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='fdefensa,"+row['id']+"' class='form-control' type='number'> <input id='adefensa,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fdefensa,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='adefensa,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"fdefensa,'+row['id']+'");'+"' id='fdefensa,"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"adefensa,'+row['id']+'");'+"' id='adefensa,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeBloqueos',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fbloqueo,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='abloqueo,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='fbloqueo,"+row['id']+"' class='form-control' type='number'> <input id='abloqueo,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fbloqueo,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='abloqueo,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"fbloqueo,'+row['id']+'");'+"' id='fbloqueo,"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"abloqueo,'+row['id']+'");'+"' id='abloqueo,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeRemates',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fremate,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='aremate,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='fremate,"+row['id']+"' class='form-control' type='number'> <input id='aremate,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fremate,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='aremate,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"fremate,'+row['id']+'");'+"' id='fremate,"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"aremate,'+row['id']+'");'+"' id='aremate,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeFintas',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='ffinta,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='afinta,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='ffinta,"+row['id']+"' class='form-control' type='number'> <input id='afinta,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='ffinta,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='afinta,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"ffinta,'+row['id']+'");'+"' id='ffinta,"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"afinta,'+row['id']+'");'+"' id='afinta,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeAtaquesRapidos',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fataque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='aataque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='fataque,"+row['id']+"' class='form-control' type='number'> <input id='aataque,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fataque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='aataque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"fataque,'+row['id']+'");'+"' id='fataque,"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"aataque,'+row['id']+'");'+"' id='aataque,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'numFaltasTotales',

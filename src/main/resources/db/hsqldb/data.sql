@@ -300,9 +300,9 @@ INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_a
 
 -- INSERT ESTADISITICAS PERSONALES PARTIDO Jugador 1
 
-INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
-	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
-	remates_acertados,remates_totales,porcentaje_remates,jugador_id,partido_id) VALUES (1,20,20,1,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,1,1);
+--INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+--	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+--	remates_acertados,remates_totales,porcentaje_remates,jugador_id,partido_id) VALUES (1,20,20,1,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75,1,1);
 
 
 INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
@@ -335,9 +335,9 @@ INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,por
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
 	remates_acertados,remates_totales,porcentaje_remates,jugador_id,partido_id) VALUES (8,12,18,0.6,10,20,0.5,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,2,3); 
 
-INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
-	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
-	jugador_id,partido_id) VALUES (9,14,22,0.7,10,20,0.5,15,20,0.75,5,20,0.25,2,1);
+--INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+--	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
+--	jugador_id,partido_id) VALUES (9,14,22,0.7,10,20,0.5,15,20,0.75,5,20,0.25,2,1);
 	
 INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
@@ -374,9 +374,9 @@ INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,por
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,
 	jugador_id,partido_id) VALUES (17,12,14,0.7,15,20,0.75,5,20,0.25,5,20,0.25,3,2); 
 	
-INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
-	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,fintas_acertadas,fintas_totales,porcentaje_fintas,
-	num_ataques_rapidos_acertados,num_ataques_rapidos_totales,porcentaje_ataques_rapidos,jugador_id,partido_id) VALUES (18,14,22,0.63,5,20,0.25,5,20,0.25,5,20,0.25,10,20,0.5,15,20,0.75,3,1); 
+--INSERT INTO estadisticas_personal_partido(id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+--	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,fintas_acertadas,fintas_totales,porcentaje_fintas,
+--	num_ataques_rapidos_acertados,num_ataques_rapidos_totales,porcentaje_ataques_rapidos,jugador_id,partido_id) VALUES (18,14,22,0.63,5,20,0.25,5,20,0.25,5,20,0.25,10,20,0.5,15,20,0.75,3,1); 
 
 
 
