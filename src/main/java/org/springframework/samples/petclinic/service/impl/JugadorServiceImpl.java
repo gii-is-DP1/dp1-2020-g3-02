@@ -166,7 +166,7 @@ public class JugadorServiceImpl extends AbstractEstadisticasService<Jugador> imp
 	@Transactional
 	public List<Jugador> saveEstadisticasJugadores(List<Jugador> players) {
 		
-		List<Jugador> result = (List<Jugador>) jugadorRepository.saveAll(players);
+		List<Jugador> result = jugadorRepository.saveAll(players);
 		
 		return result;
 	}
