@@ -9,6 +9,7 @@ import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorWithEquipo;
 import org.springframework.samples.petclinic.model.auxiliares.JugadoresInEquipo;
+import org.springframework.samples.petclinic.model.auxiliares.JugadoresInEquipoSinUser;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.stereotype.Component;
@@ -147,14 +148,34 @@ public class JugadorConverter {
 		return listaJugadoresInEquipo;
 	}
 	
+	public JugadoresInEquipoSinUser  convertJugadorToJugadorInEquipoSinUser(Jugador jugador) {
+		
+		JugadoresInEquipoSinUser jugadorInEquipo= new JugadoresInEquipoSinUser(jugador.getId(), jugador.getFirstName(),
+				jugador.getLastName(),jugador.getAltura(), jugador.getPeso(), jugador.getPesoIdeal(),
+				jugador.getPosicionPrincipal(), jugador.getPosicionSecundaria(),jugador.getImc(),jugador.getEmail());
+		
+		return jugadorInEquipo;
+				
+	}
 	
-	    public DataAutorizacion convertListJugadoresAutorizaciones(List<JugadorAut> jugadores) {
+	public List<JugadoresInEquipoSinUser> convertListJugadorToListJugadorInEquipoSinUser(List<Jugador> listajugadores){
+		List<JugadoresInEquipoSinUser> listaJugadoresInEquipo= new ArrayList<JugadoresInEquipoSinUser>();
+		for(int i=0; i<listajugadores.size(); i++) {
+			
+			listaJugadoresInEquipo.add(convertJugadorToJugadorInEquipoSinUser(listajugadores.get(i)));
+			
+		}
+		return listaJugadoresInEquipo;
+	}
+	
+	
+    public DataAutorizacion convertListJugadoresAutorizaciones(List<JugadorAut> jugadores) {
 
-	        DataAutorizacion dataaut = new DataAutorizacion();
+        DataAutorizacion dataaut = new DataAutorizacion();
 
-	        dataaut.setData(jugadores);
+        dataaut.setData(jugadores);
 
 
-	        return dataaut;
-	    }
+        return dataaut;
+    }
 }
