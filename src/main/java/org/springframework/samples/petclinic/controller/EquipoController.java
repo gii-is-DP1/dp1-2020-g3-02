@@ -186,6 +186,22 @@ public class EquipoController {
 		
 	}
 	
+	@GetMapping("/addjugador/{jugadorID}/{equipoID}")
+	public String agregarJugador(@PathVariable("jugadorID") int jugadorID, @PathVariable("equipoID") int equipoID) {
+		
+		LOG.info("Se procede a añadir el jugador con id=" + jugadorID + " en el equipo con id=" + equipoID);
+		
+		Equipo equipo = equipoService.findById(equipoID).get();
+		List<Jugador> jugadores = equipo.getJugadores();
+		Jugador jugador = jugadorService.findById(jugadorID).get();
+		jugadores.add(jugador);
+		equipo.setJugadores(jugadores);
+		Equipo team = equipoService.save(equipo);
+		
+		return "redirect:/equipos/showequipo/"+equipoID;
+		
+	}
+	
 	@RequestMapping(value = "findEstadisticasEquipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EquipoStats> graficoEstadisticasEquipo(@PathVariable("id") int id) {
 		try {
@@ -285,6 +301,8 @@ public class EquipoController {
 			return new ResponseEntity<DataTableResponse<JugadorDTO>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
+	
+	
 	
 	@RequestMapping(value = "/findEquipos", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataTableResponse<EquipoTablaEquipos>> listadoDeEquipos(HttpServletRequest request) {

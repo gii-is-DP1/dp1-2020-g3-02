@@ -49,7 +49,9 @@
 							data-dismiss="modal">Cerrar</button>
 						<button type="button" class="btn btn-info"
 							onclick="return enviarEdicion();">Aceptar</button>
+							
 						<input type="hidden" id="id" name="id"></input>
+						
 					</div>
 				</form>
 			</div>
@@ -58,13 +60,14 @@
 	
 	<script>
 	
-	function agregarJugador(data,jugadorId){
-		window.location.href = "/equipos/addjugador/"+jugadorId;
-	}
-	
 	var id = $("#equipo_id").val();
 	
+	function agregarJugador(data,jugadorId,equipoId){
+		window.location.href = "/equipos/addjugador/"+jugadorId+ "/"+ equipoId;
+	}
+	
 	tablaJugadoresNoEquipo = $('#jugadoresNoEquipo').DataTable({
+		
 		responsive: true,
 		"language" : {
 			"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
@@ -79,7 +82,7 @@
 			{data: 'posicionSecundaria'},
 			{data: 'email',
 				render: function (data, type, row) {
-					return " <button class='btn btn-outline-success mx-0 detalles' onclick='return agregarJugador(this,"+row['id'] +");' type='button' title='Añadir jugador'>"+
+					return " <button class='btn btn-outline-success mx-0 detalles' onclick='return agregarJugador(this,"+row['id']+","+parseInt(id,10)+");' type='button' title='Añadir jugador'>"+
 						"Añadir"+"</button>"
 				}
 			}
