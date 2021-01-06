@@ -41,6 +41,11 @@ public class Partido extends EstadisticasEntity{
 	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	private List<Jugador> jugadoresJugando;
 	
+	@ManyToOne
+	@JoinTable(name = "jugandoDeLibero", joinColumns = @JoinColumn(name = "partido_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
+	private Jugador jugadorLibero;
+	
 	@OneToMany( mappedBy = "partido")
 	private Set<EstadisticaPersonalPartido> estadisticas_personales_partidos;
 	
