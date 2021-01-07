@@ -1,0 +1,49 @@
+<meta charset="UTF-8" />
+
+<div class="modal fade" id="infoComandosModal" tabindex="-1"
+	aria-labelledby="Información" aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+		<div class="modal-content">
+			<div class="modal-header bg-info">
+				<h5 class="modal-title text-white">Información para Comandos</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p class="font-italic">Para utilizar la linea de comandos es necesaria una escritura estricta de la sintaxis que se muestra a continuación, separado cada uno por <span class="font-weight-bold">";"</span>:</p>
+				<h5 class="text-center">Dorsal,Acción,+/-</h5>
+				<br></br>
+				<p class="font-italic">Explicamos ahora sus partes detalladamente:</p>
+				<h5>Dorsal:</h5>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;En "Dorsal" debe introducir el número de camiseta del jugador que realice una acción determinada.</p>
+				<h5>Acción:</h5>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;En "Acción" debe introducir una de las siguientes abreviaciones según la acción que desea seleccionar para el jugador:</p>
+				<div class="container">
+					<ul class="list-group">
+						<li class="list-group-item"><span class="font-weight-bold">s <i class="fas fa-sm fa-arrow-right"></i> SAQUE</span></li>
+						<li class="list-group-item"><span class="font-weight-bold">r <i class="fas fa-sm fa-arrow-right"></i> RECEPCIÓN</span></li>
+						<li class="list-group-item"><span class="font-weight-bold">c <i class="fas fa-sm fa-arrow-right"></i> COLOCACIÓN</span></li>
+						<li class="list-group-item"><span class="font-weight-bold">d <i class="fas fa-sm fa-arrow-right"></i> DEFENSA</span></li>
+						<li class="list-group-item"><span class="font-weight-bold">b <i class="fas fa-sm fa-arrow-right"></i> BLOQUEO</span></li>
+						<li class="list-group-item"><span class="font-weight-bold">a <i class="fas fa-sm fa-arrow-right"></i> REMATE/ATAQUE</span></li>
+						<li class="list-group-item"><span class="font-weight-bold">f <i class="fas fa-sm fa-arrow-right"></i> FINTA</span></li>
+						<li class="list-group-item"><span class="font-weight-bold">ar <i class="fas fa-sm fa-arrow-right"></i> ATAQUE RÁPIDO</span></li>
+					</ul>
+				</div>
+				<br></br>
+				<h5>+/-:</h5>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;Pondremos + en caso de que la acción haya sido fructuosa y - en caso de fallo.</p>
+				<br></br>
+				<p class="font-italic">Además, en caso de error, podremos corregir usando la siguiente sintaxis:</p>
+				<h5 class="text-center mb-3">%Dorsal,Acción,+/-</h5>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;Para corregir deberemos poner el símbolo <span class="font-weight-bold">"%"</span> al principio, que indicará que el código es una corrección, con lo que si al final ponemos <span class="font-weight-bold">"+"</span>, restará uno al total y a acertados de la acción al jugador, y en caso de poner <span class="font-weight-bold">"-"</span>, restará uno solo al total, siempre que sea posible en los dos casos.</p>
+			</div>
+			<div class="modal-footer"
+				style="background: rgb(40, 167, 69); background: linear-gradient(0deg, rgba(52, 58, 64, 1) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+			</div>
+		</div>
+	</div>
+</div>

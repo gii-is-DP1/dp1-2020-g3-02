@@ -93,6 +93,33 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="row">
+				<div class="col-md py-3">
+					<div class="card shadow bg-light">
+						<div class="card-header text-white" style="background: rgb(52,58,64);
+									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
+							<div class="row">
+								<h3 class="card-title ml-3">Linea de comandos</h3>
+								<button class="btn btn-info ml-auto mr-2" onclick="return abrirInfoComandos();" th:title="Sustitución"><i class="fas fa-info-circle"></i> Sintaxis</button>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col">
+										<input onkeypress="pulsarIntro(event)" id="comandoIntroducido" placeholder="Dorsal,Accion,+/-;" autocomplete="false" autofocus="autofocus" type="text" class="form-control"></input>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer text-right">
+							<button type="button" class="btn btn-success" id="botonEnviarComando"
+								onclick="return insertarDatosEstadisticasComando();">Aceptar</button>
+						</div>
+					</div>
+				</div>
+			</div>
 
 			<div class="row">
 				<div class="col-md py-3">
@@ -102,14 +129,9 @@
 							style="background: rgb(23, 162, 184); background: linear-gradient(90deg, rgba(23, 162, 184, 1) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);">
 							<div class="row">
 								<h3 class="card-title ml-3">Estadísticas del partido</h3>
-								<a id="realiza" href="#collapseEstadisticas"
-									data-toggle="collapse" style="margin-left: auto;"
-									class="mr-3 mt-2" onclick="return cambioMasMenos(this)"> <i
-									class="fas fa-plus text-dark"></i>
-								</a>
 							</div>
 						</div>
-						<div class="collapse" id="collapseEstadisticas">
+						<div class="collapse show" id="collapseEstadisticas">
 							<div class="card-body">
 								<div id="estadisticas-contenedor" class="container-fluid">
 								
@@ -123,6 +145,7 @@
 	</div>
 	
 	<div th:replace="estadisticas/modalSustituciones"></div>
+	<div th:replace="estadisticas/infoComandosModal"></div>
 
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 	<!-- Optional JavaScript -->
@@ -160,6 +183,32 @@
 	
 	window.onbeforeunload = function() {
 	    return 'You have unsaved changes!';
+	}
+	
+	function abrirInfoComandos(){
+		$('#infoComandosModal').modal("show");
+	}
+	
+	function pulsarIntro(e) {
+	    if (e.keyCode === 13 && !e.shiftKey) {
+	        e.preventDefault();
+	        insertarDatosEstadisticasComando();
+	    }
+	}
+	
+	function insertarDatosEstadisticasComando(){
+		var id = $('#partidoId').val();
+		
+		$.ajax({
+			type: 'POST',
+			url: '/estadisticas/saveComandos/'+id,
+			success: function(){
+				
+			},
+			error: function(data){
+				
+			}
+		});
 	}
 	
 	var chart = null;
@@ -324,25 +373,6 @@
 				 });
 			}	
 		 });
-	}
-		
-	function cambioMasMenos(element) {
-
-		if (!($('#collapseEstadisticas').hasClass('collapsing'))) {
-
-			if (element.children[0].classList.contains('fa-plus')) {
-
-				if ($('.fa-minus')[0] != undefined) {
-
-					$('.fa-minus')[0].classList.replace('fa-minus', 'fa-plus');
-				}
-				element.children[0].classList.replace('fa-plus', 'fa-minus');
-
-			} else {
-
-				element.children[0].classList.replace('fa-minus', 'fa-plus');
-			}
-		}
 	}
 	
 	var form = new FormData();
