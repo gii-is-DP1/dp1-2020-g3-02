@@ -53,7 +53,7 @@ public class Partido extends EstadisticasEntity{
 	private Set<Sustitucion> sustituciones;
 	
 	@OneToMany(mappedBy = "partido")
-	private Set<SistemaJuego> sistemasJuego;
+	private List<SistemaJuego> sistemasJuego;
 	
 	@ManyToOne
 	@JoinColumn(name = "equipo_id")
