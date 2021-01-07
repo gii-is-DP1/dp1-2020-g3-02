@@ -403,6 +403,9 @@
 	function insertarDatosEstadisticas(data){
 		
 		form.append('partidoId',$('#partidoId').val());
+		form.append('hour',$('#hour').text());
+		form.append('minute',$('#minute').text());
+		form.append('second',$('#second').text());
 		
 		$.ajax({
             url: '/estadisticas/rellenarDatos',
