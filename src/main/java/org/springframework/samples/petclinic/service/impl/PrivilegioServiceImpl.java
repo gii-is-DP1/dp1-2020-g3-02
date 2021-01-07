@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,6 +11,7 @@ import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Privilegio;
 import org.springframework.samples.petclinic.repository.PrivilegioRepository;
+import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.PrivilegioService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,12 @@ public class PrivilegioServiceImpl extends AbstractService<Privilegio> implement
 
 		@Autowired
 		private PrivilegioRepository privilegioRepository;
+		
+		@Autowired
+		private EquipoService equipoService;
+		
+		@Autowired
+		private PrivilegioService privilegioService;
 
 	
 		@Override
@@ -64,6 +72,16 @@ public class PrivilegioServiceImpl extends AbstractService<Privilegio> implement
 			Privilegio priv = privilegioRepository.save(privilegio);
 			
 			return priv;
+		}
+
+		@Override
+		public void deleteAllInEquipo(Integer equipo_id) {
+			Optional<Equipo> equipo = equipoService.findById(equipo_id);
+			List<Privilegio> privilegios =privilegioRepository.findByEquipo(equipo.get());
+			for(int i=0;i<privilegios.size();i++) {
+				privilegioService.deleteById(privilegios.get(i).getId());
+			}
+			
 		}
 
 }

@@ -39,9 +39,11 @@ import org.springframework.samples.petclinic.model.estadisticas.EquipoStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 import org.springframework.samples.petclinic.service.CapitanService;
 import org.springframework.samples.petclinic.service.EntrenadorService;
+import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
+import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -76,6 +78,12 @@ public class EquipoController {
 	
 	@Autowired
 	private EntrenadorService entrenadorService;
+	
+	@Autowired
+	private PartidoService partidoService;
+	
+	@Autowired
+	private EntrenamientoService entrenamientoService;
 	
 	@Autowired
 	private EquipoValidator equipoValidator;
@@ -231,11 +239,16 @@ public class EquipoController {
 	
 	@GetMapping("/eliminarequipo")
 	public String eliminarEquipo(@RequestParam(name="id",required=true) int id, Model model) {
-		
-		LOG.info("Se procede al borrado del equipo con id=" + id);
-		equipoService.deleteByIdSiExiste(id);
-		
-		return "redirect:/equipos/showequipos";
+		try {
+			LOG.info("Se procede a borrar el equipo con id: " + id);
+			
+			equipoService.deleteById(id);
+			
+			return "redirect:/equipos/showequipos";
+		} catch (Exception e) {
+			LOG.error("Error al eliminar el equipo");
+			return "redirect:/equipos/showequipos";
+		}
 		
 	}
 	
