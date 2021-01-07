@@ -12,6 +12,6 @@ public interface AuthoritiesRepository extends  CrudRepository<Authorities, Stri
 	
 	public List<String> findAuthorityByUser(User user);
 	public List<Authorities> findByUser(User user);
-	public Authorities findByUserAndAuthority(User user, String authority);
+	public List<Authorities> findByUserAndAuthority(User user, String authority);
 	
 }

@@ -54,8 +54,8 @@ public class AuthoritiesService {
 	@Transactional(readOnly = true)
 	public boolean hasAuthority(String permiso, String username) {
 		User user = userService.findByUsername(username);
-		Authorities auth = authoritiesRepository.findByUserAndAuthority(user, permiso);
-		boolean tienePermiso = (auth == null)?false:true;
+		List<Authorities> auth = authoritiesRepository.findByUserAndAuthority(user, permiso);
+		boolean tienePermiso = (auth == null || auth.isEmpty())?false:true;
 		return tienePermiso;
 	}
 
