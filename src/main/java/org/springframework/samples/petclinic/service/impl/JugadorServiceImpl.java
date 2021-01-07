@@ -155,7 +155,9 @@ public class JugadorServiceImpl extends AbstractEstadisticasService<Jugador> imp
 		
 		userService.saveUser(player.getUser());
 		
-		authoritiesService.saveAuthorities(player.getUser().getUsername(), "jugador");
+		if(!authoritiesService.hasAuthority("jugador", player.getUser().getUsername())) {
+			authoritiesService.saveAuthorities(player.getUser().getUsername(), "jugador");
+		}
 		
 		Jugador jugador=jugadorRepository.save(player);
 		
