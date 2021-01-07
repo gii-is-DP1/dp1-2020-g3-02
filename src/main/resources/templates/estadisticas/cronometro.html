@@ -86,18 +86,18 @@ h2 a:hover, h2 a:active, h2 a:focus {
 <div class="contador container-fluid">
 	<div class="times row crono-width">
 		<div class="hour-time time text-center col-md-4">
-			<span id="hour">00</span> <i>hours</i>
+			<span id="hour" th:text="${partido.hour}">00</span> <i>hours</i>
 		</div>
 		<div class="minute-time time text-center col-md-4">
-			<span id="minute">00</span> <i>minutes</i>
+			<span id="minute" th:text="${partido.minute}">00</span> <i>minutes</i>
 		</div>
 		<div class="second-time time text-center col-md-4">
-			<span id="second">00</span> <i>seconds</i>
+			<span id="second" th:text="${partido.second}">00</span> <i>seconds</i>
 		</div>
 	</div>
 	<div class="row crono-width">
 		<div class="start-btn col-md text-center btn-crono">
-			<div class="start">Comenzar partido</div>
+			<div class="start"></div>
 		</div>
 	</div>
 </div>
@@ -122,7 +122,10 @@ h2 a:hover, h2 a:active, h2 a:focus {
 					minuto : 0,
 					segundo : 0
 				};
-
+				
+				//if(!($("#hour").text() != 0 || $("#minute").text() != 0 || $("#second").text() != 0)){
+				//	$(".start").text('Reanudar partido');
+				//}
 				var running_time = null;
 
 				$(".start").click(
@@ -163,7 +166,10 @@ h2 a:hover, h2 a:active, h2 a:focus {
 							} else {
 								$(this).text('Reanudar partido');
 								$(this).parent().removeClass('active-btn');
-								clearInterval(running_time);
+								//if(!($("#hour").text() != 0 || $("#minute").text() != 0 || $("#second").text() != 0)){
+									clearInterval(running_time);
+								//}
+								
 							}
 						});
 			});

@@ -126,8 +126,18 @@ public class EstadisticasController {
 		try {
 			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
 			
+			int hour = Integer.parseInt(request.getParameter("hour"));
+			int minute = Integer.parseInt(request.getParameter("minute"));
+			int second = Integer.parseInt(request.getParameter("second"));
+			
 			Partido partido = partidoService.findById(partidoId).get();
 			List<Jugador> jugadores = partido.getJugadores();
+			
+			partido.setHour(hour);
+			partido.setMinute(minute);
+			partido.setSecond(second);
+			
+			Partido partido_ = partidoService.save(partido);
 			
 			Enumeration<String> parameters = request.getParameterNames();
 			
@@ -135,7 +145,7 @@ public class EstadisticasController {
 				
 				String clave = parameters.nextElement();
 				
-				if(!clave.equals("partidoId")) {
+				if(!(clave.equals("partidoId") || clave.equals("hour") || clave.equals("minute") || clave.equals("second"))) {
 					String accion = clave.split(",")[0];
 					int jugadorId = Integer.parseInt(clave.split(",")[1]);
 					Jugador jugador = jugadorService.findById(jugadorId).get();

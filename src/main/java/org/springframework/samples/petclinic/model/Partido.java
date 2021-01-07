@@ -128,4 +128,16 @@ public class Partido extends EstadisticasEntity{
 	@Column(name = "tiempo_calentamiento", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
 	private int tiempoCalentamiento;
+	
+	@Column(name = "hour", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int hour;
+	
+	@Column(name = "minute", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int minute;
+	
+	@Column(name = "second", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int second;
 }
