@@ -340,6 +340,96 @@ public class EstadisticasController {
 		
 	}
 	
+	@RequestMapping(value = "/anadirJugadorJugando", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity anadirJugadorJugando(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			int jugadorId = Integer.parseInt(request.getParameter("jugadorId"));
+			
+			Partido partido = partidoService.findById(partidoId).get();
+			Jugador jugador = jugadorService.findById(jugadorId).get();
+			
+			List<Jugador> jugadoresJugando = partido.getJugadoresJugando();
+			jugadoresJugando.add(jugador);
+			
+			partido.setJugadoresJugando(jugadoresJugando);
+			
+			Partido patido_ = partidoService.save(partido);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando el jugador en partido");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@RequestMapping(value = "/eliminarJugadorJugando", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity eliminarJugadorJugando(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			int jugadorId = Integer.parseInt(request.getParameter("jugadorId"));
+			
+			Partido partido = partidoService.findById(partidoId).get();
+			Jugador jugador = jugadorService.findById(jugadorId).get();
+			
+			List<Jugador> jugadoresJugando = partido.getJugadoresJugando();
+			jugadoresJugando.remove(jugador);
+			
+			partido.setJugadoresJugando(jugadoresJugando);
+			
+			Partido patido_ = partidoService.save(partido);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando el jugador en partido");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@RequestMapping(value = "/seleccionarLibero", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity seleccionarLibero(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			int jugadorId = Integer.parseInt(request.getParameter("jugadorId"));
+			
+			Partido partido = partidoService.findById(partidoId).get();
+			Jugador jugador = jugadorService.findById(jugadorId).get();
+			
+			partido.setJugadorLibero(jugador);
+			
+			Partido patido_ = partidoService.save(partido);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando el jugador en partido");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@RequestMapping(value = "/eliminarLibero", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity eliminarLibero(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			int jugadorId = Integer.parseInt(request.getParameter("jugadorId"));
+			
+			Partido partido = partidoService.findById(partidoId).get();
+			Jugador jugador = jugadorService.findById(jugadorId).get();	
+			
+			partido.setJugadorLibero(null);
+			
+			Partido patido_ = partidoService.save(partido);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando el jugador en partido");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
 	@RequestMapping(value = "/tablaSustituciones/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataTableResponse<JugadorDTO>> tablaSustituciones(@PathVariable("partidoId") int partidoId) {
 		try {
@@ -355,6 +445,13 @@ public class EstadisticasController {
 				JugadorDTO jugadorDTO = new JugadorDTO();
 				jugadorDTO = jugadorConverter.convertParcialJugadorToJugadorDTO(jugador);
 				jugadorDTO.setNumCamiseta(numCamisetaService.findByEquipoAndJugador(partido.getEquipo().getId(), jugador.getId()).getNumero());
+				jugadorDTO.setNumJugadoresJugando(jugadoresJugando.size());
+				
+				if(partido.getJugadorLibero() != null) {
+					jugadorDTO.setYaHayLibero(true);
+				}else {
+					jugadorDTO.setYaHayLibero(false);
+				}
 				
 				if(jugadoresJugando.contains(jugador)) {
 					jugadorDTO.setEnCampo(true);
@@ -362,6 +459,12 @@ public class EstadisticasController {
 				}else {
 					jugadorDTO.setEnCampo(false);
 					jugadoresDTO.add(jugadorDTO);
+				}
+				
+				if(partido.getJugadorLibero() != null && partido.getJugadorLibero().equals(jugador)) {
+					jugadorDTO.setEsLibero(true);
+				}else {
+					jugadorDTO.setEsLibero(false);
 				}
 				
 			}

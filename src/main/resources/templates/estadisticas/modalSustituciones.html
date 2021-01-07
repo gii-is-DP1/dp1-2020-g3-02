@@ -322,7 +322,7 @@
 			$(document)
 					.ready(
 							function() {
-
+								console.log("hola");
 								// Create DataTable
 								$('.modal-header').css("color","white");
 								$('.modal-title').text("Sustitucion jugadores");
@@ -353,7 +353,9 @@
 													},
 													"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
 														console.log(aData.enCampo);
-											            if ( aData.enCampo == true ){
+														if ( aData.esLibero == true ){
+															$('td', nRow).css('background-color', '#58ACFA');
+														}else if ( aData.enCampo == true ){
 											           		$('td', nRow).css('background-color', '#90EE90');
 											            }
 											            

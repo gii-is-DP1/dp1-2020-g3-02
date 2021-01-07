@@ -102,6 +102,12 @@ public class JugadorDTO {
 	private int numRojas;
 	
 	private boolean enCampo;
+	
+	private boolean esLibero;
+	
+	private int numJugadoresJugando;
+	
+	private boolean yaHayLibero;
 
 	public JugadorDTO(Integer id, String firstName, String lastName, Integer numCamiseta, String dni, String direccion,
 			String email, String localidad, LocalDate fechaNacimiento, Integer altura, Integer peso, int pesoIdeal,
