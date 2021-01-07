@@ -88,49 +88,38 @@
         </button>
       </div>
       <div class="modal-body">
-      <div class="pb-3">
-      	<div class="border col-lg-12">
-      		<div class="py-2 text-center col-lg-12">
-      			<h1 th:id="equipoAsistencia" class="font-weight-bold font-italic"></h1>
+      <div class="row">
+      	<div class="py-2 text-center col-lg-6">
+      			<span>Jugador que entra:</span>
+      			<h5 th:id="jugadorEntra" class="font font-italic"></h5>
+      			<span th:id="posicionesEntra"></span>
 			</div>
-			
-			<div class="row text-center">
-        		<div class="form-group col">
-					<h5 class="font-weight-bold text-info" th:id="fecha"></h5>
-				</div>
-				<div class="form-group col">
-					<h5 class="font-weight-bold text-info" th:id="hora"></h5>
-				</div>
+		<div class="py-2 text-center col-lg-6">
+				<span>Jugador que sale:</span>
+      			<h5 th:id="jugadorSale" class="font font-italic"></h5>
+      			<span th:id="posicionesSale"></span>
 			</div>
-			
-			<div class="py-2 text-center col-lg-12">
-				<button type="button" class="btn btn-outline-info" onclick="return enviarAsiste('asiste');">Asistir</button>
-			</div>
-		</div>
-		</div>
-		<div class="border col-lg-12">
-      		<div class="py-2 text-center col-lg-12">
-      			<h1 th:id="equipo2" class="font-weight-bold font-italic"></h1>
-			</div>
-			
-			<div class="row text-center">
-        		<div class="form-group col">
-					<h5 class="font-weight-bold text-info" th:id="fecha2"></h5>
-				</div>
-				<div class="form-group col">
-					<h5 class="font-weight-bold text-info" th:id="hora2"></h5>
-				</div>
-			</div>
-			
-			<div class="py-2 text-center col-lg-12">
-				<button type="button" class="btn btn-outline-info" onclick="return enviarAsiste('sinAsistir');">Asistir</button>
-			</div>
-		</div>
       </div>
       
+       
+      
+      <div class="row py-4">
+      <div class="col-2"></div>
+      <div class="col-8">
+      	<span>Seleccione un sistema de juego:</span>
+      	<select class="form-control" type="text" placeholder="Sistema de juego" id="sistemajuego" name="sistemajuego" required>
+     		<option th:id="colocadorGeneral" th:value="COLOCADOR_GENERAL"  name="sistemajuego">Colocador general</option>
+			<option th:id="4-2" th:value="CUATRO_DOS"  name="sistemajuego" >4-2</option>
+			<option th:id="5-1" th:value="CINCO_UNO"  name="sistemajuego" >5-1</option>
+			<option th:id="6-2" th:value="SEIS_DOS"  name="sistemajuego" >6-2</option>
+   		</select>
+   	</div>
+   		<div class="col-2"></div>
+      </div>
+      </div>
       
       <div class="modal-footer" style="background: rgb(23,162,184); background: linear-gradient(0deg, rgba(23,162,184,0.75) 0%, rgba(255,255,255,1) 100%);">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" onclick="return cambioSistemaJuego();" class="btn btn-secondary" data-dismiss="modal">Aceptar</button>
         
 		
       </div>
@@ -161,6 +150,38 @@
 		jugadorEnBanquillo = $("#jugadoresEnBanquillo option:selected").val();
 	});
 	
+	function cambioSistemaJuego(){
+		var form = new FormData(document.getElementById('formModalSistemaJuego'));
+		form.append("partidoId",partidoId);
+		
+		var minutos = parseInt($('#minute').text());
+		var horas = parseInt($('#hour').text())*60;
+		form.append('minutoAplicacion',minutos+horas);
+		
+		$.ajax({
+			url : '/estadisticas/cambioSistemaJuego/',
+			type : 'post',
+			data : form,
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				$('#modalSistemaJuego').modal("hide");
+				//location.reload();
+				//tablaPrincipal.ajax.reload(null, false);
+			},
+			error : function(data) {
+				$('.error').text('');
+
+				for (i = 0; i < data.responseJSON.length; i++) {
+
+					var campo = data.responseJSON[i].field;
+					$('.' + campo)
+							.text(data.responseJSON[i].defaultMessage);
+				}
+			}
+		});
+	}
+	
 	function realizarSustitucion(data){
 		var form = new FormData();
 		form.append('partidoId', partidoId);
@@ -178,9 +199,16 @@
             processData: false,
             contentType: false,
             success: function(data){
-            	
+
+        		
             	if(data != ""){
-            		
+            		$('#modalSistemaJuego #jugadorEntra').text(data.jugadorEntra.firstName +" "+ data.jugadorEntra.lastName);
+            		$('#modalSistemaJuego #jugadorSale').text(data.jugadorSale.firstName +" "+ data.jugadorSale.lastName);
+            		$('#modalSistemaJuego #posicionesEntra').text(data.jugadorEntra.posicionPrincipal +", "+ data.jugadorEntra.posicionSecundaria);
+            		$('#modalSistemaJuego #posicionesSale').text(data.jugadorSale.posicionPrincipal +", "+ data.jugadorSale.posicionSecundaria);
+            		$('.modal-header-asistencia').css("color","white");
+					$('.modal-title-asistencia').text("Cambio de sistema de juego");
+            		$('#modalSistemaJuego').modal("show");
             	}
                    	
             	tablaJugadores.ajax.reload(null, false);
@@ -200,7 +228,7 @@
         								value : jugador.split(";")[1],
         								text : jugador.split(";")[0],
         								name : "jugadoresEnCampo"
-        							}));
+        							}))
         				});
 
         				console.log($("#jugadoresEnCampo option:selected").val());

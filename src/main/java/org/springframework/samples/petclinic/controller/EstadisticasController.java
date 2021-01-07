@@ -2,7 +2,9 @@ package org.springframework.samples.petclinic.controller;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +17,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
+import org.springframework.samples.petclinic.enumerate.Sistema;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.model.SistemaJuego;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
@@ -26,6 +30,7 @@ import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoS
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.PartidoService;
+import org.springframework.samples.petclinic.service.SistemaJuegoService;
 import org.springframework.samples.petclinic.service.SustitucionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,6 +62,9 @@ public class EstadisticasController {
 	
 	@Autowired
 	private EstadisticasConverter estadisticasConverter;
+	
+	@Autowired
+	private SistemaJuegoService sistemaService;
 	
 	@Autowired
 	private EstadisticaPersonalPartidoService estadisticaPersonalPartidoService;
@@ -208,6 +216,41 @@ public class EstadisticasController {
 		
 	}
 	
+	@RequestMapping(value = "/cambioSistemaJuego", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Sistema> eliminarJuegaJugador(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			int minutoAplicacion = Integer.parseInt(request.getParameter("minutoAplicacion"));
+			Sistema sistemaJuego = Sistema.fromNombre(request.getParameter("sistemajuego"));
+
+			LOG.info("Buscamos el partido con el id: " + partidoId);
+			Partido partido = partidoService.findById(partidoId).get();
+			Integer tam = partido.getSistemasJuego().size()-1;
+			
+			if(partido.getSistemasJuego().size()!=0 && sistemaJuego.equals(partido.getSistemasJuego().get(tam).getSistema())) {
+				return new ResponseEntity<Sistema>(sistemaJuego,HttpStatus.OK);
+			}
+			
+			List<SistemaJuego> sistemasJuegoPartido = partido.getSistemasJuego();
+			SistemaJuego sistemaJuegoPartido = new SistemaJuego();
+			
+			sistemaJuegoPartido.setPartido(partido);
+			sistemaJuegoPartido.setSistema(sistemaJuego);
+			sistemaJuegoPartido.setMinutoAplicacion(minutoAplicacion);
+			SistemaJuego sistemaSave = sistemaService.save(sistemaJuegoPartido);
+			sistemasJuegoPartido.add(sistemaSave);
+			partido.setSistemasJuego(sistemasJuegoPartido);
+			LOG.info("Guardamos el partido con el sistema de juego cambiado");
+			partidoService.save(partido);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción eliminando el jugador del partido");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
 	@RequestMapping(value = "/jugadoresEnCampo/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<String>> jugadoresEnCampo(@PathVariable("partidoId") int partidoId) {
 		try {
@@ -242,27 +285,30 @@ public class EstadisticasController {
 	}
 	
 	@RequestMapping(value = "realizarsustitucion", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity realizarSustitucion(HttpServletRequest request) {
+	public ResponseEntity<Map<String,JugadorDTO>> realizarSustitucion(HttpServletRequest request) {
 		try {
 			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			Integer partidoIdx = Integer.parseInt(request.getParameter("partidoId"));
 			int jugadorEnCampoId = Integer.parseInt(request.getParameter("jugadorEnCampo"));
 			int jugadorEnBanquilloId = Integer.parseInt(request.getParameter("jugadorEnBanquillo"));
 			int minutoSustitucion = Integer.parseInt(request.getParameter("minutoSustitucion"));
-			
+			String coinciden = "coinciden";
 			Sustitucion sustitucion = new Sustitucion();
 			Partido partido = partidoService.findById(partidoId).get();
 			Jugador jugadorEnCampo = jugadorService.findById(jugadorEnCampoId).get();
 			Jugador jugadorEnBanquillo = jugadorService.findById(jugadorEnBanquilloId).get();
 			
-			if(jugadorEnCampo.getPosicionPrincipal().equals(jugadorEnBanquillo.getPosicionPrincipal()) ||
+			if(!(jugadorEnCampo.getPosicionPrincipal().equals(jugadorEnBanquillo.getPosicionPrincipal()) ||
 				jugadorEnCampo.getPosicionPrincipal().equals(jugadorEnBanquillo.getPosicionSecundaria()) ||
 				jugadorEnCampo.getPosicionSecundaria().equals(jugadorEnBanquillo.getPosicionPrincipal()) ||
-				jugadorEnCampo.getPosicionSecundaria().equals(jugadorEnBanquillo.getPosicionSecundaria())) {
+				jugadorEnCampo.getPosicionSecundaria().equals(jugadorEnBanquillo.getPosicionSecundaria()))) {
 				
-				
-				
-				
-				return new ResponseEntity("coinciden",HttpStatus.OK);
+				JugadorDTO jugadorDTOEntra = jugadorConverter.convertParcialJugadorToJugadorDTO(jugadorEnBanquillo);
+				JugadorDTO jugadorDTOSale = jugadorConverter.convertParcialJugadorToJugadorDTO(jugadorEnCampo);
+				Map<String,JugadorDTO> map = new HashMap<String, JugadorDTO>();
+				map.put("jugadorEntra", jugadorDTOEntra);
+				map.put("jugadorSale", jugadorDTOSale);
+				return new ResponseEntity<Map<String,JugadorDTO>>(map,HttpStatus.OK);
 			}
 			
 			List<Jugador> jugadoresEnCampo = partido.getJugadoresJugando();
