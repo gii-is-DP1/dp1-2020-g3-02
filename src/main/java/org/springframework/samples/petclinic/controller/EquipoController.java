@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -250,6 +251,19 @@ public class EquipoController {
 		equipo.setJugadores(jugadores);
 		Equipo team = equipoService.save(equipo);
 		
+		//número de camiseta
+		int size = numCamisetaService.findByEquipo(equipoID).stream().map(x->x.getNumero()).collect(Collectors.toList()).size();
+		OptionalInt numeroMaxOp = numCamisetaService.findByEquipo(equipoID).stream().map(x->x.getNumero()).mapToInt(Integer::intValue).max();
+		int numeroMax;
+		if(size==0) {
+			numeroMax = 0;
+		}
+		else {
+			numeroMax = numeroMaxOp.getAsInt();
+		}
+		NumCamiseta num = new NumCamiseta(team,jugador,numeroMax+1);
+		NumCamiseta number = numCamisetaService.save(num);
+		
 		return "redirect:/equipos/showequipo/"+equipoID;
 		
 	}
@@ -329,6 +343,7 @@ public class EquipoController {
 			
 			Equipo team = equipoService.save(equipo);
 			
+			//añadir numero de camiseta
 			for(int i=0; i<agregados.size(); i++) {
 				NumCamiseta num = new NumCamiseta(team,agregados.get(i),i+1);
 				NumCamiseta number = numCamisetaService.save(num);
