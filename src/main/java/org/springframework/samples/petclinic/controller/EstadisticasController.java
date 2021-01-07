@@ -139,8 +139,14 @@ public class EstadisticasController {
 					String accion = clave.split(",")[0];
 					int jugadorId = Integer.parseInt(clave.split(",")[1]);
 					Jugador jugador = jugadorService.findById(jugadorId).get();
+					Integer dato = 0;
+					try {
+						dato = Integer.parseInt(request.getParameter(clave));
+					}catch (Exception e) {
+						LOG.error("Hueco en blanco");
+						
+					}
 					
-					Integer dato = Integer.parseInt(request.getParameter(clave));
 					if (dato < 0) {
 						return new ResponseEntity(HttpStatus.BAD_REQUEST);
 					}

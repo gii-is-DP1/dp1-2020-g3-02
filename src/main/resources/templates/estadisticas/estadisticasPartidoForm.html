@@ -181,9 +181,6 @@
 
 	<script type="text/javascript">
 	
-	window.onbeforeunload = function() {
-	    return 'You have unsaved changes!';
-	}
 	
 	function abrirInfoComandos(){
 		$('#infoComandosModal').modal("show");
@@ -212,6 +209,7 @@
 	}
 	
 	var chart = null;
+	estadisticas();
 	function datos(stats,tipo){
 			
 			var dato = [];
@@ -399,6 +397,7 @@
             processData: false,
             contentType: false,
             success: function(data){
+            	tablaIntroducirEstadisticas.ajax.reload(null, false);
             	estadisticas();
             	form = new FormData();
             },
@@ -438,42 +437,42 @@
 									},
 									{data: 'porcentajeSaques',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fsaque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='asaque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 class='form-control' onchange='return addToForm(this,"+'"fsaque,'+row['id']+'");'+"' id='fsaque,"+row['id']+"' class='form-control' type='number'> <input class='form-control' min=0 onchange='return addToForm(this,"+'"asaque,'+row['id']+'");'+"' id='asaque,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fsaque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='asaque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 class='form-control' value='"+(row['saquesTotales']-row['saquesAcertados'])+"' onchange='return addToForm(this,"+'"fsaque,'+row['id']+'");'+"' id='fsaque,"+row['id']+"' class='form-control' type='number'> <input class='form-control' value='"+row['saquesAcertados']+"' + min=0 onchange='return addToForm(this,"+'"asaque,'+row['id']+'");'+"' id='asaque,"+row['id']+"'  class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeRecepciones',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='frecepcion"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='arecepcion"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"frecepcion,'+row['id']+'");'+"' id='frecepcion"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"arecepcion,'+row['id']+'");'+"' id='arecepcion"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='frecepcion"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='arecepcion"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 value='"+(row['recepcionesTotales']-row['recepcionesAcertadas'])+"' onchange='return addToForm(this,"+'"frecepcion,'+row['id']+'");'+"' id='frecepcion"+row['id']+"' class='form-control' type='number'> <input min=0 value='"+row['recepcionesAcertadas']+"' onchange='return addToForm(this,"+'"arecepcion,'+row['id']+'");'+"' id='arecepcion"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeColocaciones',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fcolocacion,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='acolocacion,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"fcolocacion,'+row['id']+'");'+"' id='fcolocacion,"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"acolocacion,'+row['id']+'");'+"' id='acolocacion,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fcolocacion,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='acolocacion,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input value='"+(row['colocacionesTotales']-row['colocacionesAcertadas'])+"' min=0 onchange='return addToForm(this,"+'"fcolocacion,'+row['id']+'");'+"' id='fcolocacion,"+row['id']+"' class='form-control' type='number'> <input min=0 value='"+row['colocacionesAcertadas']+"' onchange='return addToForm(this,"+'"acolocacion,'+row['id']+'");'+"' id='acolocacion,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeDefensas',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fdefensa,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='adefensa,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"fdefensa,'+row['id']+'");'+"' id='fdefensa,"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"adefensa,'+row['id']+'");'+"' id='adefensa,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fdefensa,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='adefensa,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 value='"+(row['defensasTotales']-row['defensasAcertadas'])+"' onchange='return addToForm(this,"+'"fdefensa,'+row['id']+'");'+"' id='fdefensa,"+row['id']+"' class='form-control' type='number'> <input value='"+row['defensasAcertadas']+"' min=0 onchange='return addToForm(this,"+'"adefensa,'+row['id']+'");'+"' id='adefensa,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeBloqueos',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fbloqueo,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='abloqueo,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"fbloqueo,'+row['id']+'");'+"' id='fbloqueo,"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"abloqueo,'+row['id']+'");'+"' id='abloqueo,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fbloqueo,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='abloqueo,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 value='"+(row['bloqueosTotales']-row['bloqueosAcertados'])+"' onchange='return addToForm(this,"+'"fbloqueo,'+row['id']+'");'+"' id='fbloqueo,"+row['id']+"' class='form-control' type='number'> <input value='"+row['bloqueosAcertados']+"' min=0 onchange='return addToForm(this,"+'"abloqueo,'+row['id']+'");'+"' id='abloqueo,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeRemates',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fremate,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='aremate,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"fremate,'+row['id']+'");'+"' id='fremate,"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"aremate,'+row['id']+'");'+"' id='aremate,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fremate,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='aremate,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 value='"+(row['rematesTotales']-row['rematesAcertados'])+"' onchange='return addToForm(this,"+'"fremate,'+row['id']+'");'+"' id='fremate,"+row['id']+"' class='form-control' type='number'> <input min=0 value='"+row['rematesAcertados']+"' onchange='return addToForm(this,"+'"aremate,'+row['id']+'");'+"' id='aremate,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeFintas',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='ffinta,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='afinta,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"ffinta,'+row['id']+'");'+"' id='ffinta,"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"afinta,'+row['id']+'");'+"' id='afinta,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='ffinta,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='afinta,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 value='"+(row['fintasTotales']-row['fintasAcertadas'])+"' onchange='return addToForm(this,"+'"ffinta,'+row['id']+'");'+"' id='ffinta,"+row['id']+"' class='form-control' type='number'> <input min=0 value='"+row['fintasAcertadas']+"' onchange='return addToForm(this,"+'"afinta,'+row['id']+'");'+"' id='afinta,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'porcentajeAtaquesRapidos',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fataque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='aataque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 onchange='return addToForm(this,"+'"fataque,'+row['id']+'");'+"' id='fataque,"+row['id']+"' class='form-control' type='number'> <input min=0 onchange='return addToForm(this,"+'"aataque,'+row['id']+'");'+"' id='aataque,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fataque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='aataque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 value='"+(row['numAtaquesRapidosTotales']-row['numAtaquesRapidosAcertados'])+"' onchange='return addToForm(this,"+'"fataque,'+row['id']+'");'+"' id='fataque,"+row['id']+"' class='form-control' type='number'> <input min=0 value='"+row['numAtaquesRapidosAcertados']+"' onchange='return addToForm(this,"+'"aataque,'+row['id']+'");'+"' id='aataque,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									},
 									{data: 'numFaltasTotales',
