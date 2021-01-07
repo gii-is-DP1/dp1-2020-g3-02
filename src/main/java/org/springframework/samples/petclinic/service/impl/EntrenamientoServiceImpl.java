@@ -67,7 +67,7 @@ public class EntrenamientoServiceImpl extends AbstractEstadisticasService<Entren
 		estadisticasService.deleteAllInEntrenamiento(entrenamiento_id);
 		LOG.info("Se eliminarán las líneas de material del entrenamiento con id: " + entrenamiento_id);
 		lineaMaterialService.deleteAllInEntrenamiento(entrenamiento_id);
-		LOG.info("Borramos el partido");
+		LOG.info("Borramos el entrenamiento");
 		entrenamientoRepository.deleteById(entrenamiento_id);
 		
 	}
