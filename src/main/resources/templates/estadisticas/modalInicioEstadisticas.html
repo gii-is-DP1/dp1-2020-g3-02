@@ -1,0 +1,459 @@
+<meta charset="UTF-8" />
+
+<!-- Modal Sustituciones -->
+	<div class="modal fade" id="inicioModal" tabindex="-1"
+		aria-labelledby="Inicio de formulario estadísticas" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h5 class="modal-title" id="staticBackdropLabel"></h5>
+				</div>
+				<div class="modal-body">
+					
+					<div class="row py-3">
+					<div class="col-lg-2"></div>
+					
+						<div class="col-lg-8">
+							<span>Seleccione un sistema de juego:</span>
+							<select class="form-control" type="text" placeholder="Sistema de juego" id="sistemajuego" name="sistemajuego" required>
+     							<option th:id="colocadorGeneral" th:value="COLOCADOR_GENERAL"  name="sistemajuego">Colocador general</option>
+								<option th:id="4-2" th:value="CUATRO_DOS"  name="sistemajuego" >4-2</option>
+								<option th:id="5-1" th:value="CINCO_UNO"  name="sistemajuego" >5-1</option>
+								<option th:id="6-2" th:value="SEIS_DOS"  name="sistemajuego" >6-2</option>
+   							</select>
+						</div>
+						
+						<div class="col-lg-2 py-4"></div>
+					
+					</div>
+					
+					
+					<div class="row py-3">
+						
+						<div class="col-lg-12 responsive">
+						
+						<div class="card shadow bg-light">
+						<div class="card-header text-white"
+							style="background: rgb(23,162,184); background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
+							<div class="row">
+								<h3 class="card-title ml-3">Jugadores en partido</h3>
+								
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="container-fluid">
+								<table id="inicioJugadores"
+									class="table table-striped table-bordered table-hover inicioJugadores responsive"
+									style="width: 100%;">
+									<thead>
+										<tr class="table-primary">
+											
+											<th>Nombre</th>
+											<th>Dorsal</th>
+											<th>P.Principal</th>
+											<th>P.Secundaria</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					
+						
+					</div>
+						
+				</div>
+			</div>		
+		</div>			
+				<div class="modal-footer"
+					style="background: rgb(23,162,184); background: linear-gradient(0deg, rgba(23,162,184,0.75) 0%, rgba(255,255,255,1) 100%);">
+					<button type="button" onclick="iniciarPartido();" class="btn btn-primary">Aceptar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+	<script type="text/javascript">
+	
+	function iniciarPartido(){
+		
+	}
+	
+	function anadirJugadorJugando(boton,jugadorId){
+		
+		var form = new FormData();
+		form.append("partidoId",partidoId);
+		form.append("jugadorId",jugadorId);
+		
+		$.ajax({
+			url : '/estadisticas/anadirJugadorJugando/',
+			type : 'post',
+			data : form,
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				
+				//location.reload();
+				tablaInicioJugadores.ajax.reload(null, false);
+			},
+			error : function(data) {
+				$('.error').text('');
+
+				for (i = 0; i < data.responseJSON.length; i++) {
+
+					var campo = data.responseJSON[i].field;
+					$('.' + campo)
+							.text(data.responseJSON[i].defaultMessage);
+				}
+			}
+		});
+	}
+	
+function eliminarJugadorJugando(boton,jugadorId){
+		
+		var form = new FormData();
+		form.append("partidoId",partidoId);
+		form.append("jugadorId",jugadorId);
+		
+		$.ajax({
+			url : '/estadisticas/eliminarJugadorJugando/',
+			type : 'post',
+			data : form,
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				
+				//location.reload();
+				tablaInicioJugadores.ajax.reload(null, false);
+			},
+			error : function(data) {
+				$('.error').text('');
+
+				for (i = 0; i < data.responseJSON.length; i++) {
+
+					var campo = data.responseJSON[i].field;
+					$('.' + campo)
+							.text(data.responseJSON[i].defaultMessage);
+				}
+			}
+		});
+	}
+	
+	function seleccionarLibero(boton,jugadorId){
+		
+		var form = new FormData();
+		form.append("partidoId",partidoId);
+		form.append("jugadorId",jugadorId);
+		
+		$.ajax({
+			url : '/estadisticas/seleccionarLibero/',
+			type : 'post',
+			data : form,
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				
+				//location.reload();
+				tablaInicioJugadores.ajax.reload(null, false);
+			},
+			error : function(data) {
+				$('.error').text('');
+	
+				for (i = 0; i < data.responseJSON.length; i++) {
+	
+					var campo = data.responseJSON[i].field;
+					$('.' + campo)
+							.text(data.responseJSON[i].defaultMessage);
+				}
+			}
+		});
+	}
+
+	function eliminarLibero(boton,jugadorId){
+	
+		var form = new FormData();
+		form.append("partidoId",partidoId);
+		form.append("jugadorId",jugadorId);
+		
+		$.ajax({
+			url : '/estadisticas/eliminarLibero/',
+			type : 'post',
+			data : form,
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				
+				//location.reload();
+				tablaInicioJugadores.ajax.reload(null, false);
+			},
+			error : function(data) {
+				$('.error').text('');
+	
+				for (i = 0; i < data.responseJSON.length; i++) {
+	
+					var campo = data.responseJSON[i].field;
+					$('.' + campo)
+							.text(data.responseJSON[i].defaultMessage);
+				}
+			}
+		});
+	}
+	
+	
+	var partidoId = $('#partidoId').val();
+	var jugadorEnCampo = null;
+	var jugadorEnBanquillo = null;
+	
+	var removeAllOptionsSelect = function(element_class_or_id){
+		var element = $(element_class_or_id+" option");
+		$.each(element,function(i,v){
+		value = v.value;
+		$(element_class_or_id+" option[value="+value+"]").remove();
+		})
+		}
+	
+	$(document).on('change', '#jugadoresEnCampo', function(event) {
+		jugadorEnCampo = $("#jugadoresEnCampo option:selected").val();
+	});
+	
+	$(document).on('change', '#jugadoresEnBanquillo', function(event) {
+		jugadorEnBanquillo = $("#jugadoresEnBanquillo option:selected").val();
+	});
+	
+	function cambioSistemaJuego(){
+		var form = new FormData(document.getElementById('formModalSistemaJuego'));
+		form.append("partidoId",partidoId);
+		
+		var minutos = parseInt($('#minute').text());
+		var horas = parseInt($('#hour').text())*60;
+		form.append('minutoAplicacion',minutos+horas);
+		
+		$.ajax({
+			url : '/estadisticas/cambioSistemaJuego/',
+			type : 'post',
+			data : form,
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				$('#modalSistemaJuego').modal("hide");
+				//location.reload();
+				//tablaPrincipal.ajax.reload(null, false);
+			},
+			error : function(data) {
+				$('.error').text('');
+
+				for (i = 0; i < data.responseJSON.length; i++) {
+
+					var campo = data.responseJSON[i].field;
+					$('.' + campo)
+							.text(data.responseJSON[i].defaultMessage);
+				}
+			}
+		});
+	}
+	
+	function realizarSustitucion(data){
+		var form = new FormData();
+		form.append('partidoId', partidoId);
+		form.append('jugadorEnCampo', jugadorEnCampo);
+		form.append('jugadorEnBanquillo', jugadorEnBanquillo);
+		
+		var minutos = parseInt($('#minute').text());
+		var horas = parseInt($('#hour').text())*60;
+		form.append('minutoSustitucion',minutos+horas);
+		
+		$.ajax({
+            url: '/estadisticas/realizarsustitucion',
+            type: 'post',
+            data: form,
+            processData: false,
+            contentType: false,
+            success: function(data){
+
+                   	
+            	tablaJugadores.ajax.reload(null, false);
+            	tablaIntroducirEstadisticas.ajax.reload(null, false);
+            	
+            	removeAllOptionsSelect("#jugadoresEnCampo");
+        		removeAllOptionsSelect("#jugadoresEnBanquillo");
+        		$.ajax({
+        			type : 'GET',
+        			url : '/estadisticas/jugadoresEnCampo/'+partidoId,
+        			success : function(jugadores) {
+        				
+        				$.each(jugadores, function(index,
+        						jugador) {
+        					$('#jugadoresEnCampo').append(
+        							$('<option>', {
+        								value : jugador.split(";")[1],
+        								text : jugador.split(";")[0],
+        								name : "jugadoresEnCampo"
+        							}))
+        				});
+
+        				console.log($("#jugadoresEnCampo option:selected").val());
+        				jugadorEnCampo = $("#jugadoresEnCampo option:selected").val();
+        			}
+        		});
+        		
+			
+            },
+            error: function(data){
+            	
+            	$('.error').text('');
+            	
+            	for (i = 0; i < data.responseJSON.length; i++){
+            		
+            		var campo = data.responseJSON[i].field;
+            		$('.'+campo).text(data.responseJSON[i].defaultMessage);
+            	}
+            }
+        });
+		
+	};
+	
+	
+	$.ajax({
+		type : 'GET',
+		url : '/estadisticas/jugadoresEnCampo/'+partidoId,
+		success : function(jugadores) {
+			
+			$.each(jugadores, function(index,
+					jugador) {
+				$('#jugadoresEnCampo').append(
+						$('<option>', {
+							value : jugador.split(";")[1],
+							text : jugador.split(";")[0],
+							name : "jugadoresEnCampo"
+						}));
+			});
+
+			console.log($("#jugadoresEnCampo option:selected").val());
+			jugadorEnCampo = $("#jugadoresEnCampo option:selected").val();
+		}
+	});
+		
+		var tablaInicioJugadores = null;
+		function tablaInicio(boton) {
+			var partidoId = $('#partidoId').val();
+			$(document)
+					.ready(
+							function() {
+								console.log("hola");
+								// Create DataTable
+								if (tablaInicioJugadores != null) {
+									tablaInicioJugadores.destroy();
+									
+								}
+
+								tablaInicioJugadores = $('.inicioJugadores')
+										.DataTable({
+													"lengthMenu" : [ 10, 15, 20, 25 ,30 ],
+													responsive : true,
+													ajax : '[[@{/estadisticas/tablaSustituciones/}]]'+ partidoId,
+													language : {
+														emptyTable : "Ningún dato disponible en esta tabla",
+														"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+														"infoEmpty" : "Mostrando 0 de 0 registros",
+														"lengthMenu" : "Mostrando _MENU_ registros",
+														"search" : "Buscar:",
+														"zeroRecords" : "No se encontraron resultados",
+														"paginate" : {
+															"first" : "Primera",
+															"last" : "Última",
+															"next" : "Siguiente",
+															"previous" : "Anterior"
+														},
+													},
+													"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+														console.log(aData.enCampo);
+														if ( aData.esLibero == true ){
+															$('td', nRow).css('background-color', '#58ACFA');
+														}else if ( aData.enCampo == true ){
+											           		$('td', nRow).css('background-color', '#90EE90');
+											            }
+											            
+											        },
+													"columns" : [
+															{"data" : "firstName",
+																render : function(data,type,row) {
+																	return row.firstName+ ", "+ row.lastName;
+																}
+															},
+															{data : "numCamiseta"},
+															{data : "posicionPrincipal"},
+															{data : "posicionSecundaria"},
+															{data : "id",
+																render: function (data, type, row) {
+																	var botonEliminarEnPartido = "<button  class='btn btn-outline-danger' type='button' onclick='return eliminarJugadorJugando(this,"+row['id'] +");' title='Cancelar jugador en campo'><i class='fas fa-user-times'></i></button>";
+																	var botonAnadirEnPartido = "<button  class='btn btn-outline-success' type='button' onclick='return anadirJugadorJugando(this,"+row['id'] +");' title='Inicial en el campo'><i class='fas fa-user-plus'></i></button>";
+																	var botonAnadirEnPartidoDisabled = "<button  class='btn btn-outline-success' disabled type='button' onclick='return anadirJugadorJugando(this,"+row['id'] +");' title='Inicial en el campo'><i class='fas fa-user-plus'></i></button>";
+																	
+																	var botonEliminarEnLibero = " <button class='btn btn-outline-danger' type='button' onclick='return eliminarLibero(this,"+row['id'] +");' title='selectLibero'><i class='fas fa-shield-alt'></i></button>";
+																	var botonAnadirEnLibero = " <button  class='btn btn-outline-success' type='button' onclick='return seleccionarLibero(this,"+row['id'] +");' title='Asistir'><i class='fas fa-shield-alt'></i></button>";
+																	var botonAnadirEnLiberoDisabled = " <button  class='btn btn-outline-success' disabled type='button' onclick='return seleccionarLibero(this,"+row['id'] +");' title='Asistir'><i class='fas fa-shield-alt'></i></button>";
+																	
+																	if(row.enCampo == true || row.esLibero == true){
+																		if(row["posicionPrincipal"] == "LIBERO" || row["posicionSecundaria"] == "LIBERO"){
+																			
+																			if(row.esLibero == true){
+																				return botonAnadirEnPartidoDisabled + botonEliminarEnLibero;
+																			}else{
+																				return botonEliminarEnPartido + botonAnadirEnLiberoDisabled;
+																			}
+																			
+																		}else{
+																			return botonEliminarEnPartido;
+																		}
+																	}else{
+																		if(row.numJugadoresJugando < 6){
+																			if((row["posicionPrincipal"] == "LIBERO" || row["posicionSecundaria"] == "LIBERO") && row.yaHayLibero != true){
+																				
+																				if(row.esLibero == true){
+																					return botonAnadirEnPartido + botonEliminarEnLibero;
+																				}else{
+																					return botonAnadirEnPartido +botonAnadirEnLibero;
+																				}
+																			}else{
+																				return botonAnadirEnPartido;
+																			}
+																		}else{
+																			if((row["posicionPrincipal"] == "LIBERO" || row["posicionSecundaria"] == "LIBERO") && row.yaHayLibero != true){
+																				
+																				if(row.esLibero == true){
+																					return botonAnadirEnPartidoDisabled + botonEliminarEnLibero;
+																				}else{
+																					return botonAnadirEnPartidoDisabled +botonAnadirEnLibero;
+																				}
+																			}else{
+																				return botonAnadirEnPartidoDisabled;
+																			}
+																		}
+																	}
+																	
+																	
+																	
+																}
+																
+															
+															
+															},
+
+													],
+													columnDefs : [ {
+														responsivePriority : 1,
+														targets : 0
+													//Nombre
+													}, {
+														responsivePriority : 1,
+														targets : 1, //Ha llegado
+														orderable : false
+													} ]
+
+												});
+
+							});
+		};
+		
+	</script>
