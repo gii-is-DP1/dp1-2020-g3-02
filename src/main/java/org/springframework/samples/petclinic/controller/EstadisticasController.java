@@ -430,6 +430,52 @@ public class EstadisticasController {
 		
 	}
 	
+	@RequestMapping(value = "/sistemaJuegoEquipo/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Sistema> sistemaJuegoEquipo(@PathVariable("partidoId") int partidoId) {
+		try {
+			Partido partido = partidoService.findById(partidoId).get();
+			
+			Sistema sistemaJuego =  partido.getEquipo().getSistemaJuego();
+			
+			return new ResponseEntity<Sistema>(sistemaJuego, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Sistema>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@RequestMapping(value = "/iniciarPartido", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity iniciarPartido(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			Sistema sistema = Sistema.fromNombre(request.getParameter("sistemaJuego"));
+			
+			Partido partido = partidoService.findById(partidoId).get();
+			
+			if(partido.getJugadoresJugando().size()!=6) {
+				LOG.error("Menos de 6 jugadores en el partido");
+				return new ResponseEntity(HttpStatus.BAD_REQUEST);
+			}
+			
+			List<SistemaJuego> listaSistemas = new ArrayList<SistemaJuego>();
+			SistemaJuego sistemaJuego = new SistemaJuego();
+			sistemaJuego.setPartido(partido);
+			sistemaJuego.setSistema(sistema);
+			sistemaJuego.setMinutoAplicacion(0);
+			
+			SistemaJuego sistemaJuego_ = sistemaService.save(sistemaJuego);
+			listaSistemas.add(sistemaJuego_);
+			
+			partido.setSistemasJuego(listaSistemas);
+			Partido patido_ = partidoService.save(partido);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción iniciando partido");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
 	@RequestMapping(value = "/tablaSustituciones/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataTableResponse<JugadorDTO>> tablaSustituciones(@PathVariable("partidoId") int partidoId) {
 		try {
