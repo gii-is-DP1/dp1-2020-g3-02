@@ -58,4 +58,13 @@ public class LineaMaterialServiceImpl extends AbstractService<LineaMaterial> imp
 		Optional<Entrenamiento> entrenamiento= entrenamientoService.findById(entrenamiento_id);
 		return lineaMaterialRepository.findByEntrenamiento(entrenamiento.get());
 	}
+
+
+	@Override
+	public void deleteAllInEntrenamiento(Integer entrenamiento_id) {
+		Optional<Entrenamiento> entrenamiento = entrenamientoService.findById(entrenamiento_id);
+		List<LineaMaterial> lineasMaterial =lineaMaterialRepository.findByEntrenamiento(entrenamiento.get());
+		lineaMaterialRepository.deleteAll(lineasMaterial);
+		
+	}
 }

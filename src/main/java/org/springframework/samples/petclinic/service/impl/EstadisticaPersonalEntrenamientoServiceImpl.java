@@ -62,4 +62,12 @@ public class EstadisticaPersonalEntrenamientoServiceImpl extends AbstractEstadis
 		return (int) estadisticaPersonalEntrenamientoRepository.count();
 	}
 
+	@Override
+	public void deleteAllInEntrenamiento(Integer entrenamiento_id) {
+		Optional<Entrenamiento> entrenamiento = entrenamientoService.findById(entrenamiento_id);
+		List<EstadisticaPersonalEntrenamiento> estadisticas = estadisticaPersonalEntrenamientoRepository.findByEntrenamiento(entrenamiento.get());
+		estadisticaPersonalEntrenamientoRepository.deleteAll(estadisticas);
+		
+	}
+
 }

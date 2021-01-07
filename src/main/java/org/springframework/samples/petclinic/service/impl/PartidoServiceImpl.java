@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,6 +14,7 @@ import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
 import org.springframework.samples.petclinic.repository.PartidoRepository;
+import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.SustitucionService;
@@ -36,6 +38,9 @@ public class PartidoServiceImpl extends AbstractEstadisticasService<Partido> imp
 
 	@Autowired
 	private PartidoRepository partidoRepository;
+	
+	@Autowired
+	private EquipoService equipoService;
 	
 	@Autowired
 	private EstadisticaPersonalPartidoService estadisticasService;
@@ -149,6 +154,19 @@ public class PartidoServiceImpl extends AbstractEstadisticasService<Partido> imp
 		String horaFin = horaString+":"+minutosString;
 		
 		return horaFin;
+	}
+
+	@Override
+	public void deleteAllInEquipo(Integer equipo_id) {
+		try {
+			Optional<Equipo> equipo = equipoService.findById(equipo_id);
+			List<Partido> partidos =partidoRepository.findByEquipo(equipo.get());
+			for(int i=0;i<partidos.size();i++) {
+				partidoService.deleteById(partidos.get(i).getId());
+			}
+		}catch (Exception e) {
+			LOG.error("Error al eliminar el equipo");
+		}
 	}
 
 }

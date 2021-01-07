@@ -16,4 +16,5 @@ public interface PartidoService extends BaseEstadisticasService<Partido>{
 	public abstract List<Partido> findByEquipoAndFechaAndHoraBetween(Equipo equipo, LocalDate fecha, String hora1, String hora2);
 	public abstract List<Partido> findByEquipo(Equipo equipo);
 	public abstract List<PartidoConAsistencia> obtenerPartidosConfrontados(List<Equipo> equipos, Jugador jugador, Partido partido);
+	public abstract void deleteAllInEquipo(Integer equipo_id);
 }

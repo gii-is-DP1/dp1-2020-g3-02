@@ -12,5 +12,6 @@ public interface EntrenamientoService extends BaseEstadisticasService<Entrenamie
 	public abstract List<Entrenamiento> findByEquipoOrderByFecha(Equipo team);
 	public abstract List<Entrenamiento> findByFechaOrderByHora(LocalDate date);
 	public abstract List<Entrenamiento> findByEquipo(Equipo equipo);
+	public abstract void deleteAllInEquipo(Integer equipo_id);
 
 }
