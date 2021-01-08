@@ -99,6 +99,7 @@
 	        
 	<div th:replace="equipos/modalEstadisticas"></div>
 	<div th:replace="equipos/modalNuevoEquipo"></div>
+	<div th:replace="equipos/modalEliminacionEquipo"></div>
 	
 	
 	<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
@@ -114,8 +115,19 @@
 		window.location.href = "/equipos/equipoform/?id="+equipoId;
 	}
 	
-	function eliminar(data,equipoId){
-		window.location.href = "/equipos/eliminarequipo/?id="+equipoId;
+	function eliminar(equipoId){
+		$.ajax({
+   			type : 'GET',
+   			url : '/equipos/findEquipoEliminar/' + equipoId,
+   			success : function(data) {
+   				console.log(data.tipo);
+            	$('#idEliminacionEquipo').val(data.id);
+   				
+				$('#eliminacionEquipoModal .modal-header').css("color", "white");
+				$('#eliminacionEquipoModal .modal-title').text("Eliminar Equipo: " + data.categoria);
+				$('#eliminacionEquipoModal').modal("show");
+   			}
+   		});
 	}
 	
 	//TABLA PRINCIPAL CON AJAX (EN CONSTRUCCION)===============================================
@@ -143,7 +155,7 @@
 							 "<i class='fas fa-chart-pie'></i></button>" + 
 							 " <button  onclick='return editar(this,"+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
 							 "<i class='fas fa-edit'></i></button>" + 
-							" <button onclick='return eliminar(this,"+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+							" <button onclick='return eliminar("+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
 							"<i class='fas fa-trash-alt'></i></button>" ;
 						 
 					 }else  if($('#security').val() == 'jugador'){

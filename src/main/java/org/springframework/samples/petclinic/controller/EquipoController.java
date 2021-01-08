@@ -31,6 +31,7 @@ import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
+import org.springframework.samples.petclinic.model.auxiliares.EquipoCategoria;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoTablaEquipos;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
 import org.springframework.samples.petclinic.model.auxiliares.JugadoresInEquipoSinUser;
@@ -188,6 +189,17 @@ public class EquipoController {
 		}	
 	}
 	
+	@RequestMapping(value = "/findEquipoEliminar/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EquipoCategoria> findEquipoEliminar(@PathVariable("id") int id) {
+		try {
+			Equipo equipo = equipoService.findById(id).get();
+			EquipoCategoria data = equipoConverter.convertEquipoToEquipoCategoria(equipo);
+			return new ResponseEntity<EquipoCategoria>(data, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<EquipoCategoria>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
 	@GetMapping("/equipoform")
 	public String redirectEquipoForm(@RequestParam(name="id",required=false) int id, Model model) {
 		Optional<Equipo> equipo = Optional.of(new Equipo());
@@ -237,17 +249,17 @@ public class EquipoController {
 		return ViewConstant.VIEW_NAVBAR;
 	}
 	
-	@GetMapping("/eliminarequipo")
-	public String eliminarEquipo(@RequestParam(name="id",required=true) int id, Model model) {
+	@RequestMapping(value = "eliminarequipo/{id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> eliminarEquipo(@PathVariable("id") Integer id) {
 		try {
 			LOG.info("Se procede a borrar el equipo con id: " + id);
 			
 			equipoService.deleteById(id);
 			
-			return "redirect:/equipos/showequipos";
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
 		} catch (Exception e) {
 			LOG.error("Error al eliminar el equipo");
-			return "redirect:/equipos/showequipos";
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 		
 	}
