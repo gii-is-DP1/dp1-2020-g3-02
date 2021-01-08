@@ -55,8 +55,12 @@
 						<div class="card-header text-white"
 							style="background: rgb(40, 167, 69); background: linear-gradient(90deg, rgba(40, 167, 69, 1) 0%, rgba(255, 255, 255, 1) 100%);">
 							<div class="row">
-								<h3 class="card-title ml-3">Introducción de estadísticas</h3>
-								<button class="btn btn-info ml-auto mr-2" onclick="return tablaSustituciones(this);" th:title="Sustitución"><i class="fas fa-exchange-alt"></i> Jugadores</button>
+								
+								<h3 class="card-title pt-1 ml-1">Introducción de estadísticas</h3>
+						
+									<button class="btn btn-warning ml-auto mr-1" title="Cambio Sistema de Juego"><i class="fas fa-exchange-alt"></i> Sistema Juego</button>
+									<button class="btn btn-info ml-auto mr-1" onclick="return tablaSustituciones(this);" th:title="Sustitución"><i class="fas fa-exchange-alt"></i> Jugadores</button>
+								
 							</div>
 						</div>
 						<div class="card-body">
@@ -444,7 +448,14 @@
 								ajax: '[[@{/estadisticas/tablaIntroducirEstadisticas/}]]'+[[${partido.id}]],
 								responsive: true,
 								order: [1, 'asc'],
-								columns: [
+								"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+									console.log(aData.enCampo);
+									if ( aData.esLibero == true ){
+										$('td', nRow).css('background-color', '#ADD8E6');
+									}
+						            
+						        },
+						        columns: [
 									{data: 'id'},
 									{data: 'firstName',
 										render: function (data, type, row) {
