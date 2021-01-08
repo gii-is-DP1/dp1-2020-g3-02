@@ -343,10 +343,21 @@ public class EquipoController {
 		}	
 	}
 	
+	@RequestMapping(value = "findeditequipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EquipoEdit> editarEquipo(@PathVariable("id") int id) {
+		try {
+			Equipo equipo = equipoService.findById(id).get();
+			EquipoEdit edit = equipoConverter.convertEquipoToEquipoEdit(equipo);
+			return new ResponseEntity<EquipoEdit>(edit, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<EquipoEdit>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
 	@RequestMapping(value = "/postequipo", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> addEquipo(HttpServletRequest request, @ModelAttribute(name="equipo") EquipoEdit equipoEdit, BindingResult result) {
 		try {
-			EquipoEdit edit = new EquipoEdit(null, request.getParameter("categoria").trim(), Sistema.valueOf(request.getParameter("sistemajuego").trim()), request.getParameter("liga").trim());
+			EquipoEdit edit = new EquipoEdit(null, request.getParameter("categoria").trim(), Sistema.valueOf(request.getParameter("sistemajuego").trim()), request.getParameter("liga").trim(),false);
 			
 			//ValidationUtils.invokeValidator(partidoValidator, edit, result);
 			

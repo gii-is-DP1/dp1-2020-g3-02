@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.converter;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoCategoria;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoTablaEquipos;
+import org.springframework.samples.petclinic.model.ediciones.EquipoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EquipoStats;
 import org.springframework.stereotype.Component;
 
@@ -55,6 +56,15 @@ public class EquipoConverter {
 				equipo.getNumRojas(),
 				equipo.getLiga(),
 				fed);
+	}
+	
+	public EquipoEdit convertEquipoToEquipoEdit(Equipo equipo) {
+		return new EquipoEdit(
+				equipo.getId(),
+				equipo.getCategoria(),
+				equipo.getSistemaJuego(),
+				equipo.getLiga(),
+				equipo.getFederacion());
 	}
 	
 	public EquipoCategoria convertEquipoToEquipoCategoria(Equipo equipo) {
