@@ -241,13 +241,70 @@ public class EstadisticasController {
 		
 	}
 	
+	@RequestMapping(value = "/cambioSistemaJuegoSustitucion", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE) 
+	public ResponseEntity<Sistema> cambioSistemaJuegoSustitucion(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			int jugadorEnCampoId = Integer.parseInt(request.getParameter("jugadorEnCampo"));
+			int jugadorEnBanquilloId = Integer.parseInt(request.getParameter("jugadorEnBanquillo"));
+			
+			int minutoAplicacion = Integer.parseInt(request.getParameter("minutoAplicacion"));
+			Sistema sistemaJuego = Sistema.fromNombre(request.getParameter("sistemajuego"));
+			
+			LOG.info("Buscamos el partido con el id: " + partidoId);
+			Partido partido = partidoService.findById(partidoId).get();
+			Jugador jugadorEnCampo = jugadorService.findById(jugadorEnCampoId).get();
+			Jugador jugadorEnBanquillo = jugadorService.findById(jugadorEnBanquilloId).get();
+			
+			List<Jugador> jugadoresEnCampo = partido.getJugadoresJugando();
+			
+			jugadoresEnCampo.add(jugadorEnBanquillo);
+			jugadoresEnCampo.remove(jugadorEnCampo);
+			
+			partido.setJugadoresJugando(jugadoresEnCampo);
+			Partido partido_ = partidoService.save(partido);
+			Sustitucion sustitucion = new Sustitucion();
+			
+			sustitucion.setJugadorEntra(jugadorEnCampo);
+			sustitucion.setJugadorSale(jugadorEnBanquillo);
+			sustitucion.setMinutoSustitucion(minutoAplicacion);
+			sustitucion.setPartido(partido);
+			
+			Sustitucion sustitucio_ = sustitucionService.save(sustitucion);
+			
+			Integer tam = partido.getSistemasJuego().size()-1;
+			
+			if(partido.getSistemasJuego().size()!=0 && sistemaJuego.equals(partido.getSistemasJuego().get(tam).getSistema())) {
+				return new ResponseEntity<Sistema>(sistemaJuego,HttpStatus.OK);
+			}
+			
+			List<SistemaJuego> sistemasJuegoPartido = partido.getSistemasJuego();
+			SistemaJuego sistemaJuegoPartido = new SistemaJuego();
+			
+			sistemaJuegoPartido.setPartido(partido);
+			sistemaJuegoPartido.setSistema(sistemaJuego);
+			sistemaJuegoPartido.setMinutoAplicacion(minutoAplicacion);
+			SistemaJuego sistemaSave = sistemaService.save(sistemaJuegoPartido);
+			sistemasJuegoPartido.add(sistemaSave);
+			partido.setSistemasJuego(sistemasJuegoPartido);
+			LOG.info("Guardamos el partido con el sistema de juego cambiado");
+			partidoService.save(partido);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción eliminando el jugador del partido");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
 	@RequestMapping(value = "/cambioSistemaJuego", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Sistema> eliminarJuegaJugador(HttpServletRequest request) {
+	public ResponseEntity<Sistema> cambioSistemaJuego(HttpServletRequest request) {
 		try {
 			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
 			int minutoAplicacion = Integer.parseInt(request.getParameter("minutoAplicacion"));
 			Sistema sistemaJuego = Sistema.fromNombre(request.getParameter("sistemajuego"));
-
+			
 			LOG.info("Buscamos el partido con el id: " + partidoId);
 			Partido partido = partidoService.findById(partidoId).get();
 			Integer tam = partido.getSistemasJuego().size()-1;
@@ -359,7 +416,7 @@ public class EstadisticasController {
 		
 	}
 	
-	@RequestMapping(value = "/anadirJugadorJugando", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/anadirJugadorJugando", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE) 
 	public ResponseEntity anadirJugadorJugando(HttpServletRequest request) {
 		try {
 			int partidoId = Integer.parseInt(request.getParameter("partidoId"));

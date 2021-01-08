@@ -120,7 +120,7 @@
       
       <div class="modal-footer">
      	<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="button" onclick="return cambioSistemaJuego();" class="btn btn-info" data-dismiss="modal">Aceptar</button>
+        <button type="button" onclick="return cambioSistemaJuego();" class="btn btn-info" >Aceptar</button>
         
 		
       </div>
@@ -152,15 +152,18 @@
 	});
 	
 	function cambioSistemaJuego(){
+		console.log("hola------");
 		var form = new FormData(document.getElementById('formModalSistemaJuego'));
 		form.append("partidoId",partidoId);
+		form.append('jugadorEnCampo', jugadorEnCampo);
+		form.append('jugadorEnBanquillo', jugadorEnBanquillo);
 		
 		var minutos = parseInt($('#minute').text());
 		var horas = parseInt($('#hour').text())*60;
 		form.append('minutoAplicacion',minutos+horas);
 		
 		$.ajax({
-			url : '/estadisticas/cambioSistemaJuego/',
+			url : '/estadisticas/cambioSistemaJuegoSustitucion/',
 			type : 'post',
 			data : form,
 			processData : false,
@@ -169,6 +172,7 @@
 				$('#modalSistemaJuego').modal("hide");
 				//location.reload();
 				//tablaPrincipal.ajax.reload(null, false);
+				actualizarSelectoresSustitucion();
 			},
 			error : function(data) {
 				$('.error').text('');
@@ -181,6 +185,53 @@
 				}
 			}
 		});
+	}
+	
+	function actualizarSelectoresSustitucion(){
+		removeAllOptionsSelect("#jugadoresEnCampo");
+		removeAllOptionsSelect("#jugadoresEnBanquillo");
+		
+		$.ajax({
+			type : 'GET',
+			url : '/estadisticas/jugadoresEnCampo/'+partidoId,
+			success : function(jugadores) {
+				
+				$.each(jugadores, function(index,
+						jugador) {
+					$('#jugadoresEnCampo').append(
+							$('<option>', {
+								value : jugador.split(";")[1],
+								text : jugador.split(";")[0],
+								name : "jugadoresEnCampo"
+							}))
+				});
+
+				console.log($("#jugadoresEnCampo option:selected").val());
+				jugadorEnCampo = $("#jugadoresEnCampo option:selected").val();
+			}
+		});
+		
+		$.ajax({
+			type : 'GET',
+			url : '/estadisticas/jugadoresEnBanquillo/'+partidoId,
+			success : function(jugadores) {
+				console.log(jugadores);
+				$.each(jugadores, function(index,
+						jugador) {
+					$('#jugadoresEnBanquillo').append(
+							$('<option>', {
+								value : jugador.split(";")[1],
+								text : jugador.split(";")[0],
+								name : "jugadoresEnBanquillo"
+							}));
+				});
+				console.log($("#jugadoresEnBanquillo option:selected").val());
+				jugadorEnBanquillo = $("#jugadoresEnBanquillo option:selected").val();
+				
+			}
+		});
+		
+		tablaJugadores.ajax.reload(null, false);
 	}
 	
 	function realizarSustitucion(data){
@@ -215,48 +266,7 @@
             	tablaJugadores.ajax.reload(null, false);
             	tablaIntroducirEstadisticas.ajax.reload(null, false);
             	
-            	removeAllOptionsSelect("#jugadoresEnCampo");
-        		removeAllOptionsSelect("#jugadoresEnBanquillo");
-        		
-        		$.ajax({
-        			type : 'GET',
-        			url : '/estadisticas/jugadoresEnCampo/'+partidoId,
-        			success : function(jugadores) {
-        				
-        				$.each(jugadores, function(index,
-        						jugador) {
-        					$('#jugadoresEnCampo').append(
-        							$('<option>', {
-        								value : jugador.split(";")[1],
-        								text : jugador.split(";")[0],
-        								name : "jugadoresEnCampo"
-        							}))
-        				});
-
-        				console.log($("#jugadoresEnCampo option:selected").val());
-        				jugadorEnCampo = $("#jugadoresEnCampo option:selected").val();
-        			}
-        		});
-        		
-        		$.ajax({
-        			type : 'GET',
-        			url : '/estadisticas/jugadoresEnBanquillo/'+partidoId,
-        			success : function(jugadores) {
-        				
-        				$.each(jugadores, function(index,
-        						jugador) {
-        					$('#jugadoresEnBanquillo').append(
-        							$('<option>', {
-        								value : jugador.split(";")[1],
-        								text : jugador.split(";")[0],
-        								name : "jugadoresEnBanquillo"
-        							}));
-        				});
-        				console.log($("#jugadoresEnBanquillo option:selected").val());
-        				jugadorEnBanquillo = $("#jugadoresEnBanquillo option:selected").val();
-        				
-        			}
-        		});
+            	actualizarSelectoresSustitucion();
 			
             },
             error: function(data){
@@ -335,7 +345,7 @@
 
 								tablaJugadores = $('.sustitucionesJugadores')
 										.DataTable({
-													"lengthMenu" : [  6, 7,8, 9, 10, 11, 12 ],
+													"lengthMenu" : [  10,15,20 ],
 													responsive : true,
 													ajax : '[[@{/estadisticas/tablaSustituciones/}]]'+ partidoId,
 													language : {

@@ -71,6 +71,8 @@
 				tablaInicioJugadores.ajax.reload(null, false);
 				tablaIntroducirEstadisticas.ajax.reload(null, false);
 				$('#inicioModal').modal("hide");
+				
+				actualizarSelectoresSustitucion();
 			},
 			error : function(data) {
 				//Decirle que tiene q haber mínimo 6 jugadores
@@ -217,135 +219,8 @@
 	var jugadorEnCampo = null;
 	var jugadorEnBanquillo = null;
 	
-	var removeAllOptionsSelect = function(element_class_or_id){
-		var element = $(element_class_or_id+" option");
-		$.each(element,function(i,v){
-		value = v.value;
-		$(element_class_or_id+" option[value="+value+"]").remove();
-		})
-		}
-	
-	$(document).on('change', '#jugadoresEnCampo', function(event) {
-		jugadorEnCampo = $("#jugadoresEnCampo option:selected").val();
-	});
-	
-	$(document).on('change', '#jugadoresEnBanquillo', function(event) {
-		jugadorEnBanquillo = $("#jugadoresEnBanquillo option:selected").val();
-	});
-	
-	function cambioSistemaJuego(){
-		var form = new FormData(document.getElementById('formModalSistemaJuego'));
-		form.append("partidoId",partidoId);
-		
-		var minutos = parseInt($('#minute').text());
-		var horas = parseInt($('#hour').text())*60;
-		form.append('minutoAplicacion',minutos+horas);
-		
-		$.ajax({
-			url : '/estadisticas/cambioSistemaJuego/',
-			type : 'post',
-			data : form,
-			processData : false,
-			contentType : false,
-			success : function(data) {
-				$('#modalSistemaJuego').modal("hide");
-				//location.reload();
-				//tablaPrincipal.ajax.reload(null, false);
-			},
-			error : function(data) {
-				$('.error').text('');
-
-				for (i = 0; i < data.responseJSON.length; i++) {
-
-					var campo = data.responseJSON[i].field;
-					$('.' + campo)
-							.text(data.responseJSON[i].defaultMessage);
-				}
-			}
-		});
-	}
-	
-	function realizarSustitucion(data){
-		var form = new FormData();
-		form.append('partidoId', partidoId);
-		form.append('jugadorEnCampo', jugadorEnCampo);
-		form.append('jugadorEnBanquillo', jugadorEnBanquillo);
-		
-		var minutos = parseInt($('#minute').text());
-		var horas = parseInt($('#hour').text())*60;
-		form.append('minutoSustitucion',minutos+horas);
-		
-		$.ajax({
-            url: '/estadisticas/realizarsustitucion',
-            type: 'post',
-            data: form,
-            processData: false,
-            contentType: false,
-            success: function(data){
-
-                   	
-            	tablaJugadores.ajax.reload(null, false);
-            	tablaIntroducirEstadisticas.ajax.reload(null, false);
-            	
-            	removeAllOptionsSelect("#jugadoresEnCampo");
-        		removeAllOptionsSelect("#jugadoresEnBanquillo");
-        		$.ajax({
-        			type : 'GET',
-        			url : '/estadisticas/jugadoresEnCampo/'+partidoId,
-        			success : function(jugadores) {
-        				
-        				$.each(jugadores, function(index,
-        						jugador) {
-        					$('#jugadoresEnCampo').append(
-        							$('<option>', {
-        								value : jugador.split(";")[1],
-        								text : jugador.split(";")[0],
-        								name : "jugadoresEnCampo"
-        							}))
-        				});
-
-        				console.log($("#jugadoresEnCampo option:selected").val());
-        				jugadorEnCampo = $("#jugadoresEnCampo option:selected").val();
-        			}
-        		});
-        		
-			
-            },
-            error: function(data){
-            	
-            	$('.error').text('');
-            	
-            	for (i = 0; i < data.responseJSON.length; i++){
-            		
-            		var campo = data.responseJSON[i].field;
-            		$('.'+campo).text(data.responseJSON[i].defaultMessage);
-            	}
-            }
-        });
-		
-	};
 	
 	
-	$.ajax({
-		type : 'GET',
-		url : '/estadisticas/jugadoresEnCampo/'+partidoId,
-		success : function(jugadores) {
-			
-			$.each(jugadores, function(index,
-					jugador) {
-				$('#jugadoresEnCampo').append(
-						$('<option>', {
-							value : jugador.split(";")[1],
-							text : jugador.split(";")[0],
-							name : "jugadoresEnCampo"
-						}));
-			});
-
-			console.log($("#jugadoresEnCampo option:selected").val());
-			jugadorEnCampo = $("#jugadoresEnCampo option:selected").val();
-		}
-	});
-		
 		var tablaInicioJugadores = null;
 		function tablaInicio(boton) {
 			var partidoId = $('#partidoId').val();
@@ -405,7 +280,7 @@
 																	
 																	var botonEliminarEnLibero = " <button class='btn btn-danger' type='button' onclick='return eliminarLibero(this,"+row['id'] +");' title='selectLibero'><img pr-0 width='23' height='20' src='/resources/images/libero.png'></button>";
 																	var botonAnadirEnLibero = " <button  class='btn btn-primary' type='button' onclick='return seleccionarLibero(this,"+row['id'] +");' title='Asistir'><img width='23' height='20' src='/resources/images/libero.png'></button>";
-																	var botonAnadirEnLiberoDisabled = " <button  class='btn btn-primary' disabled type='button' onclick='return seleccionarLibero(this,"+row['id'] +");' title='Asistir'><img width='17%' src='/resources/images/libero.png'></i></button>";
+																	var botonAnadirEnLiberoDisabled = " <button  class='btn btn-primary' disabled type='button' onclick='return seleccionarLibero(this,"+row['id'] +");' title='Asistir'><img width='23' height='20' src='/resources/images/libero.png'></i></button>";
 																	
 																	if(row.enCampo == true || row.esLibero == true){
 																		if(row["posicionPrincipal"] == "LIBERO" || row["posicionSecundaria"] == "LIBERO"){
