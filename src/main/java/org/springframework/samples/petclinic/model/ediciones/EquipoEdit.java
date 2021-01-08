@@ -1,9 +1,6 @@
 package org.springframework.samples.petclinic.model.ediciones;
 
-import java.util.List;
-
 import org.springframework.samples.petclinic.enumerate.Sistema;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,5 +18,5 @@ public class EquipoEdit {
 	
 	private String liga;
 	
-	
+	private boolean federacion;
 }
