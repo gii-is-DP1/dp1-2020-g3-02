@@ -293,6 +293,25 @@ public class EquipoController {
 		
 	}
 	
+	@GetMapping("/eliminarjugador/{jugadorID}/{equipoID}")
+	public String eliminarJugador(@PathVariable("jugadorID") int jugadorID, @PathVariable("equipoID") int equipoID) {
+		
+		LOG.info("Se procede a eliminar el jugador con id=" + jugadorID + " del equipo con id=" + equipoID);
+		Equipo equipo = equipoService.findById(equipoID).get();
+		List<Jugador> jugadores = equipo.getJugadores();
+		Jugador jugador = jugadorService.findById(jugadorID).get();
+		
+		//Eliminar numero de camiseta
+		numCamisetaService.deleteByJugadorEquipo(jugador, equipo);
+		
+		jugadores.remove(jugador);
+		equipo.setJugadores(jugadores);
+		Equipo team = equipoService.save(equipo);
+		
+		return "redirect:/equipos/showequipo/"+equipoID;
+		
+	}
+	
 	@RequestMapping(value = "findEstadisticasEquipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EquipoStats> graficoEstadisticasEquipo(@PathVariable("id") int id) {
 		try {

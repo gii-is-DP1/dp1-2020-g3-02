@@ -59,9 +59,15 @@ public class NumCamisetaServiceImpl extends AbstractService<NumCamiseta> impleme
 	@Override
 	public void deleteAllInEquipo(Integer equipo_id) {
 		Optional<Equipo> equipo = equipoService.findById(equipo_id);
-		List<NumCamiseta> numeros =numCamisetaRepository.findByEquipo(equipo.get());
+		List<NumCamiseta> numeros = numCamisetaRepository.findByEquipo(equipo.get());
 		numCamisetaRepository.deleteAll(numeros);
 		
+	}
+
+	@Override
+	public void deleteByJugadorEquipo(Jugador jugador, Equipo equipo) {
+		NumCamiseta num = numCamisetaRepository.findByEquipoAndJugador(equipo, jugador);
+		numCamisetaRepository.delete(num);
 	}
 
 }
