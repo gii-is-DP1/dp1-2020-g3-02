@@ -82,7 +82,12 @@ public class EstadisticasController {
 	public ResponseEntity<DataTableResponse<JugadorDTO>> tablaIntroducirEstadisticas(@PathVariable("partidoId") int partidoId) {
 		try {
 			Partido partido = partidoService.findById(partidoId).get();
-			List<Jugador> jugadores = partido.getJugadoresJugando();
+			List<Jugador> jugadores = new ArrayList<Jugador>();
+				jugadores.addAll(partido.getJugadoresJugando());
+			
+			if(partido.getJugadorLibero() != null) {
+				jugadores.add(partido.getJugadorLibero());
+			}
 			
 			List<JugadorDTO> jugadoresDTO = new ArrayList<JugadorDTO>();
 			for(Jugador jugador:jugadores) {
@@ -90,7 +95,11 @@ public class EstadisticasController {
 				jugadorDTO = jugadorConverter.convertParcialJugadorToJugadorDTO(jugador);
 				jugadorDTO = obtenerDatosEstadisticosJugador(jugadorDTO, jugador.getId(), partidoId);
 				jugadorDTO.setNumCamiseta(numCamisetaService.findByEquipoAndJugador(partido.getEquipo().getId(), jugador.getId()).getNumero());
-				
+				if(partido.getJugadorLibero() != null && jugador.equals(partido.getJugadorLibero())) {
+					jugadorDTO.setEsLibero(true);
+				}else {
+					jugadorDTO.setEsLibero(false);
+				}
 				jugadoresDTO.add(jugadorDTO);
 			}
 			
@@ -288,7 +297,7 @@ public class EstadisticasController {
 		try {
 			Partido partido = partidoService.findById(partidoId).get();
 			
-			List<String> jugadores = partido.getJugadores().stream().filter(x->!partido.getJugadoresJugando().contains(x))
+			List<String> jugadores = partido.getJugadores().stream().filter(x->!x.equals(partido.getJugadorLibero())).filter(x->!partido.getJugadoresJugando().contains(x))
 			.map(x->x.getFirstName()+", " +x.getLastName()+ " "
 			+ x.getNumCamisetas().stream().filter(y->y.getEquipo().getId().equals(partido.getEquipo().getId()))
 			.map(z->z.getNumero()).collect(Collectors.toList()).get(0)+";"+x.getId())

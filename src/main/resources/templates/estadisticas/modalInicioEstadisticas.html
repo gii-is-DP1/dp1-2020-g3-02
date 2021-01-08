@@ -403,9 +403,9 @@
 																	var botonAnadirEnPartido = "<button  class='btn btn-success' type='button' onclick='return anadirJugadorJugando(this,"+row['id'] +");' title='Inicial en el campo'><i class='fas fa-user-plus'></i></button>";
 																	var botonAnadirEnPartidoDisabled = "<button  class='btn btn-success' disabled type='button' onclick='return anadirJugadorJugando(this,"+row['id'] +");' title='Inicial en el campo'><i class='fas fa-user-plus'></i></button>";
 																	
-																	var botonEliminarEnLibero = " <button class='btn btn-danger' type='button' onclick='return eliminarLibero(this,"+row['id'] +");' title='selectLibero'><i class='fas fa-shield-alt'></i></button>";
-																	var botonAnadirEnLibero = " <button  class='btn btn-success' type='button' onclick='return seleccionarLibero(this,"+row['id'] +");' title='Asistir'><i class='fas fa-shield-alt'></i></button>";
-																	var botonAnadirEnLiberoDisabled = " <button  class='btn btn-success' disabled type='button' onclick='return seleccionarLibero(this,"+row['id'] +");' title='Asistir'><i class='fas fa-shield-alt'></i></button>";
+																	var botonEliminarEnLibero = " <button class='btn btn-danger' type='button' onclick='return eliminarLibero(this,"+row['id'] +");' title='selectLibero'><img pr-0 width='23' height='20' src='/resources/images/libero.png'></button>";
+																	var botonAnadirEnLibero = " <button  class='btn btn-primary' type='button' onclick='return seleccionarLibero(this,"+row['id'] +");' title='Asistir'><img width='23' height='20' src='/resources/images/libero.png'></button>";
+																	var botonAnadirEnLiberoDisabled = " <button  class='btn btn-primary' disabled type='button' onclick='return seleccionarLibero(this,"+row['id'] +");' title='Asistir'><img width='17%' src='/resources/images/libero.png'></i></button>";
 																	
 																	if(row.enCampo == true || row.esLibero == true){
 																		if(row["posicionPrincipal"] == "LIBERO" || row["posicionSecundaria"] == "LIBERO"){
