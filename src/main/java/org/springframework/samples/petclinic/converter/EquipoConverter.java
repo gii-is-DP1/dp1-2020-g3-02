@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.converter;
 
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.auxiliares.EquipoCategoria;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoTablaEquipos;
 import org.springframework.samples.petclinic.model.estadisticas.EquipoStats;
 import org.springframework.stereotype.Component;
@@ -54,6 +55,10 @@ public class EquipoConverter {
 				equipo.getNumRojas(),
 				equipo.getLiga(),
 				fed);
+	}
+	
+	public EquipoCategoria convertEquipoToEquipoCategoria(Equipo equipo) {
+		return new EquipoCategoria(equipo.getId(),equipo.getCategoria());
 	}
 
 }
