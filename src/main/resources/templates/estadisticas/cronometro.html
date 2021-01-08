@@ -86,18 +86,18 @@ h2 a:hover, h2 a:active, h2 a:focus {
 <div class="contador container-fluid">
 	<div class="times row crono-width">
 		<div class="hour-time time text-center col-md-4">
-			<span id="hour" th:text="${partido.hour}">00</span> <i>hours</i>
+			<span id="hour" th:text="(${partido.hour} < 10)? '0'+${partido.hour}:${partido.hour}">00</span> <i>hours</i>
 		</div>
 		<div class="minute-time time text-center col-md-4">
-			<span id="minute" th:text="${partido.minute}">00</span> <i>minutes</i>
+			<span id="minute" th:text="(${partido.minute} < 10)? '0'+${partido.minute}:${partido.minute}">00</span> <i>minutes</i>
 		</div>
 		<div class="second-time time text-center col-md-4">
-			<span id="second" th:text="${partido.second}">00</span> <i>seconds</i>
+			<span id="second" th:text="(${partido.second} < 10)? '0'+${partido.second}:${partido.second}">00</span> <i>seconds</i>
 		</div>
 	</div>
 	<div class="row crono-width">
 		<div class="start-btn col-md text-center btn-crono">
-			<div class="start"></div>
+			<div class="start">Play</div>
 		</div>
 	</div>
 </div>
@@ -118,20 +118,19 @@ h2 a:hover, h2 a:active, h2 a:focus {
 			function() {
 
 				var tiempo = {
-					hora : 0,
-					minuto : 0,
-					segundo : 0
+					hora : [[${partido.hour}]],
+					minuto : [[${partido.minute}]],
+					segundo : [[${partido.second}]]
 				};
 				
-				//if(!($("#hour").text() != 0 || $("#minute").text() != 0 || $("#second").text() != 0)){
-				//	$(".start").text('Reanudar partido');
-				//}
+				if(!($("#hour").text() != 0 || $("#minute").text() != 0 || $("#second").text() != 0)){
+					$(".start").text('Play');
+				}
 				var running_time = null;
 
 				$(".start").click(
 						function() {
-							if ($(this).text() == 'Comenzar partido'
-									|| $(this).text() == 'Reanudar partido') {
+							if ($(this).text() == 'Play') {
 								$(this).text('Pausa');
 								$(this).parent().addClass('active-btn');
 
