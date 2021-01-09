@@ -9,7 +9,7 @@
 				<h5 class="modal-title" id="eliminacionEquipo"></h5>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
+					<span class="" aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body" id="capitanModal">
@@ -30,12 +30,11 @@
 
 <script>
 	function confirmacionCapitanEquipo() {
-		var id = $('#idEquipo').val();
-		var nombre = $('#jugadores').val();
+		var id = $('#jugadores').val();
 
 		$.ajax({
 			type : 'POST',
-			url : '/equipos/setCapitanEquipo/' + id + nombre,
+			url : '/equipos/setCapitanEquipo/' + id,
 			success : function(data) {
 				$('#capitanEquipoModal').modal("hide");
 				tablaPrincipal.ajax.reload(null, false);
