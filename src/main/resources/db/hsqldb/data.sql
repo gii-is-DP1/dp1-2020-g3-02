@@ -155,7 +155,6 @@ INSERT INTO capitanes(id,ntiemposmuertos,actitud,jugador_id) VALUES (2,10,'POSIT
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (1,'gonlalle2','Gonzalo', 'Lallena Alva', 'gonalleAlva@gmail.com','2000-8-19');
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (2,'user23','Teodoro', 'Sánchez Bermejo', 'teodorocoach@gmail.com','1987-8-19');
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (3,'user24','Mauricio', 'Colmenero Muñoz', 'mastodonquijote@gmail.com','1997-8-19');
-INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (4,'blamaurob','Mauricio', 'Colmenero Muñoz', 'mastodonqusijote@gmail.com','1997-8-19');
 
 -- INSERT  ESTADISTICOS
 INSERT INTO estadisticos(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (1,'gonlalle3','Romualdo', 'Sánchez Bermejo', 'romualdostats@gmail.com','1987-8-19');
@@ -297,6 +296,14 @@ INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_a
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
 	remates_acertados,remates_totales,porcentaje_remates) VALUES (6,'2020-12-08','12:00',5,2,5,20,0.25,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);	
 
+INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates) VALUES (7,'2020-11-06','11:00',5,1,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
+
+INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates) VALUES (8,'2020-11-06','12:00',5,1,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
+		
 
 
 -- INSERT ESTADISITICAS PERSONALES PARTIDO Jugador 1
@@ -513,7 +520,7 @@ INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (3,1);
 
 
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (1,'balon duro','BALONMEDICINAL',3,'INSERVIBLE');
-INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (2,'balon blando','BALONDEJUEGO',9,'ACEPTABLE');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (2,'balon blando','BALONDEJUEGO',10,'ACEPTABLE');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (3,'cuerda','CUERDA',8,'BUENO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (4,'cinta','CINTA',10,'NUEVO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (5,'poste','POSTE',11,'NUEVO');
@@ -526,18 +533,19 @@ INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (11,'cono alto 
 
 	
 
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (1,2,1,1);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (2,2,1,2);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (1,5,1,2);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (3,2,1,3);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (4,1,1,4);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (5,6,1,5);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (6,3,2,1);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (7,4,2,2);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (8,1,2,3);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (9,5,2,4);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (10,2,2,5);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (11,3,1,10);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (12,1,2,11);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (13,5,7,2);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (14,5,8,2);
+
 
 -- INSERT AUTOBUSES
 INSERT INTO autobus(id) VALUES (1);
