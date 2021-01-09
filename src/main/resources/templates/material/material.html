@@ -377,14 +377,20 @@
 															},
 															{ data: 'porcentaje',
 																render: function ( data, type, row ) {
-																																		
+																	
+																								
 																	  if(data>70 ){
 																	    return " <button  class='btn btn-outline-info mx-0 añadir' onclick='return añadir();' type='button' title='añadir'>"+
-																		"Añadir</button>";
+																		"Añadir</button>"+
+																		" <button onclick='return eliminar("+row['tipo'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+																		"<i class='fas fa-trash-alt'></i></button>"
+																		}else{
+																			
+																			return " <button onclick='return eliminar("+row['tipo'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+																			"<i class='fas fa-trash-alt'></i></button>"
 																		}
 																	  
-																	   return " <button onclick='return eliminar("+row['tipo'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
-																		"<i class='fas fa-trash-alt'></i></button>";
+																	  
 																		
 																	  
 																	 

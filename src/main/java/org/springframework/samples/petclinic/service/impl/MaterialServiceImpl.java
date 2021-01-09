@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.service.impl;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -82,31 +84,38 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 		List<Material> materialesDeUnTipo= new ArrayList<>();
 		materialesDeUnTipo.addAll(materialService.findByTipo(material));
 		List<LineaMaterial> lineasdndeseusaelmaterial= new ArrayList<>();
-		int stock=0;
+		int stock=0; //se me guarda el stock total de ese tipo de material en caso de cono alto se guarda un 9
+		int finl=0;
+		int max=0;
+		int usados=0;
+		LocalTime hora=null;
+		
+		
 		for(Material en:materialesDeUnTipo) {
 			if(!(en.getEstado()==EstadoMaterial.DAÑADO) &&!(en.getEstado()==EstadoMaterial.INSERVIBLE)) {
 				stock+=en.getStock();
 			}
-		}
-		int finl=0;
-		int numveces = 0;
-		for(Material materialdelalista:materialesDeUnTipo) {
 
 
-			lineasdndeseusaelmaterial.addAll(lineaMaterialService.findByMaterial(materialdelalista.getId()));
+			lineasdndeseusaelmaterial.addAll(lineaMaterialService.findByMaterial(en.getId()));
 
-			if(materialdelalista.getEstado()==EstadoMaterial.DAÑADO ||materialdelalista.getEstado()==EstadoMaterial.INSERVIBLE || lineasdndeseusaelmaterial.size()==0  ) {
+			if(en.getEstado()==EstadoMaterial.DAÑADO ||en.getEstado()==EstadoMaterial.INSERVIBLE || lineasdndeseusaelmaterial.size()==0  ) {
 				finl+=0;
 			}else {
 
 				for(LineaMaterial linea: lineasdndeseusaelmaterial) {
 
-					numveces+=linea.getCantidad();
+					usados+=linea.getCantidad();
+					if(!(LocalTime.parse(linea.getEntrenamiento().getHora())==hora)) {
+						hora=LocalTime.parse(linea.getEntrenamiento().getHora());
+						max+=stock;
+					}
 
 				}
-				finl=numveces*100/(stock*lineasdndeseusaelmaterial.size());
-			}
+				finl=(usados*100/max);
 
+			}
+			
 		}
 		if(finl>100) {
 			return 100;
