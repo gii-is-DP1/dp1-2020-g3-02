@@ -117,6 +117,7 @@
 		window.location.href = "/equipos/equipoform/?id="+equipoId;
 	}
 	
+
 	function capitan(equipoId){
 		$.ajax({
    			type : 'GET',
@@ -186,11 +187,9 @@
 							 " <button  onclick='return estadisticas("+row['id'] +");' class='btn btn-outline-success mx-0 estadisicas' type='button' title='Estadísicas'>"+
 							 "<i class='fas fa-chart-pie'></i></button>" + 
 							 " <button  onclick='return mostrarModalEditar("+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
-							 "<i class='fas fa-edit'></i></button>" +
-							 " <button onclick='return capitan("+row['id'] +");' class='btn btn-outline-dark capitan' type='button' title='Capitan'>"+
-							 "<i class='fas fa-medal'></i></button>" +
-							 " <button onclick='return eliminar("+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
-							 "<i class='fas fa-trash-alt'></i></button>";
+							 "<i class='fas fa-edit'></i></button>" + 
+							" <button onclick='return eliminar("+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+							"<i class='fas fa-trash-alt'></i></button>" ;
 						 
 					 }else  if($('#security').val() == 'jugador'){
 						 return " <button class='btn btn-outline-success mx-0 detalles' onclick='return detalleEquipo(this,"+row['id'] +");' type='button' title='Detalles'>"+
