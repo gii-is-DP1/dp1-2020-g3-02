@@ -89,7 +89,8 @@
 					<thead>
 						<tr class="table-primary">
 							<th>Propietario</th>
-							<th>Acciones</th>
+							<th sec:authorize="hasAuthority('jugador')">Acciones</th>
+							<th sec:authorize="hasAuthority('entrenador')">Creador del anuncio</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -107,11 +108,16 @@
 								th:value="entrenador">
 								-->
 							<td>
+								
+								<div sec:authorize="hasAuthority('jugador')" th:if="${personal.jugador == jugador}">
 								<form action="#" th:action="@{'/personales/eliminarVehiculo/{id}'(id=${personal.id})}" th:method="delete" >
  								 <input type="hidden" name="_method" value="delete" />
  								 <button type="submit" id="submitButton" class='btn btn-outline-danger'>Eliminar</button>
 								</form>
-
+								</div>
+								
+								<div sec:authorize="hasAuthority('entrenador')" th:text="${personal.jugador.firstName+' '+personal.jugador.LastName}">
+								</div>
 							
 							</td>
 					</tbody>
@@ -122,7 +128,7 @@
 		<div class="row my-3">
 		<div class="col-lg-4"></div>
 			<div class="col-lg-4">
-				<button onclick="location.href='/personales/vehiculoform?id=0'" class="btn btn-primary btn-lg btn-block" type="submit">Añadir
+				<button sec:authorize="hasAuthority('jugador')" onclick="location.href='/personales/vehiculoform?id=0'" class="btn btn-primary btn-lg btn-block" type="submit">Añadir
 					Vehículo</button>
 			</div>
 		<div class="col-lg-4"></div>
