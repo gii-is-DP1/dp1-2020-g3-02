@@ -6,6 +6,7 @@ import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorCAP;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorWithEquipo;
 import org.springframework.samples.petclinic.model.auxiliares.JugadoresInEquipo;
@@ -178,4 +179,9 @@ public class JugadorConverter {
 
         return dataaut;
     }
+    
+    public JugadorCAP convertJugadorToJugadorCAP(Jugador j) {
+    	String nombre = j.getFirstName() + " " + j.getLastName();
+		return new JugadorCAP(j.getId(),nombre);
+	}
 }
