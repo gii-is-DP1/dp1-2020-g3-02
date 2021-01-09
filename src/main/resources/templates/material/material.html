@@ -93,7 +93,6 @@
 					cellspacing="0" style="width: 100%;">
 					<thead>
 						<tr class="table-primary">
-							<th class="invisible"></th>
 							<th>Material</th>
 							<th>NUEVO</th>
 							<th>BUENO</th>
@@ -345,7 +344,6 @@
 													order : [ 1, 'asc' ],
 
 													"columns" : [
-															{data : 'id'},
 															{data : 'tipo'},
 
 															{data : 'estados.NUEVO'},
@@ -423,6 +421,7 @@
 												                "targets": [ 4 ],
 												                "orderable": false,
 												                "searchable": false,
+												                "class": "custom-class" 
 												                
 												            },
 												            {
@@ -435,13 +434,7 @@
 												                "targets": [ 6 ],
 												                "orderable": false,
 												                "searchable": false,
-												                "class": "custom-class" 
 												            },
-												            {
-												                "targets": [ 7 ],
-												                "orderable": false,
-												                "searchable": false
-												            }
 												          
 														  ],
 													responsive : true,
