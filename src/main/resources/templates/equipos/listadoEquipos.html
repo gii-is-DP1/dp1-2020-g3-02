@@ -116,6 +116,21 @@
 		window.location.href = "/equipos/equipoform/?id="+equipoId;
 	}
 	
+	function capitan(equipoId){
+		$.ajax({
+   			type : 'GET',
+   			url : '/equipos/findEquipoEliminar/' + equipoId,
+   			success : function(data) {
+   				console.log(data.tipo);
+            	$('#idEquipo').val(data.id);
+   				
+				$('#eliminacionEquipoModal .modal-header').css("color", "white");
+				$('#eliminacionEquipoModal .modal-title').text("Elegir capitán del quipo " + data.categoria);
+				$('#eliminacionEquipoModal').modal("show");
+   			}
+   		});
+	}
+	
 	function eliminar(equipoId){
 		$.ajax({
    			type : 'GET',
@@ -155,9 +170,11 @@
 							 " <button  onclick='return estadisticas("+row['id'] +");' class='btn btn-outline-success mx-0 estadisicas' type='button' title='Estadísicas'>"+
 							 "<i class='fas fa-chart-pie'></i></button>" + 
 							 " <button  onclick='return mostrarModalEditar("+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
-							 "<i class='fas fa-edit'></i></button>" + 
-							" <button onclick='return eliminar("+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
-							"<i class='fas fa-trash-alt'></i></button>" ;
+							 "<i class='fas fa-edit'></i></button>" +
+							 " <button onclick='return capitan("+row['id'] +");' class='btn btn-outline-danger capitan' type='button' title='Capitan'>"+
+							 "<i class='fas fa-medal'></i></button>" +
+							 " <button onclick='return eliminar("+row['id'] +");' class='btn btn-outline-dark eliminar' type='button' title='Eliminar'>"+
+							 "<i class='fas fa-trash-alt'></i></button>";
 						 
 					 }else  if($('#security').val() == 'jugador'){
 						 return " <button class='btn btn-outline-success mx-0 detalles' onclick='return detalleEquipo(this,"+row['id'] +");' type='button' title='Detalles'>"+
