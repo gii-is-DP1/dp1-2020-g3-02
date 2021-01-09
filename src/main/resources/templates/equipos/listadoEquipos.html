@@ -134,15 +134,13 @@
            			type : 'GET',
            			url : 'getalljugadoresteams/' + equipoId,
            			success : function(edit) {
-           				console.log(edit.tipo);
-                    	$('#idJugador').val(edit.id);
         				$.each(edit, function(index,
         					jugador) {
         					console.log(edit);
         				$('#jugadores').append(
         					$('<option>', {
-        						value : jugador,
-        						text : jugador,
+        						value : jugador.id,
+        						text : jugador.nombre,
         						name : "jugadores"
         					}));
         				});
