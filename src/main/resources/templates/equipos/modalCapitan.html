@@ -1,6 +1,6 @@
 <meta charset="UTF-8" />
 
-<div class="modal fade" id="capitanModal"
+<div class="modal fade" id="capitanEquipoModal"
 	data-backdrop="static" data-keyboard="false" tabindex="-1"
 	aria-labelledby="Confirmar" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
@@ -18,7 +18,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 				<button type="button" class="btn btn-info"
-					onclick="return capitanEquipo();">Aceptar</button>
+					onclick="return confirmacionCapitanEquipo();">Aceptar</button>
 				<input type="hidden" id="idEquipo"
 					name="idEquipo"></input>
 			</div>
@@ -27,14 +27,14 @@
 </div>
 
 <script>
-	function capitanEquipo() {
+	function confirmacionCapitanEquipo() {
 		var id = $('#idEquipo').val();
 
 		$.ajax({
 			type : 'POST',
 			url : '/equipos/eliminarequipo/' + id,
 			success : function(data) {
-				$('#capitanModal').modal("hide");
+				$('#capitanEquipoModal').modal("hide");
 				tablaPrincipal.ajax.reload(null, false);
 			}
 		});

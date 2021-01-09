@@ -124,9 +124,9 @@
    				console.log(data.tipo);
             	$('#idEquipo').val(data.id);
    				
-				$('#eliminacionEquipoModal .modal-header').css("color", "white");
-				$('#eliminacionEquipoModal .modal-title').text("Elegir capitán del quipo " + data.categoria);
-				$('#eliminacionEquipoModal').modal("show");
+				$('#capitanEquipoModal .modal-header').css("color", "white");
+				$('#capitanEquipoModal .modal-title').text("Elegir capitan del equipo " + data.categoria);
+				$('#capitanEquipoModal').modal("show");
    			}
    		});
 	}
@@ -171,9 +171,9 @@
 							 "<i class='fas fa-chart-pie'></i></button>" + 
 							 " <button  onclick='return mostrarModalEditar("+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
 							 "<i class='fas fa-edit'></i></button>" +
-							 " <button onclick='return capitan("+row['id'] +");' class='btn btn-outline-danger capitan' type='button' title='Capitan'>"+
+							 " <button onclick='return capitan("+row['id'] +");' class='btn btn-outline-dark capitan' type='button' title='Capitan'>"+
 							 "<i class='fas fa-medal'></i></button>" +
-							 " <button onclick='return eliminar("+row['id'] +");' class='btn btn-outline-dark eliminar' type='button' title='Eliminar'>"+
+							 " <button onclick='return eliminar("+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
 							 "<i class='fas fa-trash-alt'></i></button>";
 						 
 					 }else  if($('#security').val() == 'jugador'){
