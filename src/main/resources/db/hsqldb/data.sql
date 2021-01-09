@@ -155,6 +155,7 @@ INSERT INTO capitanes(id,ntiemposmuertos,actitud,jugador_id) VALUES (2,10,'POSIT
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (1,'gonlalle2','Gonzalo', 'Lallena Alva', 'gonalleAlva@gmail.com','2000-8-19');
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (2,'user23','Teodoro', 'Sánchez Bermejo', 'teodorocoach@gmail.com','1987-8-19');
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (3,'user24','Mauricio', 'Colmenero Muñoz', 'mastodonquijote@gmail.com','1997-8-19');
+INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (4,'blamaurob','Mauricio', 'Colmenero Muñoz', 'mastodonqusijote@gmail.com','1997-8-19');
 
 -- INSERT  ESTADISTICOS
 INSERT INTO estadisticos(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (1,'gonlalle3','Romualdo', 'Sánchez Bermejo', 'romualdostats@gmail.com','1987-8-19');
