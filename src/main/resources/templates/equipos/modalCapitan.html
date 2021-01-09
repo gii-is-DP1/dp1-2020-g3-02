@@ -12,8 +12,8 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-				<span>El equipo será eliminado. ¿Está seguro?</span>
+			<div class="modal-body" id="capitanModal">
+				
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -29,10 +29,11 @@
 <script>
 	function confirmacionCapitanEquipo() {
 		var id = $('#idEquipo').val();
+		var nombre = $('#jugadores').val();
 
 		$.ajax({
 			type : 'POST',
-			url : '/equipos/eliminarequipo/' + id,
+			url : '/equipos/setCapitanEquipo/' + id + nombre,
 			success : function(data) {
 				$('#capitanEquipoModal').modal("hide");
 				tablaPrincipal.ajax.reload(null, false);
