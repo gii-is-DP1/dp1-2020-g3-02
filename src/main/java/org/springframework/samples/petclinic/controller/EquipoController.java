@@ -33,6 +33,7 @@ import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoCategoria;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoTablaEquipos;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorCAP;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
 import org.springframework.samples.petclinic.model.auxiliares.JugadoresInEquipoSinUser;
 import org.springframework.samples.petclinic.model.ediciones.EquipoEdit;
@@ -425,20 +426,20 @@ public class EquipoController {
 	}
 
 	@RequestMapping(value = "getalljugadoresteams/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<String>> findJugadoresTeam(@PathVariable("id") int id) {
+	public ResponseEntity<List<JugadorCAP>> findJugadoresTeam(@PathVariable("id") int id) {
 		try {
 			Optional<Equipo> equipo = equipoService.findById(id);
 			Equipo team = equipo.get();
 			List<Jugador> players = team.getJugadores();
-			List<String> jugadores = new ArrayList<String>();
+			List<JugadorCAP> jugadores = new ArrayList<JugadorCAP>();
 			for(Jugador player:players) {
-				String nombre = player.getFirstName() + " " + player.getLastName();
-				jugadores.add(nombre);
+				JugadorCAP j = jugadorConverter.convertJugadorToJugadorCAP(player);
+				jugadores.add(j);
 			}
 			
-			return new ResponseEntity<List<String>>(jugadores, HttpStatus.OK);
+			return new ResponseEntity<List<JugadorCAP>>(jugadores, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<JugadorCAP>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
