@@ -237,7 +237,20 @@ public class MaterialController {
 		return "redirect:/materiales/showmateriales";
 
 	}
-
+	@PostMapping("/removeMaterial/{id}")
+	public ResponseEntity removeMaterial(@PathVariable("id") int id, Model model) {
+		try {
+			LOG.info("Se procede a borrar el material con id: " + id);
+			
+			materialService.deleteById(id);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Error al eliminar el material");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
 
 	@GetMapping("/navbar")
 	public String navbar() {

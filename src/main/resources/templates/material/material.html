@@ -93,6 +93,7 @@
 					cellspacing="0" style="width: 100%;">
 					<thead>
 						<tr class="table-primary">
+							<th class="invisible"></th>
 							<th>Material</th>
 							<th>NUEVO</th>
 							<th>BUENO</th>
@@ -110,9 +111,15 @@
 
 				</table>
 			</div>
+			
+				<input id="idJugador" class="idJugador" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="${jugador.id}">
+				<input id="estado" class="idJugador" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="${jugador.estadoActual}">
+				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
+				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="jugador">
+				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('estadistico')" th:value="estadistico">
+		</div>
 		</div>
 		
-	</div>
 <div class="row my-3">
 		<div class="col-lg-4"></div>
 			<div class="col-lg-4">
@@ -245,7 +252,53 @@
 		</div>
 	</div>
 </div>
+<!--  Modal eliminar material -->
+<div class="modal fade" id="confirmacionModal" data-backdrop="static"
+		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
+		aria-hidden="true">
+		<div class="modal-dialog modal-md modal-dialog-centered">
+			<div class="modal-content">
+				<form id="formConfirmacionMaterial" method="post">
+					<div class="modal-header bg-danger">
+						<h5 class="modal-title" id="confirmacionMaterial"></h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<span>¿Cuántos materiales quiere eliminar?</span>
+					</div>
+						<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Estado del material:</label> <select class="form-control"
+									th:id="EstadoNuevo" name="EstadoNuevo">
+									<option th:id="'INSERVIBLE'" th:value="INSERVIBLE">INSERVIBLE</option>
+									<option th:id="'DAÑADO'" th:value="DAÑADO">DAÑADO</option>
+									<option th:id="'ACEPTABLE'" th:value="ACEPTABLE">ACEPTABLE</option>
+									<option th:id="'BUENO'" th:value="BUENO">BUENO</option>
+									<option th:id="'NUEVO'" th:value="NUEVO">NUEVO</option>
+								</select>
+							</div>
 
+							<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Cantidad a retirar:</label><input
+									class="form-control" type="number" placeholder="Cantidad"
+									th:id="cantidad" name="cantidad" min="1" max="300" required></input>
+								<small class="peso text-danger error"></small>
+							</div>
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-info"
+							onclick="return confirmarBorrado($('#confirmacionModal #id').val());">Aceptar</button>
+						<input type="hidden" id="id" name="id"></input>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
 
 	<th:block layout:fragment="scripts">
 		<script src=https://code.jquery.com/jquery-3.5.1.js></script>
@@ -278,9 +331,7 @@
 
 
 		<script>
-		function eliminar(data,materialId){
-			window.location.href = "/materiales/eliminarmaterial/?id="+materialId;
-		}
+		
 			$(document)
 					.ready(
 
@@ -291,9 +342,10 @@
 												{
 													dom: 'ft',
 													ajax : '[[@{/materiales/tablamaterial}]]',
-													order : [ 0, 'asc' ],
+													order : [ 1, 'asc' ],
 
 													"columns" : [
+															{data : 'id'},
 															{data : 'tipo'},
 
 															{data : 'estados.NUEVO'},
@@ -331,8 +383,8 @@
 																		"Añadir</button>";
 																		}
 																	  
-																	   return " <button onclick='return eliminar(this,"+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
-																		"<i class='fas fa-trash-alt'></i></button>" ;
+																	   return " <button onclick='return eliminar("+row['tipo'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+																		"<i class='fas fa-trash-alt'></i></button>";
 																		
 																	  
 																	 
@@ -365,7 +417,7 @@
 												                "targets": [ 4 ],
 												                "orderable": false,
 												                "searchable": false,
-												                "class": "custom-class" 
+												                
 												            },
 												            {
 												                "targets": [ 5 ],
@@ -376,7 +428,8 @@
 												            {
 												                "targets": [ 6 ],
 												                "orderable": false,
-												                "searchable": false
+												                "searchable": false,
+												                "class": "custom-class" 
 												            },
 												            {
 												                "targets": [ 7 ],
@@ -488,6 +541,28 @@
 
 
 		</script>
+		<script type="text/javascript">		
+				
+		
+		function eliminar(id){
+			$('#confirmacionModal #id').val(id);
+			
+			$('.modal-header').css("color", "white");
+			$('.modal-title').text("Eliminar Material");
+			$('#confirmacionModal').modal("show");
+		}
+		
+		function confirmarBorrado(id){
+			$.ajax({
+				type: 'POST',
+				url : '/materiales/removeMaterial/'+id,
+				success : function(){
+					tablaMaterial.ajax.reload(null, false);
+					$('#confirmacionModal').modal("hide");
+				}
+			});
+		}
+	</script>
 		<script type="text/javascript">
 			w3IncludeHTML();
 		</script>
