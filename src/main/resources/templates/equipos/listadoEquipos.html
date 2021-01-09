@@ -100,6 +100,7 @@
 	<div th:replace="equipos/modalEstadisticas"></div>
 	<div th:replace="equipos/modalNuevoEquipo"></div>
 	<div th:replace="equipos/modalEditarEquipo"></div>
+	<div th:replace="equipos/modalCapitan"></div>
 	<div th:replace="equipos/modalEliminacionEquipo"></div>
 	
 	
@@ -119,11 +120,26 @@
 	function capitan(equipoId){
 		$.ajax({
    			type : 'GET',
-   			url : '/equipos/findEquipoEliminar/' + equipoId,
+   			url : 'getalljugadoresteams/' + equipoId,
    			success : function(data) {
    				console.log(data.tipo);
             	$('#idEquipo').val(data.id);
    				
+            	$('#capitanModal')
+				.prepend(
+						'<div class="form-group col-12 only"><label>Jugadores:</label><select class="form-control" id="jugadores" name="jugadores"></select></div>');
+
+				$.each(data, function(index,
+					jugador) {
+					console.log(data);
+				$('#jugadores').append(
+					$('<option>', {
+						value : jugador,
+						text : jugador,
+						name : "jugadores"
+					}));
+				});
+
 				$('#capitanEquipoModal .modal-header').css("color", "white");
 				$('#capitanEquipoModal .modal-title').text("Elegir capitan del equipo " + data.categoria);
 				$('#capitanEquipoModal').modal("show");

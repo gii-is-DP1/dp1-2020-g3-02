@@ -424,4 +424,40 @@ public class EquipoController {
 		}	
 	}
 
+	@RequestMapping(value = "getalljugadoresteams/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> findJugadoresTeam(@PathVariable("id") int id) {
+		try {
+			Optional<Equipo> equipo = equipoService.findById(id);
+			Equipo team = equipo.get();
+			List<Jugador> players = team.getJugadores();
+			List<String> jugadores = new ArrayList<String>();
+			for(Jugador player:players) {
+				String nombre = player.getFirstName() + " " + player.getLastName();
+				jugadores.add(nombre);
+			}
+			
+			return new ResponseEntity<List<String>>(jugadores, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@RequestMapping(value = "setCapitanEquipo/{id}/{nombre}%20{apellidos}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> setCapitanEquipo(@PathVariable("id") int id, @PathVariable("nombre") String first_name, @PathVariable("apellidos") String last_name) {
+		try {
+			Optional<Equipo> equipo = equipoService.findById(id);
+			Equipo team = equipo.get();
+			List<Jugador> players = team.getJugadores();
+			List<String> jugadores = new ArrayList<String>();
+			for(Jugador player:players) {
+				String nombre = player.getFirstName() + " " + player.getLastName();
+				jugadores.add(nombre);
+			}
+			
+			return new ResponseEntity<List<String>>(jugadores, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
 }
