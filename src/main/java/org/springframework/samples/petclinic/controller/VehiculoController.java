@@ -7,14 +7,16 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Personales;
+import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.samples.petclinic.service.ViajeService;
 import org.springframework.samples.petclinic.service.impl.AuthoritiesService;
+import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,14 +39,27 @@ public class VehiculoController {
 	private PersonalesService personalService;
 	
 	@Autowired
+	private JugadorService jugadorService;
+	
+	@Autowired
 	private AuthoritiesService authoritiesService;
+	
+	@Autowired
+	private UserService userService;
+	
 	
 	private static final Log LOG = LogFactory.getLog(VehiculoController.class);
 	
 	@GetMapping("/showvehiculos")
-	public ModelAndView listadoVehiculos() {
-		
+	public ModelAndView listadoVehiculos(HttpServletRequest request) {
+		String username = request.getUserPrincipal().getName();
+		boolean autoridad = authoritiesService.hasAuthority("jugador", username);
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_VEHICULO);
+		if(autoridad == true) {
+			Jugador jugador=jugadorService.findByUser(userService.findByUsername(username));
+			mav.addObject("jugador", jugador);
+		}
+		
 		mav.addObject("personales", personalService.findAll());
 		return mav;
 	}
@@ -70,8 +85,9 @@ public class VehiculoController {
 			Model model, HttpServletRequest request) {
 		LOG.info("addvehiculo() -- PARAMETROS: "+ personal);
 		
-			ValidationUtils.invokeValidator(personalValidator, personal, bindResult);
-			
+			String username = request.getUserPrincipal().getName();
+			Jugador jugador=jugadorService.findByUser(userService.findByUsername(username));
+			personal.setJugador(jugador);
 			
 			if (bindResult.hasErrors()) {
 				model.addAttribute("personal", personal);
@@ -87,21 +103,6 @@ public class VehiculoController {
 		return "redirect:/personales/showvehiculos";
 		
 	}
-
-	/*@RequestMapping(value = "eliminarVehiculo/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<List<ObjectError>> eliminarVehiculo(@PathVariable("id") Integer id) {
-		try {
-			LOG.info("Se procede a borrar el vehiculo con id: " + id);
-			
-			personalService.deleteById(id);
-			
-			return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
-		} catch (Exception e) {
-			LOG.error("Error al eliminar el vehiculo");
-			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
-		}
-		
-	}*/
 	
 	@PostMapping("/eliminarVehiculo/{id}")
     public String eliminarVehiculo(@PathVariable Integer id){
