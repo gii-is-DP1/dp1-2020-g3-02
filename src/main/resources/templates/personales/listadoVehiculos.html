@@ -107,10 +107,11 @@
 								th:value="entrenador">
 								-->
 							<td>
-							<a href="#"
-								th:href="@{/personales/eliminarvehiculo?id=__${personal.id}__}">
-								<button class="btn btn-outline-danger btn-sm" type="button">Eliminar</button>
-								</a>
+								<form action="#" th:action="@{'/personales/eliminarVehiculo/{id}'(id=${personal.id})}" th:method="delete" >
+ 								 <input type="hidden" name="_method" value="delete" />
+ 								 <button type="submit" id="submitButton" class='btn btn-outline-danger'>Eliminar</button>
+								</form>
+
 							
 							</td>
 					</tbody>
@@ -140,6 +141,11 @@
 
 	<script type="text/javascript">
 		w3IncludeHTML();
+	</script>
+	
+	<script type="text/javascript">
+	
+	
 	</script>
 </body>
 </html>

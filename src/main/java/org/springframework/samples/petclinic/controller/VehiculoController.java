@@ -9,6 +9,7 @@ import org.springframework.samples.petclinic.component.PersonalesValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.service.PersonalesService;
+import org.springframework.samples.petclinic.service.ViajeService;
 import org.springframework.samples.petclinic.service.impl.AuthoritiesService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class VehiculoController {
 	@Autowired
 	private PersonalesValidator personalValidator;
+	
+	@Autowired
+	private ViajeService viajeService;
 	
 	@Autowired
 	private PersonalesService personalService;
@@ -83,16 +88,27 @@ public class VehiculoController {
 		
 	}
 
-	@GetMapping("/eliminarvehiculo")
-	public String eliminarVehiculo(@RequestParam(name="id",required=true) int id) {
+	/*@RequestMapping(value = "eliminarVehiculo/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<List<ObjectError>> eliminarVehiculo(@PathVariable("id") Integer id) {
+		try {
+			LOG.info("Se procede a borrar el vehiculo con id: " + id);
+			
+			personalService.deleteById(id);
+			
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Error al eliminar el vehiculo");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}
 		
-		LOG.info("Se procede a la eliminación del vehículo con id: " + id);
-		personalService.deleteByIdSiExiste(id);
-		
-		return "redirect:/personales/showvehiculos";
-		
-	}
+	}*/
 	
+	@PostMapping("/eliminarVehiculo/{id}")
+    public String eliminarVehiculo(@PathVariable Integer id){
+		viajeService.deleteAll(viajeService.findByPersonal(personalService.findById(id).get()));
+		personalService.deleteById(id);
+		return "redirect:/personales/showvehiculos";
+    }
 	
 	@GetMapping("/navbar")
 	public String navbar() {
