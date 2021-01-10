@@ -6,9 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.service.SustitucionService;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class SustitucionValidator implements Validator {
 	
 	private static final Log LOG = LogFactory.getLog(SustitucionValidator.class);
@@ -27,17 +34,17 @@ public class SustitucionValidator implements Validator {
 		
 		if (sustitucion.getJugadorEntra() == null) {
 			LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": jugadorEntra");
-			errors.rejectValue("jugadorSustitucion", "error",ValidationConstant.VALOR_OBLIGATORIO);
+			errors.rejectValue("jugadorEntra", "error",ValidationConstant.VALOR_OBLIGATORIO);
 		}
 		
 		if (sustitucion.getJugadorSale() == null) {
 			LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": jugadorSale");
-			errors.rejectValue("jugadorSustitucion", "error",ValidationConstant.VALOR_OBLIGATORIO);
+			errors.rejectValue("jugadorSale", "error",ValidationConstant.VALOR_OBLIGATORIO);
 		}
 		
 		if (sustitucion.getPartido() == null) {
 			LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": partido");
-			errors.rejectValue("partidoSustitucion", "error",ValidationConstant.VALOR_OBLIGATORIO);
+			errors.rejectValue("partido", "error",ValidationConstant.VALOR_OBLIGATORIO);
 		}
 	}
 	

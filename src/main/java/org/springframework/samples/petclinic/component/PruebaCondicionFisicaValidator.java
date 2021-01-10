@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.component;
 
 import java.time.LocalDate;
 
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,12 @@ import org.springframework.samples.petclinic.service.PruebaCondicionFisicaServic
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class PruebaCondicionFisicaValidator implements Validator {
 	
 	private static final Log LOG = LogFactory.getLog(PruebaCondicionFisicaValidator.class);
@@ -34,38 +39,30 @@ public class PruebaCondicionFisicaValidator implements Validator {
 			errors.rejectValue("fecha", "error", ValidationConstant.FECHA_ANTERIOR_ERROR);
 		}
 		//Dato
+		//StringUtils.isEmpty(target)
 		if (pruebaCondicionFisica.getDato() == null || pruebaCondicionFisica.getDato() <= 0) {
 			LOG.warn(ValidationConstant.DATO_PRUEBA_ERROR);
 			errors.rejectValue("dato", "error", ValidationConstant.DATO_PRUEBA_ERROR);
-		}
-		
-		if(pruebaCondicionFisica.getTipoPrueba().equals(TipoPrueba.ABDOMINAL) && pruebaCondicionFisica.getDato() != Math.floor(pruebaCondicionFisica.getDato())) {
+			
+		}else if(pruebaCondicionFisica.getTipoPrueba().equals(TipoPrueba.ABDOMINAL) && pruebaCondicionFisica.getDato() != Math.floor(pruebaCondicionFisica.getDato())) {
 			LOG.warn(ValidationConstant.VALOR_NUMERICO_ENTERO_ERROR + ": abdominal");
 			errors.rejectValue("dato", "error", ValidationConstant.VALOR_NUMERICO_ENTERO_ERROR);
-		}
-		
-		if(pruebaCondicionFisica.getTipoPrueba().equals(TipoPrueba.PULSACIONESMINIMAS) && 
+			
+		}else if(pruebaCondicionFisica.getTipoPrueba().equals(TipoPrueba.PULSACIONESMINIMAS) && 
 				(pruebaCondicionFisica.getDato() != Math.floor(pruebaCondicionFisica.getDato()) ||  pruebaCondicionFisica.getDato() <=30 
 				|| pruebaCondicionFisica.getDato() >=200)) {
 			LOG.warn(ValidationConstant.PULSACIONES_ERROR);
 			errors.rejectValue("dato", "error", ValidationConstant.PULSACIONES_ERROR);
-		}
-		
-		if(pruebaCondicionFisica.getTipoPrueba().equals(TipoPrueba.FLEXIBILIDAD) && pruebaCondicionFisica.getDato() >=50) {
+			
+		}else if(pruebaCondicionFisica.getTipoPrueba().equals(TipoPrueba.FLEXIBILIDAD) && pruebaCondicionFisica.getDato() >=50) {
 			LOG.warn(ValidationConstant.FLEXIBILIDAD_ERROR);
 			errors.rejectValue("dato", "error", ValidationConstant.FLEXIBILIDAD_ERROR);
-		}
-		
-		if(pruebaCondicionFisica.getTipoPrueba().equals(TipoPrueba.SALTOVERTICAL) && pruebaCondicionFisica.getDato() < pruebaCondicionFisica.getJugador().getAltura()) {
+			
+		}else if(pruebaCondicionFisica.getTipoPrueba().equals(TipoPrueba.SALTOVERTICAL) && pruebaCondicionFisica.getDato() < pruebaCondicionFisica.getJugador().getAltura()) {
 			LOG.warn(ValidationConstant.SALTOVERTICAL_ERROR);
 			errors.rejectValue("dato", "error", ValidationConstant.SALTOVERTICAL_ERROR);
 		}
 		
-		//Tipo de prueba
-		if ( pruebaCondicionFisica.getTipoPrueba().toString().length() > 30) {
-			LOG.warn(ValidationConstant.TIPOPRUEBA_ERROR);
-			errors.rejectValue("tipo_prueba", "error",ValidationConstant.TIPOPRUEBA_ERROR);
-		}
 	}
 	
 	@Override
