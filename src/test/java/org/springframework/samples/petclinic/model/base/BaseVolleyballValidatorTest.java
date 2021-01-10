@@ -16,6 +16,7 @@ import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
+import org.springframework.samples.petclinic.model.RealizaEjercicio;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.service.CapitanService;
 import org.springframework.samples.petclinic.service.EjercicioIndividualService;
@@ -28,6 +29,7 @@ import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
+import org.springframework.samples.petclinic.service.RealizaEjercicioService;
 import org.springframework.samples.petclinic.service.SustitucionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,6 +78,9 @@ public class BaseVolleyballValidatorTest {
 	
 	@Autowired
 	protected SustitucionService sustitucionService;
+	
+	@Autowired
+	protected RealizaEjercicioService realizaEjercicioService; 
 	
 	/**
 	 * Crea un capitan con todos sus campos rellenos con un valor válido
@@ -219,6 +224,18 @@ public class BaseVolleyballValidatorTest {
 		Integer id = 1;
 		Optional<Sustitucion> sustitucion = sustitucionService.findById(id);
 		return sustitucion.get();
+	}
+	
+	/**
+	 * Crea una realiza ejercicio con todos sus campos rellenos con un valor válido
+	 * 
+	 * @return Sustitucion
+	 */
+	@Transactional(readOnly = true)
+	protected RealizaEjercicio getRealizaEjercicioCorrecto() {
+		Integer id = 1;
+		Optional<RealizaEjercicio> realizaEjericio = realizaEjercicioService.findById(id);
+		return realizaEjericio.get();
 	}
 	
 	/**
