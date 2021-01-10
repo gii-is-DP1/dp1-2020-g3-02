@@ -234,4 +234,14 @@ public class BaseVolleyballValidatorTest {
 		return "Field error in object '' on field '" + field + "': rejected value [" + value + "]; codes [error." + field + ",error.java.lang." + type + ",error]; arguments []; default message [" + mensaje +"]";
 	}
 	
+	protected String buildCadenaError(String type, String field, String value, String mensaje, boolean isModel, String paquete) {
+		if(!isModel) {
+			return "Field error in object '' on field '" + field + "': rejected value [" + value + "]; codes [error." + field + ",error.java.lang." + type + ",error]; arguments []; default message [" + mensaje +"]";	
+		}else if(paquete == ""){
+			return "Field error in object '' on field '" + field + "': rejected value [" + value + "]; codes [error." + field + ",error.org.springframework.samples.petclinic.model."+ type + ",error]; arguments []; default message [" + mensaje +"]";
+		}else {
+			return "Field error in object '' on field '" + field + "': rejected value [" + value + "]; codes [error." + field + ",error.org.springframework.samples.petclinic.model."+paquete+"."+ type + ",error]; arguments []; default message [" + mensaje +"]";
+		}
+	}
+	
 }
