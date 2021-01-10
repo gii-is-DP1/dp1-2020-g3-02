@@ -37,7 +37,7 @@ public class CapitanValidator implements Validator{
 		}
 
 		//Actitud Validation
-		if ( capitan.getActitud().toString().length() > 255) {
+		if (capitan.getActitud() == null || capitan.getActitud().toString().length() > 255) {
 			LOG.warn(ValidationConstant.VALOR_ERROR_ENUM + ": actitud");
 			errors.rejectValue("actitud", "error",ValidationConstant.VALOR_ERROR_ENUM);
 		}
