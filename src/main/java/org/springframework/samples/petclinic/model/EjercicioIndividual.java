@@ -10,7 +10,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
@@ -36,8 +35,8 @@ public class EjercicioIndividual extends BaseEntity {
 	@Column(name = "nombre", nullable = false)
 	private String nombre;
 	
-	@Column(name = "descripcion", nullable = false)
-	private String descripcion;
+	@Column(name = "descripcion", nullable = false, columnDefinition = "varchar(10000)")
+	private String descripcion; 
 	
 	@Column(name = "tipo_ejercicio", nullable = false)
 	private TipoEjercicio tipoEjercicio;
