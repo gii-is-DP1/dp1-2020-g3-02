@@ -355,6 +355,53 @@ public class EquipoController {
 		}	
 	}
 	
+	@RequestMapping(value = "updateequipo", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> updateEquipo(HttpServletRequest request, @ModelAttribute(name="equipo") Equipo equipoAux, BindingResult result) {
+		try {
+			
+			int id = Integer.parseInt(request.getParameter("id"));
+			
+			LOG.info("Buscamos el equipo con id=" + id);
+			Equipo equipo = equipoService.findById(id).get();
+			
+			equipoAux.setNumAmarillas(equipo.getNumAmarillas());
+			equipoAux.setNumRojas(equipo.getNumRojas());
+			
+			ValidationUtils.invokeValidator(equipoValidator, equipoAux, result);
+			
+			//equipoEdit edit = equipoConverter.convertequipoToequipoEdit(equipo);
+			
+			if (result.hasErrors()) {
+				LOG.warn("Se han obtenido " + result.getErrorCount() + " errores de validación");
+				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+				return re;
+			}
+			
+			equipo = seleccionarAtributosEquipo(equipo, request);
+			
+			LOG.info("Se procede a actualizar el equipo");
+			Equipo team = equipoService.updateEquipo(equipo);
+			LOG.info("Se ha actualizado el equipo con éxito: " + team);
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
+		} catch(Exception e) {
+			LOG.error("No se ha podido guardar el equipo");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	private Equipo seleccionarAtributosEquipo(Equipo equipo, HttpServletRequest request) {
+		equipo.setCategoria(request.getParameter("categoria").trim());
+		equipo.setSistemaJuego(Sistema.valueOf(request.getParameter("sistemajuego").trim()));
+		equipo.setLiga(request.getParameter("liga").trim());
+		if(request.getParameter("federado")!=null) {
+			equipo.setFederacion(true);
+		}else if(request.getParameter("noFederado")!=null) {
+			equipo.setFederacion(false);
+		}
+		return equipo;
+	}
+	
 	@RequestMapping(value = "/postequipo", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> addEquipo(HttpServletRequest request, @ModelAttribute(name="equipo") EquipoEdit equipoEdit, BindingResult result) {
 		try {

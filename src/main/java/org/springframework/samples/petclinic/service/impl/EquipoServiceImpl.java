@@ -100,4 +100,22 @@ public class EquipoServiceImpl extends AbstractEstadisticasService<Equipo> imple
 		
 	}
 
+	@Override
+	public Equipo updateEquipo(Equipo team) {
+		// TODO Auto-generated method stub
+		/** CÁLCULO DE PORCENTAJE SIEMPRE QUE SE ACTUALIZA UN EQUIPO */
+		if(team.getSaquesTotales() > 0) team.setPorcentajeSaques(1.*team.getSaquesAcertados()/team.getSaquesTotales());
+		if(team.getRecepcionesTotales() > 0) team.setPorcentajeRecepciones(1.*team.getRecepcionesAcertadas()/team.getRecepcionesTotales());
+		if(team.getColocacionesTotales() > 0) team.setPorcentajeColocaciones(1.*team.getColocacionesAcertadas()/team.getColocacionesTotales());
+		if(team.getDefensasTotales() > 0) team.setPorcentajeDefensas(1.*team.getDefensasAcertadas()/team.getDefensasTotales());
+		if(team.getBloqueosTotales() > 0) team.setPorcentajeBloqueos(1.*team.getBloqueosAcertados()/team.getBloqueosTotales());
+		if(team.getRematesTotales() > 0) team.setPorcentajeRemates(1.*team.getRematesAcertados()/team.getRematesTotales());
+		if(team.getFintasTotales() > 0) team.setPorcentajeFintas(1.*team.getFintasAcertadas()/team.getFintasTotales());
+		if(team.getNumAtaquesRapidosTotales() > 0) team.setPorcentajeAtaquesRapidos(1.*team.getNumAtaquesRapidosAcertados()/team.getNumAtaquesRapidosTotales());
+		
+		Equipo equipo=equipoRepository.save(team);
+		
+		return equipo;
+	}
+
 }

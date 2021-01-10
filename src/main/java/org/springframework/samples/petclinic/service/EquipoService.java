@@ -13,5 +13,6 @@ public interface EquipoService extends BaseEstadisticasService<Equipo>{
 	public abstract List<Equipo> findByCategoriaStartingWith(String category);
 	public abstract List<Equipo> findByLiga(String league);
 	public abstract List<Jugador> findJugadoresNoEquipo(int id);
+	public abstract Equipo updateEquipo(Equipo team);
 
 }

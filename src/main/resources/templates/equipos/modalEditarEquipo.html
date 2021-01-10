@@ -14,7 +14,7 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<div class="form-group" id="modalFormEditarEquipo">
+						<div class="form-group" id="formEditarEquipo">
 							<div class="form-group col-12">
 								<label><span class="text-danger">(*) </span>Categoría:</label> <input
 									class="form-control" type="text" placeholder="Categoría" id="categoria"
@@ -51,6 +51,8 @@
   								<input type="radio" id="noFederado" name="federacion" value="no">
   								<label for="noFederado">No federado</label><br>
   							</div>
+  							
+  							<input type="hidden" th:id="id" name="id"></input>
 							
 						</div>
 					</div>
@@ -60,7 +62,6 @@
 							data-dismiss="modal">Cerrar</button>
 						<button type="button" class="btn btn-info"
 							onclick="return enviarEdicion();">Aceptar</button>
-						<input type="hidden" id="id" name="id"></input>
 					</div>
 				</form>
 			</div>
@@ -69,12 +70,38 @@
 	
 <script>
 
+function enviarEdicion(){
+	var form = new FormData(document.getElementById('formEditarEquipo'));
+	$.ajax({
+        url: '/equipos/updateequipo',
+        type: 'post',
+        data: form,
+        processData: false,
+        contentType: false,
+        success: function(data){
+        	$('#editarEquipoModal').modal("hide");
+        	location.reload();
+        },
+        error: function(data){
+        	
+        	$('.error').text('');
+        	
+        	for (i = 0; i < data.responseJSON.length; i++){
+        		
+        		var campo = data.responseJSON[i].field;
+        		$('.'+campo).text(data.responseJSON[i].defaultMessage);
+        	}
+        }
+    });
+};
+
 function mostrarModalEditar(id){
 	
 	$.ajax({
 		type: 'GET',
 		url: '/equipos/findeditequipo/'+id,
 		success: function(edit){
+			$('#editarEquipoModal #id').val(id);
 			$('#editarEquipoModal #categoria').val(edit.categoria);
 			$('#editarEquipoModal #sistemajuego').val(edit.sistemaJuego);
 			$('#editarEquipoModal #liga').val(edit.liga);
