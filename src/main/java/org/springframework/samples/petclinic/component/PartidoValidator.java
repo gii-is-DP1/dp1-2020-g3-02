@@ -19,7 +19,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 @Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class PartidoValidator implements Validator{
 	
 	private static final Log LOG = LogFactory.getLog(PartidoValidator.class);
@@ -58,7 +63,7 @@ public class PartidoValidator implements Validator{
 				errors.rejectValue("hora", "error", ValidationConstant.VALOR_OBLIGATORIO);
 			} else if(!Pattern.matches("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$", partido.getHora())) {
 				LOG.warn(ValidationConstant.HORA_FORMATO_ERRONEO);
-				errors.rejectValue("hora", "error", ValidationConstant.HORA_FORMATO_ERRONEO);			
+				errors.rejectValue("hora", "error", ValidationConstant.HORA_FORMATO_ERRONEO);
 			} else {
 				LocalDate date = LocalDate.parse(partido.getFecha(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 				String horaAnterior = horaMasMenosNHoras(partido.getHora(), -2);
