@@ -32,7 +32,7 @@ public class PersonalesValidatorTest extends BaseVolleyballValidatorTest{
 		// Campo con el valor a validar y mensaje de validación
 		String type = "String";
 		String field = "propietario";
-		String value = "rgv";
+		String value = "rg";
 		String mensaje = ValidationConstant.PROPIETARIO_ERROR;
 
 		// Modificación del campo
