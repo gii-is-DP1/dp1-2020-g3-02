@@ -231,7 +231,9 @@
 			}
 		});
 		
-		tablaJugadores.ajax.reload(null, false);
+		if(tablaJugadores != null){
+    		tablaJugadores.ajax.reload(null, false);
+    	}
 	}
 	
 	function realizarSustitucion(data){
@@ -262,7 +264,7 @@
 					$('.modal-title-asistencia').text("Cambio de sistema de juego");
             		$('#modalSistemaJuego').modal("show");
             	}
-                   	
+                
             	tablaJugadores.ajax.reload(null, false);
             	tablaIntroducirEstadisticas.ajax.reload(null, false);
             	
