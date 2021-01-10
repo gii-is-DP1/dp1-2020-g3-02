@@ -1,10 +1,13 @@
 package org.springframework.samples.petclinic.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -21,6 +24,7 @@ import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.enumerate.Sistema;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
+import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.SistemaJuego;
@@ -29,11 +33,13 @@ import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
+import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.SistemaJuegoService;
 import org.springframework.samples.petclinic.service.SustitucionService;
+import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
@@ -46,6 +52,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @RequestMapping("/estadisticas")
 public class EstadisticasController {
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	private JugadorConverter jugadorConverter;
@@ -70,6 +79,9 @@ public class EstadisticasController {
 	
 	@Autowired
 	private EstadisticaPersonalPartidoService estadisticaPersonalPartidoService;
+	
+	@Autowired
+	private EstadisticoService estadisticoService;
 	
 	private static final Log LOG = LogFactory.getLog(EstadisticasController.class);
 	
@@ -135,17 +147,31 @@ public class EstadisticasController {
 	@RequestMapping(value = "saveComandos/{partidoId}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> saveComandos(HttpServletRequest request, @PathVariable("partidoId") int partidoId) {
 		try {
+			Principal principal = request.getUserPrincipal();
+			Estadistico estadistico = estadisticoService.findByUser(userService.findByUsername(principal.getName()));
+			
 			Partido partido = partidoService.findById(partidoId).get();
-			List<Jugador> jugadores = partido.getJugadores();
+			List<Jugador> jugadores = new ArrayList<Jugador>(partido.getJugadoresJugando());
+			Jugador libero = partido.getJugadorLibero();
+			
+			if(libero != null) {
+				jugadores.add(libero);
+			}
 					
 			Map<Integer, EstadisticaPersonalPartido> estadisticasMap = new HashMap<Integer, EstadisticaPersonalPartido>();
+			Map<Integer, Integer> camisetaIdJugador = new HashMap<Integer, Integer>();
+			Set<Integer> dorsales = new HashSet<Integer>();
 			for(Jugador jugador:jugadores) {
 				EstadisticaPersonalPartido estadistica =  new EstadisticaPersonalPartido();
+				Integer numCamiseta = numCamisetaService.findByEquipoAndJugador(partido.getEquipo().getId(), jugador.getId()).getNumero();
+				
+				dorsales.add(numCamiseta);
+				camisetaIdJugador.put(numCamiseta, jugador.getId());
 				
 				EstadisticaPersonalPartido stat = estadisticaPersonalPartidoService.findByJugadorAndPartido(jugador.getId(), partidoId);
 				if(stat != null) {
 					BeanUtils.copyProperties(stat, estadistica);
-					estadisticasMap.put(numCamisetaService.findByEquipoAndJugador(partido.getEquipo().getId(), jugador.getId()).getNumero(), estadistica);
+					estadisticasMap.put(numCamiseta, estadistica);
 				}
 			}
 			
@@ -154,49 +180,57 @@ public class EstadisticasController {
 			
 			String[] dataActions = data.split(";");
 			
+			Set<Integer> dorsalesEditSet = new HashSet<Integer>();
 			for(int i=0;i<dataActions.length;i++) {
 				boolean correccion = dataActions[i].startsWith("%");
 				
 				if(!correccion) {
 					String[] dataActionsParts = dataActions[i].split(",");
-					if(dataActionsParts.length < 3 || dataActionsParts.length > 3) {
-						error += "Comas(,) en posición " + (i+1);
-						error += "; ";
-					} else {
-						String dorsal = dataActionsParts[0];
+					error = gestionErroresComandos(error, dataActions, i, dorsales, correccion);
+					if(error.equals("Errores de Sintaxis: ")) {
+						Integer dorsal = Integer.valueOf(dataActionsParts[0]);
 						String accion = dataActionsParts[1];
 						String acierto = dataActionsParts[2];
 						
-						//Elemento 1
-						if(!Pattern.matches("^[0-9]+", dorsal)) {
-							error += "Dorsal no números en posición " + (i+1);
-							error += "; ";
-						} else if(!true) {
-							error += "Dorsal no en juego en posición " + (i+1);
-							error += "; ";
-						}
+						dorsalesEditSet.add(dorsal);
 						
-						//Elemento 2
-						if(!accion.equalsIgnoreCase("s") && !accion.equalsIgnoreCase("r") && !accion.equalsIgnoreCase("c") && !accion.equalsIgnoreCase("d") && !accion.equalsIgnoreCase("b") && !accion.equalsIgnoreCase("a") && !accion.equalsIgnoreCase("f") && !accion.equalsIgnoreCase("ar")) {
-							error += "Acción incorrecta en posición " + (i+1);
-							error += "; ";
-						}
-						
-						//Elemento 3
-						if(acierto.length() != 1 && (!acierto.equals("+") && !acierto.equals("-"))) {
-							error += "+/- incorrecto en posición " + (i+1);
-							error += "; ";
+						if(estadisticasMap.containsKey(dorsal)) {
+							EstadisticaPersonalPartido estadistica = estadisticasMap.get(dorsal);
+							
+							estadistica = setEstadisticaCorrecta(estadistica, accion, acierto, correccion);
+							
+							estadisticasMap.put(dorsal, estadistica);
+						} else {
+							EstadisticaPersonalPartido estadistica =  new EstadisticaPersonalPartido();
+							
+							estadistica = setEstadisticaCorrecta(estadistica, accion, acierto, correccion);
+							
+							estadisticasMap.put(dorsal, estadistica);
 						}
 					}
 				} else {
 					dataActions[i].replace("%", "");
+					error = gestionErroresComandos(error, dataActions, i, dorsales, correccion);
 				}
 			}
 			
-			if(!error.equals("")) {
+			if(!error.equals("Errores de Sintaxis: ")) {
 				LOG.info(data);
 				LOG.warn(error);
 				return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			}
+			
+			List<Integer> dorsalesEdit = new ArrayList<Integer>(dorsalesEditSet);
+			for(Integer dorsal:dorsalesEdit) {
+				EstadisticaPersonalPartido estadistica = estadisticasMap.get(dorsal);
+				Jugador jugador = jugadorService.findById(camisetaIdJugador.get(dorsal)).get();
+				
+				estadistica.setJugador(jugador);
+				estadistica.setEstadistico(estadistico);
+				estadistica.setPartido(partido);
+				
+				EstadisticaPersonalPartido estadisticaSave = estadisticaPersonalPartidoService.save(estadistica);
+				LOG.info("Estadística guardada con éxito: " + estadisticaSave.getId());
 			}
 			
 			return new ResponseEntity<String>(HttpStatus.OK);
@@ -714,6 +748,142 @@ public class EstadisticasController {
 		}
 		
 		return jugadorDTO;
+	}
+	
+	// Gestionar los errores cometidos en la sintaxis de los comandos introducidos
+	private String gestionErroresComandos(String error, String[] dataActions, int i, Set<Integer> dorsales, boolean correccion) {
+		String[] dataActionsParts = dataActions[i].split(",");
+		if(dataActionsParts.length < 3 || dataActionsParts.length > 3) {
+			error += "Comas(,) en posición " + (i+1);
+			error += "; ";
+		} else {
+			String dorsal = dataActionsParts[0];
+			String accion = dataActionsParts[1];
+			String acierto = dataActionsParts[2];
+			
+			//Elemento 1
+			if(!Pattern.matches("^[0-9]+", dorsal)) {
+				error += "Dorsal no números en posición " + (i+1);
+				error += "; ";
+			} else if(!dorsales.contains(Integer.valueOf(dorsal))) {
+				error += "Dorsal no en juego en posición " + (i+1);
+				error += "; ";
+			}
+			
+			//Elemento 2
+			if(!correccion) {
+				if(!accion.equalsIgnoreCase("s") && !accion.equalsIgnoreCase("r") && !accion.equalsIgnoreCase("c") && !accion.equalsIgnoreCase("d") && !accion.equalsIgnoreCase("b") && !accion.equalsIgnoreCase("a") && !accion.equalsIgnoreCase("f") && !accion.equalsIgnoreCase("ar") && !accion.equalsIgnoreCase("ft") && !accion.equalsIgnoreCase("ta") && !accion.equalsIgnoreCase("tr")) {
+					error += "Acción incorrecta en posición " + (i+1);
+					error += "; ";
+				}
+			} else {
+				if(!accion.equalsIgnoreCase("s") && !accion.equalsIgnoreCase("r") && !accion.equalsIgnoreCase("c") && !accion.equalsIgnoreCase("d") && !accion.equalsIgnoreCase("b") && !accion.equalsIgnoreCase("a") && !accion.equalsIgnoreCase("f") && !accion.equalsIgnoreCase("ar")) {
+					error += "Acción incorrecta en posición " + (i+1);
+					error += "; ";
+				}
+			}
+			
+			//Elemento 3
+			if(acierto.length() != 1 && (!acierto.equals("+") && !acierto.equals("-"))) {
+				error += "+/- incorrecto en posición " + (i+1);
+				error += "; ";
+			}
+		}
+		return error;
+	}
+	
+	// Metodo para saber que estadistica settear segun la acción y el signo
+	private EstadisticaPersonalPartido setEstadisticaCorrecta(EstadisticaPersonalPartido estadistica, String accion, String acierto, boolean correccion) {
+		if(!correccion) {
+			if(accion.equalsIgnoreCase("s")) {
+				if(acierto.equals("+")) {
+					estadistica.setSaquesTotales(estadistica.getSaquesTotales() + 1);
+					estadistica.setSaquesAcertados(estadistica.getSaquesAcertados() + 1);
+				} else {
+					estadistica.setSaquesTotales(estadistica.getSaquesTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("r")) {
+				if(acierto.equals("+")) {
+					estadistica.setRecepcionesTotales(estadistica.getRecepcionesTotales() + 1);
+					estadistica.setRecepcionesAcertadas(estadistica.getRecepcionesAcertadas() + 1);
+				} else {
+					estadistica.setRecepcionesTotales(estadistica.getRecepcionesTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("c")) {
+				if(acierto.equals("+")) {
+					estadistica.setColocacionesTotales(estadistica.getColocacionesTotales() + 1);
+					estadistica.setColocacionesAcertadas(estadistica.getColocacionesAcertadas() + 1);
+				} else {
+					estadistica.setColocacionesTotales(estadistica.getColocacionesTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("d")) {
+				if(acierto.equals("+")) {
+					estadistica.setDefensasTotales(estadistica.getDefensasTotales() + 1);
+					estadistica.setDefensasAcertadas(estadistica.getDefensasAcertadas() + 1);
+				} else {
+					estadistica.setDefensasTotales(estadistica.getDefensasTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("b")) {
+				if(acierto.equals("+")) {
+					estadistica.setBloqueosTotales(estadistica.getBloqueosTotales() + 1);
+					estadistica.setBloqueosAcertados(estadistica.getBloqueosAcertados() + 1);
+				} else {
+					estadistica.setBloqueosTotales(estadistica.getBloqueosTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("a")) {
+				if(acierto.equals("+")) {
+					estadistica.setRematesTotales(estadistica.getRematesTotales() + 1);
+					estadistica.setRematesAcertados(estadistica.getRematesAcertados() + 1);
+				} else {
+					estadistica.setRematesTotales(estadistica.getRematesTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("f")) {
+				if(acierto.equals("+")) {
+					estadistica.setFintasTotales(estadistica.getFintasTotales() + 1);
+					estadistica.setFintasAcertadas(estadistica.getFintasAcertadas() + 1);
+				} else {
+					estadistica.setFintasTotales(estadistica.getFintasTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("ar")) {
+				if(acierto.equals("+")) {
+					estadistica.setNumAtaquesRapidosTotales(estadistica.getNumAtaquesRapidosTotales() + 1);
+					estadistica.setNumAtaquesRapidosAcertados(estadistica.getNumAtaquesRapidosAcertados() + 1);
+				} else {
+					estadistica.setNumAtaquesRapidosTotales(estadistica.getNumAtaquesRapidosTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("ft")) {
+				if(acierto.equals("+")) {
+					estadistica.setNumFaltasTotales(estadistica.getNumFaltasTotales() + 1);
+				} else {
+					if(!(estadistica.getNumFaltasTotales() <= 0)) {
+						estadistica.setNumFaltasTotales(estadistica.getNumFaltasTotales() - 1);
+					}
+				}
+			} else if(accion.equalsIgnoreCase("ta")) {
+				if(acierto.equals("+")) {
+					estadistica.setNumAmarillas(estadistica.getNumAmarillas() + 1);
+					if(estadistica.getNumAmarillas() % 2 == 0) {
+						estadistica.setNumRojas(estadistica.getNumRojas() + 1);
+					}
+				} else {
+					if(!(estadistica.getNumAmarillas() <=0)) {
+						estadistica.setNumFaltasTotales(estadistica.getNumFaltasTotales() - 1);
+					}
+				}
+			} else if(accion.equalsIgnoreCase("tr")) {
+				if(acierto.equals("+")) {
+					estadistica.setNumRojas(estadistica.getNumRojas() + 1);
+				} else {
+					if(!(estadistica.getNumFaltasTotales() <= 0)) {
+						estadistica.setNumRojas(estadistica.getNumRojas() - 1);
+					}
+				}
+			}
+		} else {
+			//TODO
+		}
+		
+		return estadistica;
 	}
 	
 }
