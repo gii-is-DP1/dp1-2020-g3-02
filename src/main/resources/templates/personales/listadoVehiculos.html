@@ -89,8 +89,9 @@
 					<thead>
 						<tr class="table-primary">
 							<th>Propietario</th>
+							<th>Creador del anuncio</th>
 							<th sec:authorize="hasAuthority('jugador')">Acciones</th>
-							<th sec:authorize="hasAuthority('entrenador')">Creador del anuncio</th>
+							
 						</tr>
 					</thead>
 					<tbody>
@@ -108,15 +109,16 @@
 								th:value="entrenador">
 								-->
 							<td>
+								<div th:text="${personal.jugador.firstName+' '+personal.jugador.LastName}">
+								</div>
+							</td>
+							<td sec:authorize="hasAuthority('jugador')">
 								
-								<div sec:authorize="hasAuthority('jugador')" th:if="${personal.jugador == jugador}">
+								<div  th:if="${personal.jugador == jugador}">
 								<form action="#" th:action="@{'/personales/eliminarVehiculo/{id}'(id=${personal.id})}" th:method="delete" >
  								 <input type="hidden" name="_method" value="delete" />
  								 <button type="submit" id="submitButton" class='btn btn-outline-danger'>Eliminar</button>
 								</form>
-								</div>
-								
-								<div sec:authorize="hasAuthority('entrenador')" th:text="${personal.jugador.firstName+' '+personal.jugador.LastName}">
 								</div>
 							
 							</td>
