@@ -13,7 +13,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import lombok.AllArgsConstructor;
+
 @Component
+@AllArgsConstructor
 public class EjercicioIndividualValidator implements Validator{
 	
 	private static final Log LOG = LogFactory.getLog(EjercicioIndividualValidator.class);
@@ -28,14 +31,20 @@ public class EjercicioIndividualValidator implements Validator{
 
 		//Descripcion validation
 		if (StringUtils.isEmpty(ejercicioIndividual.getDescripcion())) {
-			LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": descripción");
-			errors.rejectValue("descripcion", "error",ValidationConstant.VALOR_OBLIGATORIO);
+			LOG.warn(ValidationConstant.EJERCICIOS_DESCRIPCION_ERROR);
+			errors.rejectValue("descripcion", "error",ValidationConstant.EJERCICIOS_DESCRIPCION_ERROR);
+		}else if (ejercicioIndividual.getDescripcion().length()>10000) {
+			LOG.warn(ValidationConstant.EJERCICIOS_DESCRIPCION_MUY_EXTENSA);
+			errors.rejectValue("descripcion", "error",ValidationConstant.EJERCICIOS_DESCRIPCION_MUY_EXTENSA);
 		}
 		//Nombre validation
 		if (StringUtils.isEmpty(ejercicioIndividual.getNombre())) {
-			LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": nombre");
-			errors.rejectValue("nombre", "error",ValidationConstant.VALOR_OBLIGATORIO);
-		} else {
+			LOG.warn(ValidationConstant.EJERCICIOS_NOMBRE_ERROR);
+			errors.rejectValue("nombre", "error",ValidationConstant.EJERCICIOS_NOMBRE_ERROR);
+		} else if(ejercicioIndividual.getNombre().length()>300){
+			LOG.warn(ValidationConstant.EJERCICIOS_NOMBRE_MUY_EXTENSO);
+			errors.rejectValue("nombre", "error",ValidationConstant.EJERCICIOS_NOMBRE_MUY_EXTENSO);
+		}else {
 			Optional<EjercicioIndividual> ejercicio = ejercicioIndividualService.findByNombre(ejercicioIndividual.getNombre());
 			if(!ejercicio.equals(Optional.empty()) && ejercicio.get().getId() != ejercicioIndividual.getId()) {
 				LOG.warn(ValidationConstant.EJERCICIOS_NOMBRE_DUPLICADO);
