@@ -59,7 +59,7 @@ public class EstadisticaPersonalPartidoServiceImpl extends AbstractEstadisticasS
 
 	@Override
 	public EstadisticaPersonalPartido save(EstadisticaPersonalPartido statistic) {
-		EstadisticaPersonalPartido estadisticaPersonalPartido = estadisticaPersonalPartidoRepository.save(statistic);
+		
 		
 		if(statistic.getSaquesTotales() > 0) statistic.setPorcentajeSaques(1.*statistic.getSaquesAcertados()/statistic.getSaquesTotales());
 		if(statistic.getRecepcionesTotales() > 0) statistic.setPorcentajeRecepciones(1.*statistic.getRecepcionesAcertadas()/statistic.getRecepcionesTotales());
@@ -98,7 +98,7 @@ public class EstadisticaPersonalPartidoServiceImpl extends AbstractEstadisticasS
 		Jugador player = jugadorService.save(jugador);
 		
 		LOG.info("JUGADOR YA ACTUALIZADO POR ESTADÍSTICAS: "+player);
-		
+		EstadisticaPersonalPartido estadisticaPersonalPartido = estadisticaPersonalPartidoRepository.save(statistic);
 		return estadisticaPersonalPartido;
 	}
 
