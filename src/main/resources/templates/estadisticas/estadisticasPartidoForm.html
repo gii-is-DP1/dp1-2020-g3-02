@@ -71,7 +71,6 @@
 									style="width: 100%;">
 									<thead>
 										<tr class="table-primary">
-											<th class="invisible"></th>
 											<th>Jugador</th>
 											<th>Saque</th>
 											<th>Rece</th>
@@ -458,11 +457,10 @@
 					
 					tablaIntroducirEstadisticas=$('#introducirEstadisticas')
 							.DataTable({
-								dom: "ltp",
-								lengthMenu : [6,7],
+								dom: "f",
 								ajax: '[[@{/estadisticas/tablaIntroducirEstadisticas/}]]'+[[${partido.id}]],
 								responsive: true,
-								order: [1, 'asc'],
+								order: [0, 'asc'],
 								"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
 									console.log(aData.enCampo);
 									if ( aData.esLibero == true ){
@@ -471,7 +469,6 @@
 						            
 						        },
 						        columns: [
-									{data: 'id'},
 									{data: 'firstName',
 										render: function (data, type, row) {
 											
@@ -532,8 +529,40 @@
 								columnDefs: [
 									{
 						                "targets": [ 0 ],
-						                "visible": false,
-						                "searchable": false
+						                "visible": true,
+						                "searchable": true
+						            },
+						            {
+						                "targets": [ 1 ],
+						                "orderable": false
+						            },
+						            {
+						                "targets": [ 2 ],
+						                "orderable": false
+						            },
+						            {
+						                "targets": [ 3 ],
+						                "orderable": false
+						            },
+						            {
+						                "targets": [ 4 ],
+						                "orderable": false
+						            },
+						            {
+						                "targets": [ 5 ],
+						                "orderable": false
+						            },
+						            {
+						                "targets": [ 6 ],
+						                "orderable": false
+						            },
+						            {
+						                "targets": [ 7 ],
+						                "orderable": false
+						            },
+						            {
+						                "targets": [ 8 ],
+						                "orderable": false
 						            },
 						            { className: 'none', targets: -2 },
 									{ className: 'none', targets: -1 },
