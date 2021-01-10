@@ -261,4 +261,8 @@ public class BaseVolleyballValidatorTest {
 		}
 	}
 	
+	protected String buildCadenaError(String type, String field, String value, String mensaje, String paqueteNoModel) {
+		return "Field error in object '' on field '" + field + "': rejected value [" + value + "]; codes [error." + field + ",error.org.springframework.samples.petclinic." + paqueteNoModel + "." + type + ",error]; arguments []; default message [" + mensaje +"]";	
+	}
+	
 }

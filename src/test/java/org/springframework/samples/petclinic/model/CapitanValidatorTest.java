@@ -62,10 +62,11 @@ public class CapitanValidatorTest extends BaseVolleyballValidatorTest {
         String type = "Actitud";
         String field = "actitud";
         String value = "asdf";
+        String paqueteNoModel = "enumerate";
         String mensaje = ValidationConstant.VALOR_ERROR_ENUM;
         
         // Modificación del campo
-        Actitud a = Actitud.fromNombre("manoloeldelospalotes");
+        Actitud a = Actitud.fromNombre(value);
         capitan.setActitud(a);
 
         // Bindear de errores
@@ -75,7 +76,7 @@ public class CapitanValidatorTest extends BaseVolleyballValidatorTest {
         capitanValidator.validate(capitan, errors);
         
         assertThat(errors.hasErrors()).isEqualTo(true);
-        assertEquals(buildCadenaError(type, field, null, mensaje), errors.getFieldError(field).toString());
+        assertEquals(buildCadenaError(type, field, null, mensaje, paqueteNoModel), errors.getFieldError(field).toString());
     }
 
 }
