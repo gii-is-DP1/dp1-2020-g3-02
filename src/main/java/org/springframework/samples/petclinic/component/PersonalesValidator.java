@@ -39,8 +39,7 @@ public class PersonalesValidator implements Validator {
 
 
 		//Propietario validation
-		if ( jugadorService.findByFirstName(personales.getPropietario())==null ||
-				entrenadorService.findByFirstName(personales.getPropietario())==null) {
+		if ( personales.getPropietario().length()<3) {
 			LOG.warn(ValidationConstant.PROPIETARIO_ERROR);
 			errors.rejectValue("propietario", "error",ValidationConstant.PROPIETARIO_ERROR);
 		}
