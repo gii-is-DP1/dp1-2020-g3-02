@@ -41,7 +41,11 @@ public class ValidationConstant {
 	public static final String HORA_PARTIDO_COINCIDEN_POSTERIOR = "Este equipo ya tiene un partido en el tramo horario de 2 horas después";
 	
 	/** EJERCICIOS INDIVIDUALES */
+	public static final String EJERCICIOS_NOMBRE_ERROR = "El nombre es requerido y debe tener como mucho 300 caracteres";
 	public static final String EJERCICIOS_NOMBRE_DUPLICADO = "Este nombre de ejercicio ya existe";
+	public static final String EJERCICIOS_NOMBRE_MUY_EXTENSO = "EL nombre es demasiado extenso (máximo 300 caracteres)";
+	public static final String EJERCICIOS_DESCRIPCION_ERROR = "La descripcion es requerida y debe tener como mucho 10.000 caracteres";
+	public static final String EJERCICIOS_DESCRIPCION_MUY_EXTENSA = "La descripción es demasiado extensa (máximo 10.000 caracteres)";
 	
 	/** SUSTITUCIONES */
 	public static final String MINUTO_SUSTITUCION_ERROR = "El minuto de sustitución es requerido y ha de ser mayor que 0";
