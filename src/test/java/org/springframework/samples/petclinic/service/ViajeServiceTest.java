@@ -44,7 +44,7 @@ public class ViajeServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Viaje> viajes=new ArrayList<Viaje>(viajeSevice.findAll());
-		assertEquals(viajes.size(), 16);
+		assertEquals(viajes.size(), 20);
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class ViajeServiceTest {
 	public void testFindByPartidoInitialDataFinding() {
 		Partido partido = partidoService.findById(1).get();
 		List<Viaje> viaje= viajeSevice.findByPartido(partido);
-		assertEquals(viaje.size(), 8);
+		assertEquals(viaje.size(), 12);
 	}
 
 	@Test
@@ -100,7 +100,7 @@ public class ViajeServiceTest {
 	public void testFindByAutobusInitialDataFinding() {
 		Autobus autobus = autobusService.findById(1).get();
 		List<Viaje> viaje= viajeSevice.findByAutobus(autobus);
-		assertEquals(viaje.size(), 12);
+		assertEquals(viaje.size(), 14);
 	}
 
 	@Test
@@ -116,7 +116,7 @@ public class ViajeServiceTest {
 	public void testFindByPersonalInitialDataFinding() {
 		Personales personal = personalService.findById(1).get();
 		List<Viaje> viaje= viajeSevice.findByPersonal(personal);
-		assertEquals(viaje.size(), 2);
+		assertEquals(viaje.size(), 3);
 	}
 
 	@Test
@@ -124,14 +124,14 @@ public class ViajeServiceTest {
 	public void testFindByPersonalInitialDataNotFinding() {
 		Personales personal = personalService.findById(3).get();
 		List<Viaje> viaje=viajeSevice.findByPersonal(personal);
-		assertEquals(viaje.size(), 0);
+		assertEquals(viaje.size(), 1);
 	}
 	
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByTipoViajeInitialDataFinding() {
 		List<Viaje> viaje= viajeSevice.findByTipoViaje(TipoViaje.IDA);
-		assertEquals(viaje.size(), 8);
+		assertEquals(viaje.size(), 12);
 	}
 
 	@Test
@@ -162,7 +162,7 @@ public class ViajeServiceTest {
 	public void testFindByPartidoAndTipoViajeInitialDataFinding() {
 		Partido partido = partidoService.findById(1).get();
 		List<Viaje> viaje= viajeSevice.findByPartidoAndTipoViaje(partido, TipoViaje.IDA);
-		assertEquals(viaje.size(), 4);
+		assertEquals(viaje.size(), 8);
 	}
 
 	@Test

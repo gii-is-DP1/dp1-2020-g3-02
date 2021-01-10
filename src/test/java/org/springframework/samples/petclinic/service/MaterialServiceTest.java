@@ -77,7 +77,7 @@ public class MaterialServiceTest {
 	public void testFindByStockInitialDataFinding() {
 		int stock = 9;
 		List<Material> material = materialService.findByStock(stock);
-		assertEquals(material.size(), 1);
+		assertEquals(material.size(), 0);
 	}
 	
 	@Test

@@ -28,7 +28,7 @@ public class LineaMaterialServiceTests {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<LineaMaterial>lineamaterial=new ArrayList<LineaMaterial>(lineaMaterialService.findAll());
-		assertEquals(lineamaterial.size(), 10);
+		assertEquals(lineamaterial.size(), 12);
 	}
 
 
@@ -54,7 +54,7 @@ public class LineaMaterialServiceTests {
 	public void testFindByCantidadInitialDataFinding() {
 		int cantidad=5;
 		List<LineaMaterial> lineamaterial = new ArrayList<LineaMaterial>(lineaMaterialService.findByCantidad(cantidad));
-		assertEquals(lineamaterial.size(), 1);
+		assertEquals(lineamaterial.size(), 4);
 	}
 	
 	@Test

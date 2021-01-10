@@ -77,7 +77,7 @@ public class JugadorServiceTests {
 	public void testFindByPosicionPrincipalInitialDataFinding() {
 		Posicion position=Posicion.PUNTA;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPosicionPrincipal(position));
-		assertEquals(jugadores.size(), 22);
+		assertEquals(jugadores.size(), 8);
 	}
 	
 	@Test
@@ -85,7 +85,7 @@ public class JugadorServiceTests {
 	public void testFindByPosicionPrincipalInitialDataNotFinding() {
 		Posicion position=Posicion.CENTRAL;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPosicionPrincipal(position));
-		assertEquals(jugadores.size(), 0);
+		assertEquals(jugadores.size(), 4);
 	}
 	
 	@Test
