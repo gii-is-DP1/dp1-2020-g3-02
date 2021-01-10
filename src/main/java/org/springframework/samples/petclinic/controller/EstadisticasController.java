@@ -144,7 +144,7 @@ public class EstadisticasController {
 		}
 	}
 	
-	@RequestMapping(value = "saveComandos/{partidoId}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "saveComandos/{partidoId}", method = RequestMethod.POST)
 	public ResponseEntity<String> saveComandos(HttpServletRequest request, @PathVariable("partidoId") int partidoId) {
 		try {
 			Principal principal = request.getUserPrincipal();
@@ -217,7 +217,7 @@ public class EstadisticasController {
 			if(!error.equals("Errores de Sintaxis: ")) {
 				LOG.info(data);
 				LOG.warn(error);
-				return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<String>(error, HttpStatus.BAD_REQUEST);
 			}
 			
 			List<Integer> dorsalesEdit = new ArrayList<Integer>(dorsalesEditSet);
