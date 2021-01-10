@@ -112,7 +112,7 @@
 							<div class="container-fluid">
 								<div class="row">
 									<div class="col">
-										<input onkeypress="pulsarIntro(event)" id="comandoIntroducido" placeholder="Dorsal,Accion,+/-;" autocomplete="false" autofocus="autofocus" type="text" class="form-control"></input>
+										<input onkeypress="pulsarIntro(event)" id="comandoIntroducido" name="comandoIntroducido" placeholder="Dorsal,Accion,+/-;" autocomplete="false" autofocus="autofocus" type="text" class="form-control"></input>
 									</div>
 								</div>
 							</div>
@@ -221,15 +221,22 @@
 	
 	function insertarDatosEstadisticasComando(){
 		var id = $('#partidoId').val();
+		var formCom = new FormData();
+		formCom.append("comandoIntroducido",$('#comandoIntroducido').val());
 		
 		$.ajax({
 			type: 'POST',
 			url: '/estadisticas/saveComandos/'+id,
+			data: formCom,
+            processData: false,
+            contentType: false,
 			success: function(){
-				
+				tablaIntroducirEstadisticas.ajax.reload(null, false);
+				estadisticas();
+				$('#comandoIntroducido').val('');
 			},
 			error: function(data){
-				
+				data;
 			}
 		});
 	}

@@ -5,12 +5,14 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -127,6 +129,80 @@ public class EstadisticasController {
 			return new ResponseEntity<List<EstadisticasPersonalesStats>>(estadisticasPersonalesStats, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<List<EstadisticasPersonalesStats>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "saveComandos/{partidoId}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> saveComandos(HttpServletRequest request, @PathVariable("partidoId") int partidoId) {
+		try {
+			Partido partido = partidoService.findById(partidoId).get();
+			List<Jugador> jugadores = partido.getJugadores();
+					
+			Map<Integer, EstadisticaPersonalPartido> estadisticasMap = new HashMap<Integer, EstadisticaPersonalPartido>();
+			for(Jugador jugador:jugadores) {
+				EstadisticaPersonalPartido estadistica =  new EstadisticaPersonalPartido();
+				
+				EstadisticaPersonalPartido stat = estadisticaPersonalPartidoService.findByJugadorAndPartido(jugador.getId(), partidoId);
+				if(stat != null) {
+					BeanUtils.copyProperties(stat, estadistica);
+					estadisticasMap.put(numCamisetaService.findByEquipoAndJugador(partido.getEquipo().getId(), jugador.getId()).getNumero(), estadistica);
+				}
+			}
+			
+			String data = request.getParameter("comandoIntroducido").trim();
+			String error = "Errores de Sintaxis: ";
+			
+			String[] dataActions = data.split(";");
+			
+			for(int i=0;i<dataActions.length;i++) {
+				boolean correccion = dataActions[i].startsWith("%");
+				
+				if(!correccion) {
+					String[] dataActionsParts = dataActions[i].split(",");
+					if(dataActionsParts.length < 3 || dataActionsParts.length > 3) {
+						error += "Comas(,) en posición " + (i+1);
+						error += "; ";
+					} else {
+						String dorsal = dataActionsParts[0];
+						String accion = dataActionsParts[1];
+						String acierto = dataActionsParts[2];
+						
+						//Elemento 1
+						if(!Pattern.matches("^[0-9]+", dorsal)) {
+							error += "Dorsal no números en posición " + (i+1);
+							error += "; ";
+						} else if(!true) {
+							error += "Dorsal no en juego en posición " + (i+1);
+							error += "; ";
+						}
+						
+						//Elemento 2
+						if(!accion.equalsIgnoreCase("s") && !accion.equalsIgnoreCase("r") && !accion.equalsIgnoreCase("c") && !accion.equalsIgnoreCase("d") && !accion.equalsIgnoreCase("b") && !accion.equalsIgnoreCase("a") && !accion.equalsIgnoreCase("f") && !accion.equalsIgnoreCase("ar")) {
+							error += "Acción incorrecta en posición " + (i+1);
+							error += "; ";
+						}
+						
+						//Elemento 3
+						if(acierto.length() != 1 && (!acierto.equals("+") && !acierto.equals("-"))) {
+							error += "+/- incorrecto en posición " + (i+1);
+							error += "; ";
+						}
+					}
+				} else {
+					dataActions[i].replace("%", "");
+				}
+			}
+			
+			if(!error.equals("")) {
+				LOG.info(data);
+				LOG.warn(error);
+				return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			}
+			
+			return new ResponseEntity<String>(HttpStatus.OK);
+		} catch (Exception e) {
+			String data = request.getParameter("comandoIntroducido").trim();
+			return new ResponseEntity<String>(data,HttpStatus.BAD_REQUEST);
 		}
 	}
 	
