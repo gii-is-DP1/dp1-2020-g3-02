@@ -211,6 +211,7 @@ public class EstadisticasController {
 				} else {
 					dataActions[i].replace("%", "");
 					error = gestionErroresComandos(error, dataActions, i, dorsales, correccion);
+					//TODO
 				}
 			}
 			
