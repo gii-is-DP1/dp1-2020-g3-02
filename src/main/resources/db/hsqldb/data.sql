@@ -169,8 +169,8 @@ INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (2,'2020-09-09','EX
 
 -- INSERT  EQUIPOS
 INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego, bloqueos_acertados, bloqueos_totales, colocaciones_acertadas, colocaciones_totales, defensas_acertadas, defensas_totales, porcentaje_bloqueos, porcentaje_colocaciones, porcentaje_defensas) VALUES (1,'Senior',false,1,1,'CINCO_UNO', 10, 20, 20, 25, 15, 25, 0.5, 0.8, 0.6);
-INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (2,'Cadete',false,2,1,'COLOCADOR_GENERAL');
-INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego) VALUES (3,'Junior',false,2,1,'COLOCADOR_GENERAL');
+INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego, bloqueos_acertados, bloqueos_totales, colocaciones_acertadas, colocaciones_totales, defensas_acertadas, defensas_totales, porcentaje_bloqueos, porcentaje_colocaciones, porcentaje_defensas) VALUES (2,'Cadete',false,2,1,'COLOCADOR_GENERAL', 10, 20, 20, 25, 15, 25, 0.5, 0.8, 0.6);
+INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego, bloqueos_acertados, bloqueos_totales, colocaciones_acertadas, colocaciones_totales, defensas_acertadas, defensas_totales, porcentaje_bloqueos, porcentaje_colocaciones, porcentaje_defensas) VALUES (3,'Junior',false,2,1,'COLOCADOR_GENERAL', 10, 20, 20, 25, 15, 25, 0.5, 0.8, 0.6);
 
 -- INSERT  PERTENECEA
 
