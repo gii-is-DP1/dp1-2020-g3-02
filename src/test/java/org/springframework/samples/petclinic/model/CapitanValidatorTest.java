@@ -61,7 +61,7 @@ public class CapitanValidatorTest extends BaseVolleyballValidatorTest {
         // Campo con el valor a validar y mensaje de validación
         String type = "Actitud";
         String field = "actitud";
-        String value = "anzynipighqpymntzaivcuhcgwkmgretrrrgjptqckjwslofjchzvhemzjrcysezsnpeknlmpnfamircqzrmzuprsopxdyfjiukuxpslrpltteknupxmzontazjonofefgkgfjzqbczlwjfsmptoyontrhxmbmdpxsgkryhyklzdkbplhhorakyvyncjyphxjirenzyedzsnxaxftmxrwlmzjamezwkgtppghtokbypkkrfffxcupxlrxaaciro";
+        String value = "asdf";
         String mensaje = ValidationConstant.VALOR_ERROR_ENUM;
         
         // Modificación del campo
@@ -75,7 +75,7 @@ public class CapitanValidatorTest extends BaseVolleyballValidatorTest {
         capitanValidator.validate(capitan, errors);
         
         assertThat(errors.hasErrors()).isEqualTo(true);
-        assertEquals(buildCadenaError(type, field, value, mensaje), errors.getFieldError(field).toString());
+        assertEquals(buildCadenaError(type, field, null, mensaje), errors.getFieldError(field).toString());
     }
 
 }
