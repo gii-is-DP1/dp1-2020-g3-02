@@ -1,19 +1,27 @@
 package org.springframework.samples.petclinic.component;
 
 import java.time.LocalDate;
+
 import java.time.format.DateTimeFormatter;
 import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.auxiliares.RealizaEjercicioDTO;
+import org.springframework.samples.petclinic.service.RealizaEjercicioService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 @Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class RealizaEjercicioValidator implements Validator {
 	
 	private static final Log LOG = LogFactory.getLog(RealizaEjercicioValidator.class);
@@ -22,6 +30,9 @@ public class RealizaEjercicioValidator implements Validator {
 	public boolean supports(Class<?> clazz) {
 		return RealizaEjercicioDTO.class.isAssignableFrom(clazz);
 	}
+	
+	@Autowired
+	private RealizaEjercicioService realizaEjercicioService;
 
 	@Override
 	public void validate(Object target, Errors errors) {
