@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.repository.EquipoRepository;
+import org.springframework.samples.petclinic.service.CapitanService;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.JugadorService;
@@ -48,6 +49,9 @@ public class EquipoServiceImpl extends AbstractEstadisticasService<Equipo> imple
 	
 	@Autowired
 	private NumCamisetaService numCamisetaService;
+	
+	@Autowired
+	private CapitanService capitanService;
 	
 	@Override
 	public List<String> findCategoria() {
@@ -98,6 +102,18 @@ public class EquipoServiceImpl extends AbstractEstadisticasService<Equipo> imple
 		LOG.info("Borramos el equipo");
 		equipoRepository.deleteById(equipo_id);
 		
+	}
+	
+	@Override
+	@Transactional
+	public Equipo deleteCapitan(Equipo team) {
+		
+		LOG.info("Se eliminará el capitán del equipo con id: " + team.getCapitan().getId());
+		capitanService.deleteAllInEquipo(team.getId());
+		
+		Equipo equipo = equipoRepository.save(team);
+		
+		return equipo;
 	}
 
 	@Override
