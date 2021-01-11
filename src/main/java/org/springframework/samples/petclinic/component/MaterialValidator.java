@@ -1,15 +1,25 @@
 package org.springframework.samples.petclinic.component;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 @Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class MaterialValidator implements Validator{
 
+	private static final Log LOG = LogFactory.getLog(MaterialValidator.class);
+	
 	@Autowired
 	private MaterialService materialIndividualService;
 
@@ -18,17 +28,19 @@ public class MaterialValidator implements Validator{
 		Material material = (Material) target;
 
 		//Stock validation
-		if ( material.getStock()==null ||  material.getStock()<0) {
-			errors.rejectValue("stock", "El stock no debe ser nulo ni menor que 0","El stock no debe ser nulo ni menor que 0");
+		if (material.getStock()<0) {
+			LOG.warn(ValidationConstant.CAMPO_NEGATIVO + ": número de stock");
+			errors.rejectValue("stock", "error",ValidationConstant.CAMPO_NEGATIVO);
 		}
 		//Estado Validation
-		if ( material.getEstado()== null  ) {
-			errors.rejectValue("estado", "El estado no puede ser nulo ","El estado no puede ser nulo");
+		if ( material.getEstado()== null || material.getEstado().toString().length()>255 ) {
+			LOG.warn(ValidationConstant.VALOR_ERROR_ENUM + ": estado");
+			errors.rejectValue("estado", "error",ValidationConstant.VALOR_ERROR_ENUM);
 		}
 		//tipo validation
-		if ( material.getTipo().toString().length()>255) {
-			errors.rejectValue("tipo_material", "El tipo de material no puede tener más de 255 carácteres","El tipo de material no puede tener más de 255 carácteres");
-
+		if ( material.getTipo()==null || material.getTipo().toString().length()>255) {
+			LOG.warn(ValidationConstant.VALOR_ERROR_ENUM + ": tipo");
+			errors.rejectValue("tipo", "error",ValidationConstant.VALOR_ERROR_ENUM);
 		}
 	}
 	@Override
