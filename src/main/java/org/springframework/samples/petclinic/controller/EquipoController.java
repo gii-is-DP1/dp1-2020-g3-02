@@ -184,7 +184,12 @@ public class EquipoController {
 		try {
 			Equipo equipo = equipoService.findById(id).get();
 			DataTableResponse<JugadoresInEquipoSinUser> data = new DataTableResponse<JugadoresInEquipoSinUser>();
-			data.setData(jugadorConverter.convertListJugadorToListJugadorInEquipoSinUser(equipo.getJugadores()));
+			List<Jugador> jugadores = equipo.getJugadores();
+			List<Integer> numerosCamiseta = new ArrayList<Integer>();
+			for(int i=0;i<jugadores.size();i++) {
+				numerosCamiseta.add(numCamisetaService.findByEquipoAndJugador(id, jugadores.get(i).getId()).getNumero());
+			}
+			data.setData(jugadorConverter.convertListJugadorToListJugadorInEquipoSinUser(equipo.getJugadores(),numerosCamiseta));
 			return new ResponseEntity<DataTableResponse<JugadoresInEquipoSinUser>>(data, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<DataTableResponse<JugadoresInEquipoSinUser>>(HttpStatus.BAD_REQUEST);

@@ -149,21 +149,21 @@ public class JugadorConverter {
 		return listaJugadoresInEquipo;
 	}
 	
-	public JugadoresInEquipoSinUser  convertJugadorToJugadorInEquipoSinUser(Jugador jugador) {
+	public JugadoresInEquipoSinUser  convertJugadorToJugadorInEquipoSinUser(Jugador jugador, int numCamiseta) {
 		
 		JugadoresInEquipoSinUser jugadorInEquipo= new JugadoresInEquipoSinUser(jugador.getId(), jugador.getFirstName(),
 				jugador.getLastName(),jugador.getAltura(), jugador.getPeso(), jugador.getPesoIdeal(),
-				jugador.getPosicionPrincipal(), jugador.getPosicionSecundaria(),jugador.getImc(),jugador.getEmail());
+				jugador.getPosicionPrincipal(), jugador.getPosicionSecundaria(),jugador.getImc(),jugador.getEmail(), numCamiseta);
 		
 		return jugadorInEquipo;
 				
 	}
 	
-	public List<JugadoresInEquipoSinUser> convertListJugadorToListJugadorInEquipoSinUser(List<Jugador> listajugadores){
+	public List<JugadoresInEquipoSinUser> convertListJugadorToListJugadorInEquipoSinUser(List<Jugador> listajugadores, List<Integer> numerosCamiseta){
 		List<JugadoresInEquipoSinUser> listaJugadoresInEquipo= new ArrayList<JugadoresInEquipoSinUser>();
 		for(int i=0; i<listajugadores.size(); i++) {
 			
-			listaJugadoresInEquipo.add(convertJugadorToJugadorInEquipoSinUser(listajugadores.get(i)));
+			listaJugadoresInEquipo.add(convertJugadorToJugadorInEquipoSinUser(listajugadores.get(i),numerosCamiseta.get(i)));
 			
 		}
 		return listaJugadoresInEquipo;
