@@ -12,6 +12,7 @@ import org.springframework.samples.petclinic.model.auxiliares.JugadorWithEquipo;
 import org.springframework.samples.petclinic.model.auxiliares.JugadoresInEquipo;
 import org.springframework.samples.petclinic.model.auxiliares.JugadoresInEquipoSinUser;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
+import org.springframework.samples.petclinic.model.ediciones.JugadorEditNumCamiseta;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.stereotype.Component;
 
@@ -93,6 +94,25 @@ public class JugadorConverter {
 				jugador.getPosicionPrincipal(),
 				jugador.getPosicionSecundaria(),
 				jugador.getEstadoActual()
+				);
+	}
+	
+	public JugadorEditNumCamiseta convertJugadorToJugadorEditNumCamiseta(Jugador jugador, int numCamiseta) {
+		return new JugadorEditNumCamiseta(
+				jugador.getId(),
+				jugador.getFirstName(),
+				jugador.getLastName(),
+				jugador.getDni(),
+				jugador.getDireccion(),
+				jugador.getEmail(),
+				jugador.getLocalidad(),
+				jugador.getFechaNacimiento(),
+				jugador.getAltura(),
+				jugador.getPeso(),
+				jugador.getPosicionPrincipal(),
+				jugador.getPosicionSecundaria(),
+				jugador.getEstadoActual(),
+				numCamiseta
 				);
 	}
 	
