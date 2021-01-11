@@ -121,7 +121,7 @@
 	function capitan(equipoId){
 		$.ajax({
    			type : 'GET',
-   			url : '/equipos/findEquipoEliminar/' + equipoId,
+   			url : '/equipos/findEquipoCAP/' + equipoId,
    			success : function(data) {
    				console.log(data.tipo);
             	$('#idEquipo').val(data.id);
@@ -133,7 +133,7 @@
 
             	$.ajax({
            			type : 'GET',
-           			url : 'getalljugadoresteams/' + equipoId,
+           			url : '/equipos/getalljugadoresteams/' + equipoId,
            			success : function(edit) {
         				$.each(edit, function(index,
         					jugador) {
