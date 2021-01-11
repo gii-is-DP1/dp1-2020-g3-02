@@ -30,8 +30,10 @@ private int id;
 	
 	private String email;
 	
+	private Integer numCamiseta;
+	
 	public JugadoresInEquipoSinUser(int id, String firstName, String lastName, Integer altura, Integer peso, Integer pesoIdeal, Posicion posicionPrincipal,
-			Posicion posicionSecundaria, double imc, String email) {
+			Posicion posicionSecundaria, double imc, String email, int numCamiseta) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -43,6 +45,7 @@ private int id;
 		this.pesoIdeal = pesoIdeal;
 		this.imc = imc;
 		this.email = email;
+		this.numCamiseta = numCamiseta;
 	}
 	
 }
