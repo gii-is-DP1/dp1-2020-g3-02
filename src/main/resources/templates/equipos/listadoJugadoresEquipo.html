@@ -184,7 +184,9 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 						return " <button  onclick='return estadisticasJugador(this,"+row['id'] +");' class='btn btn-outline-success mx-0 estadisicas' type='button' title='Estadísicas'>"+
 						"<i class='fas fa-chart-pie'></i></button>"+
 						" <button onclick='return eliminarJugador("+row['id'] +","+ id +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
-						"<i class='fas fa-trash-alt'></i></button>" ;
+						"<i class='fas fa-trash-alt'></i></button>" +
+						"<button  onclick='return mostrarModalNumCamiseta("+row['id'] +");' class='btn btn-outline-info text-centered editar' type='button' title='Editar'>"+
+						 "<i class='fas fa-edit'></i></button>";
 						 
 					 }
 					 else{

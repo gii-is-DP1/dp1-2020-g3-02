@@ -29,6 +29,9 @@ public class ValidationConstant {
 	public static final String CATEGORIA_ERROR = "La categoría es requerida y debe tener un mínimo de 3 caracteres";
 	public static final String LIGA_ERROR = "La liga es requerida y debe tener un mínimo de 3 caracteres";
 	
+	/** EQUIPO */
+	public static final String NUM_CAMISETA_REPETIDA = "El número de camiseta debe ser diferente de los del resto de jugadores del equipo";
+	
 	/** FECHA */
 	public static final String FECHA_FORMATO_ERRONEO = "La fecha debe tener el formato dd/MM/yyyy";
 	public static final String FECHA_FORMATO_ERRONEO_INVERSO = "La fecha debe tener el formato yyyy/MM/dd";
