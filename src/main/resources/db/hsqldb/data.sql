@@ -598,6 +598,12 @@ INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (6,12,6,1);
 INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (7,4,7,1);
 INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (8,5,8,1);
 
+INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (9,10,9,2);
+INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (10,7,10,2);
+INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (11,1,1,2);
+INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (12,15,2,2);
+INSERT INTO num_camisetas(id,numero,jugador_id,equipo_id) VALUES (13,1,2,3);
+
 -- INSERT SUSTITUCIONES
 INSERT INTO sustituciones(id,minuto_sustitucion,jugador_entra,jugador_sale,partido_id) VALUES (1,25,1,2,1);
 INSERT INTO sustituciones(id,minuto_sustitucion,jugador_entra,jugador_sale,partido_id) VALUES (2,30,1,2,2);
