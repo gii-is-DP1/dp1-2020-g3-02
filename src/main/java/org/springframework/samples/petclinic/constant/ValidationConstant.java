@@ -30,7 +30,10 @@ public class ValidationConstant {
 	public static final String LIGA_ERROR = "La liga es requerida y debe tener un mínimo de 3 caracteres";
 	
 	/** EQUIPO */
-	public static final String NUM_CAMISETA_REPETIDA = "El número de camiseta debe ser diferente de los del resto de jugadores del equipo";
+	public static final String NUM_CAMISETA_ERORR = "El número de camiseta es requerido y no puede ser 0 ni mayor que 99";
+	public static final String NUM_CAMISETA_REPETIDO = "El número de camiseta debe ser diferente de los del resto de jugadores del equipo";
+	public static final String NUM_CAMISETA_MENOR_QUE_1 = "El número de camiseta no puede ser 0";
+	public static final String NUM_CAMISETA_MAYOR_QUE_99 = "El número de camiseta no puede ser mayor que 99";
 	
 	/** FECHA */
 	public static final String FECHA_FORMATO_ERRONEO = "La fecha debe tener el formato dd/MM/yyyy";

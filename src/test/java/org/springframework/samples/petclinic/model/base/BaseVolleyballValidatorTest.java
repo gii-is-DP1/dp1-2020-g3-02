@@ -13,6 +13,7 @@ import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Material;
+import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
@@ -26,6 +27,7 @@ import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.MaterialService;
+import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
@@ -81,6 +83,9 @@ public class BaseVolleyballValidatorTest {
 	
 	@Autowired
 	protected RealizaEjercicioService realizaEjercicioService; 
+	
+	@Autowired
+	protected NumCamisetaService numCamisetaService;
 	
 	/**
 	 * Crea un capitan con todos sus campos rellenos con un valor válido
@@ -236,6 +241,18 @@ public class BaseVolleyballValidatorTest {
 		Integer id = 1;
 		Optional<RealizaEjercicio> realizaEjericio = realizaEjercicioService.findById(id);
 		return realizaEjericio.get();
+	}
+	
+	/**
+	 * Crea un número de camiseta con todos sus campos rellenos con un valor válido
+	 * 
+	 * @return NumCamiseta
+	 */
+	@Transactional(readOnly = true)
+	protected NumCamiseta getNumCamisetaCorrecto() {
+		Integer id = 1;
+		Optional<NumCamiseta> numCamiseta = numCamisetaService.findById(id);
+		return numCamiseta.get();
 	}
 	
 	/**
