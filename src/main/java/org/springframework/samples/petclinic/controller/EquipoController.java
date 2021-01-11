@@ -31,6 +31,7 @@ import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
+import org.springframework.samples.petclinic.model.auxiliares.EquipoCAP;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoCategoria;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoTablaEquipos;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorCAP;
@@ -472,7 +473,18 @@ public class EquipoController {
 		}	
 	}
 
-	@RequestMapping(value = "getalljugadoresteams/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/findEquipoCAP/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EquipoCAP> findEquipoCAP(@PathVariable("id") int id) {
+		try {
+			Equipo equipo = equipoService.findById(id).get();
+			EquipoCAP data = equipoConverter.convertEquipoToEquipoCAP(equipo);
+			return new ResponseEntity<EquipoCAP>(data, HttpStatus.OK);
+		}catch (Exception e) {
+			return new ResponseEntity<EquipoCAP>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@RequestMapping(value = "/getalljugadoresteams/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<JugadorCAP>> findJugadoresTeam(@PathVariable("id") int id) {
 		try {
 			Optional<Equipo> equipo = equipoService.findById(id);
@@ -490,21 +502,20 @@ public class EquipoController {
 		}	
 	}
 	
-	@RequestMapping(value = "setCapitanEquipo/{id}/{nombre}%20{apellidos}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<String>> setCapitanEquipo(@PathVariable("id") int id, @PathVariable("nombre") String first_name, @PathVariable("apellidos") String last_name) {
+	@RequestMapping(value = "/setCapitanEquipo/{idEquipo}/{idJugador}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Capitan> setCapitanEquipo(@PathVariable("idEquipo") int idEquipo, @PathVariable("idJugador") int idJugador) {
 		try {
-			Optional<Equipo> equipo = equipoService.findById(id);
+			Optional<Equipo> equipo = equipoService.findById(idEquipo);
 			Equipo team = equipo.get();
-			List<Jugador> players = team.getJugadores();
-			List<String> jugadores = new ArrayList<String>();
-			for(Jugador player:players) {
-				String nombre = player.getFirstName() + " " + player.getLastName();
-				jugadores.add(nombre);
-			}
+			Optional<Jugador> jugador = jugadorService.findById(idJugador);
+			Jugador player = jugador.get();
+			Capitan capitan = new Capitan();
+			capitan.setJugador(player);
+			team.setCapitan(capitan);
 			
-			return new ResponseEntity<List<String>>(jugadores, HttpStatus.OK);
+			return new ResponseEntity<Capitan>(capitan, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Capitan>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	

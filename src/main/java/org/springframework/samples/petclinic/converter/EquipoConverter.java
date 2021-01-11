@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.converter;
 
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.auxiliares.EquipoCAP;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoCategoria;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoTablaEquipos;
 import org.springframework.samples.petclinic.model.ediciones.EquipoEdit;
@@ -69,6 +70,10 @@ public class EquipoConverter {
 	
 	public EquipoCategoria convertEquipoToEquipoCategoria(Equipo equipo) {
 		return new EquipoCategoria(equipo.getId(),equipo.getCategoria());
+	}
+	
+	public EquipoCAP convertEquipoToEquipoCAP(Equipo equipo) {
+		return new EquipoCAP(equipo.getId(),equipo.getCategoria(),equipo.getCapitan().getJugador().getId());
 	}
 
 }

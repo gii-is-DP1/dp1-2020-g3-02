@@ -21,8 +21,7 @@
 					onclick="return confirmacionCapitanEquipo();">Aceptar</button>
 				<input type="hidden" id="idEquipo"
 					name="idEquipo"></input>
-					<input type="hidden" id="idJugador"
-					name="idJugador"></input>
+					
 			</div>
 		</div>
 	</div>
@@ -30,11 +29,12 @@
 
 <script>
 	function confirmacionCapitanEquipo() {
-		var id = $('#jugadores').val();
+		var idJugador = $('#jugadores').val();
+		var idEquipo = $('#idEquipo').val();
 
 		$.ajax({
 			type : 'POST',
-			url : '/equipos/setCapitanEquipo/' + id,
+			url : '/equipos/setCapitanEquipo/' + idEquipo + '/' + idJugador,
 			success : function(data) {
 				$('#capitanEquipoModal').modal("hide");
 				tablaPrincipal.ajax.reload(null, false);
