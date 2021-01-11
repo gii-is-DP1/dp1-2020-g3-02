@@ -143,6 +143,7 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
         src="//code.highcharts.com/highcharts.js"></script> 
         
     <div th:replace="equipos/modalAgregarJugadores"></div>
+    <div th:replace="equipos/modalEditarJugadorEquipo"></div>
 		
 	<script>
 	
@@ -185,7 +186,7 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 						"<i class='fas fa-chart-pie'></i></button>"+
 						" <button onclick='return eliminarJugador("+row['id'] +","+ id +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
 						"<i class='fas fa-trash-alt'></i></button>" +
-						"<button  onclick='return mostrarModalNumCamiseta("+row['id'] +");' class='btn btn-outline-info text-centered editar' type='button' title='Editar'>"+
+						"<button  onclick='return mostrarModalEditarJugadorEquipo("+row['id'] +","+ id +");' class='btn btn-outline-info text-centered editar' type='button' title='Editar'>"+
 						 "<i class='fas fa-edit'></i></button>";
 						 
 					 }

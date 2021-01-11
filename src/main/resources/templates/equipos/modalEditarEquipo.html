@@ -80,7 +80,7 @@ function enviarEdicion(){
         contentType: false,
         success: function(data){
         	$('#editarEquipoModal').modal("hide");
-        	location.reload();
+        	tablaPrincipal.ajax.reload(null, false);
         },
         error: function(data){
         	

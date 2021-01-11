@@ -30,12 +30,14 @@ import org.springframework.samples.petclinic.model.Privilegio;
 import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
+import org.springframework.samples.petclinic.model.ediciones.JugadorEditNumCamiseta;
 import org.springframework.samples.petclinic.model.ediciones.PrivilegioEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.service.AutorizacionService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
+import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.PrivilegioService;
 import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Controller;
@@ -83,6 +85,9 @@ public class JugadorController {
 	private EquipoService equipoService;
 	
 	@Autowired
+	private NumCamisetaService numCamisetaService;
+	
+	@Autowired
 	private EstadoConverter estadoConverter;
 	
 	@Autowired
@@ -99,6 +104,7 @@ public class JugadorController {
 	
 	@Autowired
 	private PrivilegioConverter privilegioConverter;
+	
 	
 //	@InitBinder("jugador")
 //	public void initJugadorBinder(WebDataBinder dataBinder) {
@@ -281,6 +287,18 @@ public class JugadorController {
 			return new ResponseEntity<JugadorEdit>(edit, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<JugadorEdit>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@RequestMapping(value = "findEditjugadorNumCamiseta/{jugadorID}/{equipoID}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<JugadorEditNumCamiseta> editarJugadorNumCamiseta(@PathVariable("jugadorID") int jugadorID, @PathVariable("equipoID") int equipoID) {
+		try {
+			Jugador jugador = jugadorService.findById(jugadorID).get();
+			int num = numCamisetaService.findByEquipoAndJugador(equipoID, jugadorID).getNumero();
+			JugadorEditNumCamiseta edit = jugadorConverter.convertJugadorToJugadorEditNumCamiseta(jugador, num);
+			return new ResponseEntity<JugadorEditNumCamiseta>(edit, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<JugadorEditNumCamiseta>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
