@@ -190,11 +190,11 @@
 				 render: function (data, type, row) {
 					 
 					 if($('#security').val() == 'entrenador'){
-						return " <button class='btn btn-outline-success mx-0 detalles' onclick='return detalleEquipo(this,"+row['id'] +");' type='button' title='Detalles'>"+
+						return " <button class='btn btn-outline-success detalles' onclick='return detalleEquipo(this,"+row['id'] +");' type='button' title='Detalles'>"+
 							"<i class='fas fa-users'></i></button>"+
-							 " <button  onclick='return estadisticas("+row['id'] +");' class='btn btn-outline-success mx-0 estadisicas' type='button' title='Estadísicas'>"+
+							 " <button  onclick='return estadisticas("+row['id'] +");' class='btn btn-outline-success estadisicas' type='button' title='Estadísicas'>"+
 							 "<i class='fas fa-chart-pie'></i></button>" + 
-							 " <button  onclick='return mostrarModalEditar("+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
+							 " <button  onclick='return mostrarModalEditar("+row['id'] +");' class='btn btn-outline-info editar' type='button' title='Editar'>"+
 							 "<i class='fas fa-edit'></i></button>" + 
 							 " <button onclick='return capitan("+row['id'] +");' class='btn btn-outline-dark capitan' type='button' title='Capitan'>"+
 								"<i class='fas fa-medal'></i></button>" +
