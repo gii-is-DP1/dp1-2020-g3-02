@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.service.impl;
 
 import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.repository.CapitanRepository;
 import org.springframework.samples.petclinic.service.CapitanService;
+import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +28,12 @@ public class CapitanServiceImpl extends AbstractService<Capitan> implements Capi
 	@Autowired
 	@Qualifier("capitanRepository")
 	private CapitanRepository capitanRepository;
+	
+	@Autowired
+	private EquipoService equipoService;
+	
+	@Autowired
+	private CapitanService capitanService;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -51,5 +57,13 @@ public class CapitanServiceImpl extends AbstractService<Capitan> implements Capi
 	public Capitan findByJugador(Jugador jugador) {
 		
 		return capitanRepository.findByJugador(jugador);
+	}
+	
+	@Override
+	public void deleteAllInEquipo(Integer equipo_id) {
+		List<Capitan> capitan = capitanRepository.findByEquipo(equipo_id);
+		for(int i=0;i<capitan.size();i++) {
+			capitanService.deleteById(capitan.get(i).getId());
+		}
 	}
 }

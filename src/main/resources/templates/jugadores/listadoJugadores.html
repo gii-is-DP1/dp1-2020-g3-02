@@ -670,17 +670,31 @@
 						<div class="form-group" id="modalFormPrivilegio">
 							<div class="form-group col-12 datePicker">
 								<input type="checkbox" value="partidos" name="partidos" id="partidos" class="partidos">
-								<label><span class="text-danger">(*) </span>Partidos</label> <input
-									class="form-control" type="text" placeholder="Descripción" id="descripcionPartidos"
-									name="descripcionPartidos" maxlength="10" required></input> <small
-									class="fecha text-danger error"></small>
+								<label>Partidos</label> 
+								<!-- 
+								<input class="form-control-plaintext" type="text" placeholder="Descripción" id="descripcionPartidos"
+									name="descripcionPartidos" maxlength="10" 
+									value="Permite al jugador ver las estadísticas de los partidos." readonly></input>
+									 -->
+									<small id="descripcionPartidos" class="form-text text-muted">
+									Permite al jugador ver las estadísticas de los partidos.
+									</small>
+									<!-- 
+								<small
+									class="fecha text-danger error"></small>  -->
 							</div>
 							<div class="form-group col-12">
 								<input type="checkbox" value="entrenamientos" name="entrenamientos" id="entrenamientos" class="entrenamientos">
-								<label><span class="text-danger">(*) </span>Entrenamientos</label> <input
+								<label>Entrenamientos</label> 
+								<!-- <input
 									class="form-control" type="text" placeholder="Descripción" id="descripcionEntrenamientos"
-									name="descripcionEntrenamientos" maxlength="5" required></input> <small
-									class="hora text-danger error"></small>
+									name="descripcionEntrenamientos" maxlength="5" required></input>  -->
+									<small id="descripcionEntrenamientos" class="form-text text-muted">
+									Permite al jugador ver las estadísticas de los entrenamientos.
+									</small>
+									<!-- 
+									<small
+									class="hora text-danger error"></small>  -->
 							</div>
 						</div>
 					</div>

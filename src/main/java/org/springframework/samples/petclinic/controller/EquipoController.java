@@ -508,19 +508,32 @@ public class EquipoController {
 	}
 	
 	@RequestMapping(value = "/setCapitanEquipo/{idEquipo}/{idJugador}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Capitan> setCapitanEquipo(@PathVariable("idEquipo") int idEquipo, @PathVariable("idJugador") int idJugador) {
+	public ResponseEntity<Equipo> setCapitanEquipo(@PathVariable("idEquipo") int idEquipo, @PathVariable("idJugador") int idJugador) {
 		try {
 			Optional<Equipo> equipo = equipoService.findById(idEquipo);
 			Equipo team = equipo.get();
 			Optional<Jugador> jugador = jugadorService.findById(idJugador);
 			Jugador player = jugador.get();
-			Capitan capitan = new Capitan();
-			capitan.setJugador(player);
-			team.setCapitan(capitan);
+			List<Equipo> equipos = new ArrayList<Equipo>();
+			for(Equipo e:player.getEquipos()) {
+				if(e.getCapitan().getJugador()==player) {
+					equipos.add(e);
+				}
+			}
 			
-			return new ResponseEntity<Capitan>(capitan, HttpStatus.OK);
+			if(equipos.size()>1) {
+				equipoService.deleteCapitan(team);
+			} else if(equipos.size()==1) {
+				capitanService.deleteByIdSiExiste(team.getCapitan().getId());
+			} else {
+				Capitan capitan = new Capitan();
+				capitan.setJugador(player);
+				team.setCapitan(capitan);
+			}
+			
+			return new ResponseEntity<Equipo>(team, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<Capitan>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Equipo>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	

@@ -13,4 +13,6 @@ public interface CapitanService extends BaseService<Capitan>{
 	public abstract List<Capitan> findByNtiemposmuertos(Integer ntiemposmuertos);
 	public abstract List<Capitan> findByEquipo(int equipo_id);
 	public abstract Capitan findByJugador(Jugador jugador);
+	
+	public void deleteAllInEquipo(Integer equipo_id);
 }
