@@ -54,8 +54,8 @@
 					<div class="card-header text-white" style="background: rgb(23,162,184);
 						background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
 					<div class="row">
-					<h3 class="card-title ml-3">Estadísticas</h3>
-					<a id="coach" href="#collapseEstadisticas" data-toggle="collapse" style="margin-left: auto;" class="mr-3 my-auto">
+					<h3 class="card-title ml-3">Acciones en partidos</h3>
+					<a id="estadisticas" href="#collapseEstadisticas" data-toggle="collapse" style="margin-left: auto;" class="mr-3 my-auto">
 						<i class="fas fa-minus"></i>
 					</a>
 					</div>
@@ -71,6 +71,47 @@
 			
 			</div>
 			</div>
+			
+			
+			
+			<div class="row mx-2 py-3">
+			<div class="col">
+			<div class="card shadow bg-light" style="border-top-color: #007bff; border-top-width: 3px;">
+					<div class="card-header text-white" style="background: rgb(23,162,184);
+background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
+					<div class="row ">
+					<h3 class=" card-title ml-3">Puntos por set y partido</h3>
+					<a id="puntos" href="#collapsePuntos" data-toggle="collapse"style="margin-left: auto;" class="mr-3 my-auto">
+						<i class="fas fa-plus" ></i>
+					</a>
+					</div>
+					</div>
+					
+					<div class="collapse" id="collapsePuntos">
+						<div class="card-body">
+							<table id="puntosTabla"
+					class="table table-sm table-striped table-bordered table-hover nowrap display estadisticors responsive"
+					cellspacing="0" style="width: 100%;">
+							<thead>
+								<tr class="table-primary">
+									<th>Fecha</th>
+									<th>Set 1</th>
+									<th>Set 2</th>
+									<th>Set 3</th>
+									<th>Set 4</th>
+									<th>Set 5</th>
+									<th>Totales</th>
+								</tr>
+							</thead>
+							</table>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+			
+			
+			
 			<div class="row mx-2 py-3">
 			<div class="col">
 			<div class="card shadow bg-light" style="border-top-color: #007bff; border-top-width: 3px;">
@@ -80,7 +121,7 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 					<h3 class=" card-title ml-3">Jugadores</h3>
 					<button th:onclick="return agregarJugadores();" class="btn btn-primary ml-auto"><i class="fas fa-plus"></i> Añadir
 							jugador</button>
-					<a id="stat" href="#collapseJugadores" data-toggle="collapse" class="mx-3 my-auto">
+					<a id="jugadores" href="#collapseJugadores" data-toggle="collapse" class="mx-3 my-auto">
 						<i class="fas fa-plus" ></i>
 					</a>
 					</div>
@@ -114,11 +155,10 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 					</div>
 				</div>
 				</div>
-				
-				<input id="equipo_id" type ="hidden" th:value="${equipo.id}">
-				
 			</div>
-			</div>
+			
+			<input id="equipo_id" type ="hidden" th:value="${equipo.id}">
+				
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 	<!-- Optional JavaScript -->
 	<script
@@ -152,6 +192,24 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 	function eliminarJugador(jugadorId, equipoId){
 		window.location.href = "/equipos/eliminarjugador/"+jugadorId+"/"+equipoId;
 	}
+	
+	tablaPuntos = $('#puntosTabla').DataTable({
+		responsive: true,
+		"language" : {
+			"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+		},
+		order: [1,'asc'],
+		ajax:'[[@{/partidos/findPartidosEquipo/}]]' + id,
+		"columns":[
+			{data: 'fecha'},
+			{data: 'numPuntosSet1'},
+			{data: 'numPuntosSet2'},
+			{data: 'numPuntosSet3'},
+			{data: 'numPuntosSet4'},
+			{data: 'numPuntosSet5'},
+			{data: 'numPuntosTotales'}
+		]
+	});
 
 	
 	tablaJugadores = $('#jugadoresTabla').DataTable({
@@ -302,7 +360,7 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 		
 	});
 	
-		$('#stat').on('click', function(){
+		$('#jugadores').on('click', function(){
 			if(!($('#collapseJugadores').hasClass('collapsing'))){
 	
 				if(this.getElementsByClassName('fa-plus')[0]){
@@ -315,18 +373,31 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 		});
 		
 		
-			$('#coach').on('click', function(){
-				if(!($('#collapseEstadisticas').hasClass('collapsing'))){
-					tablaJugadores.draw();
+		('#puntos').on('click', function(){
+			if(!($('#collapsePuntos').hasClass('collapsing'))){
 	
-					if(this.getElementsByClassName('fa-plus')[0]){
-						
-						this.getElementsByClassName('fas')[0].classList.replace('fa-plus', 'fa-minus');
-					}else{
-						this.getElementsByClassName('fas')[0].classList.replace('fa-minus', 'fa-plus');
-					}
+				if(this.getElementsByClassName('fa-plus')[0]){
+					
+					this.getElementsByClassName('fas')[0].classList.replace('fa-plus', 'fa-minus');
+				}else{
+					this.getElementsByClassName('fas')[0].classList.replace('fa-minus', 'fa-plus');
 				}
-			});
+			}
+		});
+		
+		
+		$('#estadisticas').on('click', function(){
+			if(!($('#collapseEstadisticas').hasClass('collapsing'))){
+				tablaJugadores.draw();
+
+				if(this.getElementsByClassName('fa-plus')[0]){
+					
+					this.getElementsByClassName('fas')[0].classList.replace('fa-plus', 'fa-minus');
+				}else{
+					this.getElementsByClassName('fas')[0].classList.replace('fa-minus', 'fa-plus');
+				}
+			}
+		});
 		
 		
 		

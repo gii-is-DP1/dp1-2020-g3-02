@@ -37,6 +37,7 @@ import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorPartidoViaje;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
+import org.springframework.samples.petclinic.model.auxiliares.PartidoPuntos;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasDeUnJugadorStats;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
@@ -576,6 +577,19 @@ public class PartidoController {
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+	
+	@RequestMapping(value = "/findPartidosEquipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<PartidoPuntos>> listadoDePartidosEquipo(@PathVariable("id") int id,HttpServletRequest request) {
+		try {
+			Equipo equipo = equipoService.findById(id).get();
+			List<Partido> partidos = partidoService.findByEquipo(equipo);
+			DataTableResponse<PartidoPuntos> data = new DataTableResponse<PartidoPuntos>();
+			data.setData(partidoConverter.convertListPartidoToListPartidoPuntos(partidos));
+			return new ResponseEntity<DataTableResponse<PartidoPuntos>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<PartidoPuntos>>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 	/* @PostMapping("/updatepartido")
