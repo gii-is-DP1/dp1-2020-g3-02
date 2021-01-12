@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+<head>
+<meta charset="UTF-8" />
+
+
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous" />
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+	crossorigin="anonymous">
+
+<!--  Datatables  -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css" />
+
+<!--  extension responsive  -->
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+    
+<title>Entrenamientos</title>
+<link rel="icon" type="image/png"
+	href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
+<style type="text/css">
+
+#estadisticasModal table td{
+  word-break: break-all !important;
+}
+</style>
+
+</head>
+<body class="bg-light">
+	
+	<script src="https://www.w3schools.com/lib/w3data.js"></script>
+
+	<div class="">
+		<div w3-include-html="navbar?id=listadoEntrenamiento"></div>
+	</div>
+	
+	<div class="container-fluid">
+		<div class="row">
+			<div class="py-3 text-center col-lg-12">
+				<h1 class="font-weight-bold font-italic">PRÓXIMOS ENTRENAMIENTOS</h1>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12 responsive">
+				<table id="entrenamientos"
+					class="table table-sm table-striped table-bordered table-hover nowrap"
+					cellspacing="0" style="width: 100%;">
+					<thead>
+						<tr class="table-primary">
+							<th class="invisible"></th>
+							<th>Fecha</th>
+							<th>Hora</th>
+							<th>Equipo</th>
+							<th>Acciones</th>
+							
+						</tr>
+					</thead>
+					
+
+				</table>
+			</div>
+			
+				<input id="idJugador" class="idJugador" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="${jugador.id}">
+				<input id="estado" class="idJugador" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="${jugador.estadoActual}">
+				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
+				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="jugador">
+				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('estadistico')" th:value="estadistico">
+		</div>
+	</div>
+
+	<div class="row my-3">
+		<div class="col-lg-2"></div>
+		<div class="col-lg-8">
+			<button sec:authorize="hasAuthority('entrenador')" class="btn btn-primary btn-lg btn-block" id="nuevoEntrenamiento"
+				role="button">Nuevo entrenamiento</button>
+
+		</div>
+		<div class="col-lg-2"></div>
+	</div>
+	
+	
+	<!-- Modal Asistencia -->
+	<div class="modal fade" id="modalAsistencia" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+     <form id="formModalAsistencia" method="post">
+      <div class="modal-header modal-header-asistencia bg-info">
+        <h5 class="modal-title modal-title-asistencia" id="staticBackdropLabel">Modal Asistencia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="pb-3">
+      	<div class="border col-lg-12">
+      		<div class="py-2 text-center col-lg-12">
+      			<h1 th:id="equipoAsistencia" class="font-weight-bold font-italic"></h1>
+			</div>
+			
+			<div class="row text-center">
+        		<div class="form-group col">
+					<h5 class="font-weight-bold text-info" th:id="fecha"></h5>
+				</div>
+				<div class="form-group col">
+					<h5 class="font-weight-bold text-info" th:id="hora"></h5>
+				</div>
+			</div>
+			
+			<div class="py-2 text-center col-lg-12">
+				<button type="button" class="btn btn-outline-info" onclick="return enviarAsiste('asiste');">Asistir</button>
+			</div>
+		</div>
+		</div>
+		<div class="border col-lg-12">
+      		<div class="py-2 text-center col-lg-12">
+      			<h1 th:id="equipo2" class="font-weight-bold font-italic"></h1>
+			</div>
+			
+			<div class="row text-center">
+        		<div class="form-group col">
+					<h5 class="font-weight-bold text-info" th:id="fecha2"></h5>
+				</div>
+				<div class="form-group col">
+					<h5 class="font-weight-bold text-info" th:id="hora2"></h5>
+				</div>
+			</div>
+			
+			<div class="py-2 text-center col-lg-12">
+				<button type="button" class="btn btn-outline-info" onclick="return enviarAsiste('sinAsistir');">Asistir</button>
+			</div>
+		</div>
+      </div>
+      
+      
+      <div class="modal-footer" style="background: rgb(23,162,184); background: linear-gradient(0deg, rgba(23,162,184,0.75) 0%, rgba(255,255,255,1) 100%);">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        
+		
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+	
+	<!-- <div th:replace="partidos/modalEstadisticas"> </div>  -->
+	<div th:replace="entrenamientos/modalEditar"> </div>
+	<!-- <div th:replace="partidos/modalAsistenciaPartido"> </div>-->
+	<div th:replace="entrenamientos/modalEliminar"> </div>
+
+	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
+	<!-- Optional JavaScript -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+
+	<script type="text/javascript"
+		src="//code.highcharts.com/highcharts.js"></script>
+	<!--   Datatables-->
+	<script type="text/javascript"
+		src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
+
+	<!-- extension responsive -->
+	<script
+		src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+
+
+
+	<script>
+	
+// FUNCIONES PARA EL CONTROL DE LAS ASISTENCIAS
+	/*
+	function irAFormEstadisticas(data,partidoId){
+		window.location.href = "/estadisticas/estadisticasPartidoForm/"+partidoId;
+	}
+	
+	function enviarAsiste(data){
+		console.log(data);
+		
+		if(data == 'asiste'){
+			$('#modalAsistencia').modal("hide");
+		}else{
+			$.ajax({
+				type : 'POST',
+				url : '/partidos/eliminarjuegaJugador/' + PartidoAsiste.id+"/"+ parseInt($('#idJugador').val(),10),
+				success : function(borrar) {
+					tablaPrincipal.ajax.reload(null, false);
+					
+					$.ajax({
+						type : 'POST',
+						url : '/partidos/addjuegaJugador/' + PartidoSinAsistir.id+"/"+ parseInt($('#idJugador').val(),10),
+						success : function(data) {				
+							tablaPrincipal.ajax.reload(null, false);
+						}
+					})
+				}
+			})
+			
+			
+			$('#modalAsistencia').modal("hide");
+		}
+		
+		
+		
+	}
+	PartidoAsiste = null;
+	PartidoSinAsistir = null;
+	function postJuegaJuegador(button, id){
+		console.log(id);
+		console.log(button.value);
+		
+		if(button.innerText=='Asistir'){
+			$.ajax({
+				type : 'POST',
+				url : '/partidos/addjuegaJugador/' + id+"/"+ parseInt($('#idJugador').val(),10),
+				success : function(data) {
+					if(data == ""){
+					tablaPrincipal.ajax.reload(null, false);
+					}else{
+						
+						//Partido Nuevo
+						console.log(data);
+						var aux = (data[0].fecha).split("-");
+						var fechaInput = "" + aux[2] + "/" + aux[1]
+								+ "/" + aux[0] + "";
+						PartidoAsiste = data[0];
+						PartidoSinAsistir = data[1];
+						console.log(data[0].fecha);
+						$('#modalAsistencia #fecha').text(data[0].fecha);
+						$('#modalAsistencia #hora').text(data[0].hora);
+						$('#modalAsistencia #equipoAsistencia').text(data[0].equipo);
+						
+						
+						//Partido al que estabas asistiendo
+						var aux = (data[0].fecha).split("-");
+						var fechaInput = "" + aux[2] + "/" + aux[1]
+								+ "/" + aux[0] + "";
+						
+						console.log(data[0].fecha);
+						$('#modalAsistencia #fecha2').text(data[1].fecha);
+						$('#modalAsistencia #hora2').text(data[1].hora);
+						$('#modalAsistencia #equipo2').text(data[1].equipo);
+						
+						$('.modal-header-asistencia').css("color","white");
+						$('.modal-title-asistencia').text("Elegir uno de los Partidos");
+						$('#modalAsistencia').modal("show");
+					}
+				}
+			});
+		}else{
+			$.ajax({
+				type : 'POST',
+				url : '/partidos/eliminarjuegaJugador/' + id+"/"+ parseInt($('#idJugador').val(),10),
+				success : function(borrar) {
+					tablaPrincipal.ajax.reload(null, false);
+				}
+			});
+		}
+	}*/
+	
+	//TABLA PRINCIPAL CON AJAX ===============================================
+	tablaPrincipal = $('#entrenamientos').DataTable({
+		responsive: true,
+		"language" : {
+			"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+		},
+		order: [1,'asc'],
+		ajax:'[[@{/entrenamientos/findEntrenamientos}]]',
+		"columns":[
+			{data:'id'},
+			{data: 'fecha'},
+			{data: 'hora'},
+			{data: 'equipo'},
+			{data:'asistencia',
+				 render: function (data, type, row) {
+					 
+					 if($('#security').val() == 'entrenador'){
+						return " <button class='btn btn-outline-success mx-0 estadisticas' onclick='return estadisticas(this,"+row['id'] +");' type='button' title='Estadísticas'>"+
+							"<i class='fas fa-chart-pie'></i></button>"+
+							" <button onclick='return tablaAsistencia(this,"+'"'+row['fecha']+'","'+row['hora']+'",'+row['id'] +");' class='btn btn-outline-dark asistenciaEntrenamiento' type='button' title='Asistencia'>"+
+							"<i class='fas fa-map-marker-alt'></i></button>"+
+							 " <button  onclick='return editar(this,"+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
+							"<i class='fas fa-edit'></i></button>" + 
+							" <button onclick='return eliminar(this,"+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+							"<i class='fas fa-trash-alt'></i></button>" ;
+						 
+					 }else  if($('#security').val() == 'jugador'){
+						 if($('#estado').val() == 'EN_FORMA'){
+						 	if(!data.includes(parseInt($('#idJugador').val(),10))){
+						 		return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
+									+"<i class='fas fa-bus'></i> </button>" +
+									" <button type='button' class='btn btn-outline-secondary' "+
+									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
+									" <button  class='btn btn-outline-info' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='Asistir'>"+
+									"Asistir</button>";
+							 }else{
+								 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
+									+"<i class='fas fa-bus'></i> </button>" +
+									" <button type='button' class='btn btn-outline-secondary' "+
+									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
+									" <button  class='btn btn-outline-danger' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='No Asistir'>"+
+									"No Asistir</button>";
+							 }
+						 }else{
+							return " <button  class='btn btn-outline-secondary' type='button' title='Lesionado' disabled>"+
+								"Lesionado</button>";
+						 }
+					 }else{
+						 return " <button type='button'  class='btn btn-outline-dark' onclick='return irAFormEstadisticas(this,"+row['id'] +");' title='Tomar estadísiticas'>"
+							+"Tomar estadísticas </button>";
+					 }
+					
+				 }
+			}
+		]
+	});
+	
+	tablaPrincipal.columns([0]).visible(false);
+	</script>	
+	<script>
+	
+		$('#nuevoEntrenamiento').on('click', function() {
+
+							$('.error').text('');
+
+							$.ajax({
+										type : 'GET',
+										url : '/equipos/getallteams',
+										success : function(equipos) {
+											
+											$('#modalFormPartido').children('.only').remove();
+											$('#modalFormPartido').children('#equipo').remove();
+											$('#idEdit').val('');
+											$('#fechaEdit').val('');
+											$('#horaEdit').val('');
+											$('#modalFormPartido')
+													.prepend(
+															'<div class="form-group col-12 only"><label><span class="text-danger">(*) </span>Equipo:</label><select class="form-control" id="equipo" name="equipo"></select></div>');
+
+											$.each(equipos, function(index,
+													equipo) {
+												$('#equipo').append(
+														$('<option>', {
+															value : equipo,
+															text : equipo,
+															name : "equipo"
+														}));
+											});
+
+											$('#gestionModal .modal-header')
+													.css("color", "white");
+											$('#gestionModal .modal-title')
+													.text("Nuevo Entrenamiento");
+											$('#gestionModal').modal("show");
+										}
+									});
+						});
+</script>
+
+	<script type="text/javascript">
+		w3IncludeHTML();
+	</script>
+
+</body>
+</html>
