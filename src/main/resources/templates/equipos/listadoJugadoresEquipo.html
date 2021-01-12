@@ -81,7 +81,7 @@
 background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
 					<div class="row ">
 					<h3 class=" card-title ml-3">Puntos por set y partido</h3>
-					<a id="puntos" href="#collapsePuntos" data-toggle="collapse"style="margin-left: auto;" class="mr-3 my-auto">
+					<a id="puntos" href="#collapsePuntos" data-toggle="collapse" style="margin-left: auto;" class="mr-3 my-auto">
 						<i class="fas fa-plus" ></i>
 					</a>
 					</div>
@@ -373,7 +373,7 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 		});
 		
 		
-		('#puntos').on('click', function(){
+		$('#puntos').on('click', function(){
 			if(!($('#collapsePuntos').hasClass('collapsing'))){
 	
 				if(this.getElementsByClassName('fa-plus')[0]){
