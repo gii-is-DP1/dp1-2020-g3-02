@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.repository.EquipoRepository;
@@ -105,13 +106,18 @@ public class EquipoServiceImpl extends AbstractEstadisticasService<Equipo> imple
 	}
 	
 	@Override
+	public List<Equipo> findByCapitan(Capitan capitan) {
+		List<Equipo> equipos = equipoRepository.findByCapitan(capitan);
+		return equipos;
+	}
+	
+	@Override
 	@Transactional
 	public Equipo deleteCapitan(Equipo team) {
 		
-		LOG.info("Se eliminará el capitán del equipo con id: " + team.getCapitan().getId());
-		capitanService.deleteAllInEquipo(team.getId());
-		
-		Equipo equipo = equipoRepository.save(team);
+		team.setCapitan(null);
+		LOG.info("Se eliminará el capitán del equipo con id: " + team.getId());
+		Equipo equipo = save(team);
 		
 		return equipo;
 	}

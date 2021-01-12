@@ -1,9 +1,12 @@
 package org.springframework.samples.petclinic.converter;
 
+import java.util.List;
+
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoCAP;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoCategoria;
 import org.springframework.samples.petclinic.model.auxiliares.EquipoTablaEquipos;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorCAP;
 import org.springframework.samples.petclinic.model.ediciones.EquipoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EquipoStats;
 import org.springframework.stereotype.Component;
@@ -72,8 +75,8 @@ public class EquipoConverter {
 		return new EquipoCategoria(equipo.getId(),equipo.getCategoria());
 	}
 	
-	public EquipoCAP convertEquipoToEquipoCAP(Equipo equipo) {
-		return new EquipoCAP(equipo.getId(),equipo.getCategoria(),equipo.getCapitan().getJugador().getId());
+	public EquipoCAP convertEquipoToEquipoCAP(Equipo equipo, List<JugadorCAP> jugadores) {
+		return new EquipoCAP(equipo.getId(),equipo.getCategoria(),jugadores);
 	}
 
 }
