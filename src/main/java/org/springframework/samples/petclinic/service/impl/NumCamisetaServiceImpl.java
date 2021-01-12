@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,11 @@ public class NumCamisetaServiceImpl extends AbstractService<NumCamiseta> impleme
 	@Transactional(readOnly = true)
 	public List<NumCamiseta> findByEquipo(int equipo_id) {
 		Optional<Equipo> equipo = equipoService.findById(equipo_id);
-		return numCamisetaRepository.findByEquipo(equipo.get());
+		if(!equipo.equals(Optional.empty())) {
+			return numCamisetaRepository.findByEquipo(equipo.get());
+		} else {
+			return new ArrayList<NumCamiseta>();
+		}		
 	}
 
 	@Override
