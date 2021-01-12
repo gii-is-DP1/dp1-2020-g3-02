@@ -27,6 +27,11 @@
 <link rel="icon" type="image/png"
 	href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
 </head>
+<style> 
+input #negativo {
+ 
+}
+</style>
 <body class="bg-light">
 
 	<script src="https://www.w3schools.com/lib/w3data.js"></script>
@@ -435,19 +440,28 @@
             processData: false,
             contentType: false,
             success: function(data){
+            	
             	tablaIntroducirEstadisticas.ajax.reload(null, false);
             	estadisticas();
             	form = new FormData();
+            	
+            	setTimeout(function(){
+            	    //do what you need here
+            	
+            	if(data.length >= 0){
+            		for (var i = 0; i<data.length;i++){
+            			var number = document.getElementById(data[i]);
+            			number.style.cssText = 'box-sizing: border-box;border-radius = 4px;';
+            			number.style.border = '2px solid red';
+						
+            			  
+            		}
+					
+            	}
+            	}, 25);
             },
             error: function(data){
-            	
-            	$('.error').text('');
-            	
-            	for (i = 0; i < data.responseJSON.length; i++){
-            		
-            		var campo = data.responseJSON[i].field;
-            		$('.'+campo).text(data.responseJSON[i].defaultMessage);
-            	}
+            	tablaIntroducirEstadisticas.ajax.reload(null, false);
             }
         });
 		
@@ -520,12 +534,12 @@
 									},
 									{data: 'numFaltasTotales',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-6 text-center text-danger'> <label for='faltas,"+row['id']+"'><i class='fas fa-lg fa-hand-paper'></i></label> </div> </div> <div class='row'> <div class='col-6 py-0'> <div class='input-group'>  <input id='faltas,"+row['id']+"' class='form-control' type='number'> </div> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-6 text-center text-danger'> <label for='faltas,"+row['id']+"'><i class='fas fa-lg fa-hand-paper'></i></label> </div> </div> <div class='row'> <div class='col-6 py-0'> <div class='input-group'>  <input min=0 value='"+row['numFaltasTotales']+"' onchange='return addToForm(this,"+'"faltas,'+row['id']+'");'+"' id='faltas,"+row['id']+"' class='form-control' type='number'> </div> </div> </div> </div>";
 									}
 									},
 									{data: 'numAmarillas',
 										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-warning'> <label for='amarillas,"+row['id']+"'><i class='fas fa-lg fa-rectangle-portrait'></i></i></label> </div> <div class='col-sm-6 text-center text-danger'> <label for='rojas,"+row['id']+"'><i class='fas fa-lg fa-rectangle-portrait'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input id='amarillas,"+row['id']+"' class='form-control' type='number'> <input id='rojas,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
+											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-warning'> <label for='amarillas,"+row['id']+"'><i class='fas fa-lg fa-rectangle-portrait'></i></i></label> </div> <div class='col-sm-6 text-center text-danger'> <label for='rojas,"+row['id']+"'><i class='fas fa-lg fa-rectangle-portrait'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 value='"+row['numAmarillas']+"' onchange='return addToForm(this,"+'"amarillas,'+row['id']+'");'+"' id='amarillas,"+row['id']+"' class='form-control' type='number'> <input min='"+Math.floor(row['numAmarillas']/2)+"' value='"+row['numRojas']+"' onchange='return addToForm(this,"+'"rojas,'+row['id']+'");'+"' id='rojas,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
 									}
 								],
