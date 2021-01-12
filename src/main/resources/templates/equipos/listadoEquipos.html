@@ -130,24 +130,17 @@
             	$('#capitanModal')
 				.prepend(
 						'<div class="form-group col-12 only"><label for="jugadores">Jugadores:</label><select class="form-control" id="jugadores" name="jugadores"></select></div>');
-
-            	$.ajax({
-           			type : 'GET',
-           			url : '/equipos/getalljugadoresteams/' + equipoId,
-           			success : function(edit) {
-        				$.each(edit, function(index,
-        					jugador) {
-        					console.log(edit);
-        				$('#jugadores').append(
-        					$('<option>', {
-        						value : jugador.id,
-        						text : jugador.nombre,
-        						name : "jugadores"
-        					}));
-        				});
-
-           			}
-           		});
+	
+            	$.each(data.jugadores, function(index,
+    					jugador) {
+    					console.log(data);
+    				$('#jugadores').append(
+    					$('<option>', {
+    						value : jugador.id,
+    						text : jugador.nombre,
+    						name : "jugadores"
+    					}));
+    				});
 
 				$('#capitanEquipoModal .modal-header').css("color", "white");
 				$('#capitanEquipoModal .modal-title').text("Elegir capitan del equipo " + data.categoria);

@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.model.auxiliares;
 
+import java.util.List;
+
 import org.springframework.samples.petclinic.model.Capitan;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +19,6 @@ public class EquipoCAP {
 	
 	private String categoria;
 	
-	private Integer idcap;
+	private List<JugadorCAP> jugadores;
 	
 }
