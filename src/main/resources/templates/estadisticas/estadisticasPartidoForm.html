@@ -451,14 +451,13 @@ input #negativo {
             	if(data.length >= 0){
             		for (var i = 0; i<data.length;i++){
             			var number = document.getElementById(data[i]);
-            			number.style.cssText = 'box-sizing: border-box;border-radius = 4px;';
-            			number.style.border = '2px solid red';
+            			number.style.cssText = 'box-sizing: border-box;border-radius = 4px;background-clip: padding-box;border: 4px solid rgba(255, 0, 0, 0.5);';
 						
             			  
             		}
 					
             	}
-            	}, 25);
+            	}, 100);
             },
             error: function(data){
             	tablaIntroducirEstadisticas.ajax.reload(null, false);
