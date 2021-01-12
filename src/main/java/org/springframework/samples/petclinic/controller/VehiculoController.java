@@ -75,6 +75,7 @@ public class VehiculoController {
 		}else { 
 		if(id != 0) {
 			personal = personalService.findById(id).get();
+			
 		}}
 		model.addAttribute("personal", personal);
 		return ViewConstant.VIEWS_VEHICULO_CREATE_OR_UPDATE_FORM;
