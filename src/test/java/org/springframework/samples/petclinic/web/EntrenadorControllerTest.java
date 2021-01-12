@@ -1,5 +1,8 @@
-/*package org.springframework.samples.petclinic.web;
+package org.springframework.samples.petclinic.web;
 
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,6 +23,7 @@ import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.validation.Errors;
 
 @WebMvcTest(value = EntrenadorController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class))
 public class EntrenadorControllerTest {
@@ -44,6 +48,9 @@ public class EntrenadorControllerTest {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
+		doNothing().when(entrenadorValidator).validate(any(Object.class), any(Errors.class));
+
+		when(entrenadorValidator.supports(any(Class.class))).thenReturn(true);
 		mockMvc.perform(post("/entrenadores/addentrenador").with(csrf())
 				.param("firstName", "Pepe")
 				.param("lastName", "Cayetano")
@@ -54,4 +61,4 @@ public class EntrenadorControllerTest {
 				.andExpect(view().name("redirect:/home"));
 	}
 
-}*/
+}
