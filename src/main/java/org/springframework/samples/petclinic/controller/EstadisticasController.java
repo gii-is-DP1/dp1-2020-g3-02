@@ -242,7 +242,7 @@ public class EstadisticasController {
 	}
 	
 	@RequestMapping(value = "rellenarDatos", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity rellenarDatos(HttpServletRequest request) {
+	public ResponseEntity<List<String>> rellenarDatos(HttpServletRequest request) {
 		try {
 			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
 			
@@ -260,6 +260,7 @@ public class EstadisticasController {
 			Partido partido_ = partidoService.save(partido);
 			
 			Enumeration<String> parameters = request.getParameterNames();
+			List<String> camposNegativos = new ArrayList<String>();
 			
 			while (parameters.hasMoreElements()) {
 				
@@ -277,9 +278,7 @@ public class EstadisticasController {
 						
 					}
 					
-					if (dato < 0) {
-						return new ResponseEntity(HttpStatus.BAD_REQUEST);
-					}
+					
 					EstadisticaPersonalPartido estadisticas = estadisticaPersonalPartidoService.findByJugadorAndPartido(jugadorId, partidoId);
 					if(estadisticas == null) {
 						estadisticas = new EstadisticaPersonalPartido();
@@ -287,8 +286,48 @@ public class EstadisticasController {
 						estadisticas.setJugador(jugador);
 					}
 					
+					if (dato < 0) {
+						camposNegativos.add(clave);
+					}
 					
-					if(accion.startsWith("a")) {
+					else if(accion.equals("faltas")) {
+						estadisticas.setNumFaltasTotales(dato);
+					}
+					
+					else if(accion.equals("amarillas")) {
+						
+						Integer rojas = 0;
+						if(dato-estadisticas.getNumAmarillas() >= 0) {
+							
+						
+						if(estadisticas.getNumAmarillas()%2 == 0) {
+							rojas = (dato - estadisticas.getNumAmarillas())/2;
+						}else {
+							rojas = (dato+1 - estadisticas.getNumAmarillas())/2;
+						}
+						}else {
+							if((estadisticas.getNumAmarillas()-dato)%2 == 0) {
+								rojas = -(estadisticas.getNumAmarillas()-dato)/2;
+							}else {
+								if(dato%2 == 0) {
+									rojas = -(estadisticas.getNumAmarillas()-dato)/2;
+								}else {
+									rojas = -((estadisticas.getNumAmarillas()-dato)/2) -1;
+								}
+							}
+						}
+						estadisticas.setNumRojas(estadisticas.getNumRojas()+rojas);
+						estadisticas.setNumAmarillas(dato);
+					}
+					
+					else if(accion.equals("rojas")) {
+						if(dato >= estadisticas.getNumAmarillas()/2) {
+							estadisticas.setNumRojas(dato);
+						}
+						
+					}
+					
+					else if(accion.startsWith("a")) {
 						if(accion.contains("saque")) {
 							estadisticas.setSaquesTotales(estadisticas.getSaquesTotales()+dato-estadisticas.getSaquesAcertados());
 							estadisticas.setSaquesAcertados(dato);
@@ -335,16 +374,13 @@ public class EstadisticasController {
 					}
 					
 					estadisticaPersonalPartidoService.save(estadisticas);
+					
 				}
 				
-				
 			}
-//			for (int i = 0; i<; i++) {
-//				if (request.getParameterMap().)
-//			}
+			 
 			
-			
-			return new ResponseEntity(HttpStatus.OK);
+			return new ResponseEntity<List<String>>(camposNegativos,HttpStatus.OK);
 		}catch (Exception e) {
 			LOG.error("Excepción actualizando el viaje");
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
