@@ -45,6 +45,8 @@ public class ValidationConstant {
 	public static final String HORA_FORMATO_ERRONEO = "La hora debe tener el formato hh:mm, desde 00:00 hasta 23:59";
 	public static final String HORA_PARTIDO_COINCIDEN_ANTERIOR = "Este equipo ya tiene un partido en el tramo horario de 2 horas antes";
 	public static final String HORA_PARTIDO_COINCIDEN_POSTERIOR = "Este equipo ya tiene un partido en el tramo horario de 2 horas después";
+	public static final String HORA_ENTRENAMIENTO_COINCIDEN_ANTERIOR = "Este equipo ya tiene un entrenamiento en el tramo horario de 1 horas antes";
+	public static final String HORA_ENTRENAMIENTO_COINCIDEN_POSTERIOR = "Este equipo ya tiene un entrenamiento en el tramo horario de 1 horas después";
 	
 	/** EJERCICIOS INDIVIDUALES */
 	public static final String EJERCICIOS_NOMBRE_ERROR = "El nombre es requerido y debe tener como mucho 300 caracteres";

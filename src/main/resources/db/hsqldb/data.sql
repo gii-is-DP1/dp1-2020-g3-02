@@ -303,6 +303,18 @@ INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_a
 INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
 	remates_acertados,remates_totales,porcentaje_remates) VALUES (8,'2020-11-06','12:00',5,1,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
+	
+INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates) VALUES (9,'2021-02-06','12:00',5,1,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
+	
+INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates) VALUES (10,'2021-01-30','10:00',5,2,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
+	
+INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
+	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
+	remates_acertados,remates_totales,porcentaje_remates) VALUES (11,'2021-01-30','12:00',5,2,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
 		
 
 

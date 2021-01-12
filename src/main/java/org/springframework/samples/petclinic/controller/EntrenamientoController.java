@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.controller;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.component.EntrenamientoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.EntrenamientoConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
@@ -21,10 +24,11 @@ import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamiento;
-import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
+import org.springframework.samples.petclinic.model.auxiliares.EntrenamientoConAsistencia;
+import org.springframework.samples.petclinic.model.ediciones.EntrenamientoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EntrenamientoStats;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasDeUnJugadorStats;
 import org.springframework.samples.petclinic.service.EntrenadorService;
@@ -34,10 +38,13 @@ import org.springframework.samples.petclinic.service.EstadisticaPersonalEntrenam
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.impl.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -82,6 +89,9 @@ public class EntrenamientoController {
 	
 	@Autowired
 	private EstadisticasConverter estadisticasConverter;
+	
+	@Autowired
+	private EntrenamientoValidator entrenamientoValidator;
 	
 	@GetMapping("/showentrenamientos")
 	public ModelAndView listadoJugadores() {
@@ -261,6 +271,115 @@ public class EntrenamientoController {
 		
 		return "redirect:/entrenamientos/showEntrenamientos";
 	//}
+	}
+	
+	@RequestMapping(value = "/findEntrenamientos", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<EntrenamientoConAsistencia>> listadoDeEntrenamientos(HttpServletRequest request) {
+		try {
+			List<EntrenamientoConAsistencia> entrenamientosSinEquipo = new ArrayList<EntrenamientoConAsistencia>();
+			List<Entrenamiento> entrenamientos = entrenamientoService.findByFechaAfter(LocalDate.now().minusDays(1));
+			
+			Principal principal = request.getUserPrincipal();
+			List<String> categorias = new ArrayList<String>();
+			
+			if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("jugador")) {
+				String username =  principal.getName(); 
+		        User  user = userService.findByUsername(username);
+		        Jugador jugador = jugadorService.findByUser(user);
+		        categorias.addAll(jugador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+		        
+			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("entrenador")){
+				String username =  principal.getName(); 
+		        User  user = userService.findByUsername(username);
+		        Entrenador entrenador = entrenadorService.findByUser(user);
+		        categorias.addAll(entrenador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+		        
+			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("estadistico")){
+				categorias.addAll(equipoService.findAll().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
+			}
+			
+			List<Entrenamiento> entrenamientosFiltrados = entrenamientos.stream().filter(x->categorias.contains(x.getEquipo().getCategoria())).collect(Collectors.toList());
+					
+			for(int i = 0; i<entrenamientosFiltrados.size();i++) {
+				EntrenamientoConAsistencia entrenamientoSinEquipo = entrenamientoConverter.convertEntrenamientoToEntrenamientoConAsistencia(entrenamientosFiltrados.get(i));
+				entrenamientosSinEquipo.add(entrenamientoSinEquipo);
+			}
+			DataTableResponse<EntrenamientoConAsistencia> data = new DataTableResponse<EntrenamientoConAsistencia>();
+			data.setData(entrenamientosSinEquipo);
+			
+			return new ResponseEntity<DataTableResponse<EntrenamientoConAsistencia>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<EntrenamientoConAsistencia>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@PostMapping("/removeEntrenamiento/{id}")
+	public ResponseEntity removeEntrenamiento(@PathVariable("id") int id, Model model) {
+		try {
+			LOG.info("Se procede a borrar el entrenamiento con id: " + id);
+			
+			entrenamientoService.deleteById(id);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Error al eliminar el partido");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@PostMapping("/postentrenamiento")
+	public ResponseEntity<List<ObjectError>> addEntrenamiento(HttpServletRequest request, @ModelAttribute(name="partido") EntrenamientoEdit entrenamientoEdit, BindingResult result) {
+		try {
+			Entrenamiento entrenamiento = new Entrenamiento();
+			if(!request.getParameter("id").isEmpty()) {
+				int id = Integer.parseInt(request.getParameter("id"));
+				LOG.info("Estamos editando el entrenamiento con el id: " + id);
+				Optional<Entrenamiento> entrenamiento0 = entrenamientoService.findById(id); 
+				entrenamiento = entrenamiento0.get();
+			}else if(request.getParameter("equipo").trim() != null) {
+				LOG.info("Estamos creando un entrenamiento nuevo para el equipo con categoría: " + request.getParameter("equipo").trim());
+				Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
+				entrenamiento.setEquipo(equipo);
+			}
+			
+			EntrenamientoEdit edit = new EntrenamientoEdit(entrenamiento.getId(), entrenamiento.getEquipo().getCategoria(), request.getParameter("fecha"), request.getParameter("hora").trim());
+			
+			ValidationUtils.invokeValidator(entrenamientoValidator, edit, result);
+			
+			if(result.hasErrors()) {
+				LOG.warn("Se han encontrado " + result.getErrorCount() + " errores de validación");
+				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+			}
+			
+			entrenamiento.setHora(request.getParameter("hora").trim());
+			if(!request.getParameter("fecha").isEmpty()) {
+				entrenamiento.setFecha(LocalDate.parse(request.getParameter("fecha"), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+			}
+			
+			LOG.info("Procedemos a guardar el entrenamiento");
+			Entrenamiento training = entrenamientoService.save(entrenamiento);
+			
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
+			
+		} catch (Exception e) {
+			LOG.error("Error al guardar el entrenamiento");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "findeditentrenamiento/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<EntrenamientoEdit> findPartido(@PathVariable("id") int id) {
+		try {
+			LOG.info("Buscamos el entrenamiento con el id: " + id);
+			Optional<Entrenamiento> entrenamiento0 = entrenamientoService.findById(id);
+			Entrenamiento entrenamiento = entrenamiento0.get();
+			EntrenamientoEdit edit = entrenamientoConverter.convertEntrenamientoToEntrenamientoEdit(entrenamiento);
+			return new ResponseEntity<EntrenamientoEdit>(edit, HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Excepción encontrando el entrenamiento para editar");
+			return new ResponseEntity<EntrenamientoEdit>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 }

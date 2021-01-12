@@ -52,6 +52,16 @@ public class EntrenamientoServiceImpl extends AbstractEstadisticasService<Entren
 	public List<Entrenamiento> findByFechaOrderByHora(LocalDate date) {
 		return entrenamientoRepository.findByFechaOrderByHora(date);
 	}
+	
+	@Override
+	public List<Entrenamiento> findByFechaAfter(LocalDate date) {
+		return entrenamientoRepository.findByFechaAfter(date);
+	}
+	
+	@Override
+	public List<Entrenamiento> findByEquipoAndFechaAndHoraBetween(Equipo equipo, LocalDate fecha, String hora1, String hora2) {
+		return entrenamientoRepository.findByEquipoAndFechaAndHoraBetween(equipo, fecha, hora1, hora2);
+	}
 
 	@Override
 	public List<Entrenamiento> findByEquipo(Equipo equipo) {
