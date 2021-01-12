@@ -1,9 +1,12 @@
 package org.springframework.samples.petclinic.converter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
+import org.springframework.samples.petclinic.model.auxiliares.PartidoPuntos;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.PartidoStats;
 import org.springframework.stereotype.Component;
@@ -70,5 +73,25 @@ public PartidoStats convertPartidoToPartidoStats(Partido partido) {
 				partido.getTiempo62()
 				);
 	}
+
+public PartidoPuntos convertPartidoToPartidoPuntos(Partido partido) {
+	return new PartidoPuntos(
+			partido.getFecha(),
+			partido.getNumPuntosSet1(),
+			partido.getNumPuntosSet2(),
+			partido.getNumPuntosSet3(),
+			partido.getNumPuntosSet4(),
+			partido.getNumPuntosSet5(),
+			partido.getNumPuntosTotales()
+			);
+}
+
+public List<PartidoPuntos> convertListPartidoToListPartidoPuntos(List<Partido> partidos) {
+	List<PartidoPuntos> partidospuntos= new ArrayList<PartidoPuntos>();
+	for(int i=0;i<partidos.size();i++) {
+		partidospuntos.add(convertPartidoToPartidoPuntos(partidos.get(i)));
+	}
+	return partidospuntos;
+}
 
 }
