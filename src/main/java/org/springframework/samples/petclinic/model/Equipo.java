@@ -1,8 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,7 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
@@ -39,8 +36,8 @@ public class Equipo extends EstadisticasEntity{
 		this.liga = trim2;
 	}
 
-	@OneToMany( mappedBy = "equipo")
-	private Set<Entrenamiento> entrenamientos;
+//	@OneToMany( mappedBy = "equipo")
+//	private Set<Entrenamiento> entrenamientos;
 	
 	@ManyToOne
 	@JoinColumn(name = "capitan_id")

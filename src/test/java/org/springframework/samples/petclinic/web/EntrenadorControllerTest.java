@@ -1,8 +1,5 @@
 package org.springframework.samples.petclinic.web;
 
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -13,26 +10,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.samples.petclinic.component.EntrenadorValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.controller.EntrenadorController;
-import org.springframework.samples.petclinic.service.EntrenadorService;
+import org.springframework.samples.petclinic.web.base.BaseControllerTest;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.validation.Errors;
 
 @WebMvcTest(value = EntrenadorController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class))
-public class EntrenadorControllerTest {
-
-	@MockBean
-	private EntrenadorService entrenadorService;
-
-	@MockBean
-	private EntrenadorValidator entrenadorValidator;
+public class EntrenadorControllerTest extends BaseControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -48,9 +36,7 @@ public class EntrenadorControllerTest {
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormSuccess() throws Exception {
-		doNothing().when(entrenadorValidator).validate(any(Object.class), any(Errors.class));
-
-		when(entrenadorValidator.supports(any(Class.class))).thenReturn(true);
+		
 		mockMvc.perform(post("/entrenadores/addentrenador").with(csrf())
 				.param("firstName", "Pepe")
 				.param("lastName", "Cayetano")
