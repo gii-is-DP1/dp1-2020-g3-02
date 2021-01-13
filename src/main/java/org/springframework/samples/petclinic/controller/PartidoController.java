@@ -87,7 +87,7 @@ public class PartidoController {
 	private JugadorPartidoStatsConverter jugadorPartidoStatsConverter;
 	
 	@Autowired
-	private EstadisticaPersonalPartidoService estadisService;
+	private EstadisticaPersonalPartidoService estadisticaPersonalPartidoService;
 	
 	@Autowired
 	private JugadorService jugadorService;
@@ -152,7 +152,7 @@ public class PartidoController {
         User  user = userService.findByUsername(username);
         Jugador jugador = jugadorService.findByUser(user);
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_JUGADOR_POR_PARTIDO);
-		mav.addObject("estadisticas", estadisService.findByJugador(jugador.getId()));
+		mav.addObject("estadisticas", estadisticaPersonalPartidoService.findByJugador(jugador.getId()));
 		
 		List<String> categorias = new ArrayList<String>();
 		categorias.addAll(jugador.getEquipos().stream().map(x->x.getCategoria()).sorted().collect(Collectors.toList()));
@@ -194,7 +194,7 @@ public class PartidoController {
 			
 		
 				Equipo equipo = equipoService.findByCategoria(categoria);
-				estadisticasJugador = estadisService.findByJugador(jugador.getId());
+				estadisticasJugador = estadisticaPersonalPartidoService.findByJugador(jugador.getId());
 			
 			
 			for (int i = 0; i < estadisticasJugador.size();i++) {
@@ -256,7 +256,7 @@ public class PartidoController {
 	@GetMapping("/showestadisiticasPartidoTodosJugadores")
 	public ModelAndView vistaEstadísticasPartidoJugadores(int id) {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_PARTIDO_JUGADORES);
-		mav.addObject("estadisticas", estadisService.findByPartido(id));
+		mav.addObject("estadisticas", estadisticaPersonalPartidoService.findByPartido(id));
 		
 		return mav;
 	}
@@ -266,7 +266,7 @@ public class PartidoController {
 		try {
 			
 			
-			List<EstadisticaPersonalPartido> estadisticasPersonalesPartidos = estadisService.findByPartido(id);
+			List<EstadisticaPersonalPartido> estadisticasPersonalesPartidos = estadisticaPersonalPartidoService.findByPartido(id);
 			List<EstadisticasPersonalesStats> estadisticasPersonalesStats = new ArrayList<EstadisticasPersonalesStats>();
 			
 			
@@ -286,7 +286,7 @@ public class PartidoController {
 	@GetMapping("/showestadisiticasPartidoJugador")
 	public ModelAndView vistaEstadísticasPartidoJugador(int jugador_id, int partido_id) {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_PARTIDO_JUGADOR);
-		mav.addObject("estadisticas", estadisService.findByJugadorAndPartido(jugador_id, partido_id));
+		mav.addObject("estadisticas", estadisticaPersonalPartidoService.findByJugadorAndPartido(jugador_id, partido_id));
 		return mav;
 	}
 	
