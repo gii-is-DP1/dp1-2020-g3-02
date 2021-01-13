@@ -304,7 +304,7 @@ public class PartidoController {
 			List<JugadorPartidoStats> listaJugadorStats = new ArrayList<JugadorPartidoStats>();
 			for (int i = 0; i<partido.get().getJugadores().size();i++) {
 				
-				JugadorPartidoStats stats = jugadorPartidoStatsConverter.convertPartidoToPartidoStats(partido.get().getJugadores().get(i));
+				JugadorPartidoStats stats = jugadorPartidoStatsConverter.convertJugadorToJugadorPartidoStats(partido.get().getJugadores().get(i));
 				listaJugadorStats.add(stats);
 			}
 			
