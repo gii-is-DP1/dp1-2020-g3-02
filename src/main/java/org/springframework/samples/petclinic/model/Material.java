@@ -13,19 +13,15 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 
 import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
-import org.springframework.samples.petclinic.enumerate.Sistema;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
-
 @Table(name = "materiales", uniqueConstraints = @UniqueConstraint(columnNames = { "tipo","estado" }))
 public class Material extends BaseEntity{
 

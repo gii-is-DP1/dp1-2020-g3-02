@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -211,7 +212,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		given(this.entrenadorService.findByUser(any(User.class))).willReturn(entrenador);
 		
 		given(this.estadisticaPersonalPartidoService.findById(any(Integer.class))).willReturn(Optional.of(estadisticaPersonalPartido));
-		//given(this.estadisticaPersonalPartidoService.findByJugador(any(Integer.class))).willReturn(Lists.newArrayList(estadisticaPersonalPartido));
+		given(this.estadisticaPersonalPartidoService.findByJugador(any(Integer.class))).willReturn(Lists.newArrayList(estadisticaPersonalPartido));
 	}
 
 }

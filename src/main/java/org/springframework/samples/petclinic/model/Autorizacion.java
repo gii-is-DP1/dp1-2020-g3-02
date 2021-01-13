@@ -13,13 +13,11 @@ import javax.persistence.Table;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @Entity
 @Table(name = "autorizaciones")
 public class Autorizacion extends BaseEntity{

@@ -41,7 +41,8 @@ public class PartidoControllerTest extends BaseControllerTest {
 		
 		mockMvc.perform(get("/partidos/showestadisiticasJugadores")).andExpect(status().isOk())
 				.andExpect(view().name(ViewConstant.VIEW_ESTADISTICAS_JUGADOR_POR_PARTIDO))
-				.andExpect(model().attributeExists("categorias"));
+				.andExpect(model().attributeExists("categorias"))
+				.andExpect(model().attributeExists("estadisticas"));;
 	}
 	
 	@WithMockUser(value = "spring")

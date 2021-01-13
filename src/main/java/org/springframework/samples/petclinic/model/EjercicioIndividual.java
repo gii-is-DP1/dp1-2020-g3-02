@@ -13,13 +13,11 @@ import javax.persistence.UniqueConstraint;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
 import org.springframework.samples.petclinic.model.padres.BaseEntity;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = false, doNotUseGetters = true)
 @Entity
 @Table(name = "ejercicios_individuales", uniqueConstraints = @UniqueConstraint(columnNames = { "nombre" }))
 public class EjercicioIndividual extends BaseEntity {
