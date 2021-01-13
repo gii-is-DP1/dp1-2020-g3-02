@@ -1,0 +1,40 @@
+<meta charset="UTF-8" />
+
+	<div class="toast modal-lg toastSuccess" data-autohide="true"  style="box-sizing: content-box;width:33%;position:absolute;z-index:2000;left: 50%;transform: translate(-50%, 0px);top: 7%;">
+			<div class="toast-header bg-success">
+      			<strong class="mr-auto text-white">Éxito!</strong>		
+    		</div>
+    		<div class="toast-body text-white bg-success">
+      			<span id="textoToastSuccess">Éxito</span>
+   			</div>
+ 		</div>
+ 	
+ 	<div class="toast modal-lg toastError" data-autohide="true"  style="box-sizing: content-box;width:35%;position:absolute;z-index:2000;left: 50%;transform: translate(-50%, 0px);top: 7%;">
+			<div class="toast-header bg-danger">
+      			<strong class="mr-auto text-white">Error!</strong>
+    		</div>
+    		<div class="toast-body text-white bg-danger">
+      			<span id="textoToastError">Error</span>
+   			</div>
+ 		</div>
+	
+<script>
+	
+	function toastSuccess (texto){
+		if(texto != ""){
+			document.getElementById("textoToastSuccess").innerHTML = texto;
+		}
+		$(document).ready(function(){
+		$('.toastSuccess').toast({ delay: 3000 });
+		$('.toastSuccess').toast('show');
+		}); 
+	};
+	
+	function toastError (texto){
+		document.getElementById("textoToastError").innerHTML = texto;
+		$(document).ready(function(){
+			$('.toastError').toast({ delay: 3000 });
+			$('.toastError').toast('show');
+			});
+	};
+</script>

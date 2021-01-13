@@ -55,9 +55,11 @@ function enviarEdicion() {
 		contentType : false,
 		success : function(data) {
 			$('#gestionModal').modal("hide");
+			toastSuccess ("Partido editado con éxito");
 			tablaPrincipal.ajax.reload(null, false);
 		},
 		error : function(data) {
+			
 			$('.error').text('');
 
 			for (i = 0; i < data.responseJSON.length; i++) {
