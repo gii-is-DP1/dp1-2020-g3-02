@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
+import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.Material;
@@ -66,5 +69,20 @@ public class LineaMaterialServiceImpl extends AbstractService<LineaMaterial> imp
 		List<LineaMaterial> lineasMaterial =lineaMaterialRepository.findByEntrenamiento(entrenamiento.get());
 		lineaMaterialRepository.deleteAll(lineasMaterial);
 		
+	}
+
+
+	@Override
+	public List<LineaMaterial> findByTipoAndEstado(TipoMaterial tipo, EstadoMaterial estado) {
+		Material material = materialService.findByTipoAndEstado(tipo, estado);
+		List<LineaMaterial> finl = lineaMaterialRepository.findByMaterial(material);
+		return finl;
+	}
+	@Override
+	public List<LineaMaterial> findByMaterialAndEntrenamiento(Material material, Entrenamiento entrenamiento) {
+		
+		List<LineaMaterial> finl = new ArrayList<>();
+		finl.addAll(lineaMaterialRepository.findByMaterialAndEntrenamiento(material,entrenamiento));
+		return finl;
 	}
 }

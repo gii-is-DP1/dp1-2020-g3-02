@@ -245,7 +245,7 @@
 						data-dismiss="modal">Cerrar</button>
 					<button type="button" class="btn btn-info"
 						onclick="return enviarEdicion();">Aceptar</button>
-					<input type="hidden" id="id" name="id"></input>
+					<input type="hidden" id="id2" name="id2"></input>
 				</div>
 			</form>
 		</div>
@@ -270,7 +270,7 @@
 					</div>
 						<div class="form-group col">
 								<label><span class="text-danger">(*) </span>Estado del material:</label> <select class="form-control"
-									th:id="EstadoNuevo" name="EstadoNuevo">
+									th:id="EstadodelMat" name="EstadodelMat">
 									<option th:id="'INSERVIBLE'" th:value="INSERVIBLE">INSERVIBLE</option>
 									<option th:id="'DAÑADO'" th:value="DAÑADO">DAÑADO</option>
 									<option th:id="'ACEPTABLE'" th:value="ACEPTABLE">ACEPTABLE</option>
@@ -282,7 +282,7 @@
 							<div class="form-group col">
 								<label><span class="text-danger">(*) </span>Cantidad a retirar:</label><input
 									class="form-control" type="number" placeholder="Cantidad"
-									th:id="cantidad" name="cantidad" min="1" max="300" required></input>
+									th:id="cantidadretiro" name="cantidadretiro" min="1" max="300" required></input>
 								<small class="peso text-danger error"></small>
 							</div>
 					
@@ -291,7 +291,7 @@
 							data-dismiss="modal">Cerrar</button>
 						<button type="button" class="btn btn-info"
 							onclick="return confirmarBorrado($('#confirmacionModal #id').val());">Aceptar</button>
-						<input type="hidden" id="id" name="id"></input>
+						<input type="hidden" id="id3" name="id3"></input>
 					</div>
 				</form>
 			</div>

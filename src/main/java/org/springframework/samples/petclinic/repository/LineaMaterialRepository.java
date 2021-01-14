@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository("lineaMaterialRepository")
 public interface LineaMaterialRepository extends JpaRepository<LineaMaterial, Serializable>{
 	public List<LineaMaterial> findByCantidad(int cantidad);
-	
+	public List<LineaMaterial> findByMaterialAndEntrenamiento(Material material,Entrenamiento entrenamiento);
 	
 	//@Query("SELECT l FROM LineaMaterial l, Material m WHERE m.id=:material_id")
 	public List<LineaMaterial> findByMaterial( Material material);
