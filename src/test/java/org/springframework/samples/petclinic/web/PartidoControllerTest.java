@@ -18,6 +18,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.controller.PartidoController;
+import org.springframework.samples.petclinic.enumerate.TipoViaje;
+import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.web.base.BaseControllerTest;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -99,11 +102,42 @@ public class PartidoControllerTest extends BaseControllerTest {
 	@Test
 	void testFindPartido() throws Exception {
 
-		when(userService.findByUsername(any(String.class))).thenReturn(getUserJugador());
-
 		mockMvc.perform(get("/partidos/findeditpartido/{id}", ID)).andExpect(jsonPath("$.id", is(ID)))
 				.andExpect(jsonPath("$.fecha", is(LocalDate.now().toString()))).andExpect(jsonPath("$.hora", is(HORA)))
 				.andExpect(status().isOk());
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testListadoDePartidos() throws Exception {
+
+		mockMvc.perform(get("/partidos/findPartidos")).andExpect(status().isOk());
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testFindJugadoresPartidoAutobus() throws Exception {
+
+		Jugador jugador = getJugadorCorrecto();
+
+		when(viajeService.findByJugadorAndPartidoAndTipoViaje(any(Jugador.class), any(Partido.class),
+				any(TipoViaje.class))).thenReturn(
+						getViajeCorrecto(jugador, jugador.getPartidos().get(0), null, getAutobusCorrecto()));
+
+		mockMvc.perform(get("/partidos/findjugadorespartidoAutobus/{partido_id}", ID))
+				.andExpect(jsonPath("$.data[0].viajeId", is(ID))).andExpect(jsonPath("$.data[0].autobusId", is(ID)))
+				.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
+				.andExpect(jsonPath("$.data[0].hora", is(HORA))).andExpect(status().isOk());
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testFindJugadoresPartidoPersonales() throws Exception {
+
+		mockMvc.perform(get("/partidos/findjugadorespartidoPersonales/{partido_id}", ID))
+				.andExpect(jsonPath("$.data[0].viajeId", is(ID))).andExpect(jsonPath("$.data[0].propietario", is("Gonzalo")))
+				.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
+				.andExpect(jsonPath("$.data[0].hora", is(HORA))).andExpect(status().isOk());
 	}
 
 }
