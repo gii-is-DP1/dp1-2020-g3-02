@@ -32,6 +32,7 @@ import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
+import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.samples.petclinic.service.JugadorService;
@@ -69,6 +70,9 @@ public class EstadisticasController {
 	private JugadorService jugadorService;
 	
 	@Autowired
+	private EntrenamientoService entrenamientoService;
+	
+	@Autowired
 	private SustitucionService sustitucionService;
 	
 	@Autowired
@@ -90,6 +94,13 @@ public class EstadisticasController {
 		
 		model.addAttribute("partido", partidoService.findById(partidoId).get());
 		return ViewConstant.VIEW_ESTADISTICAS_PARTIDO_FORM;
+	}
+	
+	@GetMapping("/estadisticasEntrenamientoForm/{entrenamientoId}")
+	public String formularioEstadisticasEntrenamiento(@PathVariable("entrenamientoId") int entrenamientoId, Model model) {
+		
+		model.addAttribute("entrenamiento", entrenamientoService.findById(entrenamientoId).get());
+		return ViewConstant.VIEW_ESTADISTICAS_ENTRENAMIENTO_FORM;
 	}
 	
 	@RequestMapping(value = "/tablaIntroducirEstadisticas/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)

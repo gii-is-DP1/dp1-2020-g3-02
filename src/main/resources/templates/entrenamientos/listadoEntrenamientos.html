@@ -152,9 +152,9 @@
   </div>
 </div>
 	
-	<!-- <div th:replace="partidos/modalEstadisticas"> </div>  -->
+	<div th:replace="entrenamientos/modalEstadisticas"> </div>
 	<div th:replace="entrenamientos/modalEditar"> </div>
-	<!-- <div th:replace="partidos/modalAsistenciaPartido"> </div>-->
+	<div th:replace="partidos/modalAsistenciaPartido"> </div>
 	<div th:replace="entrenamientos/modalEliminar"> </div>
 
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
@@ -183,11 +183,11 @@
 	<script>
 	
 // FUNCIONES PARA EL CONTROL DE LAS ASISTENCIAS
-	/*
-	function irAFormEstadisticas(data,partidoId){
-		window.location.href = "/estadisticas/estadisticasPartidoForm/"+partidoId;
+
+	function irAFormEstadisticas(data,entrenamientoId){
+		window.location.href = "/estadisticas/estadisticasEntrenamientoForm/"+entrenamientoId;
 	}
-	
+
 	function enviarAsiste(data){
 		console.log(data);
 		
@@ -219,14 +219,15 @@
 	}
 	PartidoAsiste = null;
 	PartidoSinAsistir = null;
-	function postJuegaJuegador(button, id){
+	
+	function postAsisteJugador(button, id){
 		console.log(id);
 		console.log(button.value);
 		
 		if(button.innerText=='Asistir'){
 			$.ajax({
 				type : 'POST',
-				url : '/partidos/addjuegaJugador/' + id+"/"+ parseInt($('#idJugador').val(),10),
+				url : '/entrenamientos/addAsisteJugador/' + id + "/" + parseInt($('#idJugador').val(),10),
 				success : function(data) {
 					if(data == ""){
 					tablaPrincipal.ajax.reload(null, false);
@@ -256,7 +257,7 @@
 						$('#modalAsistencia #equipo2').text(data[1].equipo);
 						
 						$('.modal-header-asistencia').css("color","white");
-						$('.modal-title-asistencia').text("Elegir uno de los Partidos");
+						$('.modal-title-asistencia').text("Elegir uno de los entrenamientos");
 						$('#modalAsistencia').modal("show");
 					}
 				}
@@ -264,14 +265,14 @@
 		}else{
 			$.ajax({
 				type : 'POST',
-				url : '/partidos/eliminarjuegaJugador/' + id+"/"+ parseInt($('#idJugador').val(),10),
+				url : '/entrenamientos/eliminarAsisteJugador/' + id+"/"+ parseInt($('#idJugador').val(),10),
 				success : function(borrar) {
 					tablaPrincipal.ajax.reload(null, false);
 				}
 			});
 		}
-	}*/
-	
+	}
+
 	//TABLA PRINCIPAL CON AJAX ===============================================
 	tablaPrincipal = $('#entrenamientos').DataTable({
 		responsive: true,
@@ -305,14 +306,14 @@
 									+"<i class='fas fa-bus'></i> </button>" +
 									" <button type='button' class='btn btn-outline-secondary' "+
 									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
-									" <button  class='btn btn-outline-info' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='Asistir'>"+
+									" <button  class='btn btn-outline-info' type='button' onclick='return postAsisteJugador(this,"+row['id'] +");' title='Asistir'>"+
 									"Asistir</button>";
 							 }else{
 								 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
 									+"<i class='fas fa-bus'></i> </button>" +
 									" <button type='button' class='btn btn-outline-secondary' "+
 									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
-									" <button  class='btn btn-outline-danger' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='No Asistir'>"+
+									" <button  class='btn btn-outline-danger' type='button' onclick='return postAsisteJugador(this,"+row['id'] +");' title='No Asistir'>"+
 									"No Asistir</button>";
 							 }
 						 }else{

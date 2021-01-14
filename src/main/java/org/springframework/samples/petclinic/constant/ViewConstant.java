@@ -51,5 +51,6 @@ public class ViewConstant {
 	public static final String VIEW_CUERPO_TECNICO = "cuerpotecnico/listadocuerpotecnico";
 	
 	public static final String VIEW_ESTADISTICAS_PARTIDO_FORM = "estadisticas/estadisticasPartidoForm";
+	public static final String VIEW_ESTADISTICAS_ENTRENAMIENTO_FORM = "estadisticas/estadisticasEntrenamientoForm";
 
 }
