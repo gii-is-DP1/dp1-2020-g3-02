@@ -13,6 +13,8 @@ import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.Posicion;
 import org.springframework.samples.petclinic.enumerate.Sistema;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
+import org.springframework.samples.petclinic.enumerate.TipoViaje;
+import org.springframework.samples.petclinic.model.Autobus;
 import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.model.Entrenador;
@@ -22,6 +24,8 @@ import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.model.Personales;
+import org.springframework.samples.petclinic.model.Viaje;
 
 public class BaseControllerTest extends BaseUserControllerTest {
 
@@ -187,6 +191,24 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		return estadistica;
 	}
 
+	protected Personales getPersonalCorrecto(Jugador jugador) {
+		Personales personal = new Personales("Gonzalo", jugador);
+		personal.setId(ID);
+		return personal;
+	}
+
+	protected Autobus getAutobusCorrecto() {
+		Autobus bus = new Autobus();
+		bus.setId(ID);
+		return bus;
+	}
+
+	protected Viaje getViajeCorrecto(Jugador jugador, Partido partido, Personales personal, Autobus autobus) {
+		Viaje viaje = new Viaje(TipoViaje.IDA, HORA, false, jugador, partido, personal, autobus);
+		viaje.setId(ID);
+		return viaje;
+	}
+
 	@BeforeEach
 	void setup() {
 
@@ -197,6 +219,9 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		Estadistico estadistico = getEstadisticoCorrecto();
 		EstadisticaPersonalPartido estadisticaPersonalPartido = getEstadisticaPersonalPartidoCorrecta(jugador, partido,
 				estadistico);
+		Personales personal = getPersonalCorrecto(jugador);
+		Autobus autobus = getAutobusCorrecto();
+		Viaje viaje = getViajeCorrecto(jugador, partido, personal, autobus);
 
 		// Invalidación de validators
 		doNothingValidators();
@@ -224,18 +249,23 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		// EstadisticaPersonalPartidoService
 		givenEstadisticaPersonalPartidoService(estadisticaPersonalPartido);
 
+		// ViajeService
+		givenViajeService(viaje);
+
 		// Converters
-		given(this.jugadorPartidoStatsConverter
-				.convertJugadorToJugadorPartidoStats(any(Jugador.class)))
-						.willReturn(convertJugadorToJugadorPartidoStats(jugador));
-		given(this.partidoConverter
-				.convertPartidoToPartidoEdit(any(Partido.class)))
-						.willReturn(convertPartidoToPartidoEdit(partido));
+		given(this.jugadorPartidoStatsConverter.convertJugadorToJugadorPartidoStats(any(Jugador.class)))
+				.willReturn(convertJugadorToJugadorPartidoStats(jugador));
+		given(this.partidoConverter.convertPartidoToPartidoEdit(any(Partido.class)))
+				.willReturn(convertPartidoToPartidoEdit(partido));
+		given(this.partidoConverter.convertPartidoToPartidoConAsistencia(any(Partido.class)))
+				.willReturn(convertPartidoToPartidoConAsistencia(partido));
 		given(this.estadisticasConverter
 				.convertEstadisticasPersonalesToJugadorStats(any(EstadisticaPersonalPartido.class)))
 						.willReturn(convertEstadisticasPersonalesToJugadorStats(estadisticaPersonalPartido));
 		given(this.estadisticasConverter.convertEstadisticasToEstadisticasStats(any(EstadisticaPersonalPartido.class)))
 				.willReturn(convertEstadisticasToEstadisticasStats(estadisticaPersonalPartido));
+		given(this.viajeConverter.convertViajeToJugadorPartidoViaje(any(Viaje.class)))
+				.willReturn(convertViajeToJugadorPartidoViaje(viaje));
 	}
 
 }

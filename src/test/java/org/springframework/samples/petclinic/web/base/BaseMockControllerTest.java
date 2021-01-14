@@ -5,6 +5,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.assertj.core.util.Lists;
@@ -16,12 +17,14 @@ import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.converter.ViajeConverter;
+import org.springframework.samples.petclinic.enumerate.TipoViaje;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
@@ -124,12 +127,14 @@ public class BaseMockControllerTest {
 	/** Metodos EquipoService por defecto */
 	protected void givenEquipoService(Equipo equipo) {
 		given(this.equipoService.findById(any(Integer.class))).willReturn(Optional.of(equipo));
+		given(this.equipoService.findAll()).willReturn(Lists.newArrayList(equipo));
 		given(this.equipoService.findByCategoria(any(String.class))).willReturn(equipo);
 	}
 
 	/** Metodos PartidoService por defecto */
 	protected void givenPartidoService(Partido partido) {
 		given(this.partidoService.findById(any(Integer.class))).willReturn(Optional.of(partido));
+		given(this.partidoService.findByFechaAfter(any(LocalDate.class))).willReturn(Lists.newArrayList(partido));
 	}
 
 	/** Metodos EstadisticaPersonalPartidoService por defecto */
@@ -140,6 +145,12 @@ public class BaseMockControllerTest {
 				.willReturn(Lists.newArrayList(estadisticaPersonalPartido));
 		given(this.estadisticaPersonalPartidoService.findByPartido(any(Integer.class)))
 				.willReturn(Lists.newArrayList(estadisticaPersonalPartido));
+	}
+	
+	/** Metodos PartidoService por defecto */
+	protected void givenViajeService(Viaje viaje) {
+		given(this.viajeService.findById(any(Integer.class))).willReturn(Optional.of(viaje));
+		given(this.viajeService.findByJugadorAndPartidoAndTipoViaje(any(Jugador.class), any(Partido.class), any(TipoViaje.class))).willReturn(viaje);
 	}
 
 }
