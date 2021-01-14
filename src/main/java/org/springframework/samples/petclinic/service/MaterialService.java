@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.service.base.BaseService;
@@ -15,6 +16,7 @@ public interface MaterialService extends BaseService<Material>{
 	public abstract List<Material> findByDescripcion(String descripcion);
 	public abstract List<Material> findByStock(int stock);
 	public abstract Material updateMaterial(Material material);
+	public abstract Material findByTipoAndEstado(TipoMaterial material,EstadoMaterial estado);
 	
 	public abstract Material saveMaterial(Material material);
 

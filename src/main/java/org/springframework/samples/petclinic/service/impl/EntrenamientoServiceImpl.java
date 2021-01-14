@@ -58,7 +58,10 @@ public class EntrenamientoServiceImpl extends AbstractEstadisticasService<Entren
 		
 		return entrenamientoRepository.findByEquipo(equipo);
 	}
-	
+	@Override
+	public List<Entrenamiento> findByEquipoAndFechaAndHoraBetween(Equipo equipo, LocalDate fecha, String hora1, String hora2) {
+		return entrenamientoRepository.findByEquipoAndFechaAndHoraBetween(equipo, fecha, hora1, hora2);
+	}
 	@Override
 	@Transactional
 	public void deleteById(Integer entrenamiento_id) {

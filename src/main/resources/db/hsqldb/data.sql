@@ -534,17 +534,17 @@ INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (11,'cono alto 
 	
 
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (1,5,1,2);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (3,2,1,3);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (4,1,1,4);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (5,6,1,5);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (6,3,2,1);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (8,1,2,3);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (9,5,2,4);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (10,2,2,5);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (11,3,1,10);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (12,1,2,11);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (13,5,7,2);
-INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (14,5,8,2);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (2,2,1,3);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (3,1,1,4);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (4,6,1,5);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (5,3,2,1);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (6,1,2,3);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (7,5,2,4);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (8,2,2,5);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (9,3,1,10);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (10,1,2,11);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (11,5,7,2);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (12,5,8,2);
 
 
 -- INSERT AUTOBUSES

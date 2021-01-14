@@ -20,20 +20,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.MaterialValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.MaterialConverter;
-import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
-import org.springframework.samples.petclinic.enumerate.Sistema;
-import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
-import org.springframework.samples.petclinic.model.Equipo;
-import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Material;
-import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
-import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
 import org.springframework.samples.petclinic.model.auxiliares.MaterialEstados;
-import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
-import org.springframework.samples.petclinic.model.ediciones.EquipoEdit;
 import org.springframework.samples.petclinic.model.ediciones.MaterialDTO;
 import org.springframework.samples.petclinic.model.ediciones.MaterialEdit;
 import org.springframework.samples.petclinic.service.MaterialService;
@@ -115,7 +106,8 @@ public class MaterialController {
 				map.put(EstadoMaterial.ACEPTABLE, (aceptable.size()!=0)? aceptable.get(0):0);
 				map.put(EstadoMaterial.DAÑADO, (dañado.size()!=0)? dañado.get(0):0);
 				m.setEstados(map);
-				m.setPorcentaje(calcularPorcentajeUso(tipos[i]));
+				int hola= calcularPorcentajeUso(tipos[i]);
+				m.setPorcentaje(hola);
 				listaMateriales.add(m);
 
 			}

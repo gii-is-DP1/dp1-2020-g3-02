@@ -11,5 +11,7 @@ public interface EntrenamientoRepository extends ExtendedJpaRepository<Entrenami
 	public List<Entrenamiento> findByEquipoOrderByFecha(Equipo team);
 	public List<Entrenamiento> findByFechaOrderByHora(LocalDate date);
 	public List<Entrenamiento> findByEquipo(Equipo equipo);
+	public List<Entrenamiento> findByEquipoAndFechaAndHoraBetween(Equipo equipo, LocalDate fecha, String hora1, String hora2);
+	
 
 }
