@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,10 +95,17 @@ public class EntrenamientoController {
 	private EntrenamientoValidator entrenamientoValidator;
 	
 	@GetMapping("/showentrenamientos")
-	public ModelAndView listadoJugadores() {
+	public ModelAndView listadoEntrenamientos(HttpServletRequest request) {
 		
+		Principal principal = request.getUserPrincipal();
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ENTRENAMIENTOS);
-		mav.addObject("entrenamientos", entrenamientoService.findAll());
+		if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("jugador")) {
+			String username =  principal.getName(); 
+	        User  user = userService.findByUsername(username);
+	        Jugador jugador = jugadorService.findByUser(user);
+			mav.addObject("jugador", jugador);
+			
+		}
 		return mav;
 	}
 	 
@@ -380,6 +388,55 @@ public class EntrenamientoController {
 			LOG.error("Excepción encontrando el entrenamiento para editar");
 			return new ResponseEntity<EntrenamientoEdit>(HttpStatus.BAD_REQUEST);
 		}	
+	}
+	
+	@RequestMapping(value = "/addAsisteJugador/{entrenamiento_id}/{jugador_id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<EntrenamientoConAsistencia>> addJuegaJuegador(@PathVariable("entrenamiento_id") int entrenamiento_id , @PathVariable("jugador_id") int jugador_id) {
+		try {
+			Entrenamiento entrenamiento = entrenamientoService.findById(entrenamiento_id).get();
+			EntrenamientoConAsistencia entrenamientoConAsistencia = entrenamientoConverter.convertEntrenamientoToEntrenamientoConAsistencia(entrenamiento);
+			Jugador jugador = jugadorService.findById(jugador_id).get();
+				
+			List<Equipo> equiposJugador = jugador.getEquipos();
+			
+			List<EntrenamientoConAsistencia> entrenamientosAtendidos = entrenamientoService.obtenerEntrenamientosAsistidos(equiposJugador, jugador, entrenamiento);
+			
+			if(entrenamientosAtendidos.size() == 1) {
+				entrenamientosAtendidos.add(entrenamientoConAsistencia);
+				return new ResponseEntity<List<EntrenamientoConAsistencia>>(entrenamientosAtendidos, HttpStatus.OK);
+			}
+			
+			Set<Jugador> jugadores = entrenamiento.getJugadores();
+			jugadores.add(jugador);
+			entrenamiento.setJugadores(jugadores);
+			entrenamientoService.save(entrenamiento);
+		
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción añadiendo el jugador al partido");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@RequestMapping(value = "/eliminarAsisteJugador/{entrenamiento_id}/{jugador_id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity eliminarJuegaJugador(@PathVariable("entrenamiento_id") int entrenamiento_id , @PathVariable("jugador_id") int jugador_id) {
+		try {
+			LOG.info("Buscamos el entrenamiento con el id: " + entrenamiento_id);
+			Entrenamiento entrenamiento = entrenamientoService.findById(entrenamiento_id).get();
+			
+			LOG.info("Filtramos los jugadores para encontrar dentro del entrenamiento todos los que no tienen el id: " + jugador_id);
+			Set<Jugador> jugadores = entrenamiento.getJugadores().stream().filter(x->x.getId()!= jugador_id).collect(Collectors.toSet());
+			entrenamiento.setJugadores(jugadores);
+			LOG.info("Actualizamos el partido de id=" + entrenamiento_id + " sin el jugador con id=" + jugador_id);
+			entrenamientoService.save(entrenamiento);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción eliminando el jugador del partido");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 	
 }
