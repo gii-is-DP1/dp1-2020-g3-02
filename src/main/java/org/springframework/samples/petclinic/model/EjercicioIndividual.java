@@ -1,13 +1,8 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
@@ -25,10 +20,10 @@ public class EjercicioIndividual extends BaseEntity {
 //	@OneToMany(/*cascade = CascadeType.ALL, orphanRemoval = true,*/ mappedBy = "ejercicio_individual")
 //	private Set<RealizaEjercicio> realiza_ejercicios;
 	
-	@ManyToMany
-	@JoinTable(name = "recomendacion", joinColumns = @JoinColumn(name = "ejercicio_individual_id"), 
-	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
-	private Set<Jugador> jugadores;
+//	@ManyToMany
+//	@JoinTable(name = "recomendacion", joinColumns = @JoinColumn(name = "ejercicio_individual_id"), 
+//	  inverseJoinColumns = @JoinColumn(name = "jugador_id"))
+//	private Set<Jugador> jugadores;
 	
 	@Column(name = "nombre", nullable = false)
 	private String nombre;

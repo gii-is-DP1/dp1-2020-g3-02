@@ -1,13 +1,9 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
@@ -30,8 +26,6 @@ public class Material extends BaseEntity{
 		this.tipo = tipo;
 		this.stock = stock;
 	}
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "material")
-	private Set<LineaMaterial> lineaMaterial;
 
 	@Column(name = "descripcion", nullable = false, length = 255)
 	private String descripcion;

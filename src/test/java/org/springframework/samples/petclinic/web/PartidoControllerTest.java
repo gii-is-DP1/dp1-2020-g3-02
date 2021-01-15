@@ -135,7 +135,7 @@ public class PartidoControllerTest extends BaseControllerTest {
 	void testFindJugadoresPartidoPersonales() throws Exception {
 
 		mockMvc.perform(get("/partidos/findjugadorespartidoPersonales/{partido_id}", ID))
-				.andExpect(jsonPath("$.data[0].viajeId", is(ID))).andExpect(jsonPath("$.data[0].propietario", is("Gonzalo")))
+				.andExpect(jsonPath("$.data[0].viajeId", is(ID))).andExpect(jsonPath("$.data[0].propietario", is(NOMBRE_JUGADOR)))
 				.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
 				.andExpect(jsonPath("$.data[0].hora", is(HORA))).andExpect(status().isOk());
 	}
