@@ -96,6 +96,7 @@ public class BaseMockControllerTest {
 	protected void doNothingValidators() {
 		doNothing().when(entrenadorValidator).validate(any(Object.class), any(Errors.class));
 		when(entrenadorValidator.supports(any(Class.class))).thenReturn(true);
+
 		doNothing().when(partidoValidator).validate(any(Object.class), any(Errors.class));
 		when(partidoValidator.supports(any(Class.class))).thenReturn(true);
 	}
@@ -146,11 +147,12 @@ public class BaseMockControllerTest {
 		given(this.estadisticaPersonalPartidoService.findByPartido(any(Integer.class)))
 				.willReturn(Lists.newArrayList(estadisticaPersonalPartido));
 	}
-	
+
 	/** Metodos PartidoService por defecto */
 	protected void givenViajeService(Viaje viaje) {
 		given(this.viajeService.findById(any(Integer.class))).willReturn(Optional.of(viaje));
-		given(this.viajeService.findByJugadorAndPartidoAndTipoViaje(any(Jugador.class), any(Partido.class), any(TipoViaje.class))).willReturn(viaje);
+		given(this.viajeService.findByJugadorAndPartidoAndTipoViaje(any(Jugador.class), any(Partido.class),
+				any(TipoViaje.class))).willReturn(viaje);
 	}
 
 }
