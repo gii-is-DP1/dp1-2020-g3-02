@@ -526,6 +526,7 @@ INSERT INTO pruebas_condicion_fisica (id,dato,fecha,tipo_prueba,jugador_id) VALU
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (1,1);
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (2,1);
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (3,1);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,1);
 
 
 

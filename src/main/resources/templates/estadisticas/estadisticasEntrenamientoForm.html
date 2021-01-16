@@ -50,9 +50,9 @@ input #negativo {
 		
 <!-- 		
 		<div th:replace="estadisticas/cronometro"></div>
-		
-		<input type="hidden" id="partidoId" th:value="${partido.id}"></input>
  -->		
+		<input type="hidden" id="entrenamientoId" th:value="${entrenamiento.id}"></input>
+		
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md py-3">
@@ -64,8 +64,7 @@ input #negativo {
 								<h3 class="card-title pt-1 ml-1">Introducción de estadísticas</h3>
 						
 									<button class="btn btn-warning ml-auto mr-1"  onclick="return abrirModalSistemaJuego(this);" title="Cambio Sistema de Juego"><i class="fas fa-exchange-alt"></i> Sistema Juego</button>
-									<button class="btn btn-info ml-auto mr-1" onclick="return tablaSustituciones(this);" th:title="Sustitución"><i class="fas fa-exchange-alt"></i> Jugadores</button>
-								
+									<!-- <button class="btn btn-info ml-auto mr-1" onclick="return tablaSustituciones(this);" th:title="Sustitución"><i class="fas fa-exchange-alt"></i> Jugadores</button>  -->
 							</div>
 						</div>
 						<div class="card-body">
@@ -85,8 +84,6 @@ input #negativo {
 											<th>Rem</th>
 											<th>Fint</th>
 											<th>AtR</th>
-											<th>Falt</th>
-											<th>Tarj</th>
 										</tr>
 									</thead>
 								</table>
@@ -137,7 +134,7 @@ input #negativo {
 						<div class="card-header text-white"
 							style="background: rgb(23, 162, 184); background: linear-gradient(90deg, rgba(23, 162, 184, 1) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);">
 							<div class="row">
-								<h3 class="card-title ml-3">Estadísticas del partido</h3>
+								<h3 class="card-title ml-3">Estadísticas del entrenamiento</h3>
 							</div>
 						</div>
 						<div class="collapse show" id="collapseEstadisticas">
@@ -201,13 +198,13 @@ input #negativo {
 	
 	$.ajax({
 		type : 'GET',
-		url : '/estadisticas/jugadoresEnCampo/'+$('#partidoId').val(),
+		url : '/estadisticas/jugadoresEnCampoEntrenamiento/'+$('#entrenamientoId').val(),
 		success : function(jugadores) {
 			
 			if(jugadores.length < 6){
 				tablaInicio(this);
 				$('.modal-header').css("color","white");
-				$('.modal-title').text("Selección de jugadores titulares");
+				$('.modal-title').text("Selección de jugadores");
 				$('#inicioModal').modal("show");
 			}
 		}
@@ -225,7 +222,7 @@ input #negativo {
 	}
 	
 	function insertarDatosEstadisticasComando(){
-		var id = $('#partidoId').val();
+		var id = $('#entrenamientoId').val();
 		var formCom = new FormData();
 		formCom.append("comandoIntroducido",$('#comandoIntroducido').val());
 		
@@ -233,7 +230,7 @@ input #negativo {
 		
 		$.ajax({
 			type: 'POST',
-			url: '/estadisticas/saveComandos/'+id,
+			url: '/estadisticas/saveComandosEntrenamiento/'+id,
 			data: formCom,
             processData: false,
             contentType: false,
@@ -309,7 +306,7 @@ input #negativo {
 		
 		$.ajax({
 			type: 'GET',
-			url: '/estadisticas/obtenerEstadisticasJugadores/'+$('#partidoId').val(),
+			url: '/estadisticas/obtenerEstadisticasJugadoresEntrenamiento/'+$('#entrenamientoId').val(),
 			success: function(stats){
 
 				chart = Highcharts.chart('estadisticas-contenedor', {
@@ -428,13 +425,11 @@ input #negativo {
 	
 	function insertarDatosEstadisticas(data){
 		
-		form.append('partidoId',$('#partidoId').val());
+		form.append('entrenamientoId',$('#entrenamientoId').val());
 		form.append('hour',$('#hour').text());
-		form.append('minute',$('#minute').text());
-		form.append('second',$('#second').text());
 		
 		$.ajax({
-            url: '/estadisticas/rellenarDatos',
+            url: '/estadisticas/rellenarDatosEntrenamiento',
             type: 'post',
             data: form,
             processData: false,
@@ -474,7 +469,7 @@ input #negativo {
 					tablaIntroducirEstadisticas=$('#introducirEstadisticas')
 							.DataTable({
 								dom: "f",
-								ajax: '[[@{/estadisticas/tablaIntroducirEstadisticas/}]]'+[[${partido.id}]],
+								ajax: '[[@{/estadisticas/tablaIntroducirEstadisticasEntrenamiento/}]]'+[[${entrenamiento.id}]],
 								responsive: true,
 								order: [0, 'asc'],
 								"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
@@ -530,16 +525,6 @@ input #negativo {
 										render: function (data, type, row) {
 											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-danger'> <label for='fataque,"+row['id']+"'><i class='fas fa-lg fa-minus'></i></label> </div> <div class='col-sm-6 text-center text-success'> <label for='aataque,"+row['id']+"'><i class='fas fa-lg fa-plus'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 value='"+(row['numAtaquesRapidosTotales']-row['numAtaquesRapidosAcertados'])+"' onchange='return addToForm(this,"+'"fataque,'+row['id']+'");'+"' id='fataque,"+row['id']+"' class='form-control' type='number'> <input min=0 value='"+row['numAtaquesRapidosAcertados']+"' onchange='return addToForm(this,"+'"aataque,'+row['id']+'");'+"' id='aataque,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
 										}
-									},
-									{data: 'numFaltasTotales',
-										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-6 text-center text-danger'> <label for='faltas,"+row['id']+"'><i class='fas fa-lg fa-hand-paper'></i></label> </div> </div> <div class='row'> <div class='col-6 py-0'> <div class='input-group'>  <input min=0 value='"+row['numFaltasTotales']+"' onchange='return addToForm(this,"+'"faltas,'+row['id']+'");'+"' id='faltas,"+row['id']+"' class='form-control' type='number'> </div> </div> </div> </div>";
-									}
-									},
-									{data: 'numAmarillas',
-										render: function (data, type, row) {
-											return "<div class='container-fluid'> <div class='row'> <div class='col-sm-6 text-center text-warning'> <label for='amarillas,"+row['id']+"'><i class='fas fa-lg fa-rectangle-portrait'></i></i></label> </div> <div class='col-sm-6 text-center text-danger'> <label for='rojas,"+row['id']+"'><i class='fas fa-lg fa-rectangle-portrait'></i></label> </div> </div> <div class='row'> <div class='input-group'>  <input min=0 value='"+row['numAmarillas']+"' onchange='return addToForm(this,"+'"amarillas,'+row['id']+'");'+"' id='amarillas,"+row['id']+"' class='form-control' type='number'> <input min='"+Math.floor(row['numAmarillas']/2)+"' value='"+row['numRojas']+"' onchange='return addToForm(this,"+'"rojas,'+row['id']+'");'+"' id='rojas,"+row['id']+"' class='form-control' type='number'> </div> </div> </div>";
-										}
 									}
 								],
 								columnDefs: [
@@ -579,9 +564,7 @@ input #negativo {
 						            {
 						                "targets": [ 8 ],
 						                "orderable": false
-						            },
-						            { className: 'none', targets: -2 },
-									{ className: 'none', targets: -1 },
+						            }
 								],
 								language : {
 								    "processing": "Procesando...",

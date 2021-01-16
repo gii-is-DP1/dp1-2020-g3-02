@@ -302,18 +302,10 @@
 					 }else  if($('#security').val() == 'jugador'){
 						 if($('#estado').val() == 'EN_FORMA'){
 						 	if(!data.includes(parseInt($('#idJugador').val(),10))){
-						 		return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
-									+"<i class='fas fa-bus'></i> </button>" +
-									" <button type='button' class='btn btn-outline-secondary' "+
-									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
-									" <button  class='btn btn-outline-info' type='button' onclick='return postAsisteJugador(this,"+row['id'] +");' title='Asistir'>"+
+						 		return " <button  class='btn btn-outline-info' type='button' onclick='return postAsisteJugador(this,"+row['id'] +");' title='Asistir'>"+
 									"Asistir</button>";
 							 }else{
-								 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
-									+"<i class='fas fa-bus'></i> </button>" +
-									" <button type='button' class='btn btn-outline-secondary' "+
-									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
-									" <button  class='btn btn-outline-danger' type='button' onclick='return postAsisteJugador(this,"+row['id'] +");' title='No Asistir'>"+
+								 return " <button  class='btn btn-outline-danger' type='button' onclick='return postAsisteJugador(this,"+row['id'] +");' title='No Asistir'>"+
 									"No Asistir</button>";
 							 }
 						 }else{

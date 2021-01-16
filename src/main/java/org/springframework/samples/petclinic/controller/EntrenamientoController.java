@@ -18,8 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.EntrenamientoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
+import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.converter.EntrenamientoConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
+import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
@@ -27,11 +29,13 @@ import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamiento;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.EntrenamientoConAsistencia;
 import org.springframework.samples.petclinic.model.ediciones.EntrenamientoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EntrenamientoStats;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasDeUnJugadorStats;
+import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EquipoService;
@@ -90,6 +94,12 @@ public class EntrenamientoController {
 	
 	@Autowired
 	private EstadisticasConverter estadisticasConverter;
+	
+	@Autowired
+	private JugadorPartidoStatsConverter jugadorPartidoStatsConverter;
+	
+	@Autowired
+	private DataPosicionConverter dataPosicionConverter;
 	
 	@Autowired
 	private EntrenamientoValidator entrenamientoValidator;
@@ -437,6 +447,26 @@ public class EntrenamientoController {
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+	
+	@RequestMapping(value = "findJugadorPosicionEntrenamiento/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataPosicion> graficoJugadorPosicionEntrenamiento(@PathVariable("id") int id) {
+		try {
+			Optional<Entrenamiento> entrenamiento = entrenamientoService.findById(id);
+			List<JugadorPartidoStats> listaJugadorStats = new ArrayList<JugadorPartidoStats>();
+			List<Jugador> jugadores = entrenamiento.get().getJugadores().stream().collect(Collectors.toList());
+			for (int i = 0; i<entrenamiento.get().getJugadores().size();i++) {
+				
+				JugadorPartidoStats stats = jugadorPartidoStatsConverter.convertJugadorToJugadorPartidoStats(jugadores.get(i));
+				listaJugadorStats.add(stats);
+			}
+			
+			
+			DataPosicion data = dataPosicionConverter.convertPartidoToPartidoStats(listaJugadorStats);
+			return new ResponseEntity<DataPosicion>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataPosicion>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 }
