@@ -23,6 +23,8 @@ import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.enumerate.Sistema;
+import org.springframework.samples.petclinic.model.Entrenamiento;
+import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamiento;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.model.Jugador;
@@ -31,8 +33,10 @@ import org.springframework.samples.petclinic.model.SistemaJuego;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
+import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesEntrenamientoStats;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
+import org.springframework.samples.petclinic.service.EstadisticaPersonalEntrenamientoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.samples.petclinic.service.JugadorService;
@@ -85,6 +89,9 @@ public class EstadisticasController {
 	private EstadisticaPersonalPartidoService estadisticaPersonalPartidoService;
 	
 	@Autowired
+	private EstadisticaPersonalEntrenamientoService estadisticaPersonalEntrenamientoService;
+	
+	@Autowired
 	private EstadisticoService estadisticoService;
 	
 	private static final Log LOG = LogFactory.getLog(EstadisticasController.class);
@@ -135,6 +142,29 @@ public class EstadisticasController {
 		}
 	}
 	
+	@RequestMapping(value = "/tablaIntroducirEstadisticasEntrenamiento/{entrenamientoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<JugadorDTO>> tablaIntroducirEstadisticasEntrenamiento(@PathVariable("entrenamientoId") int entrenamientoId) {
+		try {
+			Entrenamiento entrenamiento = entrenamientoService.findById(entrenamientoId).get();
+			Set<Jugador> jugadores = new HashSet<Jugador>();
+			jugadores.addAll(entrenamiento.getJugadores());
+			
+			List<JugadorDTO> jugadoresDTO = new ArrayList<JugadorDTO>();
+			for(Jugador jugador:jugadores) {
+				JugadorDTO jugadorDTO = new JugadorDTO();
+				jugadorDTO = jugadorConverter.convertParcialJugadorToJugadorDTO(jugador);
+				jugadorDTO = obtenerDatosEstadisticosJugadorEntrenamiento(jugadorDTO, jugador.getId(), entrenamientoId);
+				jugadorDTO.setNumCamiseta(numCamisetaService.findByEquipoAndJugador(entrenamiento.getEquipo().getId(), jugador.getId()).getNumero());
+				jugadoresDTO.add(jugadorDTO);
+			}
+			
+			DataTableResponse<JugadorDTO> data = new DataTableResponse<JugadorDTO>(jugadoresDTO);
+			return new ResponseEntity<DataTableResponse<JugadorDTO>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<JugadorDTO>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@RequestMapping(value = "/obtenerEstadisticasJugadores/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<EstadisticasPersonalesStats>> obtenerEstadisticasJugadores(@PathVariable("partidoId") int partidoId) {
 		try {
@@ -152,6 +182,26 @@ public class EstadisticasController {
 			return new ResponseEntity<List<EstadisticasPersonalesStats>>(estadisticasPersonalesStats, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<List<EstadisticasPersonalesStats>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "/obtenerEstadisticasJugadoresEntrenamiento/{entrenamientoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<EstadisticasPersonalesEntrenamientoStats>> obtenerEstadisticasJugadoresEntrenamiento(@PathVariable("entrenamientoId") int entrenamientoId) {
+		try {
+			
+			List<EstadisticaPersonalEntrenamiento> estadisticasPersonalesPartidos = estadisticaPersonalEntrenamientoService.findByEntrenamiento(entrenamientoId);
+			
+			List<EstadisticasPersonalesEntrenamientoStats> estadisticasPersonalesStats = new ArrayList<EstadisticasPersonalesEntrenamientoStats>();
+			
+			
+			for (int i = 0; i < estadisticasPersonalesPartidos.size();i++) {
+				EstadisticasPersonalesEntrenamientoStats estadisticasPersonalesEntrenamientoStats = estadisticasConverter.convertEstadisticasToEstadisticasEntrenamientoStats(estadisticasPersonalesPartidos.get(i));
+				estadisticasPersonalesStats.add(estadisticasPersonalesEntrenamientoStats);
+			}
+			
+			return new ResponseEntity<List<EstadisticasPersonalesEntrenamientoStats>>(estadisticasPersonalesStats, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<EstadisticasPersonalesEntrenamientoStats>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -242,6 +292,98 @@ public class EstadisticasController {
 				estadistica.setPartido(partido);
 				
 				EstadisticaPersonalPartido estadisticaSave = estadisticaPersonalPartidoService.save(estadistica);
+				LOG.info("Estadística guardada con éxito: " + estadisticaSave.getId());
+			}
+			
+			return new ResponseEntity<String>(HttpStatus.OK);
+		} catch (Exception e) {
+			String data = request.getParameter("comandoIntroducido").trim();
+			return new ResponseEntity<String>(data,HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@RequestMapping(value = "/saveComandosEntrenamiento/{entrenamientoId}", method = RequestMethod.POST)
+	public ResponseEntity<String> saveComandosEntrenamiento(HttpServletRequest request, @PathVariable("entrenamientoId") int entrenamientoId) {
+		try {
+			Principal principal = request.getUserPrincipal();
+			Estadistico estadistico = estadisticoService.findByUser(userService.findByUsername(principal.getName()));
+			
+			Entrenamiento entrenamiento = entrenamientoService.findById(entrenamientoId).get();
+			List<Jugador> jugadores = new ArrayList<Jugador>(entrenamiento.getJugadores().stream().collect(Collectors.toList()));
+					
+			Map<Integer, EstadisticaPersonalEntrenamiento> estadisticasMap = new HashMap<Integer, EstadisticaPersonalEntrenamiento>();
+			Map<Integer, Integer> camisetaIdJugador = new HashMap<Integer, Integer>();
+			Set<Integer> dorsales = new HashSet<Integer>();
+			for(Jugador jugador:jugadores) {
+				EstadisticaPersonalEntrenamiento estadistica =  new EstadisticaPersonalEntrenamiento();
+				Integer numCamiseta = numCamisetaService.findByEquipoAndJugador(entrenamiento.getEquipo().getId(), jugador.getId()).getNumero();
+				
+				dorsales.add(numCamiseta);
+				camisetaIdJugador.put(numCamiseta, jugador.getId());
+				
+				EstadisticaPersonalEntrenamiento stat = estadisticaPersonalEntrenamientoService.findByJugadorAndEntrenamiento(jugador.getId(), entrenamientoId);
+				if(stat != null) {
+					BeanUtils.copyProperties(stat, estadistica);
+					estadisticasMap.put(numCamiseta, estadistica);
+				}
+			}
+			
+			String data = request.getParameter("comandoIntroducido").trim();
+			String error = "Errores de Sintaxis: ";
+			
+			String[] dataActions = data.split(";");
+			
+			Set<Integer> dorsalesEditSet = new HashSet<Integer>();
+			for(int i=0;i<dataActions.length;i++) {
+				boolean correccion = dataActions[i].startsWith("%");
+				
+				if(!correccion) {
+					String[] dataActionsParts = dataActions[i].split(",");
+					error = gestionErroresComandos(error, dataActions, i, dorsales, correccion);
+					if(error.equals("Errores de Sintaxis: ")) {
+						Integer dorsal = Integer.valueOf(dataActionsParts[0]);
+						String accion = dataActionsParts[1];
+						String acierto = dataActionsParts[2];
+						
+						dorsalesEditSet.add(dorsal);
+						
+						if(estadisticasMap.containsKey(dorsal)) {
+							EstadisticaPersonalEntrenamiento estadistica = estadisticasMap.get(dorsal);
+							
+							estadistica = setEstadisticaCorrectaEntrenamiento(estadistica, accion, acierto, correccion);
+							
+							estadisticasMap.put(dorsal, estadistica);
+						} else {
+							EstadisticaPersonalEntrenamiento estadistica =  new EstadisticaPersonalEntrenamiento();
+							
+							estadistica = setEstadisticaCorrectaEntrenamiento(estadistica, accion, acierto, correccion);
+							
+							estadisticasMap.put(dorsal, estadistica);
+						}
+					}
+				} else {
+					dataActions[i].replace("%", "");
+					error = gestionErroresComandos(error, dataActions, i, dorsales, correccion);
+					//TODO
+				}
+			}
+			
+			if(!error.equals("Errores de Sintaxis: ")) {
+				LOG.info(data);
+				LOG.warn(error);
+				return new ResponseEntity<String>(error, HttpStatus.BAD_REQUEST);
+			}
+			
+			List<Integer> dorsalesEdit = new ArrayList<Integer>(dorsalesEditSet);
+			for(Integer dorsal:dorsalesEdit) {
+				EstadisticaPersonalEntrenamiento estadistica = estadisticasMap.get(dorsal);
+				Jugador jugador = jugadorService.findById(camisetaIdJugador.get(dorsal)).get();
+				
+				estadistica.setJugador(jugador);
+				estadistica.setEstadistico(estadistico);
+				estadistica.setEntrenamiento(entrenamiento);
+				
+				EstadisticaPersonalEntrenamiento estadisticaSave = estadisticaPersonalEntrenamientoService.save(estadistica);
 				LOG.info("Estadística guardada con éxito: " + estadisticaSave.getId());
 			}
 			
@@ -399,6 +541,115 @@ public class EstadisticasController {
 		
 	}
 	
+	@RequestMapping(value = "/rellenarDatosEntrenamiento", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> rellenarDatosEntrenamiento(HttpServletRequest request) {
+		try {
+			int entrenamientoId = Integer.parseInt(request.getParameter("entrenamientoId"));
+			
+			String hour = request.getParameter("hour");
+			
+			Entrenamiento entrenamiento = entrenamientoService.findById(entrenamientoId).get();
+			Set<Jugador> jugadores = entrenamiento.getJugadores();
+			
+			entrenamiento.setHora(hour);
+			
+			Entrenamiento entrenamiento0 = entrenamientoService.save(entrenamiento);
+			Enumeration<String> parameters = request.getParameterNames();
+			List<String> camposNegativos = new ArrayList<String>();
+			
+			while (parameters.hasMoreElements()) {
+				
+				String clave = parameters.nextElement();
+				
+				if(!(clave.equals("entrenamientoId") || clave.equals("hour"))) {
+					String accion = clave.split(",")[0];
+					int jugadorId = Integer.parseInt(clave.split(",")[1]);
+					Jugador jugador = jugadorService.findById(jugadorId).get();
+					Integer dato = 0;
+					try {
+						dato = Integer.parseInt(request.getParameter(clave));
+					}catch (Exception e) {
+						LOG.error("Hueco en blanco");
+						
+					}
+					
+					
+					EstadisticaPersonalEntrenamiento estadisticas = estadisticaPersonalEntrenamientoService.findByJugadorAndEntrenamiento(jugadorId, entrenamientoId);
+					if(estadisticas == null) {
+						estadisticas = new EstadisticaPersonalEntrenamiento();
+						estadisticas.setEntrenamiento(entrenamiento);
+						estadisticas.setJugador(jugador);
+					}
+					
+					if (dato < 0) {
+						camposNegativos.add(clave);
+					}
+					
+					else if(accion.equals("faltas")) {
+						estadisticas.setNumFaltasTotales(dato);
+					}
+					
+					else if(accion.startsWith("a")) {
+						if(accion.contains("saque")) {
+							estadisticas.setSaquesTotales(estadisticas.getSaquesTotales()+dato-estadisticas.getSaquesAcertados());
+							estadisticas.setSaquesAcertados(dato);
+						}else if(accion.contains("recepcion")){
+							estadisticas.setRecepcionesTotales(estadisticas.getRecepcionesTotales()+dato-estadisticas.getRecepcionesAcertadas());
+							estadisticas.setRecepcionesAcertadas(dato);
+						}else if(accion.contains("colocacion")){
+							estadisticas.setColocacionesTotales(estadisticas.getColocacionesTotales()+dato-estadisticas.getColocacionesAcertadas());
+							estadisticas.setColocacionesAcertadas(dato);
+						}else if(accion.contains("defensa")){
+							estadisticas.setDefensasTotales(estadisticas.getDefensasTotales()+dato-estadisticas.getDefensasAcertadas());
+							estadisticas.setDefensasAcertadas(dato);
+						}else if(accion.contains("bloqueo")){
+							estadisticas.setBloqueosTotales(estadisticas.getBloqueosTotales()+dato-estadisticas.getBloqueosAcertados());
+							estadisticas.setBloqueosAcertados(dato);
+						}else if(accion.contains("remate")){
+							estadisticas.setRematesTotales(estadisticas.getRematesTotales()+dato-estadisticas.getRematesAcertados());
+							estadisticas.setRematesAcertados(dato);
+						}else if(accion.contains("finta")){
+							estadisticas.setFintasTotales(estadisticas.getFintasTotales()+dato-estadisticas.getFintasAcertadas());
+							estadisticas.setFintasAcertadas(dato);
+						}else if(accion.contains("ataque")){
+							estadisticas.setNumAtaquesRapidosTotales(estadisticas.getNumAtaquesRapidosTotales()+dato-estadisticas.getNumAtaquesRapidosAcertados());
+							estadisticas.setNumAtaquesRapidosAcertados(dato);
+						}
+					}else {
+						if(accion.contains("saque")) {
+							estadisticas.setSaquesTotales(estadisticas.getSaquesAcertados()+dato);
+						}else if(accion.contains("recepcion")){
+							estadisticas.setRecepcionesTotales(estadisticas.getRecepcionesAcertadas()+dato);
+						}else if(accion.contains("colocacion")){
+							estadisticas.setColocacionesTotales(estadisticas.getColocacionesAcertadas()+dato);
+						}else if(accion.contains("defensa")){
+							estadisticas.setDefensasTotales(estadisticas.getDefensasAcertadas()+dato);
+						}else if(accion.contains("bloqueo")){
+							estadisticas.setBloqueosTotales(estadisticas.getBloqueosAcertados()+dato);
+						}else if(accion.contains("remate")){
+							estadisticas.setRematesTotales(estadisticas.getRematesAcertados()+dato);
+						}else if(accion.contains("finta")){
+							estadisticas.setFintasTotales(estadisticas.getFintasAcertadas()+dato);
+						}else if(accion.contains("ataque")){
+							estadisticas.setNumAtaquesRapidosTotales(estadisticas.getNumAtaquesRapidosAcertados()+dato);
+						}
+					}
+					
+					estadisticaPersonalEntrenamientoService.save(estadisticas);
+					
+				}
+				
+			}
+			 
+			
+			return new ResponseEntity<List<String>>(camposNegativos,HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando las estadísticas del entrenamiento");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+			
 	@RequestMapping(value = "/cambioSistemaJuegoSustitucion", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE) 
 	public ResponseEntity<Sistema> cambioSistemaJuegoSustitucion(HttpServletRequest request) {
 		try {
@@ -498,6 +749,22 @@ public class EstadisticasController {
 			
 			List<String> jugadores = partido.getJugadoresJugando().stream().filter(x->!x.equals(partido.getJugadorLibero())).map(x->x.getFirstName()+", " +x.getLastName()+ " "
 			+ x.getNumCamisetas().stream().filter(y->y.getEquipo().getId().equals(partido.getEquipo().getId()))
+			.map(z->z.getNumero()).collect(Collectors.toList()).get(0)+";"+x.getId())
+			.collect(Collectors.toList());
+			
+			return new ResponseEntity<List<String>>(jugadores, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@RequestMapping(value = "/jugadoresEnCampoEntrenamiento/{entrenamientoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> jugadoresEnCampoEntrenamiento(@PathVariable("entrenamientoId") int entrenamientoId) {
+		try {
+			Entrenamiento entrenamiento = entrenamientoService.findById(entrenamientoId).get();
+			
+			List<String> jugadores = entrenamiento.getJugadores().stream().map(x->x.getFirstName()+", " +x.getLastName()+ " "
+			+ x.getNumCamisetas().stream().filter(y->y.getEquipo().getId().equals(entrenamiento.getEquipo().getId()))
 			.map(z->z.getNumero()).collect(Collectors.toList()).get(0)+";"+x.getId())
 			.collect(Collectors.toList());
 			
@@ -798,6 +1065,40 @@ public class EstadisticasController {
 		return jugadorDTO;
 	}
 	
+	private JugadorDTO obtenerDatosEstadisticosJugadorEntrenamiento(JugadorDTO jugadorDTO, int jugadorId, int entrenamientoId) {
+		EstadisticaPersonalEntrenamiento estadisticaJugador = estadisticaPersonalEntrenamientoService.findByJugadorAndEntrenamiento(jugadorId, entrenamientoId);
+		
+		if(estadisticaJugador != null) {
+			jugadorDTO.setSaquesAcertados(estadisticaJugador.getSaquesAcertados());
+			jugadorDTO.setSaquesTotales(estadisticaJugador.getSaquesTotales());
+			jugadorDTO.setPorcentajeSaques(estadisticaJugador.getPorcentajeSaques());
+			jugadorDTO.setRecepcionesAcertadas(estadisticaJugador.getRecepcionesAcertadas());
+			jugadorDTO.setRecepcionesTotales(estadisticaJugador.getRecepcionesTotales());
+			jugadorDTO.setPorcentajeRecepciones(estadisticaJugador.getPorcentajeRecepciones());
+			jugadorDTO.setColocacionesAcertadas(estadisticaJugador.getColocacionesAcertadas());
+			jugadorDTO.setColocacionesTotales(estadisticaJugador.getColocacionesTotales());
+			jugadorDTO.setPorcentajeColocaciones(estadisticaJugador.getPorcentajeColocaciones());
+			jugadorDTO.setDefensasAcertadas(estadisticaJugador.getDefensasAcertadas());
+			jugadorDTO.setDefensasTotales(estadisticaJugador.getDefensasTotales());
+			jugadorDTO.setPorcentajeDefensas(estadisticaJugador.getPorcentajeDefensas());
+			jugadorDTO.setBloqueosAcertados(estadisticaJugador.getBloqueosAcertados());
+			jugadorDTO.setBloqueosTotales(estadisticaJugador.getBloqueosTotales());
+			jugadorDTO.setPorcentajeBloqueos(estadisticaJugador.getPorcentajeBloqueos());
+			jugadorDTO.setRematesAcertados(estadisticaJugador.getRematesAcertados());
+			jugadorDTO.setRematesTotales(estadisticaJugador.getRematesTotales());
+			jugadorDTO.setPorcentajeRemates(estadisticaJugador.getPorcentajeRemates());
+			jugadorDTO.setFintasAcertadas(estadisticaJugador.getFintasAcertadas());
+			jugadorDTO.setFintasTotales(estadisticaJugador.getFintasTotales());
+			jugadorDTO.setPorcentajeFintas(estadisticaJugador.getPorcentajeFintas());
+			jugadorDTO.setNumAtaquesRapidosAcertados(estadisticaJugador.getNumAtaquesRapidosAcertados());
+			jugadorDTO.setNumAtaquesRapidosTotales(estadisticaJugador.getNumAtaquesRapidosTotales());
+			jugadorDTO.setPorcentajeAtaquesRapidos(estadisticaJugador.getPorcentajeAtaquesRapidos());
+			jugadorDTO.setNumFaltasTotales(estadisticaJugador.getNumFaltasTotales());
+		}
+		
+		return jugadorDTO;
+	}
+	
 	// Gestionar los errores cometidos en la sintaxis de los comandos introducidos
 	private String gestionErroresComandos(String error, String[] dataActions, int i, Set<Integer> dorsales, boolean correccion) {
 		String[] dataActionsParts = dataActions[i].split(",");
@@ -932,6 +1233,80 @@ public class EstadisticasController {
 		}
 		
 		return estadistica;
+	}
+	
+	private EstadisticaPersonalEntrenamiento setEstadisticaCorrectaEntrenamiento(EstadisticaPersonalEntrenamiento estadistica, String accion, String acierto, boolean correccion) {
+		if(!correccion) {
+			if(accion.equalsIgnoreCase("s")) {
+				if(acierto.equals("+")) {
+					estadistica.setSaquesTotales(estadistica.getSaquesTotales() + 1);
+					estadistica.setSaquesAcertados(estadistica.getSaquesAcertados() + 1);
+				} else {
+					estadistica.setSaquesTotales(estadistica.getSaquesTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("r")) {
+				if(acierto.equals("+")) {
+					estadistica.setRecepcionesTotales(estadistica.getRecepcionesTotales() + 1);
+					estadistica.setRecepcionesAcertadas(estadistica.getRecepcionesAcertadas() + 1);
+				} else {
+					estadistica.setRecepcionesTotales(estadistica.getRecepcionesTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("c")) {
+				if(acierto.equals("+")) {
+					estadistica.setColocacionesTotales(estadistica.getColocacionesTotales() + 1);
+					estadistica.setColocacionesAcertadas(estadistica.getColocacionesAcertadas() + 1);
+				} else {
+					estadistica.setColocacionesTotales(estadistica.getColocacionesTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("d")) {
+				if(acierto.equals("+")) {
+					estadistica.setDefensasTotales(estadistica.getDefensasTotales() + 1);
+					estadistica.setDefensasAcertadas(estadistica.getDefensasAcertadas() + 1);
+				} else {
+					estadistica.setDefensasTotales(estadistica.getDefensasTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("b")) {
+				if(acierto.equals("+")) {
+					estadistica.setBloqueosTotales(estadistica.getBloqueosTotales() + 1);
+					estadistica.setBloqueosAcertados(estadistica.getBloqueosAcertados() + 1);
+				} else {
+					estadistica.setBloqueosTotales(estadistica.getBloqueosTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("a")) {
+				if(acierto.equals("+")) {
+					estadistica.setRematesTotales(estadistica.getRematesTotales() + 1);
+					estadistica.setRematesAcertados(estadistica.getRematesAcertados() + 1);
+				} else {
+					estadistica.setRematesTotales(estadistica.getRematesTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("f")) {
+				if(acierto.equals("+")) {
+					estadistica.setFintasTotales(estadistica.getFintasTotales() + 1);
+					estadistica.setFintasAcertadas(estadistica.getFintasAcertadas() + 1);
+				} else {
+					estadistica.setFintasTotales(estadistica.getFintasTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("ar")) {
+				if(acierto.equals("+")) {
+					estadistica.setNumAtaquesRapidosTotales(estadistica.getNumAtaquesRapidosTotales() + 1);
+					estadistica.setNumAtaquesRapidosAcertados(estadistica.getNumAtaquesRapidosAcertados() + 1);
+				} else {
+					estadistica.setNumAtaquesRapidosTotales(estadistica.getNumAtaquesRapidosTotales() + 1);
+				}
+			} else if(accion.equalsIgnoreCase("ft")) {
+				if(acierto.equals("+")) {
+					estadistica.setNumFaltasTotales(estadistica.getNumFaltasTotales() + 1);
+				} else {
+					if(!(estadistica.getNumFaltasTotales() <= 0)) {
+						estadistica.setNumFaltasTotales(estadistica.getNumFaltasTotales() - 1);
+					}
+				}
+		} else {
+			//TODO
+		}
+	}	
+		return estadistica;
+	
 	}
 	
 }

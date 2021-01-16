@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.converter;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamiento;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasDeUnJugadorStats;
+import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesEntrenamientoStats;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,39 @@ public class EstadisticasConverter {
 				estadistica.getNumAtaquesRapidosTotales(), 
 				estadistica.getPorcentajeAtaquesRapidos(),
 				estadistica.getPartido().getId()
+				);
+	}
+	
+	public EstadisticasPersonalesEntrenamientoStats convertEstadisticasToEstadisticasEntrenamientoStats(EstadisticaPersonalEntrenamiento estadistica) {
+		return new EstadisticasPersonalesEntrenamientoStats(
+				estadistica.getJugador().getId(),
+				estadistica.getJugador().getFirstName() +", " + estadistica.getJugador().getLastName(),
+				estadistica.getEntrenamiento().getFecha(),
+				estadistica.getSaquesAcertados(), 
+				estadistica.getSaquesTotales(), 
+				estadistica.getPorcentajeSaques(), 
+				estadistica.getRecepcionesAcertadas(), 
+				estadistica.getRecepcionesTotales(), 
+				estadistica.getPorcentajeRecepciones(), 
+				estadistica.getColocacionesAcertadas(), 
+				estadistica.getColocacionesTotales(), 
+				estadistica.getPorcentajeColocaciones(), 
+				estadistica.getDefensasAcertadas(), 
+				estadistica.getDefensasTotales(), 
+				estadistica.getPorcentajeDefensas(), 
+				estadistica.getBloqueosAcertados(), 
+				estadistica.getBloqueosTotales(), 
+				estadistica.getPorcentajeBloqueos(), 
+				estadistica.getRematesAcertados(), 
+				estadistica.getRematesTotales(), 
+				estadistica.getPorcentajeRemates(), 
+				estadistica.getFintasAcertadas(), 
+				estadistica.getFintasTotales(), 
+				estadistica.getPorcentajeFintas(), 
+				estadistica.getNumAtaquesRapidosAcertados(), 
+				estadistica.getNumAtaquesRapidosTotales(), 
+				estadistica.getPorcentajeAtaquesRapidos(),
+				estadistica.getEntrenamiento().getId()
 				);
 	}
 	
