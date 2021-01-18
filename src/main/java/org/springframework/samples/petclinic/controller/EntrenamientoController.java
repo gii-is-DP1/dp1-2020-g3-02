@@ -270,15 +270,6 @@ public class EntrenamientoController {
 	@PostMapping("/addentrenamiento")
 	public String addJugador(@ModelAttribute(name="Entrenamiento") Entrenamiento entrenamiento, Model model, final BindingResult result) {
 		
-		//LOG.info("addpartido() -- PARAMETROS: "+ form.getJugador().toString());
-		
-//		ValidationUtils.invokeValidator(jugadorFormValidator, form, result);
-//		
-//		if (result.hasErrors()) {
-//			model.addAttribute("formJugador", form);
-//			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
-//		}else {
-		
 		LOG.info("Se procede a guardar el entrenamiento");
 		try {
 			Entrenamiento training = entrenamientoService.save(entrenamiento);
@@ -347,7 +338,7 @@ public class EntrenamientoController {
 	}
 	
 	@PostMapping("/postentrenamiento")
-	public ResponseEntity<List<ObjectError>> addEntrenamiento(HttpServletRequest request, @ModelAttribute(name="partido") EntrenamientoEdit entrenamientoEdit, BindingResult result) {
+	public ResponseEntity<List<ObjectError>> addEntrenamiento(HttpServletRequest request, @ModelAttribute(name="entrenamiento") EntrenamientoEdit entrenamientoEdit, BindingResult result) {
 		try {
 			Entrenamiento entrenamiento = new Entrenamiento();
 			if(!request.getParameter("id").isEmpty()) {
@@ -359,6 +350,7 @@ public class EntrenamientoController {
 				LOG.info("Estamos creando un entrenamiento nuevo para el equipo con categoría: " + request.getParameter("equipo").trim());
 				Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
 				entrenamiento.setEquipo(equipo);
+				entrenamiento.setSistemaJuego(equipo.getSistemaJuego());
 			}
 			
 			EntrenamientoEdit edit = new EntrenamientoEdit(entrenamiento.getId(), entrenamiento.getEquipo().getCategoria(), request.getParameter("fecha"), request.getParameter("hora").trim());
