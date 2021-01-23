@@ -33,6 +33,7 @@ import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
 import org.springframework.samples.petclinic.service.RealizaEjercicioService;
 import org.springframework.samples.petclinic.service.SustitucionService;
+import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +46,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class BaseVolleyballValidatorTest {
 	
 	// Todos los servicios necesarios para crear objetos validables
+	@Autowired
+	protected UserService userService;
+	
 	@Autowired
 	protected CapitanService capitanService;
 	

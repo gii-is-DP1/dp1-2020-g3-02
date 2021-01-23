@@ -25,7 +25,7 @@ public class JugadorValidatorTest extends BaseVolleyballValidatorTest{
 	
 	@BeforeEach
 	private void setUp() {
-		this.jugadorValidator = new JugadorValidator(this.jugadorService);
+		this.jugadorValidator = new JugadorValidator(this.jugadorService, this.userService);
 	}
 	
 	@Test
