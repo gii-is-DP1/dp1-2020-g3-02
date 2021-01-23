@@ -198,7 +198,7 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 		"language" : {
 			"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
 		},
-		order: [1,'asc'],
+		order: [0,'asc'],
 		ajax:'[[@{/partidos/findPartidosEquipo/}]]' + id,
 		"columns":[
 			{data: 'fecha'},
@@ -208,7 +208,43 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 			{data: 'numPuntosSet4'},
 			{data: 'numPuntosSet5'},
 			{data: 'numPuntosTotales'}
-		]
+		],
+		columnDefs : [ {
+			responsivePriority : 0,
+			targets : 0,
+			"searchable": true,
+            "orderable": true,
+		}, {
+			responsivePriority : 1,
+			targets : 1,
+			"searchable": false,
+            "orderable": false,
+		}, {
+			responsivePriority : 1,
+			targets : 2,
+			"searchable": false,
+            "orderable": false,
+		}, {
+			responsivePriority : 1,
+			targets : 3,
+			"searchable": false,
+            "orderable": false,
+		}, {
+			responsivePriority : 1,
+			targets : 4,
+			"searchable": false,
+            "orderable": false,
+		}, {
+			responsivePriority : 1,
+			targets : 5,
+			"searchable": false,
+            "orderable": false,
+		}, {
+			responsivePriority : 0,
+			targets : 6,
+			"searchable": false,
+            "orderable": true,
+		}  ]
 	});
 
 	
