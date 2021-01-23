@@ -75,8 +75,8 @@ public class EstadisticoValidator implements Validator{
 				errors.rejectValue("fechaNacimiento", "error",ValidationConstant.FECHA_POSTERIOR_ERROR);
 			}
 		} catch (Exception e) {
-			LOG.warn(ValidationConstant.FECHA_FORMATO_ERRONEO_INVERSO);
-			errors.rejectValue("fechaNacimiento", "error",ValidationConstant.FECHA_FORMATO_ERRONEO_INVERSO);
+			LOG.warn(ValidationConstant.FECHA_FORMATO_ERRONEO);
+			errors.rejectValue("fechaNacimiento", "error",ValidationConstant.FECHA_FORMATO_ERRONEO);
 		}
 	}
 	

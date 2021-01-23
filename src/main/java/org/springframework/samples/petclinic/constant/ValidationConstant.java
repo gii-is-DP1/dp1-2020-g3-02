@@ -11,6 +11,7 @@ public class ValidationConstant {
 	/** USUARIO */
 	public static final String USERNAME_ERROR = "El username es requerido y debe tener más de 6 carácteres";
 	public static final String USERNAME_YAEXISTE_ERROR = "El username ya está registrado";
+	public static final String PASSWORD_ERROR = "La contraseña es requerida y debe tener 8 o más caracteres";
 	public static final String FIRSTNAME_ERROR = "El nombre es requerido y no puede contener ningún caracter especial ni números";
 	public static final String LASTNAME_ERROR = "El apellido es requerido y no puede contener ningún caracter especial ni números";
 	public static final String EMAIL_FORMATO_ERROR = "El formato del email es incorrecto";
