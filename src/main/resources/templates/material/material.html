@@ -376,15 +376,17 @@
 															{ data: 'porcentaje',
 																render: function ( data, type, row ) {
 																	
+																	var btnEdit = "<button  class='btn btn-outline-info ml-1 editar' onclick='return editarMaterial();' type='button' title='Editar'>"+
+																		"<i class='fas fa-edit'></i></button>";
 																								
 																	  if(data>70 ){
-																	    return " <button  class='btn btn-outline-info mx-0 añadir' onclick='return añadir();' type='button' title='añadir'>"+
-																		"Añadir</button>"+
+																	    return " <button  class='btn btn-outline-success añadir' onclick='return añadir();' type='button' title='Añadir'>"+
+																		"<i class='fas fa-plus-circle'></i></button>"+ btnEdit +
 																		" <button onclick='return eliminar("+row['tipo'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
 																		"<i class='fas fa-trash-alt'></i></button>"
 																		}else{
 																			
-																			return " <button onclick='return eliminar("+row['tipo'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+																			return btnEdit + " <button onclick='return eliminar("+row['tipo'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
 																			"<i class='fas fa-trash-alt'></i></button>"
 																		}
 																	  
