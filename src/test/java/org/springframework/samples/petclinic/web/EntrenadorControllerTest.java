@@ -41,7 +41,7 @@ public class EntrenadorControllerTest extends BaseControllerTest {
 				.param("firstName", "Pepe")
 				.param("lastName", "Cayetano")
 				.param("email", "cucutras@gmail.com")
-				.param("fechaNacimiento", "1990/10/10")
+				.param("fechaNacimiento", "10/10/1990")
 				.param("user.username", "testEntrenadorUser")
 				.param("user.password", "testEntrenadorUser")).andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/home"));
