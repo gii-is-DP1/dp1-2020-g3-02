@@ -1,0 +1,76 @@
+<meta charset="UTF-8" />
+
+<div class="modal fade" id="gestionModal" data-backdrop="static"
+	data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
+	aria-hidden="true">
+	<div class="modal-dialog modal-md modal-dialog-centered">
+		<div class="modal-content">
+			<form id="formGestionPersonal" method="post">
+				<div class="modal-header bg-info">
+					<h5 class="modal-title" id="gestionPersonal"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group" id="modalFormPersonal">
+						<div class="form-group col-12">
+							<label><span class="text-danger">(*) </span>Propietario:</label>
+							<input onkeypress="pulsarIntro(event)" autocomplete="off"
+								class="form-control" type="text" placeholder="Propietario"
+								id="propietarioEdit" name="propietario"></input> <small
+								class="propietario text-danger error"></small>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer"
+					style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Cerrar</button>
+					<button type="button" class="btn btn-info"
+						onclick="return enviarEdicionVehiculo();">Aceptar</button>
+					<input type="hidden" id="idEdit" name="id"></input>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	ç
+
+	function pulsarIntro(e) {
+		if (e.keyCode === 13 && !e.shiftKey) {
+			e.preventDefault();
+			enviarEdicionVehiculo();
+		}
+	}
+
+	function enviarEdicionVehiculo() {
+		var form = new FormData(document.getElementById('formGestionPersonal'));
+		$.ajax({
+			url : '/personales/postvehiculo',
+			type : 'post',
+			data : form,
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				$('#gestionModal').modal("hide");
+				toastSuccess("Personal creado con éxito");
+				//tablaPrincipal.ajax.reload(null, false);
+			},
+			error : function(data) {
+
+				$('.error').text('');
+
+				for (i = 0; i < data.responseJSON.length; i++) {
+
+					var campo = data.responseJSON[i].field;
+					$('.' + campo).text(data.responseJSON[i].defaultMessage);
+				}
+			}
+		});
+	};
+</script>

@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.time.LocalDate;
@@ -38,6 +39,8 @@ public class EntrenadorServiceTests {
 		int id=1;
 		Optional<Entrenador> entrenador=entrenadorService.findById(id);
 		assertNotNull(entrenador);
+		assertNotEquals(entrenador.get().getFirstName(), "Shinji");
+		assertNotEquals(entrenador.get().getLastName(), "Mikamo");
 	}
 	
 	@Test
@@ -77,6 +80,7 @@ public class EntrenadorServiceTests {
 		String email = "teodorocoach@gmail.com";
 		Entrenador entrenador=entrenadorService.findByEmail(email);
 		assertNotNull(entrenador);
+		assertEquals(entrenador.getFirstName(), "Teodoro");
 	}
 	
 	@Test

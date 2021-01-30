@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.time.LocalDate;
@@ -36,7 +37,11 @@ public class EstadisticoServiceTest {
 	public void testFindByIdInitialDataFinding() {
 		int id=1;
 		Optional<Estadistico> estadistico=estadisticoService.findById(id);
+		Estadistico stat=estadistico.get();
 		assertNotNull(estadistico);
+		assertEquals(stat.getEmail(), "romualdostats@gmail.com");
+		assertNotEquals(stat.getFirstName(), "Hideo");
+		assertNotEquals(stat.getLastName(), "Kojima");
 	}
 	
 	@Test
@@ -76,6 +81,7 @@ public class EstadisticoServiceTest {
 		String email = "romualdostats@gmail.com";
 		Estadistico estadistico=estadisticoService.findByEmail(email);
 		assertNotNull(estadistico);
+		assertEquals(estadistico.getLastName(), "Sánchez Bermejo");
 	}
 	
 	@Test
