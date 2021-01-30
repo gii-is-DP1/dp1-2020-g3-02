@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.constraints.AssertTrue;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.enumerate.Sistema;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.SistemaJuego;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +32,10 @@ public class EquipoServiceTest {
 	public void testFindByIdDataFinding() {
 		int id = 1;
 		Optional<Equipo> equipo = equipoService.findById(id);
+		Equipo team= equipo.get();
 		assertNotEquals(equipo.get(), Optional.empty());
+		assertEquals(team.getCategoria(), "Senior");
+		assertNotEquals(team.getSistemaJuego(),Sistema.COLOCADOR_GENERAL);
 	}
 	
 	@Test
@@ -44,7 +50,10 @@ public class EquipoServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAll() {
 		List<Equipo> equipos = equipoService.findAll();
+		Sistema sistema= equipos.get(0).getSistemaJuego();
 		assertEquals(equipos.size(), 3);
+		assertEquals(sistema, Sistema.CINCO_UNO);
+		assertNotEquals(equipos.get(1).getCategoria(),"Senior");
 	}
 	
 	@Test

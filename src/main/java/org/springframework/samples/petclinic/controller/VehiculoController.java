@@ -1,13 +1,20 @@
 package org.springframework.samples.petclinic.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
+import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PersonalesService;
@@ -17,6 +24,8 @@ import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,27 +90,43 @@ public class VehiculoController {
 		return ViewConstant.VIEWS_VEHICULO_CREATE_OR_UPDATE_FORM;
 	}
 	
-	@PostMapping("/addvehiculo")
-	public String addVehiculo(@ModelAttribute(name="personal") Personales personal, BindingResult bindResult,
+	@PostMapping("/postvehiculo")
+	public ResponseEntity<List<ObjectError>> postVehiculo(@ModelAttribute(name="personal") Personales personal, BindingResult bindResult,
 			Model model, HttpServletRequest request) {
-		LOG.info("addvehiculo() -- PARAMETROS: "+ personal);
+			
 		
 			String username = request.getUserPrincipal().getName();
 			Jugador jugador=jugadorService.findByUser(userService.findByUsername(username));
-			personal.setJugador(jugador);
-			
-			if (bindResult.hasErrors()) {
-				model.addAttribute("personal", personal);
-				return ViewConstant.VIEWS_VEHICULO_CREATE_OR_UPDATE_FORM;
+			boolean autoridad = authoritiesService.hasAuthority("jugador", username);
+			if(autoridad == false){
+				return new ResponseEntity<List<ObjectError>>(HttpStatus.FORBIDDEN);
 			}
 			try {
+				if(!request.getParameter("id").isEmpty()) {
+					int id = Integer.parseInt(request.getParameter("id"));
+					LOG.info("Estamos editando el personal con el id: " + id);
+					Optional<Personales> personalO = personalService.findById(id);
+					personal = personalO.get();
+				}else{
+					LOG.info("Estamos creando un vehículo nuevo ");
+					personal = new Personales();
+					personal.setPropietario(request.getParameter("propietario"));
+					personal.setJugador(jugador);
+				}
+				
+				ValidationUtils.invokeValidator(personalValidator, personal, bindResult);
+				if (bindResult.hasErrors()) {
+					LOG.warn("Se han encontrado " + bindResult.getErrorCount() + " errores de validación");
+					return new ResponseEntity<List<ObjectError>>(bindResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+				}
 				Personales personalSave = personalService.save(personal);
 				LOG.info("Se ha guardado el vehículo con éxito: " + personalSave);
+				return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 			} catch (Exception e) {
 				LOG.error("No se ha podido guardar el vehículo");
+				return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 			}
 		
-		return "redirect:/personales/showvehiculos";
 		
 	}
 	
