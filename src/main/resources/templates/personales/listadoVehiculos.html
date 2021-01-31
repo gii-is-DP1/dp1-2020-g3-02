@@ -120,11 +120,11 @@
 										th:action="@{'/personales/eliminarVehiculo/{id}'(id=${personal.id})}"
 										th:method="delete">
 										<input type="hidden" name="_method" value="delete" />
-										<button type="submit" id="submitButton"
-											class='btn btn-outline-danger'>Eliminar</button>
 										<button type="button" class="btn btn-outline-info"
-											data-toggle="modal" data-target="#modalEditar">Editar
+											data-toggle="modal" data-target="#modalEditar"><i class="fas fa-edit"></i>
 										</button>
+										<button type="submit" id="submitButton"
+											class='btn btn-outline-danger'><i class="fas fa-trash-alt"></i></button>
 									</form>
 
 								</div>
