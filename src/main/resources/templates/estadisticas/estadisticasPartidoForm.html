@@ -48,8 +48,17 @@ input #negativo {
 			</div>
 		</div>
 		
-		
-		<div th:replace="estadisticas/cronometro"></div>
+		<div class="row container-fluid mx-auto">
+			<div class="col-lg-6">
+				<div th:replace="estadisticas/cronometro"></div>
+			</div>
+			<div class="col-lg-5">
+				<div th:replace="estadisticas/marcador"></div>
+			</div>
+			<div class="col-lg-1">
+				<div th:replace="estadisticas/Sets"></div>
+			</div>
+		</div>
 		
 		<input type="hidden" id="partidoId" th:value="${partido.id}"></input>
 		
