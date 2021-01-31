@@ -11,22 +11,28 @@ import java.util.Optional;
 import org.assertj.core.util.Lists;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.samples.petclinic.component.EntrenadorValidator;
+import org.springframework.samples.petclinic.component.EntrenamientoValidator;
 import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
+import org.springframework.samples.petclinic.converter.EntrenamientoConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.converter.ViajeConverter;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
 import org.springframework.samples.petclinic.model.Entrenador;
+import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamiento;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.service.EntrenadorService;
+import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EquipoService;
+import org.springframework.samples.petclinic.service.EstadisticaPersonalEntrenamientoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.MaterialService;
@@ -48,12 +54,18 @@ public class BaseMockControllerTest {
 
 	@MockBean
 	protected EstadisticaPersonalPartidoService estadisticaPersonalPartidoService;
+	
+	@MockBean
+	protected EstadisticaPersonalEntrenamientoService estadisticaPersonalEntrenamientoService;
 
 	@MockBean
 	protected JugadorService jugadorService;
 
 	@MockBean
 	protected EntrenadorService entrenadorService;
+	
+	@MockBean
+	protected EntrenamientoService entrenamientoService;
 
 	@MockBean
 	protected UserService userService;
@@ -71,6 +83,9 @@ public class BaseMockControllerTest {
 
 	@MockBean
 	protected PartidoConverter partidoConverter;
+	
+	@MockBean
+	protected EntrenamientoConverter entrenamientoConverter;
 
 	@MockBean
 	protected JugadorPartidoStatsConverter jugadorPartidoStatsConverter;
@@ -88,6 +103,9 @@ public class BaseMockControllerTest {
 
 	@MockBean
 	protected EntrenadorValidator entrenadorValidator;
+	
+	@MockBean
+	protected EntrenamientoValidator entrenamientoValidator;
 
 	@MockBean
 	protected PartidoValidator partidoValidator;
@@ -99,6 +117,9 @@ public class BaseMockControllerTest {
 
 		doNothing().when(partidoValidator).validate(any(Object.class), any(Errors.class));
 		when(partidoValidator.supports(any(Class.class))).thenReturn(true);
+		
+		doNothing().when(entrenamientoValidator).validate(any(Object.class), any(Errors.class));
+		when(entrenamientoValidator.supports(any(Class.class))).thenReturn(true);
 	}
 
 	// Metodos Given
@@ -124,6 +145,12 @@ public class BaseMockControllerTest {
 		given(this.entrenadorService.findById(any(Integer.class))).willReturn(Optional.of(entrenador));
 		given(this.entrenadorService.findByUser(any(User.class))).willReturn(entrenador);
 	}
+	
+	/** Metodos EntrenamientoService por defecto */
+	protected void givenEntrenamientoService(Entrenamiento entrenamiento) {
+		given(this.entrenamientoService.findById(any(Integer.class))).willReturn(Optional.of(entrenamiento));
+		given(this.entrenamientoService.findByFechaAfter(any(LocalDate.class))).willReturn(Lists.newArrayList(entrenamiento));
+	}
 
 	/** Metodos EquipoService por defecto */
 	protected void givenEquipoService(Equipo equipo) {
@@ -146,6 +173,16 @@ public class BaseMockControllerTest {
 				.willReturn(Lists.newArrayList(estadisticaPersonalPartido));
 		given(this.estadisticaPersonalPartidoService.findByPartido(any(Integer.class)))
 				.willReturn(Lists.newArrayList(estadisticaPersonalPartido));
+	}
+	
+	/** Metodos EstadisticaPersonalEntrenamientoService por defecto */
+	protected void givenEstadisticaPersonalEntrenamientoService(EstadisticaPersonalEntrenamiento estadisticaPersonalEntrenamiento) {
+		given(this.estadisticaPersonalEntrenamientoService.findById(any(Integer.class)))
+				.willReturn(Optional.of(estadisticaPersonalEntrenamiento));
+		given(this.estadisticaPersonalEntrenamientoService.findByJugador(any(Integer.class)))
+				.willReturn(Lists.newArrayList(estadisticaPersonalEntrenamiento));
+		given(this.estadisticaPersonalEntrenamientoService.findByEntrenamiento(any(Integer.class)))
+				.willReturn(Lists.newArrayList(estadisticaPersonalEntrenamiento));
 	}
 
 	/** Metodos PartidoService por defecto */

@@ -344,6 +344,9 @@ public class BaseControllerTest extends BaseUserControllerTest {
 
 		// EntrenadorService
 		givenEntrenadorService(entrenador);
+		
+		// EntrenamientoService
+		givenEntrenamientoService(entrenamiento);
 
 		// EquipoService
 		givenEquipoService(equipo);
@@ -353,6 +356,9 @@ public class BaseControllerTest extends BaseUserControllerTest {
 
 		// EstadisticaPersonalPartidoService
 		givenEstadisticaPersonalPartidoService(estadisticaPersonalPartido);
+		
+		// EstadisticaPersonalPartidoService
+		givenEstadisticaPersonalEntrenamientoService(estadisticaPersonalEntrenamiento);
 
 		// ViajeService
 		givenViajeService(viaje);
@@ -364,6 +370,13 @@ public class BaseControllerTest extends BaseUserControllerTest {
 				.willReturn(convertPartidoToPartidoEdit(partido));
 		given(this.partidoConverter.convertPartidoToPartidoConAsistencia(any(Partido.class)))
 				.willReturn(convertPartidoToPartidoConAsistencia(partido));
+		
+		//Entrenamiento
+		given(this.entrenamientoConverter.convertEntrenamientoToEntrenamientoEdit(any(Entrenamiento.class)))
+		.willReturn(convertEntrenamientoToEntrenamientoEdit(entrenamiento));
+		given(this.entrenamientoConverter.convertEntrenamientoToEntrenamientoConAsistencia(any(Entrenamiento.class)))
+		.willReturn(convertEntrenamientoToEntrenamientoConAsistencia(entrenamiento));
+		
 		given(this.estadisticasConverter
 				.convertEstadisticasPersonalesToJugadorStats(any(EstadisticaPersonalPartido.class)))
 						.willReturn(convertEstadisticasPersonalesToJugadorStats(estadisticaPersonalPartido));
