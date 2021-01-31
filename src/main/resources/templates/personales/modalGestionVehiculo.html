@@ -39,7 +39,6 @@
 
 
 <script type="text/javascript">
-	ç
 
 	function pulsarIntro(e) {
 		if (e.keyCode === 13 && !e.shiftKey) {
@@ -58,8 +57,8 @@
 			contentType : false,
 			success : function(data) {
 				$('#gestionModal').modal("hide");
+				location.reload();
 				toastSuccess("Personal creado con éxito");
-				//tablaPrincipal.ajax.reload(null, false);
 			},
 			error : function(data) {
 
