@@ -12,10 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
-import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.converter.PersonalConverter;
 import org.springframework.samples.petclinic.model.Jugador;
-import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
+import org.springframework.samples.petclinic.model.auxiliares.PersonalEdit;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.samples.petclinic.service.ViajeService;
@@ -23,6 +23,7 @@ import org.springframework.samples.petclinic.service.impl.AuthoritiesService;
 import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MimeTypeUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.ValidationUtils;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -46,6 +48,9 @@ public class VehiculoController {
 	
 	@Autowired
 	private PersonalesService personalService;
+	
+	@Autowired
+	private PersonalConverter personalConverter;
 	
 	@Autowired
 	private JugadorService jugadorService;
@@ -107,6 +112,7 @@ public class VehiculoController {
 					LOG.info("Estamos editando el personal con el id: " + id);
 					Optional<Personales> personalO = personalService.findById(id);
 					personal = personalO.get();
+					personal.setPropietario(request.getParameter("propietario"));
 				}else{
 					LOG.info("Estamos creando un vehículo nuevo ");
 					personal = new Personales();
@@ -130,11 +136,35 @@ public class VehiculoController {
 		
 	}
 	
+	@RequestMapping(value = "findeditvehiculo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PersonalEdit> findPersonal(@PathVariable("id") int id) {
+		try {
+			LOG.info("Buscamos el vehículo con el id: " + id);
+			Optional<Personales> personalO = personalService.findById(id);
+			Personales personal = personalO.get();
+			PersonalEdit edit = personalConverter.convertPersonalToPersonalEdit(personal);
+			return new ResponseEntity<PersonalEdit>(edit, HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Excepción encontrando el vehículo para editar");
+			return new ResponseEntity<PersonalEdit>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	
 	@PostMapping("/eliminarVehiculo/{id}")
-    public String eliminarVehiculo(@PathVariable Integer id){
-		viajeService.deleteAll(viajeService.findByPersonal(personalService.findById(id).get()));
+    public ResponseEntity<ObjectError> eliminarVehiculo(@PathVariable Integer id){
+		try{
+		LOG.info("Procedemos al borrado del vehículo y sus dependencias con el id: " + id);
 		personalService.deleteById(id);
-		return "redirect:/personales/showvehiculos";
+		LOG.info("Se ha borrado el vehículo con el id: " + id);
+		return new ResponseEntity<ObjectError>(HttpStatus.OK);
+		
+		}
+		catch(Exception e){
+			LOG.info("Procedemos al borrado del vehículo y sus dependencias con el id: " + id);
+			LOG.info("No se ha podido borrar correctamente el vehículo con el id: " + id);
+			return new ResponseEntity<ObjectError>(HttpStatus.BAD_REQUEST);
+		}
     }
 	
 	@GetMapping("/navbar")

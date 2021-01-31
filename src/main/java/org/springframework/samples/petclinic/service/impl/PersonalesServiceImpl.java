@@ -12,6 +12,7 @@ import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.repository.PersonalesRepository;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PersonalesService;
+import org.springframework.samples.petclinic.service.ViajeService;
 import org.springframework.samples.petclinic.service.base.impl.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,10 @@ public class PersonalesServiceImpl extends AbstractService<Personales>  implemen
 	@Autowired
 	private JugadorService jugadorService;
 	
+
+	@Autowired
+	private ViajeService viajeService;
+	
 	@Autowired
 	private PersonalesService personalesService;
 
@@ -46,6 +51,12 @@ public class PersonalesServiceImpl extends AbstractService<Personales>  implemen
 	public List<Personales> findByJugador(int jugador_id) {
 		Optional<Jugador> jugador= jugadorService.findById(jugador_id);
 		return personalesRepository.findByJugador(jugador.get());
+	}
+
+	@Override
+	public void deleteById(Integer id) {
+		viajeService.deleteAll(viajeService.findByPersonal(personalesRepository.findById(id).get()));
+		super.deleteById(id);
 	}
 	
 }
