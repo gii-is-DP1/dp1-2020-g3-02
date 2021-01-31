@@ -114,18 +114,17 @@
 								</div>
 							</td>
 							<td sec:authorize="hasAuthority('jugador')">
-
+								
 								<div th:if="${personal.jugador == jugador}">
-									<form action="#"
-										th:action="@{'/personales/eliminarVehiculo/{id}'(id=${personal.id})}"
-										th:method="delete">
-										<input type="hidden" name="_method" value="delete" />
-										<button type="button" class="btn btn-outline-info"
-											data-toggle="modal" data-target="#modalEditar"><i class="fas fa-edit"></i>
+										<input id="idPersonal" type="hidden" th:value="${personal.id}"></input>
+										<button type="button" class="btn btn-outline-info editarPersonal"
+											data-toggle="modal">
+											<i class="fas fa-edit"></i>
 										</button>
-										<button type="submit" id="submitButton"
-											class='btn btn-outline-danger'><i class="fas fa-trash-alt"></i></button>
-									</form>
+										<button id="eliminarPersonal"
+											class='btn btn-outline-danger eliminarPersonal'>
+											<i class="fas fa-trash-alt"></i>
+										</button>
 
 								</div>
 
@@ -145,8 +144,10 @@
 		</div>
 	</div>
 
-	
-<div th:replace="personales/modalGestionVehiculo"></div>
+
+	<div th:replace="personales/modalGestionVehiculo"></div>
+	<div th:replace="personales/modalEliminarVehiculo"></div>
+	<div th:replace="toast"></div>
 
 
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
@@ -180,27 +181,55 @@
 		
 	</script>
 
-<script type="text/javascript">
-	var tablaPersonales = $('#personalesTable').DataTable({
-		responsive: true,
-		stateSave: true,
-		language : {
-			"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-		}
-	});
+	<script type="text/javascript">
+		var tablaPersonales = $('#personalesTable')
+				.DataTable(
+						{
+							responsive : true,
+							stateSave : true,
+							language : {
+								"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+							}
+						});
 
-	$('#nuevoPersonal').on('click', function() {
+		$('#nuevoPersonal').on('click', function() {
 
-		$('.error').text('');
-		$('#gestionModal .modal-header').css("color", "white");
-		$('#gestionModal .modal-title').text("Nuevo Vehículo Personal");
-		$('#gestionModal').modal("show");
-	});
-</script>
+			$('.error').text('');
+			$('#gestionModal .modal-header').css("color", "white");
+			$('#gestionModal .modal-title').text("Nuevo Vehículo Personal");
+			$('#gestionModal').modal("show");
+		});
 
-<script type="text/javascript">
-	w3IncludeHTML();
-</script>
+		$('table .editarPersonal').on('click', function(){
+			var id = $(this).parent().find('#idPersonal').val();
+			$('.error').text('');
+
+			$.ajax({
+				type : 'GET',
+				url : '/personales/findeditvehiculo/' + id,
+				success : function(edit) {
+
+					$('#gestionModal #idEdit').val(edit.id);
+					$('#gestionModal #propietarioEdit').val(edit.propietario);
+					$('.modal-header').css("color", "white");
+					$('.modal-title').text(
+							"Editar vehículo" + edit.jugador.firstName + " "
+									+ edit.jugador.lastName);
+					$('#gestionModal').modal("show");
+				}
+			});
+		});
+		
+		$('table .eliminarPersonal').on('click', function(){
+			var id = $(this).parent().find('#idPersonal').val();
+			$('#confirmacionModal #id').val(id);
+			$('#confirmacionModal').modal("show");
+			});
+	</script>
+
+	<script type="text/javascript">
+		w3IncludeHTML();
+	</script>
 
 </body>
 </html>
