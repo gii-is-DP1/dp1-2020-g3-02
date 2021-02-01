@@ -362,6 +362,9 @@ public class BaseControllerTest extends BaseUserControllerTest {
 
 		// ViajeService
 		givenViajeService(viaje);
+		
+		// ViajeService
+		givenPersonalesService(personal);
 
 		// CONVERTERS
 		given(this.jugadorPartidoStatsConverter.convertJugadorToJugadorPartidoStats(any(Jugador.class)))
