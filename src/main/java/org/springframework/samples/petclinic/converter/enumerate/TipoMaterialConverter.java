@@ -1,13 +1,11 @@
 package org.springframework.samples.petclinic.converter.enumerate;
 
 import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-
-import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
+import org.springframework.stereotype.Component;
 
 
-@Converter
+@Component
 public class TipoMaterialConverter implements AttributeConverter<TipoMaterial, String>{
 
 	@Override
