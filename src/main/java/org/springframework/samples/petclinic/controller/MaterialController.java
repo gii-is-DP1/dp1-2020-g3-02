@@ -20,13 +20,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.MaterialValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.MaterialConverter;
+import org.springframework.samples.petclinic.converter.enumerate.TipoMaterialConverter;
 import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.MaterialEstados;
 import org.springframework.samples.petclinic.model.ediciones.MaterialDTO;
-import org.springframework.samples.petclinic.model.ediciones.MaterialEdit;
 import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,8 +56,9 @@ public class MaterialController {
 
 	@Autowired
 	private MaterialConverter materialConverter;
-
-
+	
+	@Autowired
+	private TipoMaterialConverter tipoMaterialConverter;
 
 	@GetMapping("/showmateriales")
 	public ModelAndView listadoMaterial() {
@@ -192,34 +193,23 @@ public class MaterialController {
 		}
 
 	}
-	@RequestMapping(value = "/postmaterial/{tipo}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ObjectError>> addMaterial(HttpServletRequest request, @ModelAttribute(name="material") MaterialDTO materialDto, BindingResult result, @PathVariable("tipo") TipoMaterial tipo) {
+	
+	@PostMapping("/postmaterial")
+	public ResponseEntity<List<ObjectError>> addMaterial(HttpServletRequest request, @ModelAttribute(name="material") Material material, BindingResult result) {
 		try {
-			MaterialEdit edit = new MaterialEdit(null, request.getParameter("nombre").trim(), tipo, Integer.parseInt(request.getParameter("stock")));
-
-			//ValidationUtils.invokeValidator(partidoValidator, edit, result);
-
-			if(result.hasErrors()) {
-				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
-			}
-			Material material = new Material(request.getParameter("nombre").trim(), tipo, Integer.parseInt(request.getParameter("stock")));
-			//			List<Jugador> jugadores = jugadorService.findAll();
-			//			List<Jugador> agregados = new ArrayList<Jugador>();
-			//			for(int i=0; i<jugadores.size(); i++) {
-			//				String añadido = request.getParameter(String.valueOf(i+1));
-			//				if(añadido.equals("true")) {
-			//					agregados.add(jugadores.get(i));
-			//				}
-			//			}
-			//			equipo.setJugadores(agregados);
-			Material hola = materialService.save(material);
-
+			TipoMaterial tipo = tipoMaterialConverter.convertToEntityAttribute(request.getParameter("tipo"));
+			Material lalala= materialService.findByTipoAndEstado(tipo, EstadoMaterial.NUEVO);
+			lalala.setStock(lalala.getStock()+Integer.parseInt(request.getParameter("cantidad")));
+			materialService.save(lalala);
+			
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
-
+			
 		} catch (Exception e) {
+			LOG.error("Error al guardar el material");
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
 	@GetMapping("/eliminarmaterial")
 	public String eliminarMaterial(@RequestParam(name="id",required=true) int id, Model model) {
 

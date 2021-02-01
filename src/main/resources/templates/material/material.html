@@ -128,6 +128,7 @@
 		<div class="col-lg-4"></div>
 		</div>	
 		<!-- Modal Edicion -->
+		<!--
 	<div class="modal fade" id="materialesModalEstado"
 		data-backdrop="static" data-keyboard="false" tabindex="-1"
 		aria-labelledby="Gestion" aria-hidden="true">
@@ -186,7 +187,49 @@
 			</div>
 		</div>
 	</div>
+		<!-- Modal Añadir -->
+	<div class="modal fade" id="materialesAnadirModal"
+		data-backdrop="static" data-keyboard="false" tabindex="-1"
+		aria-labelledby="Gestion" aria-hidden="true">
+		<div class="modal-dialog modal-md modal-dialog-centered">
+			<div class="modal-content">
+				<form id="formAnadirMaterial" method="post">
+					<div class="modal-header bg-info">
+						<h5 class="modal-title" id="gestionMateriales"></h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" id="modalFormMaterialAnadir">
+							<input type="hidden" id="tipo" name="tipo"></input>
+
+							<div class="form-group col">
+								<label><span class="text-danger">(*) </span>Cantidad:</label><input
+									class="form-control" type="number" placeholder="Cantidad"
+									th:id="cantidad" name="cantidad" min="1" max="300" required></input>
+								<small class="peso text-danger error"></small>
+							</div>
+
+
+						</div>
+					</div>
+					<div class="modal-footer"
+						style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-info"
+							onclick="return enviarEdicionMaterial();">Aceptar</button>
+						<input type="hidden" id="id" name="id"></input>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	  
 	<!-- Modal crear material -->
+	<!--
 <div class="modal fade" id="nuevoMaterialModal" data-backdrop="static"
 	data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
 	aria-hidden="true">
@@ -252,6 +295,7 @@
 	</div>
 </div>
 <!--  Modal eliminar material -->
+<!--
 <div class="modal fade" id="confirmacionModal" data-backdrop="static"
 		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
 		aria-hidden="true">
@@ -297,7 +341,7 @@
 			</div>
 		</div>
 	</div>
-	
+	-->
 
 	<th:block layout:fragment="scripts">
 		
@@ -375,18 +419,18 @@
 															},
 															{ data: 'porcentaje',
 																render: function ( data, type, row ) {
-																	
-																	var btnEdit = "<button  class='btn btn-outline-info ml-1 editar' onclick='return editarMaterial();' type='button' title='Editar'>"+
+																	var btnEdit = "<button  class='btn btn-outline-info ml-1 editar' onclick='return editar();' type='button' title='Editar'>"+
 																		"<i class='fas fa-edit'></i></button>";
 																								
 																	  if(data>70 ){
-																	    return " <button  class='btn btn-outline-success añadir' onclick='return añadir();' type='button' title='Añadir'>"+
+																		 
+																	    return " <button  class='btn btn-outline-success anadir' onclick='return anadir(\""+row['tipo'] +"\")' type='button' title='Añadir'>"+
 																		"<i class='fas fa-plus-circle'></i></button>"+ btnEdit +
-																		" <button onclick='return eliminar("+row['tipo'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+																		" <button onclick='return eliminar(\""+row['tipo'] +"\");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
 																		"<i class='fas fa-trash-alt'></i></button>"
 																		}else{
 																			
-																			return btnEdit + " <button onclick='return eliminar("+row['tipo'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+																			return btnEdit + " <button onclick='return eliminar(\""+row['tipo'] +"\");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
 																			"<i class='fas fa-trash-alt'></i></button>"
 																		}
 																	  
@@ -447,7 +491,7 @@
 
 							});
 			
-					function añadir() {
+					function editar() {
 
 						$('.error').text('');
 
@@ -468,6 +512,32 @@
 								$('#materialesModalEstado .modal-title').text(
 										"Materiales");
 								$('#materialesModalEstado').modal("show");
+
+							}
+						});
+					};
+					
+					function anadir(tipo) {
+
+						$('.error').text('');
+						$.ajax({
+							type : 'GET',
+							url : '/materiales/showmateriales',
+							success : function(edit) {
+								$('#modalFormMaterialAnadir').children('.only')
+										.remove();
+								$('#modalFormMaterialAnadir').children('#edit')
+										.remove();
+
+								$('#cantidad').val();
+								$('#estado').val();
+								$('#tipo').val(tipo);
+
+								$('#materialesAnadirModal .modal-header').css(
+										"color", "white");
+								$('#materialesAnadirModal .modal-title').text(
+										"Materiales");
+								$('#materialesAnadirModal').modal("show");
 
 							}
 						});
@@ -500,22 +570,19 @@
 					};
 					
 					
-					function enviarEdicion() {
-						var form = new FormData(document
-								.getElementById('formNuevoMaterial'));
-
-						var checkbox = $("#formNuevoMaterial").find("input[type=checkbox]");
-						$.each(checkbox, function(key, val) {
-						    form.append($(val).attr('value'), $(val).is(':checked'))
-						});
+					function enviarEdicionMaterial() {
+						var form = new FormData();
+						form.append("tipo", $('#tipo').val());
+						form.append("cantidad", $('#cantidad').val());
+						
 						$.ajax({
-							url : '/materiales/postmaterial/' + form.get("tipo"),
+							url : '/materiales/postmaterial',
 							type : 'post',
 							data : form,
 							processData : false,
 							contentType : false,
 							success : function(data) {
-								$('#nuevoMaterialModal').modal("hide");
+								$('#materialesAnadirModal').modal("hide");
 								location.reload();
 								//tablaPrincipal.ajax.reload(null, false);
 							},
