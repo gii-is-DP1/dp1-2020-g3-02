@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -77,24 +76,6 @@ public class VehiculoController {
 		mav.addObject("personales", personalService.findAll());
 		return mav;
 	}
-	
-	@GetMapping("/vehiculoform")
-	public String redirectVehiculoForm(@RequestParam(name="id",required=true) int id, Model model,HttpServletRequest request) {
-		Personales personal= new Personales();
-		String username = request.getUserPrincipal().getName();
-		boolean autoridad = authoritiesService.hasAuthority("jugador", username);
-		
-		if(autoridad == false) {
-			return "redirect:/login";
-		}else { 
-		if(id != 0) {
-			personal = personalService.findById(id).get();
-			
-		}}
-		model.addAttribute("personal", personal);
-		return ViewConstant.VIEWS_VEHICULO_CREATE_OR_UPDATE_FORM;
-	}
-	
 	@PostMapping("/postvehiculo")
 	public ResponseEntity<List<ObjectError>> postVehiculo(@ModelAttribute(name="personal") Personales personal, BindingResult bindResult,
 			Model model, HttpServletRequest request) {
@@ -102,10 +83,7 @@ public class VehiculoController {
 		
 			String username = request.getUserPrincipal().getName();
 			Jugador jugador=jugadorService.findByUser(userService.findByUsername(username));
-			boolean autoridad = authoritiesService.hasAuthority("jugador", username);
-			if(autoridad == false){
-				return new ResponseEntity<List<ObjectError>>(HttpStatus.FORBIDDEN);
-			}
+			
 			try {
 				if(!request.getParameter("id").isEmpty()) {
 					int id = Integer.parseInt(request.getParameter("id"));
