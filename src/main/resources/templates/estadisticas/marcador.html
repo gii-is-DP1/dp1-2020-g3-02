@@ -12,38 +12,51 @@
 	crossorigin="anonymous">
 
 <style>
+
+.start-label {
+	background: #3396d0;
+}
+
 </style>
 
 <div class="container-fluid mr-0">
 	<div class="times row crono-width">
-		<div class="hour-time time text-center col-md-6 alert-success">
+		<div class="hour-time time text-center col-md-5 alert-success">
 			<span id="equipoLocal">0</span>
 		</div>
-		<div class="minute-time time text-center col-md-6 alert-danger">
-			<span id="minute">0</span>
+		<div class="minute-time time text-center col-md-2">
+			<span id="set" th:text="${partido.setJugados}"></span>
+		</div>
+		<div class="minute-time time text-center col-md-5 alert-danger">
+			<span id="equipoContrario" >0</span>
 		</div>
 	</div>
 	<div class="row crono-width">
-		<div style="border-bottom: 7px solid #c82333;" class="btn-danger col-md text-center btn-crono">
+	
+		<div style="border-bottom: 7px solid #c82333;" class="btn-danger col-md text-center btn-crono menos-nosotros">
 			<div class="minus-us">
 				<i class="fas fa-minus-square"></i>
 			</div>
 		</div>
-		<div class="active-btn col-md text-center btn-crono">
+		<div class="active-btn col-md text-center btn-crono mas-nosotros">
 			<div class="plus-us">
 				<i class="fas fa-plus-square"></i>
 			</div>
 		</div>
-		<div style="border-bottom: 7px solid #c82333;" class="btn-danger col-md text-center btn-crono">
+		<div class="col-md-2 text-center  btn-crono start-label" style=" cursor: default;">
+			<span>Set</span>
+		</div>
+		<div style="border-bottom: 7px solid #c82333;" class="btn-danger col-md text-center btn-crono menos-ellos">
 			<div class="minus-them">
 				<i class="fas fa-minus-square"></i>
 			</div>
 		</div>
-		<div class="active-btn col-md text-center btn-crono">
+		<div class="active-btn col-md text-center btn-crono mas-ellos">
 			<div class="plus-them">
 				<i class="fas fa-plus-square"></i>
 			</div>
 		</div>
+		
 	</div>
 </div>
 
@@ -58,6 +71,113 @@
 	integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
 	crossorigin="anonymous"></script>
 
-<script>
+<script>	
 	
+	$('.menos-nosotros').on('click', function(){
+		var partidoId = $('#partidoId').val();
+		var set = $('#set').text();
+		var formCom = new FormData();
+		formCom.append("partidoId",partidoId);
+		formCom.append("set",set);
+		$.ajax({
+			type: 'POST',
+			url: '/estadisticas/menosNosotros/',
+			data: formCom,
+            processData: false,
+            contentType: false,
+			success: function(marcador){
+				tablaIntroducirEstadisticas.ajax.reload(null, false);
+				estadisticas();
+				$('#comandoIntroducido').val('');
+				document.getElementById("equipoLocal").innerHTML = marcador;
+			},
+			error: function(error){
+				$('#errorComandos').text(error.responseText);
+			}
+		});
+		
+		
+	});
+	
+	$('.mas-nosotros').on('click', function(){
+		var partidoId = $('#partidoId').val();
+		var set = $('#set').text();
+		var formCom = new FormData();
+		formCom.append("partidoId",partidoId);
+		formCom.append("set",set);
+		
+		$.ajax({
+			type: 'POST',
+			url: '/estadisticas/masNosotros/',
+			data: formCom,
+            processData: false,
+            contentType: false,
+			success: function(marcador){
+				console.log("hola");
+				tablaIntroducirEstadisticas.ajax.reload(null, false);
+				estadisticas();
+				$('#comandoIntroducido').val('');
+				document.getElementById("equipoLocal").innerHTML = marcador;
+			},
+			error: function(error){
+				$('#errorComandos').text(error.responseText);
+			}
+		});
+		
+		
+	});
+	
+	$('.menos-ellos').on('click', function(){
+		var partidoId = $('#partidoId').val();
+		var set = $('#set').text();
+		var formCom = new FormData();
+		formCom.append("partidoId",partidoId);
+		formCom.append("set",set);
+		
+		$.ajax({
+			type: 'POST',
+			url: '/estadisticas/menosEllos/',
+			data: formCom,
+            processData: false,
+            contentType: false,
+			success: function(){
+				tablaIntroducirEstadisticas.ajax.reload(null, false);
+				estadisticas();
+				$('#comandoIntroducido').val('');
+				document.getElementById("equipoLocal").innerHTML = marcador;
+			},
+			error: function(error){
+				$('#errorComandos').text(error.responseText);
+			}
+		});
+		
+		
+	});
+	
+	$('.mas-ellos').on('click', function(){
+		var partidoId = $('#partidoId').val();
+		var set = $('#set').text();
+		var formCom = new FormData();
+		formCom.append("partidoId",partidoId);
+		formCom.append("set",set);
+		
+		$.ajax({
+			type: 'POST',
+			url: '/estadisticas/masEllos/',
+			data: formCom,
+            processData: false,
+            contentType: false,
+			success: function(marcador){
+				tablaIntroducirEstadisticas.ajax.reload(null, false);
+				estadisticas();
+				$('#comandoIntroducido').val('');
+				document.getElementById("equipoLocal").innerHTML = marcador;
+			},
+			error: function(error){
+				$('#errorComandos').text(error.responseText);
+			}
+		});
+		
+		
+	});
 </script>
