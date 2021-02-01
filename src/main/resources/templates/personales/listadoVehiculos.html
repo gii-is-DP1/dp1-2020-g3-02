@@ -90,7 +90,7 @@
 						<tr class="table-primary">
 							<th>Propietario</th>
 							<th>Creador del vehículo</th>
-							<th sec:authorize="hasAuthority('jugador')">Acciones</th>
+							<th sec:authorize="hasAuthority('jugador')" class="nosort">Acciones</th>
 
 						</tr>
 					</thead>
@@ -189,7 +189,12 @@
 							stateSave : true,
 							language : {
 								"url" : "https:////cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
-							}
+							},
+							
+							"aoColumnDefs": [
+						          { 'bSortable': false, 'aTargets': ['nosort' ] }
+						       ],
+
 						});
 
 		$('#nuevoPersonal').on('click', function() {
