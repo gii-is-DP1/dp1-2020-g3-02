@@ -7,11 +7,13 @@ public class ValidationConstant {
 	public static final String CAMPO_NEGATIVO = "El valor no puede ser un número negativo";
 	public static final String VALOR_ERROR_ENUM = "El valor no es compatible en este campo";
 	public static final String VALOR_NUMERICO_ENTERO_ERROR = "El valor introducido debe ser un número entero";
-	
 	/** USUARIO */
 	public static final String USERNAME_ERROR = "El username es requerido y debe tener más de 6 carácteres";
 	public static final String USERNAME_YAEXISTE_ERROR = "El username ya está registrado";
-	public static final String PASSWORD_ERROR = "La contraseña es requerida y debe tener 8 o más caracteres";
+	public static final String PASSWORD_ERROR = "La contraseña es requerida y debe tener 8 o más caracteres, un número, mayúsculas y minúsculas";
+	public static final String PASSWORD_ERROR2 = "La nueva contraseña debe ser distinta a la ya establecida";
+	public static final String PASSWORD_ERROR3 = "La contraseña debe ser igual a la actual";
+	public static final String PASSWORD_ERROR4 = "La contraseña de confirmacón debe ser igual a la nueva contraseña";
 	public static final String FIRSTNAME_ERROR = "El nombre es requerido y no puede contener ningún caracter especial ni números";
 	public static final String LASTNAME_ERROR = "El apellido es requerido y no puede contener ningún caracter especial ni números";
 	public static final String EMAIL_FORMATO_ERROR = "El formato del email es incorrecto";

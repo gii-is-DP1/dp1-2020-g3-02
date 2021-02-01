@@ -1,220 +1,360 @@
 <meta charset="UTF-8" />
 
 <style type="text/css">
-	.dropPersonalizado{
-		text-align: center;
-		transition-duration: 0.6s;
-	}
-	.dropPersonalizado:hover{
-		background-color: #17a2b8;
-		border-radius: 40%;
-	}
+.dropPersonalizado {
+	text-align: center;
+	transition-duration: 0.6s;
+}
+
+.dropPersonalizado:hover {
+	background-color: #17a2b8;
+	border-radius: 40%;
+}
 </style>
-	
-	<!-- th:if="${param.id[0]== '1' && param.id[0]== '0'}" -->
-	<!-- th:if="${param.id[0]== '1' || param.id[0]== '0'}" -->
-	
+
+<!-- th:if="${param.id[0]== '1' && param.id[0]== '0'}" -->
+<!-- th:if="${param.id[0]== '1' || param.id[0]== '0'}" -->
+
 <header class="navbar navbar-expand-lg navbar-dark bg-primary">
-		<a class="navbar-brand ml-0 mr-0 mr-md-2" style="width: 60px;"
-			href="/" aria-label="">
-			<title>Volleyball</title>
-		<img style="width: 100%;"
-			src="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png">
-		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
-			aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		
-		
-		<div class="collapse navbar-collapse mr-2" id="navbarNavDropdown">
-			<ul class="navbar-nav ml-auto">
-			
-				<li th:if="${param.id[0] == 'home'}" class="nav-item active"><a class="nav-link disabled" href="/home">Inicio</a></li>
-				<li th:unless="${param.id[0] == 'home'}" class="nav-item"><a class="nav-link" href="/home">Inicio</a></li>
-				
-				<li th:if="${param.id[0] == 'cuerpotecnico'}" class="nav-item active"><a class="nav-link disabled" href="/cuerpotecnico/showcuerpotecnico">Cuerpo Técnico</a></li>
-				<li th:unless="${param.id[0] == 'cuerpotecnico'}" class="nav-item"><a class="nav-link" href="/cuerpotecnico/showcuerpotecnico">Cuerpo Técnico</a></li>
-
-				
+	<a class="navbar-brand ml-0 mr-0 mr-md-2" style="width: 60px;" href="/"
+		aria-label="">
+		<title>Volleyball</title> <img style="width: 100%;"
+		src="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png">
+	</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse"
+		data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+		aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
 
 
-<!--  JUGADORES IF -->					
-				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:if="${param.id[0] == 'listadoJugadores' || param.id[0] == 'jugadorForm' || param.id[0] == 'ejerciciosIndividuales' || param.id[0] == 'autorizaciones'}" class="nav-item dropdown active"><a
-					class="nav-link dropdown-toggle" href="#"
-					id="navbarDropdownMenuLinkPlayer" role="button"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jugadores</a>
-					<div class="dropdown-menu bg-primary"
-						aria-labelledby="navbarDropdownMenuLinkPlayer">
-						
-						
-						<a th:if="${param.id[0] == 'listadoJugadores'}" class="dropdown-item dropPersonalizado text-white-50 disabled" role="button" href="/jugadores/showjugadores">Jugadores</a>
-						<a th:unless="${param.id[0] == 'listadoJugadores'}" class="dropdown-item dropPersonalizado" role="button" href="/jugadores/showjugadores">Jugadores</a>
-						
-						<a sec:authorize="hasAuthority('entrenador')" th:if="${param.id[0] == 'autorizaciones'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/jugadores/showjugadoresaut">Autorizaciones</a> 
-						<a sec:authorize="hasAuthority('entrenador')" th:unless="${param.id[0] == 'autorizaciones'}" class="dropdown-item dropPersonalizado" href="/jugadores/showjugadoresaut">Autorizaciones</a> 
-						
-						<a th:if="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/ejercicios/showejercicios">Ejercicios Individuales</a>
-						<a th:unless="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado" href="/ejercicios/showejercicios">Ejercicios Individuales</a>
-					</div></li>
-<!--  JUGADORES ELSE -->						
-				<li sec:authorize="hasAnyAuthority('entrenador','jugador')"  th:unless="${param.id[0] == 'listadoJugadores' || param.id[0] == 'jugadorForm' || param.id[0] == 'ejerciciosIndividuales' || param.id[0] == 'autorizaciones'}" class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#"
-					id="navbarDropdownMenuLinkPlayer" role="button"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jugadores</a>
-					<div class="dropdown-menu bg-primary"
-						aria-labelledby="navbarDropdownMenuLinkPlayer">
-						
-						
-						<a th:if="${param.id[0] == 'listadoJugadores'}" class="dropdown-item dropPersonalizado text-white-50 disabled" role="button" href="/jugadores/showjugadores">Jugadores</a>
-						<a th:unless="${param.id[0] == 'listadoJugadores'}" class="dropdown-item dropPersonalizado" role="button" href="/jugadores/showjugadores">Jugadores</a>
-						
-						<a sec:authorize="hasAuthority('entrenador')" th:if="${param.id[0] == 'autorizaciones'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/jugadores/showjugadoresaut">Autorizaciones</a> 
-						<a sec:authorize="hasAuthority('entrenador')" th:unless="${param.id[0] == 'autorizaciones'}" class="dropdown-item dropPersonalizado" href="/jugadores/showjugadoresaut">Autorizaciones</a> 
-						
-						<a th:if="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/ejercicios/showejercicios">Ejercicios Individuales</a>
-						<a th:unless="${param.id[0] == 'ejerciciosIndividuales'}" class="dropdown-item dropPersonalizado" href="/ejercicios/showejercicios">Ejercicios Individuales</a>
-					</div></li>
-					
-<!--  EQUIPO IF -->					
-			
-				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:if="${param.id[0] == 'listadoEquipos'}" class="nav-item active"><a class="nav-link disabled" href="/equipos/showequipos">Mis Equipos</a></li>
+	<div class="collapse navbar-collapse mr-2" id="navbarNavDropdown">
+		<ul class="navbar-nav ml-auto">
 
-<!--  EQUIPO ELSE -->	
+			<li th:if="${param.id[0] == 'home'}" class="nav-item active"><a
+				class="nav-link disabled" href="/home">Inicio</a></li>
+			<li th:unless="${param.id[0] == 'home'}" class="nav-item"><a
+				class="nav-link" href="/home">Inicio</a></li>
 
-				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:unless="${param.id[0] == 'listadoEquipos'}" class="nav-item"><a class="nav-link" href="/equipos/showequipos">Mis Equipos</a></li>				
-						
-							
-							
-<!--  VEHICULO IF -->					
-			
-				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:if="${param.id[0] == 'listadoVehiculos'}" class="nav-item active"><a class="nav-link disabled" href="/personales/showvehiculos">Vehículos</a></li>
+			<li th:if="${param.id[0] == 'cuerpotecnico'}" class="nav-item active"><a
+				class="nav-link disabled" href="/cuerpotecnico/showcuerpotecnico">Cuerpo
+					Técnico</a></li>
+			<li th:unless="${param.id[0] == 'cuerpotecnico'}" class="nav-item"><a
+				class="nav-link" href="/cuerpotecnico/showcuerpotecnico">Cuerpo
+					Técnico</a></li>
 
-<!--  VEHICULO ELSE -->	
 
-				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:unless="${param.id[0] == 'listadoVehiculos'}" class="nav-item"><a class="nav-link" href="/personales/showvehiculos">Vehículos</a></li>				
-						
-					
-					
-<!--  PARTIDO IF -->
-				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:if="${param.id[0] == 'listadoPartido' || param.id[0] == 'estadisticasPartido' || param.id[0] == 'partidoForm'}" class="nav-item dropdown active"><a
-					class="nav-link dropdown-toggle" href="#"
-					id="navbarDropdownMenuLinkMatch" role="button"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Partidos</a>
-					<div class="dropdown-menu bg-primary"
-						aria-labelledby="navbarDropdownMenuLinkMatch">
-						<a th:if="${param.id[0] == 'listadoPartido'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/partidos/showpartidos">Próximos
-							Partidos</a>
-						<a th:unless="${param.id[0] == 'listadoPartido'}" class="dropdown-item dropPersonalizado" href="/partidos/showpartidos">Próximos
-							Partidos</a>
-						
-						<a sec:authorize="hasAuthority('jugador')" th:if="${param.id[0] == 'estadisticasPartido'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/partidos/showestadisiticasJugadores">Estadísticas de
-							Partidos</a>	
-						<a sec:authorize="hasAuthority('jugador')" th:unless="${param.id[0] == 'estadisticasPartido'}" class="dropdown-item dropPersonalizado" href="/partidos/showestadisiticasJugadores">Estadísticas de
-							Partidos</a>
-						
-						<a sec:authorize="hasAuthority('entrenador')" th:if="${param.id[0] == 'estadisticasPartido'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/partidos/showestadisiticasPartido">Estadísticas de
-							Partidos</a>	
-						<a sec:authorize="hasAuthority('entrenador')" th:unless="${param.id[0] == 'estadisticasPartido'}" class="dropdown-item dropPersonalizado" href="/partidos/showestadisiticasPartido">Estadísticas de
-							Partidos</a>
-		
-					</div></li>
-<!--  PARTIDO ELSE -->					
-				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:unless="${param.id[0] == 'listadoPartido' || param.id[0] == 'estadisticasPartido' || param.id[0] == 'partidoForm'}" class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#"
-					id="navbarDropdownMenuLinkMatch" role="button"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Partidos</a>
-					<div class="dropdown-menu bg-primary"
-						aria-labelledby="navbarDropdownMenuLinkMatch">
-						<a th:if="${param.id[0] == 'listadoPartido'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/partidos/showpartidos">Próximos
-							Partidos</a>
-						<a th:unless="${param.id[0] == 'listadoPartido'}" class="dropdown-item dropPersonalizado" href="/partidos/showpartidos">Próximos
-							Partidos</a>
-							
-					
-						<a  sec:authorize="hasAuthority('jugador')" th:if="${param.id[0] == 'estadisticasPartido'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/partidos/showestadisiticasJugadores">Estadísticas de
-							Partidos</a>	
-						<a sec:authorize="hasAuthority('jugador')" th:unless="${param.id[0] == 'estadisticasPartido'}" class="dropdown-item dropPersonalizado" href="/partidos/showestadisiticasJugadores">Estadísticas de
-							Partidos</a>
-						
-						<a sec:authorize="hasAuthority('entrenador')" th:if="${param.id[0] == 'estadisticasPartido'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/partidos/showestadisiticasPartido">Estadísticas de
-							Partidos</a>	
-						<a sec:authorize="hasAuthority('entrenador')" th:unless="${param.id[0] == 'estadisticasPartido'}" class="dropdown-item dropPersonalizado" href="/partidos/showestadisiticasPartido">Estadísticas de
-							Partidos</a>
-															
-						
-					</div></li>
-					
-<!-- PARTIDO ESTADISTICO -->
-				<li sec:authorize="hasAuthority('estadistico')" th:if="${param.id[0] == 'listadoPartido'}" class="nav-item active"><a class="nav-link disabled" href="/partidos/showpartidos">Próximos Partidos</a></li>
-				<li sec:authorize="hasAuthority('estadistico')" th:unless="${param.id[0] == 'listadoPartido'}" class="nav-item"><a class="nav-link" href="/partidos/showpartidos">Próximos Partidos</a></li>
-<!--  ENTRENAMIENTO IF -->				
-				<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:if="${param.id[0] == 'listadoEntrenamiento' || param.id[0] == 'estadisticasEntrenamiento' || param.id[0] == 'entrenamientoForm'}" class="nav-item dropdown active"><a
-					class="nav-link dropdown-toggle" href="#"
-					id="navbarDropdownMenuLinkMatch" role="button"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Entrenamientos</a>
-					<div class="dropdown-menu bg-primary"
-						aria-labelledby="navbarDropdownMenuLinkMatch">
-						<a th:if="${param.id[0] == 'listadoEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showentrenamientos">Próximos
-							Entrenamientos</a>
-						<a th:unless="${param.id[0] == 'listadoEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showentrenamientos">Próximos
-							Entrenamientos</a>
-							
-						<a sec:authorize="hasAuthority('jugador')" th:if="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showestadisiticasJugadores">Estadísticas de
-							Entrenamientos</a>	
-						<a sec:authorize="hasAuthority('jugador')" th:unless="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showestadisiticasJugadores">Estadísticas de
-							Entrenamientos</a>
-							
-						<a sec:authorize="hasAuthority('entrenador')" th:if="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showestadisiticasEntrenamiento">Estadísticas de
-							Entrenamientos</a>	
-						<a sec:authorize="hasAuthority('entrenador')" th:unless="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showestadisiticasEntrenamiento">Estadísticas de
-							Entrenamientos</a>
-															
-						
-					</div></li>
-<!--  ENTRENAMIENTO ELSE -->					
-					<li sec:authorize="hasAnyAuthority('entrenador','jugador')" th:unless="${param.id[0] == 'listadoEntrenamiento' || param.id[0] == 'estadisticasEntrenamiento' || param.id[0] == 'entrenamientoForm'}" class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="#"
-					id="navbarDropdownMenuLinkMatch" role="button"
-					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Entrenamientos</a>
-					<div class="dropdown-menu bg-primary"
-						aria-labelledby="navbarDropdownMenuLinkMatch">
-						<a th:if="${param.id[0] == 'listadoEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showentrenamientos">Próximos
-							Entrenamientos</a>
-						<a th:unless="${param.id[0] == 'listadoEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showentrenamientos">Próximos
-							Entrenamientos</a>
-							
-						<a sec:authorize="hasAuthority('jugador')" th:if="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showestadisiticasJugadores">Estadísticas de
-							Entrenamientos</a>	
-						<a sec:authorize="hasAuthority('jugador')" th:unless="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showestadisiticasJugadores">Estadísticas de
-							Entrenamientos</a>
-							
-						<a sec:authorize="hasAuthority('entrenador')" th:if="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado text-white-50 disabled" href="/entrenamientos/showestadisiticasEntrenamiento">Estadísticas de
-							Entrenamientos</a>	
-						<a sec:authorize="hasAuthority('entrenador')" th:unless="${param.id[0] == 'estadisticasEntrenamiento'}" class="dropdown-item dropPersonalizado" href="/entrenamientos/showestadisiticasEntrenamiento">Estadísticas de
-							Entrenamientos</a>
-															
-						
-					</div></li>
-<!-- PARTIDO ESTADISTICO -->
-				<li sec:authorize="hasAuthority('estadistico')" th:if="${param.id[0] == 'listadoEntrenamiento'}" class="nav-item active"><a class="nav-link disabled" href="/entrenamientos/showentrenamientos">Próximos Entrenamientos</a></li>
-				<li sec:authorize="hasAuthority('estadistico')" th:unless="${param.id[0] == 'listadoEntrenamiento'}" class="nav-item"><a class="nav-link" href="/entrenamientos/showentrenamientos">Próximos Entrenamientos</a></li>				
-					
-				<li sec:authorize="hasAuthority('entrenador')" th:if="${param.id[0] == 'materiales'}" class="nav-item active"><a class="nav-link disabled" href="/materiales/showmateriales">Material</a></li>
-				<li sec:authorize="hasAuthority('entrenador')" th:unless="${param.id[0] == 'materiales'}" class="nav-item"><a class="nav-link" href="/materiales/showmateriales">Material</a></li>
-					
-				<li sec:authorize="hasAuthority('jugador')" th:if="${param.id[0] == 'materiales'}" class="nav-item active"><a class="nav-link disabled" href="/materiales/showmateriales">Material</a></li>
-				<li sec:authorize="hasAuthority('jugador')" th:unless="${param.id[0] == 'materiales'}" class="nav-item"><a class="nav-link" href="/materiales/showmateriales">Material</a></li>
-				
-				<li class="nav-item"><a class="nav-link" href="/login"><svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-					<path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-					<path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-					<path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+
+
+			<!--  JUGADORES IF -->
+			<li sec:authorize="hasAnyAuthority('entrenador','jugador')"
+				th:if="${param.id[0] == 'listadoJugadores' || param.id[0] == 'jugadorForm' || param.id[0] == 'ejerciciosIndividuales' || param.id[0] == 'autorizaciones'}"
+				class="nav-item dropdown active"><a
+				class="nav-link dropdown-toggle" href="#"
+				id="navbarDropdownMenuLinkPlayer" role="button"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jugadores</a>
+				<div class="dropdown-menu bg-primary"
+					aria-labelledby="navbarDropdownMenuLinkPlayer">
+
+
+					<a th:if="${param.id[0] == 'listadoJugadores'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						role="button" href="/jugadores/showjugadores">Jugadores</a> <a
+						th:unless="${param.id[0] == 'listadoJugadores'}"
+						class="dropdown-item dropPersonalizado" role="button"
+						href="/jugadores/showjugadores">Jugadores</a> <a
+						sec:authorize="hasAuthority('entrenador')"
+						th:if="${param.id[0] == 'autorizaciones'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/jugadores/showjugadoresaut">Autorizaciones</a> <a
+						sec:authorize="hasAuthority('entrenador')"
+						th:unless="${param.id[0] == 'autorizaciones'}"
+						class="dropdown-item dropPersonalizado"
+						href="/jugadores/showjugadoresaut">Autorizaciones</a> <a
+						th:if="${param.id[0] == 'ejerciciosIndividuales'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/ejercicios/showejercicios">Ejercicios Individuales</a> <a
+						th:unless="${param.id[0] == 'ejerciciosIndividuales'}"
+						class="dropdown-item dropPersonalizado"
+						href="/ejercicios/showejercicios">Ejercicios Individuales</a>
+				</div></li>
+			<!--  JUGADORES ELSE -->
+			<li sec:authorize="hasAnyAuthority('entrenador','jugador')"
+				th:unless="${param.id[0] == 'listadoJugadores' || param.id[0] == 'jugadorForm' || param.id[0] == 'ejerciciosIndividuales' || param.id[0] == 'autorizaciones'}"
+				class="nav-item dropdown"><a class="nav-link dropdown-toggle"
+				href="#" id="navbarDropdownMenuLinkPlayer" role="button"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Jugadores</a>
+				<div class="dropdown-menu bg-primary"
+					aria-labelledby="navbarDropdownMenuLinkPlayer">
+
+
+					<a th:if="${param.id[0] == 'listadoJugadores'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						role="button" href="/jugadores/showjugadores">Jugadores</a> <a
+						th:unless="${param.id[0] == 'listadoJugadores'}"
+						class="dropdown-item dropPersonalizado" role="button"
+						href="/jugadores/showjugadores">Jugadores</a> <a
+						sec:authorize="hasAuthority('entrenador')"
+						th:if="${param.id[0] == 'autorizaciones'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/jugadores/showjugadoresaut">Autorizaciones</a> <a
+						sec:authorize="hasAuthority('entrenador')"
+						th:unless="${param.id[0] == 'autorizaciones'}"
+						class="dropdown-item dropPersonalizado"
+						href="/jugadores/showjugadoresaut">Autorizaciones</a> <a
+						th:if="${param.id[0] == 'ejerciciosIndividuales'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/ejercicios/showejercicios">Ejercicios Individuales</a> <a
+						th:unless="${param.id[0] == 'ejerciciosIndividuales'}"
+						class="dropdown-item dropPersonalizado"
+						href="/ejercicios/showejercicios">Ejercicios Individuales</a>
+				</div></li>
+
+			<!--  EQUIPO IF -->
+
+			<li sec:authorize="hasAnyAuthority('entrenador','jugador')"
+				th:if="${param.id[0] == 'listadoEquipos'}" class="nav-item active"><a
+				class="nav-link disabled" href="/equipos/showequipos">Mis
+					Equipos</a></li>
+
+			<!--  EQUIPO ELSE -->
+
+			<li sec:authorize="hasAnyAuthority('entrenador','jugador')"
+				th:unless="${param.id[0] == 'listadoEquipos'}" class="nav-item"><a
+				class="nav-link" href="/equipos/showequipos">Mis Equipos</a></li>
+
+
+
+			<!--  VEHICULO IF -->
+
+			<li sec:authorize="hasAnyAuthority('entrenador','jugador')"
+				th:if="${param.id[0] == 'listadoVehiculos'}" class="nav-item active"><a
+				class="nav-link disabled" href="/personales/showvehiculos">Vehículos</a></li>
+
+			<!--  VEHICULO ELSE -->
+
+			<li sec:authorize="hasAnyAuthority('entrenador','jugador')"
+				th:unless="${param.id[0] == 'listadoVehiculos'}" class="nav-item"><a
+				class="nav-link" href="/personales/showvehiculos">Vehículos</a></li>
+
+
+
+			<!--  PARTIDO IF -->
+			<li sec:authorize="hasAnyAuthority('entrenador','jugador')"
+				th:if="${param.id[0] == 'listadoPartido' || param.id[0] == 'estadisticasPartido' || param.id[0] == 'partidoForm'}"
+				class="nav-item dropdown active"><a
+				class="nav-link dropdown-toggle" href="#"
+				id="navbarDropdownMenuLinkMatch" role="button"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Partidos</a>
+				<div class="dropdown-menu bg-primary"
+					aria-labelledby="navbarDropdownMenuLinkMatch">
+					<a th:if="${param.id[0] == 'listadoPartido'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/partidos/showpartidos">Próximos Partidos</a> <a
+						th:unless="${param.id[0] == 'listadoPartido'}"
+						class="dropdown-item dropPersonalizado"
+						href="/partidos/showpartidos">Próximos Partidos</a> <a
+						sec:authorize="hasAuthority('jugador')"
+						th:if="${param.id[0] == 'estadisticasPartido'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/partidos/showestadisiticasJugadores">Estadísticas de
+						Partidos</a> <a sec:authorize="hasAuthority('jugador')"
+						th:unless="${param.id[0] == 'estadisticasPartido'}"
+						class="dropdown-item dropPersonalizado"
+						href="/partidos/showestadisiticasJugadores">Estadísticas de
+						Partidos</a> <a sec:authorize="hasAuthority('entrenador')"
+						th:if="${param.id[0] == 'estadisticasPartido'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/partidos/showestadisiticasPartido">Estadísticas de
+						Partidos</a> <a sec:authorize="hasAuthority('entrenador')"
+						th:unless="${param.id[0] == 'estadisticasPartido'}"
+						class="dropdown-item dropPersonalizado"
+						href="/partidos/showestadisiticasPartido">Estadísticas de
+						Partidos</a>
+
+				</div></li>
+			<!--  PARTIDO ELSE -->
+			<li sec:authorize="hasAnyAuthority('entrenador','jugador')"
+				th:unless="${param.id[0] == 'listadoPartido' || param.id[0] == 'estadisticasPartido' || param.id[0] == 'partidoForm'}"
+				class="nav-item dropdown"><a class="nav-link dropdown-toggle"
+				href="#" id="navbarDropdownMenuLinkMatch" role="button"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Partidos</a>
+				<div class="dropdown-menu bg-primary"
+					aria-labelledby="navbarDropdownMenuLinkMatch">
+					<a th:if="${param.id[0] == 'listadoPartido'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/partidos/showpartidos">Próximos Partidos</a> <a
+						th:unless="${param.id[0] == 'listadoPartido'}"
+						class="dropdown-item dropPersonalizado"
+						href="/partidos/showpartidos">Próximos Partidos</a> <a
+						sec:authorize="hasAuthority('jugador')"
+						th:if="${param.id[0] == 'estadisticasPartido'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/partidos/showestadisiticasJugadores">Estadísticas de
+						Partidos</a> <a sec:authorize="hasAuthority('jugador')"
+						th:unless="${param.id[0] == 'estadisticasPartido'}"
+						class="dropdown-item dropPersonalizado"
+						href="/partidos/showestadisiticasJugadores">Estadísticas de
+						Partidos</a> <a sec:authorize="hasAuthority('entrenador')"
+						th:if="${param.id[0] == 'estadisticasPartido'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/partidos/showestadisiticasPartido">Estadísticas de
+						Partidos</a> <a sec:authorize="hasAuthority('entrenador')"
+						th:unless="${param.id[0] == 'estadisticasPartido'}"
+						class="dropdown-item dropPersonalizado"
+						href="/partidos/showestadisiticasPartido">Estadísticas de
+						Partidos</a>
+
+
+				</div></li>
+
+			<!-- PARTIDO ESTADISTICO -->
+			<li sec:authorize="hasAuthority('estadistico')"
+				th:if="${param.id[0] == 'listadoPartido'}" class="nav-item active"><a
+				class="nav-link disabled" href="/partidos/showpartidos">Próximos
+					Partidos</a></li>
+			<li sec:authorize="hasAuthority('estadistico')"
+				th:unless="${param.id[0] == 'listadoPartido'}" class="nav-item"><a
+				class="nav-link" href="/partidos/showpartidos">Próximos Partidos</a></li>
+			<!--  ENTRENAMIENTO IF -->
+			<li sec:authorize="hasAnyAuthority('entrenador','jugador')"
+				th:if="${param.id[0] == 'listadoEntrenamiento' || param.id[0] == 'estadisticasEntrenamiento' || param.id[0] == 'entrenamientoForm'}"
+				class="nav-item dropdown active"><a
+				class="nav-link dropdown-toggle" href="#"
+				id="navbarDropdownMenuLinkMatch" role="button"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Entrenamientos</a>
+				<div class="dropdown-menu bg-primary"
+					aria-labelledby="navbarDropdownMenuLinkMatch">
+					<a th:if="${param.id[0] == 'listadoEntrenamiento'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/entrenamientos/showentrenamientos">Próximos
+						Entrenamientos</a> <a
+						th:unless="${param.id[0] == 'listadoEntrenamiento'}"
+						class="dropdown-item dropPersonalizado"
+						href="/entrenamientos/showentrenamientos">Próximos
+						Entrenamientos</a> <a sec:authorize="hasAuthority('jugador')"
+						th:if="${param.id[0] == 'estadisticasEntrenamiento'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/entrenamientos/showestadisiticasJugadores">Estadísticas
+						de Entrenamientos</a> <a sec:authorize="hasAuthority('jugador')"
+						th:unless="${param.id[0] == 'estadisticasEntrenamiento'}"
+						class="dropdown-item dropPersonalizado"
+						href="/entrenamientos/showestadisiticasJugadores">Estadísticas
+						de Entrenamientos</a> <a sec:authorize="hasAuthority('entrenador')"
+						th:if="${param.id[0] == 'estadisticasEntrenamiento'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/entrenamientos/showestadisiticasEntrenamiento">Estadísticas
+						de Entrenamientos</a> <a sec:authorize="hasAuthority('entrenador')"
+						th:unless="${param.id[0] == 'estadisticasEntrenamiento'}"
+						class="dropdown-item dropPersonalizado"
+						href="/entrenamientos/showestadisiticasEntrenamiento">Estadísticas
+						de Entrenamientos</a>
+
+
+				</div></li>
+			<!--  ENTRENAMIENTO ELSE -->
+			<li sec:authorize="hasAnyAuthority('entrenador','jugador')"
+				th:unless="${param.id[0] == 'listadoEntrenamiento' || param.id[0] == 'estadisticasEntrenamiento' || param.id[0] == 'entrenamientoForm'}"
+				class="nav-item dropdown"><a class="nav-link dropdown-toggle"
+				href="#" id="navbarDropdownMenuLinkMatch" role="button"
+				data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Entrenamientos</a>
+				<div class="dropdown-menu bg-primary"
+					aria-labelledby="navbarDropdownMenuLinkMatch">
+					<a th:if="${param.id[0] == 'listadoEntrenamiento'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/entrenamientos/showentrenamientos">Próximos
+						Entrenamientos</a> <a
+						th:unless="${param.id[0] == 'listadoEntrenamiento'}"
+						class="dropdown-item dropPersonalizado"
+						href="/entrenamientos/showentrenamientos">Próximos
+						Entrenamientos</a> <a sec:authorize="hasAuthority('jugador')"
+						th:if="${param.id[0] == 'estadisticasEntrenamiento'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/entrenamientos/showestadisiticasJugadores">Estadísticas
+						de Entrenamientos</a> <a sec:authorize="hasAuthority('jugador')"
+						th:unless="${param.id[0] == 'estadisticasEntrenamiento'}"
+						class="dropdown-item dropPersonalizado"
+						href="/entrenamientos/showestadisiticasJugadores">Estadísticas
+						de Entrenamientos</a> <a sec:authorize="hasAuthority('entrenador')"
+						th:if="${param.id[0] == 'estadisticasEntrenamiento'}"
+						class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="/entrenamientos/showestadisiticasEntrenamiento">Estadísticas
+						de Entrenamientos</a> <a sec:authorize="hasAuthority('entrenador')"
+						th:unless="${param.id[0] == 'estadisticasEntrenamiento'}"
+						class="dropdown-item dropPersonalizado"
+						href="/entrenamientos/showestadisiticasEntrenamiento">Estadísticas
+						de Entrenamientos</a>
+
+
+				</div></li>
+			<!-- PARTIDO ESTADISTICO -->
+			<li sec:authorize="hasAuthority('estadistico')"
+				th:if="${param.id[0] == 'listadoEntrenamiento'}"
+				class="nav-item active"><a class="nav-link disabled"
+				href="/entrenamientos/showentrenamientos">Próximos
+					Entrenamientos</a></li>
+			<li sec:authorize="hasAuthority('estadistico')"
+				th:unless="${param.id[0] == 'listadoEntrenamiento'}"
+				class="nav-item"><a class="nav-link"
+				href="/entrenamientos/showentrenamientos">Próximos
+					Entrenamientos</a></li>
+
+			<li sec:authorize="hasAuthority('entrenador')"
+				th:if="${param.id[0] == 'materiales'}" class="nav-item active"><a
+				class="nav-link disabled" href="/materiales/showmateriales">Material</a></li>
+			<li sec:authorize="hasAuthority('entrenador')"
+				th:unless="${param.id[0] == 'materiales'}" class="nav-item"><a
+				class="nav-link" href="/materiales/showmateriales">Material</a></li>
+
+			<li sec:authorize="hasAuthority('jugador')"
+				th:if="${param.id[0] == 'materiales'}" class="nav-item active"><a
+				class="nav-link disabled" href="/materiales/showmateriales">Material</a></li>
+			<li sec:authorize="hasAuthority('jugador')"
+				th:unless="${param.id[0] == 'materiales'}" class="nav-item"><a
+				class="nav-link" href="/materiales/showmateriales">Material</a></li>
+
+
+			<li class="nav-item dropdown"><a
+				class="nav-link dropdown-toggle" href="#"
+				id="navbarDropdownMenuLinkUser" role="button" data-toggle="dropdown"
+				aria-haspopup="true" aria-expanded="false"><svg width="1.5em"
+						height="1.5em" viewBox="0 0 16 16" class="bi bi-person-circle"
+						fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+					<path
+							d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z" />
+					<path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+					<path fill-rule="evenodd"
+							d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z" />
 					</svg></a>
-				</li>
-				
-			</ul>
-		</div>
+				<div class="dropdown-menu bg-primary dropdown-menu-right"
+					aria-labelledby="navbarDropdownMenuLinkUser">
+					<a class="dropdown-item dropPersonalizado text-white-50 disabled"
+						href="#" sec:authentication="name"></a>
+					<button class="dropdown-item dropPersonalizado" id="changePassword"
+						onclick="return abrirPassword()">Cambiar Contraseña</button>
+					<a class="dropdown-item dropPersonalizado" href="/login">Cerrar
+						Sesión</a>
+				</div></li>
 
-	</header>
+		</ul>
+	</div>
+
+	<div th:replace="users/modalPassword"></div>
+	<div th:replace="toast"></div>
+
+</header>
+
+
+<script src=https://code.jquery.com/jquery-3.5.1.js></script>
+<!-- Optional JavaScript -->
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+	integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+	crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+</script>

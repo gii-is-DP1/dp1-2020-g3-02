@@ -204,6 +204,8 @@
 			$('#gestionModal .modal-title').text("Nuevo Vehículo Personal");
 			$('#gestionModal').modal("show");
 		});
+		
+		
 
 		$('table .editarPersonal').on('click', function(){
 			var id = $(this).parent().find('#idPersonal').val();
@@ -218,7 +220,7 @@
 					$('#gestionModal #propietarioEdit').val(edit.propietario);
 					$('.modal-header').css("color", "white");
 					$('.modal-title').text(
-							"Editar vehículo" + edit.jugador.firstName + " "
+							"Editar vehículo " + edit.jugador.firstName + " "
 									+ edit.jugador.lastName);
 					$('#gestionModal').modal("show");
 				}
@@ -228,6 +230,8 @@
 		$('table .eliminarPersonal').on('click', function(){
 			var id = $(this).parent().find('#idPersonal').val();
 			$('#confirmacionModal #id').val(id);
+			$('#confirmacionModal .modal-header').css("color", "white");
+			$('#confirmacionModal .modal-title').text("Eliminar Vehículo");
 			$('#confirmacionModal').modal("show");
 			});
 	</script>
@@ -235,6 +239,43 @@
 	<script type="text/javascript">
 		w3IncludeHTML();
 	</script>
+<script type="text/javascript">
+	function abrirPassword() {
+		$('#gestionPassword #oldPassword').val("");
+		$('#gestionPassword #newPassword').val("");
+		$('#gestionPassword #confirmPassword').val("");
+		$('.error').text('');
+		$('#gestionPassword .modal-header').css("color", "white");
+		$('#gestionPassword .modal-title').text("Cambiar Contraseña");
+		$('#gestionPassword').modal("show");
+	};
+	
+	function enviarEdicionPassword() {
+		var form = new FormData(document.getElementById('formPassword'));
+		$.ajax({
+			url : '/users/postpassword',
+			type : 'post',
+			data : form,
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				$('#gestionPassword').modal("hide");
+				location.reload();
+				//toastSuccess("Personal creado con éxito");
+			},
+			error : function(data) {
 
+				$('.error').text('');
+
+				for (i = 0; i < data.responseJSON.length; i++) {
+
+					var campo = data.responseJSON[i].field;
+					$('.' + campo).text(data.responseJSON[i].defaultMessage);
+				}
+			}
+		});
+	};
+	
+</script>
 </body>
 </html>
