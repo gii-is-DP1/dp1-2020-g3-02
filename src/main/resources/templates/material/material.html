@@ -128,7 +128,7 @@
 		<div class="col-lg-4"></div>
 		</div>	
 		<!-- Modal Edicion -->
-		<!--
+		
 	<div class="modal fade" id="materialesModalEstado"
 		data-backdrop="static" data-keyboard="false" tabindex="-1"
 		aria-labelledby="Gestion" aria-hidden="true">
@@ -144,6 +144,7 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group" id="modalFormMaterialEstado">
+						<input type="hidden" id="tipo1" name="tipo"></input>
 							<div class="form-group col">
 								<label><span class="text-danger">(*) </span>Estado Anterior:</label> <select class="form-control"
 									th:id="EstadoAnterior" name="EstadoAnterior">
@@ -168,7 +169,7 @@
 							<div class="form-group col">
 								<label><span class="text-danger">(*) </span>Cantidad:</label><input
 									class="form-control" type="number" placeholder="Cantidad"
-									th:id="cantidad" name="cantidad" min="1" max="300" required></input>
+									th:id="cantidad1" name="cantidad" min="1" max="300" required></input>
 								<small class="peso text-danger error"></small>
 							</div>
 
@@ -180,7 +181,7 @@
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">Cerrar</button>
 						<button type="button" class="btn btn-info"
-							onclick="return enviarEdicionMaterial();">Aceptar</button>
+							onclick="return enviarEditarMaterial();">Aceptar</button>
 						<input type="hidden" id="id" name="id"></input>
 					</div>
 				</form>
@@ -221,7 +222,7 @@
 							data-dismiss="modal">Cerrar</button>
 						<button type="button" class="btn btn-info"
 							onclick="return enviarEdicionMaterial();">Aceptar</button>
-						<input type="hidden" id="id" name="id"></input>
+						<input type="hidden" id="id1" name="id"></input>
 					</div>
 				</form>
 			</div>
@@ -419,7 +420,7 @@
 															},
 															{ data: 'porcentaje',
 																render: function ( data, type, row ) {
-																	var btnEdit = "<button  class='btn btn-outline-info ml-1 editar' onclick='return editar();' type='button' title='Editar'>"+
+																	var btnEdit = "<button  class='btn btn-outline-info ml-1 editar' onclick='return editar(\""+row['tipo'] +"\")' type='button' title='Editar'>"+
 																		"<i class='fas fa-edit'></i></button>";
 																								
 																	  if(data>70 ){
@@ -491,7 +492,7 @@
 
 							});
 			
-					function editar() {
+					function editar(tipo) {
 
 						$('.error').text('');
 
@@ -504,8 +505,9 @@
 								$('#modalFormMaterialEstado').children('#edit')
 										.remove();
 
-								$('#stock').val('');
-								$('#estado').val('');
+								$('#cantidad').val();
+								$('#estado').val();
+								$('#tipo').val(tipo);
 
 								$('#materialesModalEstado .modal-header').css(
 										"color", "white");
@@ -568,7 +570,37 @@
 							}
 						});
 					};
-					
+					function enviarEditarMaterial() {
+						var form = new FormData();
+						form.append("tipo", $('#tipo1').val());
+						form.append("cantidad", $('#cantidad1').val());
+						form.append("EstadoAnterior", $('#EstadoAnterior').val());
+						form.append("EstadoNuevo", $('#EstadoNuevo').val());
+						
+						$.ajax({
+							url : '/materiales/updatematerial',
+							type : 'post',
+							data : form,
+							processData : false,
+							contentType : false,
+							success : function(data) {
+								$('#materialesModalEstado').modal("hide");
+								location.reload();
+								//tablaPrincipal.ajax.reload(null, false);
+							},
+							error : function(data) {
+								$('.error').text('');
+
+								for (i = 0; i < data.responseJSON.length; i++) {
+
+									var campo = data.responseJSON[i].field;
+									$('.' + campo)
+											.text(data.responseJSON[i].defaultMessage);
+								}
+							}
+						});
+					};
+
 					
 					function enviarEdicionMaterial() {
 						var form = new FormData();
