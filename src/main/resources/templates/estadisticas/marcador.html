@@ -90,6 +90,11 @@
 				document.getElementById("equipoLocal").innerHTML = marcador[0];
 				document.getElementById("equipoContrario").innerHTML = marcador[1];
 				document.getElementById("set").innerHTML = marcador[2];
+				if(marcador[2] == 5 && (marcador[0] >= 15 || marcador[1] >= 15) && Math.abs(marcador[0]-marcador[1]) > 1){
+					alert("PARTIDO FINALIZADO");
+				}else if(set == parseInt(marcador[2])-1){
+					$('#inicioModal').modal("show");
+				}
 			}
 		});
 	}
