@@ -21,7 +21,7 @@ INSERT INTO authorities(id,username,authority) VALUES (15,'gonlalle','jugador');
 INSERT INTO users(username,password,enabled) VALUES ('gonlalle2','asdf1234',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (10,'gonlalle2','entrenador');
 
-INSERT INTO users(username,password,enabled) VALUES ('bencrealc','elpepe',TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('bencrealc','Elpepe15',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (16,'bencrealc','jugador');
 
 INSERT INTO users(username,password,enabled) VALUES ('javgutfal','asdf1234',TRUE);
