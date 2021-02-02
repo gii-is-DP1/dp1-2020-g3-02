@@ -91,6 +91,26 @@ public class Partido extends EstadisticasEntity{
 	@Min(0)
 	private int numPuntosSet5;
 	
+	@Column(name = "num_puntos_set1_contrario", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int numPuntosSet1Contrario;
+	
+	@Column(name = "num_puntos_set2_contrario", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int numPuntosSet2Contrario;
+	
+	@Column(name = "num_puntos_set3_contrario", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int numPuntosSet3Contrario;
+	
+	@Column(name = "num_puntos_set4_contrario", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int numPuntosSet4Contrario;
+	
+	@Column(name = "num_puntos_set5_contrario", nullable = false, columnDefinition = "integer default 0")
+	@Min(0)
+	private int numPuntosSet5Contrario;
+	
 	@Column(name = "num_puntos_totales", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
 	private int numPuntosTotales;
