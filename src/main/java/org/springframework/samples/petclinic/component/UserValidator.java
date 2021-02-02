@@ -46,7 +46,7 @@ public class UserValidator implements Validator{
 				errors.rejectValue("newPassword", "error",ValidationConstant.PASSWORD_ERROR);
 			}
 			
-			if (!userEdit.getNewPassword().equals(userEdit.getConfirmPassword()) && user.getPassword().equals(userEdit.getNewPassword())) {
+			if (user.getPassword().equals(userEdit.getNewPassword())) {
 				LOG.warn(ValidationConstant.PASSWORD_ERROR2);
 				errors.rejectValue("confirmPassword", "error",ValidationConstant.PASSWORD_ERROR2);
 			}

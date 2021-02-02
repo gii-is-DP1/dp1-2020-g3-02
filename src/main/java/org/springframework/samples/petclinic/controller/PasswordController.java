@@ -15,15 +15,12 @@ import org.springframework.samples.petclinic.model.auxiliares.UserEdit;
 import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MimeTypeUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/users")
@@ -68,18 +65,5 @@ public class PasswordController {
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 
-	}
-
-	@RequestMapping(value = "findeditpassword/{username}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserEdit> findUser(@PathVariable("username") String username) {
-		try {
-			LOG.info("Buscamos el user con username: " + username);
-			User user = userService.findByUsername(username);
-			UserEdit userEdit = userConverter.convertUserToUserEdit(user);
-			return new ResponseEntity<UserEdit>(userEdit, HttpStatus.OK);
-		} catch (Exception e) {
-			LOG.error("Excepción encontrando el vehículo para editar");
-			return new ResponseEntity<UserEdit>(HttpStatus.BAD_REQUEST);
-		}
 	}
 }
