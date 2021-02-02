@@ -14,12 +14,14 @@ import org.springframework.samples.petclinic.component.EntrenadorValidator;
 import org.springframework.samples.petclinic.component.EntrenamientoValidator;
 import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
+import org.springframework.samples.petclinic.component.UserValidator;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.converter.EntrenamientoConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.converter.PersonalConverter;
+import org.springframework.samples.petclinic.converter.UserConverter;
 import org.springframework.samples.petclinic.converter.ViajeConverter;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
 import org.springframework.samples.petclinic.model.Entrenador;
@@ -107,6 +109,9 @@ public class BaseMockControllerTest {
 	protected ViajeConverter viajeConverter;
 	
 	@MockBean
+	protected UserConverter userConverter;
+	
+	@MockBean
 	protected PersonalConverter personalesConverter;
 
 	// VALIDATORS
@@ -122,6 +127,9 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected PersonalesValidator personalesValidator;
+	
+	@MockBean
+	protected UserValidator userValidator;
 
 	// Invalidación de validators
 	protected void doNothingValidators() {
@@ -136,6 +144,9 @@ public class BaseMockControllerTest {
 		
 		doNothing().when(personalesValidator).validate(any(Object.class), any(Errors.class));
 		when(personalesValidator.supports(any(Class.class))).thenReturn(true);
+		
+		doNothing().when(userValidator).validate(any(Object.class), any(Errors.class));
+		when(userValidator.supports(any(Class.class))).thenReturn(true);
 	}
 
 	// Metodos Given

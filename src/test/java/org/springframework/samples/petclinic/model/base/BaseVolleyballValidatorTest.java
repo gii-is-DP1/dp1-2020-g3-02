@@ -19,6 +19,7 @@ import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.RealizaEjercicio;
 import org.springframework.samples.petclinic.model.Sustitucion;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.CapitanService;
 import org.springframework.samples.petclinic.service.EjercicioIndividualService;
 import org.springframework.samples.petclinic.service.EntrenadorService;
@@ -257,6 +258,18 @@ public class BaseVolleyballValidatorTest {
 		Integer id = 1;
 		Optional<NumCamiseta> numCamiseta = numCamisetaService.findById(id);
 		return numCamiseta.get();
+	}
+	
+	/**
+	 * Crea un user con todos sus campos rellenos con un valor válido
+	 * 
+	 * @return User
+	 */
+	@Transactional(readOnly = true)
+	protected User getUserCorrecto() {
+		String username= "bencrealc";
+		Optional<User> user = userService.findUser(username);
+		return user.get();
 	}
 	
 	/**
