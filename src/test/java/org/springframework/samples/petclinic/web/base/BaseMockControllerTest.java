@@ -12,6 +12,7 @@ import org.assertj.core.util.Lists;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.samples.petclinic.component.EntrenadorValidator;
 import org.springframework.samples.petclinic.component.EntrenamientoValidator;
+import org.springframework.samples.petclinic.component.EstadisticoValidator;
 import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
@@ -27,6 +28,7 @@ import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamiento;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
+import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
@@ -37,6 +39,7 @@ import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalEntrenamientoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
+import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.samples.petclinic.service.PartidoService;
@@ -85,6 +88,9 @@ public class BaseMockControllerTest {
 
 	@MockBean
 	protected MaterialService materialService;
+	
+	@MockBean
+	protected EstadisticoService estadisticoService;
 
 	// CONVERTERS
 
@@ -122,6 +128,9 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected PersonalesValidator personalesValidator;
+	
+	@MockBean
+	protected EstadisticoValidator estadisticoValidator;
 
 	// Invalidación de validators
 	protected void doNothingValidators() {
@@ -136,6 +145,9 @@ public class BaseMockControllerTest {
 		
 		doNothing().when(personalesValidator).validate(any(Object.class), any(Errors.class));
 		when(personalesValidator.supports(any(Class.class))).thenReturn(true);
+		
+		doNothing().when(estadisticoValidator).validate(any(Object.class), any(Errors.class));
+		when(estadisticoValidator.supports(any(Class.class))).thenReturn(true);
 	}
 
 	// Metodos Given
@@ -213,5 +225,9 @@ public class BaseMockControllerTest {
 		given(this.personalesService.findById(any(Integer.class))).willReturn(Optional.of(personales));
 //		given(this.personalesService.findByJugador(any(Integer.class)));
 	}
-
+	/** Metodos EstadisticoService por defecto */
+	protected void givenEstadisticoService(Estadistico estadistico) {
+		given(this.estadisticoService.findById(any(Integer.class))).willReturn(Optional.of(estadistico));
+		given(this.estadisticoService.findByFirstName(any(String.class))).willReturn(Lists.newArrayList(estadistico));
+	}
 }
