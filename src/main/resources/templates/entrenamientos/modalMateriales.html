@@ -1,0 +1,176 @@
+<meta charset="UTF-8" />
+
+	<div class="modal fade" id="materialModal" data-backdrop="static"
+		data-keyboard="false" tabindex="-1" aria-labelledby="Materiales"
+		aria-hidden="true">
+		<div class="modal-dialog modal-md modal-dialog-centered">
+			<div class="modal-content">
+				<form id="formMateriales" method="post">
+					<div class="modal-header bg-info">
+						<h5 class="modal-title" id="gestionMateriales"></h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group" id="modalFormMateriales">
+						
+							<div class="form-group col-12">
+							
+								 <input type="checkbox" name="BALONMEDICINAL" value="BALON MEDICINAL">
+ 								 <label for=BALONMEDICINAL> Balón Medicinal</label><br>
+ 								 <label><span class="text-danger">(*) </span>Cantidad:</label><input
+									class="form-control" type="number" placeholder="Cantidad"
+									th:id="cantidad1" name="cantidad" min="1" max="300" required></input>
+								<small class="peso text-danger error"></small>
+							</div>
+							<div class="form-group col-12">
+							
+								 <input type="checkbox" name="BALONDEJUEGO" value="BALON DE JUEGO">
+ 								 <label for=BALONDEJUEGO> Balón de Juego</label><br>
+ 								 <label><span class="text-danger">(*) </span>Cantidad:</label><input
+									class="form-control" type="number" placeholder="Cantidad"
+									th:id="cantidad1" name="cantidad" min="1" max="300" required></input>
+								<small class="peso text-danger error"></small>
+							</div>
+							<div class="form-group col-12">
+							
+								 <input type="checkbox" name="RED" value="RED">
+ 								 <label for=RED> Red</label><br>
+ 								 <label><span class="text-danger">(*) </span>Cantidad:</label><input
+									class="form-control" type="number" placeholder="Cantidad"
+									th:id="cantidad1" name="cantidad" min="1" max="300" required></input>
+								<small class="peso text-danger error"></small>
+							</div>
+							<div class="form-group col-12">
+							
+								 <input type="checkbox" name="POSTE" value="POSTE">
+ 								 <label for=POSTE> Poste</label><br>
+ 								 <label><span class="text-danger">(*) </span>Cantidad:</label><input
+									class="form-control" type="number" placeholder="Cantidad"
+									th:id="cantidad1" name="cantidad" min="1" max="300" required></input>
+								<small class="peso text-danger error"></small>
+							</div>
+							<div class="form-group col-12">
+							
+								 <input type="checkbox" name="CONOBAJO" value="CONOBAJO">
+ 								 <label for=CONOBAJO> Cono Bajo</label><br>
+ 								 <label><span class="text-danger">(*) </span>Cantidad:</label><input
+									class="form-control" type="number" placeholder="Cantidad"
+									th:id="cantidad1" name="cantidad" min="1" max="300" required></input>
+								<small class="peso text-danger error"></small>
+							</div>
+							<div class="form-group col-12">
+							
+								 <input type="checkbox" name="CONOALTO" value="CONOALTO">
+ 								 <label for=CONOALTO> Cono Alto</label><br>
+ 								 <label><span class="text-danger">(*) </span>Cantidad:</label><input
+									class="form-control" type="number" placeholder="Cantidad"
+									th:id="cantidad1" name="cantidad" min="1" max="300" required></input>
+								<small class="peso text-danger error"></small>
+							</div>
+								<div class="form-group col-12">
+							
+								 <input type="checkbox" name="CONOMEDIO" value="CONOMEDIO">
+ 								 <label for=CONOMEDIO> Cono Medio</label><br>
+ 								 <label><span class="text-danger">(*) </span>Cantidad:</label><input
+									class="form-control" type="number" placeholder="Cantidad"
+									th:id="cantidad1" name="cantidad" min="1" max="300" required></input>
+								<small class="peso text-danger error"></small>
+							</div>
+								<div class="form-group col-12">
+							
+								 <input type="checkbox" name="CUERDA" value="CUERDA">
+ 								 <label for=CUERDA> Cuerda</label><br>
+ 								 <label><span class="text-danger">(*) </span>Cantidad:</label><input
+									class="form-control" type="number" placeholder="Cantidad"
+									th:id="cantidad1" name="cantidad" min="1" max="300" required></input>
+								<small class="peso text-danger error"></small>
+							</div>
+							</div>
+								<div class="form-group col-12">
+							
+								 <input type="checkbox" name="CINTA" value="CINTA">
+ 								 <label for=CINTA> Cinta</label><br>
+ 								 <label><span class="text-danger">(*) </span>Cantidad:</label><input
+									class="form-control" type="number" placeholder="Cantidad"
+									th:id="cantidad1" name="cantidad" min="1" max="300" required></input>
+								<small class="peso text-danger error"></small>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer"
+						style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-info"
+							onclick="return enviarEdicion();">Aceptar</button>
+						<input type="hidden" id="idEdit" name="id"></input>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<script>
+
+
+function enviarEdicion() {
+	var form = new FormData(document
+			.getElementById('formGestionPartido'));
+	$.ajax({
+		url : '/entrenamientos/postentrenamiento',
+		type : 'post',
+		data : form,
+		processData : false,
+		contentType : false,
+		success : function(data) {
+			$('#gestionModal').modal("hide");
+			tablaPrincipal.ajax.reload(null, false);
+		},
+		error : function(data) {
+			$('.error').text('');
+
+			for (i = 0; i < data.responseJSON.length; i++) {
+
+				var campo = data.responseJSON[i].field;
+				$('.' + campo)
+						.text(data.responseJSON[i].defaultMessage);
+			}
+		}
+	});
+};
+
+function material(boton,fecha,hora,id) {
+	//var id = $(this).parent().find('#id').val();
+
+	$('.error').text('');
+
+	$
+			.ajax({
+				type : 'GET',
+				url : '/entrenamientos/findeditentrenamiento/' + id,
+				success : function(edit) {
+					$('#modalFormMateriales').children('.only')
+							.remove();
+
+					//Poner la fecha con el formato correcto
+					var aux = (edit.fecha).split("-");
+					var fechaInput = "" + aux[2] + "/" + aux[1]
+							+ "/" + aux[0] + "";
+
+					$('#materialModal #idEdit').val(edit.id);
+					$('#materialModal #fechaEdit').val(fechaInput);
+					$('#materialModal #horaEdit').val(edit.hora);
+
+					$('.modal-header').css("color", "white");
+					$('.modal-title').text(
+							"Materiales a usar en el entrenamiento ");
+					$('#materialModal').modal("show");
+				}
+			});
+};
+
+
+</script>
