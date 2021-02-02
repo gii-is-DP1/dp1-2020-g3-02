@@ -938,21 +938,31 @@ public class EstadisticasController {
 			int set = Integer.parseInt(request.getParameter("set"));
 			Partido partido = partidoService.findById(partidoId).get();
 			Integer marcador = 0;
+			Integer marcadorSuyo = 0;
 			if(set == 1) {
 				partido.setNumPuntosSet1(partido.getNumPuntosSet1()+1);
 				marcador = partido.getNumPuntosSet1();
+				marcadorSuyo = partido.getNumPuntosSet1Contrario();
 			}else if(set == 2) {
 				partido.setNumPuntosSet2(partido.getNumPuntosSet2()+1);
 				marcador = partido.getNumPuntosSet2();
+				marcadorSuyo = partido.getNumPuntosSet2Contrario();
 			}else if(set == 3) {
 				partido.setNumPuntosSet3(partido.getNumPuntosSet3()+1);
 				marcador = partido.getNumPuntosSet3();
+				marcadorSuyo = partido.getNumPuntosSet3Contrario();
 			}else if(set == 4) {
 				partido.setNumPuntosSet4(partido.getNumPuntosSet4()+1);
 				marcador = partido.getNumPuntosSet4();
+				marcadorSuyo = partido.getNumPuntosSet4Contrario();
 			}else if (set == 5) {
 				partido.setNumPuntosSet5(partido.getNumPuntosSet5()+1);
 				marcador = partido.getNumPuntosSet5();
+				marcadorSuyo = partido.getNumPuntosSet5Contrario();
+			}
+			
+			if(marcador >= 25 && Math.abs(marcador-marcadorSuyo)>1) {
+				partido.setSetJugados(partido.getSetJugados()+1);
 			}
 			
 			Partido patido_ = partidoService.save(partido);
@@ -999,7 +1009,116 @@ public class EstadisticasController {
 		
 	}
 	
+	@RequestMapping(value = "/masEllos", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Integer> masEllos(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			int set = Integer.parseInt(request.getParameter("set"));
+			Partido partido = partidoService.findById(partidoId).get();
+			Integer marcador = 0;
+			Integer marcadorNuestro = 0;
+			if(set == 1) {
+				partido.setNumPuntosSet1Contrario(partido.getNumPuntosSet1Contrario()+1);
+				marcador = partido.getNumPuntosSet1Contrario();
+				marcadorNuestro = partido.getNumPuntosSet1();
+			}else if(set == 2) {
+				partido.setNumPuntosSet2Contrario(partido.getNumPuntosSet2Contrario()+1);
+				marcador = partido.getNumPuntosSet2Contrario();
+				marcadorNuestro = partido.getNumPuntosSet2();
+			}else if(set == 3) {
+				partido.setNumPuntosSet3Contrario(partido.getNumPuntosSet3Contrario()+1);
+				marcador = partido.getNumPuntosSet3Contrario();
+				marcadorNuestro = partido.getNumPuntosSet3();
+			}else if(set == 4) {
+				partido.setNumPuntosSet4Contrario(partido.getNumPuntosSet4Contrario()+1);
+				marcador = partido.getNumPuntosSet4Contrario();
+				marcadorNuestro = partido.getNumPuntosSet4();
+			}else if (set == 5) {
+				partido.setNumPuntosSet5Contrario(partido.getNumPuntosSet5Contrario()+1);
+				marcador = partido.getNumPuntosSet5Contrario();
+				marcadorNuestro = partido.getNumPuntosSet5();
+			}
+			
+			if(marcador >= 25 && Math.abs(marcador-marcadorNuestro)>1) {
+				partido.setSetJugados(partido.getSetJugados()+1);
+			}
+			
+			Partido patido_ = partidoService.save(partido);
+			
+			return new ResponseEntity<Integer>(marcador,HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando el jugador en partido");
+			return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@RequestMapping(value = "/menosEllos", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Integer> menosEllos(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			int set = Integer.parseInt(request.getParameter("set"));
+			Partido partido = partidoService.findById(partidoId).get();
+			Integer marcador = 0;
+			if(set == 1) {
+				partido.setNumPuntosSet1Contrario(partido.getNumPuntosSet1Contrario()-1);
+				marcador = partido.getNumPuntosSet1Contrario();
+			}else if(set == 2) {
+				partido.setNumPuntosSet2Contrario(partido.getNumPuntosSet2Contrario()-1);
+				marcador = partido.getNumPuntosSet2Contrario();
+			}else if(set == 3) {
+				partido.setNumPuntosSet3Contrario(partido.getNumPuntosSet3Contrario()-1);
+				marcador = partido.getNumPuntosSet3Contrario();
+			}else if(set == 4) {
+				partido.setNumPuntosSet4Contrario(partido.getNumPuntosSet4Contrario()-1);
+				marcador = partido.getNumPuntosSet4Contrario();
+			}else if (set == 5) {
+				partido.setNumPuntosSet5Contrario(partido.getNumPuntosSet5Contrario()-1);
+				marcador = partido.getNumPuntosSet5Contrario();
+			}
+			
+			Partido patido_ = partidoService.save(partido);
+			
+			return new ResponseEntity<Integer>(marcador,HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando el jugador en partido");
+			return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
 
+	@RequestMapping(value = "getMarcador/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Integer>> findPartido(@PathVariable("partidoId") int partidoId) {
+		try {
+			
+			Partido partido = partidoService.findById(partidoId).get(); 
+			List<Integer> marcador = new ArrayList<Integer>();
+			
+			Integer set = partido.getSetJugados();
+			if(set == 1) {
+				marcador.add(partido.getNumPuntosSet1());
+				marcador.add(partido.getNumPuntosSet1Contrario());
+			}else if(set == 2) {
+				marcador.add(partido.getNumPuntosSet2());
+				marcador.add(partido.getNumPuntosSet2Contrario());
+			}else if(set == 3) {
+				marcador.add(partido.getNumPuntosSet3());
+				marcador.add(partido.getNumPuntosSet3Contrario());
+			}else if(set == 4) {
+				marcador.add(partido.getNumPuntosSet4());
+				marcador.add(partido.getNumPuntosSet4Contrario());
+			}else if (set == 5) {
+				marcador.add(partido.getNumPuntosSet5());
+				marcador.add(partido.getNumPuntosSet5Contrario());
+			}
+			marcador.add(partido.getSetJugados());
+			
+			return new ResponseEntity<List<Integer>>(marcador, HttpStatus.OK);
+		} catch (Exception e) {
+			LOG.error("Excepción encontrando el partido para editar");
+			return new ResponseEntity<List<Integer>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
 	
 	@RequestMapping(value = "/sistemaJuegoEquipo/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Sistema> sistemaJuegoEquipo(@PathVariable("partidoId") int partidoId) {

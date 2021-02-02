@@ -72,6 +72,27 @@
 	crossorigin="anonymous"></script>
 
 <script>	
+
+	$(document).ready(function() {
+			
+		actualizarMarcador();
+	});
+	
+	function actualizarMarcador(){
+		var partidoId = $('#partidoId').val();
+		var set = $('#set').text();
+		var formCom = new FormData();
+		$.ajax({
+			type : 'GET',
+			url : '/estadisticas/getMarcador/'+partidoId,
+			success : function(marcador) {
+				
+				document.getElementById("equipoLocal").innerHTML = marcador[0];
+				document.getElementById("equipoContrario").innerHTML = marcador[1];
+				document.getElementById("set").innerHTML = marcador[2];
+			}
+		});
+	}
 	
 	$('.menos-nosotros').on('click', function(){
 		var partidoId = $('#partidoId').val();
@@ -89,7 +110,7 @@
 				tablaIntroducirEstadisticas.ajax.reload(null, false);
 				estadisticas();
 				$('#comandoIntroducido').val('');
-				document.getElementById("equipoLocal").innerHTML = marcador;
+				actualizarMarcador();
 			},
 			error: function(error){
 				$('#errorComandos').text(error.responseText);
@@ -117,7 +138,7 @@
 				tablaIntroducirEstadisticas.ajax.reload(null, false);
 				estadisticas();
 				$('#comandoIntroducido').val('');
-				document.getElementById("equipoLocal").innerHTML = marcador;
+				actualizarMarcador();
 			},
 			error: function(error){
 				$('#errorComandos').text(error.responseText);
@@ -140,11 +161,11 @@
 			data: formCom,
             processData: false,
             contentType: false,
-			success: function(){
+			success: function(marcador){
 				tablaIntroducirEstadisticas.ajax.reload(null, false);
 				estadisticas();
 				$('#comandoIntroducido').val('');
-				document.getElementById("equipoLocal").innerHTML = marcador;
+				actualizarMarcador();
 			},
 			error: function(error){
 				$('#errorComandos').text(error.responseText);
@@ -171,7 +192,7 @@
 				tablaIntroducirEstadisticas.ajax.reload(null, false);
 				estadisticas();
 				$('#comandoIntroducido').val('');
-				document.getElementById("equipoLocal").innerHTML = marcador;
+				actualizarMarcador();
 			},
 			error: function(error){
 				$('#errorComandos').text(error.responseText);
