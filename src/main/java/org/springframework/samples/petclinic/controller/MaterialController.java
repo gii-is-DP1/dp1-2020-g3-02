@@ -194,13 +194,24 @@ public class MaterialController {
 
 	}
 	
-	@PostMapping("/postmaterial")
+	@RequestMapping(value = "/postmaterial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> addMaterial(HttpServletRequest request, @ModelAttribute(name="material") Material material, BindingResult result) {
 		try {
 			TipoMaterial tipo = tipoMaterialConverter.convertToEntityAttribute(request.getParameter("tipo"));
 			Material lalala= materialService.findByTipoAndEstado(tipo, EstadoMaterial.NUEVO);
-			lalala.setStock(lalala.getStock()+Integer.parseInt(request.getParameter("cantidad")));
-			materialService.save(lalala);
+			Integer cantidad = Integer.parseInt(request.getParameter("cantidad"));
+			if(lalala == null) {
+				Material materialNuevo = new Material();
+				materialNuevo.setStock(cantidad);
+				materialNuevo.setTipo(tipo);
+				materialNuevo.setEstado(EstadoMaterial.NUEVO);
+				materialNuevo.setDescripcion(tipo.toString());
+				materialService.save(materialNuevo);
+			}else {
+				lalala.setStock(lalala.getStock()+cantidad);
+				materialService.save(lalala);
+			}
+			
 			
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 			
