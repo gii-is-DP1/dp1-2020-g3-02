@@ -162,4 +162,7 @@ public class Partido extends EstadisticasEntity{
 	@Column(name = "set_jugados", nullable = false, columnDefinition = "integer default 1")
 	@Min(1)
 	private int setJugados;
+	
+	@Column(name = "partido_finalizado", nullable = false, columnDefinition = "integer default 0" )
+	private boolean partidoFinalizado;
 }
