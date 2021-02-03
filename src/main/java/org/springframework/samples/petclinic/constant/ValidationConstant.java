@@ -71,4 +71,7 @@ public class ValidationConstant {
 	public static final String FLEXIBILIDAD_ERROR ="El dato de flexibilidad debe ser un número decimal y ser menor a 50";
 	public static final String SALTOVERTICAL_ERROR ="El salto vertical no puede ser menor que la altura del jugador";
 
+	/** MATERIALES */
+	public static final String STOCK_NEGATIVO ="No puedes pasar más cantidad de materiales de la que tienes";
+
 }
