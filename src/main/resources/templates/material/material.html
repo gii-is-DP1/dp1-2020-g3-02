@@ -295,14 +295,16 @@
 		</div>
 	</div>
 </div>
+
+
 <!--  Modal eliminar material -->
-<!--
 <div class="modal fade" id="confirmacionModal" data-backdrop="static"
 		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
 		aria-hidden="true">
 		<div class="modal-dialog modal-md modal-dialog-centered">
 			<div class="modal-content">
 				<form id="formConfirmacionMaterial" method="post">
+				<input type="hidden" id="tipo2" name="tipo"></input>
 					<div class="modal-header bg-danger">
 						<h5 class="modal-title" id="confirmacionMaterial"></h5>
 						<button type="button" class="close" data-dismiss="modal"
@@ -327,8 +329,8 @@
 							<div class="form-group col">
 								<label><span class="text-danger">(*) </span>Cantidad a retirar:</label><input
 									class="form-control" type="number" placeholder="Cantidad"
-									th:id="cantidadretiro" name="cantidadretiro" min="1" max="300" required></input>
-								<small class="peso text-danger error"></small>
+									th:id="cantidadretiro" name="stock" min="1" max="300" required></input>
+								<small class="stock text-danger error"></small>
 							</div>
 					
 					<div class="modal-footer">
@@ -342,7 +344,7 @@
 			</div>
 		</div>
 	</div>
-	-->
+
 
 	<th:block layout:fragment="scripts">
 		
@@ -644,24 +646,61 @@
 		<script type="text/javascript">		
 				
 		
-		function eliminar(id){
-			$('#confirmacionModal #id').val(id);
-			
-			$('.modal-header').css("color", "white");
-			$('.modal-title').text("Eliminar Material");
-			$('#confirmacionModal').modal("show");
-		}
-		
-		function confirmarBorrado(id){
+		function eliminar(tipo) {
+
+			$('.error').text('');
 			$.ajax({
-				type: 'POST',
-				url : '/materiales/removeMaterial/'+id,
-				success : function(){
-					tablaMaterial.ajax.reload(null, false);
-					$('#confirmacionModal').modal("hide");
+				type : 'GET',
+				url : '/materiales/showmateriales',
+				success : function(edit) {
+					$('#confirmacionModal').children('.only')
+							.remove();
+					$('#confirmacionModal').children('#edit')
+							.remove();
+
+					$('#cantidadretiro').val();
+					$('#EstadodelMat').val();
+					$('#tipo2').val(tipo);
+
+					$('#confirmacionModal .modal-header').css(
+							"color", "white");
+					$('#confirmacionModal .modal-title').text(
+							"Eliminar materiales a " + tipo);
+					$('#confirmacionModal').modal("show");
+
 				}
 			});
-		}
+		};
+		
+		function confirmarBorrado() {
+			var form = new FormData();
+			form.append("tipo", $('#tipo2').val());
+			form.append("cantidad", $('#cantidadretiro').val());
+			form.append("EstadodelMat", $('#EstadodelMat').val());
+			
+			$.ajax({
+				url : '/materiales/removeMaterial',
+				type : 'post',
+				data : form,
+				processData : false,
+				contentType : false,
+				success : function(data) {
+					$('#confirmacionModal').modal("hide");
+					location.reload();
+					//tablaPrincipal.ajax.reload(null, false);
+				},
+				error : function(data) {
+					$('.error').text('');
+
+					for (i = 0; i < data.responseJSON.length; i++) {
+
+						var campo = data.responseJSON[i].field;
+						$('.' + campo)
+								.text(data.responseJSON[i].defaultMessage);
+					}
+				}
+			});
+		};
 	</script>
 		<script type="text/javascript">
 			w3IncludeHTML();

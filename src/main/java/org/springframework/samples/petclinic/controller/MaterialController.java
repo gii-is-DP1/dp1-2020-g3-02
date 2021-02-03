@@ -249,19 +249,57 @@ public class MaterialController {
 		return "redirect:/materiales/showmateriales";
 
 	}
-	@PostMapping("/removeMaterial/{id}")
-	public ResponseEntity removeMaterial(@PathVariable("id") int id, Model model) {
+//	@PostMapping("/removeMaterial/{id}")
+//	public ResponseEntity removeMaterial(@PathVariable("id") int id, Model model) {
+//		try {
+//			LOG.info("Se procede a borrar el material con id: " + id);
+//			
+//			materialService.deleteById(id);
+//			
+//			return new ResponseEntity(HttpStatus.OK);
+//		} catch (Exception e) {
+//			LOG.error("Error al eliminar el material");
+//			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//		}
+//		
+//	}
+	@RequestMapping(value = "/removeMaterial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> removeMaterial(HttpServletRequest request, @ModelAttribute(name="material") Material material, BindingResult result) {
 		try {
-			LOG.info("Se procede a borrar el material con id: " + id);
+			TipoMaterial tipo = tipoMaterialConverter.convertToEntityAttribute(request.getParameter("tipo"));
+			EstadoMaterial estado =estadoMaterialConverter.convertToEntityAttribute(request.getParameter("EstadodelMat"));
 			
-			materialService.deleteById(id);
+			Material lalala = materialService.findByTipoAndEstado(tipo, estado);
 			
-			return new ResponseEntity(HttpStatus.OK);
+			Integer cantidad = Integer.parseInt(request.getParameter("cantidad"));
+			
+			lalala.setStock(lalala.getStock()-cantidad);
+			
+			ValidationUtils.invokeValidator(materialValidator, lalala, result);
+
+			if(result.hasErrors()) {
+				LOG.warn("Se han encontrado " + result.getErrorCount() + " errores de validación");
+				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+			}
+			
+			if(lalala == null) {
+				Material materialNuevo = new Material();
+				materialNuevo.setStock(cantidad);
+				materialNuevo.setTipo(tipo);
+				materialNuevo.setEstado(estado);
+				materialNuevo.setDescripcion(tipo.toString());
+				materialService.save(lalala);
+			} else {
+				materialService.save(lalala);
+			}
+			
+			
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
+			
 		} catch (Exception e) {
-			LOG.error("Error al eliminar el material");
-			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+			LOG.error("Error al guardar el material");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
-		
 	}
 
 	@GetMapping("/navbar")
