@@ -202,8 +202,6 @@ public class ViajeServiceTest {
 		viaje.setTipoViaje(TipoViaje.IDA);
 		viaje.setJugador(jugador);
 		viaje.setPartido(partido);
-		viaje.setAutobus(autobus);
-		viaje.setHoraSalida("17:00");
 		
 		Viaje _viaje = viajeSevice.save(viaje);
 		

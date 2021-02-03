@@ -1,7 +1,10 @@
 package org.springframework.samples.petclinic.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,6 +65,25 @@ public class ViajeServiceImpl extends AbstractService<Viaje> implements ViajeSer
 	public List<Viaje> findByPersonal(Personales personal) {
 		
 		return viajeRepository.findByPersonal(personal);
+	}
+	
+	@Override
+	public List<Personales> findPersonalesByPartidoAndTipoViaje(Partido partido, String tipoViaje) {
+		
+		if("IDA".equals(tipoViaje)) {
+			return viajeRepository.findPersonalesByPartidoAndTipoViaje(partido,TipoViaje.IDA).stream().collect(Collectors.toList());
+
+		}
+		else if("VUELTA".equals(tipoViaje)){
+			return viajeRepository.findPersonalesByPartidoAndTipoViaje(partido,TipoViaje.VUELTA).stream().collect(Collectors.toList());
+
+		}else if("IDAYVUELTA".equals(tipoViaje)){
+			Set<Personales> lviajes= viajeRepository.findPersonalesByPartidoAndTipoViaje(partido,TipoViaje.IDA);
+			lviajes.addAll(viajeRepository.findPersonalesByPartidoAndTipoViaje(partido,TipoViaje.VUELTA));
+			return lviajes.stream().collect(Collectors.toList());
+		}else {
+			return new ArrayList<Personales>();
+		}
 	}
 
 	@Override

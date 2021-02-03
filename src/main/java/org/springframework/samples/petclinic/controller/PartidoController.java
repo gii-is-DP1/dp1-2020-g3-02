@@ -22,6 +22,7 @@ import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
+import org.springframework.samples.petclinic.converter.PersonalConverter;
 import org.springframework.samples.petclinic.converter.ViajeConverter;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
@@ -31,6 +32,7 @@ import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
@@ -38,6 +40,7 @@ import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorPartidoViaje;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoPuntos;
+import org.springframework.samples.petclinic.model.auxiliares.PersonalEdit;
 import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasDeUnJugadorStats;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
@@ -48,6 +51,7 @@ import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PartidoService;
+import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.samples.petclinic.service.ViajeService;
 import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -109,6 +113,12 @@ public class PartidoController {
 	
 	@Autowired
 	private ViajeService viajeService;
+	
+	@Autowired
+	private PersonalesService personalService;
+	
+	@Autowired
+	private PersonalConverter personalConverter;
 	
 	@Autowired
 	private ViajeConverter viajeConverter;
@@ -591,6 +601,135 @@ public class PartidoController {
 			return new ResponseEntity<DataTableResponse<PartidoPuntos>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
+	
+
+	@RequestMapping(value = "findVehiculos/{id}/{tipoViaje}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<DataTableResponse<PersonalEdit>> findVehiculos(@PathVariable("id") int id, @PathVariable("tipoViaje") String tipoViaje,HttpServletRequest request) {
+		
+			
+		try {
+			String username =request.getUserPrincipal().getName();
+			User user= userService.findByUsername(username);
+			Jugador jugador= jugadorService.findByUser(user);
+			Integer jugadorId= jugador.getId();
+			
+			List<Personales> lpersonales= personalService.findByJugador(jugadorId);
+			Partido partido= partidoService.findById(id).get();
+			lpersonales.addAll(viajeService.findPersonalesByPartidoAndTipoViaje(partido, tipoViaje));
+			
+			PersonalEdit personalEdit = new PersonalEdit();
+			List<PersonalEdit> lpersonalEdit= new ArrayList<PersonalEdit>();
+			
+			
+			for (int i = 0; i < lpersonales.size();i++) {
+				personalEdit=personalConverter.convertPersonalToPersonalEdit(lpersonales.get(i));
+				lpersonalEdit.add(personalEdit);
+				
+			}
+			
+			DataTableResponse<PersonalEdit> data = new DataTableResponse<PersonalEdit>();
+			data.setData(lpersonalEdit);
+			return new ResponseEntity<DataTableResponse<PersonalEdit>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<DataTableResponse<PersonalEdit>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+	
+	@PostMapping("/postviaje")
+	public ResponseEntity<List<ObjectError>> addViaje(HttpServletRequest request, @ModelAttribute(name="personalEdit") PersonalEdit personalEdit, BindingResult result) {
+		
+		try {
+			String username =request.getUserPrincipal().getName();
+			User user= userService.findByUsername(username);
+			Jugador jugador= jugadorService.findByUser(user);
+			
+			Integer jugadorId= jugador.getId();
+			Viaje viaje = new Viaje();
+			Viaje viaje2= null;
+			Viaje viajeNuevo = new Viaje();
+			Viaje viajeNuevo2 = new Viaje();
+			
+			Partido partido= new Partido();
+			if(!request.getParameter("idPartido").isEmpty()) {
+				int idPartido = Integer.parseInt(request.getParameter("idPartido"));
+				LOG.info("Estamos creando un viaje para el partido con el id: " + idPartido);
+				Optional<Partido> partidoO = partidoService.findById(idPartido);
+				partido = partidoO.get();
+			}
+			
+			if(!"IDAYVUELTA".equals(request.getParameter("tipoViaje"))) {
+				viaje = viajeService.findByJugadorAndPartidoAndTipoViaje(jugador, partido, TipoViaje.fromNombre(request.getParameter("tipoViaje")));
+				if(viaje!=null) {
+					if(viaje.getAutobus()==null) {
+						viaje.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
+					}else {
+						viaje.setAutobus(null);
+						viaje.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
+					}
+				}else {
+						
+						viajeNuevo.setJugador(jugador);
+						viajeNuevo.setPartido(partido);
+						viajeNuevo.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
+						viajeNuevo.setTipoViaje(TipoViaje.fromNombre(request.getParameter("tipoViaje")));
+				}
+			}else if("IDAYVUELTA".equals(request.getParameter("tipoViaje"))){
+				viaje = viajeService.findByJugadorAndPartidoAndTipoViaje(jugador, partido, TipoViaje.fromNombre("IDA"));
+				viaje2 = viajeService.findByJugadorAndPartidoAndTipoViaje(jugador, partido, TipoViaje.fromNombre("VUELTA"));
+				if(viaje!=null) {
+					if(viaje.getAutobus()==null) {
+						viaje.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
+					}else {
+						viaje.setAutobus(null);
+						viaje.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
+					}
+				}else {
+						
+						viajeNuevo.setJugador(jugador);
+						viajeNuevo.setPartido(partido);
+						viajeNuevo.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
+						viajeNuevo.setTipoViaje(TipoViaje.IDA);
+				}
+				if(viaje2!=null) {
+					if(viaje2.getAutobus()==null) {
+						viaje2.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
+					}else {
+						viaje2.setAutobus(null);
+						viaje2.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
+					}
+				}else {
+						
+						viajeNuevo2.setJugador(jugador);
+						viajeNuevo2.setPartido(partido);
+						viajeNuevo2.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
+						viajeNuevo2.setTipoViaje(TipoViaje.VUELTA);
+				}
+				
+			}else {
+				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+			}
+			
+			LOG.info("Procedemos a guardar el viaje");
+			if(viaje!=null) { 
+				Viaje travel = viajeService.save(viaje);}
+			if(viaje2!=null) {
+				Viaje travel= viajeService.save(viaje2);
+			}
+			if(viajeNuevo.getPersonal()!=null) {
+				Viaje travel= viajeService.save(viajeNuevo);
+			}
+			if(viajeNuevo2.getPersonal()!=null) {
+				Viaje travel= viajeService.save(viajeNuevo2);
+			}
+			
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
+			
+		} catch (Exception e) {
+			LOG.error("Error al guardar el viaje");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	
 	/* @PostMapping("/updatepartido")
 	public String updatePartido(HttpServletRequest request) {

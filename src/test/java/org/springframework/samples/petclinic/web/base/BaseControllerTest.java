@@ -264,7 +264,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 	}
 
 	protected Viaje getViajeCorrecto(Jugador jugador, Partido partido, Personales personal, Autobus autobus) {
-		Viaje viaje = new Viaje(TipoViaje.IDA, HORA, false, jugador, partido, personal, autobus);
+		Viaje viaje = new Viaje(TipoViaje.IDA, false, jugador, partido, personal, autobus);
 		viaje.setId(ID);
 		return viaje;
 	}
