@@ -156,8 +156,9 @@
 	
 	<div th:replace="entrenamientos/modalEstadisticas"> </div>
 	<div th:replace="entrenamientos/modalEditar"> </div>
-	<div th:replace="entrenamientos/modalAsistenciaEntrenamiento"> </div>
+<!--<div th:replace="entrenamientos/modalAsistenciaEntrenamiento"> </div>  -->	
 	<div th:replace="entrenamientos/modalEliminar"> </div>
+	<div th:replace="entrenamientos/modalMateriales"> </div>
 
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 	<!-- Optional JavaScript -->
@@ -304,7 +305,9 @@
 							 " <button  onclick='return editar(this,"+row['id'] +");' class='btn btn-outline-info mx-0 editar' type='button' title='Editar'>"+
 							"<i class='fas fa-edit'></i></button>" + 
 							" <button onclick='return eliminar(this,"+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
-							"<i class='fas fa-trash-alt'></i></button>" ;
+							"<i class='fas fa-trash-alt'></i></button>" +
+							" <button onclick='return material(this,"+'"'+row['fecha']+'","'+row['hora']+'",'+row['id'] +");' class='btn btn-outline-dark materiales' type='button' title='Materiales'>"+
+							"<i class='far fa-dumbbell'></i></button>";
 						 
 					 }else  if($('#security').val() == 'jugador'){
 						 if($('#estado').val() == 'EN_FORMA'){
