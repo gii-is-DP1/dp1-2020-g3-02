@@ -63,6 +63,7 @@ public class MaterialController {
 	
 	@Autowired
 	private EstadoMaterialConverter estadoMaterialConverter;
+	
 
 	@GetMapping("/showmateriales")
 	public ModelAndView listadoMaterial() {
@@ -167,7 +168,10 @@ public class MaterialController {
 
 	@RequestMapping(value = "/updatematerial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> updateMaterial(HttpServletRequest request, @ModelAttribute(name="material") Material material, BindingResult result) {
-		try {
+	//	try {
+			
+
+			
 			TipoMaterial tipo = tipoMaterialConverter.convertToEntityAttribute(request.getParameter("tipo"));
 			EstadoMaterial estadoAnterior =estadoMaterialConverter.convertToEntityAttribute(request.getParameter("EstadoAnterior"));
 			EstadoMaterial estadoNuevo =estadoMaterialConverter.convertToEntityAttribute(request.getParameter("EstadoNuevo"));
@@ -176,29 +180,37 @@ public class MaterialController {
 			Material lalalaNuevo= materialService.findByTipoAndEstado(tipo, estadoNuevo);
 			
 			Integer cantidad = Integer.parseInt(request.getParameter("cantidad"));
+			lalalaAntiguo.setStock(lalalaAntiguo.getStock()-cantidad);
+			
+			ValidationUtils.invokeValidator(materialValidator, lalalaAntiguo, result);
+
+			if(result.hasErrors()) {
+				LOG.warn("Se han encontrado " + result.getErrorCount() + " errores de validación");
+				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+			}
+			
 			if(lalalaNuevo == null) {
 				Material materialNuevo = new Material();
 				materialNuevo.setStock(cantidad);
 				materialNuevo.setTipo(tipo);
 				materialNuevo.setEstado(estadoNuevo);
 				materialNuevo.setDescripcion(tipo.toString());
-				lalalaAntiguo.setStock(lalalaAntiguo.getStock()-cantidad);
 				materialService.save(materialNuevo);
 				materialService.save(lalalaAntiguo);
 			}else {
-				lalalaAntiguo.setStock(lalalaAntiguo.getStock()-cantidad);
 				lalalaNuevo.setStock(lalalaNuevo.getStock()+cantidad);
 				materialService.save(lalalaAntiguo);
 				materialService.save(lalalaNuevo);
 			}
 			
 			
+			
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 			
-		} catch (Exception e) {
-			LOG.error("Error al guardar el material");
-			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
-		}
+//		} catch (Exception e) {
+//			LOG.error("Error al guardar el material");
+//			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+//		}
 	}
 	
 	@RequestMapping(value = "/postmaterial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)

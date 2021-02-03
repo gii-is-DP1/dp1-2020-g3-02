@@ -169,8 +169,8 @@
 							<div class="form-group col">
 								<label><span class="text-danger">(*) </span>Cantidad:</label><input
 									class="form-control" type="number" placeholder="Cantidad"
-									th:id="cantidad1" name="cantidad" min="1" max="300" required></input>
-								<small class="peso text-danger error"></small>
+									th:id="cantidad1" name="stock" min="1" max="300" required></input>
+								<small class="stock text-danger error"></small>
 							</div>
 
 
@@ -512,7 +512,7 @@
 								$('#materialesModalEstado .modal-header').css(
 										"color", "white");
 								$('#materialesModalEstado .modal-title').text(
-										"Materiales");
+										"Editar Material "+tipo);
 								$('#materialesModalEstado').modal("show");
 
 							}
@@ -538,7 +538,7 @@
 								$('#materialesAnadirModal .modal-header').css(
 										"color", "white");
 								$('#materialesAnadirModal .modal-title').text(
-										"Materiales");
+										"Añadir Materiales a "+tipo);
 								$('#materialesAnadirModal').modal("show");
 
 							}
