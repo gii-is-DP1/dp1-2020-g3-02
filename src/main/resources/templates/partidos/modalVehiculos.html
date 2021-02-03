@@ -1,0 +1,134 @@
+
+<!-- Modal Edicion -->
+<meta charset="UTF-8">
+<div class="modal fade" id="modalViaje" data-backdrop="static"
+	data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
+	aria-hidden="true">
+	<div class="modal-dialog modal-md modal-dialog-centered">
+		<div class="modal-content">
+			<form id="formGestionViaje" method="post">
+				<div class="modal-header bg-info">
+					<h5 class="modal-title" id="gestionViaje"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="idPartido" name="idPartido"></input>
+
+					<div class="form-group col">
+						<label><span class="text-danger">(*) </span>TIPO DE VIAJE:</label>
+						<select class="form-control" onchange="return cargarVehiculos()" th:id="tipoViaje" name="tipoViaje">
+							<option th:id="'IDA'" th:value="IDA">IDA</option>
+							<option th:id="'VUELTA'" th:value="VUELTA">VUELTA</option>
+							<option th:id="'IDAVUELTA'" th:value="IDAVUELTA">IDA Y
+								VUELTA</option>
+						</select>
+					</div>
+
+					<div class="form-group" id="modalFormViaje">
+						<div class="form-group col-12 only">
+							<span class="text-danger">(*) </span> <label for="propietario">Propietario/Jugador:</label>
+							<select class="form-control" id="propietario" name="propietario">
+							</select>
+						</div>
+
+
+
+
+
+					</div>
+				</div>
+				<div class="modal-footer"
+					style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Cerrar</button>
+					<button type="button" class="btn btn-info"
+						onclick="return enviarVehiculo();">Aceptar</button>
+					<input type="hidden" id="id" name="id"></input>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+	
+	function vehiculos(id) {
+		$('#idPartido').val(id);
+		
+		$.ajax({
+			type : 'GET',
+			url : '/partidos/findVehiculos/'+ id+"/"+$("#tipoViaje").val(),
+			success : function(data) {
+				$('.optionVanish').remove();
+				$.each(data.data, function(index, vehiculo) {
+					
+					$('#propietario').append(
+							$('<option>', {
+								class: "optionVanish",
+								value : vehiculo.id,
+								text : vehiculo.propietario + "/"
+										+ vehiculo.jugador.firstName + " "
+										+ vehiculo.jugador.lastName,
+								name : "propietario"
+							}));
+				});
+
+				$('#modalViaje .modal-header').css("color", "white");
+				$('#modalViaje .modal-title').text("Elegir vehículo");
+				$('#modalViaje').modal("show");
+			}
+		});
+	}
+	
+	function cargarVehiculos() {
+		var idPartido=$('#idPartido').val();
+		$.ajax({
+			type : 'GET',
+			url : '/partidos/findVehiculos/'+ idPartido+"/"+$("#tipoViaje").val(),
+			success : function(data) {
+				$('.optionVanish').remove();
+				$.each(data.data, function(index, vehiculo) {
+					
+					$('#propietario').append(
+							$('<option>', {
+								class: "optionVanish",
+								value : vehiculo.id,
+								text : vehiculo.propietario + "/"
+										+ vehiculo.jugador.firstName + " "
+										+ vehiculo.jugador.lastName,
+								name : "propietario"
+							}));
+				});
+			}
+		});
+	}
+
+	function enviarVehiculo() {
+		var form = new FormData(document.getElementById('formGestionViaje'));
+		$.ajax({
+			url : '/partidos/postviaje',
+			type : 'post',
+			data : form,
+			processData : false,
+			contentType : false,
+			success : function(data) {
+				$('#modalViaje').modal("hide");
+				toastSuccess("Viaje creado con éxito");
+				tablaPrincipal.ajax.reload(null, false);
+			},
+			error : function(data) {
+
+				$('.error').text('');
+
+				for (i = 0; i < data.responseJSON.length; i++) {
+
+					var campo = data.responseJSON[i].field;
+					$('.' + campo).text(data.responseJSON[i].defaultMessage);
+				}
+			}
+		});
+	}
+</script>

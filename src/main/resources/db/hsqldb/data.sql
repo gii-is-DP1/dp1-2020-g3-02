@@ -574,30 +574,30 @@ INSERT INTO personales(id,propietario,jugador_id) VALUES (4,'Pepa',3);
 
 --INSERT VIAJE
 
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (1,'IDA',1,1,null,1,'12:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (2,'IDA',2,1,1,null,'12:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (3,'IDA',3,1,null,3,'12:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (4,'IDA',4,1,1,null,'12:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (1,'IDA',1,1,null,1,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (2,'IDA',2,1,1,null,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (3,'IDA',3,1,null,3,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (4,'IDA',4,1,1,null,false);
 
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (17,'IDA',5,1,null,1,'12:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (18,'IDA',6,1,1,null,'12:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (19,'IDA',7,1,1,null,'12:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (20,'IDA',8,1,1,null,'12:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (17,'IDA',5,1,null,1,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (18,'IDA',6,1,1,null,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (19,'IDA',7,1,1,null,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (20,'IDA',8,1,1,null,false);
 
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (5,'VUELTA',1,1,1,null,'14:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (6,'VUELTA',2,1,null,2,'14:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (7,'VUELTA',3,1,1,null,'14:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (8,'VUELTA',4,1,1,null,'14:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (5,'VUELTA',1,1,1,null,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (6,'VUELTA',2,1,null,2,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (7,'VUELTA',3,1,1,null,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (8,'VUELTA',4,1,1,null,false);
 
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (9,'IDA',1,2,null,1,'12:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (10,'IDA',2,2,1,null,'12:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (11,'IDA',3,2,1,null,'12:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (12,'IDA',4,2,1,null,'12:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (9,'IDA',1,2,null,1,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (10,'IDA',2,2,1,null,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (11,'IDA',3,2,1,null,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (12,'IDA',4,2,1,null,false);
 
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (13,'VUELTA',1,2,1,null,'14:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (14,'VUELTA',2,2,null,2,'14:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (15,'VUELTA',3,2,1,null,'14:30',false);
-INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id,hora_salida, ha_llegado) VALUES (16,'VUELTA',4,2,1,null,'14:30',false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (13,'VUELTA',1,2,1,null,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (14,'VUELTA',2,2,null,2,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (15,'VUELTA',3,2,1,null,false);
+INSERT INTO viaje(id,tipo_viaje,jugador_id,partido_id,autobus_id,personal_id, ha_llegado) VALUES (16,'VUELTA',4,2,1,null,false);
 
 
 

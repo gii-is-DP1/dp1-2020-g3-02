@@ -33,9 +33,6 @@ public class Viaje extends BaseEntity {
 	@Enumerated(value = EnumType.STRING)
 	private TipoViaje tipoViaje;
 	
-	@Column(name = "hora_salida", nullable = false, length = 5)
-	private String horaSalida;
-	
 	@Column(name= "ha_llegado", nullable = false, length = 5)
 	private boolean haLlegado; 
 	
