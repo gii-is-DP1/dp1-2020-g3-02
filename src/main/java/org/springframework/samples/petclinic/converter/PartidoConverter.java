@@ -34,6 +34,7 @@ public class PartidoConverter {
 		partidoConAsistencia.setFecha(partido.getFecha().toString());
 		partidoConAsistencia.setHora(partido.getHora());
 		partidoConAsistencia.setAsistencia(partido.getJugadores().stream().map(x->x.getId()).collect(Collectors.toList()));
+		partidoConAsistencia.setPartidoFinalizado(partido.isPartidoFinalizado());
 		return partidoConAsistencia;
 	}
 	
