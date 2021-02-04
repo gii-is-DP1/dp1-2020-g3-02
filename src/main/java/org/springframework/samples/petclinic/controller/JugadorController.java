@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
@@ -167,13 +169,39 @@ public class JugadorController {
 			int id = Integer.valueOf(request.getParameter("id"));
 			Optional<Jugador> jugadorO = jugadorService.findById(id);
 			Jugador jugador = jugadorO.get();
-			Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
+			Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());			
+			
 			LOG.info("Buscamos los privilegios del jugador con id = " + jugador.getId() + " en el equipo " + equipo.getCategoria());
+			Set<Privilegio> Spri = jugador.getPrivilegios();
+			List<Privilegio> pri = Spri.stream().filter(x -> x.getEquipo().getId().equals(equipo.getId())).collect(Collectors.toList());
+			List<TipoPrivilegio> tpri = Spri.stream().filter(x -> x.getEquipo().getId().equals(equipo.getId())).map(y -> y.getTipoPrivilegio()).collect(Collectors.toList());
+			
 			List<TipoPrivilegio> privilegios = new ArrayList<TipoPrivilegio>();
-			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("partidos").trim()));
-			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionPartidos").trim()));
-			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("entrenamientos").trim()));
-			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionEntrenamientos").trim()));
+			
+			if(Boolean.parseBoolean(request.getParameter("partidos").trim())) {
+				if(!(tpri.contains(TipoPrivilegio.PARTIDOS))) {
+					privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute("PARTIDOS"));
+				}
+//				privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionPartidos").trim()));
+			} else {
+				if(tpri.contains(TipoPrivilegio.PARTIDOS)) {
+					List<Privilegio> auxP = pri.stream().filter(y -> y.getTipoPrivilegio().equals(TipoPrivilegio.PARTIDOS)).collect(Collectors.toList());
+					privilegioService.deleteAll(auxP);
+				}
+			}
+			
+			if(Boolean.parseBoolean(request.getParameter(request.getParameter("entrenamientos").trim()))) {
+				if(!(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS))) {
+					privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute("ENTRENAMIENTOS"));
+				}
+//				privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionEntrenamientos").trim()));
+			} else {
+				if(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS)) {
+					List<Privilegio> auxP = pri.stream().filter(y -> y.getTipoPrivilegio().equals(TipoPrivilegio.ENTRENAMIENTOS)).collect(Collectors.toList());
+					privilegioService.deleteAll(auxP);
+				}
+			}
+			
 			List<Privilegio> priv = privilegioConverter.convertListPrivilegiosEditToListPrivilegios(privilegios, jugador, equipo);
 			for(Privilegio privi:priv) {
 				Privilegio p = privilegioService.updatePrivilegio(privi);
