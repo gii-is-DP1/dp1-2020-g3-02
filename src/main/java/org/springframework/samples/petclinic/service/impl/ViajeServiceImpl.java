@@ -79,7 +79,7 @@ public class ViajeServiceImpl extends AbstractService<Viaje> implements ViajeSer
 
 		}else if("IDAYVUELTA".equals(tipoViaje)){
 			Set<Personales> lviajes= viajeRepository.findPersonalesByPartidoAndTipoViaje(partido,TipoViaje.IDA);
-			lviajes.addAll(viajeRepository.findPersonalesByPartidoAndTipoViaje(partido,TipoViaje.VUELTA));
+			lviajes.retainAll(viajeRepository.findPersonalesByPartidoAndTipoViaje(partido,TipoViaje.VUELTA));
 			return lviajes.stream().collect(Collectors.toList());
 		}else {
 			return new ArrayList<Personales>();
