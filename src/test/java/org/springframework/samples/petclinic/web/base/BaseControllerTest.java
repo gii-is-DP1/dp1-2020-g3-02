@@ -57,6 +57,14 @@ public class BaseControllerTest extends BaseUserControllerTest {
 	protected static final String HORA = "14:00";
 	
 	protected static final Integer CANTIDAD = 10;
+	
+	protected static final String NOMBRE_COMPLETO = "Gonzalo, Lallena";
+	
+	protected static final String JUGADOR = "Gonzalo, Lallena 1;1"; //Nombre, Apellido NumCamiseta;id
+	
+	protected static final Integer MARCADOR = 0;
+	
+	protected static final String SISTEMA_JUEGO = "CINCO_UNO";
 
 	protected Jugador getJugadorCorrecto() {
 		List<TipoAutorizacion> tiposAutorizaciones = new ArrayList<TipoAutorizacion>();
@@ -363,8 +371,11 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		// ViajeService
 		givenViajeService(viaje);
 		
-		// ViajeService
+		// PersonalesService
 		givenPersonalesService(personal);
+		
+		// EstadisticaPersonalPartidoService
+		givenEstadisticaPersonalPartidoService(estadisticaPersonalPartido);
 
 		// CONVERTERS
 		given(this.jugadorPartidoStatsConverter.convertJugadorToJugadorPartidoStats(any(Jugador.class)))

@@ -19,6 +19,7 @@ import org.springframework.samples.petclinic.component.UserValidator;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.converter.EntrenamientoConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
+import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.converter.PersonalConverter;
@@ -44,8 +45,11 @@ import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoS
 import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.MaterialService;
+import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.PersonalesService;
+import org.springframework.samples.petclinic.service.SistemaJuegoService;
+import org.springframework.samples.petclinic.service.SustitucionService;
 import org.springframework.samples.petclinic.service.ViajeService;
 import org.springframework.samples.petclinic.service.impl.AuthoritiesService;
 import org.springframework.samples.petclinic.service.impl.UserService;
@@ -93,6 +97,15 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected EstadisticoService estadisticoService;
+	
+	@MockBean
+	protected NumCamisetaService numCamisetaService;
+	
+	@MockBean
+	protected SustitucionService sustitucionService;
+	
+	@MockBean
+	protected SistemaJuegoService sistemaService;
 
 	// CONVERTERS
 
@@ -119,6 +132,9 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected PersonalConverter personalesConverter;
+	
+	@MockBean
+	protected JugadorConverter jugadorConverter;
 
 	// VALIDATORS
 
