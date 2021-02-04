@@ -1,9 +1,6 @@
 package org.springframework.samples.petclinic.converter.enumerate;
 
 import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-
-import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.stereotype.Component;
 

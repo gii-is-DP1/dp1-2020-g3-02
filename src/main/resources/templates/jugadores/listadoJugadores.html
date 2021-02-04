@@ -1506,8 +1506,15 @@
 		}
 	
 	function enviarEdicionPrivilegio() {
-		var form = new FormData(document
-				.getElementById('formGestionPrivilegios'));	
+		/*var form = new FormData(document
+				.getElementById('formGestionPrivilegios'));	*/
+		var form = new FormData();
+		form.append("id", $('#id').val());
+		form.append("partidos", $('#partidos').val());
+		form.append("descripcionPartidos", $('#descripcionPartidos').val());
+		form.append("entrenamientos", $('#entrenamientos').val());
+		form.append("descripcionEntrenamientos", $('#descripcionEntrenamientos').val());
+		form.append("equipo", $('#equipo').val());
 		$.ajax({
 			url : '/jugadores/updateprivilegio',
 			type : 'post',
@@ -1545,6 +1552,7 @@
 												'.only').remove();
 										$('#modalFormPrivilegio').children(
 												'#equipo').remove();
+										$("#id").val(id);
 										$("#partidos").change(function() { 
 											if ($("#partidos").is(":checked")) {  
 										    	// checkbox is checked 
