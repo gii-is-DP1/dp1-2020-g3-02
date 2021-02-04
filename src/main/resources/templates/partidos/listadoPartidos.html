@@ -71,7 +71,7 @@
 
 				</table>
 			</div>
-			
+				<input id="autorizacion" class="autorizacion" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="${autorizacion}">
 				<input id="idJugador" class="idJugador" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="${jugador.id}">
 				<input id="estado" class="idJugador" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="${jugador.estadoActual}">
 				<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
@@ -156,10 +156,13 @@
 	
 	<div th:replace="partidos/modalEstadisticas"> </div>
 	<div th:replace="partidos/modalVehiculos"> </div>
+	<div th:replace="partidos/modalAutobus"> </div>
 	<div th:replace="partidos/modalEditar"> </div>
 	<div th:replace="partidos/modalEliminar"> </div>
 	<div th:replace="partidos/modalAsistenciaPartido"> </div>
 	<div th:replace="toast"></div>
+	
+	
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 	<!-- Optional JavaScript -->
 	<script
@@ -310,14 +313,23 @@
 					 }else  if($('#security').val() == 'jugador'){
 						 if($('#estado').val() == 'EN_FORMA'){
 						 	if(!data.includes(parseInt($('#idJugador').val(),10))){
-						 		return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
+						 		return " <button style='visibility: hidden' type='button' class='btn btn-outline-dark' title='Bus' onclick='return autobuses("+row['id']+");'>"
 									+"<i class='fas fa-bus'></i> </button>" +
-									" <button type='button' class='btn btn-outline-secondary' onclick='return vehiculos();' "+
+									" <button style='visibility: hidden' type='button' class='btn btn-outline-secondary' onclick='return vehiculos();' "+
 									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
 									" <button  class='btn btn-outline-info' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='Asistir'>"+
 									"Asistir</button>";
+							 }else if($('#autorizacion').val()=="true"){
+								 
+								 return " <button type='button' class='btn btn-outline-dark' title='Bus' onclick='return autobuses("+row['id']+");'>"
+									+"<i class='fas fa-bus'></i> </button>" +
+									" <button type='button' class='btn btn-outline-secondary' onclick='return vehiculos("+row['id']+");'"+
+									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
+									" <button  class='btn btn-outline-danger' type='button' onclick='return postJuegaJuegador(this,"+row['id'] +");' title='No Asistir'>"+
+									"No Asistir</button>";
 							 }else{
-								 return " <button type='button' class='btn btn-outline-dark' title='Bus'>"
+								
+								 return " <button type='button' style='visibility: hidden' class='btn btn-outline-dark' title='Bus' onclick='return autobuses("+row['id']+");'>"
 									+"<i class='fas fa-bus'></i> </button>" +
 									" <button type='button' class='btn btn-outline-secondary' onclick='return vehiculos("+row['id']+");'"+
 									"title='Vehículo Personal'><i class='fas fa-car-side'></i> </button>" +
