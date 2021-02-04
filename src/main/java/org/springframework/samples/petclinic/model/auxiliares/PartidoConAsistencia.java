@@ -1,9 +1,6 @@
 package org.springframework.samples.petclinic.model.auxiliares;
 
-import java.time.LocalDate;
 import java.util.List;
-
-import org.springframework.samples.petclinic.model.Equipo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,4 +20,6 @@ public class PartidoConAsistencia {
 	private String hora;
 	
 	private List<Integer> asistencia;
+	
+	private boolean partidoFinalizado;
 }

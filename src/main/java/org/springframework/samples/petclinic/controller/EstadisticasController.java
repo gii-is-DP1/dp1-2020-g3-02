@@ -1086,6 +1086,23 @@ public class EstadisticasController {
 		}
 		
 	}
+	
+	@RequestMapping(value = "/finalizarPartido", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity finalizarPartido(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			Partido partido = partidoService.findById(partidoId).get();
+			partido.setPartidoFinalizado(true);
+			
+			Partido patido_ = partidoService.save(partido);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando el jugador en partido");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		} 
+		
+	}
 
 	@RequestMapping(value = "getMarcador/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Integer>> findPartido(@PathVariable("partidoId") int partidoId) {

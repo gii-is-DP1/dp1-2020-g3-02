@@ -132,23 +132,30 @@
 		formCom.append("partidoId",partidoId);
 		formCom.append("set",set);
 		
-		$.ajax({
-			type: 'POST',
-			url: '/estadisticas/masNosotros/',
-			data: formCom,
-            processData: false,
-            contentType: false,
-			success: function(marcador){
-				console.log("hola");
-				tablaIntroducirEstadisticas.ajax.reload(null, false);
-				estadisticas();
-				$('#comandoIntroducido').val('');
-				actualizarMarcador();
-			},
-			error: function(error){
-				$('#errorComandos').text(error.responseText);
-			}
-		});
+		var puntosNuestros = parseInt(document.getElementById("equipoLocal").innerHTML);
+		var puntosSuyos = parseInt(document.getElementById("equipoContrario").innerHTML);
+		console.log(puntosNuestros);
+		if(puntosNuestros+1 >=25 &&  Math.abs(puntosNuestros+1-puntosSuyos) > 1){
+			confirmacionPartido("masNosotros");
+		}else{
+			$.ajax({
+				type: 'POST',
+				url: '/estadisticas/masNosotros/',
+				data: formCom,
+		        processData: false,
+		        contentType: false,
+				success: function(marcador){
+					tablaIntroducirEstadisticas.ajax.reload(null, false);
+					estadisticas();
+					$('#comandoIntroducido').val('');
+					actualizarMarcador();
+				},
+				error: function(error){
+					$('#errorComandos').text(error.responseText);
+				}
+			});
+		}
+		
 		
 		
 	});
@@ -187,6 +194,12 @@
 		formCom.append("partidoId",partidoId);
 		formCom.append("set",set);
 		
+		var puntosNuestros = parseInt(document.getElementById("equipoLocal").innerHTML);
+		var puntosSuyos = parseInt(document.getElementById("equipoContrario").innerHTML);
+		console.log(puntosNuestros);
+		if(puntosSuyos+1 >=25 &&  Math.abs(puntosSuyos+1-puntosNuestros) > 1){
+			confirmacionPartido("masEllos");
+		}else{
 		$.ajax({
 			type: 'POST',
 			url: '/estadisticas/masEllos/',
@@ -203,7 +216,7 @@
 				$('#errorComandos').text(error.responseText);
 			}
 		});
-		
+		}
 		
 	});
 </script>

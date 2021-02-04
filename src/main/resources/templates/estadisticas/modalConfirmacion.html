@@ -1,0 +1,89 @@
+<meta charset="UTF-8" />
+
+	<div class="modal fade" id="confirmacionModal" data-backdrop="static"
+		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
+		aria-hidden="true">
+		<div class="modal-dialog modal-md modal-dialog-centered">
+			<div class="modal-content">
+				<form id="formConfirmacionPartido" method="post">
+					<div class="modal-header bg-danger">
+						<h5 class="modal-title" id="confirmacionPartido"></h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<span>¿El set ha concluido quiere finalizar o continuar con el partido?</span>
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" id="tipoConfirmacion" name="tipoConfirmacion">
+						<button type="button" class="btn btn-secondary" 
+							data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-secondary" onclick="return continuarPartido();"
+							data-dismiss="modal">Continuar</button>
+						<button type="button" class="btn btn-info"
+							onclick="return finalizarPartido();">Finalizar</button>
+						<input type="hidden" id="id" name="id"></input>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<script type="text/javascript">	
+				
+function confirmacionPartido(tipo){
+	$('#tipoConfirmacion').val(tipo);
+	$('#confirmacionModal .modal-header').css("color", "white");
+	$('#confirmacionModal .modal-title').text("Confirmación Partido");
+	$('#confirmacionModal').modal("show");
+}
+
+function continuarPartido(){
+	var tipo = $("#tipoConfirmacion").val();
+	var partidoId = $('#partidoId').val();
+	var set = $('#set').text();
+	var formCom = new FormData();
+	formCom.append("partidoId",partidoId);
+	formCom.append("set",set);
+	console.log(tipo);
+	$.ajax({
+		type: 'POST',
+		url: '/estadisticas/'+tipo+'/',
+		data: formCom,
+        processData: false,
+        contentType: false,
+		success: function(marcador){
+			tablaIntroducirEstadisticas.ajax.reload(null, false);
+			estadisticas();
+			$('#comandoIntroducido').val('');
+			actualizarMarcador();
+		},
+		error: function(error){
+			$('#errorComandos').text(error.responseText);
+		}
+	});
+}
+
+
+
+function finalizarPartido(){
+	continuarPartido();
+	var partidoId = $('#partidoId').val();
+	var formCom = new FormData();
+	formCom.append("partidoId",partidoId);
+	$.ajax({
+		type: 'POST',
+		url : '/estadisticas/finalizarPartido',
+		data: formCom,
+        processData: false,
+        contentType: false,
+		success : function(){
+			window.location.href = "/partidos/showpartidos";
+			
+		}
+	});
+}
+	
+</script>
