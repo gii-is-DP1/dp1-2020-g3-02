@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,7 @@ public class PersonalServiceTests {
 	@Transactional(readOnly = true)
 	public void testFindByJugadorInitialDataFinding() {
 		int jugador_id=1;
-		List<Personales> personales=personalesService.findByJugador(jugador_id);
+		Set<Personales> personales=personalesService.findByJugador(jugador_id);
 		assertEquals(personales.size(), 2);//
 	}
 	
@@ -79,7 +80,7 @@ public class PersonalServiceTests {
 	@Transactional(readOnly = true)
 	public void testFindByJugadorInitialDataNotFinding() {
 		int jugador_id=5;
-		List<Personales> personales=personalesService.findByJugador(jugador_id);
+		Set<Personales> personales=personalesService.findByJugador(jugador_id);
 		assertEquals(personales.size(), 0);//
 	}
 	

@@ -15,7 +15,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<input type="hidden" id="idPartido2" name="idPartido2"></input>
+					<input type="hidden" id="idPartidoBus" name="idPartidoBus"></input>
 
 					<div class="form-group col">
 						<label><span class="text-danger">(*) </span>TIPO DE VIAJE:</label>
@@ -41,6 +41,8 @@
 
 <script>
 	function autobuses(id) {
+		$('#idPartidoBus').val(id);
+		
 		$('#modalBus .modal-header').css("color", "white");
 		$('#modalBus .modal-title').text("Elegir autobús");
 		$('#modalBus').modal("show");
@@ -62,13 +64,7 @@
 			},
 			error : function(data) {
 
-				$('.error').text('');
-
-				for (i = 0; i < data.responseJSON.length; i++) {
-
-					var campo = data.responseJSON[i].field;
-					$('.' + campo).text(data.responseJSON[i].defaultMessage);
-				}
+				toastError("Error en la creación del viaje");
 			}
 		});
 	}
