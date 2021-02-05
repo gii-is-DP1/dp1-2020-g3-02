@@ -964,7 +964,7 @@ public class EstadisticasController {
 			if(marcador >= 25 && Math.abs(marcador-marcadorSuyo)>1) {
 				partido.setSetJugados(partido.getSetJugados()+1);
 			}
-			
+
 			Partido patido_ = partidoService.save(partido);
 			
 			return new ResponseEntity<Integer>(marcador,HttpStatus.OK);

@@ -14,13 +14,13 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<span>¿El set ha concluido quiere finalizar o continuar con el partido?</span>
+						<span id="textoConfirmacion">¿El set ha concluido quiere finalizar o continuar con el partido?</span>
 					</div>
 					<div class="modal-footer">
 						<input type="hidden" id="tipoConfirmacion" name="tipoConfirmacion">
 						<button type="button" class="btn btn-secondary" 
 							data-dismiss="modal">Cerrar</button>
-						<button type="button" class="btn btn-secondary" onclick="return continuarPartido();"
+						<button type="button" class="btn btn-secondary" id="continuar" onclick="return continuarPartido();"
 							data-dismiss="modal">Continuar</button>
 						<button type="button" class="btn btn-info"
 							onclick="return finalizarPartido();">Finalizar</button>
@@ -34,6 +34,12 @@
 <script type="text/javascript">	
 				
 function confirmacionPartido(tipo){
+	var set = parseInt(document.getElementById("set").innerHTML);
+	console.log("aaa"+set);
+	if(set == 5){
+		document.getElementById("continuar").style.display="none";
+		document.getElementById("textoConfirmacion").innerHTML = "¿Quiere finalizar el partido?";
+	}
 	$('#tipoConfirmacion').val(tipo);
 	$('#confirmacionModal .modal-header').css("color", "white");
 	$('#confirmacionModal .modal-title').text("Confirmación Partido");
@@ -41,6 +47,7 @@ function confirmacionPartido(tipo){
 }
 
 function continuarPartido(){
+	
 	var tipo = $("#tipoConfirmacion").val();
 	var partidoId = $('#partidoId').val();
 	var set = $('#set').text();
