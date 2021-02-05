@@ -724,6 +724,10 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group" id="modalFormPrivilegio">
+							<div class="form-group col-12 only">
+								<label><span class="text-danger">(*) </span>Equipo:</label>
+								<select class="form-control" id="equipo" name="equipo"></select>
+							</div>
 							<div class="form-group col-12 datePicker">
 								<input type="checkbox" value="partidos" name="partidos"
 									id="partidos" class="partidos"> <label>Partidos</label>
@@ -1605,39 +1609,24 @@
 									type : 'GET',
 									url : '/jugadores/getallteamsjugador/'+id,
 									success : function(edit) {
-										$('#modalFormPrivilegio').children(
+									/*	$('#modalFormPrivilegio').children(
 												'.only').remove();
 										$('#equipo').remove();
-										
-										$('#partidos').removeAttr('checked', false);
-										$('#entrenamientos').removeAttr('checked', false);
-										$("#id").val(id);
-										$('#modalFormPrivilegio')
+									*/	$("#id").val(id);
+								/*		$('#modalFormPrivilegio')
 												.prepend(
 														'<div class="form-group col-12 only"><label><span class="text-danger">(*) </span>Equipo:</label><select class="form-control" id="equipo" name="equipo"></select></div>');
-
+*/
 										$.each(edit, function(index,
 												equipo) {
 											console.log(edit);
 											
 											$('#equipo').append(
 													$('<option>', {
-														value : equipo.categoria,
-														text : equipo.categoria,
+														value : equipo,
+														text : equipo,
 														name : "equipo",
 													}));
-											if(equipo.categoria==$("#equipo").val()) {
-												$('#partidos').prop('checked', equipo.partidos);
-												$('#entrenamientos').prop('checked', equipo.entrenamientos);
-											}
-											
-											$('#equipo').on('change', function() {
-												if(equipo.categoria==$("#equipo").val()) {
-													$('#partidos').prop('checked', equipo.partidos);
-													$('#entrenamientos').prop('checked', equipo.entrenamientos);
-												}
-											});
-											
 										});
 										
 										$("#partidos").change(function() { 
@@ -1667,6 +1656,44 @@
 									}
 								});
 					});
+	
+	$('#equipo').on('change', function() {
+		var id = $('#id').val();
+		console.log(id);
+		console.log($('#equipo').val());
+		$.ajax({
+			type : 'GET',
+			url : '/jugadores/getprivjugadorteam/'+id+'/'+$('#equipo').val(),
+			success : function(edit) {
+				$('#partidos').prop('checked', equipo.partidos);
+				$('#entrenamientos').prop('checked', equipo.entrenamientos);
+				$("#partidos").change(function() { 
+					if ($("#partidos").is(":checked")) {  
+				    	// checkbox is checked 
+						$("#partidos").attr('value', 'true');
+					} else {
+				    	// checkbox is not checked 
+						$("#partidos").attr('value', 'false');
+					}
+				});
+				$("#entrenamientos").change(function() { 
+					if ($("#entrenamientos").is(":checked")) {  
+				    	// checkbox is checked 
+						$("#entrenamientos").attr('value', 'true');
+					} else {
+				    	// checkbox is not checked 
+						$("#entrenamientos").attr('value', 'false');
+					}
+				});
+
+				$('#privilegiosModal .modal-header')
+						.css("color", "white");
+				$('#privilegiosModal .modal-title')
+						.text("Privilegios");
+				$('#privilegiosModal').modal("show");
+			}
+		});
+});
 				
 // FIN PRUEBA CONDICION FISICA ===============================================================================
 </script>

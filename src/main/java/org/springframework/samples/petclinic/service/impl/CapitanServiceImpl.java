@@ -60,6 +60,15 @@ public class CapitanServiceImpl extends AbstractService<Capitan> implements Capi
 	}
 	
 	@Override
+	public Capitan saveCapitan(Capitan capitan) {
+		LOG.info("CAPITAN INSERTADO: " + capitan.getJugador().getFirstName() + " " + capitan.getJugador().getLastName());
+		
+		Capitan c = capitanRepository.save(capitan);
+		
+		return c;
+	}
+	
+	@Override
 	public void deleteAllInEquipo(Integer equipo_id) {
 		List<Capitan> capitan = capitanRepository.findByEquipo(equipo_id);
 		for(int i=0;i<capitan.size();i++) {
