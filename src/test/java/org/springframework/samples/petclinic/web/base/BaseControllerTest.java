@@ -391,6 +391,8 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		.willReturn(convertListJugadoresAutorizaciones(jugadoresAut));
 		given(this.jugadorConverter.convertJugadorToJugadorStats(any(Jugador.class)))
 		.willReturn(convertJugadorToJugadorStats(jugador));
+		given(this.jugadorConverter.convertJugadorToJugadorEdit(any(Jugador.class)))
+		.willReturn(convertJugadorToJugadorEdit(jugador));
 		given(this.partidoConverter.convertPartidoToPartidoEdit(any(Partido.class)))
 				.willReturn(convertPartidoToPartidoEdit(partido));
 		given(this.partidoConverter.convertPartidoToPartidoConAsistencia(any(Partido.class)))
