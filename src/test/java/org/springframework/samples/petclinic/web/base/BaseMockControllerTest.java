@@ -15,6 +15,7 @@ import org.springframework.samples.petclinic.component.EntrenamientoValidator;
 import org.springframework.samples.petclinic.component.EstadisticoValidator;
 import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
+import org.springframework.samples.petclinic.component.PruebaCondicionFisicaValidator;
 import org.springframework.samples.petclinic.component.UserValidator;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.converter.EntrenamientoConverter;
@@ -23,10 +24,12 @@ import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.converter.PersonalConverter;
+import org.springframework.samples.petclinic.converter.PruebaConverter;
 import org.springframework.samples.petclinic.converter.UserConverter;
 import org.springframework.samples.petclinic.converter.ViajeConverter;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
+import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
@@ -37,6 +40,7 @@ import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
+import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.service.EntrenadorService;
@@ -50,6 +54,7 @@ import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.PersonalesService;
+import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
 import org.springframework.samples.petclinic.service.SistemaJuegoService;
 import org.springframework.samples.petclinic.service.SustitucionService;
 import org.springframework.samples.petclinic.service.ViajeService;
@@ -108,6 +113,9 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected SistemaJuegoService sistemaService;
+	
+	@MockBean
+	protected PruebaCondicionFisicaService pruebaService;
 
 	// CONVERTERS
 
@@ -137,6 +145,9 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected JugadorConverter jugadorConverter;
+	
+	@MockBean
+	protected PruebaConverter pruebaConverter;
 
 	// VALIDATORS
 
@@ -153,10 +164,13 @@ public class BaseMockControllerTest {
 	protected PersonalesValidator personalesValidator;
 	
 	@MockBean
-
 	protected EstadisticoValidator estadisticoValidator;
+	
 	@MockBean
 	protected UserValidator userValidator;
+	
+	@MockBean
+	protected PruebaCondicionFisicaValidator pruebaValidator;
 
 
 	// Invalidación de validators
@@ -179,6 +193,9 @@ public class BaseMockControllerTest {
 
 		doNothing().when(userValidator).validate(any(Object.class), any(Errors.class));
 		when(userValidator.supports(any(Class.class))).thenReturn(true);
+		
+		doNothing().when(pruebaValidator).validate(any(Object.class), any(Errors.class));
+		when(pruebaValidator.supports(any(Class.class))).thenReturn(true);
 
 	}
 
@@ -265,4 +282,11 @@ public class BaseMockControllerTest {
 		given(this.estadisticoService.findById(any(Integer.class))).willReturn(Optional.of(estadistico));
 		given(this.estadisticoService.findByFirstName(any(String.class))).willReturn(Lists.newArrayList(estadistico));
 	}
+	
+	/** Metodos PruebaCondicionFisicaService por defecto */
+	protected void givenPruebaCondicionFisicaService(PruebaCondicionFisica prueba) {
+		given(this.pruebaService.findById(any(Integer.class))).willReturn(Optional.of(prueba));
+		given(this.pruebaService.findByJugadorAndTipoPrueba(any(Jugador.class), any(TipoPrueba.class))).willReturn(Lists.newArrayList(prueba));
+	}
+	
 }

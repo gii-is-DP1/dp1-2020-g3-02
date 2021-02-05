@@ -1016,11 +1016,13 @@
 	function añadir() {
 
 		var form = new FormData(document.getElementById('formAddPrueba'));
-
+		
 		$.ajax({
 			type : 'POST',
-			url : '/pruebas/addprueba/' + form.get("id") + "/"
-					+ form.get("tipoPrueba") + "/" + form.get("dato"),
+			url : '/pruebas/addprueba',
+			data: form,
+			processData: false,
+            contentType: false,
 			success : function(borrar) {
 				$('.errorDato').text('');
 				$(".exito")[0].classList.remove("invisible")
@@ -1049,10 +1051,14 @@
 
 	function eliminarPrueba(id) {
 		console.log(id);
-
+		var form = new FormData();
+		form.append("id",id);
 		$.ajax({
 			type : 'POST',
-			url : '/pruebas/eliminarprueba/' + id + "/",
+			url : '/pruebas/eliminarprueba',
+			data: form,
+			processData: false,
+            contentType: false,
 			success : function(borrar) {
 
 				abdominal.ajax.reload(null, false);
