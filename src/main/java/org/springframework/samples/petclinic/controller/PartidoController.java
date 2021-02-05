@@ -149,11 +149,18 @@ public class PartidoController {
 			String username =  principal.getName(); 
 	        User  user = userService.findByUsername(username);
 	        Jugador jugador = jugadorService.findByUser(user);
-	        Autorizacion autorizacion=autorizacionService.findByJugadorAndTipo(jugador, TipoAutorizacion.TRANSPORTE);
-	        if(autorizacion==null) {
-	        	mav.addObject("autorizacion", false);
+	        Autorizacion autorizacionBus=autorizacionService.findByJugadorAndTipo(jugador, TipoAutorizacion.TRANSPORTE);
+	        Autorizacion autorizacionLesion=autorizacionService.findByJugadorAndTipo(jugador, TipoAutorizacion.RESPONSABILIDADLESION);
+	        if(autorizacionBus==null) {
+	        	mav.addObject("autorizacionBus", false);
 	        }else {
-	        	 mav.addObject("autorizacion", true);
+	        	 mav.addObject("autorizacionBus", true);
+	        }
+	        
+	        if(autorizacionLesion==null) {
+	        	mav.addObject("autorizacionLesiones", false);
+	        }else {
+	        	 mav.addObject("autorizacionLesiones", true);
 	        }
 	        mav.addObject("jugador", jugador);
 			
