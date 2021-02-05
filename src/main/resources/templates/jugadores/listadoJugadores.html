@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<link rel="stylesheet"
+	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+	crossorigin="anonymous" />
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet"
@@ -19,60 +22,62 @@
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
 <title>Listado de Jugadores</title>
-<link rel="icon" type="image/png" href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
+<link rel="icon" type="image/png"
+	href="https://images.vexels.com/media/users/3/181410/isolated/preview/eb4635102ef855d3f98d7805ec155a77-icono-de-deportes-de-pelota-de-voleibol-by-vexels.png" />
 </head>
 
 <style>
-
 .alert {
-  position: absolute;
-  top: 5%;
-  right:38%;
-  padding: 20px;
-  background-color: #f44336;
-  color: white;
-  opacity: 1;
-  z-index: 20000;
-  transition: opacity 0.6s;
-  margin-bottom: 15px;
+	position: absolute;
+	top: 5%;
+	right: 38%;
+	padding: 20px;
+	background-color: #f44336;
+	color: white;
+	opacity: 1;
+	z-index: 20000;
+	transition: opacity 0.6s;
+	margin-bottom: 15px;
 }
 
-.alert.success {background-color: #4CAF50;}
+.alert.success {
+	background-color: #4CAF50;
+}
 
 .closebtn {
-  margin-left: 15px;
-  color: white;
-  font-weight: bold;
-  float: right;
-  font-size: 22px;
-  line-height: 20px;
-  cursor: pointer;
-  transition: 0.3s;
+	margin-left: 15px;
+	color: white;
+	font-weight: bold;
+	float: right;
+	font-size: 22px;
+	line-height: 20px;
+	cursor: pointer;
+	transition: 0.3s;
 }
 
 .closebtn:hover {
-  color: black;
+	color: black;
 }
 </style>
 
 <body class="bg-light">
-	
+
 	<script src="https://www.w3schools.com/lib/w3data.js"></script>
-	
+
 	<div class="">
-	<div w3-include-html="navbar?id=listadoJugadores"></div> 
+		<div w3-include-html="navbar?id=listadoJugadores"></div>
 	</div>
-	
+
 	<div class="container-fluid">
-	
+
 		<div class="row">
 			<div class="py-3 text-center col-lg-12">
 				<h1 class="font-weight-bold font-italic">LISTA JUGADORES</h1>
 			</div>
 		</div>
 		<div class="alert success invisible exito">
-  				<span class="closebtn ">&times;</span>  
-  					<strong>Success!</strong> No confiaban en mi pero aquí está, añadido con éxito
+			<span class="closebtn ">&times;</span> <strong>Success!</strong> No
+			confiaban en mi pero aquí está, añadido con éxito
 		</div>
 
 		<div class="row">
@@ -94,13 +99,15 @@
 							<th>Posición</th>
 							<th>Posicion Secundaria</th>
 							<th></th>
-							<th >Acciones</th>
-							
-							
+							<th>Acciones</th>
+
+
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:classappend="(${jugador.estadoActual} == ${estadoLesionado})?'table-danger':_" th:each="jugador : ${jugadores}">
+						<tr
+							th:classappend="(${jugador.estadoActual} == ${estadoLesionado})?'table-danger':_"
+							th:each="jugador : ${jugadores}">
 							<td th:text="${jugador.firstName}"></td>
 							<td th:text="${jugador.lastName}"></td>
 							<td th:text="${jugador.dni}"></td>
@@ -112,76 +119,102 @@
 							<td th:text="${jugador.fechaNacimiento}"></td>
 							<td th:text="${jugador.posicionPrincipal}"></td>
 							<td th:text="${jugador.posicionSecundaria}"></td>
-							<td th:text="${jugador.equipos}">  </td>   
-							  	 
-							
-							<td>
-								<input type="hidden" id="id" th:value="${jugador.id}"></input>
-								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+							<td th:text="${jugador.equipos}"></td>
+
+
+							<td><input type="hidden" id="id" th:value="${jugador.id}"></input>
+								<button sec:authorize="hasAuthority('entrenador')"
+									class="btn btn-outline-success mx-0 estadisticas" type="button"
+									title="Estadísticas">
+									<svg width="1.5em" height=1.5em viewBox="0 0 16 16"
+										class="bi bi-graph-up" fill="currentColor"
+										xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd"
+											d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z" />
 									</svg>
 								</button>
-								
-								  <button sec:authorize="hasAuthority('jugador')" th:if="${jugador.User.username == username}" class="btn btn-outline-success mx-0 estadisticas" type="button" title="Estadísticas"><svg width="1.5em" height=1.5em viewBox="0 0 16 16" class="bi bi-graph-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-									<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+
+								<button sec:authorize="hasAuthority('jugador')"
+									th:if="${jugador.User.username == username}"
+									class="btn btn-outline-success mx-0 estadisticas" type="button"
+									title="Estadísticas">
+									<svg width="1.5em" height=1.5em viewBox="0 0 16 16"
+										class="bi bi-graph-up" fill="currentColor"
+										xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd"
+											d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z" />
 									</svg>
 								</button>
-								
-								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-info mx-0 editar" type="button" title="Editar">
+
+								<button sec:authorize="hasAuthority('entrenador')"
+									class="btn btn-outline-info mx-0 editar" type="button"
+									title="Editar">
 									<i class="fas fa-user-edit"></i>
 								</button>
-								
-								<button sec:authorize="hasAuthority('jugador')"  th:if="${jugador.User.username == username}" class="btn btn-outline-info mx-0 editar" type="button" title="Editar">
+
+								<button sec:authorize="hasAuthority('jugador')"
+									th:if="${jugador.User.username == username}"
+									class="btn btn-outline-info mx-0 editar" type="button"
+									title="Editar">
 									<i class="fas fa-user-edit"></i>
+								</button> <input type="hidden" id="jugador"
+								th:value="${jugador.firstName}+' ' +${jugador.lastName}"></input>
+								<button sec:authorize="hasAuthority('entrenador')"
+									class="btn btn-outline-dark mx-0 pruebaCondicion" type="button"
+									title="Prueba Condición Física">
+									<i class="fas fa-dumbbell"></i>
+								</button> <input type="hidden" id="jugador"
+								th:value="${jugador.firstName}+' ' +${jugador.lastName}"></input>
+								<button sec:authorize="hasAuthority('jugador')"
+									th:if="${jugador.User.username == username}"
+									class="btn btn-outline-dark mx-0 pruebaCondicion" type="button"
+									title="Prueba Condición Física">
+									<i class="fas fa-dumbbell"></i>
 								</button>
-								
-								<input type="hidden" id="jugador" th:value="${jugador.firstName}+' ' +${jugador.lastName}"></input>
-								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-dark mx-0 pruebaCondicion" type="button" title="Prueba Condición Física">
-									<i class="fas fa-dumbbell"></i>
-								</button> 
-								<input type="hidden" id="jugador" th:value="${jugador.firstName}+' ' +${jugador.lastName}"></input>
-								<button sec:authorize="hasAuthority('jugador')"  th:if="${jugador.User.username == username}" class="btn btn-outline-dark mx-0 pruebaCondicion" type="button" title="Prueba Condición Física">
-									<i class="fas fa-dumbbell"></i>
-								</button> 
-								<button sec:authorize="hasAuthority('entrenador')" class="btn btn-outline-danger mx-0 privilegio" id="privilegio" type="button" title="Privilegio">
+								<button sec:authorize="hasAuthority('entrenador')"
+									class="btn btn-outline-danger mx-0 privilegio" id="privilegio"
+									type="button" title="Privilegio">
 									<i class="fas fa-unlock"></i>
-								</button>
-								
-								<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
-								<input id="security" class="security" type="hidden" sec:authorize="hasAuthority('jugador')" th:value="jugador">
+								</button> <input id="security" class="security" type="hidden"
+								sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
+								<input id="security" class="security" type="hidden"
+								sec:authorize="hasAuthority('jugador')" th:value="jugador">
 							</td>
-							
-							
-							
 					</tbody>
 
 				</table>
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- Modal Estadisticas -->
-	<div class="modal fade" id="estadisticasModal" tabindex="-1" aria-labelledby="Estadísticas" aria-hidden="true">
-	  <div class="modal-dialog modal-xl modal-dialog-centered">
-	    <div class="modal-content">
-	      <div class="modal-header bg-success">
-	        <h5 class="modal-title" id="staticBackdropLabel"></h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	      <div id="contenedor-modal"></div>
-	      </div>
-	      <div class="modal-footer" style="background: rgb(40,167,69); background: linear-gradient(0deg, rgba(40,167,69,1) 0%, rgba(255,255,255,1) 100%);">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-	      </div>
-	    </div>
-	  </div>
+	<div class="modal fade" id="estadisticasModal" tabindex="-1"
+		aria-labelledby="Estadísticas" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-success">
+					<h5 class="modal-title" id="staticBackdropLabel"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div id="contenedor-modal"></div>
+				</div>
+				<div class="modal-footer"
+					style="background: rgb(40, 167, 69); background: linear-gradient(0deg, rgba(40, 167, 69, 1) 0%, rgba(255, 255, 255, 1) 100%);">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
 	</div>
-	
-		<!-- Modal Pruebas Condición Física -->
-	<div class="modal fade" id="pruebasCondicionModal" data-backdrop="static" data-keyboard="false" tabindex="-1" style="overflow-y: scroll; max-height:95%;  margin-top: 10px; margin-bottom:10px;"
+
+	<!-- Modal Pruebas Condición Física -->
+	<div class="modal fade" id="pruebasCondicionModal"
+		data-backdrop="static" data-keyboard="false" tabindex="-1"
+		style="overflow-y: scroll; max-height: 95%; margin-top: 10px; margin-bottom: 10px;"
 		aria-labelledby="Pruebas Condición Física" aria-hidden="true">
 		<div class="modal-dialog modal-xl modal-dialog-centered">
 			<div class="modal-content">
@@ -195,465 +228,488 @@
 				<div class="modal-body">
 					<div id="contenedor-modal">
 
-					<div id="accordion">
-						<div class="card">
-							<div class="card-header" id="headingOne" style="background: rgb(52,58,64);
-									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<div class="row">
-								<h5 class="mb-0 ml-3 text-white">
-									ABDOMINAL
-								</h5>
-									<a id="stat" href="#collapseOne" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
-									<i class="fas fa-plus" ></i>
-								</a>
-							</div>
-							</div>
-							<div id="collapseOne" class="collapse"
-								aria-labelledby="headingOne" data-parent="#accordion">
-								<div class="card-body">
-								
-								<div class="row">
-						
-									<div class="col-lg-12 responsive">
-							
-										<table
-											class="table table-sm table-striped table-bordered table-hover nowrap  abdominal"
-											cellspacing="0" width="100%" >
-										<thead>
-											<tr>
-												<th>Fecha</th>
-												<th>Dato</th>
-												<th>Acciones</th>
-												
-											</tr>
-										</thead>
-									</table>
-							
+						<div id="accordion">
+							<div class="card">
+								<div class="card-header" id="headingOne"
+									style="background: rgb(52, 58, 64); background: linear-gradient(90deg, rgba(52, 58, 64, 1) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);">
+									<div class="row">
+										<h5 class="mb-0 ml-3 text-white">ABDOMINAL</h5>
+										<a id="stat" href="#collapseOne" data-toggle="collapse"
+											style="margin-left: auto;" class="mr-3 mt-1 text-dark"
+											onclick="cambioMasMenos(this)"> <i class="fas fa-plus"></i>
+										</a>
 									</div>
-
-								</div>	
 								</div>
-							</div>
-						</div>
-						
-						<div class="card">
-							<div class="card-header" id="headingTwo" style="background: rgb(52,58,64);
-									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<div class="row">
-								<h5 class="mb-0 ml-3 text-white">
-									FLEXIBILIDAD
-								</h5>
-								<a id="stat" href="#collapseTwo" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
-									<i class="fas fa-plus" ></i>
-								</a>
-							</div>
-							</div>
-							<div id="collapseTwo" class="collapse"
-								aria-labelledby="headingTwo" data-parent="#accordion">
-								<div class="card-body">
-								<div class="row">
-						
-									<div class="col-lg-12 responsive">
-							
-										<table
-											class="table table-sm table-striped table-bordered table-hover nowrap  flexibilidad"
-											cellspacing="0" width="100%" >
-										<thead>
-											<tr>
-												<th>Fecha</th>
-												<th>Dato</th>
-												<th>Acciones</th>
-											</tr>
-										</thead>
-									</table>
-							
-									</div>
+								<div id="collapseOne" class="collapse"
+									aria-labelledby="headingOne" data-parent="#accordion">
+									<div class="card-body">
 
-								</div>	
-								
-								</div>
-							</div>
-						</div>
-						
-						<div class="card">
-							<div class="card-header" id="headingTres" style="background: rgb(52,58,64);
-									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<div class="row">
-								<h5 class="mb-0 ml-3 text-white">
-									VELOCIDAD
-								</h5>
-								<a id="stat" href="#collapseTres" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
-									<i class="fas fa-plus" ></i>
-								</a>
-							</div>
-							</div>
-							<div id="collapseTres" class="collapse"
-								aria-labelledby="headingTres" data-parent="#accordion">
-								<div class="card-body">
-								
-								<div class="row">
-						
-									<div class="col-lg-12 responsive">
-							
-										<table
-											class="table table-sm table-striped table-bordered table-hover nowrap  velocidad"
-											cellspacing="0" width="100%" >
-										<thead>
-											<tr>
-												<th>Fecha</th>
-												<th>Dato</th>
-												<th>Acciones</th>
-											</tr>
-										</thead>
-									</table>
-							
-									</div>
-
-								</div>	
-								
-								
-								</div>
-							</div>
-						</div>
-						
-						<div class="card">
-							<div class="card-header" id="headingFour" style="background: rgb(52,58,64);
-									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<div class="row">
-								<h5 class="mb-0 ml-3 text-white">
-									SALTO VERTICAL
-								</h5>
-								<a id="stat" href="#collapseFour" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
-									<i class="fas fa-plus" ></i>
-								</a>
-							</div>
-							</div>
-							<div id="collapseFour" class="collapse"
-								aria-labelledby="headingFour" data-parent="#accordion">
-								<div class="card-body">
-								
-								<div class="row">
-						
-									<div class="col-lg-12 responsive">
-							
-										<table
-											class="table table-sm table-striped table-bordered table-hover nowrap  saltoVertical"
-											cellspacing="0" width="100%" >
-										<thead>
-											<tr>
-												<th>Fecha</th>
-												<th>Dato</th>
-												<th>Acciones</th>
-											</tr>
-										</thead>
-									</table>
-							
-									</div>
-
-								</div>	
-								
-								
-								
-								</div>
-							</div>
-						</div>
-						
-						<div class="card">
-							<div class="card-header" id="headingFive" style="background: rgb(52,58,64);
-									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<div class="row">
-								<h5 class="mb-0 ml-3 text-white">
-									AGILIDAD
-								</h5>
-								<a id="stat" href="#collapseFive" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
-									<i class="fas fa-plus" ></i>
-								</a>
-							</div>
-							</div>
-							<div id="collapseFive" class="collapse"
-								aria-labelledby="headingFive" data-parent="#accordion">
-								<div class="card-body">
-								
-								<div class="row">
-						
-									<div class="col-lg-12 responsive">
-							
-										<table
-											class="table table-sm table-striped table-bordered table-hover nowrap  agilidad"
-											cellspacing="0" width="100%" >
-										<thead>
-											<tr>
-												<th>Fecha</th>
-												<th>Dato</th>
-												<th>Acciones</th>
-											</tr>
-										</thead>
-									</table>
-							
-									</div>
-
-								</div>	
-								
-								
-								</div>
-							</div>
-						</div>
-						
-						<div class="card">
-							<div class="card-header" id="headingSix" style="background: rgb(52,58,64);
-									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<div class="row">
-								<h5 class="mb-0 ml-3 text-white">
-									RESISTENCIA
-								</h5>
-								<a id="stat" href="#collapseSix" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
-									<i class="fas fa-plus" ></i>
-								</a>
-							</div>
-							</div>
-							<div id="collapseSix" class="collapse"
-								aria-labelledby="headingSix" data-parent="#accordion">
-								<div class="card-body">
-								
-								<div class="row">
-						
-									<div class="col-lg-12 responsive">
-							
-										<table
-											class="table table-sm table-striped table-bordered table-hover nowrap  resistencia"
-											cellspacing="0" width="100%" >
-										<thead>
-											<tr>
-												<th>Fecha</th>
-												<th>Dato</th>
-												<th>Acciones</th>
-											</tr>
-										</thead>
-									</table>
-							
-									</div>
-
-								</div>	
-								
-								
-								</div>
-							</div>
-						</div>
-						
-						<div class="card">
-							<div class="card-header" id="headingSeven" style="background: rgb(52,58,64);
-									background: linear-gradient(90deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<div class="row">
-								<h5 class="mb-0 ml-3 text-white">
-									PULSACIONES MÍNIMAS
-								</h5>
-								<a id="stat" href="#collapseSeven" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
-									<i class="fas fa-plus" ></i>
-								</a>
-							</div>
-							</div>
-							<div id="collapseSeven" class="collapse"
-								aria-labelledby="headingSeven" data-parent="#accordion">
-								<div class="card-body">
-								
-								<div class="row">
-						
-									<div class="col-lg-12 responsive">
-							
-										<table
-											class="table table-sm table-striped table-bordered table-hover nowrap  pulsaciones"
-											cellspacing="0" width="100%" >
-										<thead>
-											<tr>
-												<th>Fecha</th>
-												<th>Dato</th>
-												<th>Acciones</th>
-											</tr>
-										</thead>
-									</table>
-							
-									</div>
-
-								</div>	
-								
-								
-								</div>
-							</div>
-						</div>
-						
-						<div sec:authorize="hasAuthority('entrenador')" class="card">
-							<div class="card-header" id="headingEight" style="background: rgb(23,162,184);
-								background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-								<div class="row">
-								<h5 class="mb-0 ml-3 text-white">
-									AÑADIR PRUEBA DE CONDICIÓN FÍSICA
-								</h5>
-								<a id="stat" href="#collapseEight" data-toggle="collapse" style="margin-left: auto;" class="mr-3 mt-1 text-dark" onclick="cambioMasMenos(this)">
-									<i class="fas fa-minus" ></i>
-								</a>
-							</div>
-							</div>
-							<div id="collapseEight" class="collapse show"
-								aria-labelledby="headingEight" data-parent="#accordion">
-								<form id="formAddPrueba" method="post">
-								<div class="card-body">
-									
 										<div class="row">
-											<div class="form-group col">
-												<label>Tipo Prueba:</label> <select
-													class="form-control" th:id="tipoPrueba"
-													name="tipoPrueba">
-													<option th:id="'ABDOMINAL'" th:value="ABDOMINAL">ABDOMINAL</option>
-													<option th:id="'FLEXIBILIDAD'" th:value="FLEXIBILIDAD">FLEXIBILIDAD</option>
-													<option th:id="'VELOCIDAD'" th:value="VELOCIDAD">VELOCIDAD</option>
-													<option th:id="'SALTOVERTICAL'" th:value="SALTOVERTICAL">SALTO VERTICAL</option>
-													<option th:id="'AGILIDAD'" th:value="AGILIDAD">AGILIDAD</option>
-													<option th:id="'RESISTENCIA'" th:value="RESISTENCIA">RESISTENCIA</option>
-													<option th:id="'PULSACIONESMINIMAS'" th:value="PULSACIONESMINIMAS">PULSACIONES MÍNIMAS</option>
-												</select>
+
+											<div class="col-lg-12 responsive">
+
+												<table
+													class="table table-sm table-striped table-bordered table-hover nowrap  abdominal"
+													cellspacing="0" width="100%">
+													<thead>
+														<tr>
+															<th>Fecha</th>
+															<th>Dato</th>
+															<th>Acciones</th>
+
+														</tr>
+													</thead>
+												</table>
+
 											</div>
-											
-											<div class="form-group col">
-												<label><span class="text-danger">(*) </span>Dato:</label><input class="form-control" type="text"
-													maxlength="9" placeholder="Dato" th:id="dato" name="dato" required></input>
-												<small class="dato text-danger errorDato"></small>
-											</div>
+
 										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="card">
+								<div class="card-header" id="headingTwo"
+									style="background: rgb(52, 58, 64); background: linear-gradient(90deg, rgba(52, 58, 64, 1) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);">
+									<div class="row">
+										<h5 class="mb-0 ml-3 text-white">FLEXIBILIDAD</h5>
+										<a id="stat" href="#collapseTwo" data-toggle="collapse"
+											style="margin-left: auto;" class="mr-3 mt-1 text-dark"
+											onclick="cambioMasMenos(this)"> <i class="fas fa-plus"></i>
+										</a>
+									</div>
+								</div>
+								<div id="collapseTwo" class="collapse"
+									aria-labelledby="headingTwo" data-parent="#accordion">
+									<div class="card-body">
 										<div class="row">
-										<div class="form-group col">
-										<button type="button" class="btn btn-dark añadir" onclick="añadir()">Añadir</button>
-										<input type="hidden" th:id="id" name="id"></input>
+
+											<div class="col-lg-12 responsive">
+
+												<table
+													class="table table-sm table-striped table-bordered table-hover nowrap  flexibilidad"
+													cellspacing="0" width="100%">
+													<thead>
+														<tr>
+															<th>Fecha</th>
+															<th>Dato</th>
+															<th>Acciones</th>
+														</tr>
+													</thead>
+												</table>
+
+											</div>
+
 										</div>
+
+									</div>
+								</div>
+							</div>
+
+							<div class="card">
+								<div class="card-header" id="headingTres"
+									style="background: rgb(52, 58, 64); background: linear-gradient(90deg, rgba(52, 58, 64, 1) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);">
+									<div class="row">
+										<h5 class="mb-0 ml-3 text-white">VELOCIDAD</h5>
+										<a id="stat" href="#collapseTres" data-toggle="collapse"
+											style="margin-left: auto;" class="mr-3 mt-1 text-dark"
+											onclick="cambioMasMenos(this)"> <i class="fas fa-plus"></i>
+										</a>
+									</div>
+								</div>
+								<div id="collapseTres" class="collapse"
+									aria-labelledby="headingTres" data-parent="#accordion">
+									<div class="card-body">
+
+										<div class="row">
+
+											<div class="col-lg-12 responsive">
+
+												<table
+													class="table table-sm table-striped table-bordered table-hover nowrap  velocidad"
+													cellspacing="0" width="100%">
+													<thead>
+														<tr>
+															<th>Fecha</th>
+															<th>Dato</th>
+															<th>Acciones</th>
+														</tr>
+													</thead>
+												</table>
+
+											</div>
+
 										</div>
-										
-									</div>	
+
+
+									</div>
+								</div>
+							</div>
+
+							<div class="card">
+								<div class="card-header" id="headingFour"
+									style="background: rgb(52, 58, 64); background: linear-gradient(90deg, rgba(52, 58, 64, 1) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);">
+									<div class="row">
+										<h5 class="mb-0 ml-3 text-white">SALTO VERTICAL</h5>
+										<a id="stat" href="#collapseFour" data-toggle="collapse"
+											style="margin-left: auto;" class="mr-3 mt-1 text-dark"
+											onclick="cambioMasMenos(this)"> <i class="fas fa-plus"></i>
+										</a>
+									</div>
+								</div>
+								<div id="collapseFour" class="collapse"
+									aria-labelledby="headingFour" data-parent="#accordion">
+									<div class="card-body">
+
+										<div class="row">
+
+											<div class="col-lg-12 responsive">
+
+												<table
+													class="table table-sm table-striped table-bordered table-hover nowrap  saltoVertical"
+													cellspacing="0" width="100%">
+													<thead>
+														<tr>
+															<th>Fecha</th>
+															<th>Dato</th>
+															<th>Acciones</th>
+														</tr>
+													</thead>
+												</table>
+
+											</div>
+
+										</div>
+
+
+
+									</div>
+								</div>
+							</div>
+
+							<div class="card">
+								<div class="card-header" id="headingFive"
+									style="background: rgb(52, 58, 64); background: linear-gradient(90deg, rgba(52, 58, 64, 1) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);">
+									<div class="row">
+										<h5 class="mb-0 ml-3 text-white">AGILIDAD</h5>
+										<a id="stat" href="#collapseFive" data-toggle="collapse"
+											style="margin-left: auto;" class="mr-3 mt-1 text-dark"
+											onclick="cambioMasMenos(this)"> <i class="fas fa-plus"></i>
+										</a>
+									</div>
+								</div>
+								<div id="collapseFive" class="collapse"
+									aria-labelledby="headingFive" data-parent="#accordion">
+									<div class="card-body">
+
+										<div class="row">
+
+											<div class="col-lg-12 responsive">
+
+												<table
+													class="table table-sm table-striped table-bordered table-hover nowrap  agilidad"
+													cellspacing="0" width="100%">
+													<thead>
+														<tr>
+															<th>Fecha</th>
+															<th>Dato</th>
+															<th>Acciones</th>
+														</tr>
+													</thead>
+												</table>
+
+											</div>
+
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+
+							<div class="card">
+								<div class="card-header" id="headingSix"
+									style="background: rgb(52, 58, 64); background: linear-gradient(90deg, rgba(52, 58, 64, 1) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);">
+									<div class="row">
+										<h5 class="mb-0 ml-3 text-white">RESISTENCIA</h5>
+										<a id="stat" href="#collapseSix" data-toggle="collapse"
+											style="margin-left: auto;" class="mr-3 mt-1 text-dark"
+											onclick="cambioMasMenos(this)"> <i class="fas fa-plus"></i>
+										</a>
+									</div>
+								</div>
+								<div id="collapseSix" class="collapse"
+									aria-labelledby="headingSix" data-parent="#accordion">
+									<div class="card-body">
+
+										<div class="row">
+
+											<div class="col-lg-12 responsive">
+
+												<table
+													class="table table-sm table-striped table-bordered table-hover nowrap  resistencia"
+													cellspacing="0" width="100%">
+													<thead>
+														<tr>
+															<th>Fecha</th>
+															<th>Dato</th>
+															<th>Acciones</th>
+														</tr>
+													</thead>
+												</table>
+
+											</div>
+
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+
+							<div class="card">
+								<div class="card-header" id="headingSeven"
+									style="background: rgb(52, 58, 64); background: linear-gradient(90deg, rgba(52, 58, 64, 1) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);">
+									<div class="row">
+										<h5 class="mb-0 ml-3 text-white">PULSACIONES MÍNIMAS</h5>
+										<a id="stat" href="#collapseSeven" data-toggle="collapse"
+											style="margin-left: auto;" class="mr-3 mt-1 text-dark"
+											onclick="cambioMasMenos(this)"> <i class="fas fa-plus"></i>
+										</a>
+									</div>
+								</div>
+								<div id="collapseSeven" class="collapse"
+									aria-labelledby="headingSeven" data-parent="#accordion">
+									<div class="card-body">
+
+										<div class="row">
+
+											<div class="col-lg-12 responsive">
+
+												<table
+													class="table table-sm table-striped table-bordered table-hover nowrap  pulsaciones"
+													cellspacing="0" width="100%">
+													<thead>
+														<tr>
+															<th>Fecha</th>
+															<th>Dato</th>
+															<th>Acciones</th>
+														</tr>
+													</thead>
+												</table>
+
+											</div>
+
+										</div>
+
+
+									</div>
+								</div>
+							</div>
+
+							<div sec:authorize="hasAuthority('entrenador')" class="card">
+								<div class="card-header" id="headingEight"
+									style="background: rgb(23, 162, 184); background: linear-gradient(90deg, rgba(23, 162, 184, 1) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);">
+									<div class="row">
+										<h5 class="mb-0 ml-3 text-white">AÑADIR PRUEBA DE
+											CONDICIÓN FÍSICA</h5>
+										<a id="stat" href="#collapseEight" data-toggle="collapse"
+											style="margin-left: auto;" class="mr-3 mt-1 text-dark"
+											onclick="cambioMasMenos(this)"> <i class="fas fa-minus"></i>
+										</a>
+									</div>
+								</div>
+								<div id="collapseEight" class="collapse show"
+									aria-labelledby="headingEight" data-parent="#accordion">
+									<form id="formAddPrueba" method="post">
+										<div class="card-body">
+
+											<div class="row">
+												<div class="form-group col">
+													<label>Tipo Prueba:</label> <select class="form-control"
+														th:id="tipoPrueba" name="tipoPrueba">
+														<option th:id="'ABDOMINAL'" th:value="ABDOMINAL">ABDOMINAL</option>
+														<option th:id="'FLEXIBILIDAD'" th:value="FLEXIBILIDAD">FLEXIBILIDAD</option>
+														<option th:id="'VELOCIDAD'" th:value="VELOCIDAD">VELOCIDAD</option>
+														<option th:id="'SALTOVERTICAL'" th:value="SALTOVERTICAL">SALTO
+															VERTICAL</option>
+														<option th:id="'AGILIDAD'" th:value="AGILIDAD">AGILIDAD</option>
+														<option th:id="'RESISTENCIA'" th:value="RESISTENCIA">RESISTENCIA</option>
+														<option th:id="'PULSACIONESMINIMAS'"
+															th:value="PULSACIONESMINIMAS">PULSACIONES
+															MÍNIMAS</option>
+													</select>
+												</div>
+
+												<div class="form-group col">
+													<label><span class="text-danger">(*) </span>Dato:</label><input
+														class="form-control" type="text" maxlength="9"
+														placeholder="Dato" th:id="dato" name="dato" required></input>
+													<small class="dato text-danger errorDato"></small>
+												</div>
+											</div>
+											<div class="row">
+												<div class="form-group col">
+													<button type="button" class="btn btn-dark añadir"
+														onclick="añadir()">Añadir</button>
+													<input type="hidden" th:id="id" name="id"></input>
+												</div>
+											</div>
+
+										</div>
 									</form>
-								
+
 								</div>
 							</div>
 						</div>
-					
+
 					</div>
-					
-					</div>
-				
+
+				</div>
+
 				<div class="modal-footer"
-					style="background: rgb(52,58,64);
-										background: linear-gradient(0deg, rgba(52,58,64,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
-					 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-		        
+					style="background: rgb(52, 58, 64); background: linear-gradient(0deg, rgba(52, 58, 64, 1) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Cerrar</button>
+
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- Modal Edicion -->
-	<div class="modal fade" id="editarModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="Editar" aria-hidden="true">
-	  <div class="modal-dialog modal-xl modal-dialog-centered">
-	    <div class="modal-content">
-		    <form id="formEditJugador" method="post">
-		      <div class="modal-header bg-info">
-		        <h5 class="modal-title" id="edicionJugador"></h5>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-			  	<div id="contenedor-modal">
-			  			<div class="row">
-							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Nombre:</label><input class="form-control" type="text" placeholder="Nombre" th:id="firstName" name="firstName" required></input>
-								<small class="firstName text-danger error"></small>
+	<div class="modal fade" id="editarModal" data-backdrop="static"
+		data-keyboard="false" tabindex="-1" aria-labelledby="Editar"
+		aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<form id="formEditJugador" method="post">
+					<div class="modal-header bg-info">
+						<h5 class="modal-title" id="edicionJugador"></h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div id="contenedor-modal">
+							<div class="row">
+								<div class="form-group col">
+									<label><span class="text-danger">(*) </span>Nombre:</label><input
+										class="form-control" type="text" placeholder="Nombre"
+										th:id="firstName" name="firstName" required></input> <small
+										class="firstName text-danger error"></small>
+								</div>
+								<div class="form-group col">
+									<label><span class="text-danger">(*) </span>Apellidos:</label><input
+										class="form-control" type="text" placeholder="Apellidos"
+										th:id="lastName" name="lastName" required></input> <small
+										class="lastName text-danger error"></small>
+								</div>
 							</div>
-							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Apellidos:</label><input class="form-control" type="text" placeholder="Apellidos" th:id="lastName" name="lastName" required></input>
-								<small class="lastName text-danger error"></small>
+							<div class="row">
+								<div class="form-group col">
+									<label><span class="text-danger">(*) </span>Altura(cm):</label><input
+										class="form-control" type="number" placeholder="Altura"
+										th:id="altura" name="altura" required></input> <small
+										class="altura text-danger error"></small>
+								</div>
+								<div class="form-group col">
+									<label><span class="text-danger">(*) </span>Peso(kg):</label><input
+										class="form-control" type="number" placeholder="Peso"
+										th:id="peso" name="peso" min="1" max="300" required></input> <small
+										class="peso text-danger error"></small>
+								</div>
+								<div class="form-group col">
+									<label>Estado:</label> <select class="form-control"
+										th:id="estadoActual" name="estadoActual">
+										<option th:id="EN_FORMA" th:value="EN_FORMA">EN FORMA</option>
+										<option th:id="LESIONADO" th:value="LESIONADO">LESIONADO</option>
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Altura(cm):</label><input class="form-control" type="number" placeholder="Altura" th:id="altura" name="altura" required></input>
-								<small class="altura text-danger error"></small>
+							<div class="row">
+								<div class="form-group col">
+									<label>Posición principal:</label> <select class="form-control"
+										th:id="posicionPrincipal" name="posicionPrincipal">
+										<option th:id="'PUNTA'" th:value="PUNTA">PUNTA</option>
+										<option th:id="'OPUESTO'" th:value="OPUESTO">OPUESTO</option>
+										<option th:id="'COLOCADOR'" th:value="COLOCADOR">COLOCADOR</option>
+										<option th:id="'CENTRAL'" th:value="CENTRAL">CENTRAL</option>
+										<option th:id="'LIBERO'" th:value="LIBERO">LÍBERO</option>
+									</select>
+								</div>
+								<div class="form-group col">
+									<label>Posición secundaria:</label> <select
+										class="form-control" th:id="posicionSecundaria"
+										name="posicionSecundaria">
+										<option th:id="'PUNTA'" th:value="PUNTA">PUNTA</option>
+										<option th:id="'OPUESTO'" th:value="OPUESTO">OPUESTO</option>
+										<option th:id="'COLOCADOR'" th:value="COLOCADOR">COLOCADOR</option>
+										<option th:id="'CENTRAL'" th:value="CENTRAL">CENTRAL</option>
+										<option th:id="'LIBERO'" th:value="LIBERO">LÍBERO</option>
+									</select>
+								</div>
 							</div>
-							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Peso(kg):</label><input class="form-control" type="number" placeholder="Peso" th:id="peso" name="peso" min="1" max="300" required></input>
-								<small class="peso text-danger error"></small>
-							</div>
-							<div class="form-group col">
-								<label>Estado:</label> 
-								<select class="form-control" th:id="estadoActual" name="estadoActual">
-									<option th:id="EN_FORMA" th:value="EN_FORMA">EN FORMA</option>
-									<option th:id="LESIONADO" th:value="LESIONADO">LESIONADO</option>
-								</select>
-							</div>
-						</div>
-						<div class="row">
-						<div class="form-group col">
-							<label>Posición principal:</label> 
-							<select class="form-control" th:id="posicionPrincipal" name="posicionPrincipal">
-								<option th:id="'PUNTA'" th:value="PUNTA">PUNTA</option>
-								<option th:id="'OPUESTO'" th:value="OPUESTO">OPUESTO</option>
-								<option th:id="'COLOCADOR'" th:value="COLOCADOR">COLOCADOR</option>
-								<option th:id="'CENTRAL'" th:value="CENTRAL">CENTRAL</option>
-								<option th:id="'LIBERO'" th:value="LIBERO">LÍBERO</option>
-							</select>
-						</div>
-						<div class="form-group col">
-							<label>Posición secundaria:</label> 
-							<select class="form-control" th:id="posicionSecundaria" name="posicionSecundaria">
-								<option th:id="'PUNTA'" th:value="PUNTA">PUNTA</option>
-								<option th:id="'OPUESTO'" th:value="OPUESTO">OPUESTO</option>
-								<option th:id="'COLOCADOR'" th:value="COLOCADOR">COLOCADOR</option>
-								<option th:id="'CENTRAL'" th:value="CENTRAL">CENTRAL</option>
-								<option th:id="'LIBERO'" th:value="LIBERO">LÍBERO</option>
-							</select>
 						</div>
 					</div>
-			  	</div>
-			  </div>
-		      <div class="modal-footer" style="background: rgb(23,162,184); background: linear-gradient(0deg, rgba(23,162,184,0.75) 0%, rgba(255,255,255,1) 100%);">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-		        <button type="button" class="btn btn-info" onclick="return enviarEdicion();">Aceptar</button>
-		        <input type="hidden" th:id="id" name="id"></input>
-		      </div>
-	    	</form>
-	    </div>
-	  </div>
+					<div class="modal-footer"
+						style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Cerrar</button>
+						<button type="button" class="btn btn-info"
+							onclick="return enviarEdicion();">Aceptar</button>
+						<input type="hidden" th:id="id" name="id"></input>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
-	
-<!-- Modal editar prueba -->
-	<div class="modal fade" id="editPrueba" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-     <form id="formEditPrueba" method="post">
-      <div class="modal-header modal-header-edit bg-info">
-        <h5 class="modal-title modal-title-edit" id="staticBackdropLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group col">
-				<label><span class="text-danger">(*) </span>Fecha:</label><input class="form-control" type="text" placeholder="yyyy-mm-dd" th:id="fecha" name="fecha" required></input>
-				<small class="fecha text-danger error"></small>
-		</div>
-		<div class="form-group col">
-				<label><span class="text-danger">(*) </span>Dato:</label><input class="form-control soloNumeros" type="text" placeholder="dato" maxlength="9" th:id="dato" name="dato" required></input>
-					<small class="dato text-danger error"></small>
-		</div>
-      </div>
-      <div class="modal-footer" style="background: rgb(23,162,184); background: linear-gradient(0deg, rgba(23,162,184,0.75) 0%, rgba(255,255,255,1) 100%);">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-info" onclick="return enviarEdicionPrueba();">Aceptar</button>
-		<input type="hidden" th:id="id" name="id"></input>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
 
-<!-- Modal Privilegios -->
-<div class="modal fade" id="privilegiosModal" data-backdrop="static"
+	<!-- Modal editar prueba -->
+	<div class="modal fade" id="editPrueba" data-backdrop="static"
+		data-keyboard="false" tabindex="-1"
+		aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<form id="formEditPrueba" method="post">
+					<div class="modal-header modal-header-edit bg-info">
+						<h5 class="modal-title modal-title-edit" id="staticBackdropLabel">Modal
+							title</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group col">
+							<label><span class="text-danger">(*) </span>Fecha:</label><input
+								class="form-control" type="text" placeholder="yyyy-mm-dd"
+								th:id="fecha" name="fecha" required></input> <small
+								class="fecha text-danger error"></small>
+						</div>
+						<div class="form-group col">
+							<label><span class="text-danger">(*) </span>Dato:</label><input
+								class="form-control soloNumeros" type="text" placeholder="dato"
+								maxlength="9" th:id="dato" name="dato" required></input> <small
+								class="dato text-danger error"></small>
+						</div>
+					</div>
+					<div class="modal-footer"
+						style="background: rgb(23, 162, 184); background: linear-gradient(0deg, rgba(23, 162, 184, 0.75) 0%, rgba(255, 255, 255, 1) 100%);">
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-info"
+							onclick="return enviarEdicionPrueba();">Aceptar</button>
+						<input type="hidden" th:id="id" name="id"></input>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Privilegios -->
+	<div class="modal fade" id="privilegiosModal" data-backdrop="static"
 		data-keyboard="false" tabindex="-1" aria-labelledby="Privilegios"
 		aria-hidden="true">
 		<div class="modal-dialog modal-md modal-dialog-centered">
@@ -669,30 +725,30 @@
 					<div class="modal-body">
 						<div class="form-group" id="modalFormPrivilegio">
 							<div class="form-group col-12 datePicker">
-								<input type="checkbox" value="partidos" name="partidos" id="partidos" class="partidos">
-								<label>Partidos</label> 
+								<input type="checkbox" value="partidos" name="partidos"
+									id="partidos" class="partidos"> <label>Partidos</label>
 								<!-- 
 								<input class="form-control-plaintext" type="text" placeholder="Descripción" id="descripcionPartidos"
 									name="descripcionPartidos" maxlength="10" 
 									value="Permite al jugador ver las estadísticas de los partidos." readonly></input>
 									 -->
-									<small id="descripcionPartidos" class="form-text text-muted">
-									Permite al jugador ver las estadísticas de los partidos.
-									</small>
-									<!-- 
+								<small id="descripcionPartidos" class="form-text text-muted">
+									Permite al jugador ver las estadísticas de los partidos. </small>
+								<!-- 
 								<small
 									class="fecha text-danger error"></small>  -->
 							</div>
 							<div class="form-group col-12">
-								<input type="checkbox" value="entrenamientos" name="entrenamientos" id="entrenamientos" class="entrenamientos">
-								<label>Entrenamientos</label> 
+								<input type="checkbox" value="entrenamientos"
+									name="entrenamientos" id="entrenamientos"
+									class="entrenamientos"> <label>Entrenamientos</label>
 								<!-- <input
 									class="form-control" type="text" placeholder="Descripción" id="descripcionEntrenamientos"
 									name="descripcionEntrenamientos" maxlength="5" required></input>  -->
-									<small id="descripcionEntrenamientos" class="form-text text-muted">
-									Permite al jugador ver las estadísticas de los entrenamientos.
-									</small>
-									<!-- 
+								<small id="descripcionEntrenamientos"
+									class="form-text text-muted"> Permite al jugador ver
+									las estadísticas de los entrenamientos. </small>
+								<!-- 
 									<small
 									class="hora text-danger error"></small>  -->
 							</div>
@@ -710,7 +766,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<th:block layout:fragment="scripts">
 		<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 		<!-- Optional JavaScript -->
@@ -718,20 +774,23 @@
 			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
 			crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
-	
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+			integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+			crossorigin="anonymous"></script>
+
 		<!--   Datatables-->
 		<script type="text/javascript"
 			src="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.js"></script>
-	
+
 		<!-- extension responsive -->
 		<script
 			src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-		<!-- Highcharts JS -->    
+		<!-- Highcharts JS -->
 		<script type="text/javascript"
-	        src="//code.highcharts.com/highcharts.js"></script>
-		
-		
+			src="//code.highcharts.com/highcharts.js"></script>
+
+
 		<script>
 			
 				 
@@ -925,7 +984,7 @@
 							});			
 // PRUEBA CONDICION FISICA ===============================================================================	
 </script>
-<script >	
+		<script>	
 
 	function enviarEdicionPrueba(){
 				var form = new FormData(document.getElementById('formEditPrueba'));
@@ -1511,9 +1570,7 @@
 		var form = new FormData();
 		form.append("id", $('#id').val());
 		form.append("partidos", $('#partidos').val());
-		form.append("descripcionPartidos", $('#descripcionPartidos').val());
 		form.append("entrenamientos", $('#entrenamientos').val());
-		form.append("descripcionEntrenamientos", $('#descripcionEntrenamientos').val());
 		form.append("equipo", $('#equipo').val());
 		$.ajax({
 			url : '/jugadores/updateprivilegio',
@@ -1549,30 +1606,14 @@
 									url : '/jugadores/getallteamsjugador/'+id,
 									success : function(edit) {
 										$('#modalFormPrivilegio').children(
-												'.only').remove();
+										'.only').remove();
 										$('#modalFormPrivilegio').children(
-												'#equipo').remove();
+										'#equipo').remove();
+										$('#modalFormPrivilegio').children(
+										'#id').remove();
+										$('#partidos').prop('checked', false);
+										$('#entrenamientos').prop('checked', false); 
 										$("#id").val(id);
-										$("#partidos").change(function() { 
-											if ($("#partidos").is(":checked")) {  
-										    	// checkbox is checked 
-												$("#partidos").attr('value', 'true');
-											} else {
-										    	// checkbox is not checked 
-												$("#partidos").attr('value', 'false');
-											}
-										});
-										$("#descripcionPartidos").val();
-										$("#entrenamientos").change(function() { 
-											if ($("#entrenamientos").is(":checked")) {  
-										    	// checkbox is checked 
-												$("#entrenamientos").attr('value', 'true');
-											} else {
-										    	// checkbox is not checked 
-												$("#entrenamientos").attr('value', 'false');
-											}
-										});
-										$("#descripcionEntrenamientos").val();
 										$('#modalFormPrivilegio')
 												.prepend(
 														'<div class="form-group col-12 only"><label><span class="text-danger">(*) </span>Equipo:</label><select class="form-control" id="equipo" name="equipo"></select></div>');
@@ -1582,12 +1623,36 @@
 											console.log(edit);
 											$('#equipo').append(
 													$('<option>', {
-														value : equipo,
-														text : equipo,
+														value : equipo.categoria,
+														text : equipo.categoria,
 														name : "equipo"
 													}));
+											$('#equipo').on('change', function() {
+												$('#partidos').prop('checked', equipo.partidos);
+												$('#entrenamientos').prop('checked', equipo.entrenamientos); 
+												
+											});
+											
 										});
-										$('#modalFormPrivilegio #id').val();
+										
+										$("#partidos").change(function() { 
+											if ($("#partidos").is(":checked")) {  
+										    	// checkbox is checked 
+												$("#partidos").attr('value', 'true');
+											} else {
+										    	// checkbox is not checked 
+												$("#partidos").attr('value', 'false');
+											}
+										});
+										$("#entrenamientos").change(function() { 
+											if ($("#entrenamientos").is(":checked")) {  
+										    	// checkbox is checked 
+												$("#entrenamientos").attr('value', 'true');
+											} else {
+										    	// checkbox is not checked 
+												$("#entrenamientos").attr('value', 'false');
+											}
+										});
 
 										$('#privilegiosModal .modal-header')
 												.css("color", "white");
@@ -1601,11 +1666,11 @@
 // FIN PRUEBA CONDICION FISICA ===============================================================================
 </script>
 
-<script type="text/javascript">
+		<script type="text/javascript">
 	w3IncludeHTML();
 </script>
-</th:block>
-<script type="text/javascript">
+	</th:block>
+	<script type="text/javascript">
 	function abrirPassword() {
 		$('#gestionPassword #oldPassword').val("");
 		$('#gestionPassword #newPassword').val("");
