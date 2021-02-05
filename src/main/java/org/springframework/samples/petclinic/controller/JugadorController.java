@@ -61,115 +61,129 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/jugadores")
 public class JugadorController {
-		
+
 	private static final Log LOG = LogFactory.getLog(JugadorController.class);
 	public static final String TEMPLATE_MODAL_GESTION_JUGADOR = "/jugadores/modalGestionJugador";
-	
-	
+
+
 	@Autowired
 	private JugadorValidator jugadorFormValidator;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private JugadorService jugadorService;
-	
+
 	@Autowired
 	private AutorizacionService autorizacionService;
-	
+
 	@Autowired
 	private PrivilegioService privilegioService;
-	
+
 	@Autowired
 	private EstadisticaPersonalPartidoService estadisService;
-	
+
 	@Autowired
 	private EquipoService equipoService;
-	
+
 	@Autowired
 	private NumCamisetaService numCamisetaService;
-	
+
 	@Autowired
 	private EstadoConverter estadoConverter;
-	
+
 	@Autowired
 	private PosicionConverter posicionConverter;
-	
+
 	@Autowired
 	private JugadorConverter jugadorConverter;
-	
+
 	@Autowired
 	private JugadorValidator jugadorValidator;
-	
+
 	@Autowired
 	private TipoPrivilegioConverter tipoPrivilegioConverter;
-	
+
 	@Autowired
 	private PrivilegioConverter privilegioConverter;
-	
-	
-//	@InitBinder("jugador")
-//	public void initJugadorBinder(WebDataBinder dataBinder) {
-//	dataBinder.setValidator(new JugadorValidator());
-//	}
-	
-	
-	
-	
+
+
+	//	@InitBinder("jugador")
+	//	public void initJugadorBinder(WebDataBinder dataBinder) {
+	//	dataBinder.setValidator(new JugadorValidator());
+	//	}
+
+
+
+
 	@GetMapping("/showjugadores")
 	public ModelAndView listadoJugadores(HttpServletRequest request) {
 		Principal principal = request.getUserPrincipal();
 		String username = "";
-		
+
 		if(principal == null) {
 			username = "";
-//			ModelAndView mav = new ModelAndView("/login");
-//			return mav;
+			//			ModelAndView mav = new ModelAndView("/login");
+			//			return mav;
 		}else {
 			username =  principal.getName(); 
-			
+
 		}
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADOR);
 		mav.addObject("username", username);
 		mav.addObject("estadoLesionado", Estado.LESIONADO);
 		mav.addObject("jugadores", jugadorConverter.convertListJugadorToListJugadorWithEquipo(jugadorService.findAll()));
 		return mav;
-		
+
 	}
-	
+
 	@RequestMapping(value = "getallteamsjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<JugadorPriv>> findEquiposJugador(@PathVariable("id") int id) {
+	public ResponseEntity<List<String>> findEquiposJugador(@PathVariable("id") int id) {
 		try {
 			Optional<Jugador> jug = jugadorService.findById(id);
 			Jugador j = jug.get();
 			List<Equipo> e = j.getEquipos();
-			List<JugadorPriv> data = new ArrayList<JugadorPriv>();
-			
+			List<String> data = new ArrayList<String>();
+
 			for(Equipo team:e) {
-				JugadorPriv player = new JugadorPriv();
-				player.setCategoria(team.getCategoria());
-				Set<Privilegio> Spri = j.getPrivilegios();
-				List<Privilegio> pri = Spri.stream().filter(x -> x.getEquipo().getId().equals(team.getId())).collect(Collectors.toList());
-				List<TipoPrivilegio> tpri = Spri.stream().filter(x -> x.getEquipo().getId().equals(team.getId())).map(y -> y.getTipoPrivilegio()).collect(Collectors.toList());
-				if(tpri.contains(TipoPrivilegio.PARTIDOS)) {
-					player.setPartidos(true);
-				} else {
-					player.setPartidos(false);
-				}
-				if(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS)) {
-					player.setEntrenamientos(true);
-				} else {
-					player.setEntrenamientos(false);
-				}
-				data.add(player);
+				data.add(team.getCategoria());
 			}
+			return new ResponseEntity<List<String>>(data, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+		}	
+	}
+
+	@RequestMapping(value = "getprivjugadorteam/{id}/{equipo}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<JugadorPriv>> findPrivJugadorEquipo(@PathVariable("id") int id, @PathVariable("equipo") String equipo) {
+		try {
+			Optional<Jugador> jug = jugadorService.findById(id);
+			Jugador j = jug.get();
+			Equipo e = equipoService.findByCategoria(equipo);
+			List<JugadorPriv> data = new ArrayList<JugadorPriv>();
+
+			JugadorPriv player = new JugadorPriv();
+			Set<Privilegio> Spri = j.getPrivilegios();
+			List<TipoPrivilegio> tpri = Spri.stream().filter(x -> x.getEquipo().getId().equals(e.getId())).map(y -> y.getTipoPrivilegio()).collect(Collectors.toList());
+			if(tpri.contains(TipoPrivilegio.PARTIDOS)) {
+				player.setPartidos(true);
+			} else {
+				player.setPartidos(false);
+			}
+			if(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS)) {
+				player.setEntrenamientos(true);
+			} else {
+				player.setEntrenamientos(false);
+			}
+			data.add(player);
+
 			return new ResponseEntity<List<JugadorPriv>>(data, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<List<JugadorPriv>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
-	
+
 	@GetMapping("/showjugadorespriv")
 	public String listadoJugadoresPrivilegios(Model model) {
 		model.addAttribute("entrenamientos",jugadorService.findPrivilegio(TipoPrivilegio.ENTRENAMIENTOS));
@@ -179,7 +193,7 @@ public class JugadorController {
 
 		return ViewConstant.VIEW_JUGADORES_PRIVILEGIOS;
 	}
-	
+
 	@RequestMapping(value = "/updateprivilegio", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> editarPrivilegio(HttpServletRequest request, @ModelAttribute(name="privilegiojugador") PrivilegioEdit privilegioedit, BindingResult result) {
 		try {
@@ -187,38 +201,38 @@ public class JugadorController {
 			Optional<Jugador> jugadorO = jugadorService.findById(id);
 			Jugador jugador = jugadorO.get();
 			Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());			
-			
+
 			LOG.info("Buscamos los privilegios del jugador con id = " + jugador.getId() + " en el equipo " + equipo.getCategoria());
 			Set<Privilegio> Spri = jugador.getPrivilegios();
 			List<Privilegio> pri = Spri.stream().filter(x -> x.getEquipo().getId().equals(equipo.getId())).collect(Collectors.toList());
 			List<TipoPrivilegio> tpri = Spri.stream().filter(x -> x.getEquipo().getId().equals(equipo.getId())).map(y -> y.getTipoPrivilegio()).collect(Collectors.toList());
-			
+
 			List<TipoPrivilegio> privilegios = new ArrayList<TipoPrivilegio>();
-			
+
 			if(Boolean.parseBoolean(request.getParameter("partidos").trim())) {
 				if(!(tpri.contains(TipoPrivilegio.PARTIDOS))) {
 					privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute("PARTIDOS"));
 				}
-//				privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionPartidos").trim()));
+				//				privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionPartidos").trim()));
 			} else {
 				if(tpri.contains(TipoPrivilegio.PARTIDOS)) {
 					List<Privilegio> auxP = pri.stream().filter(y -> y.getTipoPrivilegio().equals(TipoPrivilegio.PARTIDOS)).collect(Collectors.toList());
 					privilegioService.deleteAll(auxP);
 				}
 			}
-			
+
 			if(Boolean.parseBoolean(request.getParameter("entrenamientos").trim())) {
 				if(!(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS))) {
 					privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute("ENTRENAMIENTOS"));
 				}
-//				privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionEntrenamientos").trim()));
+				//				privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionEntrenamientos").trim()));
 			} else {
 				if(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS)) {
 					List<Privilegio> auxP = pri.stream().filter(y -> y.getTipoPrivilegio().equals(TipoPrivilegio.ENTRENAMIENTOS)).collect(Collectors.toList());
 					privilegioService.deleteAll(auxP);
 				}
 			}
-			
+
 			List<Privilegio> priv = privilegioConverter.convertListPrivilegiosEditToListPrivilegios(privilegios, jugador, equipo);
 			for(Privilegio privi:priv) {
 				Privilegio p = privilegioService.updatePrivilegio(privi);
@@ -228,19 +242,19 @@ public class JugadorController {
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
-	
-//	@GetMapping("/addprivilegio/{id}/{tipoPrivilegio}")
-//	public String addPrivilegioJugador(@PathVariable("id") int id, @PathVariable("tipoPrivilegio") TipoPrivilegio priv) {
-//		Privilegio privilegio= new Privilegio(); 
-//		Optional<Jugador> jug = jugadorService.findById(id);
-//		Jugador jugador= jug.get();
-//		privilegio.setJugador(jugador);
-//		privilegio.setTipoPrivilegio(priv);
-//		Privilegio privilege = privilegioService.savePrivilegio(privilegio);
-//		
-//		return "redirect:/jugadores/showjugadorespriv";
-//	}
-	
+
+	//	@GetMapping("/addprivilegio/{id}/{tipoPrivilegio}")
+	//	public String addPrivilegioJugador(@PathVariable("id") int id, @PathVariable("tipoPrivilegio") TipoPrivilegio priv) {
+	//		Privilegio privilegio= new Privilegio(); 
+	//		Optional<Jugador> jug = jugadorService.findById(id);
+	//		Jugador jugador= jug.get();
+	//		privilegio.setJugador(jugador);
+	//		privilegio.setTipoPrivilegio(priv);
+	//		Privilegio privilege = privilegioService.savePrivilegio(privilegio);
+	//		
+	//		return "redirect:/jugadores/showjugadorespriv";
+	//	}
+
 	@GetMapping("/showjugadoresaut")
 	public ModelAndView listadoJugadoresAutorizacion() {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_JUGADORES_AUTORIZACION);
@@ -253,7 +267,7 @@ public class JugadorController {
 
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/tablajugadoresaut", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataAutorizacion> tablaJugadoresAutorizacion(){
 		try {
@@ -265,7 +279,7 @@ public class JugadorController {
 			return new ResponseEntity<DataAutorizacion>(HttpStatus.BAD_REQUEST);
 		}	
 	}
-	
+
 	//@PostMapping("/eliminarautorizacion/{id}/{tipoAutorizacion}")
 	@RequestMapping(value = "/eliminarautorizacion/{id}/{tipoAutorizacion}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity eliminarAutorizacion(@PathVariable("id") int id , @PathVariable("tipoAutorizacion") TipoAutorizacion autor) {
@@ -274,43 +288,43 @@ public class JugadorController {
 			Optional<Jugador> player = jugadorService.findById(id);
 			Jugador jug= player.get();
 			Autorizacion ar= autorizacionService.findByJugadorAndTipo(jug, autor);
-			
+
 			LOG.info("Se procede a eliminar la autorización");
 			autorizacionService.deleteByIdSiExiste(ar.getId());
 			LOG.info("Se ha eliminado la autorización con éxito");
-		
+
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
 			LOG.error("No se ha podido eliminar la autorización");
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
-		
+
 	}
-	
+
 	//@PostMapping("/addautorizacion/{id}/{tipoAutorizacion}")
 	@RequestMapping(value = "/addautorizacion/{id}/{tipoAutorizacion}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Autorizacion> addAutorizacion(@PathVariable("id") int id , @PathVariable("tipoAutorizacion") TipoAutorizacion autor) {
 		try {
-		Autorizacion autorizacion= new Autorizacion(); 
-		LOG.info("Buscamos el jugador con id=" + id);
-		Optional<Jugador> jug = jugadorService.findById(id);
-		Jugador jugador= jug.get();
-		autorizacion.setFecha(LocalDate.now());
-		autorizacion.setJugador(jugador);
-		autorizacion.setTipoAutorizacion(autor);
-		
-		LOG.info("Se procede a añadir la autorización");
-		Autorizacion autorization= autorizacionService.save(autorizacion);
-		LOG.info("Se ha guardado la autorización con éxito: " + autorization);
-		
+			Autorizacion autorizacion= new Autorizacion(); 
+			LOG.info("Buscamos el jugador con id=" + id);
+			Optional<Jugador> jug = jugadorService.findById(id);
+			Jugador jugador= jug.get();
+			autorizacion.setFecha(LocalDate.now());
+			autorizacion.setJugador(jugador);
+			autorizacion.setTipoAutorizacion(autor);
+
+			LOG.info("Se procede a añadir la autorización");
+			Autorizacion autorization= autorizacionService.save(autorizacion);
+			LOG.info("Se ha guardado la autorización con éxito: " + autorization);
+
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
 			LOG.error("No se ha podido añadir la autorización");
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
-		
+
 	}
-	
+
 	@RequestMapping(value = "findestadisticasjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<JugadorStats> graficoEstadisticasJugador(@PathVariable("id") int id) {
 		try {
@@ -322,7 +336,7 @@ public class JugadorController {
 			return new ResponseEntity<JugadorStats>(HttpStatus.BAD_REQUEST);
 		}	
 	}
-	
+
 	@RequestMapping(value = "findeditjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<JugadorEdit> editarJugador(@PathVariable("id") int id) {
 		try {
@@ -334,7 +348,7 @@ public class JugadorController {
 			return new ResponseEntity<JugadorEdit>(HttpStatus.BAD_REQUEST);
 		}	
 	}
-	
+
 	@RequestMapping(value = "findEditjugadorNumCamiseta/{jugadorID}/{equipoID}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<JugadorEditNumCamiseta> editarJugadorNumCamiseta(@PathVariable("jugadorID") int jugadorID, @PathVariable("equipoID") int equipoID) {
 		try {
@@ -346,12 +360,12 @@ public class JugadorController {
 			return new ResponseEntity<JugadorEditNumCamiseta>(HttpStatus.BAD_REQUEST);
 		}	
 	}
-	
+
 	@GetMapping("/navbar")
 	public String navbar() {
 		return ViewConstant.VIEW_NAVBAR;
 	}
-	
+
 	@GetMapping("/jugadorform")
 	public String redirectJugadorForm(@RequestParam(name="id",required=false) Integer id, Model model) {
 		Jugador jugador = new Jugador();
@@ -361,21 +375,21 @@ public class JugadorController {
 		model.addAttribute("jugador", jugador);
 		return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 	}
-	
-	
+
+
 	@PostMapping("/addjugador")
 	public String addJugador(@ModelAttribute(name="jugador") Jugador jugador, Model model, BindingResult result) {
-		
+
 		LOG.info("addjugador() -- PARAMETROS: "+ jugador);
-		
+
 		ValidationUtils.invokeValidator(jugadorValidator, jugador, result);
-	
+
 		if (result.hasErrors()) {
 			LOG.warn("Se han obtenido " + result.getErrorCount() + " errores de validación");
 			model.addAttribute("jugador", jugador);
 			return ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM;
 		}
-		
+
 		try {
 			LOG.info("Se procede a guardar el jugador");
 			Jugador player = jugadorService.save(jugador);
@@ -383,39 +397,39 @@ public class JugadorController {
 		} catch (Exception e) {
 			LOG.error("No se ha podido guardar el jugador");
 		}
-		
+
 		return "redirect:/home";
 	}
-	
+
 	@RequestMapping(value = "updatejugador", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> updateJugador(HttpServletRequest request, @ModelAttribute(name="jugador") Jugador jugadorAux, BindingResult result) {
 		try {
-			
+
 			int id = Integer.parseInt(request.getParameter("id"));
-			
+
 			LOG.info("Buscamos el jugador con id=" + id);
 			Optional<Jugador> jugadorO = jugadorService.findById(id);
 			Jugador jugador = jugadorO.get();
-			
+
 			jugadorAux.setDni(jugador.getDni());
 			jugadorAux.setEmail(jugador.getEmail());
 			jugadorAux.setDireccion(jugador.getDireccion());
 			jugadorAux.setLocalidad(jugador.getLocalidad());
 			jugadorAux.setFechaNacimiento(jugador.getFechaNacimiento());
 			jugadorAux = seleccionarAtributosJugador(jugadorAux, request);
-			
+
 			ValidationUtils.invokeValidator(jugadorValidator, jugadorAux, result);
-			
+
 			//JugadorEdit edit = jugadorConverter.convertJugadorToJugadorEdit(jugador);
-			
+
 			if (result.hasErrors()) {
 				LOG.warn("Se han obtenido " + result.getErrorCount() + " errores de validación");
 				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 				return re;
 			}
-			
+
 			jugador = seleccionarAtributosJugador(jugador, request);
-			
+
 			LOG.info("Se procede a actualizar el jugador");
 			Jugador player = jugadorService.updateJugador(jugador);
 			LOG.info("Se ha actualizado el jugador con éxito: " + player);
@@ -424,9 +438,9 @@ public class JugadorController {
 			LOG.error("No se ha podido guardar el jugador");
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
-		
+
 	}
-	
+
 	private Jugador seleccionarAtributosJugador(Jugador jugador, HttpServletRequest request) {
 		jugador.setFirstName(request.getParameter("firstName").trim());
 		jugador.setLastName(request.getParameter("lastName").trim());
@@ -445,5 +459,5 @@ public class JugadorController {
 		jugador.setPosicionSecundaria(posicionConverter.convertToEntityAttribute(request.getParameter("posicionSecundaria")));
 		return jugador;
 	}
-	
+
 }

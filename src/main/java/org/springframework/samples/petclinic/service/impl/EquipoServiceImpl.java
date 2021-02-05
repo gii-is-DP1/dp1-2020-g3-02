@@ -121,6 +121,15 @@ public class EquipoServiceImpl extends AbstractEstadisticasService<Equipo> imple
 		
 		return equipo;
 	}
+	
+	@Override
+	public Equipo updateCapitan(Equipo equipo) {
+		LOG.info("CAPITAN INSERTADO EN EL EQUIPO " + equipo.getCategoria() + ": " + equipo.getCapitan().getJugador().getFirstName() + " " + equipo.getCapitan().getJugador().getLastName());
+		
+		Equipo e = equipoRepository.save(equipo);
+		
+		return e;
+	}
 
 	@Override
 	public Equipo updateEquipo(Equipo team) {

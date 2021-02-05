@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class JugadorPriv {
 
-	private String categoria;
 	private Boolean partidos;
 	private Boolean entrenamientos;
 	

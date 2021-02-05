@@ -160,7 +160,11 @@ public class BaseConverterMethods extends BaseMockControllerTest {
 	}
 
 	public EquipoCAP convertEquipoToEquipoCAP(Equipo equipo, List<JugadorCAP> jugadores) {
-		return new EquipoCAP(equipo.getId(), equipo.getCategoria(), jugadores);
+		if(equipo.getCapitan() != null) {
+			return new EquipoCAP(equipo.getId(), equipo.getCategoria(), equipo.getCapitan().getJugador().getId(), jugadores);
+		} else {
+			return new EquipoCAP(equipo.getId(), equipo.getCategoria(), 0, jugadores);
+		}
 	}
 
 	public EstadisticasPersonalesStats convertEstadisticasToEstadisticasStats(EstadisticaPersonalPartido estadistica) {

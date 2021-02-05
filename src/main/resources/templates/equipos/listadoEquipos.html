@@ -123,23 +123,29 @@
    			type : 'GET',
    			url : '/equipos/findEquipoCAP/' + equipoId,
    			success : function(data) {
-   				console.log(data.tipo);
             	$('#idEquipo').val(data.id);
             	$('label[for=jugadores]').remove();
             	$('#jugadores').remove();
             	$('#capitanModal')
 				.prepend(
-						'<div class="form-group col-12 only"><label for="jugadores">Jugadores:</label><select class="form-control" id="jugadores" name="jugadores"></select></div>');
+						'<div class="form-group col-12 only"><label for="jugadores">Jugadores:</label><select class="form-control" id="jugadores" name="jugadores" th:id="'+data.capitan+'"></select></div>');
 	
             	$.each(data.jugadores, function(index,
     					jugador) {
     					console.log(data);
+    					
+    					if(jugador.id == data.capitan) {
+    						var cap = jugador.nombre
+    					}
+    					console.log(cap);
     				$('#jugadores').append(
     					$('<option>', {
-    						value : jugador.id,
-    						text : jugador.nombre,
-    						name : "jugadores"
-    					}));
+    	    				value : jugador.id,
+    	    				text : jugador.nombre,
+    	    				id: jugador.id,
+    	    				name : "jugadores",
+    	    			}));
+
     				});
 
 				$('#capitanEquipoModal .modal-header').css("color", "white");

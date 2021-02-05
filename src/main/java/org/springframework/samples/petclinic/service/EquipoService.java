@@ -17,5 +17,6 @@ public interface EquipoService extends BaseEstadisticasService<Equipo>{
 	public abstract Equipo updateEquipo(Equipo team);
 	public abstract List<Equipo> findByCapitan(Capitan capitan);
 	public abstract Equipo deleteCapitan(Equipo team);
+	public abstract Equipo updateCapitan(Equipo equipo);
 
 }
