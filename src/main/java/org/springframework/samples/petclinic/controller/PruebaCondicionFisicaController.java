@@ -16,14 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.PruebaCondicionFisicaValidator;
 import org.springframework.samples.petclinic.converter.DataPruebaConverter;
 import org.springframework.samples.petclinic.converter.PruebaConverter;
-import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
-import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.auxiliares.DataPruebaCondicion;
 import org.springframework.samples.petclinic.model.auxiliares.PruebasSinJugador;
-import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
 import org.springframework.stereotype.Controller;
@@ -74,10 +71,12 @@ public class PruebaCondicionFisicaController {
 	}
 	
 	
-	@RequestMapping(value = "/addprueba/{id}/{tipoPrueba}/{dato}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ObjectError>> addPrueba(@PathVariable("id") int id,@ModelAttribute(name="prueba") PruebasSinJugador prueba_, BindingResult result , @PathVariable("tipoPrueba") TipoPrueba tipoPrueba, @PathVariable("dato") String dato) {
+	@RequestMapping(value = "/addprueba", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> addPrueba(HttpServletRequest request,@ModelAttribute(name="prueba") PruebasSinJugador prueba_, BindingResult result) {
 		try {
-			
+		Integer id = Integer.parseInt(request.getParameter("id"));
+		String dato = request.getParameter("dato");
+		TipoPrueba tipoPrueba = TipoPrueba.fromNombre(request.getParameter("tipoPrueba"));
 		LOG.info(dato);
 		PruebaCondicionFisica prueba= new PruebaCondicionFisica(); 
 		Optional<Jugador> jug = jugadorService.findById(id);
@@ -109,9 +108,10 @@ public class PruebaCondicionFisicaController {
 		
 	}
 	
-	@RequestMapping(value = "/eliminarprueba/{id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity eliminarAutorizacion(@PathVariable("id") int id) {
+	@RequestMapping(value = "/eliminarprueba", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity eliminarAutorizacion(HttpServletRequest request) {
 		try {
+			Integer id = Integer.parseInt(request.getParameter("id"));
 			LOG.info("Se procede al borrado de la prueba con id=" + id);
 			pruebaService.deleteById(id);
 		
