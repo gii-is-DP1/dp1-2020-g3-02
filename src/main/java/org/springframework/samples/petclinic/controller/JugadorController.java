@@ -31,6 +31,7 @@ import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Privilegio;
 import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorPriv;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEditNumCamiseta;
 import org.springframework.samples.petclinic.model.ediciones.PrivilegioEdit;
@@ -138,18 +139,34 @@ public class JugadorController {
 	}
 	
 	@RequestMapping(value = "getallteamsjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<String>> findEquiposJugador(@PathVariable("id") int id) {
+	public ResponseEntity<List<JugadorPriv>> findEquiposJugador(@PathVariable("id") int id) {
 		try {
 			Optional<Jugador> jug = jugadorService.findById(id);
 			Jugador j = jug.get();
 			List<Equipo> e = j.getEquipos();
-			List<String> teams = new ArrayList<String>();
+			List<JugadorPriv> data = new ArrayList<JugadorPriv>();
+			
 			for(Equipo team:e) {
-				teams.add(team.getCategoria());
+				JugadorPriv player = new JugadorPriv();
+				player.setCategoria(team.getCategoria());
+				Set<Privilegio> Spri = j.getPrivilegios();
+				List<Privilegio> pri = Spri.stream().filter(x -> x.getEquipo().getId().equals(team.getId())).collect(Collectors.toList());
+				List<TipoPrivilegio> tpri = Spri.stream().filter(x -> x.getEquipo().getId().equals(team.getId())).map(y -> y.getTipoPrivilegio()).collect(Collectors.toList());
+				if(tpri.contains(TipoPrivilegio.PARTIDOS)) {
+					player.setPartidos(true);
+				} else {
+					player.setPartidos(false);
+				}
+				if(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS)) {
+					player.setEntrenamientos(true);
+				} else {
+					player.setEntrenamientos(false);
+				}
+				data.add(player);
 			}
-			return new ResponseEntity<List<String>>(teams, HttpStatus.OK);
+			return new ResponseEntity<List<JugadorPriv>>(data, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<JugadorPriv>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
@@ -190,7 +207,7 @@ public class JugadorController {
 				}
 			}
 			
-			if(Boolean.parseBoolean(request.getParameter(request.getParameter("entrenamientos").trim()))) {
+			if(Boolean.parseBoolean(request.getParameter("entrenamientos").trim())) {
 				if(!(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS))) {
 					privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute("ENTRENAMIENTOS"));
 				}
