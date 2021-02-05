@@ -152,7 +152,7 @@ class JugadorControllerTest extends BaseControllerTest {
 	//He añadido metodo save del service al base mock controller ¿Está bien?
 	@WithMockUser(value = "spring")
 	@Test
-	void testPostEstadistico() throws Exception {
+	void testAddJugador() throws Exception {
 		
 		mockMvc.perform(post("/jugadores/addjugador").with(csrf())
 		.param("firstName", "Diego")
@@ -169,6 +169,27 @@ class JugadorControllerTest extends BaseControllerTest {
 		.param("posicionPrincipal", "PUNTA")
 		.param("posicionSecundaria", "OPUESTO"))
 		.andExpect(view().name("redirect:/home"));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testUpdateJugador() throws Exception {
+		
+		mockMvc.perform(post("/jugadores/updatejugador").with(csrf())
+		.param("firstName", "Diego")
+		.param("lastName", "Hill")
+		.param("dni", "13579246A")
+		.param("direccion", "C/GitGud")
+		.param("localidad", "AnorLondo")
+		.param("fechaNacimiento", "2000-11-16")
+		.param("altura", "182")
+		.param("peso", "70")
+		.param("estadoActual", "EN_FORMA")
+		.param("username", "lololololo")
+		.param("email", "abobole@gmail.com")
+		.param("posicionPrincipal", "PUNTA")
+		.param("posicionSecundaria", "OPUESTO"))
+		.andExpect(status().isOk());
 	}
 	
 }
