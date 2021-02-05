@@ -217,7 +217,7 @@ public class EquipoController {
 		return ViewConstant.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
 	}
 
-	@RequestMapping(value = "getallteams", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getallteams", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<String>> findEquipos() {
 		try {
 			List<String> equipos = equipoService.findCategoria();
@@ -256,7 +256,7 @@ public class EquipoController {
 		return ViewConstant.VIEW_NAVBAR;
 	}
 
-	@RequestMapping(value = "eliminarequipo/{id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/eliminarequipo/{id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> eliminarEquipo(@PathVariable("id") Integer id) {
 		try {
 			LOG.info("Se procede a borrar el equipo con id: " + id);
@@ -361,7 +361,7 @@ public class EquipoController {
 		}	
 	}
 
-	@RequestMapping(value = "updateequipo", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/updateequipo", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> updateEquipo(HttpServletRequest request, @ModelAttribute(name="equipo") Equipo equipoAux, BindingResult result) {
 		try {
 
