@@ -1606,13 +1606,11 @@
 									url : '/jugadores/getallteamsjugador/'+id,
 									success : function(edit) {
 										$('#modalFormPrivilegio').children(
-										'.only').remove();
-										$('#modalFormPrivilegio').children(
-										'#equipo').remove();
-										$('#modalFormPrivilegio').children(
-										'#id').remove();
-										$('#partidos').prop('checked', false);
-										$('#entrenamientos').prop('checked', false); 
+												'.only').remove();
+										$('#equipo').remove();
+										
+										$('#partidos').removeAttr('checked', false);
+										$('#entrenamientos').removeAttr('checked', false);
 										$("#id").val(id);
 										$('#modalFormPrivilegio')
 												.prepend(
@@ -1621,16 +1619,23 @@
 										$.each(edit, function(index,
 												equipo) {
 											console.log(edit);
+											
 											$('#equipo').append(
 													$('<option>', {
 														value : equipo.categoria,
 														text : equipo.categoria,
-														name : "equipo"
+														name : "equipo",
 													}));
-											$('#equipo').on('change', function() {
+											if(equipo.categoria==$("#equipo").val()) {
 												$('#partidos').prop('checked', equipo.partidos);
-												$('#entrenamientos').prop('checked', equipo.entrenamientos); 
-												
+												$('#entrenamientos').prop('checked', equipo.entrenamientos);
+											}
+											
+											$('#equipo').on('change', function() {
+												if(equipo.categoria==$("#equipo").val()) {
+													$('#partidos').prop('checked', equipo.partidos);
+													$('#entrenamientos').prop('checked', equipo.entrenamientos);
+												}
 											});
 											
 										});
