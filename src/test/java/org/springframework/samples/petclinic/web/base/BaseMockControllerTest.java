@@ -12,12 +12,14 @@ import org.assertj.core.util.Lists;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.samples.petclinic.component.EntrenadorValidator;
 import org.springframework.samples.petclinic.component.EntrenamientoValidator;
+import org.springframework.samples.petclinic.component.EquipoValidator;
 import org.springframework.samples.petclinic.component.EstadisticoValidator;
 import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
 import org.springframework.samples.petclinic.component.UserValidator;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.converter.EntrenamientoConverter;
+import org.springframework.samples.petclinic.converter.EquipoConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
@@ -37,6 +39,7 @@ import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Viaje;
+import org.springframework.samples.petclinic.service.CapitanService;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EquipoService;
@@ -106,6 +109,9 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected SistemaJuegoService sistemaService;
+	
+	@MockBean
+	protected CapitanService capitanService;
 
 	// CONVERTERS
 
@@ -126,6 +132,9 @@ public class BaseMockControllerTest {
 
 	@MockBean
 	protected ViajeConverter viajeConverter;
+	
+	@MockBean
+	protected EquipoConverter equipoConverter;
 	
 	@MockBean
 	protected UserConverter userConverter;
@@ -151,6 +160,9 @@ public class BaseMockControllerTest {
 	protected PersonalesValidator personalesValidator;
 	
 	@MockBean
+	protected EquipoValidator equipoValidator;
+	
+	@MockBean
 
 	protected EstadisticoValidator estadisticoValidator;
 	@MockBean
@@ -161,7 +173,10 @@ public class BaseMockControllerTest {
 	protected void doNothingValidators() {
 		doNothing().when(entrenadorValidator).validate(any(Object.class), any(Errors.class));
 		when(entrenadorValidator.supports(any(Class.class))).thenReturn(true);
-
+		
+		doNothing().when(equipoValidator).validate(any(Object.class), any(Errors.class));
+		when(equipoValidator.supports(any(Class.class))).thenReturn(true);
+		
 		doNothing().when(partidoValidator).validate(any(Object.class), any(Errors.class));
 		when(partidoValidator.supports(any(Class.class))).thenReturn(true);
 		

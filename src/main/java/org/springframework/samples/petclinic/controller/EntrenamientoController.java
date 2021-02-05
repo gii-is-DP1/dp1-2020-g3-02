@@ -147,7 +147,7 @@ public class EntrenamientoController {
 		return mav;
 	}
 
-	@RequestMapping(value = "findestadisticasJugador/{categoria}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/findestadisticasJugador/{categoria}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataTableResponse<EstadisticasDeUnJugadorStats>> graficoEstadisticasTodosLosEntrenamientosDeUnJugador(@PathVariable("categoria") String categoria, HttpServletRequest request) {
 		try {
 
@@ -199,7 +199,7 @@ public class EntrenamientoController {
 		return mav;
 	}
 
-	@RequestMapping(value = "findestadisticasEntrenamientos/{categoria}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/findestadisticasEntrenamientos/{categoria}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataTableResponse<EntrenamientoStats>> graficoEstadisticasTodosLosEntrenamientos(@PathVariable("categoria") String categoria, HttpServletRequest request) {
 		try {
 
@@ -446,7 +446,7 @@ public class EntrenamientoController {
 
 	}
 
-	@RequestMapping(value = "findJugadorPosicionEntrenamiento/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/findJugadorPosicionEntrenamiento/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataPosicion> graficoJugadorPosicionEntrenamiento(@PathVariable("id") int id) {
 		try {
 			Optional<Entrenamiento> entrenamiento = entrenamientoService.findById(id);

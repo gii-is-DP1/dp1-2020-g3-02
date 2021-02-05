@@ -58,19 +58,7 @@ public class EntrenamientoControllerTest extends BaseControllerTest{
 				.andExpect(view().name(ViewConstant.VIEW_ESTADISTICAS_ENTRENAMIENTO))
 				.andExpect(model().attributeExists("categorias"));
 	}
-
-	/*@WithMockUser(value = "spring")
-	@Test
-	void testGraficoEstadisticasTodosLosEntrenamientosDeUnJugador() throws Exception {
-
-		when(userService.findByUsername(any(String.class))).thenReturn(getUserJugador());
-
-		mockMvc.perform(get("/entrenamientos/findestadisticasJugador/{categoria}", CATEGORIA_EQUIPO))
-				.andExpect(jsonPath("$.data[0].id", is(ID)))
-				.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
-				.andExpect(jsonPath("$.data[0].hora", is(HORA))).andExpect(status().isOk());
-	}*/
-
+	
 	@WithMockUser(value = "spring")
 	@Test
 	void testFindEntrenamiento() throws Exception {
@@ -86,5 +74,33 @@ public class EntrenamientoControllerTest extends BaseControllerTest{
 		mockMvc.perform(get("/entrenamientos/findEntrenamientos")).andExpect(status().isOk());
 	}
 	
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowStatsAllPlayers() throws Exception {
+		mockMvc.perform(get("/entrenamientos/showestadisiticasEntrenamientoTodosJugadores")
+		.param("id", "1"))
+		.andExpect(status().isOk())
+		.andExpect(view().name(ViewConstant.VIEW_ESTADISTICAS_ENTRENAMIENTO_JUGADORES));
+	}
 	
+	@WithMockUser(value = "spring")
+	@Test
+	void testFindPosicionEntrenamiento() throws Exception {
+		mockMvc.perform(get("/entrenamientos/findJugadorPosicionEntrenamiento/{id}",ID))
+		.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testFindStatsTrainCat() throws Exception {
+		mockMvc.perform(get("/entrenamientos/findestadisticasEntrenamientos/{categoria}",CATEGORIA_EQUIPO))
+		.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testFindStatsTrainPlayerCat() throws Exception {
+		mockMvc.perform(get("/entrenamientos/findestadisticasJugador/{categoria}",CATEGORIA_EQUIPO))
+		.andExpect(status().isOk());
+	}
 }
