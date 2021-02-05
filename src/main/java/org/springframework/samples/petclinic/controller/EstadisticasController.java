@@ -964,7 +964,7 @@ public class EstadisticasController {
 			if(marcador >= 25 && Math.abs(marcador-marcadorSuyo)>1) {
 				partido.setSetJugados(partido.getSetJugados()+1);
 			}
-			
+
 			Partido patido_ = partidoService.save(partido);
 			
 			return new ResponseEntity<Integer>(marcador,HttpStatus.OK);
@@ -1084,6 +1084,23 @@ public class EstadisticasController {
 			LOG.error("Excepción actualizando el jugador en partido");
 			return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
 		}
+		
+	}
+	
+	@RequestMapping(value = "/finalizarPartido", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity finalizarPartido(HttpServletRequest request) {
+		try {
+			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
+			Partido partido = partidoService.findById(partidoId).get();
+			partido.setPartidoFinalizado(true);
+			
+			Partido patido_ = partidoService.save(partido);
+			
+			return new ResponseEntity(HttpStatus.OK);
+		}catch (Exception e) {
+			LOG.error("Excepción actualizando el jugador en partido");
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+		} 
 		
 	}
 

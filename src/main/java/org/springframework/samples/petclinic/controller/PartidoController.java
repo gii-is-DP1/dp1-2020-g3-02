@@ -8,8 +8,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -130,6 +132,14 @@ public class PartidoController {
 	@Autowired
 	private ViajeConverter viajeConverter;
 	
+	private Autobus bus;
+	
+	@PostConstruct
+	private void init() {
+		bus = new Autobus();
+		bus.setId(1);
+	}
+	
 	@GetMapping("/showpartidos")
 	public ModelAndView listadoPartidos(HttpServletRequest request) {
 		
@@ -139,11 +149,18 @@ public class PartidoController {
 			String username =  principal.getName(); 
 	        User  user = userService.findByUsername(username);
 	        Jugador jugador = jugadorService.findByUser(user);
-	        Autorizacion autorizacion=autorizacionService.findByJugadorAndTipo(jugador, TipoAutorizacion.TRANSPORTE);
-	        if(autorizacion==null) {
-	        	mav.addObject("autorizacion", false);
+	        Autorizacion autorizacionBus=autorizacionService.findByJugadorAndTipo(jugador, TipoAutorizacion.TRANSPORTE);
+	        Autorizacion autorizacionLesion=autorizacionService.findByJugadorAndTipo(jugador, TipoAutorizacion.RESPONSABILIDADLESION);
+	        if(autorizacionBus==null) {
+	        	mav.addObject("autorizacionBus", false);
 	        }else {
-	        	 mav.addObject("autorizacion", true);
+	        	 mav.addObject("autorizacionBus", true);
+	        }
+	        
+	        if(autorizacionLesion==null) {
+	        	mav.addObject("autorizacionLesiones", false);
+	        }else {
+	        	 mav.addObject("autorizacionLesiones", true);
 	        }
 	        mav.addObject("jugador", jugador);
 			
@@ -375,7 +392,7 @@ public class PartidoController {
 	public ResponseEntity<DataTableResponse<PartidoConAsistencia>> listadoDePartidos(HttpServletRequest request) {
 		try {
 			List<PartidoConAsistencia> partidosSinEquipo = new ArrayList<PartidoConAsistencia>();
-			List<Partido> partidos = partidoService.findByFechaAfter(LocalDate.now().minusDays(1));
+			List<Partido> partidos = partidoService.findByPartidoFinalizadoFalse();
 			
 			Principal principal = request.getUserPrincipal();
 			List<String> categorias = new ArrayList<String>();
@@ -626,9 +643,11 @@ public class PartidoController {
 			Jugador jugador= jugadorService.findByUser(user);
 			Integer jugadorId= jugador.getId();
 			
-			List<Personales> lpersonales= personalService.findByJugador(jugadorId);
+			Set<Personales> sPersonales = personalService.findByJugador(jugadorId);
 			Partido partido= partidoService.findById(id).get();
-			lpersonales.addAll(viajeService.findPersonalesByPartidoAndTipoViaje(partido, tipoViaje));
+			sPersonales.addAll(viajeService.findPersonalesByPartidoAndTipoViaje(partido, tipoViaje));
+			
+			List<Personales> lpersonales = sPersonales.stream().collect(Collectors.toList());
 			
 			PersonalEdit personalEdit = new PersonalEdit();
 			List<PersonalEdit> lpersonalEdit= new ArrayList<PersonalEdit>();
@@ -656,83 +675,36 @@ public class PartidoController {
 			User user= userService.findByUsername(username);
 			Jugador jugador= jugadorService.findByUser(user);
 			
-			Integer jugadorId= jugador.getId();
-			Viaje viaje = new Viaje();
-			Viaje viaje2= null;
-			Viaje viajeNuevo = new Viaje();
-			Viaje viajeNuevo2 = new Viaje();
-			
-			Partido partido= new Partido();
+			Partido partido;
 			if(!request.getParameter("idPartido").isEmpty()) {
 				int idPartido = Integer.parseInt(request.getParameter("idPartido"));
 				LOG.info("Estamos creando un viaje para el partido con el id: " + idPartido);
 				Optional<Partido> partidoO = partidoService.findById(idPartido);
 				partido = partidoO.get();
+			} else {
+				LOG.info("El id del partido ha llegado vacío");
+				return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 			}
 			
-			if(!"IDAYVUELTA".equals(request.getParameter("tipoViaje"))) {
-				viaje = viajeService.findByJugadorAndPartidoAndTipoViaje(jugador, partido, TipoViaje.fromNombre(request.getParameter("tipoViaje")));
-				if(viaje!=null) {
-					if(viaje.getAutobus()==null) {
-						viaje.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
-					}else {
-						viaje.setAutobus(null);
-						viaje.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
-					}
-				}else {
-						
-						viajeNuevo.setJugador(jugador);
-						viajeNuevo.setPartido(partido);
-						viajeNuevo.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
-						viajeNuevo.setTipoViaje(TipoViaje.fromNombre(request.getParameter("tipoViaje")));
-				}
-			}else if("IDAYVUELTA".equals(request.getParameter("tipoViaje"))){
-				viaje = viajeService.findByJugadorAndPartidoAndTipoViaje(jugador, partido, TipoViaje.fromNombre("IDA"));
-				viaje2 = viajeService.findByJugadorAndPartidoAndTipoViaje(jugador, partido, TipoViaje.fromNombre("VUELTA"));
-				if(viaje!=null) {
-					if(viaje.getAutobus()==null) {
-						viaje.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
-					}else {
-						viaje.setAutobus(null);
-						viaje.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
-					}
-				}else {
-						
-						viajeNuevo.setJugador(jugador);
-						viajeNuevo.setPartido(partido);
-						viajeNuevo.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
-						viajeNuevo.setTipoViaje(TipoViaje.IDA);
-				}
-				if(viaje2!=null) {
-					if(viaje2.getAutobus()==null) {
-						viaje2.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
-					}else {
-						viaje2.setAutobus(null);
-						viaje2.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
-					}
-				}else {
-						
-						viajeNuevo2.setJugador(jugador);
-						viajeNuevo2.setPartido(partido);
-						viajeNuevo2.setPersonal(personalService.findById(Integer.valueOf(request.getParameter("propietario"))).get());
-						viajeNuevo2.setTipoViaje(TipoViaje.VUELTA);
-				}
+			String tipoViaje = request.getParameter("tipoViaje");
+			Integer propietario = Integer.valueOf(request.getParameter("propietario"));
+			
+			if(!"IDAYVUELTA".equals(tipoViaje)) {
+				final Viaje viaje = setViajePersonal(jugador, partido, TipoViaje.fromNombre(tipoViaje), propietario);
+				LOG.info("Procedemos a guardar el viaje de tipo " + tipoViaje);
+				viajeService.save(viaje);
+			}else if("IDAYVUELTA".equals(tipoViaje)){
+				final Viaje viajeIda = setViajePersonal(jugador, partido, TipoViaje.fromNombre("IDA"), propietario);
+				final Viaje viajeVuelta = setViajePersonal(jugador, partido, TipoViaje.fromNombre("VUELTA"), propietario);
+				
+				LOG.info("Procedemos a guardar el viaje de tipo " + "ida");
+				viajeService.save(viajeIda);
+				LOG.info("Procedemos a guardar el viaje de tipo " + "vuelta");
+				viajeService.save(viajeVuelta);
 				
 			}else {
-				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
-			}
-			
-			LOG.info("Procedemos a guardar el viaje");
-			if(viaje!=null) { 
-				Viaje travel = viajeService.save(viaje);}
-			if(viaje2!=null) {
-				Viaje travel= viajeService.save(viaje2);
-			}
-			if(viajeNuevo.getPersonal()!=null) {
-				Viaje travel= viajeService.save(viajeNuevo);
-			}
-			if(viajeNuevo2.getPersonal()!=null) {
-				Viaje travel= viajeService.save(viajeNuevo2);
+				LOG.warn("Valor del tipo de viaje inválido");
+				return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 			}
 			
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
@@ -745,24 +717,16 @@ public class PartidoController {
 	
 
 	@PostMapping("/postbus")
-	public ResponseEntity<List<ObjectError>> addBus(HttpServletRequest request) {
+	public ResponseEntity<List<ObjectError>> addViajeBus(HttpServletRequest request) {
 		
 		try {
 			String username =request.getUserPrincipal().getName();
 			User user= userService.findByUsername(username);
 			Jugador jugador= jugadorService.findByUser(user);
 			
-			Integer jugadorId= jugador.getId();
-			Viaje viaje = new Viaje();
-			Viaje viaje2= null;
-			Viaje viajeNuevo = new Viaje();
-			Viaje viajeNuevo2 = new Viaje();
-			Autobus bus= new Autobus();
-			bus.setId(1);
-			
-			Partido partido= new Partido();
-			if(!request.getParameter("idPartido2").isEmpty()) {
-				int idPartido = Integer.parseInt(request.getParameter("idPartido2"));
+			Partido partido;
+			if(!request.getParameter("idPartidoBus").isEmpty()) {
+				int idPartido = Integer.parseInt(request.getParameter("idPartidoBus"));
 				LOG.info("Estamos creando un viaje para el partido con el id: " + idPartido);
 				Optional<Partido> partidoO = partidoService.findById(idPartido);
 				partido = partidoO.get();
@@ -770,63 +734,23 @@ public class PartidoController {
 				return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 			}
 			
-			if(!"IDAYVUELTA".equals(request.getParameter("tipoViaje"))) {
-				viaje = viajeService.findByJugadorAndPartidoAndTipoViaje(jugador, partido, TipoViaje.fromNombre(request.getParameter("tipoViaje")));
-				if(viaje!=null) {
-					if(viaje.getAutobus()==null) {
-						
-						viaje.setAutobus(bus);
-						viaje.setPersonal(null);
-					}
-				}else {
-						viajeNuevo.setJugador(jugador);
-						viajeNuevo.setPartido(partido);
-						viajeNuevo.setAutobus(bus);
-						viajeNuevo.setTipoViaje(TipoViaje.fromNombre(request.getParameter("tipoViaje")));
-				}
-			}else if("IDAYVUELTA".equals(request.getParameter("tipoViaje"))){
-				viaje = viajeService.findByJugadorAndPartidoAndTipoViaje(jugador, partido, TipoViaje.fromNombre("IDA"));
-				viaje2 = viajeService.findByJugadorAndPartidoAndTipoViaje(jugador, partido, TipoViaje.fromNombre("VUELTA"));
-				if(viaje!=null) {
-					if(viaje.getAutobus()==null) {
-						viaje.setAutobus(bus);
-						viaje.setPersonal(null);
-					}
-				}else {
-						
-					viajeNuevo.setJugador(jugador);
-					viajeNuevo.setPartido(partido);
-					viajeNuevo.setAutobus(bus);
-					viajeNuevo.setTipoViaje(TipoViaje.IDA);
-				}
-				if(viaje2!=null) {
-					if(viaje2.getAutobus()==null) {
-						viaje2.setAutobus(bus);
-						viaje2.setPersonal(null);
-					}
-				}else {
-						
-					viajeNuevo2.setJugador(jugador);
-					viajeNuevo2.setPartido(partido);
-					viajeNuevo2.setAutobus(bus);
-					viajeNuevo2.setTipoViaje(TipoViaje.VUELTA);
-				}
-				
-			}else {
-				return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
-			}
+			String tipoViaje = request.getParameter("tipoViaje");
 			
-			LOG.info("Procedemos a guardar el viaje");
-			if(viaje!=null) { 
-				Viaje travel = viajeService.save(viaje);}
-			if(viaje2!=null) {
-				Viaje travel= viajeService.save(viaje2);
-			}
-			if(viajeNuevo.getAutobus()!=null) {
-				Viaje travel= viajeService.save(viajeNuevo);
-			}
-			if(viajeNuevo2.getAutobus()!=null) {
-				Viaje travel= viajeService.save(viajeNuevo2);
+			if(!"IDAYVUELTA".equals(tipoViaje)) {
+				final Viaje viaje = setViajeBus(jugador, partido, TipoViaje.fromNombre(tipoViaje));
+				LOG.info("Procedemos a guardar el viaje de tipo " + tipoViaje);
+				viajeService.save(viaje);
+			}else if("IDAYVUELTA".equals(request.getParameter("tipoViaje"))){
+				final Viaje viajeIda = setViajeBus(jugador, partido, TipoViaje.fromNombre("IDA"));
+				final Viaje viajeVuelta = setViajeBus(jugador, partido, TipoViaje.fromNombre("VUELTA"));
+				
+				LOG.info("Procedemos a guardar el viaje de tipo " + "ida");
+				viajeService.save(viajeIda);
+				LOG.info("Procedemos a guardar el viaje de tipo " + "vuelta");
+				viajeService.save(viajeVuelta);
+			}else {
+				LOG.warn("Valor del tipo de viaje inválido");
+				return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 			}
 			
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
@@ -837,18 +761,43 @@ public class PartidoController {
 		}
 	}
 	
-	/* @PostMapping("/updatepartido")
-	public String updatePartido(HttpServletRequest request) {
-		int id = Integer.parseInt(request.getParameter("id"));
-		Optional<Partido> partidoO = partidoService.findById(id);
-		Partido partido = partidoO.get();
-		
-		partido.setHora(request.getParameter("hora").trim());
-		partido.setFecha(LocalDate.parse(request.getParameter("fecha"), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		
-		Partido match = partidoService.savePartido(partido);
-		
-		return "redirect:/partidos/showpartidos";	
-	} */
+	// Método para editar o crear un nuevo viaje con vehículo personal
+	private Viaje setViajePersonal(Jugador jugador, Partido partido, TipoViaje tipoViaje, Integer propietario) {
+		Viaje viaje = viajeService.findByJugadorAndPartidoAndTipoViaje(jugador, partido, tipoViaje);
+		if(viaje!=null) {
+			if(viaje.getAutobus()==null) {
+				viaje.setPersonal(personalService.findById(propietario).get());
+			}else {
+				viaje.setAutobus(null);
+				viaje.setPersonal(personalService.findById(propietario).get());
+			}
+		}else {
+				viaje = new Viaje();
+				viaje.setJugador(jugador);
+				viaje.setPartido(partido);
+				viaje.setPersonal(personalService.findById(propietario).get());
+				viaje.setTipoViaje(tipoViaje);
+		}
+		return viaje;
+	}
+	
+	// Método para editar o crear un nuevo viaje con un bus
+	private Viaje setViajeBus(Jugador jugador, Partido partido, TipoViaje tipoViaje) {
+		Viaje viaje = viajeService.findByJugadorAndPartidoAndTipoViaje(jugador, partido, tipoViaje);
+		if(viaje!=null) {
+			if(viaje.getAutobus()==null) {
+				
+				viaje.setAutobus(bus);
+				viaje.setPersonal(null);
+			}
+		}else {
+			viaje = new Viaje();
+			viaje.setJugador(jugador);
+			viaje.setPartido(partido);
+			viaje.setAutobus(bus);
+			viaje.setTipoViaje(tipoViaje);
+		}
+		return viaje;
+	}
 	
 }

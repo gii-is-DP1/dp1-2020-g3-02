@@ -2,6 +2,8 @@ package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -80,9 +82,9 @@ public class Jugador extends Person{
 //	@OneToMany( mappedBy = "jugador")
 //	private Set<RealizaEjercicio> realiza_ejercicios;
 //	
-//	@OneToMany( mappedBy = "jugador")
-//	private Set<Privilegio> privilegios;
-//
+	@OneToMany( mappedBy = "jugador")
+	private Set<Privilegio> privilegios;
+
 	@OneToMany(mappedBy = "jugador")
 	private List<Autorizacion> autorizacion; 
 	

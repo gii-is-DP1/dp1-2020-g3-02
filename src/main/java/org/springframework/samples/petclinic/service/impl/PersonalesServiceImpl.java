@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,7 +49,7 @@ public class PersonalesServiceImpl extends AbstractService<Personales>  implemen
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Personales> findByJugador(int jugador_id) {
+	public Set<Personales> findByJugador(int jugador_id) {
 		Optional<Jugador> jugador= jugadorService.findById(jugador_id);
 		return personalesRepository.findByJugador(jugador.get());
 	}

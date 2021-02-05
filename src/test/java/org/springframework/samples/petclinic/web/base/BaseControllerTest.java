@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -45,6 +44,7 @@ import org.springframework.samples.petclinic.model.RealizaEjercicio;
 import org.springframework.samples.petclinic.model.SistemaJuego;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.model.Viaje;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
 
 public class BaseControllerTest extends BaseUserControllerTest {
 
@@ -317,6 +317,9 @@ public class BaseControllerTest extends BaseUserControllerTest {
 	void setup() {
 
 		Jugador jugador = getJugadorCorrecto();
+		List<Jugador> jugadores = new ArrayList<Jugador>();
+		jugadores.add(jugador);
+		List<JugadorAut> jugadoresAut = jugadorConverter.convertListJugadorToListJugadorAut(jugadores);
 		Equipo equipo = jugador.getEquipos().get(0);
 		Privilegio privilegio = getPrivilegioCorrecto(jugador, equipo);
 		Entrenador entrenador = equipo.getEntrenador();
@@ -376,10 +379,23 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		
 		// EstadisticaPersonalPartidoService
 		givenEstadisticaPersonalPartidoService(estadisticaPersonalPartido);
-
+		
+		// PruebasCondicionFisica
+		givenPruebaCondicionFisicaService(pruebaCondicionFisica);
+		
 		// CONVERTERS
 		given(this.jugadorPartidoStatsConverter.convertJugadorToJugadorPartidoStats(any(Jugador.class)))
 				.willReturn(convertJugadorToJugadorPartidoStats(jugador));
+		given(this.jugadorConverter.convertListJugadorToListJugadorWithEquipo(any()))
+		.willReturn(convertListJugadorToListJugadorWithEquipo(jugadores));
+		given(this.jugadorConverter.convertListJugadorToListJugadorAut(any()))
+		.willReturn(convertListJugadorToListJugadorAut(jugadores));
+		given(this.jugadorConverter.convertListJugadoresAutorizaciones(any()))
+		.willReturn(convertListJugadoresAutorizaciones(jugadoresAut));
+		given(this.jugadorConverter.convertJugadorToJugadorStats(any(Jugador.class)))
+		.willReturn(convertJugadorToJugadorStats(jugador));
+		given(this.jugadorConverter.convertJugadorToJugadorEdit(any(Jugador.class)))
+		.willReturn(convertJugadorToJugadorEdit(jugador));
 		given(this.partidoConverter.convertPartidoToPartidoEdit(any(Partido.class)))
 				.willReturn(convertPartidoToPartidoEdit(partido));
 		given(this.partidoConverter.convertPartidoToPartidoConAsistencia(any(Partido.class)))
@@ -398,6 +414,10 @@ public class BaseControllerTest extends BaseUserControllerTest {
 				.willReturn(convertEstadisticasToEstadisticasStats(estadisticaPersonalPartido));
 		given(this.viajeConverter.convertViajeToJugadorPartidoViaje(any(Viaje.class)))
 				.willReturn(convertViajeToJugadorPartidoViaje(viaje));
+		
+		//Pruebas
+		given(this.pruebaConverter.convertPruebaToPruebaSinJugador(any(PruebaCondicionFisica.class)))
+		.willReturn(convertPruebaToPruebaSinJugador(pruebaCondicionFisica));
 	}
 
 }

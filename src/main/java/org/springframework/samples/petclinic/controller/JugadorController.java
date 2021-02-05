@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
@@ -29,6 +31,7 @@ import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Privilegio;
 import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorPriv;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEditNumCamiseta;
 import org.springframework.samples.petclinic.model.ediciones.PrivilegioEdit;
@@ -136,18 +139,34 @@ public class JugadorController {
 	}
 	
 	@RequestMapping(value = "getallteamsjugador/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<String>> findEquiposJugador(@PathVariable("id") int id) {
+	public ResponseEntity<List<JugadorPriv>> findEquiposJugador(@PathVariable("id") int id) {
 		try {
 			Optional<Jugador> jug = jugadorService.findById(id);
 			Jugador j = jug.get();
 			List<Equipo> e = j.getEquipos();
-			List<String> teams = new ArrayList<String>();
+			List<JugadorPriv> data = new ArrayList<JugadorPriv>();
+			
 			for(Equipo team:e) {
-				teams.add(team.getCategoria());
+				JugadorPriv player = new JugadorPriv();
+				player.setCategoria(team.getCategoria());
+				Set<Privilegio> Spri = j.getPrivilegios();
+				List<Privilegio> pri = Spri.stream().filter(x -> x.getEquipo().getId().equals(team.getId())).collect(Collectors.toList());
+				List<TipoPrivilegio> tpri = Spri.stream().filter(x -> x.getEquipo().getId().equals(team.getId())).map(y -> y.getTipoPrivilegio()).collect(Collectors.toList());
+				if(tpri.contains(TipoPrivilegio.PARTIDOS)) {
+					player.setPartidos(true);
+				} else {
+					player.setPartidos(false);
+				}
+				if(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS)) {
+					player.setEntrenamientos(true);
+				} else {
+					player.setEntrenamientos(false);
+				}
+				data.add(player);
 			}
-			return new ResponseEntity<List<String>>(teams, HttpStatus.OK);
+			return new ResponseEntity<List<JugadorPriv>>(data, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<JugadorPriv>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
@@ -167,13 +186,39 @@ public class JugadorController {
 			int id = Integer.valueOf(request.getParameter("id"));
 			Optional<Jugador> jugadorO = jugadorService.findById(id);
 			Jugador jugador = jugadorO.get();
-			Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());
+			Equipo equipo = equipoService.findByCategoria(request.getParameter("equipo").trim());			
+			
 			LOG.info("Buscamos los privilegios del jugador con id = " + jugador.getId() + " en el equipo " + equipo.getCategoria());
+			Set<Privilegio> Spri = jugador.getPrivilegios();
+			List<Privilegio> pri = Spri.stream().filter(x -> x.getEquipo().getId().equals(equipo.getId())).collect(Collectors.toList());
+			List<TipoPrivilegio> tpri = Spri.stream().filter(x -> x.getEquipo().getId().equals(equipo.getId())).map(y -> y.getTipoPrivilegio()).collect(Collectors.toList());
+			
 			List<TipoPrivilegio> privilegios = new ArrayList<TipoPrivilegio>();
-			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("partidos").trim()));
-			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionPartidos").trim()));
-			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("entrenamientos").trim()));
-			privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionEntrenamientos").trim()));
+			
+			if(Boolean.parseBoolean(request.getParameter("partidos").trim())) {
+				if(!(tpri.contains(TipoPrivilegio.PARTIDOS))) {
+					privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute("PARTIDOS"));
+				}
+//				privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionPartidos").trim()));
+			} else {
+				if(tpri.contains(TipoPrivilegio.PARTIDOS)) {
+					List<Privilegio> auxP = pri.stream().filter(y -> y.getTipoPrivilegio().equals(TipoPrivilegio.PARTIDOS)).collect(Collectors.toList());
+					privilegioService.deleteAll(auxP);
+				}
+			}
+			
+			if(Boolean.parseBoolean(request.getParameter("entrenamientos").trim())) {
+				if(!(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS))) {
+					privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute("ENTRENAMIENTOS"));
+				}
+//				privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionEntrenamientos").trim()));
+			} else {
+				if(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS)) {
+					List<Privilegio> auxP = pri.stream().filter(y -> y.getTipoPrivilegio().equals(TipoPrivilegio.ENTRENAMIENTOS)).collect(Collectors.toList());
+					privilegioService.deleteAll(auxP);
+				}
+			}
+			
 			List<Privilegio> priv = privilegioConverter.convertListPrivilegiosEditToListPrivilegios(privilegios, jugador, equipo);
 			for(Privilegio privi:priv) {
 				Privilegio p = privilegioService.updatePrivilegio(privi);
