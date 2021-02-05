@@ -1610,7 +1610,7 @@
 										$('#modalFormPrivilegio').children(
 										'#equipo').remove();
 										$('#partidos').prop('checked', false);
-										$('#entrenamientos').prop('checked', false); 
+										$('#entrenamientos').prop('checked', false);
 										$("#id").val(id);
 										$('#modalFormPrivilegio')
 												.prepend(
@@ -1619,13 +1619,14 @@
 										$.each(edit, function(index,
 												equipo) {
 											console.log(edit);
+											
 											$('#equipo').append(
 													$('<option>', {
 														value : equipo.categoria,
 														text : equipo.categoria,
 														name : "equipo"
 													}));
-											$('#equipo').on('change', function() {
+											$('#equipo').on('change', function() { 
 												$('#partidos').prop('checked', equipo.partidos);
 												$('#entrenamientos').prop('checked', equipo.entrenamientos); 
 												
