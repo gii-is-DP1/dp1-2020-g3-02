@@ -25,6 +25,8 @@ import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.converter.PersonalConverter;
 import org.springframework.samples.petclinic.converter.UserConverter;
 import org.springframework.samples.petclinic.converter.ViajeConverter;
+import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
+import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
@@ -196,6 +198,9 @@ public class BaseMockControllerTest {
 	protected void givenJugadorService(Jugador jugador) {
 		given(this.jugadorService.findById(any(Integer.class))).willReturn(Optional.of(jugador));
 		given(this.jugadorService.findByUser(any(User.class))).willReturn(jugador);
+		given(this.jugadorService.findAll()).willReturn(Lists.newArrayList(jugador));
+		given(this.jugadorService.findPrivilegio(any(TipoPrivilegio.class))).willReturn(Lists.newArrayList(jugador));
+		given(this.jugadorService.findAuto(any(TipoAutorizacion.class))).willReturn(Lists.newArrayList(jugador));
 	}
 
 	/** Metodos EntrenadorService por defecto */
