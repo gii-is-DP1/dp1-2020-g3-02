@@ -1606,11 +1606,9 @@
 									url : '/jugadores/getallteamsjugador/'+id,
 									success : function(edit) {
 										$('#modalFormPrivilegio').children(
-										'.only').remove();
+												'.only').remove();
 										$('#modalFormPrivilegio').children(
 										'#equipo').remove();
-										$('#modalFormPrivilegio').children(
-										'#id').remove();
 										$('#partidos').prop('checked', false);
 										$('#entrenamientos').prop('checked', false); 
 										$("#id").val(id);
