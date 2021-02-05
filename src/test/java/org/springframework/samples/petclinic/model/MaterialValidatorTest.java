@@ -36,7 +36,7 @@ public class MaterialValidatorTest extends BaseVolleyballValidatorTest{
         String type = "Integer";
         String field = "stock";
         String value = "-1";
-        String mensaje = ValidationConstant.CAMPO_NEGATIVO;
+        String mensaje = ValidationConstant.STOCK_NEGATIVO;
         
         // Modificación del campo
         material.setStock(Integer.valueOf(value));
