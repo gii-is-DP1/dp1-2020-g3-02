@@ -14,12 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.PruebaCondicionFisicaValidator;
-import org.springframework.samples.petclinic.converter.DataPruebaConverter;
 import org.springframework.samples.petclinic.converter.PruebaConverter;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
-import org.springframework.samples.petclinic.model.auxiliares.DataPruebaCondicion;
+import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.PruebasSinJugador;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
@@ -49,13 +48,10 @@ public class PruebaCondicionFisicaController {
 	private JugadorService jugadorService;
 	
 	@Autowired
-	private DataPruebaConverter dataPruebaConverter;
-	
-	@Autowired
 	private PruebaConverter pruebaConverter;
 	
 	@RequestMapping(value = "findPruebasCondicionFisicaJugador/{id}/{tipo}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<DataPruebaCondicion> findPruebasCondicionFisicaJugador(@PathVariable("id") int id,@PathVariable("tipo") String tipo) {
+	public ResponseEntity<DataTableResponse<PruebasSinJugador>> findPruebasCondicionFisicaJugador(@PathVariable("id") int id,@PathVariable("tipo") String tipo) {
 		try {
 			Optional<Jugador> jugador = jugadorService.findById(id);
 			List<PruebaCondicionFisica> pruebas = pruebaService.findByJugadorAndTipoPrueba(jugador.get(), TipoPrueba.fromNombre(tipo));
@@ -63,10 +59,11 @@ public class PruebaCondicionFisicaController {
 			for (int i = 0; i<pruebas.size();i++) {
 				pruebasSinJugador.add(pruebaConverter.convertPruebaToPruebaSinJugador(pruebas.get(i)));
 			}
-			DataPruebaCondicion data = dataPruebaConverter.convertPruebaToDataPrueba(pruebasSinJugador);
-			return new ResponseEntity<DataPruebaCondicion>(data, HttpStatus.OK);
+			DataTableResponse<PruebasSinJugador> data = new DataTableResponse<PruebasSinJugador>();
+			data.setData(pruebasSinJugador);
+			return new ResponseEntity<DataTableResponse<PruebasSinJugador>>(data, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<DataPruebaCondicion>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<DataTableResponse<PruebasSinJugador>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
