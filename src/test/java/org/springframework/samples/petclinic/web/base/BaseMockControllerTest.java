@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.samples.petclinic.component.EntrenadorValidator;
 import org.springframework.samples.petclinic.component.EntrenamientoValidator;
 import org.springframework.samples.petclinic.component.EstadisticoValidator;
+import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
 import org.springframework.samples.petclinic.component.UserValidator;
@@ -139,6 +140,9 @@ public class BaseMockControllerTest {
 	protected JugadorConverter jugadorConverter;
 
 	// VALIDATORS
+	
+	@MockBean
+	protected JugadorValidator jugadorValidator;
 
 	@MockBean
 	protected EntrenadorValidator entrenadorValidator;
@@ -161,6 +165,9 @@ public class BaseMockControllerTest {
 
 	// Invalidación de validators
 	protected void doNothingValidators() {
+		doNothing().when(jugadorValidator).validate(any(Object.class), any(Errors.class));
+		when(jugadorValidator.supports(any(Class.class))).thenReturn(true);
+		
 		doNothing().when(entrenadorValidator).validate(any(Object.class), any(Errors.class));
 		when(entrenadorValidator.supports(any(Class.class))).thenReturn(true);
 
@@ -201,6 +208,7 @@ public class BaseMockControllerTest {
 		given(this.jugadorService.findAll()).willReturn(Lists.newArrayList(jugador));
 		given(this.jugadorService.findPrivilegio(any(TipoPrivilegio.class))).willReturn(Lists.newArrayList(jugador));
 		given(this.jugadorService.findAuto(any(TipoAutorizacion.class))).willReturn(Lists.newArrayList(jugador));
+		given(this.jugadorService.save(any(Jugador.class))).willReturn(jugador);
 	}
 
 	/** Metodos EntrenadorService por defecto */

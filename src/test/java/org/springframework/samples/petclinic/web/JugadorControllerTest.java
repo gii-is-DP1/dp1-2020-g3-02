@@ -3,7 +3,9 @@ package org.springframework.samples.petclinic.web;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -145,6 +147,28 @@ class JugadorControllerTest extends BaseControllerTest {
 		mockMvc.perform(get("/jugadores/jugadorform?id=0")).andExpect(status().isOk())
 				.andExpect(view().name(ViewConstant.VIEWS_JUGADOR_CREATE_OR_UPDATE_FORM))
 				.andExpect(model().attributeExists("jugador"));
+	}
+	
+	//He añadido metodo save del service al base mock controller ¿Está bien?
+	@WithMockUser(value = "spring")
+	@Test
+	void testPostEstadistico() throws Exception {
+		
+		mockMvc.perform(post("/jugadores/addjugador").with(csrf())
+		.param("firstName", "Diego")
+		.param("lastName", "Hill")
+		.param("dni", "13579246A")
+		.param("direccion", "C/GitGud")
+		.param("localidad", "AnorLondo")
+		.param("fechaNacimiento", "2000-11-16")
+		.param("altura", "182")
+		.param("peso", "70")
+		.param("estadoActual", "EN_FORMA")
+		.param("username", "lololololo")
+		.param("email", "abobole@gmail.com")
+		.param("posicionPrincipal", "PUNTA")
+		.param("posicionSecundaria", "OPUESTO"))
+		.andExpect(view().name("redirect:/home"));
 	}
 	
 }
