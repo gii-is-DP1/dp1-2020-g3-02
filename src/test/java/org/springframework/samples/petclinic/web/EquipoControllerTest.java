@@ -137,7 +137,7 @@ public class EquipoControllerTest extends BaseControllerTest{
 	@Test
 	void testSetCapitanEquipo() throws Exception {
 		
-		mockMvc.perform(post("/equipos/setCapitanEquipo/{idEquipo}/{idJugador}",ID, ID)).andExpect(status().isOk());
+		mockMvc.perform(post("/equipos/setCapitanEquipo/{idEquipo}/{idJugador}",ID, ID).with(csrf())).andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
