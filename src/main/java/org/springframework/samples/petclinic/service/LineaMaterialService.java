@@ -17,6 +17,5 @@ public interface LineaMaterialService extends BaseService<LineaMaterial>{
 	public abstract void deleteAllInEntrenamiento(Integer entrenamiento_id);
 	public abstract List<LineaMaterial> findByTipoAndEstado(TipoMaterial tipo,EstadoMaterial estado);
 	public abstract List<LineaMaterial> findByMaterialAndEntrenamiento(Material material,Entrenamiento entrenamiento);
-	
 
 }

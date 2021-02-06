@@ -85,4 +85,5 @@ public class LineaMaterialServiceImpl extends AbstractService<LineaMaterial> imp
 		finl.addAll(lineaMaterialRepository.findByMaterialAndEntrenamiento(material,entrenamiento));
 		return finl;
 	}
+
 }
