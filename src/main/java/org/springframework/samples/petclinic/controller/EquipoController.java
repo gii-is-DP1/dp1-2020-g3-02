@@ -8,8 +8,6 @@ import java.util.OptionalInt;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,10 +56,8 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -207,16 +203,6 @@ public class EquipoController {
 		}	
 	}
 
-	@GetMapping("/equipoform")
-	public String redirectEquipoForm(@RequestParam(name="id",required=false) int id, Model model) {
-		Optional<Equipo> equipo = Optional.of(new Equipo());
-		if(id != 0) {
-			equipo = equipoService.findById(id);
-		}
-		model.addAttribute("equipo", equipo);
-		return ViewConstant.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
-	}
-
 	@RequestMapping(value = "/getallteams", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<String>> findEquipos() {
 		try {
@@ -225,30 +211,6 @@ public class EquipoController {
 		} catch (Exception e) {
 			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
 		}	
-	}
-
-	@PostMapping("/addequipo")
-	public String addEquipo(@Valid @ModelAttribute(name="equipo") Equipo equipo, BindingResult bindResult, Model model) {
-
-		LOG.info("addequipo() -- PARAMETROS: "+ equipo.toString());
-
-		ValidationUtils.invokeValidator(equipoValidator, equipo, bindResult);
-
-		if (bindResult.hasErrors()) {
-			LOG.warn("Se han obtenido " + bindResult.getErrorCount() + " errores de validación");
-			model.addAttribute("equipo", equipo);
-			return ViewConstant.VIEWS_EQUIPO_CREATE_OR_UPDATE_FORM;
-		}
-
-		try {
-			Equipo equipoSave = equipoService.save(equipo);
-			LOG.info("Se ha guardado el equipo con éxito: " + equipoSave);
-		} catch (Exception e) {
-			LOG.error("No se ha podido guardar el equipo");
-		}
-
-		return "redirect:/equipos/showequipos";
-
 	}
 
 	@GetMapping("/navbar")
@@ -319,7 +281,7 @@ public class EquipoController {
 
 	}
 
-	@RequestMapping(value = "findEstadisticasEquipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/findEstadisticasEquipo/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<EquipoStats> graficoEstadisticasEquipo(@PathVariable("id") int id) {
 		try {
 			Optional<Equipo> equipoO = equipoService.findById(id);

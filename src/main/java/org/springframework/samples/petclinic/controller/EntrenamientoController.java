@@ -64,7 +64,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -138,14 +137,7 @@ public class EntrenamientoController {
 		}
 		return mav;
 	}
-
-	@GetMapping("/showentrenamiento")
-	public Entrenamiento entrenamiento(int id) {
-		Optional<Entrenamiento> entrenamiento = entrenamientoService.findById(id);
-		return entrenamiento.get();
-	}
-
-
+	
 	@GetMapping("/showestadisiticasJugadores")
 	public ModelAndView vistaEstadísticas(HttpServletRequest request) {
 		Principal principal = request.getUserPrincipal();
@@ -262,8 +254,8 @@ public class EntrenamientoController {
 		return mav;
 	}
 
-	@GetMapping("/showestadisiticasEntrenamientoJugador")
-	public ModelAndView vistaEstadísticasEntrenamientoJugador(int jugador_id, int entrenamiento_id) {
+	@GetMapping("/showestadisiticasEntrenamientoJugador/{id_jugador}/{id_entrenamiento}")
+	public ModelAndView vistaEstadísticasEntrenamientoJugador(@PathVariable("id_jugador") int jugador_id, @PathVariable("id_entrenamiento") int entrenamiento_id) {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_ENTRENAMIENTO_JUGADOR);
 		mav.addObject("estadisticas", estadisService.findByJugadorAndEntrenamiento(jugador_id, entrenamiento_id));
 		return mav;
@@ -274,18 +266,6 @@ public class EntrenamientoController {
 	public String navbar() {
 		return ViewConstant.VIEW_NAVBAR;
 	}
-
-
-	@GetMapping("/entrenamientoform")
-	public String redirectEntrenamientoForm(@RequestParam(name="id",required=false) Integer id, Model model) {
-		Optional<Entrenamiento> entrenamiento = Optional.of(new Entrenamiento());
-		if(id != 0) {
-			entrenamiento = entrenamientoService.findById(id);
-		}
-		model.addAttribute("entrenamiento", entrenamiento);
-		return ViewConstant.VIEWS_ENTRENAMIENTO_CREATE_OR_UPDATE_FORM;
-	}
-
 
 	@PostMapping("/addentrenamiento")
 	public String addJugador(@ModelAttribute(name="Entrenamiento") Entrenamiento entrenamiento, Model model, final BindingResult result) {
