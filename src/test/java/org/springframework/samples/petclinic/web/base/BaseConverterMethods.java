@@ -13,6 +13,7 @@ import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.RealizaEjercicio;
 import org.springframework.samples.petclinic.model.Viaje;
@@ -33,6 +34,7 @@ import org.springframework.samples.petclinic.model.auxiliares.JugadoresInEquipo;
 import org.springframework.samples.petclinic.model.auxiliares.JugadoresInEquipoSinUser;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoPuntos;
+import org.springframework.samples.petclinic.model.auxiliares.PersonalEdit;
 import org.springframework.samples.petclinic.model.auxiliares.PruebasSinJugador;
 import org.springframework.samples.petclinic.model.auxiliares.RealizaEjercicioDTO;
 import org.springframework.samples.petclinic.model.ediciones.EntrenamientoEdit;
@@ -512,5 +514,14 @@ public class BaseConverterMethods extends BaseMockControllerTest {
 			jugadorPartidoViaje.setPropietario(null);
 		}
 		return jugadorPartidoViaje;
+	}
+	
+		public PersonalEdit convertPersonalToPersonalEdit(Personales personal) {
+		
+		PersonalEdit personalEdit = new PersonalEdit();
+		personalEdit.setId(personal.getId());
+		personalEdit.setJugador(convertParcialJugadorToJugadorDTO(personal.getJugador()));
+		personalEdit.setPropietario(personal.getPropietario());
+		return personalEdit;
 	}
 }

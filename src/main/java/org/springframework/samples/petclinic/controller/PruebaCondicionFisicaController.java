@@ -98,7 +98,6 @@ public class PruebaCondicionFisicaController {
 			return new ResponseEntity(HttpStatus.OK);
 		}
 		
-
 		}catch (Exception e) {
 		// TODO: handle exception
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
