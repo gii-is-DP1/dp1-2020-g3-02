@@ -110,7 +110,8 @@ public class PartidoControllerTest extends BaseControllerTest {
 	void testFindPartido() throws Exception {
 
 		mockMvc.perform(get("/partidos/findeditpartido/{id}", ID)).andExpect(jsonPath("$.id", is(ID)))
-				.andExpect(jsonPath("$.fecha", is(LocalDate.now().toString()))).andExpect(jsonPath("$.hora", is(HORA)))
+				.andExpect(jsonPath("$.fecha", is(LocalDate.now().toString())))
+				.andExpect(jsonPath("$.hora", is(HORA)))
 				.andExpect(status().isOk());
 	}
 
