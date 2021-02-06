@@ -52,10 +52,8 @@ class JugadorControllerTest extends BaseControllerTest {
 	@WithMockUser(value = "spring")
 	@Test
 	void testListadoJugadoresPrivilegios() throws Exception {
-		
-		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
 
-		mockMvc.perform(get("/jugadores/showjugadorespriv")).andExpect(status().isOk())
+		mockMvc.perform(get("/jugadores/showjugadorespriv"))
 				.andExpect(view().name(ViewConstant.VIEW_JUGADORES_PRIVILEGIOS))
 				.andExpect(model().attributeExists("entrenamientos"))
 				.andExpect(model().attributeExists("partidos"))
@@ -83,8 +81,8 @@ class JugadorControllerTest extends BaseControllerTest {
 	void testTablaJugadoresAutorizacion() throws Exception {
 
 		mockMvc.perform(get("/jugadores/tablajugadoresaut"))
-				.andExpect(jsonPath("$.data[0].firstName", is("Alberto")))
-				.andExpect(jsonPath("$.data[0].lastName", is("Clemente"))).andExpect(status().isOk());
+				.andExpect(jsonPath("$.data[0].firstName", is("Gonzalo")))
+				.andExpect(jsonPath("$.data[0].lastName", is("Lallena"))).andExpect(status().isOk());
 	}
 	
 	//eliminarAutorizacion
@@ -99,9 +97,9 @@ class JugadorControllerTest extends BaseControllerTest {
 		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
 
 		mockMvc.perform(get("/jugadores/findestadisticasjugador/{id}", ID))
-				.andExpect(jsonPath("$.data[0].id", is(ID)))
-				.andExpect(jsonPath("$.data[0].firstName", is("Alberto")))
-				.andExpect(jsonPath("$.data[0].lastName", is("Clemente"))).andExpect(status().isOk());
+				.andExpect(jsonPath("$.id", is(ID)))
+				.andExpect(jsonPath("$.firstName", is("Gonzalo")))
+				.andExpect(jsonPath("$.lastName", is("Lallena"))).andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
@@ -111,10 +109,10 @@ class JugadorControllerTest extends BaseControllerTest {
 		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
 
 		mockMvc.perform(get("/jugadores/findeditjugador/{id}", ID))
-				.andExpect(jsonPath("$.data[0].id", is(ID)))
-				.andExpect(jsonPath("$.data[0].firstName", is("Alberto")))
-				.andExpect(jsonPath("$.data[0].lastName", is("Clemente")))
-				.andExpect(jsonPath("$.data[0].dni", is("11111111A")))
+				.andExpect(jsonPath("$.id", is(ID)))
+				.andExpect(jsonPath("$.firstName", is("Gonzalo")))
+				.andExpect(jsonPath("$.lastName", is("Lallena")))
+				.andExpect(jsonPath("$.dni", is("11111111A")))
 				.andExpect(status().isOk());
 	}
 	
@@ -125,19 +123,11 @@ class JugadorControllerTest extends BaseControllerTest {
 		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
 
 		mockMvc.perform(get("/jugadores/findEditjugadorNumCamiseta/{jugadorID}/{equipoID}", ID, ID))
-				.andExpect(jsonPath("$.data[0].id", is(ID)))
-				.andExpect(jsonPath("$.data[0].firstName", is("Alberto")))
-				.andExpect(jsonPath("$.data[0].lastName", is("Clemente")))
-				.andExpect(jsonPath("$.data[0].numCamiseta", is(10)))
+				.andExpect(jsonPath("$.id", is(ID)))
+				.andExpect(jsonPath("$.firstName", is("Gonzalo")))
+				.andExpect(jsonPath("$.lastName", is("Lallena")))
+				.andExpect(jsonPath("$.numCamiseta", is(1)))
 				.andExpect(status().isOk());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testNavbar() throws Exception {
-
-		mockMvc.perform(get("/jugadores/navbar")).andExpect(status().isOk())
-				.andExpect(view().name(ViewConstant.VIEW_NAVBAR));
 	}
 	
 	@WithMockUser(value = "spring")
@@ -160,7 +150,7 @@ class JugadorControllerTest extends BaseControllerTest {
 		.param("dni", "13579246A")
 		.param("direccion", "C/GitGud")
 		.param("localidad", "AnorLondo")
-		.param("fechaNacimiento", "2000-11-16")
+		.param("fechaNacimiento", "01/10/2000")
 		.param("altura", "182")
 		.param("peso", "70")
 		.param("estadoActual", "EN_FORMA")
@@ -176,20 +166,20 @@ class JugadorControllerTest extends BaseControllerTest {
 	void testUpdateJugador() throws Exception {
 		
 		mockMvc.perform(post("/jugadores/updatejugador").with(csrf())
+		.param("id", "1")
 		.param("firstName", "Diego")
 		.param("lastName", "Hill")
 		.param("dni", "13579246A")
 		.param("direccion", "C/GitGud")
 		.param("localidad", "AnorLondo")
-		.param("fechaNacimiento", "2000-11-16")
+		.param("fechaNacimiento", "01/10/2000")
 		.param("altura", "182")
 		.param("peso", "70")
 		.param("estadoActual", "EN_FORMA")
-		.param("username", "lololololo")
 		.param("email", "abobole@gmail.com")
 		.param("posicionPrincipal", "PUNTA")
 		.param("posicionSecundaria", "OPUESTO"))
-		.andExpect(status().isOk());
+		.andExpect(status().is2xxSuccessful());
 	}
 	
 }
