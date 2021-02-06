@@ -234,6 +234,9 @@ input #negativo {
 		var id = $('#partidoId').val();
 		var formCom = new FormData();
 		formCom.append("comandoIntroducido",$('#comandoIntroducido').val());
+		formCom.append('hour',$('#hour').text());
+		formCom.append('minute',$('#minute').text());
+		formCom.append('second',$('#second').text());
 		
 		$('#errorComandos').text('');
 		

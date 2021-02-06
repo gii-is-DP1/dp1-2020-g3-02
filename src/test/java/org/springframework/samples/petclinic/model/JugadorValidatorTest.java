@@ -30,6 +30,22 @@ public class JugadorValidatorTest extends BaseVolleyballValidatorTest{
 	
 	@Test
 	@Transactional(readOnly = true)
+	public void jugadorCorrecto() {
+		
+		// Obtención de datos correctos
+        Jugador jugador = getJugadorCorrecto();
+
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(jugador, "");
+        
+        // Validar
+        jugadorValidator.validate(jugador, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
     public void dniVacioTest() {
         
         // Obtención de datos correctos

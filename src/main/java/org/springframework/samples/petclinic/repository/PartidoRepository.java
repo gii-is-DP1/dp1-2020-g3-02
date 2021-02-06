@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Partido;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface PartidoRepository extends ExtendedJpaRepository<Partido>{
 	
 	public List<Partido> findByFechaOrderByHora(LocalDate date);
