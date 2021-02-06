@@ -42,7 +42,7 @@ public class PartidoControllerTest extends BaseControllerTest {
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testVistaEstadisticas() throws Exception { 
+	void testVistaEstadisticas() throws Exception {
 
 		when(userService.findByUsername(any(String.class))).thenReturn(getUserJugador());
 
