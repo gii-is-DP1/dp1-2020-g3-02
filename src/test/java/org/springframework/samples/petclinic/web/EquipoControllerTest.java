@@ -1,8 +1,10 @@
 package org.springframework.samples.petclinic.web;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -92,8 +94,8 @@ public class EquipoControllerTest extends BaseControllerTest{
 		mockMvc.perform(post("/equipos/postequipo").with(csrf())
 				.param("categoria", "Infantil")
 				.param("sistemajuego", "CUATRO_DOS")
-				.param("jugadores[]", "1,2,3")
-				.param("capitan", "1")
+				.param("1", "true")
+				.param("capitan", "0")
 				.param("liga", "Regional")).andExpect(status().is2xxSuccessful());
 	}
 	
@@ -129,6 +131,40 @@ public class EquipoControllerTest extends BaseControllerTest{
 		.param("sistemajuego", "SEIS_DOS")
 		.param("liga", "Andaluza"))
 		.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testSetCapitanEquipo() throws Exception {
+		
+		mockMvc.perform(post("/equipos/setCapitanEquipo/{idEquipo}/{idJugador}",ID, ID)).andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testRemovePlayer() throws Exception {
+		
+		mockMvc.perform(get("/equipos/eliminarjugador/{jugadorID}/{equipoID}",ID, ID))
+		.andExpect(view().name("redirect:/equipos/showequipo/"+ID));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testAddPlayer() throws Exception {
+		
+		mockMvc.perform(get("/equipos/addjugador/{jugadorID}/{equipoID}",ID, ID))
+		.andExpect(view().name("redirect:/equipos/showequipo/"+ID));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testEncontrarEquipo() throws Exception {
+		
+		mockMvc.perform(get("/equipos/findEquipo/{id}",ID))
+		.andExpect(jsonPath("$.data[0].id", is(ID)))
+		.andExpect(jsonPath("$.data[0].firstName", is("Gonzalo")))
+		.andExpect(jsonPath("$.data[0].lastName", is("Lallena")))
+		.andExpect(status().isOk());
 	}
 	
 }

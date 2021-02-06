@@ -60,6 +60,7 @@ import org.springframework.samples.petclinic.service.EstadisticaPersonalEntrenam
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.samples.petclinic.service.JugadorService;
+import org.springframework.samples.petclinic.service.LineaMaterialService;
 import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.PartidoService;
@@ -94,6 +95,9 @@ public class BaseMockControllerTest {
 
 	@MockBean
 	protected EntrenadorService entrenadorService;
+	
+	@MockBean
+	protected LineaMaterialService lineaMaterialService;
 	
 	@MockBean
 	protected EntrenamientoService entrenamientoService;
@@ -313,6 +317,9 @@ public class BaseMockControllerTest {
 				.willReturn(Lists.newArrayList(estadisticaPersonalEntrenamiento));
 		given(this.estadisticaPersonalEntrenamientoService.findByEntrenamiento(any(Integer.class)))
 				.willReturn(Lists.newArrayList(estadisticaPersonalEntrenamiento));
+		given(this.estadisticaPersonalEntrenamientoService.findByJugadorAndEntrenamiento(any(Integer.class),any(Integer.class)))
+		.willReturn(estadisticaPersonalEntrenamiento);
+		
 	}
 
 	/** Metodos PartidoService por defecto */

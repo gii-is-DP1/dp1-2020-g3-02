@@ -103,4 +103,14 @@ public class EntrenamientoControllerTest extends BaseControllerTest{
 		mockMvc.perform(get("/entrenamientos/findestadisticasJugador/{categoria}",CATEGORIA_EQUIPO))
 		.andExpect(status().isOk());
 	}
+	
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void vistaEstadisticasEntrenamientoJugador() throws Exception {
+
+        mockMvc.perform(get("/entrenamientos/showestadisiticasEntrenamientoJugador/{id_jugador}/{id_entrenamiento}",ID,ID))
+        .andExpect(model().attributeExists("estadisticas"))
+        .andExpect(status().isOk());
+    }
 }
