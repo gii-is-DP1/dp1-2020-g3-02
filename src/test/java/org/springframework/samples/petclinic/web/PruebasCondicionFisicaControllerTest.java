@@ -71,5 +71,45 @@ public class PruebasCondicionFisicaControllerTest extends BaseControllerTest {
 				.andExpect(jsonPath("$.dato", is(10.)))
 				.andExpect(status().isOk());
 	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessDeleteFormSuccess() throws Exception {
+		
+		mockMvc.perform(post("/pruebas/eliminarprueba").with(csrf())
+				.param("id", "1"))
+				.andExpect(status().isOk());				
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessDeleteFormError() throws Exception {
+		
+		mockMvc.perform(post("/pruebas/eliminarprueba").with(csrf())
+				.param("id", "10000000000000000"))
+				.andExpect(status().isBadRequest());				
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessUpdateFormSuccess() throws Exception {
+		
+		mockMvc.perform(post("/pruebas/updateprueba").with(csrf())
+				.param("id", "1")
+				.param("fecha", "11/12/2020")
+				.param("dato", "11"))
+				.andExpect(status().isOk());				
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessUpdateFormError() throws Exception {
+		
+		mockMvc.perform(post("/pruebas/updateprueba").with(csrf())
+				.param("id", "ESTONOESUNID")
+				.param("fecha", "11/12/2020")
+				.param("dato", "11"))
+				.andExpect(status().isBadRequest());				
+	}
 
 }
