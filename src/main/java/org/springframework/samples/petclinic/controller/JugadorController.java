@@ -26,6 +26,7 @@ import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
+import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.model.Equipo;
@@ -45,6 +46,7 @@ import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoS
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.PrivilegioService;
+import org.springframework.samples.petclinic.service.impl.AuthoritiesService;
 import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,6 +85,9 @@ public class JugadorController {
 
 	@Autowired
 	private PrivilegioService privilegioService;
+	
+	@Autowired
+	private AuthoritiesService authoritiesService;
 
 	@Autowired
 	private EstadisticaPersonalPartidoService estadisService;
@@ -162,12 +167,11 @@ public class JugadorController {
 	}
 
 	@RequestMapping(value = "getprivjugadorteam/{id}/{equipo}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<JugadorPriv>> findPrivJugadorEquipo(@PathVariable("id") int id, @PathVariable("equipo") String equipo) {
+	public ResponseEntity<JugadorPriv> findPrivJugadorEquipo(@PathVariable("id") int id, @PathVariable("equipo") String equipo) {
 		try {
 			Optional<Jugador> jug = jugadorService.findById(id);
 			Jugador j = jug.get();
 			Equipo e = equipoService.findByCategoria(equipo);
-			List<JugadorPriv> data = new ArrayList<JugadorPriv>();
 
 			JugadorPriv player = new JugadorPriv();
 			Set<Privilegio> Spri = j.getPrivilegios();
@@ -182,11 +186,10 @@ public class JugadorController {
 			} else {
 				player.setEntrenamientos(false);
 			}
-			data.add(player);
 
-			return new ResponseEntity<List<JugadorPriv>>(data, HttpStatus.OK);
+			return new ResponseEntity<JugadorPriv>(player, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<List<JugadorPriv>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JugadorPriv>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 
@@ -214,34 +217,49 @@ public class JugadorController {
 			List<TipoPrivilegio> tpri = Spri.stream().filter(x -> x.getEquipo().getId().equals(equipo.getId())).map(y -> y.getTipoPrivilegio()).collect(Collectors.toList());
 
 			List<TipoPrivilegio> privilegios = new ArrayList<TipoPrivilegio>();
-
+			Boolean partidos = Boolean.parseBoolean(request.getParameter("partidos").trim());
+			Boolean entrenamientos = Boolean.parseBoolean(request.getParameter("entrenamientos").trim());
 			if(Boolean.parseBoolean(request.getParameter("partidos").trim())) {
 				if(!(tpri.contains(TipoPrivilegio.PARTIDOS))) {
 					privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute("PARTIDOS"));
 				}
-				//				privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionPartidos").trim()));
 			} else {
 				if(tpri.contains(TipoPrivilegio.PARTIDOS)) {
 					List<Privilegio> auxP = pri.stream().filter(y -> y.getTipoPrivilegio().equals(TipoPrivilegio.PARTIDOS)).collect(Collectors.toList());
 					privilegioService.deleteAll(auxP);
+					List<Authorities> autho = authoritiesService.findByUser(jugador.getUser().toString());
+					for(Authorities a:autho) {
+						if(a.getAuthority()==TipoPrivilegio.PARTIDOS.toString()) {
+							authoritiesService.removeAuthorities(a);
+						}
+					}
 				}
 			}
-
+			
 			if(Boolean.parseBoolean(request.getParameter("entrenamientos").trim())) {
 				if(!(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS))) {
 					privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute("ENTRENAMIENTOS"));
 				}
-				//				privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute(request.getParameter("descripcionEntrenamientos").trim()));
 			} else {
 				if(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS)) {
 					List<Privilegio> auxP = pri.stream().filter(y -> y.getTipoPrivilegio().equals(TipoPrivilegio.ENTRENAMIENTOS)).collect(Collectors.toList());
 					privilegioService.deleteAll(auxP);
+					List<Authorities> autho = authoritiesService.findByUser(jugador.getUser().toString());
+					for(Authorities a:autho) {
+						if(a.getAuthority()==TipoPrivilegio.PARTIDOS.toString()) {
+							authoritiesService.removeAuthorities(a);
+						}
+					}
 				}
 			}
 
 			List<Privilegio> priv = privilegioConverter.convertListPrivilegiosEditToListPrivilegios(privilegios, jugador, equipo);
 			for(Privilegio privi:priv) {
 				Privilegio p = privilegioService.updatePrivilegio(privi);
+				Authorities a = new Authorities();
+				a.setUser(jugador.getUser());
+				a.setAuthority(privi.getTipoPrivilegio().toString());
+				authoritiesService.saveAuthorities(a);
 			}
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
 		} catch (Exception e) {

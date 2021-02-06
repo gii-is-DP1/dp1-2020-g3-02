@@ -734,8 +734,8 @@
 								<label><span class="text-danger">(*) </span>Equipo:</label>
 								<select class="form-control" id="equipo" name="equipo"></select>
 							</div>
-							<div class="form-group col-12 datePicker">
-								<input type="checkbox" value="partidos" name="partidos"
+							<div class="form-group col-12">
+								<input type="checkbox" name="partidos"
 									id="partidos" class="partidos"> <label>Partidos</label>
 								<!-- 
 								<input class="form-control-plaintext" type="text" placeholder="Descripción" id="descripcionPartidos"
@@ -749,8 +749,8 @@
 									class="fecha text-danger error"></small>  -->
 							</div>
 							<div class="form-group col-12">
-								<input type="checkbox" value="entrenamientos"
-									name="entrenamientos" id="entrenamientos"
+								<input type="checkbox"
+									name="entrenamientos" id="entrenamientosPriv"
 									class="entrenamientos"> <label>Entrenamientos</label>
 								<!-- <input
 									class="form-control" type="text" placeholder="Descripción" id="descripcionEntrenamientos"
@@ -770,41 +770,15 @@
 							data-dismiss="modal">Cerrar</button>
 						<button type="button" class="btn btn-info"
 							onclick="return enviarEdicionPrivilegio();">Aceptar</button>
-						<input type="hidden" th:id="id" name="id"></input>
+						<input type="hidden" th:id="idJugadorPrivilegio" name="id"></input>
+						<input type="hidden" th:id="partidosCheck" name="partidosCheck"></input>
+						<input type="hidden" th:id="entrenamientosCheck" name="entrenamientosCheck"></input>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 	
-<!-- Modal Capitan -->
-<div class="modal fade" id="capitanEquipoModal"
-	data-backdrop="static" data-keyboard="false" tabindex="-1"
-	aria-labelledby="Confirmar" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header bg-dark">
-				<h5 class="modal-title" id="eliminacionEquipo"></h5>
-				<button type="button" class="close" data-dismiss="modal"
-					aria-label="Close">
-					<span class="text-white" aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body" id="capitanModal">
-				
-			</div>
-			
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-				<button type="button" class="btn btn-info"
-					onclick="return confirmacionCapitanEquipo();">Aceptar</button>
-				<input type="hidden" id="idEquipo"
-					name="idEquipo"></input>
-					
-			</div>
-		</div>
-	</div>
-</div>
 
 	<th:block layout:fragment="scripts">
 		<script src=https://code.jquery.com/jquery-3.5.1.js></script>
@@ -1613,9 +1587,9 @@
 		/*var form = new FormData(document
 				.getElementById('formGestionPrivilegios'));	*/
 		var form = new FormData();
-		form.append("id", $('#id').val());
+		form.append("id", $('#idJugadorPrivilegio').val());
 		form.append("partidos", $('#partidos').val());
-		form.append("entrenamientos", $('#entrenamientos').val());
+		form.append("entrenamientos", $('#entrenamientosPriv').val());
 		form.append("equipo", $('#equipo').val());
 		$.ajax({
 			url : '/jugadores/updateprivilegio',
@@ -1650,14 +1624,8 @@
 									type : 'GET',
 									url : '/jugadores/getallteamsjugador/'+id,
 									success : function(edit) {
-									/*	$('#modalFormPrivilegio').children(
-												'.only').remove();
-										$('#equipo').remove();
-									*/	$("#id").val(id);
-								/*		$('#modalFormPrivilegio')
-												.prepend(
-														'<div class="form-group col-12 only"><label><span class="text-danger">(*) </span>Equipo:</label><select class="form-control" id="equipo" name="equipo"></select></div>');
-*/
+									$('.categoriaSelectorEquipo').remove();
+									$('#idJugadorPrivilegio').val(id);
 										$.each(edit, function(index,
 												equipo) {
 											console.log(edit);
@@ -1666,28 +1634,11 @@
 													$('<option>', {
 														value : equipo,
 														text : equipo,
+														class: "categoriaSelectorEquipo",
 														name : "equipo",
 													}));
 										});
-										
-										$("#partidos").change(function() { 
-											if ($("#partidos").is(":checked")) {  
-										    	// checkbox is checked 
-												$("#partidos").attr('value', 'true');
-											} else {
-										    	// checkbox is not checked 
-												$("#partidos").attr('value', 'false');
-											}
-										});
-										$("#entrenamientos").change(function() { 
-											if ($("#entrenamientos").is(":checked")) {  
-										    	// checkbox is checked 
-												$("#entrenamientos").attr('value', 'true');
-											} else {
-										    	// checkbox is not checked 
-												$("#entrenamientos").attr('value', 'false');
-											}
-										});
+										checkeablesPrivilegios();
 
 										$('#privilegiosModal .modal-header')
 												.css("color", "white");
@@ -1699,93 +1650,52 @@
 					});
 	
 	$('#equipo').on('change', function() {
-		var id = $('#id').val();
+		checkeablesPrivilegios();
+});
+	function checkeablesPrivilegios() {
+		var id = $('#idJugadorPrivilegio').val();
 		console.log(id);
 		console.log($('#equipo').val());
 		$.ajax({
 			type : 'GET',
 			url : '/jugadores/getprivjugadorteam/'+id+'/'+$('#equipo').val(),
 			success : function(edit) {
-				$('#partidos').prop('checked', equipo.partidos);
-				$('#entrenamientos').prop('checked', equipo.entrenamientos);
-				$("#partidos").change(function() { 
-					if ($("#partidos").is(":checked")) {  
-				    	// checkbox is checked 
-						$("#partidos").attr('value', 'true');
-					} else {
-				    	// checkbox is not checked 
-						$("#partidos").attr('value', 'false');
-					}
-				});
-				$("#entrenamientos").change(function() { 
-					if ($("#entrenamientos").is(":checked")) {  
-				    	// checkbox is checked 
-						$("#entrenamientos").attr('value', 'true');
-					} else {
-				    	// checkbox is not checked 
-						$("#entrenamientos").attr('value', 'false');
-					}
-				});
-
+				console.log(edit);
+				console.log(edit.partidos);
+				$('#partidos').prop('checked', edit.partidos);
+				$("#partidos").prop('value', edit.partidos);
+				$('#entrenamientosPriv').prop('checked', edit.entrenamientos);
+				$('#entrenamientosPriv').prop('value', edit.entrenamientos);
+			
 				$('#privilegiosModal .modal-header')
 						.css("color", "white");
 				$('#privilegiosModal .modal-title')
 						.text("Privilegios");
 				$('#privilegiosModal').modal("show");
 			}
-		});
-});
-				
-	$('table .capitan')
-	.on(
-			'click',
-			function() {
-				var id = $(this).parent().find('#id').val();
-		$.ajax({
-   			type : 'GET',
-   			url : '/jugadores/getallteamsjugador/'+id,
-   			success : function(data) {
-            	$('#id').val(id);
-            	$('label[for=equipoCAP]').remove();
-            	$('#equipoCAP').remove();
-            	$('#capitanModal')
-				.prepend(
-						'<div class="form-group col-12 only"><label for="equipoCAP">Equipo:</label><select class="form-control" id="equipoCAP" name="equipoCAP"></select></div>');
-	
-            	$.each(data, function(index,
-    					data) {
-    					console.log(data);
-    	
-    				$('#equipoCAP').append(
-    					$('<option>', {
-    	    				value : data,
-    	    				text : data,
-    	    				name : "equipoCAP",
-    	    			}));
-    				
-    				});
-
-				$('#capitanEquipoModal .modal-header').css("color", "white");
-				$('#capitanEquipoModal .modal-title').text("Hacer a este jugador capitan del equipo");
-				$('#capitanEquipoModal').modal("show");
-   			}
-   		});
 	});
+	}
 	
-	function confirmacionCapitanEquipo() {
-		var form = new FormData();
-		form.append("id", $('#id').val());
-		form.append("equipo", $('#equipoCAP').val());
+	$("#partidos").change(function() { 
+		if ($("#partidos").is(":checked")) {  
+	    	// checkbox is checked
+			$("#partidos").prop('value', true);
+		} else {
+	    	// checkbox is not checked 
+			$("#partidos").prop('value', false);
+		}
+	});
+	$("#entrenamientosPriv").change(function() { 
+		console.log($("#entrenamientosPriv"));
+		if ($("#entrenamientosPriv").is(":checked")) {  
+	    	// checkbox is checked 
+			$("#entrenamientosPriv").prop('value', true);
+		} else {
+	    	// checkbox is not checked 
+			$("#entrenamientosPriv").prop('value', false);
+		}
+	});
 
-		$.ajax({
-			type : 'POST',
-			url : '/jugadores/setJugadorCapitanEquipo/' + $('#equipoCAP').val() + '/' + $('#id').val(),
-			success : function(data) {
-				$('#capitanEquipoModal').modal("hide");
-				location.reload();
-			}
-		});
-	};
 // FIN PRUEBA CONDICION FISICA ===============================================================================
 </script>
 
