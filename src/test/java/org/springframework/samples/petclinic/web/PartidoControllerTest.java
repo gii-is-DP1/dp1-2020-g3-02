@@ -3,7 +3,9 @@ package org.springframework.samples.petclinic.web;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -96,6 +98,15 @@ public class PartidoControllerTest extends BaseControllerTest {
 		.andExpect(model().attributeExists("estadisticas"))
 		.andExpect(status().isOk());
 	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testEstadisticasPartidoJugador() throws Exception {
+
+		mockMvc.perform(get("/partidos/showestadisiticasPartidoJugador/{jugador_id}/{partido_id}", ID, ID))
+		.andExpect(model().attributeExists("estadisticas"))
+		.andExpect(status().isOk());
+	}
 
 	@WithMockUser(value = "spring")
 	@Test
@@ -147,5 +158,138 @@ public class PartidoControllerTest extends BaseControllerTest {
 				.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
 				.andExpect(jsonPath("$.data[0].hora", is(HORA))).andExpect(status().isOk());
 	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testgraficoJugadorPosicionPartido() throws Exception {
 
+		mockMvc.perform(get("/partidos/findJugadorPosicionPartido/{partido_id}", ID))
+				.andExpect(jsonPath("$.data[0].firstName", is("Gonzalo")))
+				.andExpect(jsonPath("$.data[0].lastName", is("Lallena")))
+				.andExpect(jsonPath("$.data[0].principal", is("COLOCADOR")))
+				.andExpect(jsonPath("$.data[0].secundaria", is("OPUESTO")))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testConfirmarLlegadaAPartidoJugador() throws Exception {
+
+		mockMvc.perform(post("/partidos/confirmacionLlegada/{viaje_id}", ID).with(csrf()))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testConfirmarNoLlegadaAPartidoJugador() throws Exception {
+
+		mockMvc.perform(post("/partidos/confirmacionDeLaNoLlegada/{viaje_id}", ID).with(csrf()))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testEliminarJuegaJugador() throws Exception {
+
+		mockMvc.perform(post("/partidos/eliminarjuegaJugador/{partido_id}/{jugador_id}", ID, ID).with(csrf()))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testAddJuegaJugador() throws Exception {
+
+		mockMvc.perform(post("/partidos/addjuegaJugador/{partido_id}/{jugador_id}", ID, ID).with(csrf()))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testAddPartido() throws Exception {
+
+		mockMvc.perform(post("/partidos/postpartido").with(csrf())
+			.param("id", "1")
+			.param("equipo", "Senior")
+			.param("fecha", "20/11/2021")
+			.param("hora", "11:00"))
+			.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testEliminarPartido() throws Exception {
+
+		mockMvc.perform(post("/partidos/removePartido/{partido_id}", ID).with(csrf()))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testListadoDePartidosEquipo() throws Exception {
+
+		mockMvc.perform(get("/partidos/findPartidosEquipo/{equipo_id}", ID))
+				.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testFindVehiculos() throws Exception {
+
+		mockMvc.perform(get("/partidos/findVehiculos/{id}/{tipo_viaje}", ID, TipoViaje.IDA))
+				.andExpect(jsonPath("$.data[0].id", is(ID)))
+				.andExpect(jsonPath("$.data[0].propietario", is("Gonzalo")))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void addViajeIDA() throws Exception {
+		
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserJugador());
+
+		mockMvc.perform(post("/partidos/postviaje").with(csrf())
+				.param("idPartido", "1")
+				.param("tipoViaje", "IDA")
+				.param("propietario", "1"))
+				.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void addViajeIDAYVUELTA() throws Exception {
+		
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserJugador());
+
+		mockMvc.perform(post("/partidos/postviaje").with(csrf())
+				.param("idPartido", "1")
+				.param("tipoViaje", "IDAYVUELTA")
+				.param("propietario", "1"))
+				.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void addViajeBusIDA() throws Exception {
+		
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserJugador());
+
+		mockMvc.perform(post("/partidos/postbus").with(csrf())
+				.param("idPartidoBus", "1")
+				.param("tipoViaje", "IDA"))
+				.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void addViajeBusIDAYVUELTA() throws Exception {
+		
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserJugador());
+
+		mockMvc.perform(post("/partidos/postbus").with(csrf())
+				.param("idPartidoBus", "1")
+				.param("tipoViaje", "IDAYVUELTA"))
+				.andExpect(status().is2xxSuccessful());
+	}
+	
 }

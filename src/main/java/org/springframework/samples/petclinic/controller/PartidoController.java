@@ -40,7 +40,6 @@ import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Viaje;
-import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorPartidoViaje;
 import org.springframework.samples.petclinic.model.auxiliares.PartidoConAsistencia;
@@ -59,8 +58,8 @@ import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.samples.petclinic.service.ViajeService;
+import org.springframework.samples.petclinic.service.impl.AuthoritiesService;
 import org.springframework.samples.petclinic.service.impl.UserService;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
@@ -73,7 +72,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -132,6 +130,9 @@ public class PartidoController {
 	@Autowired
 	private ViajeConverter viajeConverter;
 	
+	@Autowired
+	private AuthoritiesService authoritiesService;
+	
 	private Autobus bus;
 	
 	@PostConstruct
@@ -145,8 +146,8 @@ public class PartidoController {
 		
 		Principal principal = request.getUserPrincipal();
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_PARTIDOS);
-		if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("jugador")) {
-			String username =  principal.getName(); 
+		String username =  principal.getName(); 
+		if (authoritiesService.hasAuthority("jugador", username)) {
 	        User  user = userService.findByUsername(username);
 	        Jugador jugador = jugadorService.findByUser(user);
 	        Autorizacion autorizacionBus=autorizacionService.findByJugadorAndTipo(jugador, TipoAutorizacion.TRANSPORTE);
@@ -166,13 +167,6 @@ public class PartidoController {
 			
 		}
 		return mav;
-	}
-	
-	
-	@GetMapping("/showpartido")
-	public Partido partido(int id) {
-		Optional<Partido> partido = partidoService.findById(id);
-		return partido.get();
 	}
 	
 	public class GetUserWithHTTPServletRequestController {
@@ -311,22 +305,15 @@ public class PartidoController {
 		}	
 	}
 	
-	@GetMapping("/showestadisiticasPartidoJugador")
-	public ModelAndView vistaEstadísticasPartidoJugador(int jugador_id, int partido_id) {
+	@GetMapping("/showestadisiticasPartidoJugador/{jugador_id}/{partido_id}")
+	public ModelAndView vistaEstadísticasPartidoJugador(@PathVariable("jugador_id") int jugador_id,@PathVariable("partido_id") int partido_id) {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_PARTIDO_JUGADOR);
 		mav.addObject("estadisticas", estadisticaPersonalPartidoService.findByJugadorAndPartido(jugador_id, partido_id));
 		return mav;
 	}
 	
-	@GetMapping("/showJugadorPosicionPartido")
-	public ModelAndView vistaJugadorPosicionPartido(int id) {
-		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_PARTIDO_JUGADOR_POSICION);
-		mav.addObject("partido", partidoService.findById(id).get());
-		return mav;
-	}
-	
 	@RequestMapping(value = "findJugadorPosicionPartido/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<DataPosicion> graficoJugadorPosicionPartido(@PathVariable("id") int id) {
+	public ResponseEntity<DataTableResponse<JugadorPartidoStats>> graficoJugadorPosicionPartido(@PathVariable("id") int id) {
 		try {
 			Optional<Partido> partido = partidoService.findById(id);
 			List<JugadorPartidoStats> listaJugadorStats = new ArrayList<JugadorPartidoStats>();
@@ -337,10 +324,10 @@ public class PartidoController {
 			}
 			
 			
-			DataPosicion data = dataPosicionConverter.convertPartidoToPartidoStats(listaJugadorStats);
-			return new ResponseEntity<DataPosicion>(data, HttpStatus.OK);
+			DataTableResponse<JugadorPartidoStats> data = new DataTableResponse<JugadorPartidoStats>(listaJugadorStats);
+			return new ResponseEntity<DataTableResponse<JugadorPartidoStats>>(data, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<DataPosicion>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<DataTableResponse<JugadorPartidoStats>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
@@ -351,16 +338,6 @@ public class PartidoController {
 		return ViewConstant.VIEW_NAVBAR;
 	}
 	
-	
-	@GetMapping("/partidoform")
-	public String redirectPartidoForm(@RequestParam(name="id",required=false) Integer id, Model model) {
-		Optional<Partido> partido = Optional.of(new Partido());
-		if(id != 0) {
-			partido = partidoService.findById(id);
-		}
-		model.addAttribute("partido", partido);
-		return ViewConstant.VIEWS_PARTIDO_CREATE_OR_UPDATE_FORM;
-	}
 	
 	@RequestMapping(value = "findeditpartido/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<PartidoEdit> findPartido(@PathVariable("id") int id) {
@@ -385,19 +362,20 @@ public class PartidoController {
 			Principal principal = request.getUserPrincipal();
 			List<String> categorias = new ArrayList<String>();
 			
-			if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("jugador")) {
-				String username =  principal.getName(); 
+			String username =  principal.getName(); 
+			
+			if (authoritiesService.hasAuthority("jugador", username)) {
+				
 		        User  user = userService.findByUsername(username);
 		        Jugador jugador = jugadorService.findByUser(user);
 		        categorias.addAll(jugador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
 		        
-			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("entrenador")){
-				String username =  principal.getName(); 
+			}else if (authoritiesService.hasAuthority("entrenador", username)){ 
 		        User  user = userService.findByUsername(username);
 		        Entrenador entrenador = entrenadorService.findByUser(user);
 		        categorias.addAll(entrenador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
 		        
-			}else if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().collect(Collectors.toList()).get(0).getAuthority().equals("estadistico")){
+			}else if (authoritiesService.hasAuthority("estadistico", username)){
 				categorias.addAll(equipoService.findAll().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
 			}
 			
