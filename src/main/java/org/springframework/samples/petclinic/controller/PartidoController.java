@@ -257,28 +257,16 @@ public class PartidoController {
 	public ResponseEntity<DataTableResponse<PartidoStats>> graficoEstadisticasTodosLosPartidos(@PathVariable("categoria") String categoria, HttpServletRequest request) {
 		try {
 			
-			List<String> categorias = new ArrayList<String>();
-			
 			Principal principal = request.getUserPrincipal();
 			String username =  principal.getName(); 
 	        User  user = userService.findByUsername(username);
 	        Entrenador entrenador = entrenadorService.findByUser(user);
-	        
-	        categorias.addAll(entrenador.getEquipos().stream().map(x->x.getCategoria()).collect(Collectors.toList()));
 			
 			List<Partido> partidos = new ArrayList<Partido>();
 			List<PartidoStats> partidosStats = new ArrayList<PartidoStats>();
 			
-			if(categoria.equals("todo")) {
-				for (int i=0; i<categorias.size();i++) {
-					Equipo equipo = equipoService.findByCategoria(categorias.get(i));
-					List<Partido> partidosEquipo = partidoService.findByEquipo(equipo);
-					partidos.addAll(partidosEquipo);
-				}
-			}else {
-				Equipo equipo = equipoService.findByCategoria(categoria);
-				partidos = partidoService.findByEquipo(equipo);
-			}
+			Equipo equipo = equipoService.findByCategoria(categoria);
+			partidos = partidoService.findByEquipo(equipo);
 			
 			for (int i = 0; i < partidos.size();i++) {
 				PartidoStats partidoStats = partidoConverter.convertPartidoToPartidoStats(partidos.get(i));
@@ -293,8 +281,8 @@ public class PartidoController {
 		}	
 	}
 	
-	@GetMapping("/showestadisiticasPartidoTodosJugadores")
-	public ModelAndView vistaEstadísticasPartidoJugadores(int id) {
+	@GetMapping("/showestadisiticasPartidoTodosJugadores/{id}")
+	public ModelAndView vistaEstadísticasPartidoJugadores(@PathVariable("id") int id) {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_PARTIDO_JUGADORES);
 		mav.addObject("estadisticas", estadisticaPersonalPartidoService.findByPartido(id));
 		

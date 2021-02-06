@@ -384,6 +384,8 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		givenPruebaCondicionFisicaService(pruebaCondicionFisica);
 		
 		// CONVERTERS
+		
+		//Jugador
 		given(this.jugadorPartidoStatsConverter.convertJugadorToJugadorPartidoStats(any(Jugador.class)))
 				.willReturn(convertJugadorToJugadorPartidoStats(jugador));
 		given(this.jugadorConverter.convertListJugadorToListJugadorWithEquipo(any()))
@@ -396,10 +398,14 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		.willReturn(convertJugadorToJugadorStats(jugador));
 		given(this.jugadorConverter.convertJugadorToJugadorEdit(any(Jugador.class)))
 		.willReturn(convertJugadorToJugadorEdit(jugador));
+		
+		//Partido
 		given(this.partidoConverter.convertPartidoToPartidoEdit(any(Partido.class)))
 				.willReturn(convertPartidoToPartidoEdit(partido));
 		given(this.partidoConverter.convertPartidoToPartidoConAsistencia(any(Partido.class)))
 				.willReturn(convertPartidoToPartidoConAsistencia(partido));
+		given(this.partidoConverter.convertPartidoToPartidoStats(any(Partido.class)))
+			.willReturn(convertPartidoToPartidoStats(partido));
 		
 		//Entrenamiento
 		given(this.entrenamientoConverter.convertEntrenamientoToEntrenamientoEdit(any(Entrenamiento.class)))

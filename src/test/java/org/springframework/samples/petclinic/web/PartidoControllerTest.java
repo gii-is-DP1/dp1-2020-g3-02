@@ -75,28 +75,35 @@ public class PartidoControllerTest extends BaseControllerTest {
 				.andExpect(jsonPath("$.data[0].hora", is(HORA))).andExpect(status().isOk());
 	}
 
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testGraficoEstadisticasTodosLosPartidos() throws Exception {
-//
-//		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
-//
-//		mockMvc.perform(get("/partidos/findestadisticasPartidos/{categoria}", CATEGORIA_EQUIPO)).andExpect(status().isOk());
-//	}
-//
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testGraficoEstadisticasTodosLosPartidos() throws Exception {
-//
-//		mockMvc.perform(get("/partidos/vistaEstadísticasPartidoJugadores")).andExpect(status().isOk());
-//	}
-//
-//	@WithMockUser(value = "spring")
-//	@Test
-//	void testGraficoEstadisticasTodosLosPartidos() throws Exception {
-//
-//		mockMvc.perform(get("/partidos/findestadisticasPartidosTodosLosJugadores/{id}", ID)).andExpect(status().isOk());
-//	}
+	@WithMockUser(value = "spring")
+	@Test
+	void testGraficoEstadisticasTodosLosPartidos() throws Exception {
+
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
+
+		mockMvc.perform(get("/partidos/findestadisticasPartidos/{categoria}", CATEGORIA_EQUIPO))
+		.andExpect(jsonPath("$.data[0].id", is(ID)))
+		.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
+		.andExpect(jsonPath("$.data[0].hora", is(HORA)))
+		.andExpect(status().isOk());
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void vistaEstadisticasTodosLosJugadores() throws Exception {
+
+		mockMvc.perform(get("/partidos/showestadisiticasPartidoTodosJugadores/{id}", ID))
+		.andExpect(model().attributeExists("estadisticas"))
+		.andExpect(status().isOk());
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
+	void testGraficoEstadisticasTodosLosJugadores() throws Exception {
+
+		mockMvc.perform(get("/partidos/findestadisticasPartidosTodosLosJugadores/{id}", ID))
+		.andExpect(status().isOk());
+	}
 
 	@WithMockUser(value = "spring")
 	@Test

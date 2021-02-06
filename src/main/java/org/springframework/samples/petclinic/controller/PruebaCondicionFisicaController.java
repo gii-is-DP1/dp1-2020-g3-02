@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -133,7 +134,7 @@ public class PruebaCondicionFisicaController {
 	}
 	
 	@RequestMapping(value ="/updateprueba", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ObjectError>> updateJugador(HttpServletRequest request, @ModelAttribute(name="prueba") PruebasSinJugador prueba, BindingResult result) {
+	public ResponseEntity<List<ObjectError>> updateJugador(HttpServletRequest request, @Valid PruebasSinJugador prueba, BindingResult result) {
 		try {
 			
 			int id = Integer.parseInt(request.getParameter("id"));
@@ -165,7 +166,7 @@ public class PruebaCondicionFisicaController {
 				LOG.info("Se procede a actualizar la prueba");
 				PruebaCondicionFisica pruebaF = pruebaService.save(pruebaO);
 				LOG.info("Se ha guardado la prueba con éxito: " + pruebaF);
-				return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
+				return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
 			}
 			
 		} catch(Exception e) {

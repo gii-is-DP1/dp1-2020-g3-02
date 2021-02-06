@@ -46,6 +46,7 @@ import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Viaje;
+import org.springframework.samples.petclinic.service.AutorizacionService;
 import org.springframework.samples.petclinic.service.CapitanService;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
@@ -121,8 +122,11 @@ public class BaseMockControllerTest {
 	@MockBean
 	protected CapitanService capitanService;
   
-  @MockBean
+	@MockBean
 	protected PruebaCondicionFisicaService pruebaService;
+	
+	@MockBean
+	protected AutorizacionService autorizacionService;
 
 
 	// CONVERTERS
@@ -267,6 +271,7 @@ public class BaseMockControllerTest {
 	protected void givenPartidoService(Partido partido) {
 		given(this.partidoService.findById(any(Integer.class))).willReturn(Optional.of(partido));
 		given(this.partidoService.findByFechaAfter(any(LocalDate.class))).willReturn(Lists.newArrayList(partido));
+		given(this.partidoService.findByEquipo(any(Equipo.class))).willReturn(Lists.newArrayList(partido));
 	}
 
 	/** Metodos EstadisticaPersonalPartidoService por defecto */
