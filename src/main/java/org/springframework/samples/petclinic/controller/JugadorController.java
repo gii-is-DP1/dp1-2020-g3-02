@@ -22,10 +22,12 @@ import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PrivilegioConverter;
 import org.springframework.samples.petclinic.converter.enumerate.TipoPrivilegioConverter;
+import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.model.Autorizacion;
+import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Privilegio;
@@ -37,6 +39,7 @@ import org.springframework.samples.petclinic.model.ediciones.JugadorEditNumCamis
 import org.springframework.samples.petclinic.model.ediciones.PrivilegioEdit;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
 import org.springframework.samples.petclinic.service.AutorizacionService;
+import org.springframework.samples.petclinic.service.CapitanService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
@@ -89,6 +92,9 @@ public class JugadorController {
 
 	@Autowired
 	private NumCamisetaService numCamisetaService;
+	
+	@Autowired
+	private CapitanService capitanService;
 
 	@Autowired
 	private EstadoConverter estadoConverter;
@@ -458,6 +464,65 @@ public class JugadorController {
 		jugador.setPosicionPrincipal(posicionConverter.convertToEntityAttribute(request.getParameter("posicionPrincipal")));
 		jugador.setPosicionSecundaria(posicionConverter.convertToEntityAttribute(request.getParameter("posicionSecundaria")));
 		return jugador;
+	}
+	
+	@RequestMapping(value = "/setJugadorCapitanEquipo/{equipo}/{id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> setJugadorCapitanEquipo(@PathVariable("equipo") String categoria, @PathVariable("id") int id) {
+		try {
+			Equipo equipo = equipoService.findByCategoria(categoria);
+			
+			if(equipo.getCapitan()==null || !(id==equipo.getCapitan().getJugador().getId())) {
+				Jugador jugador = jugadorService.findById(id).get();
+
+				//Cojo los equipos en los que está el jugador y de los cuales es capitán.
+				List<Equipo> equipos = new ArrayList<Equipo>();
+				if(equipo.getCapitan()!=null) {
+					equipos = equipoService.findByCapitan(equipo.getCapitan());
+				}
+
+				if(equipos.size()>1) {
+					equipoService.deleteCapitan(equipo);
+					if(capitanService.findByJugador(jugador) == null) {
+						Capitan capitan = new Capitan();
+						capitan.setJugador(jugador);
+						capitan.setNtiemposmuertos(0);
+						capitan.setActitud(Actitud.POSITIVA);
+						capitanService.saveCapitan(capitan);
+						equipo.setCapitan(capitan);
+					} else {
+						equipo.setCapitan(capitanService.findByJugador(jugador));
+					}
+					equipoService.updateCapitan(equipo);
+				} else if(equipos.size()==1) {
+					Integer idCapitan = equipo.getCapitan().getId();
+					equipoService.deleteCapitan(equipo);
+					capitanService.deleteByIdSiExiste(idCapitan);
+					if(capitanService.findByJugador(jugador) == null) {
+						Capitan capitan = new Capitan();
+						capitan.setJugador(jugador);
+						capitan.setNtiemposmuertos(0);
+						capitan.setActitud(Actitud.POSITIVA);
+						capitanService.saveCapitan(capitan);
+						equipo.setCapitan(capitan);
+					} else {
+						equipo.setCapitan(capitanService.findByJugador(jugador));
+					}
+					equipoService.updateCapitan(equipo);
+				} else {
+					Capitan capitan = new Capitan();
+					capitan.setJugador(jugador);
+					capitan.setNtiemposmuertos(0);
+					capitan.setActitud(Actitud.POSITIVA);
+					capitanService.saveCapitan(capitan);
+					equipo.setCapitan(capitan);
+					equipoService.updateCapitan(equipo);
+				}
+			}
+			
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}	
 	}
 
 }

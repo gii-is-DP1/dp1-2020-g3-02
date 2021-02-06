@@ -133,14 +133,16 @@
             	$.each(data.jugadores, function(index,
     					jugador) {
     					console.log(data);
-    				$('#jugadores').val(data.capitan);
+    	
     				$('#jugadores').append(
     					$('<option>', {
     	    				value : jugador.id,
     	    				text : jugador.nombre,
     	    				name : "jugadores",
     	    			}));
-
+    				
+    				$('#jugadores').val(data.capitan);
+    				
     				});
 
 				$('#capitanEquipoModal .modal-header').css("color", "white");
