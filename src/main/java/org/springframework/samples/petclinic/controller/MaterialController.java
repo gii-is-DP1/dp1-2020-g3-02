@@ -6,12 +6,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +24,6 @@ import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.MaterialEstados;
-import org.springframework.samples.petclinic.model.ediciones.MaterialDTO;
 import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,8 +33,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -139,36 +133,36 @@ public class MaterialController {
 	//        }
 	//    }
 
-	@PostMapping("/addmaterial")
-	public String addMaterial(@Valid @ModelAttribute(name="material") Material material, BindingResult bindResult, Model model) {
-
-		LOG.info("addmaterial() -- PARAMETROS: "+ material.toString());
-
-		ValidationUtils.invokeValidator(materialValidator, material, bindResult);
-
-		if (bindResult.hasErrors()) {
-			model.addAttribute("material", material);
-			return ViewConstant.VIEWS_MATERIALES_CREATE_OR_UPDATE_FORM;
-		}
-		Material materialSave = materialService.saveMaterial(material);
-		return "redirect:/materiales/showmateriales";
-
-	}
-	@RequestMapping(value = "findeditmaterial/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<MaterialDTO> editarMaterial(@PathVariable("id") int id) {
-		try {
-			Optional<Material> materialO = materialService.findById(id);
-			Material material = materialO.get();
-			MaterialDTO edit = materialConverter.convertMaterialToMaterialDTO(material);
-			return new ResponseEntity<MaterialDTO>(edit, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<MaterialDTO>(HttpStatus.BAD_REQUEST);
-		}	
-	}
+//	@PostMapping("/addmaterial")
+//	public String addMaterial(@Valid @ModelAttribute(name="material") Material material, BindingResult bindResult, Model model) {
+//
+//		LOG.info("addmaterial() -- PARAMETROS: "+ material.toString());
+//
+//		ValidationUtils.invokeValidator(materialValidator, material, bindResult);
+//
+//		if (bindResult.hasErrors()) {
+//			model.addAttribute("material", material);
+//			return ViewConstant.VIEWS_MATERIALES_CREATE_OR_UPDATE_FORM;
+//		}
+//		Material materialSave = materialService.saveMaterial(material);
+//		return "redirect:/materiales/showmateriales";
+//
+//	}
+//	@RequestMapping(value = "findeditmaterial/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<MaterialDTO> editarMaterial(@PathVariable("id") int id) {
+//		try {
+//			Optional<Material> materialO = materialService.findById(id);
+//			Material material = materialO.get();
+//			MaterialDTO edit = materialConverter.convertMaterialToMaterialDTO(material);
+//			return new ResponseEntity<MaterialDTO>(edit, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return new ResponseEntity<MaterialDTO>(HttpStatus.BAD_REQUEST);
+//		}	
+//	}
 
 	@RequestMapping(value = "/updatematerial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> updateMaterial(HttpServletRequest request, @ModelAttribute(name="material") Material material, BindingResult result) {
-	//	try {
+		try {
 			
 
 			
@@ -207,10 +201,10 @@ public class MaterialController {
 			
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 			
-//		} catch (Exception e) {
-//			LOG.error("Error al guardar el material");
-//			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
-//		}
+		} catch (Exception e) {
+			LOG.error("Error al guardar el material");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@RequestMapping(value = "/postmaterial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)

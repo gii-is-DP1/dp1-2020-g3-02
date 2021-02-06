@@ -19,6 +19,7 @@ public class LineaMaterialValidator implements Validator {
 		if ( lineaMaterial.getCantidad()==null || lineaMaterial.getCantidad()<0) {
 			errors.rejectValue("cantidad", "La cantidad no debe ser nula ni menor que 0","La cantidad no debe ser nulo ni menor que 0");
 		}
+		
 	}
 	
 	@Override

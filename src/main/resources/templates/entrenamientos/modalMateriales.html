@@ -15,56 +15,57 @@
 			  	
 			  			<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Balón Medicinal:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad1" name="cantidad" min="1" max="300" required></input>
+								<label><span class="text-danger">(*) </span>Balón Medicinal:</label>
+								<input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad1" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="firstName text-danger error"></small>
 							</div>
 							
 						</div>
 						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Balón de Juego:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad2" name="cantidad" min="1" max="300" required></input>
+								<label><span class="text-danger">(*) </span>Balón de Juego:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad2" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="firstName text-danger error"></small>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Red:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad3" name="cantidad" min="1" max="300" required></input>
+								<label><span class="text-danger">(*) </span>Red:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad3" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="firstName text-danger error"></small>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Poste:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad4" name="cantidad" min="1" max="300" required></input>
+								<label><span class="text-danger">(*) </span>Poste:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad4" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="firstName text-danger error"></small>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Cono Bajo:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad5" name="cantidad" min="1" max="300" required></input>
+								<label><span class="text-danger">(*) </span>Cono Bajo:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad5" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="firstName text-danger error"></small>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Cono Alto:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad6" name="cantidad" min="1" max="300" required></input>
+								<label><span class="text-danger">(*) </span>Cono Alto:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad6" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="firstName text-danger error"></small>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Cono Medio:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad7" name="cantidad" min="1" max="300" required></input>
+								<label><span class="text-danger">(*) </span>Cono Medio:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad7" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="firstName text-danger error"></small>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Cuerda:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad8" name="cantidad" min="1" max="300" required></input>
+								<label><span class="text-danger">(*) </span>Cuerda:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad8" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="firstName text-danger error"></small>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Cinta:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad9" name="cantidad" min="1" max="300" required></input>
+								<label><span class="text-danger">(*) </span>Cinta:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad9" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="firstName text-danger error"></small>
 							</div>
 						</div>
@@ -86,16 +87,29 @@
 
 
 function enviarEdicion() {
-	var form = new FormData(document
-			.getElementById('formGestionPartido'));
+	
+			var form = new FormData();
+	form.append("id", $('#id').val());
+	
+	form.append("cantidad1", $('#cantidad1').val());
+	form.append("cantidad2", $('#cantidad2').val());
+	form.append("cantidad3", $('#cantidad3').val());
+	form.append("cantidad4", $('#cantidad4').val());
+	form.append("cantidad5", $('#cantidad5').val());
+	form.append("cantidad6", $('#cantidad6').val());
+	form.append("cantidad7", $('#cantidad7').val());
+	form.append("cantidad8", $('#cantidad8').val());
+	form.append("cantidad9", $('#cantidad9').val());
+	
+	
 	$.ajax({
-		url : '/entrenamientos/postentrenamiento',
+		url : '/entrenamientos/updatematerial',
 		type : 'post',
 		data : form,
 		processData : false,
 		contentType : false,
 		success : function(data) {
-			$('#gestionModal').modal("hide");
+			$('#materialModal').modal("hide");
 			tablaPrincipal.ajax.reload(null, false);
 		},
 		error : function(data) {
@@ -111,13 +125,13 @@ function enviarEdicion() {
 	});
 };
 
-function material(boton,fecha,hora,id) {
+function material(id) {
 	
 	//var id = $(this).parent().find('#id').val();
 
 	$('.error').text('');
 
-
+console.log(id);
 	$
 			.ajax({
 				type : 'GET',
@@ -126,14 +140,8 @@ function material(boton,fecha,hora,id) {
 					$('#modalFormMateriales').children('.only')
 							.remove();
 
-					//Poner la fecha con el formato correcto
-					var aux = (edit.fecha).split("-");
-					var fechaInput = "" + aux[2] + "/" + aux[1]
-							+ "/" + aux[0] + "";
-
-					$('#materialModal #idEdit').val(edit.id);
-					$('#materialModal #fechaEdit').val(fechaInput);
-					$('#materialModal #horaEdit').val(edit.hora);
+					$('#id').val(id);
+				
 
 					$('.modal-header').css("color", "white");
 					$('.modal-title').text(

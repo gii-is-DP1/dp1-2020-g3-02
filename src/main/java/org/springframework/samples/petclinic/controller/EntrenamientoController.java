@@ -20,14 +20,18 @@ import org.springframework.samples.petclinic.component.EntrenamientoValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.converter.EntrenamientoConverter;
+import org.springframework.samples.petclinic.converter.EquipoConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
+import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamiento;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.LineaMaterial;
+import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.model.auxiliares.DataPosicion;
@@ -42,6 +46,8 @@ import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalEntrenamientoService;
 import org.springframework.samples.petclinic.service.JugadorService;
+import org.springframework.samples.petclinic.service.LineaMaterialService;
+import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.ViajeService;
 import org.springframework.samples.petclinic.service.impl.UserService;
@@ -84,9 +90,18 @@ public class EntrenamientoController {
 
 	@Autowired
 	private PartidoService partidoService;
+	
+	@Autowired
+	private MaterialService materialService;
+	
+	@Autowired
+	private LineaMaterialService lineaMaterialService;
 
 	@Autowired
 	private PartidoConverter partidoConverter;
+	
+	@Autowired
+	private EquipoConverter equipoConverter;
 
 	@Autowired
 	private EntrenamientoService entrenamientoService;
@@ -500,5 +515,48 @@ public class EntrenamientoController {
 		}
 
 	}
+	private void linea(TipoMaterial tipo, int cantidad,Entrenamiento entr) {
+		int stocker = 0;
+		for(Material mm : materialService.findByTipo(tipo)) {
+			if(cantidad>stocker && mm.getStock()!=0) {
+				if(cantidad>mm.getStock()) {
+					LineaMaterial lin1= new LineaMaterial(mm, entr, mm.getStock());
+					lineaMaterialService.save(lin1);
+					stocker+=mm.getStock();
+				}else {
+					LineaMaterial lin1= new LineaMaterial(mm, entr,cantidad);
+					lineaMaterialService.save(lin1);
+					stocker+=cantidad;
+				}
+				
+			}
+		}
+	}
+	@RequestMapping(value = "/updatematerial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> updateMaterial(HttpServletRequest request, @ModelAttribute(name="entrenamiento") Entrenamiento entrenamiento, BindingResult result) {
+		try {
+			
+			Entrenamiento entr= entrenamientoService.findById(Integer.parseInt(request.getParameter("id"))).get();
+			linea(TipoMaterial.BALONMEDICINAL, Integer.parseInt(request.getParameter("cantidad1")), entr);
+			linea(TipoMaterial.BALONDEJUEGO, Integer.parseInt(request.getParameter("cantidad2")), entr);
+			linea(TipoMaterial.RED, Integer.parseInt(request.getParameter("cantidad3")), entr);
+			linea(TipoMaterial.POSTE, Integer.parseInt(request.getParameter("cantidad4")), entr);
+			linea(TipoMaterial.CONOBAJO, Integer.parseInt(request.getParameter("cantidad5")), entr);
+			linea(TipoMaterial.CONOALTO, Integer.parseInt(request.getParameter("cantidad6")), entr);
+			linea(TipoMaterial.CONOMEDIO, Integer.parseInt(request.getParameter("cantidad7")), entr);
+			linea(TipoMaterial.CUERDA, Integer.parseInt(request.getParameter("cantidad8")), entr);
+			linea(TipoMaterial.CINTA, Integer.parseInt(request.getParameter("cantidad9")), entr);
+			
+		
+		
+			
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
+			
+		} catch (Exception e) {
+			LOG.error("Error al guardar el material");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 
 }
