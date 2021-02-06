@@ -306,7 +306,7 @@
 							"<i class='fas fa-edit'></i></button>" + 
 							" <button onclick='return eliminar(this,"+row['id'] +");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
 							"<i class='fas fa-trash-alt'></i></button>" +
-							" <button onclick='return material(this,"+'"'+row['fecha']+'","'+row['hora']+'",'+row['id'] +");' class='btn btn-outline-dark materiales' type='button' title='Materiales'>"+
+							" <button onclick='return material("+row['id'] +");' class='btn btn-outline-dark materiales' type='button' title='Materiales'>"+
 							"<i class='far fa-dumbbell'></i></button>";
 						 
 					 }else  if($('#security').val() == 'jugador'){
