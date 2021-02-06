@@ -22,13 +22,11 @@ import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PrivilegioConverter;
 import org.springframework.samples.petclinic.converter.enumerate.TipoPrivilegioConverter;
-import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.enumerate.Estado;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Autorizacion;
-import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Privilegio;
@@ -217,17 +215,26 @@ public class JugadorController {
 			List<TipoPrivilegio> tpri = Spri.stream().filter(x -> x.getEquipo().getId().equals(equipo.getId())).map(y -> y.getTipoPrivilegio()).collect(Collectors.toList());
 
 			List<TipoPrivilegio> privilegios = new ArrayList<TipoPrivilegio>();
-			Boolean partidos = Boolean.parseBoolean(request.getParameter("partidos").trim());
-			Boolean entrenamientos = Boolean.parseBoolean(request.getParameter("entrenamientos").trim());
+			
 			if(Boolean.parseBoolean(request.getParameter("partidos").trim())) {
 				if(!(tpri.contains(TipoPrivilegio.PARTIDOS))) {
 					privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute("PARTIDOS"));
+				} else {
+					List<Authorities> x = authoritiesService.findByJugador(jugador).stream()
+							.filter(y -> y.getAuthority().equals(TipoPrivilegio.PARTIDOS.toString()))
+							.collect(Collectors.toList());
+					if(x.size()==0) {
+						Authorities aut = new Authorities();
+						aut.setUser(jugador.getUser());
+						aut.setAuthority(TipoPrivilegio.PARTIDOS.toString());
+						authoritiesService.saveAuthorities(aut);
+					}
 				}
 			} else {
 				if(tpri.contains(TipoPrivilegio.PARTIDOS)) {
 					List<Privilegio> auxP = pri.stream().filter(y -> y.getTipoPrivilegio().equals(TipoPrivilegio.PARTIDOS)).collect(Collectors.toList());
 					privilegioService.deleteAll(auxP);
-					List<Authorities> autho = authoritiesService.findByUser(jugador.getUser().toString());
+					List<Authorities> autho = authoritiesService.findByJugador(jugador);
 					for(Authorities a:autho) {
 						if(a.getAuthority()==TipoPrivilegio.PARTIDOS.toString()) {
 							authoritiesService.removeAuthorities(a);
@@ -239,14 +246,24 @@ public class JugadorController {
 			if(Boolean.parseBoolean(request.getParameter("entrenamientos").trim())) {
 				if(!(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS))) {
 					privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute("ENTRENAMIENTOS"));
+				}else {
+					List<Authorities> x = authoritiesService.findByJugador(jugador).stream()
+							.filter(y -> y.getAuthority().equals(TipoPrivilegio.ENTRENAMIENTOS.toString()))
+							.collect(Collectors.toList());
+					if(x.size()==0) {
+						Authorities aut = new Authorities();
+						aut.setUser(jugador.getUser());
+						aut.setAuthority(TipoPrivilegio.ENTRENAMIENTOS.toString());
+						authoritiesService.saveAuthorities(aut);
+					}
 				}
 			} else {
 				if(tpri.contains(TipoPrivilegio.ENTRENAMIENTOS)) {
 					List<Privilegio> auxP = pri.stream().filter(y -> y.getTipoPrivilegio().equals(TipoPrivilegio.ENTRENAMIENTOS)).collect(Collectors.toList());
 					privilegioService.deleteAll(auxP);
-					List<Authorities> autho = authoritiesService.findByUser(jugador.getUser().toString());
+					List<Authorities> autho = authoritiesService.findByJugador(jugador);
 					for(Authorities a:autho) {
-						if(a.getAuthority()==TipoPrivilegio.PARTIDOS.toString()) {
+						if(a.getAuthority()==TipoPrivilegio.ENTRENAMIENTOS.toString()) {
 							authoritiesService.removeAuthorities(a);
 						}
 					}
@@ -482,65 +499,6 @@ public class JugadorController {
 		jugador.setPosicionPrincipal(posicionConverter.convertToEntityAttribute(request.getParameter("posicionPrincipal")));
 		jugador.setPosicionSecundaria(posicionConverter.convertToEntityAttribute(request.getParameter("posicionSecundaria")));
 		return jugador;
-	}
-	
-	@RequestMapping(value = "/setJugadorCapitanEquipo/{equipo}/{id}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ObjectError>> setJugadorCapitanEquipo(@PathVariable("equipo") String categoria, @PathVariable("id") int id) {
-		try {
-			Equipo equipo = equipoService.findByCategoria(categoria);
-			
-			if(equipo.getCapitan()==null || !(id==equipo.getCapitan().getJugador().getId())) {
-				Jugador jugador = jugadorService.findById(id).get();
-
-				//Cojo los equipos en los que está el jugador y de los cuales es capitán.
-				List<Equipo> equipos = new ArrayList<Equipo>();
-				if(equipo.getCapitan()!=null) {
-					equipos = equipoService.findByCapitan(equipo.getCapitan());
-				}
-
-				if(equipos.size()>1) {
-					equipoService.deleteCapitan(equipo);
-					if(capitanService.findByJugador(jugador) == null) {
-						Capitan capitan = new Capitan();
-						capitan.setJugador(jugador);
-						capitan.setNtiemposmuertos(0);
-						capitan.setActitud(Actitud.POSITIVA);
-						capitanService.saveCapitan(capitan);
-						equipo.setCapitan(capitan);
-					} else {
-						equipo.setCapitan(capitanService.findByJugador(jugador));
-					}
-					equipoService.updateCapitan(equipo);
-				} else if(equipos.size()==1) {
-					Integer idCapitan = equipo.getCapitan().getId();
-					equipoService.deleteCapitan(equipo);
-					capitanService.deleteByIdSiExiste(idCapitan);
-					if(capitanService.findByJugador(jugador) == null) {
-						Capitan capitan = new Capitan();
-						capitan.setJugador(jugador);
-						capitan.setNtiemposmuertos(0);
-						capitan.setActitud(Actitud.POSITIVA);
-						capitanService.saveCapitan(capitan);
-						equipo.setCapitan(capitan);
-					} else {
-						equipo.setCapitan(capitanService.findByJugador(jugador));
-					}
-					equipoService.updateCapitan(equipo);
-				} else {
-					Capitan capitan = new Capitan();
-					capitan.setJugador(jugador);
-					capitan.setNtiemposmuertos(0);
-					capitan.setActitud(Actitud.POSITIVA);
-					capitanService.saveCapitan(capitan);
-					equipo.setCapitan(capitan);
-					equipoService.updateCapitan(equipo);
-				}
-			}
-			
-			return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
-		}	
 	}
 
 }

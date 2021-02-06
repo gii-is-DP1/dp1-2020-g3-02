@@ -22,6 +22,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Authorities;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.AuthoritiesRepository;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,12 @@ public class AuthoritiesService {
 	@Transactional(readOnly = true)
 	public List<Authorities> findByUser(String username){
 		User user = userService.findByUsername(username);
+		return authoritiesRepository.findByUser(user);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Authorities> findByJugador(Jugador jugador){
+		User user = jugador.getUser();
 		return authoritiesRepository.findByUser(user);
 	}
 	
