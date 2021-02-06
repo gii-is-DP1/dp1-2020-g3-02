@@ -267,21 +267,7 @@ public class EntrenamientoController {
 		return ViewConstant.VIEW_NAVBAR;
 	}
 
-	@PostMapping("/addentrenamiento")
-	public String addJugador(@ModelAttribute(name="Entrenamiento") Entrenamiento entrenamiento, Model model, final BindingResult result) {
-
-		LOG.info("Se procede a guardar el entrenamiento");
-		try {
-			Entrenamiento training = entrenamientoService.save(entrenamiento);
-			LOG.info("Entrenamiento guardado con éxito: " + training);
-		} catch (Exception e) {
-			LOG.error("No se ha podido crear el entrenamiento");
-		}
-
-		return "redirect:/entrenamientos/showEntrenamientos";
-		//}
-	}
-
+	
 	@RequestMapping(value = "/findEntrenamientos", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataTableResponse<EntrenamientoConAsistencia>> listadoDeEntrenamientos(HttpServletRequest request) {
 		try {

@@ -3,7 +3,9 @@ package org.springframework.samples.petclinic.web;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -112,5 +114,84 @@ public class EntrenamientoControllerTest extends BaseControllerTest{
         mockMvc.perform(get("/entrenamientos/showestadisiticasEntrenamientoJugador/{id_jugador}/{id_entrenamiento}",ID,ID))
         .andExpect(model().attributeExists("estadisticas"))
         .andExpect(status().isOk());
+    }
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void vistaRemoveEntrenamiento() throws Exception {
+		
+        mockMvc.perform(post("/entrenamientos/removeEntrenamiento/{id}",ID).with(csrf()))
+        .andExpect(status().isOk());
+    }
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void vistaRemoveAsiste() throws Exception {
+		
+        mockMvc.perform(post("/entrenamientos/eliminarAsisteJugador/{entrenamiento_id}/{jugador_id}",ID, ID).with(csrf()))
+        .andExpect(status().isOk());
+    }
+	@WithMockUser(value = "spring")
+	@Test
+	void vistaUpdateMaterial() throws Exception {
+		mockMvc.perform(post("/entrenamientos/updatematerial", ID).with(csrf())
+				.param("id", "1")
+				.param("cantidad1", "3")
+				.param("cantidad2", "1")
+				.param("cantidad3", "2")
+				.param("cantidad4", "2")
+				.param("cantidad5", "1")
+				.param("cantidad6", "1")
+				.param("cantidad7", "2")
+				.param("cantidad8", "10")
+				.param("cantidad9", "2"))
+        
+        .andExpect(status().isOk());
+    }
+	@WithMockUser(value = "spring")
+	@Test
+	void vistaAddNoLlegada() throws Exception {
+		
+        mockMvc.perform(post("/entrenamientos/confirmacionDeLaNoLlegada/{viaje_id}", ID).with(csrf()))
+        .andExpect(status().isOk());
+    }
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void vistaAddLlegada() throws Exception {
+		
+        mockMvc.perform(post("/entrenamientos/confirmacionLlegada/{viaje_id}", ID).with(csrf()))
+        .andExpect(status().isOk());
+    }
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void vistaAddAsistencia() throws Exception {
+		
+        mockMvc.perform(post("/entrenamientos/addAsisteJugador/{entrenamiento_id}/{jugador_id}", ID,ID).with(csrf()))
+        .andExpect(status().isOk());
+    }
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void vistaPostEntrenamiento() throws Exception {
+		
+        mockMvc.perform(post("/entrenamientos/postentrenamiento").with(csrf())
+        		.param("id", "")
+        		.param("equipo", "Senior")
+        		.param("fecha", "19/02/2021")
+        		.param("hora", "16:20"))
+        .andExpect(status().is2xxSuccessful());
+    }
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void vistaEditEntrenamiento() throws Exception {
+		
+        mockMvc.perform(post("/entrenamientos/postentrenamiento").with(csrf())
+        		.param("id", "1")
+          		.param("fecha", "19/02/2021")
+        		.param("hora", "16:20"))
+        .andExpect(status().is2xxSuccessful());
     }
 }
