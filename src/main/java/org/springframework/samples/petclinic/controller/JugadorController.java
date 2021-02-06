@@ -31,7 +31,7 @@ import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Privilegio;
-import org.springframework.samples.petclinic.model.auxiliares.DataAutorizacion;
+import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorPriv;
 import org.springframework.samples.petclinic.model.ediciones.JugadorEdit;
@@ -275,14 +275,14 @@ public class JugadorController {
 	}
 
 	@RequestMapping(value = "/tablajugadoresaut", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<DataAutorizacion> tablaJugadoresAutorizacion(){
+	public ResponseEntity<DataTableResponse<JugadorAut>> tablaJugadoresAutorizacion(){
 		try {
 			List<Jugador> jugadores = jugadorService.findAll();
 			List<JugadorAut> listajugadoraut= jugadorConverter.convertListJugadorToListJugadorAut(jugadores);
-			DataAutorizacion data= jugadorConverter.convertListJugadoresAutorizaciones(listajugadoraut);
-			return new ResponseEntity<DataAutorizacion>(data, HttpStatus.OK);
+			DataTableResponse<JugadorAut> data= new DataTableResponse<JugadorAut>(listajugadoraut);
+			return new ResponseEntity<DataTableResponse<JugadorAut>>(data, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<DataAutorizacion>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<DataTableResponse<JugadorAut>>(HttpStatus.BAD_REQUEST);
 		}	
 	}
 

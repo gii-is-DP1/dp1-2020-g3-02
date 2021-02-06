@@ -321,6 +321,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		jugadores.add(jugador);
 		List<JugadorAut> jugadoresAut = jugadorConverter.convertListJugadorToListJugadorAut(jugadores);
 		Equipo equipo = jugador.getEquipos().get(0);
+		NumCamiseta num = getNumCamisetaCorrecto(1, jugador, equipo);
 		Privilegio privilegio = getPrivilegioCorrecto(jugador, equipo);
 		Entrenador entrenador = equipo.getEntrenador();
 		Partido partido = jugador.getPartidos().get(0);
@@ -383,6 +384,11 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		// PruebasCondicionFisica
 		givenPruebaCondicionFisicaService(pruebaCondicionFisica);
 		
+		//NumCamisetaService
+		givenNumCamisetaService(num);
+		
+		
+		
 		// CONVERTERS
 		
 		//Jugador
@@ -398,6 +404,9 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		.willReturn(convertJugadorToJugadorStats(jugador));
 		given(this.jugadorConverter.convertJugadorToJugadorEdit(any(Jugador.class)))
 		.willReturn(convertJugadorToJugadorEdit(jugador));
+		
+		given(this.jugadorConverter.convertJugadorToJugadorEditNumCamiseta(any(Jugador.class),any(Integer.class)))
+		.willReturn(convertJugadorToJugadorEditNumCamiseta(jugador,num.getNumero()));
 		
 		//Partido
 		given(this.partidoConverter.convertPartidoToPartidoEdit(any(Partido.class)))

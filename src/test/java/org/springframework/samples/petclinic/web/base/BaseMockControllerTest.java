@@ -30,6 +30,10 @@ import org.springframework.samples.petclinic.converter.PersonalConverter;
 import org.springframework.samples.petclinic.converter.PruebaConverter;
 import org.springframework.samples.petclinic.converter.UserConverter;
 import org.springframework.samples.petclinic.converter.ViajeConverter;
+import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
+import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
+import org.springframework.samples.petclinic.converter.enumerate.PrivilegioConverter;
+import org.springframework.samples.petclinic.converter.enumerate.TipoPrivilegioConverter;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
@@ -41,6 +45,7 @@ import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamie
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
@@ -59,6 +64,7 @@ import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.PersonalesService;
+import org.springframework.samples.petclinic.service.PrivilegioService;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
 import org.springframework.samples.petclinic.service.SistemaJuegoService;
 import org.springframework.samples.petclinic.service.SustitucionService;
@@ -127,6 +133,9 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected AutorizacionService autorizacionService;
+	
+	@MockBean
+	protected PrivilegioService privilegioService;
 
 
 	// CONVERTERS
@@ -163,6 +172,18 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected PruebaConverter pruebaConverter;
+	
+	@MockBean
+	protected EstadoConverter estadoConverter;
+	
+	@MockBean
+	protected PosicionConverter posicionConverter;
+	
+	@MockBean
+	protected TipoPrivilegioConverter tipoPrivilegioConverter;
+	
+	@MockBean
+	protected PrivilegioConverter privilegioConverter;
 
 	// VALIDATORS
 	
@@ -316,6 +337,12 @@ public class BaseMockControllerTest {
 	protected void givenPruebaCondicionFisicaService(PruebaCondicionFisica prueba) {
 		given(this.pruebaService.findById(any(Integer.class))).willReturn(Optional.of(prueba));
 		given(this.pruebaService.findByJugadorAndTipoPrueba(any(Jugador.class), any(TipoPrueba.class))).willReturn(Lists.newArrayList(prueba));
+	}
+	
+	/** Metodos NumCamisetaService por defecto */
+	protected void givenNumCamisetaService(NumCamiseta numero) {
+		given(this.numCamisetaService.findById(any(Integer.class))).willReturn(Optional.of(numero));
+		given(this.numCamisetaService.findByEquipoAndJugador(any(Integer.class), any(Integer.class))).willReturn(numero);
 	}
 	
 }
