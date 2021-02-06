@@ -248,12 +248,12 @@ public class JugadorController {
 					privilegios.add(tipoPrivilegioConverter.convertToEntityAttribute("ENTRENAMIENTOS"));
 				}else {
 					List<Authorities> x = authoritiesService.findByJugador(jugador).stream()
-							.filter(y -> y.getAuthority().equals(TipoPrivilegio.PARTIDOS.toString()))
+							.filter(y -> y.getAuthority().equals(TipoPrivilegio.ENTRENAMIENTOS.toString()))
 							.collect(Collectors.toList());
 					if(x.size()==0) {
 						Authorities aut = new Authorities();
 						aut.setUser(jugador.getUser());
-						aut.setAuthority(TipoPrivilegio.PARTIDOS.toString());
+						aut.setAuthority(TipoPrivilegio.ENTRENAMIENTOS.toString());
 						authoritiesService.saveAuthorities(aut);
 					}
 				}
