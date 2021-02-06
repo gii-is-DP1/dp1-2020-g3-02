@@ -489,7 +489,7 @@ public class EquipoController {
 				jugadores.add(j);
 			}
 			EquipoCAP data = equipoConverter.convertEquipoToEquipoCAP(equipo,jugadores);
-			
+
 			return new ResponseEntity<EquipoCAP>(data, HttpStatus.OK);
 		}catch (Exception e) {
 			return new ResponseEntity<EquipoCAP>(HttpStatus.BAD_REQUEST);
@@ -510,19 +510,36 @@ public class EquipoController {
 				if(team.getCapitan()!=null) {
 					equipos = equipoService.findByCapitan(team.getCapitan());
 				}
-				
-
 
 				if(equipos.size()>1) {
 					equipoService.deleteCapitan(team);
-					Capitan capitan = new Capitan();
-					capitan.setJugador(player);
-					team.setCapitan(capitan);
-					equipoService.save(team);
+					if(capitanService.findByJugador(player) == null) {
+						Capitan capitan = new Capitan();
+						capitan.setJugador(player);
+						capitan.setNtiemposmuertos(0);
+						capitan.setActitud(Actitud.POSITIVA);
+						capitanService.saveCapitan(capitan);
+						team.setCapitan(capitan);
+					} else {
+						team.setCapitan(capitanService.findByJugador(player));
+					}
+					equipoService.updateCapitan(team);
 				} else if(equipos.size()==1) {
 					Integer idCapitan = team.getCapitan().getId();
 					equipoService.deleteCapitan(team);
 					capitanService.deleteByIdSiExiste(idCapitan);
+					if(capitanService.findByJugador(player) == null) {
+						Capitan capitan = new Capitan();
+						capitan.setJugador(player);
+						capitan.setNtiemposmuertos(0);
+						capitan.setActitud(Actitud.POSITIVA);
+						capitanService.saveCapitan(capitan);
+						team.setCapitan(capitan);
+					} else {
+						team.setCapitan(capitanService.findByJugador(player));
+					}
+					equipoService.updateCapitan(team);
+				} else {
 					Capitan capitan = new Capitan();
 					capitan.setJugador(player);
 					capitan.setNtiemposmuertos(0);
@@ -530,12 +547,6 @@ public class EquipoController {
 					capitanService.saveCapitan(capitan);
 					team.setCapitan(capitan);
 					equipoService.updateCapitan(team);
-				} else {
-					Capitan capitan = new Capitan();
-					capitan.setJugador(player);
-					team.setCapitan(capitan);
-					capitanService.save(capitan);
-					equipoService.save(team);
 				}
 			}
 
