@@ -253,6 +253,11 @@
                 <artifactId>javax.mail</artifactId>
                 <version>1.6.2</version>
             </dependency>
+	<dependency>
+		<groupId>org.assertj</groupId>
+		<artifactId>assertj-core</artifactId>
+	</dependency>
+<!-- Thanks for using https://jar-download.com -->
 		
 		
 	</dependencies>
