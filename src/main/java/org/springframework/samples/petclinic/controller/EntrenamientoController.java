@@ -537,7 +537,7 @@ public class EntrenamientoController {
 			linea(TipoMaterial.CUERDA, Integer.parseInt(request.getParameter("cantidad8")), entr,result,mape);
 			linea(TipoMaterial.CINTA, Integer.parseInt(request.getParameter("cantidad9")), entr,result,mape);
 
-
+			    
 			//si el map esta vacio devuelva ok si el map tiene errorres devuelva el map
 			if(mape.isEmpty()) {
 
