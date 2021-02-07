@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.service.EstadisticoService;
+import org.springframework.samples.petclinic.service.impl.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -26,6 +27,9 @@ public class EstadisticoValidator implements Validator{
 	
 	@Autowired
 	private EstadisticoService estadisticoService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Override
 	public void validate(Object target, Errors errors) {
@@ -63,6 +67,24 @@ public class EstadisticoValidator implements Validator{
 				LOG.warn(ValidationConstant.EMAIL_YAEXISTE_ERROR);
 				errors.rejectValue("email", "error",ValidationConstant.EMAIL_YAEXISTE_ERROR);
 			}
+		}
+		
+		// user validation
+		if (estadistico.getUser() == null) {
+			LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": user");
+			errors.rejectValue("user.username", "error", ValidationConstant.VALOR_OBLIGATORIO);
+		} else if (StringUtils.isEmpty(estadistico.getUser().getUsername()) || estadistico.getUser().getUsername().length() <= 6) {
+			LOG.warn(ValidationConstant.USERNAME_ERROR);
+			errors.rejectValue("user.username", "error", ValidationConstant.USERNAME_ERROR);
+		} else if (userService.findByUsername(estadistico.getUser().getUsername()) != null) {
+			LOG.warn(ValidationConstant.USERNAME_YAEXISTE_ERROR);
+			errors.rejectValue("user.username", "error", ValidationConstant.USERNAME_YAEXISTE_ERROR);
+		}
+		
+		// password validation
+		if (estadistico.getUser() != null && (StringUtils.isEmpty(estadistico.getUser().getPassword()) || estadistico.getUser().getPassword().length() < 8)) {
+			LOG.warn(ValidationConstant.PASSWORD_ERROR + ": password");
+			errors.rejectValue("user.password", "error", ValidationConstant.PASSWORD_ERROR);
 		}
 		
 		//fecha nacimiento validation

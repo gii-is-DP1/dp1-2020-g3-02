@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.samples.petclinic.component.EntrenadorValidator;
 import org.springframework.samples.petclinic.component.EstadisticoValidator;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.base.BaseVolleyballValidatorTest;
@@ -24,7 +23,7 @@ private EstadisticoValidator estadisticoValidator;
 	
 	@BeforeEach
 	private void setUp() {
-		this.estadisticoValidator = new EstadisticoValidator(this.estadisticoService);
+		this.estadisticoValidator = new EstadisticoValidator(this.estadisticoService, this.userService);
 	}
 	
 	@Test
