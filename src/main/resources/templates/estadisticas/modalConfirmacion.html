@@ -54,7 +54,7 @@ function continuarPartido(){
 	var formCom = new FormData();
 	formCom.append("partidoId",partidoId);
 	formCom.append("set",set);
-	console.log(tipo);
+	insertarDatosEstadisticas(this);
 	$.ajax({
 		type: 'POST',
 		url: '/estadisticas/'+tipo+'/',
@@ -62,8 +62,6 @@ function continuarPartido(){
         processData: false,
         contentType: false,
 		success: function(marcador){
-			tablaIntroducirEstadisticas.ajax.reload(null, false);
-			estadisticas();
 			$('#comandoIntroducido').val('');
 			actualizarMarcador();
 		},
@@ -77,6 +75,7 @@ function continuarPartido(){
 
 function finalizarPartido(){
 	continuarPartido();
+	insertarDatosEstadisticas(this);
 	var partidoId = $('#partidoId').val();
 	var formCom = new FormData();
 	formCom.append("partidoId",partidoId);
