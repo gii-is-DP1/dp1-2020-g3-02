@@ -354,6 +354,8 @@ public class BaseMockControllerTest {
 				.willReturn(Lists.newArrayList(estadisticaPersonalPartido));
 		given(this.estadisticaPersonalPartidoService.findByPartido(any(Integer.class)))
 				.willReturn(Lists.newArrayList(estadisticaPersonalPartido));
+		given(this.estadisticaPersonalPartidoService.findByJugadorAndPartido(any(Integer.class), any(Integer.class)))
+			.willReturn(estadisticaPersonalPartido);
 	}
 	
 	/** Metodos EstadisticaPersonalEntrenamientoService por defecto */
@@ -374,6 +376,8 @@ public class BaseMockControllerTest {
 		given(this.viajeService.findById(any(Integer.class))).willReturn(Optional.of(viaje));
 		given(this.viajeService.findByJugadorAndPartidoAndTipoViaje(any(Jugador.class), any(Partido.class),
 				any(TipoViaje.class))).willReturn(viaje);
+		given(this.viajeService.findPersonalesByPartidoAndTipoViaje(any(Partido.class), any(String.class)))
+			.willReturn(Lists.newArrayList(viaje.getPersonal()));
 	}
 	
 	/** Metodos PersonalesService por defecto */
