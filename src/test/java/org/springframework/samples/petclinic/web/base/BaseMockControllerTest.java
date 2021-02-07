@@ -370,5 +370,6 @@ public class BaseMockControllerTest {
 		given(this.autorizacionService.findByJugadorAndTipo(any(Jugador.class),any(TipoAutorizacion.class)))
 		.willReturn(autorizacion);
 		//given(this.autorizacionService.deleteByIdSiExiste(any(Integer.class)));
+		given(this.autorizacionService.save(any(Autorizacion.class))).willReturn(autorizacion);
 	}
 }
