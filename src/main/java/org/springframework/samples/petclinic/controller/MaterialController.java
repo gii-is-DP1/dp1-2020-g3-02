@@ -266,8 +266,17 @@ public class MaterialController {
 			Material lalala = materialService.findByTipoAndEstado(tipo, estado);
 			
 			Integer cantidad = Integer.parseInt(request.getParameter("cantidad"));
-			
-			lalala.setStock(lalala.getStock()-cantidad);
+			if(lalala == null) {
+				Material materialNuevo = new Material();
+				materialNuevo.setStock(cantidad);
+				materialNuevo.setTipo(tipo);
+				materialNuevo.setEstado(estado);
+				materialNuevo.setDescripcion(tipo.toString());
+				
+			}else {
+				lalala.setStock(lalala.getStock()-cantidad);
+			}
+	
 			
 			ValidationUtils.invokeValidator(materialValidator, lalala, result);
 
@@ -276,17 +285,8 @@ public class MaterialController {
 				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 			}
 			
-			if(lalala == null) {
-				Material materialNuevo = new Material();
-				materialNuevo.setStock(cantidad);
-				materialNuevo.setTipo(tipo);
-				materialNuevo.setEstado(estado);
-				materialNuevo.setDescripcion(tipo.toString());
-				materialService.save(lalala);
-			} else {
-				materialService.save(lalala);
-			}
 			
+			materialService.save(lalala);
 			
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 			
