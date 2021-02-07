@@ -15,6 +15,7 @@ import org.springframework.samples.petclinic.component.EntrenamientoValidator;
 import org.springframework.samples.petclinic.component.EquipoValidator;
 import org.springframework.samples.petclinic.component.EstadisticoValidator;
 import org.springframework.samples.petclinic.component.JugadorValidator;
+import org.springframework.samples.petclinic.component.LineaMaterialValidator;
 import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
 import org.springframework.samples.petclinic.component.PruebaCondicionFisicaValidator;
@@ -217,6 +218,11 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected PruebaCondicionFisicaValidator pruebaValidator;
+	
+	@MockBean
+	protected LineaMaterialValidator lineaMaterialValidator;
+	
+	
 
 
 	// Invalidación de validators
@@ -248,6 +254,11 @@ public class BaseMockControllerTest {
 		
 		doNothing().when(pruebaValidator).validate(any(Object.class), any(Errors.class));
 		when(pruebaValidator.supports(any(Class.class))).thenReturn(true);
+		
+		doNothing().when(lineaMaterialValidator).validate(any(Object.class), any(Errors.class));
+		when(lineaMaterialValidator.supports(any(Class.class))).thenReturn(true);
+		
+		
 
 	}
 
@@ -290,6 +301,7 @@ public class BaseMockControllerTest {
 		given(this.equipoService.findById(any(Integer.class))).willReturn(Optional.of(equipo));
 		given(this.equipoService.findAll()).willReturn(Lists.newArrayList(equipo));
 		given(this.equipoService.findByCategoria(any(String.class))).willReturn(equipo);
+		given(this.equipoService.findJugadoresNoEquipo(any(Integer.class))).willReturn(Lists.newArrayList());
 	}
 
 	/** Metodos PartidoService por defecto */
@@ -307,8 +319,6 @@ public class BaseMockControllerTest {
 				.willReturn(Lists.newArrayList(estadisticaPersonalPartido));
 		given(this.estadisticaPersonalPartidoService.findByPartido(any(Integer.class)))
 				.willReturn(Lists.newArrayList(estadisticaPersonalPartido));
-		given(this.estadisticaPersonalPartidoService.findByJugadorAndPartido(any(Integer.class),any(Integer.class)))
-		.willReturn(estadisticaPersonalPartido);
 	}
 	
 	/** Metodos EstadisticaPersonalEntrenamientoService por defecto */
@@ -329,10 +339,6 @@ public class BaseMockControllerTest {
 		given(this.viajeService.findById(any(Integer.class))).willReturn(Optional.of(viaje));
 		given(this.viajeService.findByJugadorAndPartidoAndTipoViaje(any(Jugador.class), any(Partido.class),
 				any(TipoViaje.class))).willReturn(viaje);
-		given(this.viajeService.findPersonalesByPartidoAndTipoViaje(any(Partido.class), any(String.class)))
-				.willReturn(Lists.newArrayList(viaje.getPersonal()));
-		
-		
 	}
 	
 	/** Metodos PersonalesService por defecto */

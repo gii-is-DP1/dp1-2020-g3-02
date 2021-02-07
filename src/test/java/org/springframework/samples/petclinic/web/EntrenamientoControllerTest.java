@@ -70,10 +70,31 @@ public class EntrenamientoControllerTest extends BaseControllerTest{
 				.andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities= {"entrenador"})
 	@Test
-	void testListadoDeEntrenamientos() throws Exception {
-		mockMvc.perform(get("/entrenamientos/findEntrenamientos")).andExpect(status().isOk());
+	void testListadoDeEntrenamientosCoach() throws Exception {
+		mockMvc.perform(get("/entrenamientos/findEntrenamientos"))
+		.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
+		.andExpect(jsonPath("$.data[0].hora", is(HORA)))
+		.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring", authorities= {"jugador"})
+	@Test
+	void testListadoDeEntrenamientosPlayer() throws Exception {
+		mockMvc.perform(get("/entrenamientos/findEntrenamientos"))
+		.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
+		.andExpect(jsonPath("$.data[0].hora", is(HORA)))
+		.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring", authorities= {"estadistico"})
+	@Test
+	void testListadoDeEntrenamientosStat() throws Exception {
+		mockMvc.perform(get("/entrenamientos/findEntrenamientos"))
+		.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
+		.andExpect(jsonPath("$.data[0].hora", is(HORA)))
+		.andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")

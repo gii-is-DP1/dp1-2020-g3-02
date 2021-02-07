@@ -518,11 +518,10 @@ public class EntrenamientoController {
 	}
 	@RequestMapping(value = "/updatematerial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> updateMaterial(HttpServletRequest request, @ModelAttribute(name="lineaMaterial") LineaMaterial linea, BindingResult result) {
-	//	try {
+		try {
 			//crear map 
 			Entrenamiento entr= entrenamientoService.findById(Integer.parseInt(request.getParameter("id"))).get();
 			linea(TipoMaterial.BALONMEDICINAL, Integer.parseInt(request.getParameter("cantidad1")), entr,result);
-			
 			linea(TipoMaterial.BALONDEJUEGO, Integer.parseInt(request.getParameter("cantidad2")), entr,result);
 			linea(TipoMaterial.RED, Integer.parseInt(request.getParameter("cantidad3")), entr,result);
 			linea(TipoMaterial.POSTE, Integer.parseInt(request.getParameter("cantidad4")), entr,result);
@@ -537,10 +536,10 @@ public class EntrenamientoController {
 			
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
 			
-//		} catch (Exception e) {
-//			LOG.error("Error al guardar el material");
-//			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
-//		}
+		} catch (Exception e) {
+			LOG.error("Error al guardar el material");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 
