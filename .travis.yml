@@ -6,13 +6,3 @@ services:
   - mysql
 before_install:
   - mysql -e 'CREATE DATABASE petclinic;'
-
-addons:
-  sonarcloud:
-    organization: "gii-is-dp1" # the key of the org you chose at step #3
-    token:
-      secure: "8523e5e881fb279ccbf31f200c20e10a19e60b6b"
-
-script:
-  - mvn test -Dspring-boot.run.profiles=mysql-travis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=gii-is-DP1_dp1-2020-g3-02
