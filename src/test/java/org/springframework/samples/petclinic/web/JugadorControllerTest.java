@@ -62,18 +62,6 @@ class JugadorControllerTest extends BaseControllerTest {
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testListadoJugadoresPrivilegios() throws Exception {
-
-		mockMvc.perform(get("/jugadores/showjugadorespriv"))
-				.andExpect(view().name(ViewConstant.VIEW_JUGADORES_PRIVILEGIOS))
-				.andExpect(model().attributeExists("entrenamientos"))
-				.andExpect(model().attributeExists("partidos"))
-				.andExpect(model().attributeExists("jugadorespriv"))
-				.andExpect(model().attributeExists("listpriv"));
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
 	void testListadoJugadoresAutorizacion() throws Exception {
 
 		mockMvc.perform(get("/jugadores/showjugadoresaut")).andExpect(status().isOk())
@@ -102,11 +90,19 @@ class JugadorControllerTest extends BaseControllerTest {
 
 		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
 
-		mockMvc.perform(get("/jugadores/eliminarautorizacion/{id}/{tipoAutorizacion}", ID, "TRANSPORTE"))
-				.andExpect(status().isOk());
+		mockMvc.perform(post("/jugadores/eliminarautorizacion/{id}/{tipoAutorizacion}", ID, "TRANSPORTE"))
+		.andExpect(status().isOk());
 	}
 	
-	//addAutorizacion
+	@WithMockUser(value = "spring")
+	@Test
+	void testAddAutorizacion() throws Exception {
+
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
+
+		mockMvc.perform(post("/jugadores/addautorizacion/{id}/{tipoAutorizacion}", ID, "TRANSPORTE"))
+		.andExpect(status().isOk());
+	}
 	
 	
 	@WithMockUser(value = "spring")
