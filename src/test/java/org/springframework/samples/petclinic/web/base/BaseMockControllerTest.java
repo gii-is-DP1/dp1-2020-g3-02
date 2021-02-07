@@ -289,7 +289,11 @@ public class BaseMockControllerTest {
 		doNothing().when(lineaMaterialValidator).validate(any(Object.class), any(Errors.class));
 		when(lineaMaterialValidator.supports(any(Class.class))).thenReturn(true);
 		
+		doNothing().when(realizaEjercicioValidator).validate(any(Object.class), any(Errors.class));
+		when(realizaEjercicioValidator.supports(any(Class.class))).thenReturn(true);
 		
+		doNothing().when(ejercicioIndividualValidator).validate(any(Object.class), any(Errors.class));
+		when(ejercicioIndividualValidator.supports(any(Class.class))).thenReturn(true);
 
 	}
 
@@ -400,7 +404,8 @@ public class BaseMockControllerTest {
 		given(this.autorizacionService.findByJugadorAndTipo(any(Jugador.class),any(TipoAutorizacion.class)))
 		.willReturn(autorizacion);
 		//given(this.autorizacionService.deleteByIdSiExiste(any(Integer.class)));
-		given(this.autorizacionService.save(any(Autorizacion.class))).willReturn(autorizacion);
+		given(this.autorizacionService.save(any(Autorizacion.class))).
+		willReturn(autorizacion);
 	}
 	
 	/** Metodos RealizaEjercicioService por defecto */
@@ -411,9 +416,13 @@ public class BaseMockControllerTest {
 	
 	/** Metodos EjercicioindividualService por defecto */
 	protected void givenEjercicioIndividualService(EjercicioIndividual ejercicio) {
+		given(this.ejercicioIndividualService.findById(any(Integer.class)))
+		.willReturn(Optional.of(ejercicio));
 		given(this.ejercicioIndividualService.findEjerciciosRecomendados(any(Jugador.class)))
-		.willReturn(Lists.newArrayList(Lists.newArrayList(ejercicio)));
+		.willReturn(Lists.newArrayList(ejercicio));
 		given(this.ejercicioIndividualService.findByTipoEjercicio(any(TipoEjercicio.class)))
-		.willReturn(Lists.newArrayList(Lists.newArrayList(ejercicio)));
+		.willReturn(Lists.newArrayList(ejercicio));
+		given(this.ejercicioIndividualService.save(any(EjercicioIndividual.class))).
+		willReturn(ejercicio);
 	}
 }

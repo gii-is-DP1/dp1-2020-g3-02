@@ -1,7 +1,11 @@
 package org.springframework.samples.petclinic.web;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,5 +56,45 @@ class EjercicioIndividualControllerTest extends BaseControllerTest {
 				.andExpect(jsonPath("$.data[0].descripcion", is("saque")))
 				.andExpect(status().isOk());
 	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testFindEjercicio() throws Exception {
 
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
+		
+		mockMvc.perform(get("/ejercicios/findEjercicio/{id}",ID))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testPostRealizaEjercicio() throws Exception {
+		
+		mockMvc.perform(post("/ejercicios/postRealizaEjercicio").with(csrf())
+				.param("fecha", "01/12/2020")
+				.param("idRealizarEjercicio","1"))
+				.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testPostEjercicio() throws Exception {
+		
+		mockMvc.perform(post("/ejercicios/postEjercicio").with(csrf())
+				.param("idGestionEjercicio", "1")
+				.param("tipoGestionEjercicio","SAQUE")
+				.param("nombre", "Saque")
+				.param("descripcion", "Saque"))
+				.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testdeleteEjercicio() throws Exception {
+		
+		mockMvc.perform(post("/ejercicios/deleteEjercicio/{id}",ID).with(csrf()))
+		.andExpect(status().isOk());
+	}
+	
 }

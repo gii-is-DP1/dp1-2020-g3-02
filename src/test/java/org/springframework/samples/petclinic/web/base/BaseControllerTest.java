@@ -426,6 +426,9 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		//RealizaEjercicioService
 		givenRealizaEjercicioService(realizaEjercicio);
 		
+		//EjercicioIndividualService
+		givenEjercicioIndividualService(ejercicio);
+		
 		
 		// CONVERTERS
 		
@@ -509,8 +512,11 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		.willReturn((conTodoElDolorDeMiCorazonNoSeQueNombrePonerleAEsto2(realizaEjercicios)));
 		
 		//EjercicioIndividual
+		given(this.ejercicioIndividualConverter.converterEntityToDTO(any(EjercicioIndividual.class)))
+		.willReturn((converterEntityToDTO(ejercicio)));
 		given(this.ejercicioIndividualConverter.converListEntityToListDTO(any()))
 		.willReturn((converListEntityToListDTO(ejerciciosIndividuales)));
+		
 		
 		//TipoEjercicio
 		//given(this.tipoEjercicioConverter.convertToEntityAttribute(any(String.class)))

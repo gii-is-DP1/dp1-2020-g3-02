@@ -153,7 +153,6 @@ class JugadorControllerTest extends BaseControllerTest {
 				.andExpect(model().attributeExists("jugador"));
 	}
 	
-	//He añadido metodo save del service al base mock controller ¿Está bien?
 	@WithMockUser(value = "spring")
 	@Test
 	void testAddJugador() throws Exception {
