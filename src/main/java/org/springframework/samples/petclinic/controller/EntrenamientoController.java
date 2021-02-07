@@ -547,7 +547,7 @@ public class EntrenamientoController {
 				return new ResponseEntity<Map<String, Set<ObjectError>>>(mape,HttpStatus.BAD_REQUEST);
 
 
-			}
+			} 
 		} catch (Exception e) {
 			LOG.error("Error al guardar la linea de material");
 			return new ResponseEntity<Map<String, Set<ObjectError>>>(HttpStatus.BAD_REQUEST);
