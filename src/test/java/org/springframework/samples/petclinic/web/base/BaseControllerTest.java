@@ -45,6 +45,8 @@ import org.springframework.samples.petclinic.model.SistemaJuego;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorCAP;
+import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 
 public class BaseControllerTest extends BaseUserControllerTest {
 
@@ -320,6 +322,8 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		List<Jugador> jugadores = new ArrayList<Jugador>();
 		jugadores.add(jugador);
 		List<JugadorAut> jugadoresAut = jugadorConverter.convertListJugadorToListJugadorAut(jugadores);
+		List<JugadorCAP> jugadoresCAP = new ArrayList<JugadorCAP>(); 
+		List<JugadorPartidoStats> jugadoresPartidoStats = new ArrayList<JugadorPartidoStats>(); 
 		Equipo equipo = jugador.getEquipos().get(0);
 		NumCamiseta num = getNumCamisetaCorrecto(1, jugador, equipo);
 		Privilegio privilegio = getPrivilegioCorrecto(jugador, equipo);
@@ -396,6 +400,8 @@ public class BaseControllerTest extends BaseUserControllerTest {
 				.willReturn(convertJugadorToJugadorPartidoStats(jugador));
 		given(this.jugadorConverter.convertListJugadorToListJugadorWithEquipo(any()))
 		.willReturn(convertListJugadorToListJugadorWithEquipo(jugadores));
+		given(this.jugadorConverter.convertJugadorToJugadorCAP(any()))
+		.willReturn(convertJugadorToJugadorCAP(jugador));
 		given(this.jugadorConverter.convertListJugadorToListJugadorInEquipoSinUser(any(), any()))
 		.willReturn(convertListJugadorToListJugadorInEquipoSinUser(jugadores, Lists.newArrayList(num.getNumero())));
 		given(this.jugadorConverter.convertListJugadorToListJugadorAut(any()))
@@ -406,9 +412,27 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		.willReturn(convertJugadorToJugadorStats(jugador));
 		given(this.jugadorConverter.convertJugadorToJugadorEdit(any(Jugador.class)))
 		.willReturn(convertJugadorToJugadorEdit(jugador));
-		
 		given(this.jugadorConverter.convertJugadorToJugadorEditNumCamiseta(any(Jugador.class),any(Integer.class)))
 		.willReturn(convertJugadorToJugadorEditNumCamiseta(jugador,num.getNumero()));
+		given(this.jugadorConverter.convertParcialListJugadorToListJugadorDTO(any()))
+		.willReturn(convertParcialListJugadorToListJugadorDTO(jugadores));
+		
+		//Equipo
+		given(this.equipoConverter.convertEquipoToEquipoCAP(any(Equipo.class),any()))
+		.willReturn(convertEquipoToEquipoCAP(equipo, jugadoresCAP));
+		given(this.equipoConverter.convertEquipoToEquipoTablaEquipo(any(Equipo.class)))
+		.willReturn(convertEquipoToEquipoTablaEquipo(equipo));
+		given(this.equipoConverter.convertEquipoToEquipoEdit(any(Equipo.class)))
+		.willReturn(convertEquipoToEquipoEdit(equipo));
+		given(this.equipoConverter.convertEquipoToEquipoCategoria(any(Equipo.class)))
+		.willReturn(convertEquipoToEquipoCategoria(equipo));
+		given(this.equipoConverter.convertEquipoToEquipoStats(any(Equipo.class)))
+		.willReturn(convertEquipoToEquipoStats(equipo));
+		
+		
+		//DataPosicion
+		given(this.dataPosicionConverter.convertPartidoToPartidoStats(any()))
+		.willReturn(convertPartidoToPartidoStats(jugadoresPartidoStats));
 		
 		//Partido
 		given(this.partidoConverter.convertPartidoToPartidoEdit(any(Partido.class)))
@@ -441,6 +465,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		//Personal
 		given(this.personalesConverter.convertPersonalToPersonalEdit(any(Personales.class)))
 		.willReturn(convertPersonalToPersonalEdit(personal));
+		
 		
 }
 }
