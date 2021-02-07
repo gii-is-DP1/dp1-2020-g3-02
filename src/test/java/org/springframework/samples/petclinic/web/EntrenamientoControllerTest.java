@@ -207,6 +207,18 @@ public class EntrenamientoControllerTest extends BaseControllerTest{
 	
 	@WithMockUser(value = "spring")
 	@Test
+	void vistaPostEntrenamientoBad() throws Exception {
+		
+        mockMvc.perform(post("/entrenamientos/postentrenamiento").with(csrf())
+        		.param("id", "")
+        		.param("equipo", "")
+        		.param("fecha", "32/02/2021")
+        		.param("hora", "15:20"))
+        .andExpect(status().isBadRequest());
+    }
+	
+	@WithMockUser(value = "spring")
+	@Test
 	void vistaEditEntrenamiento() throws Exception {
 		
         mockMvc.perform(post("/entrenamientos/postentrenamiento").with(csrf())
@@ -214,5 +226,16 @@ public class EntrenamientoControllerTest extends BaseControllerTest{
           		.param("fecha", "19/02/2021")
         		.param("hora", "16:20"))
         .andExpect(status().is2xxSuccessful());
+    }
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void vistaEditEntrenamientoBad() throws Exception {
+		
+        mockMvc.perform(post("/entrenamientos/postentrenamiento").with(csrf())
+        		.param("id", "1")
+          		.param("fecha", "32/12/2021")
+        		.param("hora", "16:20"))
+        .andExpect(status().isBadRequest());
     }
 }

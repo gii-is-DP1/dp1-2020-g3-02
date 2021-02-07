@@ -3,7 +3,9 @@ package org.springframework.samples.petclinic.web.base;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.assertj.core.util.Lists;
@@ -67,6 +69,8 @@ public class BaseControllerTest extends BaseUserControllerTest {
 	protected static final Integer MARCADOR = 0;
 	
 	protected static final String SISTEMA_JUEGO = "CINCO_UNO";
+	
+	protected static final String TIPO_EJERCICIO = "Saque";
 
 	protected Jugador getJugadorCorrecto() {
 		List<TipoAutorizacion> tiposAutorizaciones = new ArrayList<TipoAutorizacion>();
@@ -119,6 +123,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		jugador.setNumFaltasTotales(8);
 		jugador.setNumRojas(0);
 		jugador.setAutorizacion(getAutorizacionesCorrectas(tiposAutorizaciones, jugador));
+		jugador.setPrivilegios(getPrivilegiosCorrectos(jugador,equipo));
 		jugador.setNumCamisetas(numCamisetas);
 		jugador.setEquipos(equipos);
 		jugador.setPartidos(partidos);
@@ -130,6 +135,13 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		Privilegio privilegio = new Privilegio(jugador, equipo, TipoPrivilegio.PARTIDOS, "Partidos");
 		privilegio.setId(ID);
 		return privilegio;
+	}
+	
+	protected Set<Privilegio> getPrivilegiosCorrectos(Jugador jugador, Equipo equipo) {
+		Privilegio privilegio = getPrivilegioCorrecto(jugador, equipo);
+		Set<Privilegio> privilegios = new HashSet<Privilegio>();
+		privilegios.add(privilegio);
+		return privilegios;
 	}
 	
 	protected PruebaCondicionFisica getPruebaCondicionFisicaCorrecta(Jugador jugador) {
@@ -296,11 +308,25 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		ejercicio.setId(ID);
 		return ejercicio;
 	}
+	
+	protected List<EjercicioIndividual> getEjerciciosIndividualesCorrectos() {
+		EjercicioIndividual ejercicio =  getEjercicioIndividualCorrecto();
+		List<EjercicioIndividual> ejercicios = new ArrayList<EjercicioIndividual>();
+		ejercicios.add(ejercicio);
+		return ejercicios;
+	}
 
 	protected RealizaEjercicio getRealizaEjercicioCorrecto(Jugador jugador, EjercicioIndividual ejercicio) {
 		RealizaEjercicio realizaEjercicio =  new RealizaEjercicio(jugador, ejercicio, LocalDate.now());
 		realizaEjercicio.setId(ID);
 		return realizaEjercicio;
+	}
+	
+	protected List<RealizaEjercicio> getRealizaEjerciciosCorrectos(Jugador jugador, EjercicioIndividual ejercicio) {
+		RealizaEjercicio realizaEjercicio =  getRealizaEjercicioCorrecto(jugador, ejercicio);
+		List<RealizaEjercicio> ejercicios = new ArrayList<RealizaEjercicio>();
+		ejercicios.add(realizaEjercicio);
+		return ejercicios;
 	}
 	
 	protected SistemaJuego getSistemaJuegoCorrecto(Partido partido) {
@@ -341,8 +367,11 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		Autobus autobus = getAutobusCorrecto();
 		Viaje viaje = getViajeCorrecto(jugador, partido, personal, autobus);
 		EjercicioIndividual ejercicio = getEjercicioIndividualCorrecto();
+		List<EjercicioIndividual> ejerciciosIndividuales = getEjerciciosIndividualesCorrectos();
 		RealizaEjercicio realizaEjercicio = getRealizaEjercicioCorrecto(jugador, ejercicio);
+		List<RealizaEjercicio> realizaEjercicios = getRealizaEjerciciosCorrectos(jugador, ejercicio);
 		PruebaCondicionFisica pruebaCondicionFisica = getPruebaCondicionFisicaCorrecta(jugador);
+		Autorizacion auto = getAutorizacionCorrecta(TipoAutorizacion.EXCURSIONES, jugador);
 
 		// Invalidación de validators
 		doNothingValidators();
@@ -391,6 +420,11 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		//NumCamisetaService
 		givenNumCamisetaService(num);
 		
+		//AutorizacionService
+		givenAutorizacionService(auto);
+		
+		//RealizaEjercicioService
+		givenRealizaEjercicioService(realizaEjercicio);
 		
 		
 		// CONVERTERS
@@ -466,6 +500,21 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		given(this.personalesConverter.convertPersonalToPersonalEdit(any(Personales.class)))
 		.willReturn(convertPersonalToPersonalEdit(personal));
 		
+		//Tipo Privilegio
+		//given(this.tipoPrivilegioConverter.convertToEntityAttribute(any(String.class)))
+		//.willReturn(convertToEntityAttribute("PARTIDOS"));
 		
-}
+		//RealizaEjercicio
+		given(this.realizaEjercicioConverter.converListEntityToListDTO(any()))
+		.willReturn((conTodoElDolorDeMiCorazonNoSeQueNombrePonerleAEsto2(realizaEjercicios)));
+		
+		//EjercicioIndividual
+		given(this.ejercicioIndividualConverter.converListEntityToListDTO(any()))
+		.willReturn((converListEntityToListDTO(ejerciciosIndividuales)));
+		
+		//TipoEjercicio
+		//given(this.tipoEjercicioConverter.convertToEntityAttribute(any(String.class)))
+		//.willReturn((convertToEntityAttribute(TIPO_EJERCICIO)));
+		
+	}
 }

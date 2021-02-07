@@ -388,7 +388,7 @@
 												{
 													dom: 'ft',
 													ajax : '[[@{/materiales/tablamaterial}]]',
-													order : [ 1, 'asc' ],
+													order : [ 0, 'asc' ],
 
 													"columns" : [
 															{data : 'tipo'},
@@ -481,6 +481,11 @@
 												            },
 												            {
 												                "targets": [ 6 ],
+												                "orderable": false,
+												                "searchable": false,
+												            },
+												            {
+												                "targets": [ -1 ],
 												                "orderable": false,
 												                "searchable": false,
 												            },

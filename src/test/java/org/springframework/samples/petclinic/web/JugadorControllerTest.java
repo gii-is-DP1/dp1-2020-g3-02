@@ -51,14 +51,13 @@ class JugadorControllerTest extends BaseControllerTest {
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testListadoJugadoresPrivilegios() throws Exception {
+	void testFindPrivJugadorEquipo() throws Exception {
 
-		mockMvc.perform(get("/jugadores/showjugadorespriv"))
-				.andExpect(view().name(ViewConstant.VIEW_JUGADORES_PRIVILEGIOS))
-				.andExpect(model().attributeExists("entrenamientos"))
-				.andExpect(model().attributeExists("partidos"))
-				.andExpect(model().attributeExists("jugadorespriv"))
-				.andExpect(model().attributeExists("listpriv"));
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
+
+		mockMvc.perform(get("/jugadores/getprivjugadorteam/{id}/{equipo}", ID, "Senior"))
+				.andExpect(jsonPath("$.partidos", is(true)))
+				.andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
@@ -75,7 +74,6 @@ class JugadorControllerTest extends BaseControllerTest {
 				.andExpect(model().attributeExists("listaut"));
 	}
 	
-	//Hay un json dentro de un json?
 	@WithMockUser(value = "spring")
 	@Test
 	void testTablaJugadoresAutorizacion() throws Exception {
@@ -85,9 +83,25 @@ class JugadorControllerTest extends BaseControllerTest {
 				.andExpect(jsonPath("$.data[0].lastName", is("Lallena"))).andExpect(status().isOk());
 	}
 	
-	//eliminarAutorizacion
+	@WithMockUser(value = "spring")
+	@Test
+	void testEliminarAutorizacion() throws Exception {
+
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
+
+		mockMvc.perform(post("/jugadores/eliminarautorizacion/{id}/{tipoAutorizacion}", ID, "TRANSPORTE"))
+		.andExpect(status().isOk());
+	}
 	
-	//addAutorizacion
+	@WithMockUser(value = "spring")
+	@Test
+	void testAddAutorizacion() throws Exception {
+
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
+
+		mockMvc.perform(post("/jugadores/addautorizacion/{id}/{tipoAutorizacion}", ID, "TRANSPORTE"))
+		.andExpect(status().isOk());
+	}
 	
 	
 	@WithMockUser(value = "spring")

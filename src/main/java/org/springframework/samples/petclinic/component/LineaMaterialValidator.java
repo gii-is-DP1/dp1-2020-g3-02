@@ -50,6 +50,7 @@ public class LineaMaterialValidator implements Validator {
 		
 		if ( lineaMaterial.getCantidad()>puedesUsar(lineaMaterial)) {
 			int hola = puedesUsar(lineaMaterial);
+			
 			errors.rejectValue("cantidad", "La cantidad no puede ser mayor que "+hola,"La cantidad no puede ser mayor que "+hola);
 		}
 	}

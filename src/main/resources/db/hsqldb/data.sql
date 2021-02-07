@@ -306,7 +306,7 @@ INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_a
 	
 INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
-	remates_acertados,remates_totales,porcentaje_remates) VALUES (9,'2021-02-06','12:00',5,1,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
+	remates_acertados,remates_totales,porcentaje_remates) VALUES (9,'2021-12-06','12:00',5,1,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
 	
 INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
@@ -532,7 +532,7 @@ INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,1);
 
 
 
-INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (1,'balon duro','BALONMEDICINAL',3,'INSERVIBLE');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (1,'balon duro','BALONMEDICINAL',0,'NUEVO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (2,'balon blando','BALONDEJUEGO',10,'ACEPTABLE');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (3,'cuerda','CUERDA',8,'BUENO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (4,'cinta','CINTA',10,'NUEVO');
@@ -543,6 +543,7 @@ INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (8,'cono medio'
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (9,'cono alto nuevos','CONOALTO',3,'NUEVO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (10,'cono alto bueno','CONOALTO',6,'BUENO');
 INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (11,'cono alto inservibles','CONOALTO',3,'INSERVIBLE');
+INSERT INTO materiales (id,descripcion,tipo,stock,estado) VALUES (12,'balon duro','BALONMEDICINAL',3,'INSERVIBLE');
 
 	
 

@@ -191,16 +191,6 @@ public class JugadorController {
 		}	
 	}
 
-	@GetMapping("/showjugadorespriv")
-	public String listadoJugadoresPrivilegios(Model model) {
-		model.addAttribute("entrenamientos",jugadorService.findPrivilegio(TipoPrivilegio.ENTRENAMIENTOS));
-		model.addAttribute("partidos",jugadorService.findPrivilegio(TipoPrivilegio.PARTIDOS));
-		model.addAttribute("jugadorespriv", jugadorService.findAll());
-		model.addAttribute("listpriv", new ArrayList<TipoPrivilegio>(Arrays.asList(TipoPrivilegio.ENTRENAMIENTOS, TipoPrivilegio.PARTIDOS)));
-
-		return ViewConstant.VIEW_JUGADORES_PRIVILEGIOS;
-	}
-
 	@RequestMapping(value = "/updateprivilegio", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> editarPrivilegio(HttpServletRequest request, @ModelAttribute(name="privilegiojugador") PrivilegioEdit privilegioedit, BindingResult result) {
 		try {

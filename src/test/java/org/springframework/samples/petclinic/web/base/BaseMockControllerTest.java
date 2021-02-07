@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import org.assertj.core.util.Lists;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.samples.petclinic.component.EjercicioIndividualValidator;
 import org.springframework.samples.petclinic.component.EntrenadorValidator;
 import org.springframework.samples.petclinic.component.EntrenamientoValidator;
 import org.springframework.samples.petclinic.component.EquipoValidator;
@@ -19,8 +20,10 @@ import org.springframework.samples.petclinic.component.LineaMaterialValidator;
 import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
 import org.springframework.samples.petclinic.component.PruebaCondicionFisicaValidator;
+import org.springframework.samples.petclinic.component.RealizaEjercicioValidator;
 import org.springframework.samples.petclinic.component.UserValidator;
 import org.springframework.samples.petclinic.converter.DataPosicionConverter;
+import org.springframework.samples.petclinic.converter.EjercicioIndividualConverter;
 import org.springframework.samples.petclinic.converter.EntrenamientoConverter;
 import org.springframework.samples.petclinic.converter.EquipoConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
@@ -29,16 +32,21 @@ import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConver
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.converter.PersonalConverter;
 import org.springframework.samples.petclinic.converter.PruebaConverter;
+import org.springframework.samples.petclinic.converter.RealizaEjercicioConverter;
 import org.springframework.samples.petclinic.converter.UserConverter;
 import org.springframework.samples.petclinic.converter.ViajeConverter;
 import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PrivilegioConverter;
+import org.springframework.samples.petclinic.converter.enumerate.TipoEjercicioConverter;
 import org.springframework.samples.petclinic.converter.enumerate.TipoPrivilegioConverter;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
+import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
+import org.springframework.samples.petclinic.model.Autorizacion;
+import org.springframework.samples.petclinic.model.EjercicioIndividual;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
@@ -50,10 +58,12 @@ import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
+import org.springframework.samples.petclinic.model.RealizaEjercicio;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.service.AutorizacionService;
 import org.springframework.samples.petclinic.service.CapitanService;
+import org.springframework.samples.petclinic.service.EjercicioIndividualService;
 import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EquipoService;
@@ -68,6 +78,7 @@ import org.springframework.samples.petclinic.service.PartidoService;
 import org.springframework.samples.petclinic.service.PersonalesService;
 import org.springframework.samples.petclinic.service.PrivilegioService;
 import org.springframework.samples.petclinic.service.PruebaCondicionFisicaService;
+import org.springframework.samples.petclinic.service.RealizaEjercicioService;
 import org.springframework.samples.petclinic.service.SistemaJuegoService;
 import org.springframework.samples.petclinic.service.SustitucionService;
 import org.springframework.samples.petclinic.service.ViajeService;
@@ -141,6 +152,12 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected PrivilegioService privilegioService;
+	
+	@MockBean
+	protected RealizaEjercicioService realizaEjercicioService;
+	
+	@MockBean
+	protected EjercicioIndividualService ejercicioIndividualService;
 
 
 	// CONVERTERS
@@ -189,6 +206,15 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected PrivilegioConverter privilegioConverter;
+	
+	@MockBean
+	protected RealizaEjercicioConverter realizaEjercicioConverter;
+	
+	@MockBean
+	protected EjercicioIndividualConverter ejercicioIndividualConverter;
+	
+	@MockBean
+	protected TipoEjercicioConverter tipoEjercicioConverter;
 
 	// VALIDATORS
 	
@@ -222,6 +248,11 @@ public class BaseMockControllerTest {
 	@MockBean
 	protected LineaMaterialValidator lineaMaterialValidator;
 	
+	@MockBean
+	protected RealizaEjercicioValidator realizaEjercicioValidator;
+	
+	@MockBean
+	protected EjercicioIndividualValidator ejercicioIndividualValidator;
 	
 
 
@@ -364,4 +395,25 @@ public class BaseMockControllerTest {
 		given(this.numCamisetaService.findByEquipoAndJugador(any(Integer.class), any(Integer.class))).willReturn(numero);
 	}
 	
+	/** Metodos AutorizacionService por defecto */
+	protected void givenAutorizacionService(Autorizacion autorizacion) {
+		given(this.autorizacionService.findByJugadorAndTipo(any(Jugador.class),any(TipoAutorizacion.class)))
+		.willReturn(autorizacion);
+		//given(this.autorizacionService.deleteByIdSiExiste(any(Integer.class)));
+		given(this.autorizacionService.save(any(Autorizacion.class))).willReturn(autorizacion);
+	}
+	
+	/** Metodos RealizaEjercicioService por defecto */
+	protected void givenRealizaEjercicioService(RealizaEjercicio realiza) {
+		given(this.realizaEjercicioService.findAll())
+		.willReturn(Lists.newArrayList(realiza));
+	}
+	
+	/** Metodos EjercicioindividualService por defecto */
+	protected void givenEjercicioIndividualService(EjercicioIndividual ejercicio) {
+		given(this.ejercicioIndividualService.findEjerciciosRecomendados(any(Jugador.class)))
+		.willReturn(Lists.newArrayList(Lists.newArrayList(ejercicio)));
+		given(this.ejercicioIndividualService.findByTipoEjercicio(any(TipoEjercicio.class)))
+		.willReturn(Lists.newArrayList(Lists.newArrayList(ejercicio)));
+	}
 }
