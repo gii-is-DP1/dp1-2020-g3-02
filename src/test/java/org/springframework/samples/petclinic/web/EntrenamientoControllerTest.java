@@ -70,10 +70,31 @@ public class EntrenamientoControllerTest extends BaseControllerTest{
 				.andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities= {"entrenador"})
 	@Test
-	void testListadoDeEntrenamientos() throws Exception {
-		mockMvc.perform(get("/entrenamientos/findEntrenamientos")).andExpect(status().isOk());
+	void testListadoDeEntrenamientosCoach() throws Exception {
+		mockMvc.perform(get("/entrenamientos/findEntrenamientos"))
+		.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
+		.andExpect(jsonPath("$.data[0].hora", is(HORA)))
+		.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring", authorities= {"jugador"})
+	@Test
+	void testListadoDeEntrenamientosPlayer() throws Exception {
+		mockMvc.perform(get("/entrenamientos/findEntrenamientos"))
+		.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
+		.andExpect(jsonPath("$.data[0].hora", is(HORA)))
+		.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring", authorities= {"estadistico"})
+	@Test
+	void testListadoDeEntrenamientosStat() throws Exception {
+		mockMvc.perform(get("/entrenamientos/findEntrenamientos"))
+		.andExpect(jsonPath("$.data[0].fecha", is(LocalDate.now().toString())))
+		.andExpect(jsonPath("$.data[0].hora", is(HORA)))
+		.andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
@@ -186,6 +207,18 @@ public class EntrenamientoControllerTest extends BaseControllerTest{
 	
 	@WithMockUser(value = "spring")
 	@Test
+	void vistaPostEntrenamientoBad() throws Exception {
+		
+        mockMvc.perform(post("/entrenamientos/postentrenamiento").with(csrf())
+        		.param("id", "")
+        		.param("equipo", "")
+        		.param("fecha", "32/02/2021")
+        		.param("hora", "15:20"))
+        .andExpect(status().isBadRequest());
+    }
+	
+	@WithMockUser(value = "spring")
+	@Test
 	void vistaEditEntrenamiento() throws Exception {
 		
         mockMvc.perform(post("/entrenamientos/postentrenamiento").with(csrf())
@@ -193,5 +226,16 @@ public class EntrenamientoControllerTest extends BaseControllerTest{
           		.param("fecha", "19/02/2021")
         		.param("hora", "16:20"))
         .andExpect(status().is2xxSuccessful());
+    }
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void vistaEditEntrenamientoBad() throws Exception {
+		
+        mockMvc.perform(post("/entrenamientos/postentrenamiento").with(csrf())
+        		.param("id", "1")
+          		.param("fecha", "32/12/2021")
+        		.param("hora", "16:20"))
+        .andExpect(status().isBadRequest());
     }
 }

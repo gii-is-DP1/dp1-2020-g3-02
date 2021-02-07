@@ -1106,9 +1106,9 @@ public class EstadisticasController {
 			int partidoId = Integer.parseInt(request.getParameter("partidoId"));
 			Partido partido = partidoService.findById(partidoId).get();
 			partido.setPartidoFinalizado(true);
-			
 			Partido patido_ = partidoService.save(partido);
 			
+			estadisticaPersonalPartidoService.saveEstadisticasByPartido(partidoId);
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
 			LOG.error("Excepción actualizando el jugador en partido");

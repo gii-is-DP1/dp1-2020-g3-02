@@ -522,6 +522,7 @@ public class EntrenamientoController {
 
 	}
 	@RequestMapping(value = "/updatematerial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+
 	public ResponseEntity<Map<String, Set<ObjectError>>> updateMaterial(HttpServletRequest request, @ModelAttribute(name="lineaMaterial") LineaMaterial linea, BindingResult result) {
 		try {
 			Map<String, Set<ObjectError>> mape = new HashMap<String,Set<ObjectError>>();
@@ -551,6 +552,30 @@ public class EntrenamientoController {
 		} catch (Exception e) {
 			LOG.error("Error al guardar la linea de material");
 			return new ResponseEntity<Map<String, Set<ObjectError>>>(HttpStatus.BAD_REQUEST);
+
+	public ResponseEntity<List<ObjectError>> updateMaterial(HttpServletRequest request, @ModelAttribute(name="lineaMaterial") LineaMaterial linea, BindingResult result) {
+		try {
+			//crear map 
+			Entrenamiento entr= entrenamientoService.findById(Integer.parseInt(request.getParameter("id"))).get();
+			linea(TipoMaterial.BALONMEDICINAL, Integer.parseInt(request.getParameter("cantidad1")), entr,result);
+			linea(TipoMaterial.BALONDEJUEGO, Integer.parseInt(request.getParameter("cantidad2")), entr,result);
+			linea(TipoMaterial.RED, Integer.parseInt(request.getParameter("cantidad3")), entr,result);
+			linea(TipoMaterial.POSTE, Integer.parseInt(request.getParameter("cantidad4")), entr,result);
+			linea(TipoMaterial.CONOBAJO, Integer.parseInt(request.getParameter("cantidad5")), entr,result);
+			linea(TipoMaterial.CONOALTO, Integer.parseInt(request.getParameter("cantidad6")), entr,result);
+			linea(TipoMaterial.CONOMEDIO, Integer.parseInt(request.getParameter("cantidad7")), entr,result);
+			linea(TipoMaterial.CUERDA, Integer.parseInt(request.getParameter("cantidad8")), entr,result);
+			linea(TipoMaterial.CINTA, Integer.parseInt(request.getParameter("cantidad9")), entr,result);
+			
+		
+		//un if q diga q si el map esta vacio devuelva ok si el map tiene errorres devuelva el map
+			
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
+			
+		} catch (Exception e) {
+			LOG.error("Error al guardar el material");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+
 		}
 	}
 

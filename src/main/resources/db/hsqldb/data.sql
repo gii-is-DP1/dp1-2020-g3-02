@@ -310,11 +310,11 @@ INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_a
 	
 INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
-	remates_acertados,remates_totales,porcentaje_remates) VALUES (10,'2021-01-30','10:00',5,2,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
+	remates_acertados,remates_totales,porcentaje_remates) VALUES (10,'2021-02-07','10:00',5,2,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
 	
 INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
-	remates_acertados,remates_totales,porcentaje_remates) VALUES (11,'2021-01-30','12:00',5,2,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
+	remates_acertados,remates_totales,porcentaje_remates) VALUES (11,'2021-02-07','12:00',5,2,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
 		
 
 
@@ -559,6 +559,12 @@ INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (9,3
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (10,1,2,11);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (11,5,7,2);
 INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (12,5,8,2);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (13,5,10,2);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (14,2,11,1);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (15,1,10,3);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (16,8,11,4);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (17,2,10,5);
+INSERT INTO linea_material(id,cantidad,entrenamiento_id,material_id) VALUES (18,7,11,2);
 
 
 -- INSERT AUTOBUSES

@@ -6,13 +6,13 @@
 		<div class="modal-dialog modal-xl modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header bg-info">
-					<div class="col-6">
-						<h5 class="modal-title" id="staticBackdropLabel"></h5>
+					<div class="col-6 py-1">
+						<h4 class="modal-title" id="staticBackdropLabel"></h4>
 					</div>
-					<div class="col-2 py-2">
-						<h2>Sistema de Juego:</h2>
+					<div class="col-3 py-2">
+						<h5>Sistema de Juego:</h5>
 					</div>
-					<div class="col-4">
+					<div class="col-3">
 						<select class="form-control" type="text" placeholder="Sistema de juego" id="sistemajuego" name="sistemajuego" required>
 	     					<option th:id="COLOCADOR_GENERAL" th:value="COLOCADOR_GENERAL"  name="sistemajuego">Colocador general</option>
 							<option th:id="CUATRO_DOS" th:value="CUATRO_DOS"  name="sistemajuego" >4-2</option>
@@ -71,7 +71,7 @@
 				tablaInicioJugadores.ajax.reload(null, false);
 				tablaIntroducirEstadisticas.ajax.reload(null, false);
 				$('#inicioModal').modal("hide");
-				
+				$('#inicioSetModal').modal("hide");
 				actualizarSelectoresSustitucion();
 			},
 			error : function(data) {
