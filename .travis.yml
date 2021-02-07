@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 language: java
 jdk: oraclejdk8
 services:
@@ -6,13 +6,15 @@ services:
 before_install:
   - mysql -e 'CREATE DATABASE petclinic;'
 script: mvn test -Dspring-boot.run.profiles=mysql-travis
+sudo: false
+install: true
+
 addons:
   sonarcloud:
     organization: "gii-is-dp1"
     token:
-      secure: ${SONAR}
-    branches:
-      - master
+      secure: $SONAR
+
 script:
-  # other script steps might be done before running the actual analysis
-  - sonar-scanner
+  # JaCoCo is used to have code coverage, "-Pcoverage" activates the maven profile in the pom.xml
+  - mvn clean verify sonar:sonar -Pcoverage 
