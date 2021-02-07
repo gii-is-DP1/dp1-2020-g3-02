@@ -92,8 +92,9 @@
 				if(marcador[2] == 5 && (marcador[0] >= 15 || marcador[1] >= 15) && Math.abs(marcador[0]-marcador[1]) > 1){
 					alert("PARTIDO FINALIZADO");
 				}else if(set == parseInt(marcador[2])-1){
-					
-					$('#inicioModal').modal("show");
+					console.log("aaaaaaaaaaaaaaaaaaaaaaaa");
+					tablaInicioSet("tabla");
+					$('#inicioSetModal').modal("show");
 				}
 			}
 		});
@@ -112,7 +113,7 @@
             processData: false,
             contentType: false,
 			success: function(marcador){
-				tablaIntroducirEstadisticas.ajax.reload(null, false);
+				
 				estadisticas();
 				$('#comandoIntroducido').val('');
 				actualizarMarcador();
@@ -148,7 +149,7 @@
 		        processData: false,
 		        contentType: false,
 				success: function(marcador){
-					tablaIntroducirEstadisticas.ajax.reload(null, false);
+					
 					estadisticas();
 					$('#comandoIntroducido').val('');
 					actualizarMarcador();
@@ -177,7 +178,7 @@
             processData: false,
             contentType: false,
 			success: function(marcador){
-				tablaIntroducirEstadisticas.ajax.reload(null, false);
+				
 				estadisticas();
 				$('#comandoIntroducido').val('');
 				actualizarMarcador();
@@ -214,7 +215,7 @@
 	            processData: false,
 	            contentType: false,
 				success: function(marcador){
-					tablaIntroducirEstadisticas.ajax.reload(null, false);
+					
 					estadisticas();
 					$('#comandoIntroducido').val('');
 					actualizarMarcador();

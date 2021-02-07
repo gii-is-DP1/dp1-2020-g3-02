@@ -7,10 +7,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.repository.EstadisticaPersonalPartidoRepository;
+import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
 import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.samples.petclinic.service.PartidoService;
@@ -36,6 +38,9 @@ public class EstadisticaPersonalPartidoServiceImpl extends AbstractEstadisticasS
 	
 	@Autowired
 	private PartidoService partidoService;
+	
+	@Autowired
+	private EquipoService equipoService;
 
 	@Override
 	public List<EstadisticaPersonalPartido> findByJugador(int jugador_id) {
@@ -70,34 +75,6 @@ public class EstadisticaPersonalPartidoServiceImpl extends AbstractEstadisticasS
 		if(statistic.getFintasTotales() > 0) statistic.setPorcentajeFintas(1.*statistic.getFintasAcertadas()/statistic.getFintasTotales());
 		if(statistic.getNumAtaquesRapidosTotales() > 0) statistic.setPorcentajeAtaquesRapidos(1.*statistic.getNumAtaquesRapidosAcertados()/statistic.getNumAtaquesRapidosTotales());
 		
-		Jugador jugador = statistic.getJugador();
-		
-		LOG.info("JUGADOR AL QUE DEBEN ACTUALIZÁRSELES LAS ESTADÍSTICAS: "+jugador);
-		
-		/** INTRODUCCIÓN DE LAS ESTADÍSTICAS EN LAS GENERALES DEL JUGADOR */
-		jugador.setSaquesAcertados(jugador.getSaquesAcertados()+statistic.getSaquesAcertados());
-		jugador.setSaquesTotales(jugador.getSaquesTotales()+statistic.getSaquesTotales());
-		jugador.setRecepcionesAcertadas(jugador.getRecepcionesAcertadas()+statistic.getRecepcionesAcertadas());
-		jugador.setRecepcionesTotales(jugador.getRecepcionesTotales()+statistic.getRecepcionesTotales());
-		jugador.setColocacionesAcertadas(jugador.getColocacionesAcertadas()+statistic.getColocacionesAcertadas());
-		jugador.setColocacionesTotales(jugador.getColocacionesTotales()+statistic.getColocacionesTotales());
-		jugador.setDefensasAcertadas(jugador.getDefensasAcertadas()+statistic.getDefensasAcertadas());
-		jugador.setDefensasTotales(jugador.getDefensasTotales()+statistic.getDefensasTotales());
-		jugador.setBloqueosAcertados(jugador.getBloqueosAcertados()+statistic.getBloqueosAcertados());
-		jugador.setBloqueosTotales(jugador.getBloqueosTotales()+statistic.getBloqueosTotales());
-		jugador.setRematesAcertados(jugador.getRematesAcertados()+statistic.getRematesAcertados());
-		jugador.setRematesTotales(jugador.getRematesTotales()+statistic.getRematesTotales());
-		jugador.setFintasAcertadas(jugador.getFintasAcertadas()+statistic.getFintasAcertadas());
-		jugador.setFintasTotales(jugador.getFintasTotales()+statistic.getFintasTotales());
-		jugador.setNumAtaquesRapidosAcertados(jugador.getNumAtaquesRapidosAcertados()+statistic.getNumAtaquesRapidosAcertados());
-		jugador.setNumAtaquesRapidosTotales(jugador.getNumAtaquesRapidosTotales()+statistic.getNumAtaquesRapidosTotales());
-		jugador.setNumFaltasTotales(jugador.getNumFaltasTotales()+statistic.getNumFaltasTotales());
-		jugador.setNumAmarillas(jugador.getNumAmarillas()+statistic.getNumAmarillas());
-		jugador.setNumRojas(jugador.getNumRojas()+statistic.getNumRojas());
-		
-		Jugador player = jugadorService.save(jugador);
-		
-		LOG.info("JUGADOR YA ACTUALIZADO POR ESTADÍSTICAS: "+player);
 		EstadisticaPersonalPartido estadisticaPersonalPartido = estadisticaPersonalPartidoRepository.save(statistic);
 		return estadisticaPersonalPartido;
 	}
@@ -112,6 +89,65 @@ public class EstadisticaPersonalPartidoServiceImpl extends AbstractEstadisticasS
 		Optional<Partido> partido = partidoService.findById(partido_id);
 		List<EstadisticaPersonalPartido> estadisticas = estadisticaPersonalPartidoRepository.findByPartido(partido.get());
 		estadisticaPersonalPartidoRepository.deleteAll(estadisticas);
+	}
+
+	@Override
+	public void saveEstadisticasByPartido(Integer partido_id) {
+		Partido partido = partidoService.findById(partido_id).get();
+		List<EstadisticaPersonalPartido> estadisticas = estadisticaPersonalPartidoRepository.findByPartido(partido);
+		Equipo equipo = partido.getEquipo();
+		for(int i = 0; i<estadisticas.size();i++) {
+			
+			Jugador jugador = estadisticas.get(i).getJugador();
+			
+			LOG.info("JUGADOR AL QUE DEBEN ACTUALIZÁRSELES LAS ESTADÍSTICAS: "+jugador);
+			
+			/** INTRODUCCIÓN DE LAS ESTADÍSTICAS EN LAS GENERALES DEL JUGADOR */
+			jugador.setSaquesAcertados(jugador.getSaquesAcertados()+estadisticas.get(i).getSaquesAcertados());
+			jugador.setSaquesTotales(jugador.getSaquesTotales()+estadisticas.get(i).getSaquesTotales());
+			jugador.setRecepcionesAcertadas(jugador.getRecepcionesAcertadas()+estadisticas.get(i).getRecepcionesAcertadas());
+			jugador.setRecepcionesTotales(jugador.getRecepcionesTotales()+estadisticas.get(i).getRecepcionesTotales());
+			jugador.setColocacionesAcertadas(jugador.getColocacionesAcertadas()+estadisticas.get(i).getColocacionesAcertadas());
+			jugador.setColocacionesTotales(jugador.getColocacionesTotales()+estadisticas.get(i).getColocacionesTotales());
+			jugador.setDefensasAcertadas(jugador.getDefensasAcertadas()+estadisticas.get(i).getDefensasAcertadas());
+			jugador.setDefensasTotales(jugador.getDefensasTotales()+estadisticas.get(i).getDefensasTotales());
+			jugador.setBloqueosAcertados(jugador.getBloqueosAcertados()+estadisticas.get(i).getBloqueosAcertados());
+			jugador.setBloqueosTotales(jugador.getBloqueosTotales()+estadisticas.get(i).getBloqueosTotales());
+			jugador.setRematesAcertados(jugador.getRematesAcertados()+estadisticas.get(i).getRematesAcertados());
+			jugador.setRematesTotales(jugador.getRematesTotales()+estadisticas.get(i).getRematesTotales());
+			jugador.setFintasAcertadas(jugador.getFintasAcertadas()+estadisticas.get(i).getFintasAcertadas());
+			jugador.setFintasTotales(jugador.getFintasTotales()+estadisticas.get(i).getFintasTotales());
+			jugador.setNumAtaquesRapidosAcertados(jugador.getNumAtaquesRapidosAcertados()+estadisticas.get(i).getNumAtaquesRapidosAcertados());
+			jugador.setNumAtaquesRapidosTotales(jugador.getNumAtaquesRapidosTotales()+estadisticas.get(i).getNumAtaquesRapidosTotales());
+			jugador.setNumFaltasTotales(jugador.getNumFaltasTotales()+estadisticas.get(i).getNumFaltasTotales());
+			jugador.setNumAmarillas(jugador.getNumAmarillas()+estadisticas.get(i).getNumAmarillas());
+			jugador.setNumRojas(jugador.getNumRojas()+estadisticas.get(i).getNumRojas());
+			
+			Jugador player = jugadorService.save(jugador);
+			
+			equipo.setSaquesAcertados(equipo.getSaquesAcertados()+estadisticas.get(i).getSaquesAcertados());
+			equipo.setSaquesTotales(equipo.getSaquesTotales()+estadisticas.get(i).getSaquesTotales());
+			equipo.setRecepcionesAcertadas(equipo.getRecepcionesAcertadas()+estadisticas.get(i).getRecepcionesAcertadas());
+			equipo.setRecepcionesTotales(equipo.getRecepcionesTotales()+estadisticas.get(i).getRecepcionesTotales());
+			equipo.setColocacionesAcertadas(equipo.getColocacionesAcertadas()+estadisticas.get(i).getColocacionesAcertadas());
+			equipo.setColocacionesTotales(equipo.getColocacionesTotales()+estadisticas.get(i).getColocacionesTotales());
+			equipo.setDefensasAcertadas(equipo.getDefensasAcertadas()+estadisticas.get(i).getDefensasAcertadas());
+			equipo.setDefensasTotales(equipo.getDefensasTotales()+estadisticas.get(i).getDefensasTotales());
+			equipo.setBloqueosAcertados(equipo.getBloqueosAcertados()+estadisticas.get(i).getBloqueosAcertados());
+			equipo.setBloqueosTotales(equipo.getBloqueosTotales()+estadisticas.get(i).getBloqueosTotales());
+			equipo.setRematesAcertados(equipo.getRematesAcertados()+estadisticas.get(i).getRematesAcertados());
+			equipo.setRematesTotales(equipo.getRematesTotales()+estadisticas.get(i).getRematesTotales());
+			equipo.setFintasAcertadas(equipo.getFintasAcertadas()+estadisticas.get(i).getFintasAcertadas());
+			equipo.setFintasTotales(equipo.getFintasTotales()+estadisticas.get(i).getFintasTotales());
+			equipo.setNumAtaquesRapidosAcertados(equipo.getNumAtaquesRapidosAcertados()+estadisticas.get(i).getNumAtaquesRapidosAcertados());
+			equipo.setNumAtaquesRapidosTotales(equipo.getNumAtaquesRapidosTotales()+estadisticas.get(i).getNumAtaquesRapidosTotales());
+			equipo.setNumFaltasTotales(equipo.getNumFaltasTotales()+estadisticas.get(i).getNumFaltasTotales());
+			equipo.setNumAmarillas(equipo.getNumAmarillas()+estadisticas.get(i).getNumAmarillas());
+			equipo.setNumRojas(equipo.getNumRojas()+estadisticas.get(i).getNumRojas());
+			
+			Equipo team = equipoService.save(equipo);
+			
+		}
 	}
 
 }
