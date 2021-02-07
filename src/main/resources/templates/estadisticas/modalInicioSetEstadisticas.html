@@ -1,0 +1,160 @@
+<meta charset="UTF-8" />
+
+<!-- Modal Inicio Estadísticas -->
+	<div class="modal fade" id="inicioSetModal" tabindex="-1" data-backdrop="static" data-keyboard="false"
+		aria-labelledby="Inicio de formulario estadísticas" aria-hidden="true">
+		<div class="modal-dialog modal-xl modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<div class="col-6 py-1">
+						<h4 class="modal-title" id="staticBackdropLabel"></h4>
+					</div>
+				</div>
+				<div class="modal-body">
+									
+						
+								<table id="inicioJugadores"
+									class="table table-striped table-bordered table-hover inicioSetJugadores responsive"
+									style="width: 100%;">
+									<thead>
+										<tr class="table-primary">
+											
+											<th>Nombre</th>
+											<th>Dorsal</th>
+											<th>P.Principal</th>
+											<th>P.Secundaria</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+								</table>
+						
+					
+					
+						
+				</div>		
+				<div class="modal-footer"
+					style="background: rgb(23,162,184); background: linear-gradient(0deg, rgba(23,162,184,0.75) 0%, rgba(255,255,255,1) 100%);">
+					<button type="button" onclick="iniciarPartido();" class="btn btn-primary">Aceptar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+	<script type="text/javascript">
+	
+	$.ajax({
+		type : 'GET',
+		url : '/estadisticas/sistemaJuegoEquipo/'+partidoId,
+		success : function(sistema) {
+			
+			var select=document.getElementById(sistema);
+			
+	        select.selected=true;
+
+		}
+	});
+	
+	var partidoId = $('#partidoId').val();
+	var jugadorEnCampo = null;
+	var jugadorEnBanquillo = null;
+	
+	
+	
+		var tablaInicioSetJugadores = null;
+		function tablaInicioSet(boton) {
+			var partidoId = $('#partidoId').val();
+			$(document)
+					.ready(
+							function() {
+								// Create DataTable
+								if (tablaInicioJugadores != null) {
+									tablaInicioJugadores.destroy();
+									
+								}
+
+								tablaInicioJugadores = $('.inicioSetJugadores')
+										.DataTable({
+													"lengthMenu" : [ 10, 15, 20, 25 ,30 ],
+													responsive : true,
+													ajax : '[[@{/estadisticas/tablaSustituciones/}]]'+ partidoId,
+													language : {
+														emptyTable : "Ningún dato disponible en esta tabla",
+														"info" : "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+														"infoEmpty" : "Mostrando 0 de 0 registros",
+														"lengthMenu" : "Mostrando _MENU_ registros",
+														"search" : "Buscar:",
+														"zeroRecords" : "No se encontraron resultados",
+														"paginate" : {
+															"first" : "Primera",
+															"last" : "Última",
+															"next" : "Siguiente",
+															"previous" : "Anterior"
+														},
+													},
+													"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+														console.log(aData.enCampo);
+														if ( aData.esLibero == true ){
+															$('td', nRow).css('background-color', '#58ACFA');
+														}else if ( aData.enCampo == true ){
+											           		$('td', nRow).css('background-color', '#90EE90');
+											            }
+											            
+											        },
+													"columns" : [
+															{"data" : "firstName",
+																render : function(data,type,row) {
+																	return row.firstName+ ", "+ row.lastName;
+																}
+															},
+															{data : "numCamiseta"},
+															{data : "posicionPrincipal"},
+															{data : "posicionSecundaria"},
+															{data : "id",
+																render: function (data, type, row) {
+																	
+																	var botonEliminarEnPartido = "<button  class='btn btn-danger' type='button' onclick='return eliminarJugadorJugando(this,"+row['id'] +");' title='Cancelar jugador en campo'><i class='fas fa-user-times'></i></button>";
+																	var botonAnadirEnPartido = "<button  class='btn btn-success' type='button' onclick='return anadirJugadorJugando(this,"+row['id'] +");' title='Inicial en el campo'><i class='fas fa-user-plus'></i></button>";
+																	var botonAnadirEnPartidoDisabled = "<button  class='btn btn-success' disabled type='button' onclick='return anadirJugadorJugando(this,"+row['id'] +");' title='Inicial en el campo'><i class='fas fa-user-plus'></i></button>";
+																	
+																	if(row.enCampo == true || row.esLibero == true){
+																			
+																			if(row.esLibero == true){
+																				return "";
+																			}else{
+																				return botonEliminarEnPartido;
+																			}
+																			
+																	}else{
+																		if(row.numJugadoresJugando < 6){
+																			return botonAnadirEnPartido;
+																		}else{	
+																			return botonAnadirEnPartidoDisabled;
+																		}
+																	}
+																	
+																	
+																	
+																}
+																
+															
+															
+															},
+
+													],
+													columnDefs : [ {
+														responsivePriority : 1,
+														targets : 0
+													//Nombre
+													}, {
+														responsivePriority : 1,
+														targets : 1, //Ha llegado
+														orderable : false
+													} ]
+
+												});
+
+							});
+		};
+		
+	</script>

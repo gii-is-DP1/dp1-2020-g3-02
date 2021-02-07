@@ -3,7 +3,9 @@ package org.springframework.samples.petclinic.web.base;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.assertj.core.util.Lists;
@@ -45,6 +47,8 @@ import org.springframework.samples.petclinic.model.SistemaJuego;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
+import org.springframework.samples.petclinic.model.auxiliares.JugadorCAP;
+import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 
 public class BaseControllerTest extends BaseUserControllerTest {
 
@@ -117,6 +121,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		jugador.setNumFaltasTotales(8);
 		jugador.setNumRojas(0);
 		jugador.setAutorizacion(getAutorizacionesCorrectas(tiposAutorizaciones, jugador));
+		jugador.setPrivilegios(getPrivilegiosCorrectos(jugador,equipo));
 		jugador.setNumCamisetas(numCamisetas);
 		jugador.setEquipos(equipos);
 		jugador.setPartidos(partidos);
@@ -128,6 +133,13 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		Privilegio privilegio = new Privilegio(jugador, equipo, TipoPrivilegio.PARTIDOS, "Partidos");
 		privilegio.setId(ID);
 		return privilegio;
+	}
+	
+	protected Set<Privilegio> getPrivilegiosCorrectos(Jugador jugador, Equipo equipo) {
+		Privilegio privilegio = getPrivilegioCorrecto(jugador, equipo);
+		Set<Privilegio> privilegios = new HashSet<Privilegio>();
+		privilegios.add(privilegio);
+		return privilegios;
 	}
 	
 	protected PruebaCondicionFisica getPruebaCondicionFisicaCorrecta(Jugador jugador) {
@@ -294,11 +306,25 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		ejercicio.setId(ID);
 		return ejercicio;
 	}
+	
+	protected List<EjercicioIndividual> getEjerciciosIndividualesCorrectos() {
+		EjercicioIndividual ejercicio =  getEjercicioIndividualCorrecto();
+		List<EjercicioIndividual> ejercicios = new ArrayList<EjercicioIndividual>();
+		ejercicios.add(ejercicio);
+		return ejercicios;
+	}
 
 	protected RealizaEjercicio getRealizaEjercicioCorrecto(Jugador jugador, EjercicioIndividual ejercicio) {
 		RealizaEjercicio realizaEjercicio =  new RealizaEjercicio(jugador, ejercicio, LocalDate.now());
 		realizaEjercicio.setId(ID);
 		return realizaEjercicio;
+	}
+	
+	protected List<RealizaEjercicio> getRealizaEjerciciosCorrectos(Jugador jugador, EjercicioIndividual ejercicio) {
+		RealizaEjercicio realizaEjercicio =  getRealizaEjercicioCorrecto(jugador, ejercicio);
+		List<RealizaEjercicio> ejercicios = new ArrayList<RealizaEjercicio>();
+		ejercicios.add(realizaEjercicio);
+		return ejercicios;
 	}
 	
 	protected SistemaJuego getSistemaJuegoCorrecto(Partido partido) {
@@ -320,6 +346,8 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		List<Jugador> jugadores = new ArrayList<Jugador>();
 		jugadores.add(jugador);
 		List<JugadorAut> jugadoresAut = jugadorConverter.convertListJugadorToListJugadorAut(jugadores);
+		List<JugadorCAP> jugadoresCAP = new ArrayList<JugadorCAP>(); 
+		List<JugadorPartidoStats> jugadoresPartidoStats = new ArrayList<JugadorPartidoStats>(); 
 		Equipo equipo = jugador.getEquipos().get(0);
 		NumCamiseta num = getNumCamisetaCorrecto(1, jugador, equipo);
 		Privilegio privilegio = getPrivilegioCorrecto(jugador, equipo);
@@ -337,8 +365,11 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		Autobus autobus = getAutobusCorrecto();
 		Viaje viaje = getViajeCorrecto(jugador, partido, personal, autobus);
 		EjercicioIndividual ejercicio = getEjercicioIndividualCorrecto();
+		List<EjercicioIndividual> ejerciciosIndividuales = getEjerciciosIndividualesCorrectos();
 		RealizaEjercicio realizaEjercicio = getRealizaEjercicioCorrecto(jugador, ejercicio);
+		List<RealizaEjercicio> realizaEjercicios = getRealizaEjerciciosCorrectos(jugador, ejercicio);
 		PruebaCondicionFisica pruebaCondicionFisica = getPruebaCondicionFisicaCorrecta(jugador);
+		Autorizacion auto = getAutorizacionCorrecta(TipoAutorizacion.EXCURSIONES, jugador);
 
 		// Invalidación de validators
 		doNothingValidators();
@@ -387,6 +418,11 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		//NumCamisetaService
 		givenNumCamisetaService(num);
 		
+		//AutorizacionService
+		givenAutorizacionService(auto);
+		
+		//RealizaEjercicioService
+		givenRealizaEjercicioService(realizaEjercicio);
 		
 		
 		// CONVERTERS
@@ -396,6 +432,8 @@ public class BaseControllerTest extends BaseUserControllerTest {
 				.willReturn(convertJugadorToJugadorPartidoStats(jugador));
 		given(this.jugadorConverter.convertListJugadorToListJugadorWithEquipo(any()))
 		.willReturn(convertListJugadorToListJugadorWithEquipo(jugadores));
+		given(this.jugadorConverter.convertJugadorToJugadorCAP(any()))
+		.willReturn(convertJugadorToJugadorCAP(jugador));
 		given(this.jugadorConverter.convertListJugadorToListJugadorInEquipoSinUser(any(), any()))
 		.willReturn(convertListJugadorToListJugadorInEquipoSinUser(jugadores, Lists.newArrayList(num.getNumero())));
 		given(this.jugadorConverter.convertListJugadorToListJugadorAut(any()))
@@ -406,9 +444,27 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		.willReturn(convertJugadorToJugadorStats(jugador));
 		given(this.jugadorConverter.convertJugadorToJugadorEdit(any(Jugador.class)))
 		.willReturn(convertJugadorToJugadorEdit(jugador));
-		
 		given(this.jugadorConverter.convertJugadorToJugadorEditNumCamiseta(any(Jugador.class),any(Integer.class)))
 		.willReturn(convertJugadorToJugadorEditNumCamiseta(jugador,num.getNumero()));
+		given(this.jugadorConverter.convertParcialListJugadorToListJugadorDTO(any()))
+		.willReturn(convertParcialListJugadorToListJugadorDTO(jugadores));
+		
+		//Equipo
+		given(this.equipoConverter.convertEquipoToEquipoCAP(any(Equipo.class),any()))
+		.willReturn(convertEquipoToEquipoCAP(equipo, jugadoresCAP));
+		given(this.equipoConverter.convertEquipoToEquipoTablaEquipo(any(Equipo.class)))
+		.willReturn(convertEquipoToEquipoTablaEquipo(equipo));
+		given(this.equipoConverter.convertEquipoToEquipoEdit(any(Equipo.class)))
+		.willReturn(convertEquipoToEquipoEdit(equipo));
+		given(this.equipoConverter.convertEquipoToEquipoCategoria(any(Equipo.class)))
+		.willReturn(convertEquipoToEquipoCategoria(equipo));
+		given(this.equipoConverter.convertEquipoToEquipoStats(any(Equipo.class)))
+		.willReturn(convertEquipoToEquipoStats(equipo));
+		
+		
+		//DataPosicion
+		given(this.dataPosicionConverter.convertPartidoToPartidoStats(any()))
+		.willReturn(convertPartidoToPartidoStats(jugadoresPartidoStats));
 		
 		//Partido
 		given(this.partidoConverter.convertPartidoToPartidoEdit(any(Partido.class)))
@@ -442,5 +498,12 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		given(this.personalesConverter.convertPersonalToPersonalEdit(any(Personales.class)))
 		.willReturn(convertPersonalToPersonalEdit(personal));
 		
-}
+		//Tipo Privilegio
+		//given(this.tipoPrivilegioConverter.convertToEntityAttribute(any(String.class)))
+		//.willReturn(convertToEntityAttribute("PARTIDOS"));
+		
+		//RealizaEjercicio
+		given(this.realizaEjercicioConverter.converListEntityToListDTO(any()))
+		.willReturn((conTodoElDolorDeMiCorazonNoSeQueNombrePonerleAEsto2(realizaEjercicios)));
+	}
 }

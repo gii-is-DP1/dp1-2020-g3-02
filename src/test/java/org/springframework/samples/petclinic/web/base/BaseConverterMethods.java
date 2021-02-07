@@ -73,6 +73,13 @@ public class BaseConverterMethods extends BaseMockControllerTest {
 		return new EjercicioIndividualDTO(entity.getId(), entity.getTipoEjercicio(), entity.getNombre(),
 				entity.getDescripcion());
 	}
+	
+	public RealizaEjercicioDTO conTodoElDolorDeMiCorazonNoSeQueNombrePonerleAEsto1(RealizaEjercicio entity) {
+		return new RealizaEjercicioDTO(entity.getJugador().getFirstName() + " " + entity.getJugador().getLastName(), 
+				entity.getJugador().getPosicionPrincipal(), 
+				entity.getEjercicioIndividual().getNombre(), 
+				entity.getFecha().getDayOfMonth()+"/"+entity.getFecha().getMonthValue()+"/"+entity.getFecha().getYear());
+	}
 
 	public List<EjercicioIndividualDTO> converListEntityToListDTO(List<EjercicioIndividual> entities) {
 		List<EjercicioIndividualDTO> dtos = new ArrayList<EjercicioIndividualDTO>();
@@ -80,6 +87,19 @@ public class BaseConverterMethods extends BaseMockControllerTest {
 		for (int i = 0; i < entities.size(); i++) {
 			EjercicioIndividual entity = entities.get(i);
 			EjercicioIndividualDTO dto = converterEntityToDTO(entity);
+			dtos.add(dto);
+		}
+
+		return dtos;
+
+	}
+	
+	public List<RealizaEjercicioDTO> conTodoElDolorDeMiCorazonNoSeQueNombrePonerleAEsto2(List<RealizaEjercicio> realizaEjs) {
+		List<RealizaEjercicioDTO> dtos = new ArrayList<RealizaEjercicioDTO>();
+
+		for (int i = 0; i < realizaEjs.size(); i++) {
+			RealizaEjercicio entity = realizaEjs.get(i);
+			RealizaEjercicioDTO dto = conTodoElDolorDeMiCorazonNoSeQueNombrePonerleAEsto1(entity);
 			dtos.add(dto);
 		}
 

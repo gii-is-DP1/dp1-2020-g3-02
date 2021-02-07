@@ -5,6 +5,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -38,14 +39,28 @@ public class EquipoControllerTest extends BaseControllerTest{
 	@Test
 	void testShowEquipo() throws Exception {
 
-		mockMvc.perform(get("/equipos/showequipo/{id}",ID)).andExpect(status().isOk());
+		mockMvc.perform(get("/equipos/showequipo/{id}",ID))
+		.andExpect(model().attributeExists("equipo"))
+		.andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value = "spring")
+	@WithMockUser(value = "spring", authorities = { "jugador"})
 	@Test
-	void testFindEquipos() throws Exception {
-
-		mockMvc.perform(get("/equipos/findEquipos"))	
+	void testFindEquiposPlayer() throws Exception {
+		
+		mockMvc.perform(get("/equipos/findEquipos"))
+				.andExpect(jsonPath("$.data[0].categoria", is("Senior")))
+				.andExpect(jsonPath("$.data[0].id", is(ID)))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring", authorities = { "entrenador"})
+	@Test
+	void testFindEquiposCoach() throws Exception {
+		
+		mockMvc.perform(get("/equipos/findEquipos"))
+				.andExpect(jsonPath("$.data[0].categoria", is("Senior")))
+				.andExpect(jsonPath("$.data[0].id", is(ID)))
 				.andExpect(status().isOk());
 	}
 	
@@ -54,6 +69,8 @@ public class EquipoControllerTest extends BaseControllerTest{
 	void testRemoveEquipo() throws Exception {
 
 		mockMvc.perform(get("/equipos/findEquipoEliminar/{id}", ID))
+				.andExpect(jsonPath("$.id", is(ID)))
+				.andExpect(jsonPath("$.categoria", is("Senior")))
 				.andExpect(status().isOk());
 	}
 	
@@ -61,7 +78,10 @@ public class EquipoControllerTest extends BaseControllerTest{
 	@Test
 	void testEstadisticasEquipo() throws Exception {
 
-		mockMvc.perform(get("/equipos/findEstadisticasEquipo/{id}",ID)).andExpect(status().isOk());
+		mockMvc.perform(get("/equipos/findEstadisticasEquipo/{id}",ID))
+		.andExpect(jsonPath("$.id", is(ID)))
+		.andExpect(jsonPath("$.categoria", is("Senior")))
+		.andExpect(status().isOk());
 	}
 	
 	
@@ -69,7 +89,8 @@ public class EquipoControllerTest extends BaseControllerTest{
 	@Test
 	void testJugadorPosicionEquipo() throws Exception {
 
-		mockMvc.perform(get("/equipos/findJugadorPosicionEquipo/{id}",ID)).andExpect(status().isOk());
+		mockMvc.perform(get("/equipos/findJugadorPosicionEquipo/{id}",ID))
+		.andExpect(status().isOk());
 	}
 	
 	
@@ -77,14 +98,21 @@ public class EquipoControllerTest extends BaseControllerTest{
 	@Test
 	void testJugadorNoEquipo() throws Exception {
 
-		mockMvc.perform(get("/equipos/jugadoresNoEquipo/{id}",ID)).andExpect(status().isOk());
+		mockMvc.perform(get("/equipos/jugadoresNoEquipo/{id}",ID))
+		.andExpect(jsonPath("$.data[0].firstName", is("Gonzalo")))
+		.andExpect(jsonPath("$.data[0].id", is(ID)))
+		.andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testFindEquipoCAP() throws Exception {
 
-		mockMvc.perform(get("/equipos/findEquipoCAP/{id}",ID)).andExpect(status().isOk());
+		mockMvc.perform(get("/equipos/findEquipoCAP/{id}",ID))
+		.andExpect(jsonPath("$.id", is(ID)))
+		.andExpect(jsonPath("$.categoria", is("Senior")))
+		.andExpect(jsonPath("$.capitan", is(ID)))
+		.andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
@@ -101,6 +129,18 @@ public class EquipoControllerTest extends BaseControllerTest{
 	
 	@WithMockUser(value = "spring")
 	@Test
+	void testProcessCreationFormBad() throws Exception {
+		
+		mockMvc.perform(post("/equipos/postequipo").with(csrf())
+				.param("categoria", "Cadete")
+				.param("sistemajuego", "DondeEstaCR7")
+				.param("1", "true")
+				.param("capitan", "0")
+				.param("liga", "Regional")).andExpect(status().isBadRequest());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
 	void testProcessRemoveSuccess() throws Exception {
 		
 		mockMvc.perform(post("/equipos/eliminarequipo/{id}",ID).with(csrf()))
@@ -111,14 +151,18 @@ public class EquipoControllerTest extends BaseControllerTest{
 	@Test
 	void testFindGetAllTeams() throws Exception {
 
-		mockMvc.perform(get("/equipos/getallteams",ID)).andExpect(status().isOk());
+		mockMvc.perform(get("/equipos/getallteams",ID))
+		.andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testFindEditEquipo() throws Exception {
 
-		mockMvc.perform(get("/equipos/findeditequipo/{id}",ID)).andExpect(status().isOk());
+		mockMvc.perform(get("/equipos/findeditequipo/{id}",ID))
+		.andExpect(jsonPath("$.id", is(ID)))
+		.andExpect(jsonPath("$.categoria", is("Senior")))
+		.andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")
@@ -131,6 +175,17 @@ public class EquipoControllerTest extends BaseControllerTest{
 		.param("sistemajuego", "SEIS_DOS")
 		.param("liga", "Andaluza"))
 		.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testUpdateEquipoBad() throws Exception {
+
+		mockMvc.perform(post("/equipos/updateequipo").with(csrf())
+		.param("categoria", "Pre-Benjamín")
+		.param("sistemajuego", "SEIS_DOS")
+		.param("liga", "Andaluza"))
+		.andExpect(status().isBadRequest());
 	}
 	
 	@WithMockUser(value = "spring")
