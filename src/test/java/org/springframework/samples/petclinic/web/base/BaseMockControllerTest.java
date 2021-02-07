@@ -41,10 +41,12 @@ import org.springframework.samples.petclinic.converter.enumerate.PrivilegioConve
 import org.springframework.samples.petclinic.converter.enumerate.TipoEjercicioConverter;
 import org.springframework.samples.petclinic.converter.enumerate.TipoPrivilegioConverter;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
+import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
 import org.springframework.samples.petclinic.model.Autorizacion;
+import org.springframework.samples.petclinic.model.EjercicioIndividual;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
@@ -393,7 +395,7 @@ public class BaseMockControllerTest {
 		given(this.numCamisetaService.findByEquipoAndJugador(any(Integer.class), any(Integer.class))).willReturn(numero);
 	}
 	
-	/** Metodos UserService por defecto */
+	/** Metodos AutorizacionService por defecto */
 	protected void givenAutorizacionService(Autorizacion autorizacion) {
 		given(this.autorizacionService.findByJugadorAndTipo(any(Jugador.class),any(TipoAutorizacion.class)))
 		.willReturn(autorizacion);
@@ -401,9 +403,17 @@ public class BaseMockControllerTest {
 		given(this.autorizacionService.save(any(Autorizacion.class))).willReturn(autorizacion);
 	}
 	
-	/** Metodos UserService por defecto */
+	/** Metodos RealizaEjercicioService por defecto */
 	protected void givenRealizaEjercicioService(RealizaEjercicio realiza) {
 		given(this.realizaEjercicioService.findAll())
 		.willReturn(Lists.newArrayList(realiza));
+	}
+	
+	/** Metodos EjercicioindividualService por defecto */
+	protected void givenEjercicioIndividualService(EjercicioIndividual ejercicio) {
+		given(this.ejercicioIndividualService.findEjerciciosRecomendados(any(Jugador.class)))
+		.willReturn(Lists.newArrayList(Lists.newArrayList(ejercicio)));
+		given(this.ejercicioIndividualService.findByTipoEjercicio(any(TipoEjercicio.class)))
+		.willReturn(Lists.newArrayList(Lists.newArrayList(ejercicio)));
 	}
 }

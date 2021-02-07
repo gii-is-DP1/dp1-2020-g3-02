@@ -37,10 +37,19 @@ class EjercicioIndividualControllerTest extends BaseControllerTest {
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testTablaJugadoresAutorizacion() throws Exception {
+	void testTablaRealizados() throws Exception {
 
 		mockMvc.perform(get("/ejercicios/tablaRealizados"))
 				.andExpect(jsonPath("$.data[0].posicionJugador", is("COLOCADOR")))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testTablaRecomendados() throws Exception {
+
+		mockMvc.perform(get("/ejercicios/tablaRecomendados"))
+				.andExpect(jsonPath("$.data[0].descripcion", is("saque")))
 				.andExpect(status().isOk());
 	}
 
