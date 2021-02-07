@@ -778,7 +778,7 @@
 			</div>
 		</div>
 	</div>
-	
+	<div th:replace="toast"></div>
 
 	<th:block layout:fragment="scripts">
 		<script src=https://code.jquery.com/jquery-3.5.1.js></script>
@@ -1097,16 +1097,7 @@
             contentType: false,
 			success : function(borrar) {
 				$('.errorDato').text('');
-				$(".exito")[0].classList.remove("invisible")
-
-				setTimeout(function() {
-					$(".exito").fadeOut(1500);
-
-				}, 3000);
-				setTimeout(function() {
-					$(".exito")[0].classList.add("invisible");
-					$(".exito").fadeIn(500);
-				}, 5000);
+				toastSuccess("Prueba añadida con éxito");
 			},
 			error : function(data) {
 				$('.errorDato').text('');

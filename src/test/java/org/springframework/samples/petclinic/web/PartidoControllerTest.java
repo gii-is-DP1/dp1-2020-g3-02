@@ -210,7 +210,7 @@ public class PartidoControllerTest extends BaseControllerTest {
 		mockMvc.perform(post("/partidos/postpartido").with(csrf())
 			.param("id", "1")
 			.param("equipo", "Senior")
-			.param("fecha", "20/11/2021")
+			.param("fecha", "20/11/2020")
 			.param("hora", "11:00"))
 			.andExpect(status().is2xxSuccessful());
 	}
