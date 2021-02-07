@@ -51,6 +51,17 @@ class JugadorControllerTest extends BaseControllerTest {
 	
 	@WithMockUser(value = "spring")
 	@Test
+	void testFindPrivJugadorEquipo() throws Exception {
+
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
+
+		mockMvc.perform(get("/jugadores/getprivjugadorteam/{id}/{equipo}", ID, "Senior"))
+				.andExpect(jsonPath("$.partidos", is(true)))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
 	void testListadoJugadoresPrivilegios() throws Exception {
 
 		mockMvc.perform(get("/jugadores/showjugadorespriv"))
@@ -85,7 +96,15 @@ class JugadorControllerTest extends BaseControllerTest {
 				.andExpect(jsonPath("$.data[0].lastName", is("Lallena"))).andExpect(status().isOk());
 	}
 	
-	//eliminarAutorizacion
+	@WithMockUser(value = "spring")
+	@Test
+	void testEliminarAutorizacion() throws Exception {
+
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
+
+		mockMvc.perform(get("/jugadores/eliminarautorizacion/{id}/{tipoAutorizacion}", ID, "TRANSPORTE"))
+				.andExpect(status().isOk());
+	}
 	
 	//addAutorizacion
 	

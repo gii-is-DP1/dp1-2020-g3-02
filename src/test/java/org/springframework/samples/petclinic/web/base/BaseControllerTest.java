@@ -3,7 +3,9 @@ package org.springframework.samples.petclinic.web.base;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.assertj.core.util.Lists;
@@ -119,6 +121,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		jugador.setNumFaltasTotales(8);
 		jugador.setNumRojas(0);
 		jugador.setAutorizacion(getAutorizacionesCorrectas(tiposAutorizaciones, jugador));
+		jugador.setPrivilegios(getPrivilegiosCorrectos(jugador,equipo));
 		jugador.setNumCamisetas(numCamisetas);
 		jugador.setEquipos(equipos);
 		jugador.setPartidos(partidos);
@@ -130,6 +133,13 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		Privilegio privilegio = new Privilegio(jugador, equipo, TipoPrivilegio.PARTIDOS, "Partidos");
 		privilegio.setId(ID);
 		return privilegio;
+	}
+	
+	protected Set<Privilegio> getPrivilegiosCorrectos(Jugador jugador, Equipo equipo) {
+		Privilegio privilegio = getPrivilegioCorrecto(jugador, equipo);
+		Set<Privilegio> privilegios = new HashSet<Privilegio>();
+		privilegios.add(privilegio);
+		return privilegios;
 	}
 	
 	protected PruebaCondicionFisica getPruebaCondicionFisicaCorrecta(Jugador jugador) {
@@ -343,6 +353,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		EjercicioIndividual ejercicio = getEjercicioIndividualCorrecto();
 		RealizaEjercicio realizaEjercicio = getRealizaEjercicioCorrecto(jugador, ejercicio);
 		PruebaCondicionFisica pruebaCondicionFisica = getPruebaCondicionFisicaCorrecta(jugador);
+		Autorizacion auto = getAutorizacionCorrecta(TipoAutorizacion.EXCURSIONES, jugador);
 
 		// Invalidación de validators
 		doNothingValidators();
@@ -391,6 +402,8 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		//NumCamisetaService
 		givenNumCamisetaService(num);
 		
+		//AutorizacionService
+		givenAutorizacionService(auto);
 		
 		
 		// CONVERTERS
@@ -466,6 +479,8 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		given(this.personalesConverter.convertPersonalToPersonalEdit(any(Personales.class)))
 		.willReturn(convertPersonalToPersonalEdit(personal));
 		
-		
-}
+		//Tipo Privilegio
+		//given(this.tipoPrivilegioConverter.convertToEntityAttribute(any(String.class)))
+		//.willReturn(convertToEntityAttribute("PARTIDOS"));
+	}
 }
