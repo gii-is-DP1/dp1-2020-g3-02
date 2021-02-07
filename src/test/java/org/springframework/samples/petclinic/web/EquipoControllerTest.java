@@ -129,6 +129,18 @@ public class EquipoControllerTest extends BaseControllerTest{
 	
 	@WithMockUser(value = "spring")
 	@Test
+	void testProcessCreationFormBad() throws Exception {
+		
+		mockMvc.perform(post("/equipos/postequipo").with(csrf())
+				.param("categoria", "Cadete")
+				.param("sistemajuego", "DondeEstaCR7")
+				.param("1", "true")
+				.param("capitan", "0")
+				.param("liga", "Regional")).andExpect(status().isBadRequest());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
 	void testProcessRemoveSuccess() throws Exception {
 		
 		mockMvc.perform(post("/equipos/eliminarequipo/{id}",ID).with(csrf()))
@@ -163,6 +175,17 @@ public class EquipoControllerTest extends BaseControllerTest{
 		.param("sistemajuego", "SEIS_DOS")
 		.param("liga", "Andaluza"))
 		.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testUpdateEquipoBad() throws Exception {
+
+		mockMvc.perform(post("/equipos/updateequipo").with(csrf())
+		.param("categoria", "Pre-Benjamín")
+		.param("sistemajuego", "SEIS_DOS")
+		.param("liga", "Andaluza"))
+		.andExpect(status().isBadRequest());
 	}
 	
 	@WithMockUser(value = "spring")
