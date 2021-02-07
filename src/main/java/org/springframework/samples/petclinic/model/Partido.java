@@ -160,7 +160,7 @@ public class Partido extends EstadisticasEntity{
 	private int second;
 	
 	@Column(name = "set_jugados", nullable = false, columnDefinition = "integer default 1")
-	@Min(1)
+	@Min(0)
 	private int setJugados;
 	
 	@Column(name = "partido_finalizado", nullable = false, columnDefinition = "integer default 0")
