@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.samples.petclinic.component.EntrenadorValidator;
-import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.base.BaseVolleyballValidatorTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +24,7 @@ public class EntrenadorValidatorTest extends BaseVolleyballValidatorTest{
 	
 	@BeforeEach
 	private void setUp() {
-		this.entrenadorValidator = new EntrenadorValidator(this.entrenadorService);
+		this.entrenadorValidator = new EntrenadorValidator(this.entrenadorService, this.userService);
 	}
 	
 	@Test
