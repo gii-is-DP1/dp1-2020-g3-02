@@ -4,7 +4,9 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -90,16 +92,16 @@ public class EntrenamientoController {
 
 	@Autowired
 	private PartidoService partidoService;
-	
+
 	@Autowired
 	private MaterialService materialService;
-	
+
 	@Autowired
 	private LineaMaterialService lineaMaterialService;
 
 	@Autowired
 	private PartidoConverter partidoConverter;
-	
+
 	@Autowired
 	private EquipoConverter equipoConverter;
 
@@ -120,7 +122,7 @@ public class EntrenamientoController {
 
 	@Autowired
 	private EntrenamientoValidator entrenamientoValidator;
-	
+
 	@Autowired
 	private LineaMaterialValidator lineaMaterialValidator;
 
@@ -141,7 +143,7 @@ public class EntrenamientoController {
 		}
 		return mav;
 	}
-	
+
 	@GetMapping("/showestadisiticasJugadores")
 	public ModelAndView vistaEstadísticas(HttpServletRequest request) {
 		Principal principal = request.getUserPrincipal();
@@ -271,7 +273,7 @@ public class EntrenamientoController {
 		return ViewConstant.VIEW_NAVBAR;
 	}
 
-	
+
 	@RequestMapping(value = "/findEntrenamientos", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataTableResponse<EntrenamientoConAsistencia>> listadoDeEntrenamientos(HttpServletRequest request) {
 		try {
@@ -485,38 +487,72 @@ public class EntrenamientoController {
 		}
 
 	}
-	          //esto tiene q ser void
-	private ResponseEntity<List<ObjectError>> linea(TipoMaterial tipo, int cantidad,Entrenamiento entr,BindingResult result) {
+
+	private void linea(TipoMaterial tipo, int cantidad,Entrenamiento entr,BindingResult result,Map<String,Set<ObjectError>>mape) {
 		int stocker = 0;
 		for(Material mm : materialService.findByTipo(tipo)) {
 			if(cantidad>stocker && mm.getStock()!=0) {
 				if(cantidad>mm.getStock()) {
 					LineaMaterial lin1= new LineaMaterial(mm, entr, mm.getStock());
 					ValidationUtils.invokeValidator(lineaMaterialValidator, lin1, result);
-//añadirleal map clave el nombre del modal cantidadCUERDA y de valor el error result.hasErrors()
+
 					if(result.hasErrors()) {
-						LOG.warn("Se han encontrado " + result.getErrorCount() + " errores de validación");
-						result.getAllErrors();
+						mape.put("cantidad"+tipo.name(), result.getAllErrors().stream().collect(Collectors.toSet()));
+
+					}else {
+						lineaMaterialService.save(lin1);
 					}
-					lineaMaterialService.save(lin1);
 					stocker+=mm.getStock();
 				}else {
 					LineaMaterial lin1= new LineaMaterial(mm, entr,cantidad);
 					ValidationUtils.invokeValidator(lineaMaterialValidator, lin1, result);
 
 					if(result.hasErrors()) {
-						LOG.warn("Se han encontrado " + result.getErrorCount() + " errores de validación");
-						return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+						mape.put("cantidad"+tipo.name(), result.getAllErrors().stream().collect(Collectors.toSet()));
+
+					}else {
+						lineaMaterialService.save(lin1);
 					}
-					lineaMaterialService.save(lin1);
 					stocker+=cantidad;
 				}
-				
+
 			}
+			
 		}
-		return new ResponseEntity<List<ObjectError>>(HttpStatus.OK);
+
 	}
 	@RequestMapping(value = "/updatematerial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+
+	public ResponseEntity<Map<String, Set<ObjectError>>> updateMaterial(HttpServletRequest request, @ModelAttribute(name="lineaMaterial") LineaMaterial linea, BindingResult result) {
+		try {
+			Map<String, Set<ObjectError>> mape = new HashMap<String,Set<ObjectError>>();
+			Entrenamiento entr= entrenamientoService.findById(Integer.parseInt(request.getParameter("id"))).get();
+			linea(TipoMaterial.BALONMEDICINAL, Integer.parseInt(request.getParameter("cantidad1")), entr,result,mape);
+
+			linea(TipoMaterial.BALONDEJUEGO, Integer.parseInt(request.getParameter("cantidad2")), entr,result,mape);
+			linea(TipoMaterial.RED, Integer.parseInt(request.getParameter("cantidad3")), entr,result,mape);
+			linea(TipoMaterial.POSTE, Integer.parseInt(request.getParameter("cantidad4")), entr,result,mape);
+			linea(TipoMaterial.CONOBAJO, Integer.parseInt(request.getParameter("cantidad5")), entr,result,mape);
+			linea(TipoMaterial.CONOALTO, Integer.parseInt(request.getParameter("cantidad6")), entr,result,mape);
+			linea(TipoMaterial.CONOMEDIO, Integer.parseInt(request.getParameter("cantidad7")), entr,result,mape);
+			linea(TipoMaterial.CUERDA, Integer.parseInt(request.getParameter("cantidad8")), entr,result,mape);
+			linea(TipoMaterial.CINTA, Integer.parseInt(request.getParameter("cantidad9")), entr,result,mape);
+
+
+			//si el map esta vacio devuelva ok si el map tiene errorres devuelva el map
+			if(mape.isEmpty()) {
+
+				return new ResponseEntity<Map<String, Set<ObjectError>>>(HttpStatus.OK);
+			}else {
+				
+				return new ResponseEntity<Map<String, Set<ObjectError>>>(mape,HttpStatus.BAD_REQUEST);
+
+
+			}
+		} catch (Exception e) {
+			LOG.error("Error al guardar la linea de material");
+			return new ResponseEntity<Map<String, Set<ObjectError>>>(HttpStatus.BAD_REQUEST);
+
 	public ResponseEntity<List<ObjectError>> updateMaterial(HttpServletRequest request, @ModelAttribute(name="lineaMaterial") LineaMaterial linea, BindingResult result) {
 		try {
 			//crear map 
@@ -539,6 +575,7 @@ public class EntrenamientoController {
 		} catch (Exception e) {
 			LOG.error("Error al guardar el material");
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+
 		}
 	}
 
