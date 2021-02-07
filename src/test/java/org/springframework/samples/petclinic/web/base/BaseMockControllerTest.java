@@ -39,6 +39,7 @@ import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
+import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
@@ -364,4 +365,10 @@ public class BaseMockControllerTest {
 		given(this.numCamisetaService.findByEquipoAndJugador(any(Integer.class), any(Integer.class))).willReturn(numero);
 	}
 	
+	/** Metodos UserService por defecto */
+	protected void givenAutorizacionService(Autorizacion autorizacion) {
+		given(this.autorizacionService.findByJugadorAndTipo(any(Jugador.class),any(TipoAutorizacion.class)))
+		.willReturn(autorizacion);
+		//given(this.autorizacionService.deleteByIdSiExiste(any(Integer.class)));
+	}
 }
