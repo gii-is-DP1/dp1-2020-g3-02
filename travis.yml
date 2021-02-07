@@ -1,0 +1,10 @@
+addons:
+  sonarcloud:
+    organization: "gii-is-dp1"
+    token:
+      secure: ${SONAR}
+    branches:
+      - master
+script:
+  # other script steps might be done before running the actual analysis
+  - sonar-scanner
