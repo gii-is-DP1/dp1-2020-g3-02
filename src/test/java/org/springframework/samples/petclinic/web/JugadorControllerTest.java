@@ -74,7 +74,6 @@ class JugadorControllerTest extends BaseControllerTest {
 				.andExpect(model().attributeExists("listaut"));
 	}
 	
-	//Hay un json dentro de un json?
 	@WithMockUser(value = "spring")
 	@Test
 	void testTablaJugadoresAutorizacion() throws Exception {

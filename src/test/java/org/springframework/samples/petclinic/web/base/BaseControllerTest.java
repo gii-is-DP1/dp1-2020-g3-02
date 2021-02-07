@@ -306,11 +306,25 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		ejercicio.setId(ID);
 		return ejercicio;
 	}
+	
+	protected List<EjercicioIndividual> getEjerciciosIndividualesCorrectos() {
+		EjercicioIndividual ejercicio =  getEjercicioIndividualCorrecto();
+		List<EjercicioIndividual> ejercicios = new ArrayList<EjercicioIndividual>();
+		ejercicios.add(ejercicio);
+		return ejercicios;
+	}
 
 	protected RealizaEjercicio getRealizaEjercicioCorrecto(Jugador jugador, EjercicioIndividual ejercicio) {
 		RealizaEjercicio realizaEjercicio =  new RealizaEjercicio(jugador, ejercicio, LocalDate.now());
 		realizaEjercicio.setId(ID);
 		return realizaEjercicio;
+	}
+	
+	protected List<RealizaEjercicio> getRealizaEjerciciosCorrectos(Jugador jugador, EjercicioIndividual ejercicio) {
+		RealizaEjercicio realizaEjercicio =  getRealizaEjercicioCorrecto(jugador, ejercicio);
+		List<RealizaEjercicio> ejercicios = new ArrayList<RealizaEjercicio>();
+		ejercicios.add(realizaEjercicio);
+		return ejercicios;
 	}
 	
 	protected SistemaJuego getSistemaJuegoCorrecto(Partido partido) {
@@ -351,7 +365,9 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		Autobus autobus = getAutobusCorrecto();
 		Viaje viaje = getViajeCorrecto(jugador, partido, personal, autobus);
 		EjercicioIndividual ejercicio = getEjercicioIndividualCorrecto();
+		List<EjercicioIndividual> ejerciciosIndividuales = getEjerciciosIndividualesCorrectos();
 		RealizaEjercicio realizaEjercicio = getRealizaEjercicioCorrecto(jugador, ejercicio);
+		List<RealizaEjercicio> realizaEjercicios = getRealizaEjerciciosCorrectos(jugador, ejercicio);
 		PruebaCondicionFisica pruebaCondicionFisica = getPruebaCondicionFisicaCorrecta(jugador);
 		Autorizacion auto = getAutorizacionCorrecta(TipoAutorizacion.EXCURSIONES, jugador);
 
@@ -404,6 +420,9 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		
 		//AutorizacionService
 		givenAutorizacionService(auto);
+		
+		//RealizaEjercicioService
+		givenRealizaEjercicioService(realizaEjercicio);
 		
 		
 		// CONVERTERS
@@ -482,5 +501,9 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		//Tipo Privilegio
 		//given(this.tipoPrivilegioConverter.convertToEntityAttribute(any(String.class)))
 		//.willReturn(convertToEntityAttribute("PARTIDOS"));
+		
+		//RealizaEjercicio
+		given(this.realizaEjercicioConverter.converListEntityToListDTO(any()))
+		.willReturn((conTodoElDolorDeMiCorazonNoSeQueNombrePonerleAEsto2(realizaEjercicios)));
 	}
 }
