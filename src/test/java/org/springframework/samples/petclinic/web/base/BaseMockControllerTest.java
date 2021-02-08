@@ -61,6 +61,8 @@ import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
 import org.springframework.samples.petclinic.model.PruebaCondicionFisica;
 import org.springframework.samples.petclinic.model.RealizaEjercicio;
+import org.springframework.samples.petclinic.model.SistemaJuego;
+import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Viaje;
 import org.springframework.samples.petclinic.service.AutorizacionService;
@@ -354,6 +356,7 @@ public class BaseMockControllerTest {
 		given(this.partidoService.findById(any(Integer.class))).willReturn(Optional.of(partido));
 		given(this.partidoService.findByFechaAfter(any(LocalDate.class))).willReturn(Lists.newArrayList(partido));
 		given(this.partidoService.findByEquipo(any(Equipo.class))).willReturn(Lists.newArrayList(partido));
+		given(this.partidoService.save(any(Partido.class))).willReturn(partido);
 		
 	}
 
@@ -367,6 +370,8 @@ public class BaseMockControllerTest {
 				.willReturn(Lists.newArrayList(estadisticaPersonalPartido));
 		given(this.estadisticaPersonalPartidoService.findByJugadorAndPartido(any(Integer.class), any(Integer.class)))
 			.willReturn(estadisticaPersonalPartido);
+		given(this.estadisticaPersonalPartidoService.save(any(EstadisticaPersonalPartido.class)))
+		.willReturn(estadisticaPersonalPartido);
 	}
 	
 	/** Metodos EstadisticaPersonalEntrenamientoService por defecto */
@@ -379,10 +384,11 @@ public class BaseMockControllerTest {
 				.willReturn(Lists.newArrayList(estadisticaPersonalEntrenamiento));
 		given(this.estadisticaPersonalEntrenamientoService.findByJugadorAndEntrenamiento(any(Integer.class),any(Integer.class)))
 		.willReturn(estadisticaPersonalEntrenamiento);
+		given(this.estadisticaPersonalEntrenamientoService.save(any(EstadisticaPersonalEntrenamiento.class))).willReturn(estadisticaPersonalEntrenamiento);
 		
 	}
 
-	/** Metodos PartidoService por defecto */
+	/** Metodos ViajeService por defecto */
 	protected void givenViajeService(Viaje viaje) {
 		given(this.viajeService.findById(any(Integer.class))).willReturn(Optional.of(viaje));
 		given(this.viajeService.findByJugadorAndPartidoAndTipoViaje(any(Jugador.class), any(Partido.class),
@@ -400,6 +406,7 @@ public class BaseMockControllerTest {
 	protected void givenEstadisticoService(Estadistico estadistico) {
 		given(this.estadisticoService.findById(any(Integer.class))).willReturn(Optional.of(estadistico));
 		given(this.estadisticoService.findByFirstName(any(String.class))).willReturn(Lists.newArrayList(estadistico));
+		given(this.estadisticoService.findByUser(any(User.class))).willReturn(estadistico);
 	}
 	
 	/** Metodos PruebaCondicionFisicaService por defecto */
@@ -439,5 +446,15 @@ public class BaseMockControllerTest {
 		.willReturn(Lists.newArrayList(ejercicio));
 		given(this.ejercicioIndividualService.save(any(EjercicioIndividual.class))).
 		willReturn(ejercicio);
+	}
+	
+	/** Metodos SustitucionService por defecto */
+	protected void givenSustitucionService(Sustitucion sustitucion) {
+		given(this.sustitucionService.save(any(Sustitucion.class))).willReturn(sustitucion);
+	}
+	
+	/** Metodos SistemaService por defecto */
+	protected void givenSistemaService(SistemaJuego sistema) {
+		given(this.sistemaService.save(any(SistemaJuego.class))).willReturn(sistema);
 	}
 }

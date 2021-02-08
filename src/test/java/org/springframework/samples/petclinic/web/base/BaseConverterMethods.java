@@ -47,6 +47,7 @@ import org.springframework.samples.petclinic.model.ediciones.PartidoEdit;
 import org.springframework.samples.petclinic.model.estadisticas.EntrenamientoStats;
 import org.springframework.samples.petclinic.model.estadisticas.EquipoStats;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasDeUnJugadorStats;
+import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesEntrenamientoStats;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorPartidoStats;
 import org.springframework.samples.petclinic.model.estadisticas.JugadorStats;
@@ -550,5 +551,38 @@ public class BaseConverterMethods extends BaseMockControllerTest {
 		public TipoPrivilegio convertToEntityAttribute(final String nombre) {
 			
 			return (nombre == null) ? null : TipoPrivilegio.fromNombre(nombre);
+		}
+		
+		public EstadisticasPersonalesEntrenamientoStats convertEstadisticasToEstadisticasEntrenamientoStats(EstadisticaPersonalEntrenamiento estadistica) {
+			return new EstadisticasPersonalesEntrenamientoStats(
+					estadistica.getJugador().getId(),
+					estadistica.getJugador().getFirstName() +", " + estadistica.getJugador().getLastName(),
+					estadistica.getEntrenamiento().getFecha(),
+					estadistica.getSaquesAcertados(), 
+					estadistica.getSaquesTotales(), 
+					estadistica.getPorcentajeSaques(), 
+					estadistica.getRecepcionesAcertadas(), 
+					estadistica.getRecepcionesTotales(), 
+					estadistica.getPorcentajeRecepciones(), 
+					estadistica.getColocacionesAcertadas(), 
+					estadistica.getColocacionesTotales(), 
+					estadistica.getPorcentajeColocaciones(), 
+					estadistica.getDefensasAcertadas(), 
+					estadistica.getDefensasTotales(), 
+					estadistica.getPorcentajeDefensas(), 
+					estadistica.getBloqueosAcertados(), 
+					estadistica.getBloqueosTotales(), 
+					estadistica.getPorcentajeBloqueos(), 
+					estadistica.getRematesAcertados(), 
+					estadistica.getRematesTotales(), 
+					estadistica.getPorcentajeRemates(), 
+					estadistica.getFintasAcertadas(), 
+					estadistica.getFintasTotales(), 
+					estadistica.getPorcentajeFintas(), 
+					estadistica.getNumAtaquesRapidosAcertados(), 
+					estadistica.getNumAtaquesRapidosTotales(), 
+					estadistica.getPorcentajeAtaquesRapidos(),
+					estadistica.getEntrenamiento().getId()
+					);
 		}
 }
