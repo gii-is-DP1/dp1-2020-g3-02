@@ -59,7 +59,7 @@ function enviarEdicion() {
 			tablaPrincipal.ajax.reload(null, false);
 		},
 		error : function(data) {
-			
+			console.log(data);
 			$('.error').text('');
 
 			for (i = 0; i < data.responseJSON.length; i++) {

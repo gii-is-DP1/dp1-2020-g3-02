@@ -226,9 +226,6 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected EntrenamientoValidator entrenamientoValidator;
-
-	@MockBean
-	protected PartidoValidator partidoValidator;
 	
 	@MockBean
 	protected PersonalesValidator personalesValidator;
@@ -253,6 +250,9 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected EjercicioIndividualValidator ejercicioIndividualValidator;
+	
+	@MockBean
+	private PartidoValidator partidoValidator;
 	
 
 
@@ -344,6 +344,7 @@ public class BaseMockControllerTest {
 		given(this.partidoService.findById(any(Integer.class))).willReturn(Optional.of(partido));
 		given(this.partidoService.findByFechaAfter(any(LocalDate.class))).willReturn(Lists.newArrayList(partido));
 		given(this.partidoService.findByEquipo(any(Equipo.class))).willReturn(Lists.newArrayList(partido));
+		
 	}
 
 	/** Metodos EstadisticaPersonalPartidoService por defecto */

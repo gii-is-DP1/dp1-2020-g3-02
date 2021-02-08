@@ -28,7 +28,6 @@ import org.springframework.samples.petclinic.converter.PersonalConverter;
 import org.springframework.samples.petclinic.converter.ViajeConverter;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
-import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.model.Autobus;
 import org.springframework.samples.petclinic.model.Autorizacion;
@@ -108,9 +107,6 @@ public class PartidoController {
 	
 	@Autowired
 	private PartidoValidator partidoValidator;
-	
-	@Autowired
-	private DataPosicionConverter dataPosicionConverter;
 	
 	@Autowired
 	private EstadisticasConverter estadisticasConverter;
