@@ -202,9 +202,13 @@ public class ViajeServiceTest {
 		viaje.setTipoViaje(TipoViaje.IDA);
 		viaje.setJugador(jugador);
 		viaje.setPartido(partido);
-		
+		viaje.setAutobus(autobus);
 		Viaje _viaje = viajeSevice.save(viaje);
 		
 		assertNotNull(_viaje);
+		assertEquals(_viaje.getJugador(), jugador);
+		assertEquals(_viaje.getPartido(), partido);
+		assertEquals(_viaje.getAutobus(), autobus);
+		assertEquals(_viaje.getTipoViaje(), TipoViaje.IDA);
 	}
 }
