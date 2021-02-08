@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class NumCamisetaValidator implements Validator{
 	
-private static final Log LOG = LogFactory.getLog(CapitanValidator.class);
+private static final Log LOG = LogFactory.getLog(NumCamiseta.class);
 	
 	@Autowired
 	private NumCamisetaService numCamisetaService;
@@ -56,6 +56,6 @@ private static final Log LOG = LogFactory.getLog(CapitanValidator.class);
 	@Override
 	public boolean supports(Class<?> clazz) {
 		// TODO Auto-generated method stub
-		return false;
+		return NumCamiseta.class.isAssignableFrom(clazz);
 	}
 }

@@ -3,7 +3,7 @@
 	<div class="modal fade" id="editarJugadorEquipoModal" data-backdrop="static"
 		data-keyboard="false" tabindex="-1" aria-labelledby="Gestion"
 		aria-hidden="true">
-		<div class="modal-dialog modal-xl modal-dialog-centered">
+		<div class="modal-dialog modal-sm modal-dialog-centered">
 			<div class="modal-content">
 				<form id="formEditarJugadorEquipo" method="post">
 					<div class="modal-header bg-info">
@@ -16,49 +16,6 @@
 					<div class="modal-body">
 			  	<div id="contenedor-modal">
 			  			<div class="row">
-							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Nombre:</label><input class="form-control" type="text" placeholder="Nombre" th:id="firstName" name="firstName" required></input>
-							</div>
-							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Apellidos:</label><input class="form-control" type="text" placeholder="Apellidos" th:id="lastName" name="lastName" required></input>
-							</div>
-						</div>
-						<div class="row">
-							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Altura(cm):</label><input class="form-control" type="number" placeholder="Altura" th:id="altura" name="altura" required></input>
-							</div>
-							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Peso(kg):</label><input class="form-control" type="number" placeholder="Peso" th:id="peso" name="peso" min="1" max="300" required></input>
-							</div>
-							<div class="form-group col">
-								<label>Estado:</label> 
-								<select class="form-control" th:id="estadoActual" name="estadoActual">
-									<option th:id="EN_FORMA" th:value="EN_FORMA">EN FORMA</option>
-									<option th:id="LESIONADO" th:value="LESIONADO">LESIONADO</option>
-								</select>
-							</div>
-						</div>
-						<div class="row">
-						<div class="form-group col">
-							<label>Posición principal:</label> 
-							<select class="form-control" th:id="posicionPrincipal" name="posicionPrincipal">
-								<option th:id="'PUNTA'" th:value="PUNTA">PUNTA</option>
-								<option th:id="'OPUESTO'" th:value="OPUESTO">OPUESTO</option>
-								<option th:id="'COLOCADOR'" th:value="COLOCADOR">COLOCADOR</option>
-								<option th:id="'CENTRAL'" th:value="CENTRAL">CENTRAL</option>
-								<option th:id="'LIBERO'" th:value="LIBERO">LÍBERO</option>
-							</select>
-						</div>
-						<div class="form-group col">
-							<label>Posición secundaria:</label> 
-							<select class="form-control" th:id="posicionSecundaria" name="posicionSecundaria">
-								<option th:id="'PUNTA'" th:value="PUNTA">PUNTA</option>
-								<option th:id="'OPUESTO'" th:value="OPUESTO">OPUESTO</option>
-								<option th:id="'COLOCADOR'" th:value="COLOCADOR">COLOCADOR</option>
-								<option th:id="'CENTRAL'" th:value="CENTRAL">CENTRAL</option>
-								<option th:id="'LIBERO'" th:value="LIBERO">LÍBERO</option>
-							</select>
-						</div>
 						<div class="form-group col">
 						<label><span class="text-danger">(*) </span>Número de camiseta:</label><input class="form-control" type="number" placeholder="Número de camiseta" th:id="numCamiseta" name="numCamiseta" min="1" max="99" required></input>
 						</div>
@@ -70,8 +27,8 @@
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">Cerrar</button>
 						<button type="button" class="btn btn-info"
-							onclick="return enviarEdicionJugadorEquipo();">Aceptar</button>
-						<input type="hidden" id="idEdit" name="id"></input>
+							onclick="return enviarEdicion();">Aceptar</button>
+						<input type="hidden" id="id"></input>
 					</div>
 				</form>
 			</div>
@@ -79,9 +36,33 @@
 	</div>
 	
 	<script>
+	var idJ;
 	
-	function enviarEdicionJugadorEquipo() {
+	function enviarEdicion(){
+		var idE = $("#equipo_id").val();
 		
+		var form = new FormData(document.getElementById('formEditarJugadorEquipo'));
+		$.ajax({
+            url: '/jugadores/updatejugadorNumCamiseta/' + idJ + "/" +idE,
+            type: 'post',
+            data: form,
+            processData: false,
+            contentType: false,
+            success: function(data){
+            	$('#editarJugadorEquipoModal').modal("hide");
+            	location.reload();
+            },
+            error: function(data){
+            	
+            	$('.error').text('');
+            	
+            	for (i = 0; i < data.responseJSON.length; i++){
+            		
+            		var campo = data.responseJSON[i].field;
+            		$('.'+campo).text(data.responseJSON[i].defaultMessage);
+            	}
+            }
+        });
 	};
 	
 	function mostrarModalEditarJugadorEquipo(jugadorID, equipoID) {
@@ -90,14 +71,8 @@
 			type: 'GET',
 			url: '/jugadores/findEditjugadorNumCamiseta/'+ jugadorID +'/'+ equipoID,
 			success: function(edit){
+				idJ = edit.id;
 				$('#editarJugadorEquipoModal #id').val(edit.id);
-				$('#editarJugadorEquipoModal #firstName').val(edit.firstName);
-				$('#editarJugadorEquipoModal #lastName').val(edit.lastName);
-				$('#editarJugadorEquipoModal #altura').val(edit.altura);
-				$('#editarJugadorEquipoModal #peso').val(edit.peso);
-				$('#editarJugadorEquipoModal #estadoActual').val(edit.estadoActual);
-				$('#editarJugadorEquipoModal #posicionPrincipal').val(edit.posicionPrincipal);
-				$('#editarJugadorEquipoModal #posicionSecundaria').val(edit.posicionSecundaria);
 				$('#editarJugadorEquipoModal #numCamiseta').val(edit.numCamiseta);
 				
 				$('.modal-header').css("color","white");

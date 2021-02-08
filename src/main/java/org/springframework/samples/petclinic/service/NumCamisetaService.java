@@ -15,5 +15,6 @@ public interface NumCamisetaService extends BaseService<NumCamiseta>{
 	public abstract List<Integer> findNumeroByEquipo(int equipo_id);
 	public abstract void deleteAllInEquipo(Integer equipo_id);
 	public abstract void deleteByJugadorEquipo(Jugador jugador, Equipo equipo);
+	public abstract NumCamiseta updateNumCamiseta(NumCamiseta num);
 	
 }

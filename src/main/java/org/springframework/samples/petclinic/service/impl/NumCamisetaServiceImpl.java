@@ -81,5 +81,14 @@ public class NumCamisetaServiceImpl extends AbstractService<NumCamiseta> impleme
 		if(num!=null)
 		numCamisetaRepository.delete(num);
 	}
+	
+	@Override
+	public NumCamiseta updateNumCamiseta(NumCamiseta num) {
+
+
+		NumCamiseta numCam=numCamisetaRepository.save(num);
+
+		return numCam;
+	}
 
 }

@@ -15,10 +15,7 @@ public interface MaterialService extends BaseService<Material>{
 	public abstract List<Material> findByTipo(TipoMaterial tipo);
 	public abstract List<Material> findByDescripcion(String descripcion);
 	public abstract List<Material> findByStock(int stock);
-	public abstract Material updateMaterial(Material material);
 	public abstract Material findByTipoAndEstado(TipoMaterial material,EstadoMaterial estado);
-	
-	public abstract Material saveMaterial(Material material);
 
 	int porcentajeUso(TipoMaterial material);
 }
