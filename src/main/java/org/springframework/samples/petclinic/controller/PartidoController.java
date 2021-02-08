@@ -659,7 +659,7 @@ public class PartidoController {
 			String tipoViaje = request.getParameter("tipoViaje");
 			Integer propietario = Integer.valueOf(request.getParameter("propietario"));
 			
-			if(!"IDAYVUELTA".equals(tipoViaje)) {
+			if("IDA".equals(tipoViaje) || "VUELTA".equals(tipoViaje)) {
 				final Viaje viaje = setViajePersonal(jugador, partido, TipoViaje.fromNombre(tipoViaje), propietario);
 				LOG.info("Procedemos a guardar el viaje de tipo " + tipoViaje);
 				viajeService.save(viaje);
@@ -706,7 +706,7 @@ public class PartidoController {
 			
 			String tipoViaje = request.getParameter("tipoViaje");
 			
-			if(!"IDAYVUELTA".equals(tipoViaje)) {
+			if("IDA".equals(tipoViaje) || "VUELTA".equals(tipoViaje) ) {
 				final Viaje viaje = setViajeBus(jugador, partido, TipoViaje.fromNombre(tipoViaje));
 				LOG.info("Procedemos a guardar el viaje de tipo " + tipoViaje);
 				viajeService.save(viaje);
