@@ -274,7 +274,15 @@ public class PartidoController {
 	@GetMapping("/showestadisiticasPartidoTodosJugadores/{id}")
 	public ModelAndView vistaEstadísticasPartidoJugadores(@PathVariable("id") int id) {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_PARTIDO_JUGADORES);
-		mav.addObject("estadisticas", estadisticaPersonalPartidoService.findByPartido(id));
+		List<EstadisticaPersonalPartido> estadisitcas = estadisticaPersonalPartidoService.findByPartido(id);
+		if(estadisitcas.size()>0) {
+			mav.addObject("estadisticas", estadisitcas);
+		}else {
+			EstadisticaPersonalPartido stat = new EstadisticaPersonalPartido();
+			stat.setPartido(partidoService.findById(id).get());
+			estadisitcas.add(stat);
+			mav.addObject("estadisticas", estadisitcas);
+		}
 		
 		return mav;
 	}
