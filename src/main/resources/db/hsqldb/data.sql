@@ -166,6 +166,9 @@ INSERT INTO estadisticos(id,username,first_name, last_name, email, fecha_nacimie
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (1,'2020-10-09','TRANSPORTE',1);
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (3,'2020-10-09','EXCURSIONES',1);
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (2,'2020-09-09','EXCURSIONES',4);
+INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (4,'2020-10-09','TRANSPORTE',2);
+INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (5,'2020-10-09','EXCURSIONES',2);
+INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (6,'2020-09-09','RESPONSABILIDADLESION',2);
 
 -- INSERT  EQUIPOS
 INSERT INTO equipos(id,categoria,federacion,capitan_id, entrenador_id, sistema_juego, bloqueos_acertados, bloqueos_totales, colocaciones_acertadas, colocaciones_totales, defensas_acertadas, defensas_totales, porcentaje_bloqueos, porcentaje_colocaciones, porcentaje_defensas) VALUES (1,'Senior',false,1,1,'CINCO_UNO', 10, 20, 20, 25, 15, 25, 0.5, 0.8, 0.6);
