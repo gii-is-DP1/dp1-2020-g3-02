@@ -37,7 +37,7 @@ public class AutorizacionServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Autorizacion>autorizacion=new ArrayList<Autorizacion>(autorizacionService.findAll());
-		assertEquals(autorizacion.size(), 3);//
+		assertEquals(autorizacion.size(), 6);//
 	}
 
 
@@ -65,14 +65,14 @@ public class AutorizacionServiceTest {
 	public void testFindByTipoAutorizacionInitialDataFinding() {
 		TipoAutorizacion tipo= TipoAutorizacion.TRANSPORTE ;
 		List<Autorizacion> autorizacion = new ArrayList<Autorizacion>(autorizacionService.findByTipoAutorizacion(tipo));
-		assertEquals(autorizacion.size(), 1);//
+		assertEquals(autorizacion.size(), 2);//
 	}
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByTipoAutorizacionInitialDataNotFinding() {
 		TipoAutorizacion tipo= TipoAutorizacion.RESPONSABILIDADLESION ;
 		List<Autorizacion> autorizacion = new ArrayList<Autorizacion>(autorizacionService.findByTipoAutorizacion(tipo));
-		assertEquals(autorizacion.size(), 0);//
+		assertEquals(autorizacion.size(), 1);//
 	}
 	
 	@Test
@@ -80,7 +80,7 @@ public class AutorizacionServiceTest {
 	public void testFindByFechaInitialDataFinding() {
 		LocalDate date = LocalDate.of(2020, 10, 9);
 		List<Autorizacion> autorizacion=new ArrayList<Autorizacion>(autorizacionService.findByFecha(date));
-		assertEquals(autorizacion.size(), 2);
+		assertEquals(autorizacion.size(), 4);
 	}
 	
 	@Test
