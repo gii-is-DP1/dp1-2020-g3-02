@@ -483,7 +483,7 @@ public class JugadorController {
 		try {
 			
 			NumCamiseta numero = numCamisetaService.findByEquipoAndJugador(equipoID, jugadorID);
-			numero.setNumero(Integer.valueOf(request.getParameter("numCamiseta")));
+			numero.setNumero(Integer.valueOf(request.getParameter("numero")));
 			
 			ValidationUtils.invokeValidator(numCamisetaValidator, numero, result);
 
