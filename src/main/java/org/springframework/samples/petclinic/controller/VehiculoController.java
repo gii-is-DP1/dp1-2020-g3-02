@@ -90,6 +90,12 @@ public class VehiculoController {
 					LOG.info("Estamos editando el personal con el id: " + id);
 					Optional<Personales> personalO = personalService.findById(id);
 					personal = personalO.get();
+					
+					if(!personal.getJugador().equals(jugador)) {
+						LOG.error("No se ha podido guardar el vehículo por falta de permisos");
+						return new ResponseEntity<List<ObjectError>>(HttpStatus.FORBIDDEN);
+					}
+					
 					personal.setPropietario(request.getParameter("propietario"));
 				}else{
 					LOG.info("Estamos creando un vehículo nuevo ");
@@ -103,6 +109,7 @@ public class VehiculoController {
 					LOG.warn("Se han encontrado " + bindResult.getErrorCount() + " errores de validación");
 					return new ResponseEntity<List<ObjectError>>(bindResult.getAllErrors(), HttpStatus.BAD_REQUEST);
 				}
+				
 				Personales personalSave = personalService.save(personal);
 				LOG.info("Se ha guardado el vehículo con éxito: " + personalSave);
 				return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
@@ -130,16 +137,26 @@ public class VehiculoController {
 	
 	
 	@PostMapping("/eliminarVehiculo/{id}")
-    public ResponseEntity<ObjectError> eliminarVehiculo(@PathVariable Integer id){
+    public ResponseEntity<ObjectError> eliminarVehiculo(@PathVariable Integer id, HttpServletRequest request){
 		try{
-		LOG.info("Procedemos al borrado del vehículo y sus dependencias con el id: " + id);
-		personalService.deleteById(id);
-		LOG.info("Se ha borrado el vehículo con el id: " + id);
-		return new ResponseEntity<ObjectError>(HttpStatus.OK);
+			
+			String username = request.getUserPrincipal().getName();
+			Jugador jugador=jugadorService.findByUser(userService.findByUsername(username));
+			
+			Personales personal = personalService.findById(id).get();
+			
+			if(!personal.getJugador().equals(jugador)) {
+				LOG.error("No se ha podido guardar el vehículo por falta de permisos");
+				return new ResponseEntity<ObjectError>(HttpStatus.FORBIDDEN);
+			}
+			
+			LOG.info("Procedemos al borrado del vehículo y sus dependencias con el id: " + id);
+			personalService.deleteById(id);
+			LOG.info("Se ha borrado el vehículo con el id: " + id);
+			return new ResponseEntity<ObjectError>(HttpStatus.OK);
 		
 		}
 		catch(Exception e){
-			LOG.info("Procedemos al borrado del vehículo y sus dependencias con el id: " + id);
 			LOG.info("No se ha podido borrar correctamente el vehículo con el id: " + id);
 			return new ResponseEntity<ObjectError>(HttpStatus.BAD_REQUEST);
 		}
