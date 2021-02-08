@@ -22,4 +22,6 @@ public class PartidoConAsistencia {
 	private List<Integer> asistencia;
 	
 	private boolean partidoFinalizado;
+	
+	private Integer numJugadores;
 }
