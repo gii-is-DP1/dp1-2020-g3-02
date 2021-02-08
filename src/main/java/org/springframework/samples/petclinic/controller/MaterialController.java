@@ -120,52 +120,11 @@ public class MaterialController {
 		}	
 	}
 
-	//	
-	//	@RequestMapping(value = "getporcentajes/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	//	public ResponseEntity<Integer> Porcentajos(@PathVariable("id") int id) {
-	//        try {
-	//        	
-	//            int materialito = materialService.porcentajeUso(id);
-	//           
-	//            return new ResponseEntity <Integer >(materialito, HttpStatus.OK);
-	//        } catch (Exception e) {
-	//            return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
-	//        }
-	//    }
-
-//	@PostMapping("/addmaterial")
-//	public String addMaterial(@Valid @ModelAttribute(name="material") Material material, BindingResult bindResult, Model model) {
-//
-//		LOG.info("addmaterial() -- PARAMETROS: "+ material.toString());
-//
-//		ValidationUtils.invokeValidator(materialValidator, material, bindResult);
-//
-//		if (bindResult.hasErrors()) {
-//			model.addAttribute("material", material);
-//			return ViewConstant.VIEWS_MATERIALES_CREATE_OR_UPDATE_FORM;
-//		}
-//		Material materialSave = materialService.saveMaterial(material);
-//		return "redirect:/materiales/showmateriales";
-//
-//	}
-//	@RequestMapping(value = "findeditmaterial/{id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-//	public ResponseEntity<MaterialDTO> editarMaterial(@PathVariable("id") int id) {
-//		try {
-//			Optional<Material> materialO = materialService.findById(id);
-//			Material material = materialO.get();
-//			MaterialDTO edit = materialConverter.convertMaterialToMaterialDTO(material);
-//			return new ResponseEntity<MaterialDTO>(edit, HttpStatus.OK);
-//		} catch (Exception e) {
-//			return new ResponseEntity<MaterialDTO>(HttpStatus.BAD_REQUEST);
-//		}	
-//	}
 
 	@RequestMapping(value = "/updatematerial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> updateMaterial(HttpServletRequest request, @ModelAttribute(name="material") Material material, BindingResult result) {
 		try {
-			
 
-			
 			TipoMaterial tipo = tipoMaterialConverter.convertToEntityAttribute(request.getParameter("tipo"));
 			EstadoMaterial estadoAnterior =estadoMaterialConverter.convertToEntityAttribute(request.getParameter("EstadoAnterior"));
 			EstadoMaterial estadoNuevo =estadoMaterialConverter.convertToEntityAttribute(request.getParameter("EstadoNuevo"));
@@ -242,21 +201,9 @@ public class MaterialController {
 
 		return "redirect:/materiales/showmateriales";
 
-	}
-//	@PostMapping("/removeMaterial/{id}")
-//	public ResponseEntity removeMaterial(@PathVariable("id") int id, Model model) {
-//		try {
-//			LOG.info("Se procede a borrar el material con id: " + id);
-//			
-//			materialService.deleteById(id);
-//			
-//			return new ResponseEntity(HttpStatus.OK);
-//		} catch (Exception e) {
-//			LOG.error("Error al eliminar el material");
-//			return new ResponseEntity(HttpStatus.BAD_REQUEST);
-//		}
-//		
-//	}
+	} 
+
+	
 	@RequestMapping(value = "/removeMaterial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> removeMaterial(HttpServletRequest request, @ModelAttribute(name="material") Material material, BindingResult result) {
 		try {

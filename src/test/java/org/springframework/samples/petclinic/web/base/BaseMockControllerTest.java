@@ -17,6 +17,7 @@ import org.springframework.samples.petclinic.component.EquipoValidator;
 import org.springframework.samples.petclinic.component.EstadisticoValidator;
 import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.component.LineaMaterialValidator;
+import org.springframework.samples.petclinic.component.MaterialValidator;
 import org.springframework.samples.petclinic.component.NumCamisetaValidator;
 import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
@@ -30,6 +31,7 @@ import org.springframework.samples.petclinic.converter.EquipoConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
+import org.springframework.samples.petclinic.converter.MaterialConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
 import org.springframework.samples.petclinic.converter.PersonalConverter;
 import org.springframework.samples.petclinic.converter.PruebaConverter;
@@ -37,12 +39,16 @@ import org.springframework.samples.petclinic.converter.RealizaEjercicioConverter
 import org.springframework.samples.petclinic.converter.UserConverter;
 import org.springframework.samples.petclinic.converter.ViajeConverter;
 import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
+import org.springframework.samples.petclinic.converter.enumerate.EstadoMaterialConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PosicionConverter;
 import org.springframework.samples.petclinic.converter.enumerate.PrivilegioConverter;
 import org.springframework.samples.petclinic.converter.enumerate.TipoEjercicioConverter;
+import org.springframework.samples.petclinic.converter.enumerate.TipoMaterialConverter;
 import org.springframework.samples.petclinic.converter.enumerate.TipoPrivilegioConverter;
+import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
+import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
@@ -55,6 +61,7 @@ import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamie
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Personales;
@@ -216,6 +223,15 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected TipoEjercicioConverter tipoEjercicioConverter;
+	
+	@MockBean
+	protected MaterialConverter materialConverter;
+	
+	@MockBean
+	protected TipoMaterialConverter tipoMaterialConverter;
+	
+	@MockBean
+	protected EstadoMaterialConverter estadoMaterialConverter;
 
 	// VALIDATORS
 	
@@ -255,8 +271,11 @@ public class BaseMockControllerTest {
 	@MockBean
 	protected NumCamisetaValidator numCamisetaValidator;
 	
-  @MockBean
+    @MockBean
 	private PartidoValidator partidoValidator;
+    
+    @MockBean
+    private MaterialValidator materialValidator;
 	
 
 
@@ -302,6 +321,9 @@ public class BaseMockControllerTest {
 		
 		doNothing().when(numCamisetaValidator).validate(any(Object.class), any(Errors.class));
 		when(numCamisetaValidator.supports(any(Class.class))).thenReturn(true);
+		
+		doNothing().when(materialValidator).validate(any(Object.class), any(Errors.class));
+		when(materialValidator.supports(any(Class.class))).thenReturn(true);
 
 	}
 
@@ -437,5 +459,13 @@ public class BaseMockControllerTest {
 		.willReturn(Lists.newArrayList(ejercicio));
 		given(this.ejercicioIndividualService.save(any(EjercicioIndividual.class))).
 		willReturn(ejercicio);
+	}
+	
+	protected void givenMaterialService(Material material) {
+		given(this.materialService.findAll())
+		.willReturn(Lists.newArrayList(material));
+		
+		given(this.materialService.findByTipoAndEstado(any(TipoMaterial.class),any( EstadoMaterial.class)))
+			.willReturn(material);
 	}
 }
