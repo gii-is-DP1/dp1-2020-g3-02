@@ -47,6 +47,7 @@ import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
 import org.springframework.samples.petclinic.model.Autorizacion;
+import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.model.EjercicioIndividual;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
@@ -345,6 +346,7 @@ public class BaseMockControllerTest {
 		given(this.equipoService.findAll()).willReturn(Lists.newArrayList(equipo));
 		given(this.equipoService.findByCategoria(any(String.class))).willReturn(equipo);
 		given(this.equipoService.findJugadoresNoEquipo(any(Integer.class))).willReturn(Lists.newArrayList());
+		given(this.equipoService.findByCapitan(any(Capitan.class))).willReturn(Lists.newArrayList(equipo));
 	}
 
 	/** Metodos PartidoService por defecto */
