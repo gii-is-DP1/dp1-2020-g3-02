@@ -71,6 +71,10 @@ public class BaseControllerTest extends BaseUserControllerTest {
 	protected static final String SISTEMA_JUEGO = "CINCO_UNO";
 	
 	protected static final String TIPO_EJERCICIO = "Saque";
+	
+	protected static final String TIPO_MATERIAL = "BALONMEDICINAL";
+	
+	protected static final String ESTADO_MATERIAL = "NUEVO";
 
 	protected Jugador getJugadorCorrecto() {
 		List<TipoAutorizacion> tiposAutorizaciones = new ArrayList<TipoAutorizacion>();
@@ -376,6 +380,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		List<RealizaEjercicio> realizaEjercicios = getRealizaEjerciciosCorrectos(jugador, ejercicio);
 		PruebaCondicionFisica pruebaCondicionFisica = getPruebaCondicionFisicaCorrecta(jugador);
 		Autorizacion auto = getAutorizacionCorrecta(TipoAutorizacion.EXCURSIONES, jugador);
+		Material material = getMaterialCorrecto();
 
 		// Invalidación de validators
 		doNothingValidators();
@@ -433,6 +438,9 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		//EjercicioIndividualService
 		givenEjercicioIndividualService(ejercicio);
 		
+		//MaterialServices
+		givenMaterialService(material);
+
 		//SustitucionService
 		givenSustitucionService(sustitucion);
 		
@@ -441,6 +449,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		
 		//SistemaJuegoService
 		givenSistemaService(sistemaJuego);
+
 		
 		
 		// CONVERTERS
@@ -532,6 +541,12 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		.willReturn((converterEntityToDTO(ejercicio)));
 		given(this.ejercicioIndividualConverter.converListEntityToListDTO(any()))
 		.willReturn((converListEntityToListDTO(ejerciciosIndividuales)));
+		
+		given(this.tipoMaterialConverter.convertToEntityAttribute(any(String.class)))
+		.willReturn((convertToEntityAttributeMaterial(TIPO_MATERIAL)));
+		
+		given(this.estadoMaterialConverter.convertToEntityAttribute(any()))
+		.willReturn((convertToEntityAttributeEstado(ESTADO_MATERIAL)));
 		
 		
 	}

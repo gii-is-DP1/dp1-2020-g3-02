@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
+import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.model.EjercicioIndividual;
 import org.springframework.samples.petclinic.model.Entrenamiento;
@@ -553,6 +555,17 @@ public class BaseConverterMethods extends BaseMockControllerTest {
 			return (nombre == null) ? null : TipoPrivilegio.fromNombre(nombre);
 		}
 		
+
+		public TipoMaterial convertToEntityAttributeMaterial(final String nombre) {
+			
+			return (nombre == null) ? null : TipoMaterial.fromNombre(nombre);
+		}
+		
+		public EstadoMaterial convertToEntityAttributeEstado(final String nombre) {
+			
+			return (nombre == null) ? null : EstadoMaterial.fromNombre(nombre);
+    }
+  
 		public EstadisticasPersonalesEntrenamientoStats convertEstadisticasToEstadisticasEntrenamientoStats(EstadisticaPersonalEntrenamiento estadistica) {
 			return new EstadisticasPersonalesEntrenamientoStats(
 					estadistica.getJugador().getId(),
@@ -584,5 +597,6 @@ public class BaseConverterMethods extends BaseMockControllerTest {
 					estadistica.getPorcentajeAtaquesRapidos(),
 					estadistica.getEntrenamiento().getId()
 					);
+
 		}
 }
