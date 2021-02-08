@@ -127,6 +127,9 @@ public class PruebaCondicionFisicaServiceTests {
 		
 		assertNotNull(prueba);
 		
+		assertEquals(prueba.getFecha(), LocalDate.of(2020, 11, 01));
+		assertEquals(prueba.getTipoPrueba(), TipoPrueba.FLEXIBILIDAD);
+		
 	}
 
 }

@@ -139,6 +139,9 @@ public class EntrenadorServiceTests {
 		Entrenador coach = entrenadorService.save(entrenador);
 		
 		assertNotNull(coach);
+		assertEquals(coach.getFirstName(), "Vitor");
+		assertEquals(coach.getLastName(), "González Pérez");
+		assertEquals(coach.getEmail(), "elvitor@gmail.com");
 		
 	}
 }

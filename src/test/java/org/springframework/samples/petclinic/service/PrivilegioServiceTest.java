@@ -124,7 +124,7 @@ public class PrivilegioServiceTest {
 	
 	@Test
 	@Transactional
-	public void testSavePersonales() {
+	public void testSavePrivilegios() {
 		
 		Optional<Jugador> jugador= jugadorService.findById(3);
 		Jugador player= jugador.get();
@@ -139,6 +139,10 @@ public class PrivilegioServiceTest {
 		Privilegio priv = privilegioService.save(privilegio);
 
 		assertNotNull(priv);
+		
+		assertEquals(priv.getJugador(), player);
+		assertEquals(priv.getDescripcion(), "de cuerdos");
+		assertEquals(priv.getEquipo(), team);
 
 	}
 

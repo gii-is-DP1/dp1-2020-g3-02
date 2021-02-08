@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.enumerate.Actitud;
 import org.springframework.samples.petclinic.model.Capitan;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,9 @@ public class CapitanServiceTests {
 	@Autowired
 	@Qualifier("capitanService")
 	private CapitanService capitanService;
+	
+	@Autowired
+	private JugadorService jugadorService;
 
 	@Test
 	@Transactional(readOnly = true)
@@ -99,11 +103,13 @@ public class CapitanServiceTests {
 	@Transactional
 	public void testSaveCapitan() {
 		Capitan capitan = new Capitan(10, Actitud.NEGATIVA);
-		capitan.setJugador(null);
+		Jugador player =jugadorService.findById(1).get();
+		capitan.setJugador(player);
 		
 		Capitan captain = capitanService.save(capitan);
 		assertNotNull(captain);
-		
+		assertEquals(captain.getJugador(), player);
+		assertEquals(captain.getActitud(), Actitud.NEGATIVA);
 	}
 	
 	@Test
