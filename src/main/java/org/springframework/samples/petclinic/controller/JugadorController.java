@@ -442,6 +442,7 @@ public class JugadorController {
 			Optional<Jugador> jugadorO = jugadorService.findById(id);
 			Jugador jugador = jugadorO.get();
 
+			jugadorAux.setUser(jugador.getUser());
 			jugadorAux.setDni(jugador.getDni());
 			jugadorAux.setEmail(jugador.getEmail());
 			jugadorAux.setDireccion(jugador.getDireccion());
