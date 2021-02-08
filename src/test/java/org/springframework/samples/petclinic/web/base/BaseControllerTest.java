@@ -480,7 +480,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 			.willReturn(convertPartidoToPartidoStats(partido));
 		given(this.partidoConverter.convertListPartidoToListPartidoPuntos(any()))
 		.willReturn(convertListPartidoToListPartidoPuntos(Lists.newArrayList(partido)));
-		
+
 		//Entrenamiento
 		given(this.entrenamientoConverter.convertEntrenamientoToEntrenamientoEdit(any(Entrenamiento.class)))
 		.willReturn(convertEntrenamientoToEntrenamientoEdit(entrenamiento));
