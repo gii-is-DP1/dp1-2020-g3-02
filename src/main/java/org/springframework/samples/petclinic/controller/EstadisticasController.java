@@ -34,7 +34,6 @@ import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesEntrenamientoStats;
-import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalEntrenamientoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalPartidoService;
@@ -165,23 +164,23 @@ public class EstadisticasController {
 		}
 	}
 	
-	@RequestMapping(value = "/obtenerEstadisticasJugadores/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<EstadisticasPersonalesStats>> obtenerEstadisticasJugadores(@PathVariable("partidoId") int partidoId) {
+	@RequestMapping(value = "/obtenerEstadisticasJugadores/{entrenamiento_id}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<EstadisticasPersonalesEntrenamientoStats>> obtenerEstadisticasJugadores(@PathVariable("entrenamiento_id") int entrenamientoId) {
 		try {
 			
-			List<EstadisticaPersonalPartido> estadisticasPersonalesPartidos = estadisticaPersonalPartidoService.findByPartido(partidoId);
+			List<EstadisticaPersonalEntrenamiento> estadisticasPersonalesPartidos = estadisticaPersonalEntrenamientoService.findByEntrenamiento(entrenamientoId);
 			
-			List<EstadisticasPersonalesStats> estadisticasPersonalesStats = new ArrayList<EstadisticasPersonalesStats>();
+			List<EstadisticasPersonalesEntrenamientoStats> estadisticasPersonalesStats = new ArrayList<EstadisticasPersonalesEntrenamientoStats>();
 			
 			
 			for (int i = 0; i < estadisticasPersonalesPartidos.size();i++) {
-				EstadisticasPersonalesStats estadisticaPersonalesStats = estadisticasConverter.convertEstadisticasToEstadisticasStats(estadisticasPersonalesPartidos.get(i));
+				EstadisticasPersonalesEntrenamientoStats estadisticaPersonalesStats = estadisticasConverter.convertEstadisticasToEstadisticasEntrenamientoStats(estadisticasPersonalesPartidos.get(i));
 				estadisticasPersonalesStats.add(estadisticaPersonalesStats);
 			}
 			
-			return new ResponseEntity<List<EstadisticasPersonalesStats>>(estadisticasPersonalesStats, HttpStatus.OK);
+			return new ResponseEntity<List<EstadisticasPersonalesEntrenamientoStats>>(estadisticasPersonalesStats, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<List<EstadisticasPersonalesStats>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List<EstadisticasPersonalesEntrenamientoStats>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -432,7 +431,7 @@ public class EstadisticasController {
 				
 				String clave = parameters.nextElement();
 				
-				if(!(clave.equals("partidoId") || clave.equals("hour") || clave.equals("minute") || clave.equals("second"))) {
+				if(!(clave.equals("partidoId") || clave.equals("hour") || clave.equals("minute") || clave.equals("second") || clave.equals("_csrf"))) {
 					String accion = clave.split(",")[0];
 					int jugadorId = Integer.parseInt(clave.split(",")[1]);
 					Jugador jugador = jugadorService.findById(jugadorId).get();
@@ -574,7 +573,7 @@ public class EstadisticasController {
 				
 				String clave = parameters.nextElement();
 				
-				if(!(clave.equals("entrenamientoId") || clave.equals("hour"))) {
+				if(!(clave.equals("entrenamientoId") || clave.equals("hour") || clave.equals("_csrf"))) {
 					String accion = clave.split(",")[0];
 					int jugadorId = Integer.parseInt(clave.split(",")[1]);
 					Jugador jugador = jugadorService.findById(jugadorId).get();
