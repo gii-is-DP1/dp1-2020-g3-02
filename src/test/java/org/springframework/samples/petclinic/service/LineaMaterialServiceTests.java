@@ -65,7 +65,7 @@ public class LineaMaterialServiceTests {
 	public void testFindByCantidadInitialDataNotFinding() {
 		int cantidad=123;
 		List<LineaMaterial> lineamaterial = new ArrayList<LineaMaterial>(lineaMaterialService.findByCantidad(cantidad));
-		assertEquals(lineamaterial.size(), 1);
+		assertEquals(lineamaterial.size(), 0);
 	}
 
 	@Test
