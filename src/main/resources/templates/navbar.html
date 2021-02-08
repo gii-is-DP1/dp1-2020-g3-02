@@ -332,8 +332,10 @@
 						href="#" sec:authentication="name"></a>
 					<button class="dropdown-item dropPersonalizado" id="changePassword"
 						onclick="return abrirPassword()">Cambiar Contraseña</button>
-					<a class="dropdown-item dropPersonalizado" href="/login">Cerrar
-						Sesión</a>
+						<form th:action="@{/logout}" method="post">
+							<button class="dropdown-item dropPersonalizado" type="submit">Cerrar
+								Sesión</button>
+						</form>
 				</div></li>
 
 		</ul>
