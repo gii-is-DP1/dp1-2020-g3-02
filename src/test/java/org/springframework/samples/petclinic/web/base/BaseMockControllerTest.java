@@ -41,10 +41,12 @@ import org.springframework.samples.petclinic.converter.enumerate.PrivilegioConve
 import org.springframework.samples.petclinic.converter.enumerate.TipoEjercicioConverter;
 import org.springframework.samples.petclinic.converter.enumerate.TipoPrivilegioConverter;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
+import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
 import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.enumerate.TipoPrueba;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
 import org.springframework.samples.petclinic.model.Autorizacion;
+import org.springframework.samples.petclinic.model.EjercicioIndividual;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
@@ -224,9 +226,6 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected EntrenamientoValidator entrenamientoValidator;
-
-	@MockBean
-	protected PartidoValidator partidoValidator;
 	
 	@MockBean
 	protected PersonalesValidator personalesValidator;
@@ -251,6 +250,9 @@ public class BaseMockControllerTest {
 	
 	@MockBean
 	protected EjercicioIndividualValidator ejercicioIndividualValidator;
+	
+	@MockBean
+	private PartidoValidator partidoValidator;
 	
 
 
@@ -287,7 +289,11 @@ public class BaseMockControllerTest {
 		doNothing().when(lineaMaterialValidator).validate(any(Object.class), any(Errors.class));
 		when(lineaMaterialValidator.supports(any(Class.class))).thenReturn(true);
 		
+		doNothing().when(realizaEjercicioValidator).validate(any(Object.class), any(Errors.class));
+		when(realizaEjercicioValidator.supports(any(Class.class))).thenReturn(true);
 		
+		doNothing().when(ejercicioIndividualValidator).validate(any(Object.class), any(Errors.class));
+		when(ejercicioIndividualValidator.supports(any(Class.class))).thenReturn(true);
 
 	}
 
@@ -338,6 +344,7 @@ public class BaseMockControllerTest {
 		given(this.partidoService.findById(any(Integer.class))).willReturn(Optional.of(partido));
 		given(this.partidoService.findByFechaAfter(any(LocalDate.class))).willReturn(Lists.newArrayList(partido));
 		given(this.partidoService.findByEquipo(any(Equipo.class))).willReturn(Lists.newArrayList(partido));
+		
 	}
 
 	/** Metodos EstadisticaPersonalPartidoService por defecto */
@@ -348,6 +355,8 @@ public class BaseMockControllerTest {
 				.willReturn(Lists.newArrayList(estadisticaPersonalPartido));
 		given(this.estadisticaPersonalPartidoService.findByPartido(any(Integer.class)))
 				.willReturn(Lists.newArrayList(estadisticaPersonalPartido));
+		given(this.estadisticaPersonalPartidoService.findByJugadorAndPartido(any(Integer.class), any(Integer.class)))
+			.willReturn(estadisticaPersonalPartido);
 	}
 	
 	/** Metodos EstadisticaPersonalEntrenamientoService por defecto */
@@ -368,6 +377,8 @@ public class BaseMockControllerTest {
 		given(this.viajeService.findById(any(Integer.class))).willReturn(Optional.of(viaje));
 		given(this.viajeService.findByJugadorAndPartidoAndTipoViaje(any(Jugador.class), any(Partido.class),
 				any(TipoViaje.class))).willReturn(viaje);
+		given(this.viajeService.findPersonalesByPartidoAndTipoViaje(any(Partido.class), any(String.class)))
+			.willReturn(Lists.newArrayList(viaje.getPersonal()));
 	}
 	
 	/** Metodos PersonalesService por defecto */
@@ -393,17 +404,30 @@ public class BaseMockControllerTest {
 		given(this.numCamisetaService.findByEquipoAndJugador(any(Integer.class), any(Integer.class))).willReturn(numero);
 	}
 	
-	/** Metodos UserService por defecto */
+	/** Metodos AutorizacionService por defecto */
 	protected void givenAutorizacionService(Autorizacion autorizacion) {
 		given(this.autorizacionService.findByJugadorAndTipo(any(Jugador.class),any(TipoAutorizacion.class)))
 		.willReturn(autorizacion);
 		//given(this.autorizacionService.deleteByIdSiExiste(any(Integer.class)));
-		given(this.autorizacionService.save(any(Autorizacion.class))).willReturn(autorizacion);
+		given(this.autorizacionService.save(any(Autorizacion.class))).
+		willReturn(autorizacion);
 	}
 	
-	/** Metodos UserService por defecto */
+	/** Metodos RealizaEjercicioService por defecto */
 	protected void givenRealizaEjercicioService(RealizaEjercicio realiza) {
 		given(this.realizaEjercicioService.findAll())
 		.willReturn(Lists.newArrayList(realiza));
+	}
+	
+	/** Metodos EjercicioindividualService por defecto */
+	protected void givenEjercicioIndividualService(EjercicioIndividual ejercicio) {
+		given(this.ejercicioIndividualService.findById(any(Integer.class)))
+		.willReturn(Optional.of(ejercicio));
+		given(this.ejercicioIndividualService.findEjerciciosRecomendados(any(Jugador.class)))
+		.willReturn(Lists.newArrayList(ejercicio));
+		given(this.ejercicioIndividualService.findByTipoEjercicio(any(TipoEjercicio.class)))
+		.willReturn(Lists.newArrayList(ejercicio));
+		given(this.ejercicioIndividualService.save(any(EjercicioIndividual.class))).
+		willReturn(ejercicio);
 	}
 }

@@ -28,7 +28,6 @@ import org.springframework.samples.petclinic.converter.PersonalConverter;
 import org.springframework.samples.petclinic.converter.ViajeConverter;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.enumerate.TipoViaje;
-import org.springframework.samples.petclinic.converter.DataPosicionConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.model.Autobus;
 import org.springframework.samples.petclinic.model.Autorizacion;
@@ -108,9 +107,6 @@ public class PartidoController {
 	
 	@Autowired
 	private PartidoValidator partidoValidator;
-	
-	@Autowired
-	private DataPosicionConverter dataPosicionConverter;
 	
 	@Autowired
 	private EstadisticasConverter estadisticasConverter;
@@ -278,7 +274,15 @@ public class PartidoController {
 	@GetMapping("/showestadisiticasPartidoTodosJugadores/{id}")
 	public ModelAndView vistaEstadísticasPartidoJugadores(@PathVariable("id") int id) {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_PARTIDO_JUGADORES);
-		mav.addObject("estadisticas", estadisticaPersonalPartidoService.findByPartido(id));
+		List<EstadisticaPersonalPartido> estadisitcas = estadisticaPersonalPartidoService.findByPartido(id);
+		if(estadisitcas.size()>0) {
+			mav.addObject("estadisticas", estadisitcas);
+		}else {
+			EstadisticaPersonalPartido stat = new EstadisticaPersonalPartido();
+			stat.setPartido(partidoService.findById(id).get());
+			estadisitcas.add(stat);
+			mav.addObject("estadisticas", estadisitcas);
+		}
 		
 		return mav;
 	}
@@ -655,7 +659,7 @@ public class PartidoController {
 			String tipoViaje = request.getParameter("tipoViaje");
 			Integer propietario = Integer.valueOf(request.getParameter("propietario"));
 			
-			if(!"IDAYVUELTA".equals(tipoViaje)) {
+			if("IDA".equals(tipoViaje) || "VUELTA".equals(tipoViaje)) {
 				final Viaje viaje = setViajePersonal(jugador, partido, TipoViaje.fromNombre(tipoViaje), propietario);
 				LOG.info("Procedemos a guardar el viaje de tipo " + tipoViaje);
 				viajeService.save(viaje);
@@ -702,7 +706,7 @@ public class PartidoController {
 			
 			String tipoViaje = request.getParameter("tipoViaje");
 			
-			if(!"IDAYVUELTA".equals(tipoViaje)) {
+			if("IDA".equals(tipoViaje) || "VUELTA".equals(tipoViaje) ) {
 				final Viaje viaje = setViajeBus(jugador, partido, TipoViaje.fromNombre(tipoViaje));
 				LOG.info("Procedemos a guardar el viaje de tipo " + tipoViaje);
 				viajeService.save(viaje);

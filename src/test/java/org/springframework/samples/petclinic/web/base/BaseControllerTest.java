@@ -69,6 +69,8 @@ public class BaseControllerTest extends BaseUserControllerTest {
 	protected static final Integer MARCADOR = 0;
 	
 	protected static final String SISTEMA_JUEGO = "CINCO_UNO";
+	
+	protected static final String TIPO_EJERCICIO = "Saque";
 
 	protected Jugador getJugadorCorrecto() {
 		List<TipoAutorizacion> tiposAutorizaciones = new ArrayList<TipoAutorizacion>();
@@ -424,6 +426,9 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		//RealizaEjercicioService
 		givenRealizaEjercicioService(realizaEjercicio);
 		
+		//EjercicioIndividualService
+		givenEjercicioIndividualService(ejercicio);
+		
 		
 		// CONVERTERS
 		
@@ -475,7 +480,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 			.willReturn(convertPartidoToPartidoStats(partido));
 		given(this.partidoConverter.convertListPartidoToListPartidoPuntos(any()))
 		.willReturn(convertListPartidoToListPartidoPuntos(Lists.newArrayList(partido)));
-		
+
 		//Entrenamiento
 		given(this.entrenamientoConverter.convertEntrenamientoToEntrenamientoEdit(any(Entrenamiento.class)))
 		.willReturn(convertEntrenamientoToEntrenamientoEdit(entrenamiento));
@@ -505,5 +510,17 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		//RealizaEjercicio
 		given(this.realizaEjercicioConverter.converListEntityToListDTO(any()))
 		.willReturn((conTodoElDolorDeMiCorazonNoSeQueNombrePonerleAEsto2(realizaEjercicios)));
+		
+		//EjercicioIndividual
+		given(this.ejercicioIndividualConverter.converterEntityToDTO(any(EjercicioIndividual.class)))
+		.willReturn((converterEntityToDTO(ejercicio)));
+		given(this.ejercicioIndividualConverter.converListEntityToListDTO(any()))
+		.willReturn((converListEntityToListDTO(ejerciciosIndividuales)));
+		
+		
+		//TipoEjercicio
+		//given(this.tipoEjercicioConverter.convertToEntityAttribute(any(String.class)))
+		//.willReturn((convertToEntityAttribute(TIPO_EJERCICIO)));
+		
 	}
 }

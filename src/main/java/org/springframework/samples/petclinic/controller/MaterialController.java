@@ -263,35 +263,35 @@ public class MaterialController {
 			TipoMaterial tipo = tipoMaterialConverter.convertToEntityAttribute(request.getParameter("tipo"));
 			EstadoMaterial estado =estadoMaterialConverter.convertToEntityAttribute(request.getParameter("EstadodelMat"));
 			
-			Material lalala = materialService.findByTipoAndEstado(tipo, estado);
+			Material materialPorTipoEstado = materialService.findByTipoAndEstado(tipo, estado);
 			
 			Integer cantidad = Integer.parseInt(request.getParameter("cantidad"));
-			if(lalala == null) {
+			
+			if(materialPorTipoEstado == null) {
 				Material materialNuevo = new Material();
-				materialNuevo.setStock(cantidad);
+				materialNuevo.setStock(0);
 				materialNuevo.setTipo(tipo);
 				materialNuevo.setEstado(estado);
 				materialNuevo.setDescripcion(tipo.toString());
-				
-			}else {
-				lalala.setStock(lalala.getStock()-cantidad);
+				materialNuevo.setStock(0-cantidad);
+				materialPorTipoEstado = materialNuevo;
+			} else {
+				materialPorTipoEstado.setStock(materialPorTipoEstado.getStock()-cantidad);
 			}
-	
 			
-			ValidationUtils.invokeValidator(materialValidator, lalala, result);
+			ValidationUtils.invokeValidator(materialValidator, materialPorTipoEstado, result);
 
 			if(result.hasErrors()) {
 				LOG.warn("Se han encontrado " + result.getErrorCount() + " errores de validación");
 				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 			}
 			
-			
-			materialService.save(lalala);
+			materialService.save(materialPorTipoEstado);
 			
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 			
 		} catch (Exception e) {
-			LOG.error("Error al guardar el material");
+			LOG.error("Error al eliminar el material");
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 	}

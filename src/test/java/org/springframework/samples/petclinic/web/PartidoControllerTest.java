@@ -217,6 +217,16 @@ public class PartidoControllerTest extends BaseControllerTest {
 	
 	@WithMockUser(value = "spring")
 	@Test
+	void testAddPartidoNegativo() throws Exception {
+
+		mockMvc.perform(post("/partidos/postpartido").with(csrf())
+			.param("fecha", "20/11/2020")
+			.param("hora", "11:00"))
+			.andExpect(status().isBadRequest());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
 	void testEliminarPartido() throws Exception {
 
 		mockMvc.perform(post("/partidos/removePartido/{partido_id}", ID).with(csrf()))
@@ -270,6 +280,32 @@ public class PartidoControllerTest extends BaseControllerTest {
 	
 	@WithMockUser(value = "spring")
 	@Test
+	void addViajeIDAYVUELTANegativoIdPropietario() throws Exception {
+		
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserJugador());
+
+		mockMvc.perform(post("/partidos/postviaje").with(csrf())
+				.param("idPartido", "1")
+				.param("tipoViaje", "IDAYVUELTA")
+				.param("propietario", "ESTONOESUNIDDEPROPIETARIO"))
+				.andExpect(status().isBadRequest());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void addViajeIDAYVUELTANegativoTipoViaje() throws Exception {
+		
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserJugador());
+
+		mockMvc.perform(post("/partidos/postviaje").with(csrf())
+				.param("idPartido", "1")
+				.param("tipoViaje", "ESTONOESUNTIPOVALIDO")
+				.param("propietario", "1"))
+				.andExpect(status().isBadRequest());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
 	void addViajeBusIDA() throws Exception {
 		
 		when(userService.findByUsername(any(String.class))).thenReturn(getUserJugador());
@@ -290,6 +326,18 @@ public class PartidoControllerTest extends BaseControllerTest {
 				.param("idPartidoBus", "1")
 				.param("tipoViaje", "IDAYVUELTA"))
 				.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void addViajeBusIDAYVUELTANegativo() throws Exception {
+		
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserJugador());
+
+		mockMvc.perform(post("/partidos/postbus").with(csrf())
+				.param("idPartidoBus", "1")
+				.param("tipoViaje", "NOESUNTIPODEVIAJE"))
+				.andExpect(status().isBadRequest());
 	}
 	
 }

@@ -151,26 +151,18 @@
 				</div>
 				<div class="form-group col"></div>
 				</div>
-				<div class="row" th:if="${param.id[0] == '0'}">
+				<div class="row">
 					<div class="form-group col">
 						<input class="form-control" type="text"
 							placeholder="Nombre de Usuario" th:field="*{user.username}"
 							th:value="${username}" required></input>
+							<small th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}" class="mb-3 col-12 text-danger"></small>
 					</div>
 					<div class="form-group col">
 						<input class="form-control" type="password" placeholder="Contraseña"
-							th:field="*{user.password}" required></input>
-					</div>
-				</div>
-				<div class="row" th:if="${param.id[0] != '0'}">
-					<div class="form-group col">
-						<input class="form-control" type="hidden"
-							placeholder="Nombre de Usuario" th:field="*{user.username}"
-							th:value="${username}" required></input>
-					</div>
-					<div class="form-group col">
-						<input class="form-control" type="hidden" placeholder="Contraseña"
-							th:field="*{user.password}" required></input>
+							th:field="*{user.password}" required></input>					
+							<small th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}" class="mb-3 col-12 text-danger"></small>
+							
 					</div>
 				</div>
 				<div class="row">

@@ -65,7 +65,7 @@ public class LineaMaterialServiceTests {
 	public void testFindByCantidadInitialDataNotFinding() {
 		int cantidad=123;
 		List<LineaMaterial> lineamaterial = new ArrayList<LineaMaterial>(lineaMaterialService.findByCantidad(cantidad));
-		assertEquals(lineamaterial.size(), 0);
+		assertEquals(lineamaterial.size(), 1);
 	}
 
 	@Test
@@ -104,14 +104,20 @@ public class LineaMaterialServiceTests {
 	@Test
 	@Transactional
 	public void testSaveLineaMaterial() {
+
 		
 		Material material = new Material("cono", TipoMaterial.CONOALTO, 7);
+
+
 		Entrenamiento entrenamiento = new Entrenamiento();
 		LineaMaterial lineaMaterial = new LineaMaterial(material, entrenamiento, 8);
 
 		LineaMaterial linea = lineaMaterialService.save(lineaMaterial);
 
 		assertNotNull(linea);
+
+		assertEquals(linea.getMaterial(), material);
+		assertEquals(linea.getEntrenamiento(), entrenamiento);
 
 	} 
 }

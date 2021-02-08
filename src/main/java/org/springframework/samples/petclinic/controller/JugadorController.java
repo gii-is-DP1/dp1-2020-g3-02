@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.component.JugadorValidator;
+import org.springframework.samples.petclinic.component.NumCamisetaValidator;
 import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.converter.enumerate.EstadoConverter;
@@ -29,6 +30,7 @@ import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.samples.petclinic.model.Privilegio;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorAut;
@@ -71,6 +73,9 @@ public class JugadorController {
 
 	@Autowired
 	private JugadorValidator jugadorFormValidator;
+	
+	@Autowired
+	private NumCamisetaValidator numCamisetaValidator;
 
 	@Autowired
 	private UserService userService;
@@ -442,6 +447,7 @@ public class JugadorController {
 			Optional<Jugador> jugadorO = jugadorService.findById(id);
 			Jugador jugador = jugadorO.get();
 
+			jugadorAux.setUser(jugador.getUser());
 			jugadorAux.setDni(jugador.getDni());
 			jugadorAux.setEmail(jugador.getEmail());
 			jugadorAux.setDireccion(jugador.getDireccion());
@@ -467,6 +473,33 @@ public class JugadorController {
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
 		} catch(Exception e) {
 			LOG.error("No se ha podido guardar el jugador");
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
+	
+	@RequestMapping(value = "updatejugadorNumCamiseta/{jugadorID}/{equipoID}", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ObjectError>> updateJugadorNumCamiseta(HttpServletRequest request, @PathVariable("jugadorID") int jugadorID, @PathVariable("equipoID") int equipoID, @ModelAttribute(name="numCamiseta") NumCamiseta numCam, BindingResult result) {
+		try {
+			
+			NumCamiseta numero = numCamisetaService.findByEquipoAndJugador(equipoID, jugadorID);
+			numero.setNumero(Integer.valueOf(request.getParameter("numero")));
+			
+			ValidationUtils.invokeValidator(numCamisetaValidator, numero, result);
+
+			if (result.hasErrors()) {
+				LOG.warn("Se han obtenido " + result.getErrorCount() + " errores de validación");
+				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+				return re;
+			}
+			
+			LOG.info("Se procede a actualizar el número de camiseta");
+			NumCamiseta number = numCamisetaService.updateNumCamiseta(numero);
+			LOG.info("Se ha actualizado el número de camiseta con éxito: " + number);
+			
+			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
+		} catch(Exception e) {
+			LOG.error("No se ha podido guardar el número de camiseta");
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 

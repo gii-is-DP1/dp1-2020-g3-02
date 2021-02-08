@@ -374,13 +374,14 @@ public class EquipoController {
 	public ResponseEntity<List<ObjectError>> addEquipo(HttpServletRequest request, @ModelAttribute(name="equipo") EquipoEdit equipoEdit, BindingResult result) {
 		try {
 			EquipoEdit edit = new EquipoEdit(null, request.getParameter("categoria").trim(), Sistema.valueOf(request.getParameter("sistemajuego").trim()), request.getParameter("liga").trim(),false);
-
-			//ValidationUtils.invokeValidator(partidoValidator, edit, result);
+			
+			Equipo equipo = new Equipo(request.getParameter("categoria").trim(), Sistema.valueOf(request.getParameter("sistemajuego").trim()), request.getParameter("liga").trim());
+			ValidationUtils.invokeValidator(equipoValidator, equipo, result);
 
 			if(result.hasErrors()) {
 				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 			}
-			Equipo equipo = new Equipo(request.getParameter("categoria").trim(), Sistema.valueOf(request.getParameter("sistemajuego").trim()), request.getParameter("liga").trim());
+			
 			List<Jugador> jugadores = jugadorService.findAll();
 			List<Jugador> agregados = new ArrayList<Jugador>();
 			for(int i=0; i<jugadores.size(); i++) {

@@ -252,11 +252,16 @@ public class EntrenamientoController {
 		}	
 	}
 
-	@GetMapping("/showestadisiticasEntrenamientoTodosJugadores")
-	public ModelAndView vistaEstadísticasEntrenamientoJugadores(int id) {
+	@GetMapping("/showestadisiticasEntrenamientoTodosJugadores/{id}")
+	public ModelAndView vistaEstadísticasEntrenamientoJugadores(HttpServletRequest request, @PathVariable("id") int id) {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_ENTRENAMIENTO_JUGADORES);
-		mav.addObject("estadisticas", estadisService.findByEntrenamiento(id));
-
+		List<EstadisticaPersonalEntrenamiento> estadisitcas = estadisService.findByEntrenamiento(id);
+		
+		if(estadisitcas.size()>0) {
+			mav.addObject("estadisticas", estadisitcas);
+		}else {
+			return vistaEstadísticasEntrenamiento(request);
+		}
 		return mav;
 	}
 
@@ -536,7 +541,7 @@ public class EntrenamientoController {
 			linea(TipoMaterial.CONOALTO, Integer.parseInt(request.getParameter("cantidad6")), entr,result,mape);
 			linea(TipoMaterial.CONOMEDIO, Integer.parseInt(request.getParameter("cantidad7")), entr,result,mape);
 			linea(TipoMaterial.CUERDA, Integer.parseInt(request.getParameter("cantidad8")), entr,result,mape);
-			linea(TipoMaterial.CINTA, Integer.parseInt(request.getParameter("cantidad9")), entr,result,mape);
+			linea(TipoMaterial.CINTA, Integer.parseInt(request.getParameter("cantidad9")), entr,result,mape); 
 
 			       
 			//si el map esta vacio devuelva ok si el map tiene errorres devuelva el map

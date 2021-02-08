@@ -24,7 +24,7 @@
 	<script src="https://www.w3schools.com/lib/w3data.js"></script>
 	
 	<div class="">
-	<div w3-include-html="navbar?id=estadisticasEntrenamiento"></div>
+	<div w3-include-html="/navbar?id=estadisticasEntrenamiento"></div>
 	</div>
 	
 	<script type="text/javascript">
@@ -144,6 +144,7 @@
 							<th title="Ataques Rápidos Totales">AtR T</th>
 							<th title="Porcentaje Ataques Rápidos">% AtR</th>
 							<th>Jug</th>
+							<th>Equipo</th>
 							
 						</tr>
 					</thead>
@@ -235,7 +236,7 @@
 	 */
 	 function statsTodos(id){
 			
-			window.location.href = "/entrenamientos/showestadisiticasEntrenamientoTodosJugadores?id="+id;
+			window.location.href = "/entrenamientos/showestadisiticasEntrenamientoTodosJugadores/"+id;
 		}
 
 	$(document).ready(function () {
@@ -329,7 +330,8 @@
 									'<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>'+
 									'</svg> </button>';
 							}
-						}
+						},
+						{data:'categoria'}
 						
 					],
 			        responsive: true,
@@ -341,7 +343,7 @@
 						targets : 1 //Hora
 					}, {
 						responsivePriority : 2,
-						targets : -1, //Botón
+						targets : -2, //Botón
 						orderable:false
 					}, {
 						responsivePriority : 5,
@@ -439,6 +441,10 @@
 						responsivePriority : 3,
 						targets : 25
 						,orderable:false
+					}, {
+						className: 'none',
+						targets : 26
+						,visible: false
 					}]
 			    });
 				
@@ -529,7 +535,8 @@
 								'<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>'+
 								'</svg> </button>';
 						}
-					}
+					},
+					{data:'categoria'}
 					
 				],
 		        responsive: true,
@@ -541,7 +548,7 @@
 					targets : 1 //Hora
 				}, {
 					responsivePriority : 2,
-					targets : -1, //Botón
+					targets : -2, //Botón
 					orderable:false
 				}, {
 					responsivePriority : 5,
@@ -639,6 +646,10 @@
 					responsivePriority : 3,
 					targets : 25
 					,orderable:false
+				}, {
+					className: 'none',
+					targets : 27
+					,visible: false
 				}]
 		    });
 		    
@@ -646,7 +657,6 @@
 		    var tipo = null; //poner var general
 		    var numRegistros = 5;
 		    var page = 0;
-		    
 		    graficaGeneral(table,'general',numRegistros,page);
 		    
 		    $('.stats').on('click', function(){
@@ -1090,7 +1100,7 @@
 	            });
 		        
 		        table
-	            .column(29, { search: 'applied' })
+	            .column(-1, { search: 'applied' })
 	            .data()
 	            .each(function (val) {
 	            	equipo.push(val);
@@ -1171,7 +1181,7 @@
 	            });
 		        
 		        table
-	            .column(29, { search: 'applied' })
+	            .column(-1, { search: 'applied' })
 	            .data()
 	            .each(function (val) {
 	            	equipo.push(val);
@@ -1254,7 +1264,7 @@
 	            });
 		       
 		        table
-	            .column(29, { search: 'applied' })
+	            .column(-1, { search: 'applied' })
 	            .data()
 	            .each(function (val) {
 	            	equipo.push(val);

@@ -245,6 +245,23 @@ public class Jugador extends Person{
 		this.posicionPrincipal = posicion_principal;
 		this.posicionSecundaria = posicion_secundaria;
 	}
+	
+	public Jugador(String firstName, String lastName, String dni, String direccion, String email, String localidad, LocalDate fecha_nacimiento, int altura,
+			int peso, Posicion posicion_principal, Posicion posicion_secundaria, Estado estadoActual) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.dni = dni;
+		this.direccion = direccion;
+		this.email = email;
+		this.localidad = localidad;
+		this.fechaNacimiento = fecha_nacimiento;
+		this.altura = altura;
+		this.peso = peso;
+		this.posicionPrincipal = posicion_principal;
+		this.posicionSecundaria = posicion_secundaria;
+		this.estadoActual = estadoActual;
+	}
 
 	@Override
 	public String toString() {

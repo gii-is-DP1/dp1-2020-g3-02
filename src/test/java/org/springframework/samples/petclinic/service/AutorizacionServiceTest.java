@@ -116,7 +116,9 @@ public class AutorizacionServiceTest {
 		Autorizacion aut = autorizacionService.save(autorizacion);
 
 		assertNotNull(aut);
-
+		
+		assertEquals(aut.getJugador(), player);
+		assertEquals(aut.getTipoAutorizacion(), TipoAutorizacion.TRANSPORTE);
 	}
 
 }

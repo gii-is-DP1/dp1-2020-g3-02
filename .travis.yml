@@ -6,3 +6,12 @@ services:
   - mysql
 before_install:
   - mysql -e 'CREATE DATABASE petclinic;'
+addons:
+  sonarcloud:
+    organization: "superjaviergf"
+    token:
+      secure: b7af97a5e71b21ec6a84d6b5fcfdfcea153c0c3d
+
+script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=Superjaviergf_dp1-2020-g3-02

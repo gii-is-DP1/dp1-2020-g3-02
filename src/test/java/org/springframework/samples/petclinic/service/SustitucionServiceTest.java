@@ -11,7 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.LineaMaterial;
+import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,12 @@ public class SustitucionServiceTest {
 
 	@Autowired
 	private SustitucionService sustitucionService;
+	
+	@Autowired
+	private PartidoService partidoService;
+	
+	@Autowired
+	private JugadorService jugadorService;
 	
 	
 	@Test
@@ -120,10 +127,16 @@ public class SustitucionServiceTest {
 	@Test
 	@Transactional
 	public void testSaveSustitucion() {
-		
-	//	Sustitucion sustitucion = new Sustitucion(1,1,2,50);
-	//	Sustitucion sus = sustitucionService.saveSustitucion(sustitucion);
+		Partido partido = partidoService.findById(1).get();
+		Jugador player1 = jugadorService.findById(1).get();
+		Jugador player2 = jugadorService.findById(2).get();
+		Sustitucion sustitucion = new Sustitucion(partido, player1, player2, 15);
+		Sustitucion sus = sustitucionService.save(sustitucion);
 
-	//	assertNotNull(sus);
+		assertNotNull(sus);
+		
+		assertEquals(sus.getJugadorEntra(), player1);
+		assertEquals(sus.getJugadorSale(), player2);
+		assertEquals(sus.getPartido(), partido);
 	}
 }

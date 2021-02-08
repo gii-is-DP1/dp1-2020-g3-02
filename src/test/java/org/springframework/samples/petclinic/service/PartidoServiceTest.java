@@ -3,8 +3,6 @@ package org.springframework.samples.petclinic.service;
 import static org.junit.Assert.assertEquals;
 
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -29,14 +27,17 @@ public class PartidoServiceTest {
 	@Autowired
 	private PartidoService partidoService;
 	
+	//AssertJ assertion
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByFechaOrderByHoraDataFinding() {
 		LocalDate date = LocalDate.parse("06/11/2021", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 		List<Partido> partidos = partidoService.findByFechaOrderByHora(date);
-		assertEquals(partidos.size(), 1);
+		PartidoAssert.assertThat(partidos.get(0)).hasFecha(date.toString());
+		//assertEquals(partidos.size(), 1);
 	}
 	
+	//AssertJ assertion
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByEquipoAndFechaAndHoraBetweenDataFinding() {
@@ -45,7 +46,12 @@ public class PartidoServiceTest {
 		String hora1 = "17:00";
 		String hora2 = "19:00";
 		List<Partido> partidos = partidoService.findByEquipoAndFechaAndHoraBetween(equipo, fecha, hora1, hora2);
-		assertEquals(partidos.size(), 1);
+		PartidoAssert.assertThat(partidos.get(0))
+			.isInEquipo(equipo)
+			.isHoraBefore(hora2)
+			.isHoraAfter(hora1)
+			.hasFecha(fecha.toString());
+		//assertEquals(partidos.size(), 1);
 	}
 	
 	@Test
@@ -232,6 +238,9 @@ public class PartidoServiceTest {
 	public void testFindByNumFaltasTotalesGreaterThanEqualDataFinding() {
 		int faults=0;
 		List<Partido> partidos=new ArrayList<Partido>(partidoService.findByNumFaltasTotalesGreaterThanEqual(faults));
+		
+		PartidoAssert.assertThat(partidos.get(0)).hasFaltasTotalesGreaterThan(faults);
+		
 		assertEquals(partidos.size(), 14);
 	}
 	
@@ -250,18 +259,29 @@ public class PartidoServiceTest {
 		assertEquals(partidos.size(), 14);
 	}
 	
+	
+	//AssertJ assertion
 	@Test
 	@Transactional
 	public void testSavePartido() {
 		Partido match = new Partido();
 		Equipo equipo = equipoService.findByCategoria("Senior");
-		match.setFecha(LocalDate.parse("25/12/2020", DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-		match.setHora("22:00");
+		LocalDate fecha = LocalDate.parse("25/12/2020", DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		String hora = "22:00";
+		match.setFecha(fecha);
+		match.setHora(hora);
 		match.setEquipo(equipo);
 		
 		Partido partido = partidoService.save(match);
 		
-		assertNotNull(partido);
+		PartidoAssert.assertThat(partido)
+			.hasFecha(fecha.toString())
+			.hasHora(hora)
+			.hasNotPuntosTotales()
+			.isInEquipo(equipo);
+			
+		assertEquals(partido.getEquipo(), equipo);
+		assertEquals(partido.getFecha(), fecha);
 	}
 	
 	@Test

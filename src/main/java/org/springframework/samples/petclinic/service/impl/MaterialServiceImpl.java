@@ -68,19 +68,6 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 	public List<Material> findByStock(int stock) {
 		return materialRepository.findByStock(stock);
 	}
-	@Override
-	public Material updateMaterial(Material material) {
-		LOG.info("NÚMERO DE ELEMENTOS INSERTADOS: "+material.getStock());
-
-
-
-		saveMaterial(material);
-
-
-		Material materiall=materialRepository.save(material);
-
-		return materiall;
-	}
 
 	public int getStockTotal(TipoMaterial tipo) {
 		int stock =0;
@@ -196,24 +183,6 @@ public class MaterialServiceImpl extends AbstractService<Material> implements Ma
 		}else {
 			return finl;
 		}
-
-	}
-
-
-	@Override
-	@Transactional
-	public Material saveMaterial(Material material) {
-		LOG.info("NÚMERO DE ELEMENTOS INSERTADOS: "+material.getStock());
-
-
-		Material materiall=materialRepository.save(material);
-		saveMaterial(material);
-
-
-
-		LOG.info(materiall.toString());
-		return materiall;
-
 
 	}
 
