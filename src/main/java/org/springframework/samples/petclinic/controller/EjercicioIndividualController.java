@@ -18,6 +18,7 @@ import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.EjercicioIndividualConverter;
 import org.springframework.samples.petclinic.converter.RealizaEjercicioConverter;
 import org.springframework.samples.petclinic.converter.enumerate.TipoEjercicioConverter;
+import org.springframework.samples.petclinic.enumerate.TipoEjercicio;
 import org.springframework.samples.petclinic.model.EjercicioIndividual;
 import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.RealizaEjercicio;
@@ -122,7 +123,7 @@ public class EjercicioIndividualController {
 	@RequestMapping(value = "/tablaTipo/{tipo}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataTableResponse<EjercicioIndividualDTO>> tablaTipo(@PathVariable("tipo") String tipo ){
 		try {
-			List<EjercicioIndividual> ejercicios = ejercicioIndividualService.findByTipoEjercicio(tipoEjercicioConverter.convertToEntityAttribute(tipo));
+			List<EjercicioIndividual> ejercicios = ejercicioIndividualService.findByTipoEjercicio((tipo == null) ? null : TipoEjercicio.fromNombre(tipo));
 			DataTableResponse<EjercicioIndividualDTO> data = new DataTableResponse<EjercicioIndividualDTO>(ejercicioIndividualConverter.converListEntityToListDTO(ejercicios));
 			return new ResponseEntity<DataTableResponse<EjercicioIndividualDTO>>(data, HttpStatus.OK);
 		} catch (Exception e) {

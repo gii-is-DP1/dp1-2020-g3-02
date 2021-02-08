@@ -59,6 +59,15 @@ class EjercicioIndividualControllerTest extends BaseControllerTest {
 	
 	@WithMockUser(value = "spring")
 	@Test
+	void testTablaTipo() throws Exception {
+
+		mockMvc.perform(get("/ejercicios/tablaTipo/{tipo}","SAQUE"))
+				.andExpect(jsonPath("$.data[0].descripcion", is("saque")))
+				.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
 	void testFindEjercicio() throws Exception {
 
 		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
