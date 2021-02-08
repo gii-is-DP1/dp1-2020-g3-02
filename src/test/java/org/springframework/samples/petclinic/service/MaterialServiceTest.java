@@ -29,7 +29,7 @@ public class MaterialServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Material> material = new ArrayList<Material>(materialService.findAll());
-		assertEquals(material.size(), 11);
+		assertEquals(material.size(), 12);
 	}
 
 	@Test
@@ -99,5 +99,7 @@ public class MaterialServiceTest {
 		Material materiall = materialService.save(material);
 
 		assertNotNull(materiall);
+		assertEquals(materiall.getTipo(), TipoMaterial.CONOBAJO);
+		assertEquals(materiall.getEstado(), EstadoMaterial.ACEPTABLE);
 	}
 }

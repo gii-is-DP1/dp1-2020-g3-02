@@ -280,6 +280,8 @@ public class PartidoServiceTest {
 			.hasNotPuntosTotales()
 			.isInEquipo(equipo);
 			
+		assertEquals(partido.getEquipo(), equipo);
+		assertEquals(partido.getFecha(), fecha);
 	}
 	
 	@Test

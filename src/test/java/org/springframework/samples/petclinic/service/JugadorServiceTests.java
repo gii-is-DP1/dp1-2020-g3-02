@@ -344,6 +344,10 @@ public class JugadorServiceTests {
 		Jugador player = jugadorService.save(jugador);
 		
 		assertNotNull(player);
+		assertEquals(player.getFirstName(), "Javier");
+		assertEquals(player.getLastName(), "Gutierrez Falcon");
+		assertEquals(player.getEmail(), "aquinohayquienduerma@gmail.com");
+		assertEquals(player.getDni(), "22222222B");
 		
 	}
 	

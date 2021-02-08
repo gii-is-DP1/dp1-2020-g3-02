@@ -54,5 +54,7 @@ public class AutobusServiceTest {
 		autobus.setId(76);
 		Autobus bus = autobusService.save(autobus);
 		assertNotNull(bus);
+		
+
 	}
 }
