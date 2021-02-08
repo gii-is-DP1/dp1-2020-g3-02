@@ -1,6 +1,6 @@
 <meta charset="UTF-8" />
 <div class="modal fade " id="materialModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="Editar" aria-hidden="true">
-	  <div class="modal-dialog modal-l modal-dialog-centered">
+	  <div class="modal-dialog modal-xl modal-dialog-centered">
 	    <div class="modal-content">
 		    <form id="formMateriales" method="post">
 		      <div class="modal-header bg-info">
@@ -15,57 +15,44 @@
 			  	
 			  			<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Balón Medicinal:</label>
+								<label>Balón Medicinal:</label>
 								<input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad1" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="cantidadBALONMEDICINAL text-danger error"></small>
 							</div>
-							
-						</div>
-						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Balón de Juego:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad2" name="cantidad" min="0" max="300" value="0" required></input>
+								<label>Balón de Juego:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad2" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="cantidadBALONDEJUEGO text-danger error"></small>
 							</div>
-						</div>
-						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Red:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad3" name="cantidad" min="0" max="300" value="0" required></input>
+								<label>Red:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad3" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="cantidadRED text-danger error"></small>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Poste:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad4" name="cantidad" min="0" max="300" value="0" required></input>
+								<label>Poste:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad4" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="cantidadPOSTE text-danger error"></small>
 							</div>
-						</div>
-						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Cono Bajo:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad5" name="cantidad" min="0" max="300" value="0" required></input>
+								<label>Cono Bajo:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad5" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="cantidadCONOBAJO text-danger error"></small>
 							</div>
-						</div>
-						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Cono Alto:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad6" name="cantidad" min="0" max="300" value="0" required></input>
+								<label>Cono Alto:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad6" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="cantidadCONOALTO text-danger error"></small>
 							</div>
 						</div>
 						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Cono Medio:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad7" name="cantidad" min="0" max="300" value="0" required></input>
+								<label>Cono Medio:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad7" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="cantidadCONOMEDIO text-danger error"></small>
 							</div>
-						</div>
-						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Cuerda:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad8" name="cantidad" min="0" max="300" value="0" required></input>
+								<label>Cuerda:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad8" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="cantidadCUERDA text-danger error"></small>
 							</div>
-						</div>
-						<div class="row">
 							<div class="form-group col">
-								<label><span class="text-danger">(*) </span>Cinta:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad9" name="cantidad" min="0" max="300" value="0" required></input>
+								<label>Cinta:</label><input class="form-control" type="number" placeholder="Cantidad" th:id="cantidad9" name="cantidad" min="0" max="300" value="0" required></input>
 								<small class="cantidadCINTA text-danger error"></small>
 							</div>
 						</div>
@@ -114,7 +101,6 @@ function enviarEdicion() {
 		},
 		error : function(data) {
 			console.log(data.responseJSON);
-			var errorCount=0;
 			
 			$('.error').text('');
 
@@ -125,40 +111,31 @@ function enviarEdicion() {
 			//			.text(data.responseJSON[i].defaultMessage);
 			//}
 		if(data.responseJSON.cantidadBALONMEDICINAL){
-			$('.cantidadBALONMEDICINAL').text(data.responseJSON.cantidadBALONMEDICINAL[errorCount].defaultMessage);
-			errorCount++;
+			$('.cantidadBALONMEDICINAL').text(data.responseJSON.cantidadBALONMEDICINAL.defaultMessage);
 		}
 		if(data.responseJSON.cantidadBALONDEJUEGO){
-			$('.cantidadBALONDEJUEGO').text(data.responseJSON.cantidadBALONDEJUEGO[errorCount].defaultMessage);
-			errorCount++;
+			$('.cantidadBALONDEJUEGO').text(data.responseJSON.cantidadBALONDEJUEGO.defaultMessage);
 		}
 		if(data.responseJSON.cantidadRED){
-			$('.cantidadRED').text(data.responseJSON.cantidadRED[errorCount].defaultMessage);
-			errorCount++;
+			$('.cantidadRED').text(data.responseJSON.cantidadRED.defaultMessage);
 		}
 		if(data.responseJSON.cantidadCINTA){
-			$('.cantidadCINTA').text(data.responseJSON.cantidadCINTA[errorCount].defaultMessage);
-			errorCount++;
+			$('.cantidadCINTA').text(data.responseJSON.cantidadCINTA.defaultMessage);
 		}
 		if(data.responseJSON.cantidadPOSTE){
-			$('.cantidadPOSTE').text(data.responseJSON.cantidadPOSTE[errorCount].defaultMessage);
-			errorCount++;
+			$('.cantidadPOSTE').text(data.responseJSON.cantidadPOSTE.defaultMessage);
 		}
 		if(data.responseJSON.cantidadCONOALTO){
-			$('.cantidadCONOALTO').text(data.responseJSON.cantidadCONOALTO[errorCount].defaultMessage);
-			errorCount++;
+			$('.cantidadCONOALTO').text(data.responseJSON.cantidadCONOALTO.defaultMessage);
 		}
 		if(data.responseJSON.cantidadCONOBAJO){
-			$('.cantidadCONOBAJO').text(data.responseJSON.cantidadCONOBAJO[errorCount].defaultMessage);
-			errorCount++;
+			$('.cantidadCONOBAJO').text(data.responseJSON.cantidadCONOBAJO.defaultMessage);
 		}
 		if(data.responseJSON.cantidadCONOMEDIO){
-			$('.cantidadCONOMEDIO').text(data.responseJSON.cantidadCONOMEDIO[errorCount].defaultMessage);
-			errorCount++;
+			$('.cantidadCONOMEDIO').text(data.responseJSON.cantidadCONOMEDIO.defaultMessage);
 		}
 		if(data.responseJSON.cantidadCUERDA){
-			$('.cantidadCUERDA').text(data.responseJSON.cantidadCUERDA[errorCount].defaultMessage);
-			errorCount++;
+			$('.cantidadCUERDA').text(data.responseJSON.cantidadCUERDA.defaultMessage);
 		}
 		}
 		
