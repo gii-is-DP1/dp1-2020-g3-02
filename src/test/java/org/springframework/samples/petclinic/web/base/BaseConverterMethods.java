@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
+import org.springframework.samples.petclinic.enumerate.TipoPrivilegio;
 import org.springframework.samples.petclinic.model.EjercicioIndividual;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
@@ -544,4 +545,10 @@ public class BaseConverterMethods extends BaseMockControllerTest {
 		personalEdit.setPropietario(personal.getPropietario());
 		return personalEdit;
 	}
+		
+		
+		public TipoPrivilegio convertToEntityAttribute(final String nombre) {
+			
+			return (nombre == null) ? null : TipoPrivilegio.fromNombre(nombre);
+		}
 }

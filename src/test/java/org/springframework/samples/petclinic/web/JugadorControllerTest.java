@@ -62,6 +62,70 @@ class JugadorControllerTest extends BaseControllerTest {
 	
 	@WithMockUser(value = "spring")
 	@Test
+	void testUpdateprivilegioCaso1() throws Exception {
+
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
+
+		mockMvc.perform(post("/jugadores/updateprivilegio").with(csrf())
+		.param("id", "1")
+		.param("privilegios", "[ENTRENAMIENTOS]")
+		.param("descripcion", "hola")
+		.param("equipo", "Senior")
+		.param("partidos", "true")
+		.param("entrenamientos", "true"))
+		.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testUpdateprivilegioCaso2() throws Exception {
+
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
+
+		mockMvc.perform(post("/jugadores/updateprivilegio").with(csrf())
+		.param("id", "1")
+		.param("privilegios", "[ENTRENAMIENTOS]")
+		.param("descripcion", "hola")
+		.param("equipo", "Senior")
+		.param("partidos", "true")
+		.param("entrenamientos", "false"))
+		.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testUpdateprivilegioCaso3() throws Exception {
+
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
+
+		mockMvc.perform(post("/jugadores/updateprivilegio").with(csrf())
+		.param("id", "1")
+		.param("privilegios", "[ENTRENAMIENTOS]")
+		.param("descripcion", "hola")
+		.param("equipo", "Senior")
+		.param("partidos", "false")
+		.param("entrenamientos", "false"))
+		.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testUpdateprivilegioCaso4() throws Exception {
+
+		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
+
+		mockMvc.perform(post("/jugadores/updateprivilegio").with(csrf())
+		.param("id", "1")
+		.param("privilegios", "[ENTRENAMIENTOS]")
+		.param("descripcion", "hola")
+		.param("equipo", "Senior")
+		.param("partidos", "false")
+		.param("entrenamientos", "true"))
+		.andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
 	void testListadoJugadoresAutorizacion() throws Exception {
 
 		mockMvc.perform(get("/jugadores/showjugadoresaut")).andExpect(status().isOk())
@@ -89,7 +153,7 @@ class JugadorControllerTest extends BaseControllerTest {
 
 		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
 
-		mockMvc.perform(post("/jugadores/eliminarautorizacion/{id}/{tipoAutorizacion}", ID, "TRANSPORTE"))
+		mockMvc.perform(post("/jugadores/eliminarautorizacion/{id}/{tipoAutorizacion}", ID, "TRANSPORTE").with(csrf()))
 		.andExpect(status().isOk());
 	}
 	
@@ -99,7 +163,7 @@ class JugadorControllerTest extends BaseControllerTest {
 
 		when(userService.findByUsername(any(String.class))).thenReturn(getUserEntrenador());
 
-		mockMvc.perform(post("/jugadores/addautorizacion/{id}/{tipoAutorizacion}", ID, "TRANSPORTE"))
+		mockMvc.perform(post("/jugadores/addautorizacion/{id}/{tipoAutorizacion}", ID, "TRANSPORTE").with(csrf()))
 		.andExpect(status().isOk());
 	}
 	
@@ -192,6 +256,18 @@ class JugadorControllerTest extends BaseControllerTest {
 		.param("email", "abobole@gmail.com")
 		.param("posicionPrincipal", "PUNTA")
 		.param("posicionSecundaria", "OPUESTO"))
+		.andExpect(status().is2xxSuccessful());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testUpdateJugadorNumCamiseta() throws Exception {
+		
+		mockMvc.perform(post("/jugadores/updatejugadorNumCamiseta/{jugadorID}/{equipoID}",ID,ID).with(csrf())
+		.param("id", "1")
+		.param("equipo_id", "1")
+		.param("jugador_id", "1")
+		.param("numero", "10"))
 		.andExpect(status().is2xxSuccessful());
 	}
 	

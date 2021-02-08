@@ -138,9 +138,11 @@ public class BaseControllerTest extends BaseUserControllerTest {
 	}
 	
 	protected Set<Privilegio> getPrivilegiosCorrectos(Jugador jugador, Equipo equipo) {
-		Privilegio privilegio = getPrivilegioCorrecto(jugador, equipo);
+		Privilegio privilegio1 = new Privilegio(jugador, equipo, TipoPrivilegio.ENTRENAMIENTOS, "Entrenamientos");
+		Privilegio privilegio2 = new Privilegio(jugador, equipo, TipoPrivilegio.PARTIDOS, "Partidos");
 		Set<Privilegio> privilegios = new HashSet<Privilegio>();
-		privilegios.add(privilegio);
+		privilegios.add(privilegio1);
+		privilegios.add(privilegio2);
 		return privilegios;
 	}
 	
@@ -504,8 +506,8 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		.willReturn(convertPersonalToPersonalEdit(personal));
 		
 		//Tipo Privilegio
-		//given(this.tipoPrivilegioConverter.convertToEntityAttribute(any(String.class)))
-		//.willReturn(convertToEntityAttribute("PARTIDOS"));
+		given(this.tipoPrivilegioConverter.convertToEntityAttribute(any(String.class)))
+		.willReturn(convertToEntityAttribute("PARTIDOS"));
 		
 		//RealizaEjercicio
 		given(this.realizaEjercicioConverter.converListEntityToListDTO(any()))
@@ -517,10 +519,6 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		given(this.ejercicioIndividualConverter.converListEntityToListDTO(any()))
 		.willReturn((converListEntityToListDTO(ejerciciosIndividuales)));
 		
-		
-		//TipoEjercicio
-		//given(this.tipoEjercicioConverter.convertToEntityAttribute(any(String.class)))
-		//.willReturn((convertToEntityAttribute(TIPO_EJERCICIO)));
 		
 	}
 }

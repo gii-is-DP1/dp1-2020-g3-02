@@ -17,6 +17,7 @@ import org.springframework.samples.petclinic.component.EquipoValidator;
 import org.springframework.samples.petclinic.component.EstadisticoValidator;
 import org.springframework.samples.petclinic.component.JugadorValidator;
 import org.springframework.samples.petclinic.component.LineaMaterialValidator;
+import org.springframework.samples.petclinic.component.NumCamisetaValidator;
 import org.springframework.samples.petclinic.component.PartidoValidator;
 import org.springframework.samples.petclinic.component.PersonalesValidator;
 import org.springframework.samples.petclinic.component.PruebaCondicionFisicaValidator;
@@ -254,7 +255,9 @@ public class BaseMockControllerTest {
 	@MockBean
 	protected EjercicioIndividualValidator ejercicioIndividualValidator;
 	
-
+	@MockBean
+	protected NumCamisetaValidator numCamisetaValidator;
+	
 
 	// Invalidación de validators
 	protected void doNothingValidators() {
@@ -294,6 +297,9 @@ public class BaseMockControllerTest {
 		
 		doNothing().when(ejercicioIndividualValidator).validate(any(Object.class), any(Errors.class));
 		when(ejercicioIndividualValidator.supports(any(Class.class))).thenReturn(true);
+		
+		doNothing().when(numCamisetaValidator).validate(any(Object.class), any(Errors.class));
+		when(numCamisetaValidator.supports(any(Class.class))).thenReturn(true);
 
 	}
 
