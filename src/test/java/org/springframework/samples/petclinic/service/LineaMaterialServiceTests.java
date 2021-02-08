@@ -12,7 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.enumerate.TipoMaterial;
+import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.LineaMaterial;
+import org.springframework.samples.petclinic.model.Material;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +31,7 @@ public class LineaMaterialServiceTests {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<LineaMaterial>lineamaterial=new ArrayList<LineaMaterial>(lineaMaterialService.findAll());
-		assertEquals(lineamaterial.size(), 12);
+		assertEquals(lineamaterial.size(), 18);
 	}
 
 
@@ -54,13 +57,13 @@ public class LineaMaterialServiceTests {
 	public void testFindByCantidadInitialDataFinding() {
 		int cantidad=5;
 		List<LineaMaterial> lineamaterial = new ArrayList<LineaMaterial>(lineaMaterialService.findByCantidad(cantidad));
-		assertEquals(lineamaterial.size(), 4);
+		assertEquals(lineamaterial.size(), 5);
 	}
 	
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByCantidadInitialDataNotFinding() {
-		int cantidad=8;
+		int cantidad=123;
 		List<LineaMaterial> lineamaterial = new ArrayList<LineaMaterial>(lineaMaterialService.findByCantidad(cantidad));
 		assertEquals(lineamaterial.size(), 0);
 	}
@@ -70,7 +73,7 @@ public class LineaMaterialServiceTests {
 	public void testFindByMaterialInitialDataFinding() {
 		int material_id=4;
 		List<LineaMaterial> lineamaterial=lineaMaterialService.findByMaterial(material_id);
-		assertEquals(lineamaterial.size(), 2);
+		assertEquals(lineamaterial.size(), 3);
 	}
 	
 	@Test
@@ -98,16 +101,23 @@ public class LineaMaterialServiceTests {
 	}
 
 
-/*	@Test
+	@Test
 	@Transactional
 	public void testSaveLineaMaterial() {
-		Material material = new Material(new HashSet<LineaMaterial>(),"cono", TipoMaterial.CONOALTO, 7, EstadoMaterial.BUENO);
+
+		
+		Material material = new Material("cono", TipoMaterial.CONOALTO, 7);
+
+
 		Entrenamiento entrenamiento = new Entrenamiento();
 		LineaMaterial lineaMaterial = new LineaMaterial(material, entrenamiento, 8);
 
-		LineaMaterial linea = lineaMaterialService.saveLineaMaterial(lineaMaterial);
+		LineaMaterial linea = lineaMaterialService.save(lineaMaterial);
 
 		assertNotNull(linea);
 
-	} */
+		assertEquals(linea.getMaterial(), material);
+		assertEquals(linea.getEntrenamiento(), entrenamiento);
+
+	} 
 }

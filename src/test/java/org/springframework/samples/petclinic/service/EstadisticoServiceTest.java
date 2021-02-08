@@ -140,6 +140,9 @@ public class EstadisticoServiceTest {
 		Estadistico stats = estadisticoService.save(estadistico);
 		
 		assertNotNull(stats);
-		
+		assertEquals(stats.getFirstName(), "Diego");
+		assertEquals(stats.getLastName(), "Maradona");
+		assertEquals(stats.getEmail(), "diegoarmando@gmail.com");
+
 	}
 }

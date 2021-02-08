@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,12 @@ public class NumCamisetaServiceTest {
 	@Autowired
 	@Qualifier("numCamisetaService")
 	private NumCamisetaService numCamisetaService;
+	
+	@Autowired
+	private JugadorService jugadorService;
+	
+	@Autowired
+	private EquipoService equipoService;
 	
 	@Test
 	@Transactional(readOnly = true)
@@ -64,10 +72,16 @@ public class NumCamisetaServiceTest {
 	@Test
 	@Transactional
 	public void testSaveNumCamiseta() {
-		NumCamiseta numCamiseta = new NumCamiseta(6);	
-
+		Jugador player =jugadorService.findById(1).get();
+		Equipo team =equipoService.findById(1).get();
+		NumCamiseta numCamiseta = new NumCamiseta(team, player, 6);	
+		
 		NumCamiseta numCami = numCamisetaService.save(numCamiseta);
 
 		assertNotNull(numCami);
+		assertEquals(numCami.getJugador(), player);
+		assertEquals(numCami.getEquipo(), team);
+		
+		
 	}
 }

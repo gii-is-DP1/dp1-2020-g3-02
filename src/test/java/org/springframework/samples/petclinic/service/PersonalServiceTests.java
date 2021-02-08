@@ -93,6 +93,7 @@ public class PersonalServiceTests {
 		Personales personal = personalesService.save(personales);
 
 		assertNotNull(personal);
+		assertEquals(personal.getPropietario(), "Amor");
 
 	}
 

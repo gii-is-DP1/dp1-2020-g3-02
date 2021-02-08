@@ -81,6 +81,9 @@ class RealizaEjercicioServiceTest {
 		RealizaEjercicio rea = realizaEjercicioService.save(realiza);
 
 		assertNotNull(rea);
+		
+		assertEquals(rea.getJugador(), player);
+		assertEquals(rea.getFecha(), LocalDate.of(2020, 11, 5));
 
 	}
 

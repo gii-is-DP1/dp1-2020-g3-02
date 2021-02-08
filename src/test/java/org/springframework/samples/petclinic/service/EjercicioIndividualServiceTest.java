@@ -109,6 +109,9 @@ public class EjercicioIndividualServiceTest {
 		EjercicioIndividual ej = ejercicioIndividualService.save(ejer);
 
 		assertNotNull(ej);
+		assertEquals(ej.getNombre(), "Defensa");
+		assertEquals(ej.getDescripcion(), "Defender");
+		assertEquals(ej.getTipoEjercicio(), TipoEjercicio.DEFENSA);
 
 	}
 
