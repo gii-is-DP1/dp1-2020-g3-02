@@ -115,7 +115,7 @@
 					<div class="form-group col-12">
 						<!-- <label class="col-form-label col-form-label-sm obligatorio" for="fechaNacimiento" th:text="Fecha de Nacimiento: "></label> -->
 						<div class="input-group date">
-							<input autocomplete="off" pattern="\d{2}/\d{2}/\d{4}" type="text" class="form-control  datePicker" id="fechaNacimiento" name="fechaNacimiento" th:field=*{fechaNacimiento} th:value="${fechaNacimiento}" placeholder="Fecha de Nacimiento(DD/MM/YYYY)" maxlength="10"/>
+							<input autocomplete="off" pattern="\d{2}/\d{2}/\d{4}" type="text" class="form-control datePicker" id="fechaNacimiento" name="fechaNacimiento" th:field=*{fechaNacimiento} th:value="${fechaNacimiento}" placeholder="Fecha de Nacimiento(DD/MM/YYYY)" maxlength="10"/>
 						</div>
 					</div>
 					<div th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}" class="mb-3 col-12 text-danger" role="alert"></div>
