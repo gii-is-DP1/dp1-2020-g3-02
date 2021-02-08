@@ -176,11 +176,6 @@
 									type="button" title="Privilegio">
 									<i class="fas fa-unlock"></i>
 								</button> 
-								 <button sec:authorize="hasAuthority('entrenador')"
-									class="btn btn-outline-dark mx-0 capitan" id="capitan"
-									type="button" title="Capitan">
-									<i class='fas fa-medal'></i>
-								</button>
 								<input id="security" class="security" type="hidden"
 								sec:authorize="hasAuthority('entrenador')" th:value="entrenador">
 								<input id="security" class="security" type="hidden"

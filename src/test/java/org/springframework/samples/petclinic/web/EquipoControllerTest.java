@@ -190,9 +190,16 @@ public class EquipoControllerTest extends BaseControllerTest{
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testSetCapitanEquipo() throws Exception {
+	void testSetCapitanEquipoCaso1() throws Exception {
 		
 		mockMvc.perform(post("/equipos/setCapitanEquipo/{idEquipo}/{idJugador}",ID, ID).with(csrf())).andExpect(status().isOk());
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testSetCapitanEquipoCaso2() throws Exception {
+		
+		mockMvc.perform(post("/equipos/setCapitanEquipo/{idEquipo}/{idJugador}",ID, 2).with(csrf())).andExpect(status().isOk());
 	}
 	
 	@WithMockUser(value = "spring")

@@ -104,6 +104,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		numCamisetas.add(numCamiseta);
 
 		Partido partido = getPartidoCorrecto(jugadores, equipo);
+		partido.setJugadoresJugando(Lists.newArrayList(jugador,jugador,jugador,jugador,jugador,jugador));
 		List<Partido> partidos = new ArrayList<Partido>();
 		partidos.add(partido);
 
@@ -227,6 +228,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		partido.setJugadoresJugando(jugadores);
 		partido.setJugadorLibero(null);
 		partido.setEquipo(equipo);
+		partido.setSistemasJuego(Lists.newArrayList(getSistemaJuegoCorrecto(partido)));
 
 		return partido;
 	}
@@ -438,6 +440,16 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		
 		//MaterialServices
 		givenMaterialService(material);
+
+		//SustitucionService
+		givenSustitucionService(sustitucion);
+		
+		//EstadisticoService
+		givenEstadisticoService(estadistico);
+		
+		//SistemaJuegoService
+		givenSistemaService(sistemaJuego);
+
 		
 		
 		// CONVERTERS
@@ -463,6 +475,7 @@ public class BaseControllerTest extends BaseUserControllerTest {
 		.willReturn(convertJugadorToJugadorEditNumCamiseta(jugador,num.getNumero()));
 		given(this.jugadorConverter.convertParcialListJugadorToListJugadorDTO(any()))
 		.willReturn(convertParcialListJugadorToListJugadorDTO(jugadores));
+		given(this.jugadorConverter.convertParcialJugadorToJugadorDTO(any(Jugador.class))).willReturn(convertParcialJugadorToJugadorDTO(jugador));
 		
 		//Equipo
 		given(this.equipoConverter.convertEquipoToEquipoCAP(any(Equipo.class),any()))
@@ -504,6 +517,8 @@ public class BaseControllerTest extends BaseUserControllerTest {
 				.willReturn(convertEstadisticasToEstadisticasStats(estadisticaPersonalPartido));
 		given(this.viajeConverter.convertViajeToJugadorPartidoViaje(any(Viaje.class)))
 				.willReturn(convertViajeToJugadorPartidoViaje(viaje));
+		given(this.estadisticasConverter.convertEstadisticasToEstadisticasEntrenamientoStats(any(EstadisticaPersonalEntrenamiento.class)))
+		.willReturn(convertEstadisticasToEstadisticasEntrenamientoStats(estadisticaPersonalEntrenamiento));
 		
 		//Pruebas
 		given(this.pruebaConverter.convertPruebaToPruebaSinJugador(any(PruebaCondicionFisica.class)))
