@@ -771,22 +771,6 @@ public class EstadisticasController {
 		}	
 	}
 	
-	@RequestMapping(value = "/jugadoresEnCampoEntrenamiento/{entrenamientoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<String>> jugadoresEnCampoEntrenamiento(@PathVariable("entrenamientoId") int entrenamientoId) {
-		try {
-			Entrenamiento entrenamiento = entrenamientoService.findById(entrenamientoId).get();
-			
-			List<String> jugadores = entrenamiento.getJugadores().stream().map(x->x.getFirstName()+", " +x.getLastName()+ " "
-			+ x.getNumCamisetas().stream().filter(y->y.getEquipo().getId().equals(entrenamiento.getEquipo().getId()))
-			.map(z->z.getNumero()).collect(Collectors.toList()).get(0)+";"+x.getId())
-			.collect(Collectors.toList());
-			
-			return new ResponseEntity<List<String>>(jugadores, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<List<String>>(HttpStatus.BAD_REQUEST);
-		}	
-	}
-	
 	@RequestMapping(value = "/jugadoresEnBanquillo/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<String>> jugadoresEnBanquillo(@PathVariable("partidoId") int partidoId) {
 		try {
