@@ -47,10 +47,7 @@ input #negativo {
 					ESTADÍSTICAS</h1>
 			</div>
 		</div>
-		
-<!-- 		
-		<div th:replace="estadisticas/cronometro"></div>
- -->		
+	
 		<input type="hidden" id="entrenamientoId" th:value="${entrenamiento.id}"></input>
 		
 		<div class="container-fluid">
@@ -63,8 +60,6 @@ input #negativo {
 								
 								<h3 class="card-title pt-1 ml-1">Introducción de estadísticas</h3>
 						
-									<button class="btn btn-warning ml-auto mr-1"  onclick="return abrirModalSistemaJuego(this);" title="Cambio Sistema de Juego"><i class="fas fa-exchange-alt"></i> Sistema Juego</button>
-									<!-- <button class="btn btn-info ml-auto mr-1" onclick="return tablaSustituciones(this);" th:title="Sustitución"><i class="fas fa-exchange-alt"></i> Jugadores</button>  -->
 							</div>
 						</div>
 						<div class="card-body">
@@ -153,7 +148,6 @@ input #negativo {
 	<div th:replace="estadisticas/modalSustituciones"></div>
 	<div th:replace="estadisticas/infoComandosModal"></div>
 	<div th:replace="estadisticas/modalInicioEstadisticas"></div>
-	<div th:replace="estadisticas/modalSistemaJuego"></div>
 	
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 	<!-- Optional JavaScript -->
@@ -189,27 +183,7 @@ input #negativo {
 
 	<script type="text/javascript">
 	
-	function abrirModalSistemaJuego(data){
-		console.log("hola");
-		$('.modal-header').css("color","white");
-		$('.modal-title').text("Cambiar Sistema Juego");
-		$('#SistemaJuegoModal').modal("show");
-	}
-	
-	$.ajax({
-		type : 'GET',
-		url : '/estadisticas/jugadoresEnCampoEntrenamiento/'+$('#entrenamientoId').val(),
-		success : function(jugadores) {
-			
-			if(jugadores.length < 6){
-				tablaInicio(this);
-				$('.modal-header').css("color","white");
-				$('.modal-title').text("Selección de jugadores");
-				$('#inicioModal').modal("show");
-			}
-		}
-	});
-	
+
 	function abrirInfoComandos(){
 		$('#infoComandosModal').modal("show");
 	}
