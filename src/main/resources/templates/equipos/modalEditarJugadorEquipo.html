@@ -17,7 +17,7 @@
 			  	<div id="contenedor-modal">
 			  			<div class="row">
 						<div class="form-group col">
-						<label><span class="text-danger">(*) </span>Número de camiseta:</label><input class="form-control" type="number" placeholder="Número de camiseta" th:id="numCamiseta" name="numCamiseta" min="1" max="99" required></input>
+						<label><span class="text-danger">(*) </span>Número de camiseta:</label><input class="form-control" type="number" placeholder="Número de camiseta" th:id="numero" name="numero" min="1" max="99" required></input>
 						</div>
 					</div>
 			  	</div>
@@ -28,7 +28,6 @@
 							data-dismiss="modal">Cerrar</button>
 						<button type="button" class="btn btn-info"
 							onclick="return enviarEdicion();">Aceptar</button>
-						<input type="hidden" id="id"></input>
 					</div>
 				</form>
 			</div>
@@ -72,8 +71,7 @@
 			url: '/jugadores/findEditjugadorNumCamiseta/'+ jugadorID +'/'+ equipoID,
 			success: function(edit){
 				idJ = edit.id;
-				$('#editarJugadorEquipoModal #id').val(edit.id);
-				$('#editarJugadorEquipoModal #numCamiseta').val(edit.numCamiseta);
+				$('#editarJugadorEquipoModal #numero').val(edit.numCamiseta);
 				
 				$('.modal-header').css("color","white");
 				$('.modal-title').text("Editar a "+edit.firstName+" "+edit.lastName);
