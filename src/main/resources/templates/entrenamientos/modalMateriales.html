@@ -87,7 +87,7 @@
 
 
 function enviarEdicion() {
-	
+			
 			var form = new FormData();
 	form.append("id", $('#id').val());
 	
@@ -113,6 +113,9 @@ function enviarEdicion() {
 			tablaPrincipal.ajax.reload(null, false);
 		},
 		error : function(data) {
+			console.log(data.responseJSON);
+			var errorCount=0;
+			
 			$('.error').text('');
 
 		//	for (i = 0; i < data.responseJSON.length; i++) {
@@ -122,32 +125,40 @@ function enviarEdicion() {
 			//			.text(data.responseJSON[i].defaultMessage);
 			//}
 		if(data.responseJSON.cantidadBALONMEDICINAL){
-			$('.cantidadBALONMEDICINAL').text(data.responseJSON.cantidadBALONMEDICINAL[0].defaultMessage);
+			$('.cantidadBALONMEDICINAL').text(data.responseJSON.cantidadBALONMEDICINAL[errorCount].defaultMessage);
+			errorCount++;
 		}
 		if(data.responseJSON.cantidadBALONDEJUEGO){
-			$('.cantidadBALONDEJUEGO').text(data.responseJSON.cantidadBALONDEJUEGO[0].defaultMessage);
+			$('.cantidadBALONDEJUEGO').text(data.responseJSON.cantidadBALONDEJUEGO[errorCount].defaultMessage);
+			errorCount++;
 		}
 		if(data.responseJSON.cantidadRED){
-			$('.cantidadRED').text(data.responseJSON.cantidadRED[0].defaultMessage);
+			$('.cantidadRED').text(data.responseJSON.cantidadRED[errorCount].defaultMessage);
+			errorCount++;
 		}
 		if(data.responseJSON.cantidadCINTA){
-			$('.cantidadCINTA').text(data.responseJSON.cantidadCINTA[0].defaultMessage);
+			$('.cantidadCINTA').text(data.responseJSON.cantidadCINTA[errorCount].defaultMessage);
+			errorCount++;
 		}
 		if(data.responseJSON.cantidadPOSTE){
-			$('.cantidadPOSTE').text(data.responseJSON.cantidadPOSTE[0].defaultMessage);
+			$('.cantidadPOSTE').text(data.responseJSON.cantidadPOSTE[errorCount].defaultMessage);
+			errorCount++;
 		}
 		if(data.responseJSON.cantidadCONOALTO){
-			$('.cantidadCONOALTO').text(data.responseJSON.cantidadCONOALTO[0].defaultMessage);
+			$('.cantidadCONOALTO').text(data.responseJSON.cantidadCONOALTO[errorCount].defaultMessage);
+			errorCount++;
 		}
 		if(data.responseJSON.cantidadCONOBAJO){
-			$('.cantidadCONOBAJO').text(data.responseJSON.cantidadCONOBAJO[0].defaultMessage);
-			
+			$('.cantidadCONOBAJO').text(data.responseJSON.cantidadCONOBAJO[errorCount].defaultMessage);
+			errorCount++;
 		}
 		if(data.responseJSON.cantidadCONOMEDIO){
-			$('.cantidadCONOMEDIO').text(data.responseJSON.cantidadCONOMEDIO[0].defaultMessage);
+			$('.cantidadCONOMEDIO').text(data.responseJSON.cantidadCONOMEDIO[errorCount].defaultMessage);
+			errorCount++;
 		}
 		if(data.responseJSON.cantidadCUERDA){
-			$('.cantidadCUERDA').text(data.responseJSON.cantidadCUERDA[0].defaultMessage);
+			$('.cantidadCUERDA').text(data.responseJSON.cantidadCUERDA[errorCount].defaultMessage);
+			errorCount++;
 		}
 		}
 		
@@ -160,7 +171,7 @@ function material(id) {
 
 	$('.error').text('');
 
-console.log(id);
+
 	$
 			.ajax({
 				type : 'GET',

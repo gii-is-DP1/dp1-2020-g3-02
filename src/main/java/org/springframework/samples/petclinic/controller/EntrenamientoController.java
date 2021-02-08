@@ -27,6 +27,7 @@ import org.springframework.samples.petclinic.converter.EquipoConverter;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorPartidoStatsConverter;
 import org.springframework.samples.petclinic.converter.PartidoConverter;
+import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
@@ -256,7 +257,7 @@ public class EntrenamientoController {
 	public ModelAndView vistaEstadísticasEntrenamientoJugadores(HttpServletRequest request, @PathVariable("id") int id) {
 		ModelAndView mav = new ModelAndView(ViewConstant.VIEW_ESTADISTICAS_ENTRENAMIENTO_JUGADORES);
 		List<EstadisticaPersonalEntrenamiento> estadisitcas = estadisService.findByEntrenamiento(id);
-		
+
 		if(estadisitcas.size()>0) {
 			mav.addObject("estadisticas", estadisitcas);
 		}else {
@@ -494,37 +495,61 @@ public class EntrenamientoController {
 	}
 
 	private void linea(TipoMaterial tipo, int cantidad,Entrenamiento entr,BindingResult result,Map<String,Set<ObjectError>>mape) {
-		int stocker = 0;
-		for(Material mm : materialService.findByTipo(tipo)) {
-			if(cantidad>stocker && mm.getStock()!=0) {
-				if(cantidad>mm.getStock()) {
-					LineaMaterial lin1= new LineaMaterial(mm, entr, mm.getStock());
-					ValidationUtils.invokeValidator(lineaMaterialValidator, lin1, result);
+		if(cantidad>getStockTotal(tipo)) {
+			Material mm= materialService.findByTipo(tipo).get(0);
+			LineaMaterial lin1= new LineaMaterial(mm, entr,cantidad);
+			ValidationUtils.invokeValidator(lineaMaterialValidator, lin1, result);
 
-					if(result.hasErrors()) {
-						mape.put("cantidad"+tipo.name(), result.getAllErrors().stream().collect(Collectors.toSet()));
+			if(result.hasErrors()) {
+				mape.put("cantidad"+tipo.name(), result.getAllErrors().stream().collect(Collectors.toSet()));
 
+			}
+		}else {
+			int stocker = 0;
+			for(Material mm : materialService.findByTipo(tipo)) {
+				if(cantidad>stocker && mm.getStock()!=0) {
+					if(cantidad>mm.getStock()) {
+						if((cantidad-stocker)<mm.getStock()) {
+							LineaMaterial lin1= new LineaMaterial(mm, entr, cantidad-stocker);
+							ValidationUtils.invokeValidator(lineaMaterialValidator, lin1, result);
+
+							if(result.hasErrors()) {
+								mape.put("cantidad"+tipo.name(), result.getAllErrors().stream().collect(Collectors.toSet()));
+
+							}else {
+								lineaMaterialService.save(lin1);
+							}
+							stocker+=cantidad-stocker;
+						}else {
+							LineaMaterial lin1= new LineaMaterial(mm, entr, mm.getStock());
+							ValidationUtils.invokeValidator(lineaMaterialValidator, lin1, result);
+
+							if(result.hasErrors()) {
+								mape.put("cantidad"+tipo.name(), result.getAllErrors().stream().collect(Collectors.toSet()));
+
+							}else {
+								lineaMaterialService.save(lin1);
+							}
+							stocker+=mm.getStock();
+						}
 					}else {
-						lineaMaterialService.save(lin1);
-					}
-					stocker+=mm.getStock();
-				}else {
-					LineaMaterial lin1= new LineaMaterial(mm, entr,cantidad);
-					ValidationUtils.invokeValidator(lineaMaterialValidator, lin1, result);
+						LineaMaterial lin1= new LineaMaterial(mm, entr,cantidad);
+						ValidationUtils.invokeValidator(lineaMaterialValidator, lin1, result);
 
-					if(result.hasErrors()) {
-						mape.put("cantidad"+tipo.name(), result.getAllErrors().stream().collect(Collectors.toSet()));
+						if(result.hasErrors()) {
+							mape.put("cantidad"+tipo.name(), result.getAllErrors().stream().collect(Collectors.toSet()));
 
-					}else {
-						lineaMaterialService.save(lin1);
+						}else {
+							lineaMaterialService.save(lin1);
+						}
+						stocker+=cantidad;
 					}
-					stocker+=cantidad;
+
 				}
 
 			}
-			
-		}
 
+		}
 	}
 	@RequestMapping(value = "/updatematerial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 
@@ -543,13 +568,13 @@ public class EntrenamientoController {
 			linea(TipoMaterial.CUERDA, Integer.parseInt(request.getParameter("cantidad8")), entr,result,mape);
 			linea(TipoMaterial.CINTA, Integer.parseInt(request.getParameter("cantidad9")), entr,result,mape); 
 
-			       
+
 			//si el map esta vacio devuelva ok si el map tiene errorres devuelva el map
 			if(mape.isEmpty()) {
 
 				return new ResponseEntity<Map<String, Set<ObjectError>>>(HttpStatus.OK);
 			}else {
-				
+
 				return new ResponseEntity<Map<String, Set<ObjectError>>>(mape,HttpStatus.BAD_REQUEST);
 
 
@@ -559,5 +584,26 @@ public class EntrenamientoController {
 			return new ResponseEntity<Map<String, Set<ObjectError>>>(HttpStatus.BAD_REQUEST);
 
 		}
+
+	}
+	private int getStockTotal(TipoMaterial tipo) {
+		int stock =0;
+
+		Material materialAceptable= materialService.findByTipoAndEstado(tipo, EstadoMaterial.ACEPTABLE);
+		Material materialBueno= materialService.findByTipoAndEstado(tipo, EstadoMaterial.BUENO);
+		Material materialNuevo= materialService.findByTipoAndEstado(tipo, EstadoMaterial.NUEVO);
+
+		if(materialAceptable!=null) {
+			stock+=materialAceptable.getStock();
+		}
+		if(materialBueno!=null) {
+			stock+=materialBueno.getStock();
+		}
+		if(materialNuevo!=null) {
+			stock+=materialNuevo.getStock();
+		}
+
+
+		return stock;
 	}
 }
