@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.enumerate.Sistema;
+import org.springframework.samples.petclinic.model.Capitan;
 import org.springframework.samples.petclinic.model.Equipo;
+import org.springframework.samples.petclinic.model.Jugador;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,9 @@ public class EquipoServiceTest {
 	
 	@Autowired
 	private EquipoService equipoService;
+	
+	@Autowired
+	private CapitanService capitanService;
 	
 	@Test
 	@Transactional(readOnly = true)
@@ -58,6 +63,22 @@ public class EquipoServiceTest {
 	public void testFindCategoria() {
 		List<String> categorias = equipoService.findCategoria();
 		assertEquals(categorias.size(), 3);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void testFindJugadoresNoEquipo() {
+		Integer equipo_id = 1;
+		List<Jugador> jugadores = equipoService.findJugadoresNoEquipo(equipo_id);
+		assertEquals(jugadores.size(), 16);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void testFindCapitan() {
+		Capitan capitan = capitanService.findById(1).get();
+		List<Equipo> equipos = equipoService.findByCapitan(capitan);
+		assertEquals(equipos.size(), 1);
 	}
 	
 	@Test
@@ -284,13 +305,53 @@ public class EquipoServiceTest {
 
 	}
 	
-//	@Test
-//	@Transactional
-//	public void testDeleteTeam() {
-//		int id = 1;
-//		equipoService.deleteTeam(id);
-//		Optional<Equipo> equipo = equipoService.findById(id);
-//		assertEquals(equipo, Optional.empty());
-//	}
+	@Test
+	@Transactional
+	public void testUpdateTeam() {
+		Equipo equipo = equipoService.findById(1).get();
+		equipo.setCategoria("Alevín");
+		equipo.setLiga("IMD");
+		equipo.setSistemaJuego(Sistema.CINCO_UNO);
+		
+		Equipo team = equipoService.updateEquipo(equipo);
+		assertNotNull(team);
+		assertEquals(team.getCategoria(), "Alevín");
+		assertEquals(team.getLiga(), "IMD");
+		assertEquals(team.getSistemaJuego(), Sistema.CINCO_UNO);
+
+	}
+	
+	@Test
+	@Transactional
+	public void testDeleteTeam() {
+		int id = 1;
+		equipoService.deleteById(id);
+		Optional<Equipo> equipo = equipoService.findById(id);
+		assertEquals(equipo, Optional.empty());
+	}
+	
+	@Test
+	@Transactional
+	public void testDeleteCapitan() {
+		int id = 1;
+		Equipo equipo = equipoService.findById(id).get();
+		Equipo team = equipoService.deleteCapitan(equipo);
+		
+		assertEquals(team.getCapitan(), null);
+	}
+	
+	@Test
+	@Transactional
+	public void testUpdateCapitan() {
+		int id = 1;
+		Equipo equipo = equipoService.findById(id).get();
+		Capitan capitan = capitanService.findById(1).get();
+		equipo.setCapitan(capitan);
+		Equipo team = equipoService.updateCapitan(equipo);
+		
+		
+		assertEquals(team.getCapitan(), capitan);
+	}
+
 
 }
