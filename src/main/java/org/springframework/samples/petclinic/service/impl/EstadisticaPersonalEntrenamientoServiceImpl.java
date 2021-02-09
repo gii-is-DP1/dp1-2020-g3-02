@@ -120,6 +120,7 @@ public class EstadisticaPersonalEntrenamientoServiceImpl extends AbstractEstadis
 		return estadisticaPersonalPartido;
 	}
 	
+	//Testeado manualmente debido a lo complicado que resultado comprobar en un test que se ha realizado correctamente
 	@Override
 	public void saveEstadisticasByEntrenamiento(Integer entrenamiento_id) {
 		Entrenamiento entrenamiento = entrenamientoService.findById(entrenamiento_id).get();

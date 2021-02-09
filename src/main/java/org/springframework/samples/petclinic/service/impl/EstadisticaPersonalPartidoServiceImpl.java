@@ -122,7 +122,8 @@ public class EstadisticaPersonalPartidoServiceImpl extends AbstractEstadisticasS
 		List<EstadisticaPersonalPartido> estadisticas = estadisticaPersonalPartidoRepository.findByPartido(partido.get());
 		estadisticaPersonalPartidoRepository.deleteAll(estadisticas);
 	}
-
+	
+	//Testeado manualmente debido a lo complicado que resultado comprobar en un test que se ha realizado correctamente
 	@Override
 	public void saveEstadisticasByPartido(Integer partido_id) {
 		Partido partido = partidoService.findById(partido_id).get();
