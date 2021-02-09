@@ -16,5 +16,4 @@ public interface CapitanService extends BaseService<Capitan>{
 	
 	public abstract Capitan saveCapitan(Capitan capitan);
 	
-	public void deleteAllInEquipo(Integer equipo_id);
 }
