@@ -44,9 +44,9 @@
 	<div class="container-fluid">
 		<div class="row">
 		
-			<div class="col-lg"></div>
+			<div sec:authorize="hasAnyAuthority('entrenador','jugador')" class="col-lg"></div>
 		
-			<div class="col-lg-3 py-3">
+			<div sec:authorize="hasAnyAuthority('entrenador','jugador')" class="col-lg-3 py-3">
 				<div class="card text-white bg-dark">
 					<a href="#collapseJugadores" data-toggle="collapse">
 						<img src="/resources/images/jugadores.jpg" class="card-img-top">
@@ -68,9 +68,9 @@
 				</div>
 			</div>
 			
-			<div class="col-lg"></div>
+			<div sec:authorize="hasAnyAuthority('entrenador','jugador')" class="col-lg"></div>
 
-			<div class="col-lg-3 py-3">
+			<div sec:authorize="hasAnyAuthority('entrenador','jugador')" class="col-lg-3 py-3">
 				<div class="card text-white bg-dark">
 					<a href="#collapseEquipo" data-toggle="collapse">
 						<img src="/resources/images/Equipos.jpg" class="card-img-top">
@@ -142,7 +142,7 @@
 			
 			<div class="col-lg"></div>
 
-			<div class="col-lg-3 py-3">
+			<div sec:authorize="hasAnyAuthority('entrenador','jugador')" class="col-lg-3 py-3">
 				<div class="card text-white bg-dark">
 					<a href="#collapseVehiculos" data-toggle="collapse">
 						<img src="/resources/images/vehiculos.webp" class="card-img-top">
@@ -161,9 +161,9 @@
 				</div>
 			</div>
 			
-			<div class="col-lg"></div>
+			<div sec:authorize="hasAnyAuthority('entrenador','jugador')" class="col-lg"></div>
 			
-			<div class="col-lg-3 py-3">
+			<div sec:authorize="hasAnyAuthority('entrenador','jugador')" class="col-lg-3 py-3">
 				<div class="card text-white bg-dark">
 					<a href="#collapseMaterial" data-toggle="collapse">
 						<img src="/resources/images/materiales.jpg" class="card-img-top">
@@ -182,7 +182,7 @@
 				</div>
 			</div>
 			
-			<div class="col-lg"></div>
+			<div sec:authorize="hasAnyAuthority('entrenador','jugador')" class="col-lg"></div>
 			
 		</div>
 	</div>
