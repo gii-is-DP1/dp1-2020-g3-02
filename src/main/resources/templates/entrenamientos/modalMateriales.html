@@ -98,6 +98,16 @@ function enviarEdicion() {
 		success : function(data) {
 			$('#materialModal').modal("hide");
 			tablaPrincipal.ajax.reload(null, false);
+			
+			$('#cantidad1').val(0);
+			$('#cantidad2').val(0);
+			$('#cantidad3').val(0);
+			$('#cantidad4').val(0);
+			$('#cantidad5').val(0);
+			$('#cantidad6').val(0);
+			$('#cantidad7').val(0);
+			$('#cantidad8').val(0);
+			$('#cantidad9').val(0);
 		},
 		error : function(data) {
 			console.log(data.responseJSON);

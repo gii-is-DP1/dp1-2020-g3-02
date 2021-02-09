@@ -498,7 +498,7 @@ public class EntrenamientoController {
 
 	private void linea(TipoMaterial tipo, int cantidad,Entrenamiento entr,BindingResult result,Map<String,String> mape) {
 		
-		if(cantidad>getStockTotal(tipo)) {
+		if(cantidad>getStockTotal(tipo) || cantidad < 0) {
 			Material mm= materialService.findByTipo(tipo).get(0);
 			LineaMaterial lin1= new LineaMaterial(mm, entr,cantidad);
 			
