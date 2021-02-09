@@ -17,6 +17,6 @@ public interface PartidoService extends BaseEstadisticasService<Partido>{
 	public abstract List<Partido> findByEquipo(Equipo equipo);
 	public abstract List<PartidoConAsistencia> obtenerPartidosConfrontados(List<Equipo> equipos, Jugador jugador, Partido partido);
 	public abstract void deleteAllInEquipo(Integer equipo_id);
-	public abstract List<Partido> findByPartidoFinalizadoFalse();
+	public abstract List<Partido> findByPartidoFinalizadoFalseOrderByFecha();
 	
 }

@@ -13,6 +13,5 @@ public interface EntrenamientoRepository extends ExtendedJpaRepository<Entrenami
 	public List<Entrenamiento> findByFechaAfter(LocalDate date);
 	public List<Entrenamiento> findByEquipoAndFechaAndHoraBetween(Equipo equipo, LocalDate fecha, String hora1, String hora2);
 	public List<Entrenamiento> findByEquipo(Equipo equipo);
-	
-
+	public List<Entrenamiento> findByEntrenamientoFinalizadoFalse();
 }

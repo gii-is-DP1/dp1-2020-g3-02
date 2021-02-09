@@ -152,7 +152,7 @@ INSERT INTO capitanes(id,ntiemposmuertos,actitud,jugador_id) VALUES (1,6,'POSITI
 INSERT INTO capitanes(id,ntiemposmuertos,actitud,jugador_id) VALUES (2,10,'POSITIVA', 2);
 
 -- INSERT  ENTRENADORES
-INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (1,'gonlalle2','Gonzalo', 'Lallena Alva', 'gonalleAlva@gmail.com','2000-8-19');
+INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (1,'gonlalle2','Gonzalo', 'Lallena Alva', 'geronimolallena@gmail.com','2000-8-19');
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (2,'user23','Teodoro', 'Sánchez Bermejo', 'teodorocoach@gmail.com','1987-8-19');
 INSERT INTO entrenadores(id,username,first_name, last_name, email, fecha_nacimiento) VALUES (3,'user24','Mauricio', 'Colmenero Muñoz', 'mastodonquijote@gmail.com','1997-8-19');
 
@@ -578,6 +578,16 @@ INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (1,1);
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (2,1);
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (3,1);
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,1);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,2);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,3);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,4);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,5);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,6);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,7);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,8);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,9);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,10);
+
 
 
 

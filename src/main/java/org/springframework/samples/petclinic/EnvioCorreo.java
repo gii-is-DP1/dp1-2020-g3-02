@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Entrenador;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.LineaMaterial;
+import org.springframework.samples.petclinic.service.EntrenadorService;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EnvioEmailService;
 import org.springframework.samples.petclinic.service.LineaMaterialService;
@@ -22,13 +24,17 @@ public class EnvioCorreo {
 	private EntrenamientoService entrenamientoService;
 	
 	@Autowired
+	private EntrenadorService entrenadorService;
+	
+	@Autowired
 	private LineaMaterialService lineaMaterialService;
 	
-	@Scheduled(cron = "0 00 22 * * *", zone="GMT+1")
+	@Scheduled(cron = "0 30 23 * * *", zone="GMT+1")
 	public void correo() {
 		LocalDate fecha = LocalDate.now();
-		List<Entrenamiento> entrenamientosHoy = entrenamientoService.findByFechaAfter(fecha.minusDays(1));
-		
+		List<Entrenamiento> entrenamientosHoy = entrenamientoService.findByFechaOrderByHora(fecha);
+		if(entrenamientosHoy.size()>0) {
+		List<Entrenador> entrenadores = entrenadorService.findAll();
 		String contenido = "";
 		
 		for(int i =0; i< entrenamientosHoy.size(); i++) {
@@ -41,7 +47,10 @@ public class EnvioCorreo {
 			}
 		}
 		System.out.println(contenido);
-		enviarEmailService.sendEmail("geronimolallena@gmail.com", "Cantidad de material usada hoy en los entrenamientos", contenido);
+		for(Entrenador entrenador: entrenadores) {
+			enviarEmailService.sendEmail(entrenador.getEmail(), "Cantidad de material usada hoy en los entrenamientos", contenido);
+		}
+		}
 	}
 	 
 

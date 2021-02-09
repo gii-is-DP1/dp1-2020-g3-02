@@ -12,4 +12,5 @@ public interface EstadisticaPersonalEntrenamientoService extends BaseEstadistica
 	public abstract EstadisticaPersonalEntrenamiento findByJugadorAndEntrenamiento(int jugador_id,int entrenamiento_id);
 	public abstract int statisticCount();
 	public abstract void deleteAllInEntrenamiento(Integer entrenamiento_id);
+	public abstract void saveEstadisticasByEntrenamiento(Integer entrenamiento_id);
 }

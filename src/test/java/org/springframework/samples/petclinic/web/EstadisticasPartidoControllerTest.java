@@ -18,14 +18,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.constant.ViewConstant;
-import org.springframework.samples.petclinic.controller.EstadisticasController;
+import org.springframework.samples.petclinic.controller.EstadisticasPartidoController;
 import org.springframework.samples.petclinic.web.base.BaseControllerTest;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(value = EstadisticasController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class))
-public class EstadisticasControllerTest extends BaseControllerTest {
+@WebMvcTest(value = EstadisticasPartidoController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class))
+public class EstadisticasPartidoControllerTest extends BaseControllerTest {
 	
 	@Autowired
 	private MockMvc mockMvc;

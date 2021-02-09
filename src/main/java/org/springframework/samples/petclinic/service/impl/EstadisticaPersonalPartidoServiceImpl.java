@@ -147,6 +147,28 @@ public class EstadisticaPersonalPartidoServiceImpl extends AbstractEstadisticasS
 			
 			Equipo team = equipoService.save(equipo);
 			
+			partido.setSaquesAcertados(partido.getSaquesAcertados()+estadisticas.get(i).getSaquesAcertados());
+			partido.setSaquesTotales(partido.getSaquesTotales()+estadisticas.get(i).getSaquesTotales());
+			partido.setRecepcionesAcertadas(partido.getRecepcionesAcertadas()+estadisticas.get(i).getRecepcionesAcertadas());
+			partido.setRecepcionesTotales(partido.getRecepcionesTotales()+estadisticas.get(i).getRecepcionesTotales());
+			partido.setColocacionesAcertadas(partido.getColocacionesAcertadas()+estadisticas.get(i).getColocacionesAcertadas());
+			partido.setColocacionesTotales(partido.getColocacionesTotales()+estadisticas.get(i).getColocacionesTotales());
+			partido.setDefensasAcertadas(partido.getDefensasAcertadas()+estadisticas.get(i).getDefensasAcertadas());
+			partido.setDefensasTotales(partido.getDefensasTotales()+estadisticas.get(i).getDefensasTotales());
+			partido.setBloqueosAcertados(partido.getBloqueosAcertados()+estadisticas.get(i).getBloqueosAcertados());
+			partido.setBloqueosTotales(partido.getBloqueosTotales()+estadisticas.get(i).getBloqueosTotales());
+			partido.setRematesAcertados(partido.getRematesAcertados()+estadisticas.get(i).getRematesAcertados());
+			partido.setRematesTotales(partido.getRematesTotales()+estadisticas.get(i).getRematesTotales());
+			partido.setFintasAcertadas(partido.getFintasAcertadas()+estadisticas.get(i).getFintasAcertadas());
+			partido.setFintasTotales(partido.getFintasTotales()+estadisticas.get(i).getFintasTotales());
+			partido.setNumAtaquesRapidosAcertados(partido.getNumAtaquesRapidosAcertados()+estadisticas.get(i).getNumAtaquesRapidosAcertados());
+			partido.setNumAtaquesRapidosTotales(partido.getNumAtaquesRapidosTotales()+estadisticas.get(i).getNumAtaquesRapidosTotales());
+			partido.setNumFaltasTotales(partido.getNumFaltasTotales()+estadisticas.get(i).getNumFaltasTotales());
+			partido.setNumAmarillas(partido.getNumAmarillas()+estadisticas.get(i).getNumAmarillas());
+			partido.setNumRojas(partido.getNumRojas()+estadisticas.get(i).getNumRojas());
+			
+			Partido match = partidoService.save(partido);
+			
 		}
 	}
 
