@@ -75,14 +75,46 @@ public class EstadisticaPersonalEntrenamientoServiceImpl extends AbstractEstadis
 	public EstadisticaPersonalEntrenamiento save(EstadisticaPersonalEntrenamiento statistic) {
 		
 		
-		if(statistic.getSaquesTotales() > 0) statistic.setPorcentajeSaques(1.*statistic.getSaquesAcertados()/statistic.getSaquesTotales());
-		if(statistic.getRecepcionesTotales() > 0) statistic.setPorcentajeRecepciones(1.*statistic.getRecepcionesAcertadas()/statistic.getRecepcionesTotales());
-		if(statistic.getColocacionesTotales() > 0) statistic.setPorcentajeColocaciones(1.*statistic.getColocacionesAcertadas()/statistic.getColocacionesTotales());
-		if(statistic.getDefensasTotales() > 0) statistic.setPorcentajeDefensas(1.*statistic.getDefensasAcertadas()/statistic.getDefensasTotales());
-		if(statistic.getBloqueosTotales() > 0) statistic.setPorcentajeBloqueos(1.*statistic.getBloqueosAcertados()/statistic.getBloqueosTotales());
-		if(statistic.getRematesTotales() > 0) statistic.setPorcentajeRemates(1.*statistic.getRematesAcertados()/statistic.getRematesTotales());
-		if(statistic.getFintasTotales() > 0) statistic.setPorcentajeFintas(1.*statistic.getFintasAcertadas()/statistic.getFintasTotales());
-		if(statistic.getNumAtaquesRapidosTotales() > 0) statistic.setPorcentajeAtaquesRapidos(1.*statistic.getNumAtaquesRapidosAcertados()/statistic.getNumAtaquesRapidosTotales());
+		if(statistic.getSaquesTotales() > 0) {
+			statistic.setPorcentajeSaques(1.*statistic.getSaquesAcertados()/statistic.getSaquesTotales());
+		} else {
+			statistic.setPorcentajeSaques(0);
+		}
+		if(statistic.getRecepcionesTotales() > 0) {
+			statistic.setPorcentajeRecepciones(1.*statistic.getRecepcionesAcertadas()/statistic.getRecepcionesTotales());
+		} else {
+			statistic.setPorcentajeRecepciones(0);
+		}
+		if(statistic.getColocacionesTotales() > 0) {
+			statistic.setPorcentajeColocaciones(1.*statistic.getColocacionesAcertadas()/statistic.getColocacionesTotales());
+		} else {
+			statistic.setPorcentajeColocaciones(0);
+		}
+		if(statistic.getDefensasTotales() > 0) {
+			statistic.setPorcentajeDefensas(1.*statistic.getDefensasAcertadas()/statistic.getDefensasTotales());
+		} else {
+			statistic.setPorcentajeDefensas(0);
+		}
+		if(statistic.getBloqueosTotales() > 0) {
+			statistic.setPorcentajeBloqueos(1.*statistic.getBloqueosAcertados()/statistic.getBloqueosTotales());
+		} else {
+			statistic.setPorcentajeBloqueos(0);
+		}
+		if(statistic.getRematesTotales() > 0) {
+			statistic.setPorcentajeRemates(1.*statistic.getRematesAcertados()/statistic.getRematesTotales());
+		} else {
+			statistic.setPorcentajeRemates(0);
+		}
+		if(statistic.getFintasTotales() > 0) {
+			statistic.setPorcentajeFintas(1.*statistic.getFintasAcertadas()/statistic.getFintasTotales());
+		} else {
+			statistic.setPorcentajeFintas(0);
+		}
+		if(statistic.getNumAtaquesRapidosTotales() > 0) {
+			statistic.setPorcentajeAtaquesRapidos(1.*statistic.getNumAtaquesRapidosAcertados()/statistic.getNumAtaquesRapidosTotales());
+		} else {
+			statistic.setPorcentajeAtaquesRapidos(0);
+		}
 		
 		EstadisticaPersonalEntrenamiento estadisticaPersonalPartido = estadisticaPersonalEntrenamientoRepository.save(statistic);
 		return estadisticaPersonalPartido;
