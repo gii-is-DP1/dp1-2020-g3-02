@@ -34,7 +34,7 @@ public class NumCamisetaServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<NumCamiseta> numCamiseta=new ArrayList<NumCamiseta>(numCamisetaService.findAll());
-		assertEquals(numCamiseta.size(), 13);
+		assertEquals(numCamiseta.size(), 20);
 	}
 	
 	@Test
@@ -42,7 +42,7 @@ public class NumCamisetaServiceTest {
 	public void testFindByJugadorInitialDataFinding() {
 		int jugador_id = 1;
 		List<NumCamiseta> numcamiseta = new ArrayList<NumCamiseta>(numCamisetaService.findByJugador(jugador_id));
-		assertEquals(numcamiseta.size(), 2);//
+		assertEquals(numcamiseta.size(), 3);//
 	}
 	
 	@Test
@@ -50,7 +50,7 @@ public class NumCamisetaServiceTest {
 	public void testFindByJugadorInitialDataNotFinding() {
 		int jugador_id = 4;
 		List<NumCamiseta> numcamiseta = new ArrayList<NumCamiseta>(numCamisetaService.findByJugador(jugador_id));
-		assertEquals(numcamiseta.size(), 1);//
+		assertEquals(numcamiseta.size(), 2);//
 	}
 	
 	@Test

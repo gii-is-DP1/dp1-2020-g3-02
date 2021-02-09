@@ -39,14 +39,6 @@ public class EstadisticasPartidoControllerTest extends BaseControllerTest {
 		.andExpect(view().name(ViewConstant.VIEW_ESTADISTICAS_PARTIDO_FORM));
 	}
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testEstadisticasEntrenamiento() throws Exception {
-
-		mockMvc.perform(get("/estadisticas/estadisticasEntrenamientoForm/{entrenamientoId}", ID))
-		.andExpect(model().attributeExists("entrenamiento"))
-		.andExpect(view().name(ViewConstant.VIEW_ESTADISTICAS_ENTRENAMIENTO_FORM));
-	}
 	
 	@WithMockUser(value = "spring")
 	@Test
@@ -58,15 +50,6 @@ public class EstadisticasPartidoControllerTest extends BaseControllerTest {
 		.andExpect(status().isOk());
 	}
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testTablaIntroducirEstadisticasEntrenamiento() throws Exception {
-
-		mockMvc.perform(get("/estadisticas/tablaIntroducirEstadisticasEntrenamiento/{entrenamientoId}", ID))
-		.andExpect(jsonPath("$.data[0].id", is(ID)))
-		.andExpect(jsonPath("$.data[0].firstName", is(NOMBRE_JUGADOR)))
-		.andExpect(status().isOk());
-	}
 
 	@WithMockUser(value = "spring")
 	@Test
@@ -81,32 +64,9 @@ public class EstadisticasPartidoControllerTest extends BaseControllerTest {
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testObtenerEstadisticasJugadoresEntrenamiento() throws Exception {
-
-		mockMvc.perform(get("/estadisticas/obtenerEstadisticasJugadoresEntrenamiento/{entrenamientoId}", ID))
-		.andExpect(jsonPath("$[0].jugadorId", is(ID)))
-		.andExpect(jsonPath("$[0].firstName", is(NOMBRE_COMPLETO)))
-		.andExpect(jsonPath("$[0].fecha", is(LocalDate.now().toString())))
-		.andExpect(status().isOk());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
 	void testSaveComandos() throws Exception {
 
 		mockMvc.perform(post("/estadisticas/saveComandos/{partidoId}", ID).with(csrf())
-		.param("hour", "0")
-		.param("minute", "2")
-		.param("second", "3")
-		.param("comandoIntroducido", "1,s,+"))
-		.andExpect(status().isOk());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testSaveComandosEntrenamiento() throws Exception {
-
-		mockMvc.perform(post("/estadisticas/saveComandosEntrenamiento/{entrenamientoId}", ID).with(csrf())
 		.param("hour", "0")
 		.param("minute", "2")
 		.param("second", "3")
@@ -123,16 +83,6 @@ public class EstadisticasPartidoControllerTest extends BaseControllerTest {
 		.param("hour", "0")
 		.param("minute", "3")
 		.param("second", "4"))
-		.andExpect(status().isOk());
-	}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testRellenarDatosEntrenamiento() throws Exception {
-
-		mockMvc.perform(post("/estadisticas/rellenarDatosEntrenamiento").with(csrf())
-		.param("entrenamientoId", "1")
-		.param("hour", "0"))
 		.andExpect(status().isOk());
 	}
 

@@ -12,9 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.enumerate.Posicion;
 import org.springframework.samples.petclinic.enumerate.TipoAutorizacion;
 import org.springframework.samples.petclinic.model.Autorizacion;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -101,9 +103,19 @@ public class AutorizacionServiceTest {
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByJugadorInitialDataNotFinding() {
-		int jugador_id=3;
-		Jugador jugador = jugadorService.findById(jugador_id).get();
-		List<Autorizacion> autorizacion=autorizacionService.findByJugador(jugador_id);
+		Jugador jugador = new Jugador("22222222B","Calle Alcafran 12","aquinohayquienduerma@gmail.com","Guarroman",LocalDate.of(1997, 8, 19),173,75,Posicion.COLOCADOR,Posicion.OPUESTO);
+		jugador.setFirstName("Javier");
+		jugador.setLastName("Gutierrez Falcon");
+		jugador.setPesoIdeal(70);
+		jugador.setImc(22.5);
+		jugador.setUser(new User());
+		jugador.getUser().setUsername("Superjavi");
+		jugador.getUser().setPassword("asdf1234");
+		jugador.getUser().setEnabled(true);
+		
+		Jugador player = jugadorService.save(jugador);
+		
+		List<Autorizacion> autorizacion=autorizacionService.findByJugador(player.getId());
 		assertEquals(autorizacion.size(), 0);//
 	}
 	
