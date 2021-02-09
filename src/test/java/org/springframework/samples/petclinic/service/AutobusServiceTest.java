@@ -27,7 +27,7 @@ public class AutobusServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Autobus> autobus=new ArrayList<Autobus>(autobusService.findAll());
-		assertEquals(autobus.size(), 3);
+		assertEquals(autobus.size(), 1);
 	}
 
 	@Test
