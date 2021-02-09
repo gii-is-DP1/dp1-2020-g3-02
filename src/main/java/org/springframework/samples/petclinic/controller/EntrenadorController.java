@@ -58,7 +58,7 @@ public class EntrenadorController {
 			LOG.error("Error al guardar el entrenador: "+entrenador);
 		}
 		
-		return "redirect:/home";
+		return "redirect:/login";
 	}
 
 }

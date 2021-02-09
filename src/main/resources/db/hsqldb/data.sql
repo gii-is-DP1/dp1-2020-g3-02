@@ -111,6 +111,12 @@ INSERT INTO authorities(id,username,authority) VALUES (44,'user26','estadistico'
 INSERT INTO users(username,password,enabled) VALUES ('blamaurob2','0wn3r',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (45,'blamaurob2','jugador');
 
+INSERT INTO users(username,password,enabled) VALUES ('estadistico','0wn3r',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (46,'estadistico','adminEstadistico');
+
+INSERT INTO users(username,password,enabled) VALUES ('entrenador','0wn3r',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (47,'entrenador','adminEntrenador');
+
 --INSERT INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
 --INSERT INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749', 'owner1');
 --INSERT INTO owners VALUES (3, 'Eduardo', 'Rodriquez', '2693 Commerce St.', 'McFarland', '6085558763', 'owner1');
