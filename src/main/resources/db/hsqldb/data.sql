@@ -322,6 +322,23 @@ INSERT INTO juega_partido(jugador_id,partido_id) VALUES (3,2);
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (4,2);
 INSERT INTO juega_partido(jugador_id,partido_id) VALUES (5,2);
 
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (1,15);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (2,15);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (3,15);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (4,15);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (5,15);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (6,15);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (7,15);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (8,15);
+
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (9,17);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (2,17);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (3,17);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (4,17);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (5,17);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (1,17);
+INSERT INTO juega_partido(jugador_id,partido_id) VALUES (8,17);
+
 --INSERT INTO jugando_partido(jugador_id,partido_id) VALUES (1,1);
 --INSERT INTO jugando_partido(jugador_id,partido_id) VALUES (2,1);
 --INSERT INTO jugando_partido(jugador_id,partido_id) VALUES (3,1);
@@ -605,6 +622,19 @@ INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,7);
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,8);
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,9);
 INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (9,10);
+
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (15,1);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (14,1);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (12,1);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (12,2);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (12,3);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (12,4);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (12,5);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (12,6);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (12,7);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (12,8);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (12,9);
+INSERT INTO realiza_entrenamiento (entrenamiento_id,jugador_id) values (12,10);
 
 
 
