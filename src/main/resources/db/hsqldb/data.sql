@@ -192,8 +192,6 @@ INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (26,'2020-09-09','R
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (27,'2020-09-09','RESPONSABILIDADLESION',22);
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (28,'2020-09-09','RESPONSABILIDADLESION',23);
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (29,'2020-09-09','RESPONSABILIDADLESION',24);
-INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (30,'2020-09-09','TRANSPORTE',2);
-INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (31,'2020-09-09','TRANSPORTE',1);
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (32,'2020-09-09','TRANSPORTE',3);
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (33,'2020-09-09','TRANSPORTE',4);
 INSERT INTO autorizaciones(id,fecha,tipo, jugador_id) VALUES (34,'2020-09-09','TRANSPORTE',5);
