@@ -37,7 +37,7 @@ public class AutorizacionServiceTest {
 	@Transactional(readOnly = true)
 	public void testFindAllInitialData() {
 		List<Autorizacion>autorizacion=new ArrayList<Autorizacion>(autorizacionService.findAll());
-		assertEquals(autorizacion.size(), 6);//
+		assertEquals(autorizacion.size(), 51);//
 	}
 
 
@@ -65,14 +65,14 @@ public class AutorizacionServiceTest {
 	public void testFindByTipoAutorizacionInitialDataFinding() {
 		TipoAutorizacion tipo= TipoAutorizacion.TRANSPORTE ;
 		List<Autorizacion> autorizacion = new ArrayList<Autorizacion>(autorizacionService.findByTipoAutorizacion(tipo));
-		assertEquals(autorizacion.size(), 2);//
+		assertEquals(autorizacion.size(), 24);//
 	}
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByTipoAutorizacionInitialDataNotFinding() {
 		TipoAutorizacion tipo= TipoAutorizacion.RESPONSABILIDADLESION ;
 		List<Autorizacion> autorizacion = new ArrayList<Autorizacion>(autorizacionService.findByTipoAutorizacion(tipo));
-		assertEquals(autorizacion.size(), 1);//
+		assertEquals(autorizacion.size(), 24);//
 	}
 	
 	@Test
@@ -95,13 +95,14 @@ public class AutorizacionServiceTest {
 	public void testFindByJugadorInitialDataFinding() {
 		int jugador_id=1;
 		List<Autorizacion> autorizacion=autorizacionService.findByJugador(jugador_id);
-		assertEquals(autorizacion.size(), 2);//
+		assertEquals(autorizacion.size(), 3);//
 	}
 	
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByJugadorInitialDataNotFinding() {
 		int jugador_id=3;
+		Jugador jugador = jugadorService.findById(jugador_id).get();
 		List<Autorizacion> autorizacion=autorizacionService.findByJugador(jugador_id);
 		assertEquals(autorizacion.size(), 0);//
 	}

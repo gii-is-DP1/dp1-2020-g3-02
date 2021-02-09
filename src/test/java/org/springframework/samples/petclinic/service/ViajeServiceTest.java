@@ -102,14 +102,6 @@ public class ViajeServiceTest {
 		List<Viaje> viaje= viajeSevice.findByAutobus(autobus);
 		assertEquals(viaje.size(), 14);
 	}
-
-	@Test
-	@Transactional(readOnly = true)
-	public void testFindByAutobusInitialDataNotFinding() {
-		Autobus autobus = autobusService.findById(3).get();
-		List<Viaje> viaje=viajeSevice.findByAutobus(autobus);
-		assertEquals(viaje.size(), 0);
-	}
 	
 	@Test
 	@Transactional(readOnly = true)
