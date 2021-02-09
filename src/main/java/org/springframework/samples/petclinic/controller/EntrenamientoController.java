@@ -285,7 +285,7 @@ public class EntrenamientoController {
 	public ResponseEntity<DataTableResponse<EntrenamientoConAsistencia>> listadoDeEntrenamientos(HttpServletRequest request) {
 		try {
 			List<EntrenamientoConAsistencia> entrenamientosSinEquipo = new ArrayList<EntrenamientoConAsistencia>();
-			List<Entrenamiento> entrenamientos = entrenamientoService.findByEntrenamientoFinalizadoFalse(); 
+			List<Entrenamiento> entrenamientos = entrenamientoService.findByEntrenamientoFinalizadoFalseOrderByFecha(); 
 
 			Principal principal = request.getUserPrincipal();
 			List<String> categorias = new ArrayList<String>();

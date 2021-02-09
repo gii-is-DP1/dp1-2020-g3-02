@@ -169,8 +169,8 @@ public class EntrenamientoServiceImpl extends AbstractEstadisticasService<Entren
 	}
 
 	@Override
-	public List<Entrenamiento> findByEntrenamientoFinalizadoFalse() {
+	public List<Entrenamiento> findByEntrenamientoFinalizadoFalseOrderByFecha() {
 		
-		return entrenamientoRepository.findByEntrenamientoFinalizadoFalse();
+		return entrenamientoRepository.findByEntrenamientoFinalizadoFalseOrderByFecha();
 	}
 }

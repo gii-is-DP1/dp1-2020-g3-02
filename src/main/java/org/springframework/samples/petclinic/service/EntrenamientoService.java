@@ -18,7 +18,7 @@ public interface EntrenamientoService extends BaseEstadisticasService<Entrenamie
 	public abstract List<Entrenamiento> findByEquipo(Equipo equipo);
 	public abstract List<EntrenamientoConAsistencia> obtenerEntrenamientosAsistidos(List<Equipo> equipos, Jugador jugador, Entrenamiento entrenamiento);
 	public abstract void deleteAllInEquipo(Integer equipo_id);
-	public abstract List<Entrenamiento> findByEntrenamientoFinalizadoFalse();
+	public abstract List<Entrenamiento> findByEntrenamientoFinalizadoFalseOrderByFecha();
 	
 	
 

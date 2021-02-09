@@ -55,6 +55,7 @@ public class EntrenamientoConverter {
 		entrenamientoConAsistencia.setHora(entrenamiento.getHora());
 		entrenamientoConAsistencia.setAsistencia(entrenamiento.getJugadores().stream().map(x->x.getId()).collect(Collectors.toList()));
 		entrenamientoConAsistencia.setNumJugadores(entrenamiento.getJugadores().size());
+		entrenamientoConAsistencia.setEntrenamientoFinalizado(entrenamiento.isEntrenamientoFinalizado());
 		return entrenamientoConAsistencia;
 	}
 	

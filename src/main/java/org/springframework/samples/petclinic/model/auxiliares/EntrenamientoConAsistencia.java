@@ -21,5 +21,7 @@ public class EntrenamientoConAsistencia {
 	
 	private List<Integer> asistencia;
 	
+	private boolean entrenamientoFinalizado;
+	
 	private Integer numJugadores;
 }
