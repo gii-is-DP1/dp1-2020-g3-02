@@ -189,7 +189,7 @@ public class JugadorServiceTests {
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByPorcentajeRecepcionesLessThanEqualInitialDataFinding() {
-		double percentIntroducido=50;
+		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeRecepcionesLessThanEqual(percent));
 		assertEquals(jugadores.size(), 24);
@@ -225,7 +225,7 @@ public class JugadorServiceTests {
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByPorcentajeDefensasLessThanEqualInitialDataFinding() {
-		double percentIntroducido=50;
+		double percentIntroducido=90;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeDefensasLessThanEqual(percent));
 		assertEquals(jugadores.size(), 24);
@@ -243,7 +243,7 @@ public class JugadorServiceTests {
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByPorcentajeBloqueosLessThanEqualInitialDataFinding() {
-		double percentIntroducido=50;
+		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeBloqueosLessThanEqual(percent));
 		assertEquals(jugadores.size(), 24);
@@ -261,7 +261,7 @@ public class JugadorServiceTests {
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByPorcentajeRematesLessThanEqualInitialDataFinding() {
-		double percentIntroducido=50;
+		double percentIntroducido=90;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeRematesLessThanEqual(percent));
 		assertEquals(jugadores.size(), 24);
@@ -279,7 +279,7 @@ public class JugadorServiceTests {
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByPorcentajeFintasLessThanEqualInitialDataFinding() {
-		double percentIntroducido=50;
+		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeFintasLessThanEqual(percent));
 		assertEquals(jugadores.size(), 24);
@@ -297,7 +297,7 @@ public class JugadorServiceTests {
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByPorcentajeAtaquesRapidosLessThanEqualInitialDataFinding() {
-		double percentIntroducido=50;
+		double percentIntroducido=100;
 		double percent=percentIntroducido/100;
 		List<Jugador> jugadores=new ArrayList<Jugador>(jugadorService.findByPorcentajeAtaquesRapidosLessThanEqual(percent));
 		assertEquals(jugadores.size(), 24);

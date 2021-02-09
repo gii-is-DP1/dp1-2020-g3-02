@@ -362,6 +362,7 @@ public class BaseMockControllerTest {
 	protected void givenEntrenamientoService(Entrenamiento entrenamiento) {
 		given(this.entrenamientoService.findById(any(Integer.class))).willReturn(Optional.of(entrenamiento));
 		given(this.entrenamientoService.findByFechaAfter(any(LocalDate.class))).willReturn(Lists.newArrayList(entrenamiento));
+		given(this.entrenamientoService.findByEntrenamientoFinalizadoFalseOrderByFecha()).willReturn(Lists.newArrayList(entrenamiento));
 	}
 
 	/** Metodos EquipoService por defecto */
@@ -470,7 +471,7 @@ public class BaseMockControllerTest {
 		willReturn(ejercicio);
 	}
 	
-
+	
 	protected void givenMaterialService(Material material) {
 		given(this.materialService.findAll())
 		.willReturn(Lists.newArrayList(material));

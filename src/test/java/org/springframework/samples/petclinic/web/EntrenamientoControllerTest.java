@@ -100,7 +100,7 @@ public class EntrenamientoControllerTest extends BaseControllerTest{
 	@WithMockUser(value = "spring")
 	@Test
 	void testShowStatsAllPlayers() throws Exception {
-		mockMvc.perform(get("/entrenamientos/showestadisiticasEntrenamientoTodosJugadores")
+		mockMvc.perform(get("/entrenamientos/showestadisiticasEntrenamientoTodosJugadores/{id}", ID)
 		.param("id", "1"))
 		.andExpect(status().isOk())
 		.andExpect(view().name(ViewConstant.VIEW_ESTADISTICAS_ENTRENAMIENTO_JUGADORES));

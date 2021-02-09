@@ -24,10 +24,8 @@ import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamiento;
-import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.model.Jugador;
-import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesEntrenamientoStats;
@@ -402,43 +400,6 @@ public class EstadisticasEntrenamientoController {
 
 	// Método para traer a la tabla las estadísticas personales de un jugador
 	// concreto
-	private JugadorDTO obtenerDatosEstadisticosJugador(JugadorDTO jugadorDTO, int jugadorId, int partidoId) {
-		EstadisticaPersonalPartido estadisticaJugador = estadisticaPersonalPartidoService
-				.findByJugadorAndPartido(jugadorId, partidoId);
-
-		if (estadisticaJugador != null) {
-			jugadorDTO.setSaquesAcertados(estadisticaJugador.getSaquesAcertados());
-			jugadorDTO.setSaquesTotales(estadisticaJugador.getSaquesTotales());
-			jugadorDTO.setPorcentajeSaques(estadisticaJugador.getPorcentajeSaques());
-			jugadorDTO.setRecepcionesAcertadas(estadisticaJugador.getRecepcionesAcertadas());
-			jugadorDTO.setRecepcionesTotales(estadisticaJugador.getRecepcionesTotales());
-			jugadorDTO.setPorcentajeRecepciones(estadisticaJugador.getPorcentajeRecepciones());
-			jugadorDTO.setColocacionesAcertadas(estadisticaJugador.getColocacionesAcertadas());
-			jugadorDTO.setColocacionesTotales(estadisticaJugador.getColocacionesTotales());
-			jugadorDTO.setPorcentajeColocaciones(estadisticaJugador.getPorcentajeColocaciones());
-			jugadorDTO.setDefensasAcertadas(estadisticaJugador.getDefensasAcertadas());
-			jugadorDTO.setDefensasTotales(estadisticaJugador.getDefensasTotales());
-			jugadorDTO.setPorcentajeDefensas(estadisticaJugador.getPorcentajeDefensas());
-			jugadorDTO.setBloqueosAcertados(estadisticaJugador.getBloqueosAcertados());
-			jugadorDTO.setBloqueosTotales(estadisticaJugador.getBloqueosTotales());
-			jugadorDTO.setPorcentajeBloqueos(estadisticaJugador.getPorcentajeBloqueos());
-			jugadorDTO.setRematesAcertados(estadisticaJugador.getRematesAcertados());
-			jugadorDTO.setRematesTotales(estadisticaJugador.getRematesTotales());
-			jugadorDTO.setPorcentajeRemates(estadisticaJugador.getPorcentajeRemates());
-			jugadorDTO.setFintasAcertadas(estadisticaJugador.getFintasAcertadas());
-			jugadorDTO.setFintasTotales(estadisticaJugador.getFintasTotales());
-			jugadorDTO.setPorcentajeFintas(estadisticaJugador.getPorcentajeFintas());
-			jugadorDTO.setNumAtaquesRapidosAcertados(estadisticaJugador.getNumAtaquesRapidosAcertados());
-			jugadorDTO.setNumAtaquesRapidosTotales(estadisticaJugador.getNumAtaquesRapidosTotales());
-			jugadorDTO.setPorcentajeAtaquesRapidos(estadisticaJugador.getPorcentajeAtaquesRapidos());
-			jugadorDTO.setNumFaltasTotales(estadisticaJugador.getNumFaltasTotales());
-			jugadorDTO.setNumAmarillas(estadisticaJugador.getNumAmarillas());
-			jugadorDTO.setNumRojas(estadisticaJugador.getNumRojas());
-		}
-
-		return jugadorDTO;
-	}
-
 	private JugadorDTO obtenerDatosEstadisticosJugadorEntrenamiento(JugadorDTO jugadorDTO, int jugadorId,
 			int entrenamientoId) {
 		EstadisticaPersonalEntrenamiento estadisticaJugador = estadisticaPersonalEntrenamientoService
@@ -572,197 +533,6 @@ public class EstadisticasEntrenamientoController {
 			}
 		}
 		return error;
-	}
-
-	// Metodo para saber que estadistica settear segun la acción y el signo
-	private EstadisticaPersonalPartido setEstadisticaCorrecta(EstadisticaPersonalPartido estadistica, String accion,
-			String acierto, boolean correccion) {
-		if (!correccion) {
-			if (accion.equalsIgnoreCase("s")) {
-				if (acierto.equals("+")) {
-					estadistica.setSaquesTotales(estadistica.getSaquesTotales() + 1);
-					estadistica.setSaquesAcertados(estadistica.getSaquesAcertados() + 1);
-				} else {
-					estadistica.setSaquesTotales(estadistica.getSaquesTotales() + 1);
-				}
-			} else if (accion.equalsIgnoreCase("r")) {
-				if (acierto.equals("+")) {
-					estadistica.setRecepcionesTotales(estadistica.getRecepcionesTotales() + 1);
-					estadistica.setRecepcionesAcertadas(estadistica.getRecepcionesAcertadas() + 1);
-				} else {
-					estadistica.setRecepcionesTotales(estadistica.getRecepcionesTotales() + 1);
-				}
-			} else if (accion.equalsIgnoreCase("c")) {
-				if (acierto.equals("+")) {
-					estadistica.setColocacionesTotales(estadistica.getColocacionesTotales() + 1);
-					estadistica.setColocacionesAcertadas(estadistica.getColocacionesAcertadas() + 1);
-				} else {
-					estadistica.setColocacionesTotales(estadistica.getColocacionesTotales() + 1);
-				}
-			} else if (accion.equalsIgnoreCase("d")) {
-				if (acierto.equals("+")) {
-					estadistica.setDefensasTotales(estadistica.getDefensasTotales() + 1);
-					estadistica.setDefensasAcertadas(estadistica.getDefensasAcertadas() + 1);
-				} else {
-					estadistica.setDefensasTotales(estadistica.getDefensasTotales() + 1);
-				}
-			} else if (accion.equalsIgnoreCase("b")) {
-				if (acierto.equals("+")) {
-					estadistica.setBloqueosTotales(estadistica.getBloqueosTotales() + 1);
-					estadistica.setBloqueosAcertados(estadistica.getBloqueosAcertados() + 1);
-				} else {
-					estadistica.setBloqueosTotales(estadistica.getBloqueosTotales() + 1);
-				}
-			} else if (accion.equalsIgnoreCase("a")) {
-				if (acierto.equals("+")) {
-					estadistica.setRematesTotales(estadistica.getRematesTotales() + 1);
-					estadistica.setRematesAcertados(estadistica.getRematesAcertados() + 1);
-				} else {
-					estadistica.setRematesTotales(estadistica.getRematesTotales() + 1);
-				}
-			} else if (accion.equalsIgnoreCase("f")) {
-				if (acierto.equals("+")) {
-					estadistica.setFintasTotales(estadistica.getFintasTotales() + 1);
-					estadistica.setFintasAcertadas(estadistica.getFintasAcertadas() + 1);
-				} else {
-					estadistica.setFintasTotales(estadistica.getFintasTotales() + 1);
-				}
-			} else if (accion.equalsIgnoreCase("ar")) {
-				if (acierto.equals("+")) {
-					estadistica.setNumAtaquesRapidosTotales(estadistica.getNumAtaquesRapidosTotales() + 1);
-					estadistica.setNumAtaquesRapidosAcertados(estadistica.getNumAtaquesRapidosAcertados() + 1);
-				} else {
-					estadistica.setNumAtaquesRapidosTotales(estadistica.getNumAtaquesRapidosTotales() + 1);
-				}
-			} else if (accion.equalsIgnoreCase("ft")) {
-				if (acierto.equals("+")) {
-					estadistica.setNumFaltasTotales(estadistica.getNumFaltasTotales() + 1);
-				} else {
-					if (!(estadistica.getNumFaltasTotales() <= 0)) {
-						estadistica.setNumFaltasTotales(estadistica.getNumFaltasTotales() - 1);
-					}
-				}
-			} else if (accion.equalsIgnoreCase("ta")) {
-				if (acierto.equals("+")) {
-					estadistica.setNumAmarillas(estadistica.getNumAmarillas() + 1);
-					if (estadistica.getNumAmarillas() % 2 == 0) {
-						estadistica.setNumRojas(estadistica.getNumRojas() + 1);
-					}
-				} else {
-					if (!(estadistica.getNumAmarillas() <= 0)) {
-						estadistica.setNumFaltasTotales(estadistica.getNumFaltasTotales() - 1);
-					}
-				}
-			} else if (accion.equalsIgnoreCase("tr")) {
-				if (acierto.equals("+")) {
-					estadistica.setNumRojas(estadistica.getNumRojas() + 1);
-				} else {
-					if (!(estadistica.getNumFaltasTotales() <= 0)) {
-						estadistica.setNumRojas(estadistica.getNumRojas() - 1);
-					}
-				}
-			}
-		} else {
-			if (accion.equalsIgnoreCase("s")) {
-				if (estadistica.getSaquesTotales() > 0) {
-					if (acierto.equals("+")) {
-						estadistica.setSaquesTotales(estadistica.getSaquesTotales() - 1);
-						if (estadistica.getSaquesAcertados() > 0)
-							estadistica.setSaquesAcertados(estadistica.getSaquesAcertados() - 1);
-					} else {
-						if (estadistica.getSaquesTotales() != estadistica.getSaquesAcertados()) {
-							estadistica.setSaquesTotales(estadistica.getSaquesTotales() - 1);
-						}
-					}
-				}
-			} else if (accion.equalsIgnoreCase("r")) {
-				if (estadistica.getRecepcionesTotales() > 0) {
-					if (acierto.equals("+")) {
-						estadistica.setRecepcionesTotales(estadistica.getRecepcionesTotales() - 1);
-						if (estadistica.getRecepcionesAcertadas() > 0)
-							estadistica.setRecepcionesAcertadas(estadistica.getRecepcionesAcertadas() - 1);
-					} else {
-						if (estadistica.getRecepcionesTotales() != estadistica.getRecepcionesAcertadas()) {
-							estadistica.setRecepcionesTotales(estadistica.getRecepcionesTotales() - 1);
-						}
-					}
-				}
-			} else if (accion.equalsIgnoreCase("c")) {
-				if (estadistica.getColocacionesTotales() > 0) {
-					if (acierto.equals("+")) {
-						estadistica.setColocacionesTotales(estadistica.getColocacionesTotales() - 1);
-						if (estadistica.getColocacionesAcertadas() > 0)
-							estadistica.setColocacionesAcertadas(estadistica.getColocacionesAcertadas() - 1);
-					} else {
-						if (estadistica.getColocacionesTotales() != estadistica.getColocacionesAcertadas()) {
-							estadistica.setColocacionesTotales(estadistica.getColocacionesTotales() - 1);
-						}
-					}
-				}
-			} else if (accion.equalsIgnoreCase("d")) {
-				if (estadistica.getDefensasTotales() > 0) {
-					if (acierto.equals("+")) {
-						estadistica.setDefensasTotales(estadistica.getDefensasTotales() - 1);
-						if (estadistica.getDefensasAcertadas() > 0)
-							estadistica.setDefensasAcertadas(estadistica.getDefensasAcertadas() - 1);
-					} else {
-						if (estadistica.getDefensasTotales() != estadistica.getDefensasAcertadas()) {
-							estadistica.setDefensasTotales(estadistica.getDefensasTotales() - 1);
-						}
-					}
-				}
-			} else if (accion.equalsIgnoreCase("b")) {
-				if (estadistica.getBloqueosTotales() > 0) {
-					if (acierto.equals("+")) {
-						estadistica.setBloqueosTotales(estadistica.getBloqueosTotales() - 1);
-						if (estadistica.getBloqueosAcertados() > 0)
-							estadistica.setBloqueosAcertados(estadistica.getBloqueosAcertados() - 1);
-					} else {
-						if (estadistica.getBloqueosTotales() != estadistica.getBloqueosAcertados()) {
-							estadistica.setBloqueosTotales(estadistica.getBloqueosTotales() - 1);
-						}
-					}
-				}
-			} else if (accion.equalsIgnoreCase("a")) {
-				if (estadistica.getRematesTotales() > 0) {
-					if (acierto.equals("+")) {
-						estadistica.setRematesTotales(estadistica.getRematesTotales() - 1);
-						if (estadistica.getRematesAcertados() > 0)
-							estadistica.setRematesAcertados(estadistica.getRematesAcertados() - 1);
-					} else {
-						if (estadistica.getRematesTotales() != estadistica.getRematesAcertados()) {
-							estadistica.setRematesTotales(estadistica.getRematesTotales() - 1);
-						}
-					}
-				}
-			} else if (accion.equalsIgnoreCase("f")) {
-				if (estadistica.getFintasTotales() > 0) {
-					if (acierto.equals("+")) {
-						estadistica.setFintasTotales(estadistica.getFintasTotales() - 1);
-						if (estadistica.getFintasAcertadas() > 0)
-							estadistica.setFintasAcertadas(estadistica.getFintasAcertadas() - 1);
-					} else {
-						if (estadistica.getFintasTotales() != estadistica.getFintasAcertadas()) {
-							estadistica.setFintasTotales(estadistica.getFintasTotales() - 1);
-						}
-					}
-				}
-			} else if (accion.equalsIgnoreCase("ar")) {
-				if (estadistica.getNumAtaquesRapidosTotales() > 0) {
-					if (acierto.equals("+")) {
-						estadistica.setNumAtaquesRapidosTotales(estadistica.getNumAtaquesRapidosTotales() - 1);
-						if (estadistica.getNumAtaquesRapidosAcertados() > 0)
-							estadistica.setNumAtaquesRapidosAcertados(estadistica.getNumAtaquesRapidosAcertados() - 1);
-					} else {
-						if (estadistica.getNumAtaquesRapidosTotales() != estadistica.getNumAtaquesRapidosAcertados()) {
-							estadistica.setNumAtaquesRapidosTotales(estadistica.getNumAtaquesRapidosTotales() - 1);
-						}
-					}
-				}
-			}
-		}
-
-		return estadistica;
 	}
 
 	// Metodo para saber que estadistica settear segun la acción y el signo
@@ -937,19 +707,6 @@ public class EstadisticasEntrenamientoController {
 		return estadistica;
 	}
 
-	private Partido setTiempoPartido(Integer partidoId, HttpServletRequest request) {
-		int hour = Integer.parseInt(request.getParameter("hour"));
-		int minute = Integer.parseInt(request.getParameter("minute"));
-		int second = Integer.parseInt(request.getParameter("second"));
 
-		Partido partido = partidoService.findById(partidoId).get();
-		List<Jugador> jugadores = partido.getJugadores();
-
-		partido.setHour(hour);
-		partido.setMinute(minute);
-		partido.setSecond(second);
-
-		return partido;
-	}
 
 }
