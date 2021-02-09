@@ -47,11 +47,15 @@ public class LineaMaterialValidator implements Validator {
 		if ( lineaMaterial.getCantidad()==null || lineaMaterial.getCantidad()<0) {
 			errors.rejectValue("cantidad", "La cantidad no debe ser nula ni menor que 0","La cantidad no debe ser nulo ni menor que 0");
 		}
+		if ((lineaMaterial.getCantidad()>puedesUsar(lineaMaterial)) && lineaMaterial.getCantidad()<=getStockTotal(lineaMaterial.getMaterial().getTipo())) {
+			int stockDisponible = puedesUsar(lineaMaterial);
+			errors.rejectValue("cantidad", "La cantidad máxima que puedes usar son "+stockDisponible+" unidades","La cantidad máxima que puedes usar son "+stockDisponible+" unidades");
+		}
 		if ( lineaMaterial.getCantidad()>getStockTotal(lineaMaterial.getMaterial().getTipo())) {
 			int stock = getStockTotal(lineaMaterial.getMaterial().getTipo());
 			errors.rejectValue("cantidad", "La cantidad máxima que puedes usar son "+stock+" unidades","La cantidad máxima que puedes usar son "+stock+" unidades");
-		}
-
+		}//
+		
 	}
 
 	@Override
