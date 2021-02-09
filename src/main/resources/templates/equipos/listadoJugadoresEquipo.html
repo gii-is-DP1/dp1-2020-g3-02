@@ -119,9 +119,12 @@ background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 10
 background: linear-gradient(90deg, rgba(23,162,184,1) 0%, rgba(255,255,255,1) 100%, rgba(255,255,255,1) 100%);">
 					<div class="row ">
 					<h3 class=" card-title ml-3">Jugadores</h3>
-					<button th:onclick="return agregarJugadores();" class="btn btn-primary ml-auto"><i class="fas fa-plus"></i> Añadir
+					<button sec:authorize="hasAuthority('entrenador')" th:onclick="return agregarJugadores();" class="btn btn-primary ml-auto"><i class="fas fa-plus"></i> Añadir
 							jugador</button>
-					<a id="jugadores" href="#collapseJugadores" data-toggle="collapse" class="mx-3 my-auto">
+					<a id="jugadores" href="#collapseJugadores"  sec:authorize="hasAuthority('entrenador')" data-toggle="collapse" class="mx-3 my-auto">
+						<i class="fas fa-plus" ></i>
+					</a>
+					<a id="jugadores" href="#collapseJugadores"  sec:authorize="hasAuthority('jugador')" style="margin-left: auto;" data-toggle="collapse" class="mr-3 my-auto">
 						<i class="fas fa-plus" ></i>
 					</a>
 					</div>

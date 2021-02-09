@@ -112,35 +112,3 @@ public class EntrenadorValidator implements Validator {
 		return Entrenador.class.isAssignableFrom(clazz);
 	}
 }
-
-///** Versión de serialización. */
-//private static final long serialVersionUID = 1L;
-//
-///** Servicio de usuario. */
-//@Autowired
-//private UsuarioService usuarioService;
-//
-//@Override
-//public boolean supports(final Class<?> clazz) {
-//	return UsuarioDTO.class.equals(clazz);
-//}
-//
-//@Override
-//public void validate(final Object target, final Errors errors) {
-//	final UsuarioDTO usuario = (UsuarioDTO) target;
-//	if (usuario.getId() == null) {
-//		// validación contraseña obligatoria en alta
-//		ValidationUtils.rejectIfEmpty(errors, "usuario.clave", ConstantesController.COD_MSJ_VAL_OBLIG);
-//		// validación usuario único
-//		final UsuarioDTO usuarioUnico = usuarioService.findByUsuario(usuario.getUsuario());
-//		if (usuarioUnico != null) {
-//			final Object[] args = new Object[] { "usuario" };
-//			errors.rejectValue("usuario.usuario", ConstantesController.COD_MSJ_VAL_YAEXISTE_MASC, args, null);
-//		}
-//	}
-//	// validación contraseña tamaño
-//	if (StringUtils.isNotEmpty(usuario.getClave()) && usuario.getClave().length() < 4) {
-//		final Object[] args = new Object[] { "usuario", "64", "4" };
-//		errors.rejectValue("usuario.clave", ConstantesController.COD_MSJ_VAL_SIZE, args, null);
-//	}
-//}
