@@ -59,7 +59,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MimeTypeUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -494,15 +496,18 @@ public class EntrenamientoController {
 
 	}
 
-	private int linea(TipoMaterial tipo, int cantidad,Entrenamiento entr,BindingResult result,Map<String,ObjectError> mape, int index) {
+	private void linea(TipoMaterial tipo, int cantidad,Entrenamiento entr,BindingResult result,Map<String,String> mape) {
+		
 		if(cantidad>getStockTotal(tipo)) {
 			Material mm= materialService.findByTipo(tipo).get(0);
 			LineaMaterial lin1= new LineaMaterial(mm, entr,cantidad);
-			ValidationUtils.invokeValidator(lineaMaterialValidator, lin1, result);
+			
+			Errors errors = new BeanPropertyBindingResult(lin1, "");
+			lineaMaterialValidator.validate(lin1, errors);
 
-			if(result.hasErrors()) {
-				mape.put("cantidad"+tipo.name(), result.getAllErrors().get(index));
-				index++;
+			if(errors.hasErrors()) {
+				mape.put("cantidad"+tipo.name(), errors.getAllErrors().get(0).getDefaultMessage());
+			
 			}
 		}else {
 			int stocker = 0;
@@ -511,22 +516,24 @@ public class EntrenamientoController {
 					if(cantidad>mm.getStock()) {
 						if((cantidad-stocker)<mm.getStock()) {
 							LineaMaterial lin1= new LineaMaterial(mm, entr, cantidad-stocker);
-							ValidationUtils.invokeValidator(lineaMaterialValidator, lin1, result);
+							Errors errors = new BeanPropertyBindingResult(lin1, "");
+							lineaMaterialValidator.validate(lin1, errors);
 
-							if(result.hasErrors()) {
-								mape.put("cantidad"+tipo.name(), result.getAllErrors().get(index));
-								index++;
+							if(errors.hasErrors()) {
+								mape.put("cantidad"+tipo.name(), errors.getAllErrors().get(0).getDefaultMessage());
+								
 							}else {
 								lineaMaterialService.save(lin1);
 							}
 							stocker+=cantidad-stocker;
 						}else {
 							LineaMaterial lin1= new LineaMaterial(mm, entr, mm.getStock());
-							ValidationUtils.invokeValidator(lineaMaterialValidator, lin1, result);
+							Errors errors = new BeanPropertyBindingResult(lin1, "");
+							lineaMaterialValidator.validate(lin1, errors);
 
-							if(result.hasErrors()) {
-								mape.put("cantidad"+tipo.name(), result.getAllErrors().get(index));
-								index++;
+							if(errors.hasErrors()) {
+								mape.put("cantidad"+tipo.name(), errors.getAllErrors().get(0).getDefaultMessage());
+								
 							}else {
 								lineaMaterialService.save(lin1);
 							}
@@ -534,11 +541,13 @@ public class EntrenamientoController {
 						}
 					}else {
 						LineaMaterial lin1= new LineaMaterial(mm, entr,cantidad);
-						ValidationUtils.invokeValidator(lineaMaterialValidator, lin1, result);
+						Errors errors = new BeanPropertyBindingResult(lin1, "");
+						lineaMaterialValidator.validate(lin1, errors);
 
-						if(result.hasErrors()) {
-							mape.put("cantidad"+tipo.name(), result.getAllErrors().get(index));
-							index++;
+						if(errors.hasErrors()) {
+							
+							mape.put("cantidad"+tipo.name(), errors.getAllErrors().get(0).getDefaultMessage());
+							
 						}else {
 							lineaMaterialService.save(lin1);
 						}
@@ -550,40 +559,39 @@ public class EntrenamientoController {
 			}
 
 		}
-		
-		return index;
+	
 	}
 	@RequestMapping(value = "/updatematerial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, ObjectError>> updateMaterial(HttpServletRequest request, @ModelAttribute(name="lineaMaterial") LineaMaterial linea, BindingResult result) {
+	public ResponseEntity<Map<String, String>> updateMaterial(HttpServletRequest request, @ModelAttribute(name="lineaMaterial") LineaMaterial linea, BindingResult result) {
 		try {
-			Map<String, ObjectError> mape = new HashMap<String,ObjectError>();
+			Map<String, String> mape = new HashMap<String,String>();
 			Entrenamiento entr= entrenamientoService.findById(Integer.parseInt(request.getParameter("id"))).get();
-			int index = 0;
 			
-			index = linea(TipoMaterial.BALONMEDICINAL, Integer.parseInt(request.getParameter("cantidad1")), entr,result,mape,index);
-			index = linea(TipoMaterial.BALONDEJUEGO, Integer.parseInt(request.getParameter("cantidad2")), entr,result,mape,index);
-			index = linea(TipoMaterial.RED, Integer.parseInt(request.getParameter("cantidad3")), entr,result,mape,index);
-			index = linea(TipoMaterial.POSTE, Integer.parseInt(request.getParameter("cantidad4")), entr,result,mape,index);
-			index = linea(TipoMaterial.CONOBAJO, Integer.parseInt(request.getParameter("cantidad5")), entr,result,mape,index);
-			index = linea(TipoMaterial.CONOALTO, Integer.parseInt(request.getParameter("cantidad6")), entr,result,mape,index);
-			index = linea(TipoMaterial.CONOMEDIO, Integer.parseInt(request.getParameter("cantidad7")), entr,result,mape,index);
-			index = linea(TipoMaterial.CUERDA, Integer.parseInt(request.getParameter("cantidad8")), entr,result,mape,index);
-			index = linea(TipoMaterial.CINTA, Integer.parseInt(request.getParameter("cantidad9")), entr,result,mape,index); 
+			
+			linea(TipoMaterial.BALONMEDICINAL, Integer.parseInt(request.getParameter("cantidad1")), entr,result,mape);
+			linea(TipoMaterial.BALONDEJUEGO, Integer.parseInt(request.getParameter("cantidad2")), entr,result,mape);
+			linea(TipoMaterial.RED, Integer.parseInt(request.getParameter("cantidad3")), entr,result,mape);
+			linea(TipoMaterial.POSTE, Integer.parseInt(request.getParameter("cantidad4")), entr,result,mape);
+			linea(TipoMaterial.CONOBAJO, Integer.parseInt(request.getParameter("cantidad5")), entr,result,mape);
+			linea(TipoMaterial.CONOALTO, Integer.parseInt(request.getParameter("cantidad6")), entr,result,mape);
+			linea(TipoMaterial.CONOMEDIO, Integer.parseInt(request.getParameter("cantidad7")), entr,result,mape);
+			linea(TipoMaterial.CUERDA, Integer.parseInt(request.getParameter("cantidad8")), entr,result,mape);
+			linea(TipoMaterial.CINTA, Integer.parseInt(request.getParameter("cantidad9")), entr,result,mape); 
 
 
 			//si el map esta vacio devuelva ok si el map tiene errorres devuelva el map
 			if(mape.isEmpty()) {
 
-				return new ResponseEntity<Map<String, ObjectError>>(HttpStatus.OK);
+				return new ResponseEntity<Map<String, String>>(HttpStatus.OK);
 			}else {
 
-				return new ResponseEntity<Map<String, ObjectError>>(mape,HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<Map<String, String>>(mape,HttpStatus.BAD_REQUEST);
 
 
 			} 
 		} catch (Exception e) {
 			LOG.error("Error al guardar la linea de material");
-			return new ResponseEntity<Map<String, ObjectError>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Map<String, String>>(HttpStatus.BAD_REQUEST);
 
 		}
 

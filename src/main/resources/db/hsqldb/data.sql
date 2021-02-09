@@ -365,7 +365,7 @@ INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_a
 	
 INSERT INTO entrenamientos(id,fecha,hora,tiempo_calentamiento,equipo_id,saques_acertados,saques_totales,porcentaje_saques,recepciones_acertadas,recepciones_totales,porcentaje_recepciones,
 	colocaciones_acertadas,colocaciones_totales,porcentaje_colocaciones,defensas_acertadas,defensas_totales,porcentaje_defensas,bloqueos_acertados,bloqueos_totales,porcentaje_bloqueos,
-	remates_acertados,remates_totales,porcentaje_remates) VALUES (11,'2021-02-07','12:00',5,2,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
+	remates_acertados,remates_totales,porcentaje_remates) VALUES (11,'2021-12-07','12:00',5,2,20,20,1,5,20,0.25,5,20,0.25,5,20,0.25,5,20,0.25,15,20,0.75);
 		
 
 
