@@ -12,9 +12,9 @@ import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.Material;
+import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.LineaMaterialService;
-import org.springframework.samples.petclinic.service.impl.EntrenamientoServiceImpl;
-import org.springframework.samples.petclinic.service.impl.MaterialServiceImpl;
+import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -34,10 +34,10 @@ public class LineaMaterialValidator implements Validator {
 	private LineaMaterialService lineaMaterialService;
 
 	@Autowired
-	private MaterialServiceImpl materialService;
+	private MaterialService materialService;
 
 	@Autowired
-	private EntrenamientoServiceImpl entrenamientoService;
+	private EntrenamientoService entrenamientoService;
 
 	@Override
 	public void validate(Object target, Errors errors) {
@@ -45,15 +45,16 @@ public class LineaMaterialValidator implements Validator {
 
 		//Cantidad validation
 		if ( lineaMaterial.getCantidad()==null || lineaMaterial.getCantidad()<0) {
-			errors.rejectValue("cantidad", "La cantidad no debe ser nula ni menor que 0","La cantidad no debe ser nulo ni menor que 0");
-		}
-		if ((lineaMaterial.getCantidad()>puedesUsar(lineaMaterial)) && lineaMaterial.getCantidad()<=getStockTotal(lineaMaterial.getMaterial().getTipo())) {
+			LOG.warn("La cantidad no debe ser nulo ni menor que 0");
+			errors.rejectValue("cantidad", "error","La cantidad no debe ser nulo ni menor que 0");
+		} else if ((lineaMaterial.getCantidad()>puedesUsar(lineaMaterial)) && lineaMaterial.getCantidad()<=getStockTotal(lineaMaterial.getMaterial().getTipo())) {
 			int stockDisponible = puedesUsar(lineaMaterial);
-			errors.rejectValue("cantidad", "La cantidad máxima que puedes usar son "+stockDisponible+" unidades","La cantidad máxima que puedes usar son "+stockDisponible+" unidades");
-		}
-		if ( lineaMaterial.getCantidad()>getStockTotal(lineaMaterial.getMaterial().getTipo())) {
+			LOG.warn("La cantidad máxima que puedes usar son "+stockDisponible+" unidades");
+			errors.rejectValue("cantidad", "error","La cantidad máxima que puedes usar son "+stockDisponible+" unidades");
+		} else if ( lineaMaterial.getCantidad()>getStockTotal(lineaMaterial.getMaterial().getTipo())) {
 			int stock = getStockTotal(lineaMaterial.getMaterial().getTipo());
-			errors.rejectValue("cantidad", "La cantidad máxima que puedes usar son "+stock+" unidades","La cantidad máxima que puedes usar son "+stock+" unidades");
+			LOG.warn("La cantidad máxima que puedes usar son "+stock+" unidades");
+			errors.rejectValue("cantidad", "error","La cantidad máxima que puedes usar son "+stock+" unidades");
 		}//
 		
 	}

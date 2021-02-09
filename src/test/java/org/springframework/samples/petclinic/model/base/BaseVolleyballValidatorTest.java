@@ -12,6 +12,7 @@ import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.model.Estadistico;
 import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.LineaMaterial;
 import org.springframework.samples.petclinic.model.Material;
 import org.springframework.samples.petclinic.model.NumCamiseta;
 import org.springframework.samples.petclinic.model.Partido;
@@ -27,6 +28,7 @@ import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EquipoService;
 import org.springframework.samples.petclinic.service.EstadisticoService;
 import org.springframework.samples.petclinic.service.JugadorService;
+import org.springframework.samples.petclinic.service.LineaMaterialService;
 import org.springframework.samples.petclinic.service.MaterialService;
 import org.springframework.samples.petclinic.service.NumCamisetaService;
 import org.springframework.samples.petclinic.service.PartidoService;
@@ -91,6 +93,9 @@ public class BaseVolleyballValidatorTest {
 	
 	@Autowired
 	protected NumCamisetaService numCamisetaService;
+	
+	@Autowired
+	protected LineaMaterialService lineaMaterialService;
 	
 	/**
 	 * Crea un capitan con todos sus campos rellenos con un valor válido
@@ -270,6 +275,12 @@ public class BaseVolleyballValidatorTest {
 		String username= "bencrealc";
 		Optional<User> user = userService.findUser(username);
 		return user.get();
+	}
+	
+	@Transactional(readOnly = true)
+	protected LineaMaterial getLineaMaterialCorrecta() {
+		int id = 2;
+		return lineaMaterialService.findById(id).get();
 	}
 	
 	/**
