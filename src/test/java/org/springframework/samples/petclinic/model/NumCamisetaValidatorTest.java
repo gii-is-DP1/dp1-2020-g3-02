@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.samples.petclinic.component.NumCamisetaValidator;
@@ -47,6 +49,30 @@ class NumCamisetaValidatorTest extends BaseVolleyballValidatorTest {
         
         assertThat(errors.hasErrors()).isEqualTo(true);
         assertEquals(buildCadenaError(type, field, value, mensaje), errors.getFieldError(field).toString());
+    }
+	
+	//Se prueban los límites del intervalo en el que son correctos los números de camiseta
+	@ParameterizedTest
+	@ValueSource(strings = {"1", "50", "99"})
+	@Transactional(readOnly = true)
+    public void testsPositivosNumCamiseta(String numero) {
+        
+        // Obtención de datos correctos
+        NumCamiseta numCamiseta = getNumCamisetaCorrecto();
+        
+        // Campo con el valor a validar y mensaje de validación
+        String value = numero;
+        
+        // Modificación del campo
+        numCamiseta.setNumero(Integer.valueOf(value));
+
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(numCamiseta, "");
+        
+        // Validar
+        numCamisetaValidator.validate(numCamiseta, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
     }
 	
 	@Test
