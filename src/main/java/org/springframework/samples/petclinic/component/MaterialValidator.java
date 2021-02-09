@@ -31,8 +31,7 @@ public class MaterialValidator implements Validator{
 		if (material.getStock()<0) {
 			LOG.warn(ValidationConstant.STOCK_NEGATIVO + ": número de stock");
 			errors.rejectValue("stock", "error",ValidationConstant.STOCK_NEGATIVO);
-		}
-		if (material.getStock()==0) {
+		} else if (material.getStock()==0) {
 			LOG.warn(ValidationConstant.STOCK_ZERO + ": número de stock");
 			errors.rejectValue("stock", "error",ValidationConstant.STOCK_ZERO);
 		}
