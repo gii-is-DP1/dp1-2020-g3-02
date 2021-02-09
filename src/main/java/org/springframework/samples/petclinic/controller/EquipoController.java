@@ -59,6 +59,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.util.StringUtils;
 
 @Controller
 @RequestMapping("/equipos")
@@ -396,18 +397,20 @@ public class EquipoController {
 			//añadimos al equipo los jugadores seleccionados por el usuario
 			equipo.setJugadores(agregados);
 
-			//añadimos como capitán al jugador seleccionado por el usuario
-			Jugador capi = jugadorService.findById(Integer.valueOf(request.getParameter("capitan"))).get();
-			Capitan aux = capitanService.findByJugador(capi);
-			if(aux==null) {
-				LOG.info("El jugador elegido como capitán no es capián de ningún otro equipo.");
-				Capitan capitan = new Capitan(capi, 0, Actitud.POSITIVA);
-				Capitan capitanSave = capitanService.save(capitan);
-				equipo.setCapitan(capitanSave);
-			}
-			else {
-				LOG.info("El jugador elegido como capitán ya era capitán de otro equipo.");
-				equipo.setCapitan(aux);
+			if(!StringUtils.isEmpty(request.getParameter("capitan"))) {
+				//añadimos como capitán al jugador seleccionado por el usuario
+				Jugador capi = jugadorService.findById(Integer.valueOf(request.getParameter("capitan"))).get();
+				Capitan aux = capitanService.findByJugador(capi);
+				if(aux==null) {
+					LOG.info("El jugador elegido como capitán no es capián de ningún otro equipo.");
+					Capitan capitan = new Capitan(capi, 0, Actitud.POSITIVA);
+					Capitan capitanSave = capitanService.save(capitan);
+					equipo.setCapitan(capitanSave);
+				}
+				else {
+					LOG.info("El jugador elegido como capitán ya era capitán de otro equipo.");
+					equipo.setCapitan(aux);
+				}
 			}
 
 			//añadimos como entrenador del equipo al usuario que ha creado el equipo
