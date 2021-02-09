@@ -73,5 +73,6 @@ public class ValidationConstant {
 
 	/** MATERIALES */
 	public static final String STOCK_NEGATIVO ="No puedes pasar más cantidad de materiales de la que tienes";
+	public static final String STOCK_ZERO ="El valor que estás pasando es 0, cambia el valor que quieres pasar";
 
 }

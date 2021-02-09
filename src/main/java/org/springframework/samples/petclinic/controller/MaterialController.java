@@ -51,13 +51,13 @@ public class MaterialController {
 
 	@Autowired
 	private MaterialConverter materialConverter;
-	
+
 	@Autowired
 	private TipoMaterialConverter tipoMaterialConverter;
-	
+
 	@Autowired
 	private EstadoMaterialConverter estadoMaterialConverter;
-	
+
 
 	@GetMapping("/showmateriales")
 	public ModelAndView listadoMaterial() {
@@ -128,20 +128,20 @@ public class MaterialController {
 			TipoMaterial tipo = tipoMaterialConverter.convertToEntityAttribute(request.getParameter("tipo"));
 			EstadoMaterial estadoAnterior =estadoMaterialConverter.convertToEntityAttribute(request.getParameter("EstadoAnterior"));
 			EstadoMaterial estadoNuevo =estadoMaterialConverter.convertToEntityAttribute(request.getParameter("EstadoNuevo"));
-			
+
 			Material lalalaAntiguo= materialService.findByTipoAndEstado(tipo, estadoAnterior);
 			Material lalalaNuevo= materialService.findByTipoAndEstado(tipo, estadoNuevo);
-			
+
 			Integer cantidad = Integer.parseInt(request.getParameter("cantidad"));
 			lalalaAntiguo.setStock(lalalaAntiguo.getStock()-cantidad);
-			
+
 			ValidationUtils.invokeValidator(materialValidator, lalalaAntiguo, result);
 
 			if(result.hasErrors()) {
 				LOG.warn("Se han encontrado " + result.getErrorCount() + " errores de validación");
 				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 			}
-			
+
 			if(lalalaNuevo == null) {
 				Material materialNuevo = new Material();
 				materialNuevo.setStock(cantidad);
@@ -155,17 +155,17 @@ public class MaterialController {
 				materialService.save(lalalaAntiguo);
 				materialService.save(lalalaNuevo);
 			}
-			
-			
-			
+
+
+
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
-			
+
 		} catch (Exception e) {
 			LOG.error("Error al guardar el material");
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@RequestMapping(value = "/postmaterial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> addMaterial(HttpServletRequest request, @ModelAttribute(name="material") Material material, BindingResult result) {
 		try {
@@ -183,16 +183,16 @@ public class MaterialController {
 				lalala.setStock(lalala.getStock()+cantidad);
 				materialService.save(lalala);
 			}
-			
-			
+
+
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
-			
+
 		} catch (Exception e) {
 			LOG.error("Error al guardar el material");
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@GetMapping("/eliminarmaterial")
 	public String eliminarMaterial(@RequestParam(name="id",required=true) int id, Model model) {
 
@@ -203,17 +203,17 @@ public class MaterialController {
 
 	} 
 
-	
+
 	@RequestMapping(value = "/removeMaterial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> removeMaterial(HttpServletRequest request, @ModelAttribute(name="material") Material material, BindingResult result) {
 		try {
 			TipoMaterial tipo = tipoMaterialConverter.convertToEntityAttribute(request.getParameter("tipo"));
 			EstadoMaterial estado =estadoMaterialConverter.convertToEntityAttribute(request.getParameter("EstadodelMat"));
-			
+
 			Material materialPorTipoEstado = materialService.findByTipoAndEstado(tipo, estado);
-			
+
 			Integer cantidad = Integer.parseInt(request.getParameter("cantidad"));
-			
+
 			if(materialPorTipoEstado == null) {
 				Material materialNuevo = new Material();
 				materialNuevo.setStock(0);
@@ -225,18 +225,18 @@ public class MaterialController {
 			} else {
 				materialPorTipoEstado.setStock(materialPorTipoEstado.getStock()-cantidad);
 			}
-			
+
 			ValidationUtils.invokeValidator(materialValidator, materialPorTipoEstado, result);
 
 			if(result.hasErrors()) {
 				LOG.warn("Se han encontrado " + result.getErrorCount() + " errores de validación");
 				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 			}
-			
+
 			materialService.save(materialPorTipoEstado);
-			
+
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
-			
+
 		} catch (Exception e) {
 			LOG.error("Error al eliminar el material");
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.BAD_REQUEST);
