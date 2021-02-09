@@ -123,6 +123,30 @@ public class PrivilegioServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
+	public void testUpdatePrivilegio() {
+		
+		Optional<Jugador> jugador= jugadorService.findById(3);
+		Jugador player= jugador.get();
+		
+		Optional<Equipo> equipo= equipoService.findById(2);
+		Equipo team= equipo.get();
+		
+		String descripcion = "de cuerdos";
+		
+		Privilegio privilegio = new Privilegio(player, team, TipoPrivilegio.PARTIDOS, descripcion);	
+
+		Privilegio priv = privilegioService.updatePrivilegio(privilegio);
+
+		assertNotNull(priv);
+		
+		assertEquals(priv.getJugador(), player);
+		assertEquals(priv.getDescripcion(), "de cuerdos");
+		assertEquals(priv.getEquipo(), team);
+		
+	}
+	
+	@Test
 	@Transactional
 	public void testSavePrivilegios() {
 		
@@ -143,6 +167,18 @@ public class PrivilegioServiceTest {
 		assertEquals(priv.getJugador(), player);
 		assertEquals(priv.getDescripcion(), "de cuerdos");
 		assertEquals(priv.getEquipo(), team);
+
+	}
+	
+	@Test
+	@Transactional
+	public void testDeleteAllInEquipo() {
+		
+		int totalesAntes = privilegioService.findAll().size();
+		int equipo = privilegioService.findByEquipo(equipoService.findById(1).get()).size();
+		privilegioService.deleteAllInEquipo(1);
+
+		assertEquals(privilegioService.findAll().size(),totalesAntes-equipo);
 
 	}
 

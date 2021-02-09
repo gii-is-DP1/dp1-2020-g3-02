@@ -86,5 +86,13 @@ class RealizaEjercicioServiceTest {
 		assertEquals(rea.getFecha(), LocalDate.of(2020, 11, 5));
 
 	}
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void testFindByEjercicio() {
+		int id=1;
+		List<RealizaEjercicio> realiza=realizaEjercicioService.findByEjercicio(id);
+		assertEquals(realiza.size(), 2);
+	}
 
 }

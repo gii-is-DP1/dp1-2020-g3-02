@@ -43,10 +43,23 @@ class EjercicioIndividualControllerTest extends BaseControllerTest {
 	@Test
 	void testTablaRealizados() throws Exception {
 
+		
+		
 		mockMvc.perform(get("/ejercicios/tablaRealizados"))
 				.andExpect(jsonPath("$.data[0].posicionJugador", is("COLOCADOR")))
 				.andExpect(status().isOk());
 	}
+	
+	/*@WithMockUser(value = "spring")
+	@Test
+	void testTablaRealizadosCasoNegativo() throws Exception {
+
+		when(realizaEjercicioService.findAll()).thenReturn(Lists.newArrayList());
+		
+		mockMvc.perform(get("/ejercicios/tablaRealizados"))
+				.andExpect(jsonPath("$.data[0].posicionJugador", is("COLOCADOR")))
+				.andExpect(status().isBadRequest());
+	}*/
 	
 	@WithMockUser(value = "spring")
 	@Test

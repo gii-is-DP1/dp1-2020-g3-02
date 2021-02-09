@@ -71,7 +71,7 @@
 		<div class="row my-3">
 		<div class="col-lg-4"></div>
 			<div class="col-lg-4">
-				<button onclick="return crear();" class="btn btn-primary btn-lg btn-block" type="submit">Añadir
+				<button sec:authorize="hasAuthority('entrenador')"   onclick="return crear();" class="btn btn-primary btn-lg btn-block" type="submit">Añadir
 					equipo</button>
 			</div>
 		<div class="col-lg-4"></div>
