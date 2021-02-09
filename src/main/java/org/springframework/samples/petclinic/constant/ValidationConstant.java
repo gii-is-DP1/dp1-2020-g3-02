@@ -30,6 +30,7 @@ public class ValidationConstant {
 	
 	/** EQUIPO */
 	public static final String CATEGORIA_ERROR = "La categoría es requerida y debe tener un mínimo de 3 caracteres";
+	public static final String CATEGORIA_EXISTE_ERROR = "La categorría que intenta introducir ya existe";
 	public static final String LIGA_ERROR = "La liga es requerida y debe tener un mínimo de 3 caracteres";
 	
 	/** EQUIPO */

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.constant.ValidationConstant;
 import org.springframework.samples.petclinic.model.Equipo;
 import org.springframework.samples.petclinic.service.EquipoService;
-import org.springframework.samples.petclinic.service.JugadorService;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -33,6 +32,12 @@ public class EquipoValidator implements Validator{
 				if ( StringUtils.isEmpty(equipo.getCategoria()) || equipo.getCategoria().length() < 3) {
 					LOG.warn(ValidationConstant.CATEGORIA_ERROR);
 					errors.rejectValue("categoria", "error",ValidationConstant.CATEGORIA_ERROR);
+				} else {
+					Equipo equipoCategoria = equipoService.findByCategoria(equipo.getCategoria());
+					if(equipoCategoria != null && equipoCategoria.getId() != equipo.getId()) {
+						LOG.warn(ValidationConstant.CATEGORIA_EXISTE_ERROR);
+						errors.rejectValue("categoria", "error",ValidationConstant.CATEGORIA_EXISTE_ERROR);
+					}
 				}
 				//liga validation
 				if ( StringUtils.isEmpty(equipo.getLiga()) || equipo.getLiga().length() < 3) {
