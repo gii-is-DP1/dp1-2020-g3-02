@@ -100,6 +100,18 @@ public class AutorizacionServiceTest {
 		assertEquals(autorizacion.size(), 3);//
 	}
 	
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void testFindByJugadorAndTipoDataFinding() {
+		int jugador_id=1;
+		Jugador jugador = jugadorService.findById(jugador_id).get();
+		TipoAutorizacion tipo = TipoAutorizacion.RESPONSABILIDADLESION;
+		Autorizacion autorizacion =autorizacionService.findByJugadorAndTipo(jugador,tipo);
+		assertEquals(autorizacion.getTipoAutorizacion(), tipo);
+		assertEquals(autorizacion.getJugador(), jugador);
+	}
+	
 	@Test
 	@Transactional(readOnly = true)
 	public void testFindByJugadorInitialDataNotFinding() {

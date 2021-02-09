@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service;
 import static org.junit.Assert.assertEquals;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +15,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
+import org.springframework.samples.petclinic.model.Jugador;
+import org.springframework.samples.petclinic.model.Partido;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class EstadisticaPersonalPartidoServiceTests {
+	
+	@Autowired
+	private JugadorService jugadorService;
+	
+	@Autowired
+	private PartidoService partidoService;
 	
 	@Autowired
 	@Qualifier("estadisticaPersonalPartidoService")
@@ -29,6 +38,45 @@ public class EstadisticaPersonalPartidoServiceTests {
 	public void testFindAllInitialDataFinding() {
 		List<EstadisticaPersonalPartido> ePartido = ePartidoService.findAll();
 		assertNotNull(ePartido);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void testFindByJugadorDataFinding() {
+		Integer jugadorId = 1;
+	
+		List<EstadisticaPersonalPartido> ePartido = ePartidoService.findByJugador(jugadorId);
+		assertNotNull(ePartido);
+		assertEquals(ePartido.get(0).getJugador().getId(), jugadorId);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void testFindByPartidoDataFinding() {
+		Integer partidoId = 2;
+		List<EstadisticaPersonalPartido> ePartido = ePartidoService.findByPartido(partidoId);
+		assertNotNull(ePartido);
+		assertEquals(ePartido.get(0).getPartido().getId(), partidoId);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void testFindByJugadorAndPartidoDataFinding() {
+		Integer jugadorId = 1;
+		Integer partidoId = 2;
+		EstadisticaPersonalPartido ePartido = ePartidoService.findByJugadorAndPartido(jugadorId,partidoId);
+		assertNotNull(ePartido);
+		assertEquals(ePartido.getPartido().getId(), partidoId);
+		assertEquals(ePartido.getJugador().getId(), jugadorId);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void testFindByJugadorAndPartidoDataNotFinding() {
+		Integer jugadorId = 1;
+		Integer partidoId = 1;
+		EstadisticaPersonalPartido ePartido = ePartidoService.findByJugadorAndPartido(jugadorId,partidoId);
+		assertNull(ePartido);
 	}
 	
 	@Test
@@ -188,6 +236,22 @@ public class EstadisticaPersonalPartidoServiceTests {
 		assertEquals(ePartido.size(), 0);
 	}
 	
+	@Test
+	@Transactional
+	public void testSaveEstadisticaPersonalPartido() {
+		
+		EstadisticaPersonalPartido estadistica = new EstadisticaPersonalPartido();
+		Jugador jugador = jugadorService.findById(1).get();
+		Partido partido = partidoService.findById(1).get();
+		
+		estadistica.setJugador(jugador);
+		estadistica.setPartido(partido);
+		EstadisticaPersonalPartido statPartido = ePartidoService.save(estadistica);
+		
+		assertNotNull(statPartido);
+		assertEquals(statPartido.getJugador(), jugador);
+		assertEquals(statPartido.getPartido(), partido);
+	}
 	
 
 }
