@@ -23,7 +23,6 @@ import org.springframework.samples.petclinic.constant.ViewConstant;
 import org.springframework.samples.petclinic.converter.EstadisticasConverter;
 import org.springframework.samples.petclinic.converter.JugadorConverter;
 import org.springframework.samples.petclinic.enumerate.Sistema;
-import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalEntrenamiento;
 import org.springframework.samples.petclinic.model.EstadisticaPersonalPartido;
 import org.springframework.samples.petclinic.model.Estadistico;
@@ -33,7 +32,6 @@ import org.springframework.samples.petclinic.model.SistemaJuego;
 import org.springframework.samples.petclinic.model.Sustitucion;
 import org.springframework.samples.petclinic.model.auxiliares.DataTableResponse;
 import org.springframework.samples.petclinic.model.auxiliares.JugadorDTO;
-import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesEntrenamientoStats;
 import org.springframework.samples.petclinic.model.estadisticas.EstadisticasPersonalesStats;
 import org.springframework.samples.petclinic.service.EntrenamientoService;
 import org.springframework.samples.petclinic.service.EstadisticaPersonalEntrenamientoService;
@@ -55,7 +53,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/estadisticas")
-public class EstadisticasController {
+public class EstadisticasPartidoController {
 
 	@Autowired
 	private UserService userService;
@@ -93,21 +91,13 @@ public class EstadisticasController {
 	@Autowired
 	private EstadisticoService estadisticoService;
 
-	private static final Log LOG = LogFactory.getLog(EstadisticasController.class);
+	private static final Log LOG = LogFactory.getLog(EstadisticasPartidoController.class);
 
 	@GetMapping("/estadisticasPartidoForm/{partidoId}")
 	public String formularioEstadisticasPartido(@PathVariable("partidoId") int partidoId, Model model) {
 
 		model.addAttribute("partido", partidoService.findById(partidoId).get());
 		return ViewConstant.VIEW_ESTADISTICAS_PARTIDO_FORM;
-	}
-
-	@GetMapping("/estadisticasEntrenamientoForm/{entrenamientoId}")
-	public String formularioEstadisticasEntrenamiento(@PathVariable("entrenamientoId") int entrenamientoId,
-			Model model) {
-
-		model.addAttribute("entrenamiento", entrenamientoService.findById(entrenamientoId).get());
-		return ViewConstant.VIEW_ESTADISTICAS_ENTRENAMIENTO_FORM;
 	}
 
 	@RequestMapping(value = "/tablaIntroducirEstadisticas/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
@@ -144,31 +134,6 @@ public class EstadisticasController {
 		}
 	}
 
-	@RequestMapping(value = "/tablaIntroducirEstadisticasEntrenamiento/{entrenamientoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<DataTableResponse<JugadorDTO>> tablaIntroducirEstadisticasEntrenamiento(
-			@PathVariable("entrenamientoId") int entrenamientoId) {
-		try {
-			Entrenamiento entrenamiento = entrenamientoService.findById(entrenamientoId).get();
-			Set<Jugador> jugadores = new HashSet<Jugador>();
-			jugadores.addAll(entrenamiento.getJugadores());
-
-			List<JugadorDTO> jugadoresDTO = new ArrayList<JugadorDTO>();
-			for (Jugador jugador : jugadores) {
-				JugadorDTO jugadorDTO = new JugadorDTO();
-				jugadorDTO = jugadorConverter.convertParcialJugadorToJugadorDTO(jugador);
-				jugadorDTO = obtenerDatosEstadisticosJugadorEntrenamiento(jugadorDTO, jugador.getId(), entrenamientoId);
-				jugadorDTO.setNumCamiseta(numCamisetaService
-						.findByEquipoAndJugador(entrenamiento.getEquipo().getId(), jugador.getId()).getNumero());
-				jugadoresDTO.add(jugadorDTO);
-			}
-
-			DataTableResponse<JugadorDTO> data = new DataTableResponse<JugadorDTO>(jugadoresDTO);
-			return new ResponseEntity<DataTableResponse<JugadorDTO>>(data, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<DataTableResponse<JugadorDTO>>(HttpStatus.BAD_REQUEST);
-		}
-	}
-
 	@RequestMapping(value = "/obtenerEstadisticasJugadores/{partidoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<EstadisticasPersonalesStats>> obtenerEstadisticasJugadores(
 			@PathVariable("partidoId") int partidoId) {
@@ -188,29 +153,6 @@ public class EstadisticasController {
 			return new ResponseEntity<List<EstadisticasPersonalesStats>>(estadisticasPersonalesStats, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<List<EstadisticasPersonalesStats>>(HttpStatus.BAD_REQUEST);
-		}
-	}
-
-	@RequestMapping(value = "/obtenerEstadisticasJugadoresEntrenamiento/{entrenamientoId}", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<EstadisticasPersonalesEntrenamientoStats>> obtenerEstadisticasJugadoresEntrenamiento(
-			@PathVariable("entrenamientoId") int entrenamientoId) {
-		try {
-
-			List<EstadisticaPersonalEntrenamiento> estadisticasPersonalesPartidos = estadisticaPersonalEntrenamientoService
-					.findByEntrenamiento(entrenamientoId);
-
-			List<EstadisticasPersonalesEntrenamientoStats> estadisticasPersonalesStats = new ArrayList<EstadisticasPersonalesEntrenamientoStats>();
-
-			for (int i = 0; i < estadisticasPersonalesPartidos.size(); i++) {
-				EstadisticasPersonalesEntrenamientoStats estadisticasPersonalesEntrenamientoStats = estadisticasConverter
-						.convertEstadisticasToEstadisticasEntrenamientoStats(estadisticasPersonalesPartidos.get(i));
-				estadisticasPersonalesStats.add(estadisticasPersonalesEntrenamientoStats);
-			}
-
-			return new ResponseEntity<List<EstadisticasPersonalesEntrenamientoStats>>(estadisticasPersonalesStats,
-					HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<List<EstadisticasPersonalesEntrenamientoStats>>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -325,123 +267,6 @@ public class EstadisticasController {
 				estadistica.setPartido(partido);
 
 				EstadisticaPersonalPartido estadisticaSave = estadisticaPersonalPartidoService.save(estadistica);
-				LOG.info("Estadística guardada con éxito: " + estadisticaSave.getId());
-			}
-
-			return new ResponseEntity<String>(HttpStatus.OK);
-		} catch (Exception e) {
-			String data = request.getParameter("comandoIntroducido").trim();
-			return new ResponseEntity<String>(data, HttpStatus.BAD_REQUEST);
-		}
-	}
-
-	@RequestMapping(value = "/saveComandosEntrenamiento/{entrenamientoId}", method = RequestMethod.POST)
-	public ResponseEntity<String> saveComandosEntrenamiento(HttpServletRequest request,
-			@PathVariable("entrenamientoId") int entrenamientoId) {
-		try {
-			Principal principal = request.getUserPrincipal();
-			Estadistico estadistico = estadisticoService.findByUser(userService.findByUsername(principal.getName()));
-
-			Entrenamiento entrenamiento = entrenamientoService.findById(entrenamientoId).get();
-			List<Jugador> jugadores = new ArrayList<Jugador>(
-					entrenamiento.getJugadores().stream().collect(Collectors.toList()));
-
-			Map<Integer, EstadisticaPersonalEntrenamiento> estadisticasMap = new HashMap<Integer, EstadisticaPersonalEntrenamiento>();
-			Set<Integer> dorsales = new HashSet<Integer>(); // Al ser un entrenamiento ahora contará como set de ids
-			for (Jugador jugador : jugadores) {
-				EstadisticaPersonalEntrenamiento estadistica = new EstadisticaPersonalEntrenamiento();
-				Integer id = jugador.getId();
-
-				dorsales.add(id);
-
-				EstadisticaPersonalEntrenamiento stat = estadisticaPersonalEntrenamientoService
-						.findByJugadorAndEntrenamiento(jugador.getId(), entrenamientoId);
-				if (stat != null) {
-					BeanUtils.copyProperties(stat, estadistica);
-					estadisticasMap.put(id, estadistica);
-				}
-			}
-
-			String data = request.getParameter("comandoIntroducido").trim();
-			String error = "Errores de Sintaxis: ";
-
-			String[] dataActions = data.split(" ");
-
-			Set<Integer> dorsalesEditSet = new HashSet<Integer>();
-			for (int i = 0; i < dataActions.length; i++) {
-				boolean correccion = dataActions[i].startsWith("%");
-
-				if (!correccion) {
-					String[] dataActionsParts = dataActions[i].split(",");
-					error = gestionErroresComandosEntrenamiento(error, dataActions, i, dorsales, correccion);
-					if (error.equals("Errores de Sintaxis: ")) {
-						Integer dorsal = Integer.valueOf(dataActionsParts[0]);
-						String accion = dataActionsParts[1];
-						String acierto = dataActionsParts[2];
-
-						dorsalesEditSet.add(dorsal);
-
-						if (estadisticasMap.containsKey(dorsal)) {
-							EstadisticaPersonalEntrenamiento estadistica = estadisticasMap.get(dorsal);
-
-							estadistica = setEstadisticaCorrecta(estadistica, accion, acierto, correccion);
-
-							estadisticasMap.put(dorsal, estadistica);
-						} else {
-							EstadisticaPersonalEntrenamiento estadistica = new EstadisticaPersonalEntrenamiento();
-
-							estadistica = setEstadisticaCorrecta(estadistica, accion, acierto, correccion);
-
-							estadisticasMap.put(dorsal, estadistica);
-						}
-					}
-				} else {
-					dataActions[i].replace("%", "");
-					error = gestionErroresComandos(error, dataActions, i, dorsales, correccion);
-					String cadenaCorreccion = dataActions[i].replace("%", "");
-					String[] dataActionsParts = cadenaCorreccion.split(",");
-					error = gestionErroresComandos(error, dataActions, i, dorsales, correccion);
-					if (error.equals("Errores de Sintaxis: ")) {
-						Integer dorsal = Integer.valueOf(dataActionsParts[0]);
-						String accion = dataActionsParts[1];
-						String acierto = dataActionsParts[2];
-
-						dorsalesEditSet.add(dorsal);
-
-						if (estadisticasMap.containsKey(dorsal)) {
-							EstadisticaPersonalEntrenamiento estadistica = estadisticasMap.get(dorsal);
-
-							estadistica = setEstadisticaCorrecta(estadistica, accion, acierto, correccion);
-
-							estadisticasMap.put(dorsal, estadistica);
-						} else {
-							EstadisticaPersonalEntrenamiento estadistica = new EstadisticaPersonalEntrenamiento();
-
-							estadistica = setEstadisticaCorrecta(estadistica, accion, acierto, correccion);
-
-							estadisticasMap.put(dorsal, estadistica);
-						}
-					}
-				}
-			}
-
-			if (!error.equals("Errores de Sintaxis: ")) {
-				LOG.info(data);
-				LOG.warn(error);
-				return new ResponseEntity<String>(error, HttpStatus.BAD_REQUEST);
-			}
-
-			List<Integer> dorsalesEdit = new ArrayList<Integer>(dorsalesEditSet);
-			for (Integer dorsal : dorsalesEdit) {
-				EstadisticaPersonalEntrenamiento estadistica = estadisticasMap.get(dorsal);
-				Jugador jugador = jugadorService.findById(dorsal).get();
-
-				estadistica.setJugador(jugador);
-				estadistica.setEstadistico(estadistico);
-				estadistica.setEntrenamiento(entrenamiento);
-
-				EstadisticaPersonalEntrenamiento estadisticaSave = estadisticaPersonalEntrenamientoService
-						.save(estadistica);
 				LOG.info("Estadística guardada con éxito: " + estadisticaSave.getId());
 			}
 
@@ -593,123 +418,6 @@ public class EstadisticasController {
 			return new ResponseEntity<List<String>>(camposNegativos, HttpStatus.OK);
 		} catch (Exception e) {
 			LOG.error("Excepción actualizando el viaje");
-			return new ResponseEntity(HttpStatus.BAD_REQUEST);
-		}
-
-	}
-
-	@RequestMapping(value = "/rellenarDatosEntrenamiento", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<String>> rellenarDatosEntrenamiento(HttpServletRequest request) {
-		try {
-			int entrenamientoId = Integer.parseInt(request.getParameter("entrenamientoId"));
-
-			String hour = request.getParameter("hour");
-
-			Entrenamiento entrenamiento = entrenamientoService.findById(entrenamientoId).get();
-			Set<Jugador> jugadores = entrenamiento.getJugadores();
-
-			entrenamiento.setHora(hour);
-
-			Entrenamiento entrenamiento0 = entrenamientoService.save(entrenamiento);
-			Enumeration<String> parameters = request.getParameterNames();
-			List<String> camposNegativos = new ArrayList<String>();
-
-			while (parameters.hasMoreElements()) {
-
-				String clave = parameters.nextElement();
-
-				if (!(clave.equals("entrenamientoId") || clave.equals("hour") || clave.equals("_csrf"))) {
-					String accion = clave.split(",")[0];
-					int jugadorId = Integer.parseInt(clave.split(",")[1]);
-					Jugador jugador = jugadorService.findById(jugadorId).get();
-					Integer dato = 0;
-					try {
-						dato = Integer.parseInt(request.getParameter(clave));
-					} catch (Exception e) {
-						LOG.error("Hueco en blanco");
-
-					}
-
-					EstadisticaPersonalEntrenamiento estadisticas = estadisticaPersonalEntrenamientoService
-							.findByJugadorAndEntrenamiento(jugadorId, entrenamientoId);
-					if (estadisticas == null) {
-						estadisticas = new EstadisticaPersonalEntrenamiento();
-						estadisticas.setEntrenamiento(entrenamiento);
-						estadisticas.setJugador(jugador);
-					}
-
-					if (dato < 0) {
-						camposNegativos.add(clave);
-					}
-
-					else if (accion.equals("faltas")) {
-						estadisticas.setNumFaltasTotales(dato);
-					}
-
-					else if (accion.startsWith("a")) {
-						if (accion.contains("saque")) {
-							estadisticas.setSaquesTotales(
-									estadisticas.getSaquesTotales() + dato - estadisticas.getSaquesAcertados());
-							estadisticas.setSaquesAcertados(dato);
-						} else if (accion.contains("recepcion")) {
-							estadisticas.setRecepcionesTotales(estadisticas.getRecepcionesTotales() + dato
-									- estadisticas.getRecepcionesAcertadas());
-							estadisticas.setRecepcionesAcertadas(dato);
-						} else if (accion.contains("colocacion")) {
-							estadisticas.setColocacionesTotales(estadisticas.getColocacionesTotales() + dato
-									- estadisticas.getColocacionesAcertadas());
-							estadisticas.setColocacionesAcertadas(dato);
-						} else if (accion.contains("defensa")) {
-							estadisticas.setDefensasTotales(
-									estadisticas.getDefensasTotales() + dato - estadisticas.getDefensasAcertadas());
-							estadisticas.setDefensasAcertadas(dato);
-						} else if (accion.contains("bloqueo")) {
-							estadisticas.setBloqueosTotales(
-									estadisticas.getBloqueosTotales() + dato - estadisticas.getBloqueosAcertados());
-							estadisticas.setBloqueosAcertados(dato);
-						} else if (accion.contains("remate")) {
-							estadisticas.setRematesTotales(
-									estadisticas.getRematesTotales() + dato - estadisticas.getRematesAcertados());
-							estadisticas.setRematesAcertados(dato);
-						} else if (accion.contains("finta")) {
-							estadisticas.setFintasTotales(
-									estadisticas.getFintasTotales() + dato - estadisticas.getFintasAcertadas());
-							estadisticas.setFintasAcertadas(dato);
-						} else if (accion.contains("ataque")) {
-							estadisticas.setNumAtaquesRapidosTotales(estadisticas.getNumAtaquesRapidosTotales() + dato
-									- estadisticas.getNumAtaquesRapidosAcertados());
-							estadisticas.setNumAtaquesRapidosAcertados(dato);
-						}
-					} else {
-						if (accion.contains("saque")) {
-							estadisticas.setSaquesTotales(estadisticas.getSaquesAcertados() + dato);
-						} else if (accion.contains("recepcion")) {
-							estadisticas.setRecepcionesTotales(estadisticas.getRecepcionesAcertadas() + dato);
-						} else if (accion.contains("colocacion")) {
-							estadisticas.setColocacionesTotales(estadisticas.getColocacionesAcertadas() + dato);
-						} else if (accion.contains("defensa")) {
-							estadisticas.setDefensasTotales(estadisticas.getDefensasAcertadas() + dato);
-						} else if (accion.contains("bloqueo")) {
-							estadisticas.setBloqueosTotales(estadisticas.getBloqueosAcertados() + dato);
-						} else if (accion.contains("remate")) {
-							estadisticas.setRematesTotales(estadisticas.getRematesAcertados() + dato);
-						} else if (accion.contains("finta")) {
-							estadisticas.setFintasTotales(estadisticas.getFintasAcertadas() + dato);
-						} else if (accion.contains("ataque")) {
-							estadisticas
-									.setNumAtaquesRapidosTotales(estadisticas.getNumAtaquesRapidosAcertados() + dato);
-						}
-					}
-
-					estadisticaPersonalEntrenamientoService.save(estadisticas);
-
-				}
-
-			}
-
-			return new ResponseEntity<List<String>>(camposNegativos, HttpStatus.OK);
-		} catch (Exception e) {
-			LOG.error("Excepción actualizando las estadísticas del entrenamiento");
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 

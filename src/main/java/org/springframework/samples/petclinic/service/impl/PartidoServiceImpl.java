@@ -170,8 +170,8 @@ public class PartidoServiceImpl extends AbstractEstadisticasService<Partido> imp
 	}
 
 	@Override
-	public List<Partido> findByPartidoFinalizadoFalse() {
-		return partidoRepository.findByPartidoFinalizadoFalse();
+	public List<Partido> findByPartidoFinalizadoFalseOrderByFecha() {
+		return partidoRepository.findByPartidoFinalizadoFalseOrderByFecha();
 	}
 
 }

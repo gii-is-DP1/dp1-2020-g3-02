@@ -61,5 +61,8 @@ public class Entrenamiento extends EstadisticasEntity{
 	@Column(name = "tiempo_mejora_fisico", nullable = false, columnDefinition = "integer default 0")
 	@Min(0)
 	private int tiempoMejoraFisico;
+	
+	@Column(name = "entrenamiento_finalizado", nullable = false, columnDefinition = "integer default 0")
+	private boolean entrenamientoFinalizado;
 
 }

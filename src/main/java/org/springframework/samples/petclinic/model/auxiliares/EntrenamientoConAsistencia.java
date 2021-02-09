@@ -20,4 +20,6 @@ public class EntrenamientoConAsistencia {
 	private String hora;
 	
 	private List<Integer> asistencia;
+	
+	private Integer numJugadores;
 }

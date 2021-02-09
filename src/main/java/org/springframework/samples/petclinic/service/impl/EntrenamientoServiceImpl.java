@@ -167,4 +167,10 @@ public class EntrenamientoServiceImpl extends AbstractEstadisticasService<Entren
 		}
 		
 	}
+
+	@Override
+	public List<Entrenamiento> findByEntrenamientoFinalizadoFalse() {
+		
+		return entrenamientoRepository.findByEntrenamientoFinalizadoFalse();
+	}
 }

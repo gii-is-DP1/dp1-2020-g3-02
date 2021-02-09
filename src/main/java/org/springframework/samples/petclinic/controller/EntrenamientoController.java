@@ -281,12 +281,11 @@ public class EntrenamientoController {
 		return ViewConstant.VIEW_NAVBAR;
 	}
 
-
 	@RequestMapping(value = "/findEntrenamientos", method = RequestMethod.GET, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<DataTableResponse<EntrenamientoConAsistencia>> listadoDeEntrenamientos(HttpServletRequest request) {
 		try {
 			List<EntrenamientoConAsistencia> entrenamientosSinEquipo = new ArrayList<EntrenamientoConAsistencia>();
-			List<Entrenamiento> entrenamientos = entrenamientoService.findByFechaAfter(LocalDate.now().minusDays(1));
+			List<Entrenamiento> entrenamientos = entrenamientoService.findByEntrenamientoFinalizadoFalse(); 
 
 			Principal principal = request.getUserPrincipal();
 			List<String> categorias = new ArrayList<String>();

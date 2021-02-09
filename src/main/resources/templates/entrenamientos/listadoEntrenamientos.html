@@ -193,7 +193,7 @@
 // FUNCIONES PARA EL CONTROL DE LAS ASISTENCIAS
 
 	function irAFormEstadisticas(data,entrenamientoId){
-		window.location.href = "/estadisticas/estadisticasEntrenamientoForm/"+entrenamientoId;
+		window.location.href = "/estadisticasEntrenamiento/estadisticasEntrenamientoForm/"+entrenamientoId;
 	}
 
 	function enviarAsiste(data){
@@ -323,8 +323,13 @@
 								"Lesionado</button>";
 						 }
 					 }else{
-						 return " <button type='button'  class='btn btn-outline-dark' onclick='return irAFormEstadisticas(this,"+row['id'] +");' title='Tomar estadísiticas'>"
-							+"Tomar estadísticas </button>";
+						 if(parseInt(row['numJugadores']) >= 1){
+							 return " <button type='button'  class='btn btn-outline-dark' onclick='return irAFormEstadisticas(this,"+row['id'] +");' title='Tomar estadísiticas'>"
+								+"Tomar estadísticas </button>";
+						 }else{
+							 return " <button type='button' style='visibility: hidden' class='btn btn-outline-dark' onclick='return irAFormEstadisticas(this,"+row['id'] +");' title='Tomar estadísiticas'>"
+								+"Tomar estadísticas </button>";
+						 }
 					 }
 					
 				 }

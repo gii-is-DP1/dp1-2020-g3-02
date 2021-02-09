@@ -361,7 +361,7 @@ public class PartidoController {
 	public ResponseEntity<DataTableResponse<PartidoConAsistencia>> listadoDePartidos(HttpServletRequest request) {
 		try {
 			List<PartidoConAsistencia> partidosSinEquipo = new ArrayList<PartidoConAsistencia>();
-			List<Partido> partidos = partidoService.findByPartidoFinalizadoFalse();
+			List<Partido> partidos = partidoService.findByPartidoFinalizadoFalseOrderByFecha();
 			
 			Principal principal = request.getUserPrincipal();
 			List<String> categorias = new ArrayList<String>();

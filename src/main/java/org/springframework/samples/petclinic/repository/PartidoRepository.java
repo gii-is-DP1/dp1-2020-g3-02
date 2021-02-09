@@ -14,5 +14,5 @@ public interface PartidoRepository extends ExtendedJpaRepository<Partido>{
 	public List<Partido> findByFechaAfter(LocalDate date);
 	public List<Partido> findByEquipoAndFechaAndHoraBetween(Equipo equipo, LocalDate fecha, String hora1, String hora2);
 	public List<Partido> findByEquipo(Equipo equipo);
-	public List<Partido> findByPartidoFinalizadoFalse();
+	public List<Partido> findByPartidoFinalizadoFalseOrderByFecha();
 }
