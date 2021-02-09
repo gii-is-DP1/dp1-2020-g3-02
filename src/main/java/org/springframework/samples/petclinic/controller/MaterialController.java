@@ -131,7 +131,10 @@ public class MaterialController {
 
 			Material lalalaAntiguo= materialService.findByTipoAndEstado(tipo, estadoAnterior);
 			Material lalalaNuevo= materialService.findByTipoAndEstado(tipo, estadoNuevo);
-
+			if(lalalaAntiguo==null) {
+				 lalalaAntiguo = new Material("", tipoMaterialConverter.convertToEntityAttribute(request.getParameter("tipo")),
+						0, estadoMaterialConverter.convertToEntityAttribute(request.getParameter("EstadoAnterior")));
+			}
 			Integer cantidad = Integer.parseInt(request.getParameter("cantidad"));
 			lalalaAntiguo.setStock(lalalaAntiguo.getStock()-cantidad);
 
