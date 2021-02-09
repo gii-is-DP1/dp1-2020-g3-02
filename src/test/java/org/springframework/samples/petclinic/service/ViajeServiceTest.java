@@ -184,6 +184,43 @@ public class ViajeServiceTest {
 	}
 	
 	@Test
+	@Transactional(readOnly = true)
+	public void testFindPersonalesByPartidoAndTipoViajeIDADataFinding() {
+		Partido partido = partidoService.findById(1).get();
+
+		List<Personales> personal = viajeSevice.findPersonalesByPartidoAndTipoViaje(partido, "IDA");
+		assertEquals(personal.size(), 2);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void testFindPersonalesByPartidoAndTipoViajeVUELTADataFinding() {
+		Partido partido = partidoService.findById(1).get();
+
+		List<Personales> personal = viajeSevice.findPersonalesByPartidoAndTipoViaje(partido, "VUELTA");
+		assertEquals(personal.size(), 1);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void testFindPersonalesByPartidoAndTipoViajeIDAYVUELTADataFinding() {
+		Partido partido = partidoService.findById(1).get();
+
+		List<Personales> personal = viajeSevice.findPersonalesByPartidoAndTipoViaje(partido, "IDAYVUELTA");
+		assertEquals(personal.size(), 0);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void testFindByJugadorAndPartidoAndTipoViajeDataFinding() {
+		Partido partido = partidoService.findById(1).get();
+		Jugador jugador = jugadorService.findById(1).get();
+		Viaje viaje = viajeSevice.findByJugadorAndPartidoAndTipoViaje(jugador,partido, TipoViaje.IDA);
+		assertEquals(viaje.getJugador(), jugador);
+		assertEquals(viaje.getPartido(), partido);
+	}
+	
+	@Test
 	@Transactional
 	public void testSaveViaje() {
 		Jugador jugador = jugadorService.findById(1).get();

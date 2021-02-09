@@ -54,12 +54,6 @@ public class AutorizacionServiceImpl extends AbstractService<Autorizacion> imple
 	}
 
 	@Override
-	public List<Jugador> findJugadorByTipoAutorizacion(TipoAutorizacion tipoautorizacion) {
-		
-		return autorizacionRepository.findJugadorByTipoAutorizacion(tipoautorizacion);
-	}
-
-	@Override
 	public Autorizacion findByJugadorAndTipo(Jugador jugador, TipoAutorizacion tipo) {
 		return autorizacionRepository.findByJugadorAndTipoAutorizacion(jugador, tipo);
 	}

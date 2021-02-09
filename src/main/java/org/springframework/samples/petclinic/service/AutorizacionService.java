@@ -13,5 +13,4 @@ public interface AutorizacionService extends BaseService<Autorizacion>{
 		public abstract List<Autorizacion> findByFecha(LocalDate fecha);
 		public abstract List<Autorizacion> findByJugador(int jugador_id);
 		public abstract Autorizacion findByJugadorAndTipo(Jugador jugador, TipoAutorizacion tipo);
-		public abstract List<Jugador> findJugadorByTipoAutorizacion(TipoAutorizacion tipoautorizacion);
 }

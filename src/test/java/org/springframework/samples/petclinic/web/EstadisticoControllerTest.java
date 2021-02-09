@@ -35,7 +35,7 @@ public class EstadisticoControllerTest extends BaseControllerTest{
 		.param("username", "blamaurob")
 		.param("email", "mastodonquijote@gmail.com")
 		.param("fecha_nacimiento", "2000-11-16"))
-		.andExpect(view().name("redirect:/home"));
+		.andExpect(view().name("redirect:/login"));
 	}
 	
 	@WithMockUser(value = "spring")
