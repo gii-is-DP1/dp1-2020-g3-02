@@ -27,6 +27,22 @@ public class MaterialValidatorTest extends BaseVolleyballValidatorTest{
 	
 	@Test
 	@Transactional(readOnly = true)
+	public void materialCorrecto() {
+		
+		// Obtención de datos correctos
+        Material material = getMaterialCorrecto();
+        material.setStock(3);
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(material, "");
+        
+        // Validar
+        materialValidator.validate(material, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
     public void stockNegativoTest() {
         
         // Obtención de datos correctos

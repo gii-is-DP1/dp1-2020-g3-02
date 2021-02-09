@@ -25,6 +25,22 @@ class NumCamisetaValidatorTest extends BaseVolleyballValidatorTest {
 	
 	@Test
 	@Transactional(readOnly = true)
+	public void numCamisetaCorrecto() {
+		
+		// Obtención de datos correctos
+        NumCamiseta numCamiseta = getNumCamisetaCorrecto();
+
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(numCamiseta, "");
+        
+        // Validar
+        numCamisetaValidator.validate(numCamiseta, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
     public void numCamisetaDuplicadoTest() {
         
         // Obtención de datos correctos

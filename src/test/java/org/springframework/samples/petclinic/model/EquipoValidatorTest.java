@@ -26,6 +26,22 @@ public class EquipoValidatorTest extends BaseVolleyballValidatorTest {
 	
 	@Test
 	@Transactional(readOnly = true)
+	public void equipoCorrecto() {
+		
+		// Obtención de datos correctos
+        Equipo equipo = getEquipoCorrecto();
+
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(equipo, "");
+        
+        // Validar
+        equipoValidator.validate(equipo, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
     public void categoriaVaciaTest() {
         
         // Obtención de datos correctos

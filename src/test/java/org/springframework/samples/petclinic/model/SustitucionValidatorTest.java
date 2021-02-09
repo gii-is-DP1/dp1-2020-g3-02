@@ -24,7 +24,21 @@ public class SustitucionValidatorTest extends BaseVolleyballValidatorTest{
 		this.sustitucionValidator = new SustitucionValidator(this.sustitucionService);
 	}
 	
+	@Test
+	@Transactional(readOnly = true)
+	public void sustitucionCorrecto() {
+		
+		// Obtención de datos correctos
+        Sustitucion sustitucion = getSustitucionCorrecto();
 
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(sustitucion, "");
+        
+        // Validar
+        sustitucionValidator.validate(sustitucion, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
 	
 	@Test
 	@Transactional(readOnly = true)	

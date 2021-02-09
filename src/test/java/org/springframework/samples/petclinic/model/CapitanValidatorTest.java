@@ -27,6 +27,22 @@ public class CapitanValidatorTest extends BaseVolleyballValidatorTest {
 	
 	@Test
 	@Transactional(readOnly = true)
+	public void capitanCorrecto() {
+		
+		// Obtención de datos correctos
+        Capitan capitan= getCapitanCorrecto();
+
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(capitan, "");
+        
+        // Validar
+        capitanValidator.validate(capitan, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
     public void tiemposMuertosNegativosTest() {
         
         // Obtención de datos correctos

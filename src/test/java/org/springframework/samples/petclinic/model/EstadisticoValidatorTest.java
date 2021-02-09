@@ -28,6 +28,23 @@ private EstadisticoValidator estadisticoValidator;
 	
 	@Test
 	@Transactional(readOnly = true)
+	public void estadisticoCorrecto() {
+		
+		// Obtención de datos correctos
+        Estadistico estadistico = getEstadisticoCorrecto();
+        estadistico.getUser().setUsername("ProfLayton");
+
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(estadistico, "");
+        
+        // Validar
+        estadisticoValidator.validate(estadistico, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
     public void nombreVacioTest() {
         
         // Obtención de datos correctos

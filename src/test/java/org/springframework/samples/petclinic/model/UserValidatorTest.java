@@ -28,6 +28,24 @@ public class UserValidatorTest extends BaseVolleyballValidatorTest{
 	
 	@Test
 	@Transactional(readOnly = true)
+	public void userCorrecto() {
+		
+		// Obtención de datos correctos
+        User user = getUserCorrecto();
+        UserEdit userEdit=userConverter.convertUserToUserEdit(user);
+        userEdit.setNewPassword("Adolfo15");
+        userEdit.setConfirmPassword("Adolfo15");
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(user, "");
+        
+        // Validar
+        userValidator.validate(userEdit, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
     public void passwordVaciaTest() {
         
         // Obtención de datos correctos
