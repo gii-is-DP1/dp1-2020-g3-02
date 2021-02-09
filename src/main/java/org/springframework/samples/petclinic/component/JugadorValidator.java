@@ -127,7 +127,7 @@ public class JugadorValidator implements Validator {
 		if (jugador.getUser() == null) {
 			LOG.warn(ValidationConstant.VALOR_OBLIGATORIO + ": user");
 			errors.rejectValue("user.username", "error", ValidationConstant.VALOR_OBLIGATORIO);
-		} else if (StringUtils.isEmpty(jugador.getUser().getUsername()) || jugador.getUser().getUsername().length() <= 6) {
+		} else if (StringUtils.isEmpty(jugador.getUser().getUsername()) || jugador.getUser().getUsername().length() <= 4) {
 			LOG.warn(ValidationConstant.USERNAME_ERROR);
 			errors.rejectValue("user.username", "error", ValidationConstant.USERNAME_ERROR);
 		} else if (userService.findByUsername(jugador.getUser().getUsername()) != null && jugador.getId() == null) {

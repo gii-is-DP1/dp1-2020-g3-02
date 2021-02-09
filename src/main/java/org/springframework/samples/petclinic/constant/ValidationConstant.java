@@ -8,7 +8,7 @@ public class ValidationConstant {
 	public static final String VALOR_ERROR_ENUM = "El valor no es compatible en este campo";
 	public static final String VALOR_NUMERICO_ENTERO_ERROR = "El valor introducido debe ser un número entero";
 	/** USUARIO */
-	public static final String USERNAME_ERROR = "El username es requerido y debe tener más de 6 carácteres";
+	public static final String USERNAME_ERROR = "El username es requerido y debe tener más de 5 carácteres";
 	public static final String USERNAME_YAEXISTE_ERROR = "El nombre de usuario ya está registrado";
 	public static final String PASSWORD_ERROR = "La contraseña es requerida y debe tener 8 o más caracteres, un número, mayúsculas y minúsculas";
 	public static final String PASSWORD_ERROR2 = "La nueva contraseña debe ser distinta a la ya establecida";

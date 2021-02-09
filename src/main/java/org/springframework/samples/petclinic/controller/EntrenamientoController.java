@@ -435,7 +435,7 @@ public class EntrenamientoController {
 
 			return new ResponseEntity(HttpStatus.OK);
 		}catch (Exception e) {
-			LOG.error("Excepción eliminando el jugador del partido");
+			LOG.error("Excepción eliminando el jugador del entrenamiento");
 			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 
