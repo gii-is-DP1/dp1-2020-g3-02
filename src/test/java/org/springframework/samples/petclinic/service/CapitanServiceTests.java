@@ -27,6 +27,9 @@ public class CapitanServiceTests {
 	
 	@Autowired
 	private JugadorService jugadorService;
+	
+	@Autowired
+	private EquipoService equipoService;
 
 	@Test
 	@Transactional(readOnly = true)
@@ -119,5 +122,21 @@ public class CapitanServiceTests {
 		this.capitanService.deleteByIdSiExiste(id);
 		Optional<Capitan> capitan=capitanService.findById(id);
 		assertEquals(capitan, Optional.empty());
+	}
+	
+	@Test
+	@Transactional
+	public void findByJugador() {
+		int id= 1;
+		Capitan capitan=this.capitanService.findByJugador(jugadorService.findById(id).get());
+		assertNotNull(capitan);
+	}
+	
+	@Test
+	@Transactional
+	public void testsaveCapitan() {
+		int id= 1;
+		Capitan capitan=capitanService.saveCapitan(capitanService.findById(id).get());
+		assertNotNull(capitan);
 	}
 }

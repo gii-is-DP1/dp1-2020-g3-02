@@ -67,12 +67,4 @@ public class CapitanServiceImpl extends AbstractService<Capitan> implements Capi
 		
 		return c;
 	}
-	
-	@Override
-	public void deleteAllInEquipo(Integer equipo_id) {
-		List<Capitan> capitan = capitanRepository.findByEquipo(equipo_id);
-		for(int i=0;i<capitan.size();i++) {
-			capitanService.deleteById(capitan.get(i).getId());
-		}
-	}
 }
