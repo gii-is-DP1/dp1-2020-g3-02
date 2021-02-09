@@ -373,52 +373,60 @@ public class EquipoController {
 	@RequestMapping(value = "/postequipo", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> addEquipo(HttpServletRequest request, @ModelAttribute(name="equipo") EquipoEdit equipoEdit, BindingResult result) {
 		try {
-			EquipoEdit edit = new EquipoEdit(null, request.getParameter("categoria").trim(), Sistema.valueOf(request.getParameter("sistemajuego").trim()), request.getParameter("liga").trim(),false);
 			
 			Equipo equipo = new Equipo(request.getParameter("categoria").trim(), Sistema.valueOf(request.getParameter("sistemajuego").trim()), request.getParameter("liga").trim());
 			ValidationUtils.invokeValidator(equipoValidator, equipo, result);
 
 			if(result.hasErrors()) {
+				LOG.warn("Se han obtenido " + result.getErrorCount() + " errores de validación");
 				return new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
 			}
 			
 			List<Jugador> jugadores = jugadorService.findAll();
 			List<Jugador> agregados = new ArrayList<Jugador>();
 			for(int i=0; i<jugadores.size(); i++) {
+				//Identificamos a cada jugador que debe ser añadido al equipo por el parámetro de la request nombrado con el id de dicho jugador y
+				//que tiene el valor "true" si ha sido seleccionado por el usuario.
 				String añadido = request.getParameter(String.valueOf(i+1));
 				if(añadido.equals("true")) {
 					agregados.add(jugadores.get(i));
 				}
 			}
 
-			//añadir jugadores
+			//añadimos al equipo los jugadores seleccionados por el usuario
 			equipo.setJugadores(agregados);
 
-			//añadir capitan
-			Optional<Jugador> capi = jugadorService.findById(Integer.valueOf(request.getParameter("capitan")));
-			Capitan aux = capitanService.findByJugador(capi.get());
+			//añadimos como capitán al jugador seleccionado por el usuario
+			Jugador capi = jugadorService.findById(Integer.valueOf(request.getParameter("capitan"))).get();
+			Capitan aux = capitanService.findByJugador(capi);
 			if(aux==null) {
-				Capitan capitan = new Capitan(capi.get(),0, Actitud.POSITIVA);
+				LOG.info("El jugador elegido como capitán no es capián de ningún otro equipo.");
+				Capitan capitan = new Capitan(capi, 0, Actitud.POSITIVA);
 				Capitan capitanSave = capitanService.save(capitan);
 				equipo.setCapitan(capitanSave);
 			}
 			else {
+				LOG.info("El jugador elegido como capitán ya era capitán de otro equipo.");
 				equipo.setCapitan(aux);
 			}
 
-			//añadir entrenador
+			//añadimos como entrenador del equipo al usuario que ha creado el equipo
 			Principal principal = request.getUserPrincipal();
 			String username =  principal.getName(); 
 			User  user = userService.findByUsername(username);
 			Entrenador entrenador = entrenadorService.findByUser(user);
 			equipo.setEntrenador(entrenador);
 
+			LOG.info("Se procede a guardar el equipo");
 			Equipo team = equipoService.save(equipo);
+			LOG.info("Se ha guardado el equipo");
 
-			//añadir numero de camiseta
+			//añadimos números de camiseta por defecto a los jugadores (pueden ser editados por el usuario en la vista de equipo).
 			for(int i=0; i<agregados.size(); i++) {
+				LOG.info("Se procede a guardar el número de camiseta del jugador número " +(i+1)+ " de un total de " + agregados.size() + " jugadores");
 				NumCamiseta num = new NumCamiseta(team,agregados.get(i),i+1);
 				NumCamiseta number = numCamisetaService.save(num);
+				LOG.info("Se ha guardado el número de camiseta del jugador número " +(i+1)+ " de un total de " + agregados.size() + " jugadores");
 			}
 
 			return new ResponseEntity<List<ObjectError>>(HttpStatus.CREATED);
