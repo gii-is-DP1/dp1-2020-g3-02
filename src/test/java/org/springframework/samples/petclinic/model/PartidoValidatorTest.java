@@ -28,6 +28,23 @@ public class PartidoValidatorTest extends BaseVolleyballValidatorTest {
 	
 	@Test
 	@Transactional(readOnly = true)
+	public void partidoCorrecto() {
+		
+		// Obtención de datos correctos
+        Partido partido = getPartidoCorrecto();
+        PartidoEdit partidoEdit=partidoConverter.convertPartidoToPartidoEdit(partido);
+        partidoEdit.setFecha("20/11/2021");
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(partidoEdit, "");
+        
+        // Validar
+        partidoValidator.validate(partidoEdit, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
     public void fechaVaciaTest() {
         
         // Obtención de datos correctos
@@ -173,12 +190,12 @@ public class PartidoValidatorTest extends BaseVolleyballValidatorTest {
         Partido partidoC = getPartidoCorrecto();
         PartidoEdit partido = partidoConverter.convertPartidoToPartidoEdit(partidoC);
         //La fecha se parsea correctamente en el controller, por lo que la arreglamos aquí antes con la fecha del partido traido
-        partido.setFecha("07/11/2021");
+        partido.setFecha("07/11/2019");
         
         // Campo con el valor a validar y mensaje de validación
         String type = "String";
         String field = "hora";
-        String value = "18:15";
+        String value = "19:00";
         String mensaje = ValidationConstant.HORA_PARTIDO_COINCIDEN_ANTERIOR;
         
         // Modificación del campo
@@ -202,12 +219,12 @@ public class PartidoValidatorTest extends BaseVolleyballValidatorTest {
         Partido partidoC = getPartidoCorrecto();
         PartidoEdit partido = partidoConverter.convertPartidoToPartidoEdit(partidoC);
         //La fecha se parsea correctamente en el controller, por lo que la arreglamos aquí antes con la fecha del partido traido
-        partido.setFecha("07/11/2021");
+        partido.setFecha("07/11/2019");
         
         // Campo con el valor a validar y mensaje de validación
         String type = "String";
         String field = "hora";
-        String value = "17:15";
+        String value = "17:00";
         String mensaje = ValidationConstant.HORA_PARTIDO_COINCIDEN_POSTERIOR;
         
         // Modificación del campo

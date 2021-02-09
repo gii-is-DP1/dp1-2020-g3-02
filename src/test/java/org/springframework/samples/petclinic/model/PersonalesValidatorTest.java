@@ -22,7 +22,23 @@ public class PersonalesValidatorTest extends BaseVolleyballValidatorTest{
 	private void setUp() {
 		this.personalesValidator = new PersonalesValidator(this.personalesService, this.jugadorService, this.entrenadorService);
 	}
+	
+	@Test
+	@Transactional(readOnly = true)
+	public void personalesCorrecto() {
+		
+		// Obtención de datos correctos
+        Personales personales = getPersonalesCorrecto();
 
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(personales, "");
+        
+        // Validar
+        personalesValidator.validate(personales, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
+	
 	@Test
 	@Transactional(readOnly = true)
 	public void propietarioTest() {

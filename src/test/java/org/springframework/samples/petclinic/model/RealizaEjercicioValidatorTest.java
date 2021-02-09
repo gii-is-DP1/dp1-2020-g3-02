@@ -31,7 +31,23 @@ public class RealizaEjercicioValidatorTest extends BaseVolleyballValidatorTest{
 	}
 	
 	
-
+	@Test
+	@Transactional(readOnly = true)
+	public void realizaEjercicioCorrecto() {
+		
+		// Obtención de datos correctos
+        RealizaEjercicio realizaEjercicio= getRealizaEjercicioCorrecto();
+        RealizaEjercicioDTO realizaDTO=realizaEjercicioConverter.converterEntityToDTO(realizaEjercicio);
+        
+        realizaDTO.setFecha("06/11/2020");
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(realizaDTO, "");
+        
+        // Validar
+        realizaEjercicioValidator.validate(realizaDTO, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
 	
 	@Test
 	@Transactional(readOnly = true)	

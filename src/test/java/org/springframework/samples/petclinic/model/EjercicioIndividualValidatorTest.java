@@ -26,6 +26,22 @@ class EjercicioIndividualValidatorTest extends BaseVolleyballValidatorTest {
 
 	@Test
 	@Transactional(readOnly = true)
+	public void ejercicioIndividualCorrecto() {
+		
+		// Obtención de datos correctos
+        EjercicioIndividual ejercicioIndividual = getEjercicioIndividualCorrecto();
+
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(ejercicioIndividual, "");
+        
+        // Validar
+        ejercicioIndividualValidator.validate(ejercicioIndividual, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
 	public void descripcionVaciaTest()
 	{
 		// Obtención de datos correctos

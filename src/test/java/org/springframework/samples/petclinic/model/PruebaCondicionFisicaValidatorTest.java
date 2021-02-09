@@ -30,6 +30,22 @@ public class PruebaCondicionFisicaValidatorTest extends BaseVolleyballValidatorT
 	
 	@Test
 	@Transactional(readOnly = true)
+	public void pruebaCondicionCorrecto() {
+		
+		// Obtención de datos correctos
+        PruebaCondicionFisica pruebaCondicion = getPruebaCondicionFisicaCorrecto();
+
+        // Bindear de errores
+        Errors errors = new BeanPropertyBindingResult(pruebaCondicion, "");
+        
+        // Validar
+        pruebaValidator.validate(pruebaCondicion, errors);
+        
+        assertThat(errors.hasErrors()).isEqualTo(false);
+	}
+	
+	@Test
+	@Transactional(readOnly = true)
     public void fechaNullTest() {
         
         // Obtención de datos correctos
