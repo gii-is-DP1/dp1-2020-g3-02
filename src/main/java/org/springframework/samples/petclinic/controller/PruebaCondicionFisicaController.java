@@ -72,31 +72,31 @@ public class PruebaCondicionFisicaController {
 	@RequestMapping(value = "/addprueba", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ObjectError>> addPrueba(HttpServletRequest request,@ModelAttribute(name="prueba") PruebasSinJugador prueba_, BindingResult result) {
 		try {
-		Integer id = Integer.parseInt(request.getParameter("id"));
-		String dato = request.getParameter("dato");
-		TipoPrueba tipoPrueba = TipoPrueba.fromNombre(request.getParameter("tipoPrueba"));
-		LOG.info(dato);
-		PruebaCondicionFisica prueba= new PruebaCondicionFisica(); 
-		Optional<Jugador> jug = jugadorService.findById(id);
-		Jugador jugador= jug.get();
-		prueba.setFecha(LocalDate.now());
-		prueba.setJugador(jugador);
-		prueba.setTipoPrueba(tipoPrueba);
-		if(!dato.isEmpty()) {
-			prueba.setDato(Double.parseDouble(dato));
-		}else {
-			prueba.setDato(null);
-		}
+			Integer id = Integer.parseInt(request.getParameter("id"));
+			String dato = request.getParameter("dato");
+			TipoPrueba tipoPrueba = TipoPrueba.fromNombre(request.getParameter("tipoPrueba"));
+			LOG.info(dato);
+			PruebaCondicionFisica prueba= new PruebaCondicionFisica(); 
+			Optional<Jugador> jug = jugadorService.findById(id);
+			Jugador jugador= jug.get();
+			prueba.setFecha(LocalDate.now());
+			prueba.setJugador(jugador);
+			prueba.setTipoPrueba(tipoPrueba);
+			if(!dato.isEmpty()) {
+				prueba.setDato(Double.parseDouble(dato));
+			}else {
+				prueba.setDato(null);
+			}
 		
-		ValidationUtils.invokeValidator(pruebaValidator, prueba, result);
+			ValidationUtils.invokeValidator(pruebaValidator, prueba, result);
 		
-		if (result.hasErrors()) {
-			ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
-			return re;
-		}else {
-			PruebaCondicionFisica pruebaAñadida = pruebaService.save(prueba);
-			return new ResponseEntity(HttpStatus.OK);
-		}
+			if (result.hasErrors()) {
+				ResponseEntity<List<ObjectError>> re = new ResponseEntity<List<ObjectError>>(result.getAllErrors(), HttpStatus.BAD_REQUEST);
+				return re;
+			}else {
+				PruebaCondicionFisica pruebaAñadida = pruebaService.save(prueba);
+				return new ResponseEntity(HttpStatus.OK);
+			}
 		
 		}catch (Exception e) {
 		// TODO: handle exception
