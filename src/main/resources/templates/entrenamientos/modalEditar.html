@@ -34,7 +34,7 @@
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">Cerrar</button>
 						<button type="button" class="btn btn-info"
-							onclick="return enviarEdicion();">Aceptar</button>
+							onclick="return enviarEntrenamiento();">Aceptar</button>
 						<input type="hidden" id="idEdit" name="id"></input>
 					</div>
 				</form>
@@ -45,7 +45,7 @@
 <script>
 
 
-function enviarEdicion() {
+function enviarEntrenamiento() {
 	var form = new FormData(document
 			.getElementById('formGestionPartido'));
 	$.ajax({
