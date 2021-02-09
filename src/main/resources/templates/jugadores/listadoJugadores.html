@@ -173,7 +173,7 @@
 								</button>
 								<button sec:authorize="hasAuthority('entrenador')"
 									class="btn btn-outline-danger mx-0 privilegio" id="privilegio"
-									type="button" title="Privilegio">
+									type="button" title="Privilegio" th:if="${not #lists.isEmpty(jugador.equipos)}">
 									<i class="fas fa-unlock"></i>
 								</button> 
 								<input id="security" class="security" type="hidden"
@@ -1601,6 +1601,7 @@
 		});
 	};
 	
+	
 	$('table .privilegio')
 			.on(
 					'click',
@@ -1613,6 +1614,7 @@
 									success : function(edit) {
 									$('.categoriaSelectorEquipo').remove();
 									$('#idJugadorPrivilegio').val(id);
+
 										$.each(edit, function(index,
 												equipo) {
 											console.log(edit);
@@ -1625,6 +1627,7 @@
 														name : "equipo",
 													}));
 										});
+										
 										checkeablesPrivilegios();
 
 										$('#privilegiosModal .modal-header')
@@ -1632,6 +1635,7 @@
 										$('#privilegiosModal .modal-title')
 												.text("Privilegios");
 										$('#privilegiosModal').modal("show");
+									
 									}
 								});
 					});
