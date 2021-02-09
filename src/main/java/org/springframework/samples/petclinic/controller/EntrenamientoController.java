@@ -497,18 +497,12 @@ public class EntrenamientoController {
 	}
 
 	private void linea(TipoMaterial tipo, int cantidad,Entrenamiento entr,BindingResult result,Map<String,String> mape) {
-		
+		List<LineaMaterial> lineas= new ArrayList<>();
+
 		if(cantidad>getStockTotal(tipo) || cantidad < 0) {
 			Material mm= materialService.findByTipo(tipo).get(0);
 			LineaMaterial lin1= new LineaMaterial(mm, entr,cantidad);
-			
-			Errors errors = new BeanPropertyBindingResult(lin1, "");
-			lineaMaterialValidator.validate(lin1, errors);
-
-			if(errors.hasErrors()) {
-				mape.put("cantidad"+tipo.name(), errors.getAllErrors().get(0).getDefaultMessage());
-			
-			}
+			lineas.add(lin1);
 		}else {
 			int stocker = 0;
 			for(Material mm : materialService.findByTipo(tipo)) {
@@ -516,41 +510,16 @@ public class EntrenamientoController {
 					if(cantidad>mm.getStock()) {
 						if((cantidad-stocker)<mm.getStock()) {
 							LineaMaterial lin1= new LineaMaterial(mm, entr, cantidad-stocker);
-							Errors errors = new BeanPropertyBindingResult(lin1, "");
-							lineaMaterialValidator.validate(lin1, errors);
-
-							if(errors.hasErrors()) {
-								mape.put("cantidad"+tipo.name(), errors.getAllErrors().get(0).getDefaultMessage());
-								
-							}else {
-								lineaMaterialService.save(lin1);
-							}
+							lineas.add(lin1);
 							stocker+=cantidad-stocker;
 						}else {
 							LineaMaterial lin1= new LineaMaterial(mm, entr, mm.getStock());
-							Errors errors = new BeanPropertyBindingResult(lin1, "");
-							lineaMaterialValidator.validate(lin1, errors);
-
-							if(errors.hasErrors()) {
-								mape.put("cantidad"+tipo.name(), errors.getAllErrors().get(0).getDefaultMessage());
-								
-							}else {
-								lineaMaterialService.save(lin1);
-							}
+							lineas.add(lin1);
 							stocker+=mm.getStock();
 						}
 					}else {
 						LineaMaterial lin1= new LineaMaterial(mm, entr,cantidad);
-						Errors errors = new BeanPropertyBindingResult(lin1, "");
-						lineaMaterialValidator.validate(lin1, errors);
-
-						if(errors.hasErrors()) {
-							
-							mape.put("cantidad"+tipo.name(), errors.getAllErrors().get(0).getDefaultMessage());
-							
-						}else {
-							lineaMaterialService.save(lin1);
-						}
+						lineas.add(lin1);
 						stocker+=cantidad;
 					}
 
@@ -559,15 +528,26 @@ public class EntrenamientoController {
 			}
 
 		}
-	
+		for(LineaMaterial linea:lineas) {
+			Errors errors = new BeanPropertyBindingResult(linea, "");
+			lineaMaterialValidator.validate(linea, errors);
+
+			if(errors.hasErrors()) {
+				mape.put("cantidad"+tipo.name(), errors.getAllErrors().get(0).getDefaultMessage());
+			}
+		}
+		if(mape.isEmpty()) {
+			lineaMaterialService.saveAll(lineas);
+		}
+
 	}
 	@RequestMapping(value = "/updatematerial", method = RequestMethod.POST, produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, String>> updateMaterial(HttpServletRequest request, @ModelAttribute(name="lineaMaterial") LineaMaterial linea, BindingResult result) {
 		try {
 			Map<String, String> mape = new HashMap<String,String>();
 			Entrenamiento entr= entrenamientoService.findById(Integer.parseInt(request.getParameter("id"))).get();
-			
-			
+
+
 			linea(TipoMaterial.BALONMEDICINAL, Integer.parseInt(request.getParameter("cantidad1")), entr,result,mape);
 			linea(TipoMaterial.BALONDEJUEGO, Integer.parseInt(request.getParameter("cantidad2")), entr,result,mape);
 			linea(TipoMaterial.RED, Integer.parseInt(request.getParameter("cantidad3")), entr,result,mape);

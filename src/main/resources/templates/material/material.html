@@ -377,12 +377,13 @@
 
 
 		<script>
-		
+
+	
 			$(document)
 					.ready(
 
 							function() {
-
+								var persona = $('#security').val();
 								tablaMaterial = $('#materiales')
 										.DataTable(
 												{
@@ -422,23 +423,27 @@
 															},
 															{ data: 'porcentaje',
 																render: function ( data, type, row ) {
+																	var persona = $('#security').val();
 																	var btnEdit = "<button  class='btn btn-outline-info ml-1 editar' onclick='return editar(\""+row['tipo'] +"\")' type='button' title='Editar'>"+
 																		"<i class='fas fa-edit'></i></button>";
-																								
-																	  if(data>70 ){
 																		 
-																	    return " <button  class='btn btn-outline-success anadir' onclick='return anadir(\""+row['tipo'] +"\")' type='button' title='Añadir'>"+
-																		"<i class='fas fa-plus-circle'></i></button>"+ btnEdit +
-																		" <button onclick='return eliminar(\""+row['tipo'] +"\");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
-																		"<i class='fas fa-trash-alt'></i></button>"
-																		}else{
+																		if(persona != 'jugador' ){						
+																	 		 if(data>70 ){
+																		 
+																	  		  return " <button  class='btn btn-outline-success anadir' onclick='return anadir(\""+row['tipo'] +"\")' type='button' title='Añadir'>"+
+																				"<i class='fas fa-plus-circle'></i></button>"+ btnEdit +
+																				" <button onclick='return eliminar(\""+row['tipo'] +"\");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+																				"<i class='fas fa-trash-alt'></i></button>"
+																			 }else{
 																			
-																			return btnEdit + " <button onclick='return eliminar(\""+row['tipo'] +"\");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
-																			"<i class='fas fa-trash-alt'></i></button>"
+																				return btnEdit + " <button onclick='return eliminar(\""+row['tipo'] +"\");' class='btn btn-outline-danger eliminar' type='button' title='Eliminar'>"+
+																				"<i class='fas fa-trash-alt'></i></button>"
+																			}
+																	  
+																		}else{
+																			return"";
 																		}
-																	  
-																	  
-																		
+																			
 																	  
 																	 
 															}
