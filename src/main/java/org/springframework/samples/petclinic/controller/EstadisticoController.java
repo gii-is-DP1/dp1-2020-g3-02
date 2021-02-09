@@ -59,7 +59,7 @@ private static final Log LOG = LogFactory.getLog(EstadisticoController.class);
 			} catch (Exception e) {
 				LOG.error("Error al guardar el estadistico: "+ estadistico);
 			}
-			return "redirect:/home";
+			return "redirect:/login";
 		}
 
 }
