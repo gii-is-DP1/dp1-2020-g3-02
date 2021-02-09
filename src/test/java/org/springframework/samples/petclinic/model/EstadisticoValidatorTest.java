@@ -40,7 +40,7 @@ private EstadisticoValidator estadisticoValidator;
         // Validar
         estadisticoValidator.validate(estadistico, errors);
         
-        assertThat(errors.hasErrors()).isEqualTo(false);
+        assertEquals(errors.hasErrors(),false);
 	}
 	
 	@Test

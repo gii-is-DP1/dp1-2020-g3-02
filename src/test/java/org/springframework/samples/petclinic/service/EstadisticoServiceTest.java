@@ -81,7 +81,7 @@ public class EstadisticoServiceTest {
 		String email = "romualdostats@gmail.com";
 		Estadistico estadistico=estadisticoService.findByEmail(email);
 		assertNotNull(estadistico);
-		assertEquals(estadistico.getLastName(), "Sánchez Bermejo");
+		assertEquals(estadistico.getEmail(), "romualdostats@gmail.com");
 	}
 	
 	@Test
