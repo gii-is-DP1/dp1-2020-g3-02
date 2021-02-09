@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.enumerate.EstadoMaterial;
 import org.springframework.samples.petclinic.enumerate.TipoMaterial;
 import org.springframework.samples.petclinic.model.Entrenamiento;
 import org.springframework.samples.petclinic.model.LineaMaterial;
@@ -24,6 +26,12 @@ public class LineaMaterialServiceTests {
 
 	@Autowired
 	private LineaMaterialService lineaMaterialService;
+	
+	@Autowired
+	private MaterialService materialService;
+	
+	@Autowired 
+	private EntrenamientoService entrenamientoService;
 
 
 
@@ -119,5 +127,48 @@ public class LineaMaterialServiceTests {
 		assertEquals(linea.getMaterial(), material);
 		assertEquals(linea.getEntrenamiento(), entrenamiento);
 
-	} 
+	}
+	
+	@Test
+	@Transactional
+	public void testDeleteAllInEntrenamiento() {
+		int id = 1;
+		
+		List<LineaMaterial> lineas = lineaMaterialService.findByEntrenamiento(id);
+		int before = lineas.size();
+		
+		lineaMaterialService.deleteAllInEntrenamiento(id);
+		
+		List<LineaMaterial> after = lineaMaterialService.findByEntrenamiento(id);
+		
+		assertNotEquals(before, after.size());
+		assertEquals(0, after.size());
+		
+	}
+	
+	@Test
+	@Transactional
+	public void testFindByTipoAndEstado() {
+		TipoMaterial tipo = TipoMaterial.BALONDEJUEGO;
+		EstadoMaterial estado = EstadoMaterial.ACEPTABLE;
+		
+		List<LineaMaterial> lineas = lineaMaterialService.findByTipoAndEstado(tipo, estado);
+		
+		assertEquals(5, lineas.size());
+		assertEquals(TipoMaterial.BALONDEJUEGO, lineas.get(0).getMaterial().getTipo());
+		
+	}
+	
+	@Test
+	@Transactional
+	public void testFindByMaterialAndEntrenamiento() {
+		Material material = materialService.findById(2).get();
+		Entrenamiento entrenamiento = entrenamientoService.findById(1).get();
+		
+		List<LineaMaterial> lineas = lineaMaterialService.findByMaterialAndEntrenamiento(material, entrenamiento);
+		
+		assertEquals(1, lineas.size());
+		assertEquals(TipoMaterial.BALONDEJUEGO, lineas.get(0).getMaterial().getTipo());
+		
+	}
 }
