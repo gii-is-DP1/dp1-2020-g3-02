@@ -205,13 +205,13 @@
 		}else{
 			$.ajax({
 				type : 'POST',
-				url : '/partidos/eliminarjuegaJugador/' + PartidoAsiste.id+"/"+ parseInt($('#idJugador').val(),10),
+				url : '/entrenamientos/eliminarAsisteJugador/' + PartidoAsiste.id+"/"+ parseInt($('#idJugador').val(),10),
 				success : function(borrar) {
 					tablaPrincipal.ajax.reload(null, false);
 					
 					$.ajax({
 						type : 'POST',
-						url : '/partidos/addjuegaJugador/' + PartidoSinAsistir.id+"/"+ parseInt($('#idJugador').val(),10),
+						url : '/entrenamientos/addAsisteJugador/' + PartidoSinAsistir.id+"/"+ parseInt($('#idJugador').val(),10),
 						success : function(data) {				
 							tablaPrincipal.ajax.reload(null, false);
 						}

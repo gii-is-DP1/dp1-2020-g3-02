@@ -98,6 +98,7 @@ function enviarEdicion() {
 		success : function(data) {
 			$('#materialModal').modal("hide");
 			tablaPrincipal.ajax.reload(null, false);
+			toastSuccess("Material solicitado con éxito");
 			
 			$('#cantidad1').val(0);
 			$('#cantidad2').val(0);
