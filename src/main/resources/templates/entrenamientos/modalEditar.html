@@ -57,6 +57,7 @@ function enviarEntrenamiento() {
 		success : function(data) {
 			$('#gestionModal').modal("hide");
 			tablaPrincipal.ajax.reload(null, false);
+			toastSuccess("Entrenamiento guardado con éxito");
 		},
 		error : function(data) {
 			$('.error').text('');

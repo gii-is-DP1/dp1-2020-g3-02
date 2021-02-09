@@ -159,6 +159,7 @@
 <!--<div th:replace="entrenamientos/modalAsistenciaEntrenamiento"> </div>  -->	
 	<div th:replace="entrenamientos/modalEliminar"> </div>
 	<div th:replace="entrenamientos/modalMateriales"> </div>
+	<div th:replace="toast"></div>
 
 	<script src=https://code.jquery.com/jquery-3.5.1.js></script>
 	<!-- Optional JavaScript -->
@@ -403,8 +404,7 @@
 			contentType : false,
 			success : function(data) {
 				$('#gestionPassword').modal("hide");
-				location.reload();
-				//toastSuccess("Personal creado con éxito");
+				toastSuccess("Contraseña actualizada con éxito");
 			},
 			error : function(data) {
 
