@@ -26,6 +26,7 @@
 		</div>
 	</div>
 </div>
+<div th:replace="toast"></div>
 
 <script>
 	function confirmacionCapitanEquipo() {
@@ -36,6 +37,7 @@
 			type : 'POST',
 			url : '/equipos/setCapitanEquipo/' + idEquipo + '/' + idJugador,
 			success : function(data) {
+				toastSuccess("Capitán elegido con éxito");
 				$('#capitanEquipoModal').modal("hide");
 				tablaPrincipal.ajax.reload(null, false);
 			}
