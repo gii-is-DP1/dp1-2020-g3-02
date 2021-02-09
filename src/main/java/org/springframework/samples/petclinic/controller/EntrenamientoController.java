@@ -240,6 +240,7 @@ public class EntrenamientoController {
 			}else {
 				Equipo equipo = equipoService.findByCategoria(categoria);
 				entrenamientos = entrenamientoService.findByEquipo(equipo);
+				entrenamientos.removeAll( entrenamientoService.findByEntrenamientoFinalizadoFalseOrderByFecha());
 			}
 
 			for (int i = 0; i < entrenamientos.size();i++) {
